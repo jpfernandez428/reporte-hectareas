@@ -23,6 +23,7 @@
   th, td { padding: 10px 12px; text-align: left; font-size: 14px; border-bottom: 1px solid #eee; }
   th { background: #eef1ee; font-weight: 600; }
   tr:hover { background: #fafafa; }
+  .fila-grupo { cursor: pointer; }
   .vacio { padding: 30px; text-align: center; color: #888; }
   .acciones { margin-top: 16px; display: flex; gap: 10px; }
 </style>
@@ -115,6 +116,12 @@ function aplicarFiltros() {
   renderTabla();
 }
 
+function claveGrupo(f) {
+  return f.fecha + '||' + f.maquina;
+}
+
+let expandido = new Set();
+
 function renderTabla() {
   const cont = document.getElementById('contenedorTabla');
 
@@ -125,27 +132,60 @@ function renderTabla() {
     return;
   }
 
-  const filas = [...filtrados].sort((a, b) => (a.fecha < b.fecha ? 1 : -1));
+  // Agrupar por fecha + maquina
+  const grupos = {};
+  for (const f of filtrados) {
+    const clave = claveGrupo(f);
+    if (!grupos[clave]) {
+      grupos[clave] = { fecha: f.fecha, maquina: f.maquina, cuarteles: [], area_total: 0, area_trabajada: 0 };
+    }
+    grupos[clave].cuarteles.push(f);
+    grupos[clave].area_total += f.area_total_ha;
+    grupos[clave].area_trabajada += f.area_trabajada_ha;
+  }
+
+  const filasGrupo = Object.entries(grupos).sort((a, b) => (a[1].fecha < b[1].fecha ? 1 : -1));
 
   let html = '<table><thead><tr>' +
-    '<th>Fecha</th><th>Máquina</th><th>Cuartel</th>' +
-    '<th>N° hileras</th><th>Área total cuartel (ha)</th><th>Hectáreas trabajadas</th>' +
+    '<th>Fecha</th><th>Máquina</th><th>N° Cuarteles</th>' +
+    '<th>Área total (ha)</th><th>Hectáreas trabajadas</th>' +
     '</tr></thead><tbody>';
 
-  for (const f of filas) {
-    html += `<tr><td>${f.fecha}</td><td>${f.maquina}</td><td>${f.cuartel}</td>` +
-      `<td>${f.n_hileras}</td><td>${f.area_total_ha.toFixed(2)}</td>` +
-      `<td>${f.area_trabajada_ha.toFixed(2)}</td></tr>`;
+  for (const [clave, g] of filasGrupo) {
+    html += `<tr class="fila-grupo" ondblclick="toggleDetalle('${clave.replace(/'/g, "\\'")}')" title="Doble clic para ver el detalle por cuartel">` +
+      `<td>${g.fecha}</td><td>${g.maquina}</td><td>${g.cuarteles.length}</td>` +
+      `<td>${g.area_total.toFixed(2)}</td><td>${g.area_trabajada.toFixed(2)}</td></tr>`;
+
+    if (expandido.has(clave)) {
+      html += '<tr><td colspan="5" style="padding:0; background:#fafafa;">' +
+        '<table style="margin:8px 24px; width:calc(100% - 48px);"><thead><tr>' +
+        '<th>Cuartel</th><th>N° hileras</th><th>Área total cuartel (ha)</th><th>Hectáreas trabajadas</th>' +
+        '</tr></thead><tbody>';
+      for (const c of g.cuarteles) {
+        html += `<tr><td>${c.cuartel}</td><td>${c.n_hileras}</td>` +
+          `<td>${c.area_total_ha.toFixed(2)}</td><td>${c.area_trabajada_ha.toFixed(2)}</td></tr>`;
+      }
+      html += '</tbody></table></td></tr>';
+    }
   }
   html += '</tbody></table>';
   cont.innerHTML = html;
 
   const total = filtrados.reduce((s, f) => s + f.area_trabajada_ha, 0);
   document.getElementById('totalHa').textContent = total.toFixed(2);
-  document.getElementById('totalFilas').textContent = filtrados.length;
+  document.getElementById('totalFilas').textContent = filasGrupo.length;
 
   const ultima = [...datos].map(d => d.fecha).sort().pop();
   document.getElementById('ultimaFecha').textContent = ultima || '-';
+}
+
+function toggleDetalle(clave) {
+  if (expandido.has(clave)) {
+    expandido.delete(clave);
+  } else {
+    expandido.add(clave);
+  }
+  renderTabla();
 }
 
 function descargarCSV() {
