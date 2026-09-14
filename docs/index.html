@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Reporte de Hectáreas - C&amp;H Maquinaria</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
   body { font-family: -apple-system, Arial, sans-serif; margin: 0; padding: 24px; background: #f5f6f7; color: #1a1a1a; }
   h1 { font-size: 22px; margin-bottom: 4px; }
@@ -22,6 +23,7 @@
   table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
   th, td { padding: 10px 12px; text-align: left; font-size: 14px; border-bottom: 1px solid #eee; }
   th { background: #eef1ee; font-weight: 600; }
+  tfoot td { font-weight: 700; background: #eef1ee; border-top: 2px solid #ccc; }
   tr:hover { background: #fafafa; }
   .fila-grupo { cursor: pointer; }
   .vacio { padding: 30px; text-align: center; color: #888; }
@@ -71,7 +73,7 @@
 <div id="contenedorTabla"></div>
 
 <div class="acciones">
-  <button onclick="descargarCSV()">Descargar reporte (Excel/CSV)</button>
+  <button onclick="descargarCSV()">Descargar reporte (Excel)</button>
   <button class="secundario" onclick="descargarKML()">Descargar mapa (KML)</button>
 </div>
 
@@ -122,6 +124,20 @@ function claveGrupo(f) {
 
 let expandido = new Set();
 
+function agruparFiltrados() {
+  const grupos = {};
+  for (const f of filtrados) {
+    const clave = claveGrupo(f);
+    if (!grupos[clave]) {
+      grupos[clave] = { clave, fecha: f.fecha, maquina: f.maquina, cuarteles: [], area_total: 0, area_trabajada: 0 };
+    }
+    grupos[clave].cuarteles.push(f);
+    grupos[clave].area_total += f.area_total_ha;
+    grupos[clave].area_trabajada += f.area_trabajada_ha;
+  }
+  return Object.values(grupos).sort((a, b) => (a.fecha < b.fecha ? 1 : (a.fecha > b.fecha ? -1 : a.maquina.localeCompare(b.maquina))));
+}
+
 function renderTabla() {
   const cont = document.getElementById('contenedorTabla');
 
@@ -132,31 +148,24 @@ function renderTabla() {
     return;
   }
 
-  // Agrupar por fecha + maquina
-  const grupos = {};
-  for (const f of filtrados) {
-    const clave = claveGrupo(f);
-    if (!grupos[clave]) {
-      grupos[clave] = { fecha: f.fecha, maquina: f.maquina, cuarteles: [], area_total: 0, area_trabajada: 0 };
-    }
-    grupos[clave].cuarteles.push(f);
-    grupos[clave].area_total += f.area_total_ha;
-    grupos[clave].area_trabajada += f.area_trabajada_ha;
-  }
-
-  const filasGrupo = Object.entries(grupos).sort((a, b) => (a[1].fecha < b[1].fecha ? 1 : -1));
+  const filasGrupo = agruparFiltrados();
 
   let html = '<table><thead><tr>' +
     '<th>Fecha</th><th>Máquina</th><th>N° Cuarteles</th>' +
     '<th>Área total (ha)</th><th>Hectáreas trabajadas</th>' +
     '</tr></thead><tbody>';
 
-  for (const [clave, g] of filasGrupo) {
-    html += `<tr class="fila-grupo" ondblclick="toggleDetalle('${clave.replace(/'/g, "\\'")}')" title="Doble clic para ver el detalle por cuartel">` +
+  let sumaAreaTotal = 0, sumaTrabajada = 0;
+
+  for (const g of filasGrupo) {
+    sumaAreaTotal += g.area_total;
+    sumaTrabajada += g.area_trabajada;
+
+    html += `<tr class="fila-grupo" ondblclick="toggleDetalle('${g.clave.replace(/'/g, "\\'")}')" title="Doble clic para ver el detalle por cuartel">` +
       `<td>${g.fecha}</td><td>${g.maquina}</td><td>${g.cuarteles.length}</td>` +
       `<td>${g.area_total.toFixed(2)}</td><td>${g.area_trabajada.toFixed(2)}</td></tr>`;
 
-    if (expandido.has(clave)) {
+    if (expandido.has(g.clave)) {
       html += '<tr><td colspan="5" style="padding:0; background:#fafafa;">' +
         '<table style="margin:8px 24px; width:calc(100% - 48px);"><thead><tr>' +
         '<th>Cuartel</th><th>N° hileras</th><th>Área total cuartel (ha)</th><th>Hectáreas trabajadas</th>' +
@@ -168,11 +177,13 @@ function renderTabla() {
       html += '</tbody></table></td></tr>';
     }
   }
-  html += '</tbody></table>';
+  html += '</tbody>';
+  html += `<tfoot><tr><td colspan="3">TOTAL (${filasGrupo.length} registros)</td>` +
+    `<td>${sumaAreaTotal.toFixed(2)}</td><td>${sumaTrabajada.toFixed(2)}</td></tr></tfoot>`;
+  html += '</table>';
   cont.innerHTML = html;
 
-  const total = filtrados.reduce((s, f) => s + f.area_trabajada_ha, 0);
-  document.getElementById('totalHa').textContent = total.toFixed(2);
+  document.getElementById('totalHa').textContent = sumaTrabajada.toFixed(2);
   document.getElementById('totalFilas').textContent = filasGrupo.length;
 
   const ultima = [...datos].map(d => d.fecha).sort().pop();
@@ -190,16 +201,45 @@ function toggleDetalle(clave) {
 
 function descargarCSV() {
   if (filtrados.length === 0) { alert('No hay datos para descargar con este filtro.'); return; }
-  let csv = 'Fecha,Maquina,Cuartel,N Hileras,Area total cuartel (ha),Hectareas trabajadas\n';
-  for (const f of filtrados) {
-    csv += `${f.fecha},"${f.maquina}",${f.cuartel},${f.n_hileras},${f.area_total_ha},${f.area_trabajada_ha}\n`;
-  }
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'reporte_hectareas.csv';
-  a.click();
+
+  const filasGrupo = agruparFiltrados();
+  const filasDetalle = [...filtrados].sort((a, b) =>
+    (a.fecha < b.fecha ? 1 : (a.fecha > b.fecha ? -1 : (a.maquina.localeCompare(b.maquina) || a.cuartel - b.cuartel)))
+  );
+
+  const sumaResumen = filasGrupo.reduce((s, g) => ({
+    area_total: s.area_total + g.area_total, area_trabajada: s.area_trabajada + g.area_trabajada
+  }), { area_total: 0, area_trabajada: 0 });
+
+  const sumaDetalle = filasDetalle.reduce((s, f) => ({
+    area_total: s.area_total + f.area_total_ha, area_trabajada: s.area_trabajada + f.area_trabajada_ha
+  }), { area_total: 0, area_trabajada: 0 });
+
+  const datosResumen = [
+    ['Fecha', 'Maquina', 'N Cuarteles', 'Area total (ha)', 'Hectareas trabajadas'],
+    ...filasGrupo.map(g => [g.fecha, g.maquina, g.cuarteles.length, Number(g.area_total.toFixed(2)), Number(g.area_trabajada.toFixed(2))]),
+    ['TOTAL', '', filasGrupo.length, Number(sumaResumen.area_total.toFixed(2)), Number(sumaResumen.area_trabajada.toFixed(2))],
+  ];
+
+  const datosDetalle = [
+    ['Fecha', 'Maquina', 'Cuartel', 'N Hileras', 'Area total cuartel (ha)', 'Hectareas trabajadas'],
+    ...filasDetalle.map(f => [f.fecha, f.maquina, f.cuartel, f.n_hileras, f.area_total_ha, f.area_trabajada_ha]),
+    ['TOTAL', '', '', '', Number(sumaDetalle.area_total.toFixed(2)), Number(sumaDetalle.area_trabajada.toFixed(2))],
+  ];
+
+  const wb = XLSX.utils.book_new();
+
+  const wsResumen = XLSX.utils.aoa_to_sheet(datosResumen);
+  wsResumen['!autofilter'] = { ref: `A1:E${datosResumen.length - 1}` };
+  wsResumen['!cols'] = [{ wch: 12 }, { wch: 26 }, { wch: 12 }, { wch: 14 }, { wch: 18 }];
+  XLSX.utils.book_append_sheet(wb, wsResumen, 'Resumen por dia');
+
+  const wsDetalle = XLSX.utils.aoa_to_sheet(datosDetalle);
+  wsDetalle['!autofilter'] = { ref: `A1:F${datosDetalle.length - 1}` };
+  wsDetalle['!cols'] = [{ wch: 12 }, { wch: 26 }, { wch: 10 }, { wch: 10 }, { wch: 18 }, { wch: 18 }];
+  XLSX.utils.book_append_sheet(wb, wsDetalle, 'Detalle por cuartel');
+
+  XLSX.writeFile(wb, 'reporte_hectareas.xlsx');
 }
 
 function normalizarSlug(texto) {
