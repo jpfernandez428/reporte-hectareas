@@ -71,10 +71,17 @@ TOKEN = os.environ.get("WIALON_TOKEN") or CONFIG["token"]
 UNIDADES = CONFIG["unidades"]           # lista de {"id": ..., "nombre": ...}
 
 if MODO_NUBE:
-    # Corrida automatica nocturna: siempre procesa el dia de ayer completo.
-    FECHA_INICIO = FECHA_FIN = datetime.utcnow() - timedelta(days=1)
-    FECHA_INICIO = FECHA_INICIO.replace(hour=0, minute=0, second=0, microsecond=0)
-    FECHA_FIN = FECHA_FIN.replace(hour=0, minute=0, second=0, microsecond=0)
+    fecha_manual_inicio = os.environ.get("FECHA_INICIO_MANUAL", "").strip()
+    fecha_manual_fin = os.environ.get("FECHA_FIN_MANUAL", "").strip()
+    if fecha_manual_inicio and fecha_manual_fin:
+        # Corrida manual con rango de fechas especifico (ej. relleno de historial)
+        FECHA_INICIO = datetime.strptime(fecha_manual_inicio, "%Y-%m-%d")
+        FECHA_FIN = datetime.strptime(fecha_manual_fin, "%Y-%m-%d")
+    else:
+        # Corrida automatica nocturna: siempre procesa el dia de ayer completo.
+        FECHA_INICIO = FECHA_FIN = datetime.utcnow() - timedelta(days=1)
+        FECHA_INICIO = FECHA_INICIO.replace(hour=0, minute=0, second=0, microsecond=0)
+        FECHA_FIN = FECHA_FIN.replace(hour=0, minute=0, second=0, microsecond=0)
 else:
     FECHA_INICIO = datetime.strptime(CONFIG["fecha_inicio"], "%Y-%m-%d")
     FECHA_FIN = datetime.strptime(CONFIG["fecha_fin"], "%Y-%m-%d")
