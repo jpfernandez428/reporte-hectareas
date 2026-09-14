@@ -3,7 +3,16 @@ name: Reporte diario de hectareas
 on:
   schedule:
     - cron: '0 9 * * *'   # 09:00 UTC = ~06:00 Chile (horario de invierno)
-  workflow_dispatch: {}    # permite tambien correrlo a mano, con un boton
+  workflow_dispatch:
+    inputs:
+      fecha_inicio:
+        description: 'Fecha inicio (AAAA-MM-DD). Dejar vacio para usar el dia de ayer.'
+        required: false
+        default: ''
+      fecha_fin:
+        description: 'Fecha fin (AAAA-MM-DD). Dejar vacio para usar el dia de ayer.'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -26,6 +35,8 @@ jobs:
       - name: Correr el programa
         env:
           WIALON_TOKEN: ${{ secrets.WIALON_TOKEN }}
+          FECHA_INICIO_MANUAL: ${{ inputs.fecha_inicio }}
+          FECHA_FIN_MANUAL: ${{ inputs.fecha_fin }}
         run: python3 reporte_hectareas.py
 
       - name: Guardar los resultados en el repositorio
