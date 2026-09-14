@@ -511,8 +511,13 @@ def exportar_kml(ruta_salida, unidades_procesadas):
                     h.origen[0] + h.direccion[0] * h.max_proy,
                     h.origen[1] + h.direccion[1] * h.max_proy,
                 )
+                if math.hypot(p2_m[0] - p1_m[0], p2_m[1] - p1_m[1]) < 1.0:
+                    continue  # linea degenerada (largo ~0): la salta, no sirve de igual
+
                 lon1, lat1 = metros_a_punto(p1_m, referencia)
                 lon2, lat2 = metros_a_punto(p2_m, referencia)
+                if not all(math.isfinite(v) for v in (lon1, lat1, lon2, lat2)):
+                    continue  # coordenada invalida, no se dibuja
 
                 if cuenta_en_reporte:
                     partes.append(
@@ -532,6 +537,10 @@ def exportar_kml(ruta_salida, unidades_procesadas):
                     )
 
         for (lon1, lat1), (lon2, lat2) in descartados_extra:
+            if not all(math.isfinite(v) for v in (lon1, lat1, lon2, lat2)):
+                continue
+            if lon1 == lon2 and lat1 == lat2:
+                continue
             partes.append(
                 '<Placemark><name>Descartado</name>'
                 f'<Style><LineStyle><color>{AMARILLO_DESCARTADO}</color><width>3</width>'
