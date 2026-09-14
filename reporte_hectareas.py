@@ -41,6 +41,8 @@ punto de referencia fijo que usa para medir distancias en metros.
 import json
 import math
 import os
+import re
+import unicodedata
 from datetime import datetime, timedelta, timezone
 
 import requests
@@ -463,6 +465,14 @@ def guardar_estado(unit_id, referencia, hileras):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
+def slug(texto):
+    """Convierte un nombre en un identificador simple para nombres de archivo."""
+    texto = unicodedata.normalize("NFKD", texto).encode("ascii", "ignore").decode("ascii")
+    texto = texto.lower()
+    texto = re.sub(r"[^a-z0-9]+", "_", texto).strip("_")
+    return texto or "unidad"
+
+
 # ---------------------------------------------------------------------------
 # Exportacion a KML para revisar visualmente contra la foto satelital
 # ---------------------------------------------------------------------------
@@ -743,6 +753,15 @@ def main():
     ruta_kml = os.path.join(CARPETA_DATOS, "hileras_detectadas.kml")
     exportar_kml(ruta_kml, unidades_para_kml)
     print(f"Mapa de revision generado en: {ruta_kml}")
+
+    carpeta_kml_por_unidad = os.path.join(CARPETA_DATOS, "kml")
+    os.makedirs(carpeta_kml_por_unidad, exist_ok=True)
+    for nombre_unidad, referencia, hileras, descartados in unidades_para_kml:
+        if referencia is None:
+            continue
+        ruta_kml_unidad = os.path.join(carpeta_kml_por_unidad, f"{slug(nombre_unidad)}.kml")
+        exportar_kml(ruta_kml_unidad, [(nombre_unidad, referencia, hileras, descartados)])
+    print(f"Mapas por maquina generados en: {carpeta_kml_por_unidad}")
     print("Abrelo con Google Earth o subelo a Google My Maps para comparar contra la foto satelital.")
 
 
