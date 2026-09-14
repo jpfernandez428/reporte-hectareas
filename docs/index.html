@@ -28,6 +28,9 @@
   .fila-grupo { cursor: pointer; }
   .vacio { padding: 30px; text-align: center; color: #888; }
   .acciones { margin-top: 16px; display: flex; gap: 10px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; background: #e8f0e9; border: 1px solid #cfe0d1;
+          border-radius: 16px; padding: 5px 10px 5px 12px; margin: 0 8px 8px 0; font-size: 13px; }
+  .chip button { background: none; color: #666; border: none; cursor: pointer; font-size: 14px; padding: 0 2px; }
 </style>
 </head>
 <body>
@@ -55,7 +58,12 @@
   <div class="campo">
     <button onclick="aplicarFiltros()">Filtrar</button>
   </div>
+  <div class="campo">
+    <button class="secundario" onclick="agregarGrupoFiltro()">+ Agregar como filtro combinado</button>
+  </div>
 </div>
+
+<div id="chipsGrupos" style="margin: -10px 0 20px 0;"></div>
 
 <div class="resumen">
   <div>
@@ -82,6 +90,7 @@
 <script>
 let datos = [];
 let filtrados = [];
+let gruposFiltro = [];
 
 async function cargarDatos() {
   try {
@@ -120,6 +129,16 @@ function maquinasSeleccionadas() {
 }
 
 function aplicarFiltros() {
+  if (gruposFiltro.length > 0) {
+    filtrados = datos.filter(d => gruposFiltro.some(g =>
+      (g.maquinas.length === 0 || g.maquinas.includes(d.maquina)) &&
+      (!g.desde || d.fecha >= g.desde) &&
+      (!g.hasta || d.fecha <= g.hasta)
+    ));
+    renderTabla();
+    return;
+  }
+
   const seleccionadas = maquinasSeleccionadas();
   const desde = document.getElementById('filtroDesde').value;
   const hasta = document.getElementById('filtroHasta').value;
@@ -131,6 +150,44 @@ function aplicarFiltros() {
     return true;
   });
   renderTabla();
+}
+
+function agregarGrupoFiltro() {
+  const maquinas = maquinasSeleccionadas();
+  const desde = document.getElementById('filtroDesde').value;
+  const hasta = document.getElementById('filtroHasta').value;
+
+  if (maquinas.length === 0 && !desde && !hasta) {
+    alert('Elige al menos una máquina o una fecha antes de agregar el filtro.');
+    return;
+  }
+
+  gruposFiltro.push({ maquinas, desde, hasta });
+  renderChipsGrupos();
+  aplicarFiltros();
+}
+
+function quitarGrupoFiltro(indice) {
+  gruposFiltro.splice(indice, 1);
+  renderChipsGrupos();
+  aplicarFiltros();
+}
+
+function renderChipsGrupos() {
+  const cont = document.getElementById('chipsGrupos');
+  if (gruposFiltro.length === 0) {
+    cont.innerHTML = '';
+    return;
+  }
+  let html = '';
+  gruposFiltro.forEach((g, i) => {
+    const partesTexto = [];
+    partesTexto.push(g.maquinas.length > 0 ? g.maquinas.join(', ') : 'Todas las máquinas');
+    if (g.desde || g.hasta) partesTexto.push(`(${g.desde || '...'} a ${g.hasta || '...'})`);
+    html += `<span class="chip">${partesTexto.join(' ')} <button onclick="quitarGrupoFiltro(${i})" title="Quitar">✕</button></span>`;
+  });
+  html += `<a href="#" onclick="gruposFiltro=[]; renderChipsGrupos(); aplicarFiltros(); return false;" style="font-size:12px; margin-left:6px;">Limpiar todos</a>`;
+  cont.innerHTML = html;
 }
 
 function claveGrupo(f) {
