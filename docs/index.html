@@ -37,9 +37,12 @@
 
 <div class="filtros">
   <div class="campo">
-    <label>Máquina (Cmd/Ctrl+clic para elegir varias)</label>
-    <select id="filtroMaquina" multiple size="4" style="min-width:220px;">
-    </select>
+    <label>Máquina</label>
+    <div style="margin-bottom:4px;">
+      <a href="#" onclick="marcarTodas(true); return false;" style="font-size:12px;">Todas</a> ·
+      <a href="#" onclick="marcarTodas(false); return false;" style="font-size:12px;">Ninguna</a>
+    </div>
+    <div id="filtroMaquinaBox" style="max-height:140px; overflow-y:auto; border:1px solid #ccc; border-radius:6px; padding:8px; min-width:240px; background:white;"></div>
   </div>
   <div class="campo">
     <label>Desde</label>
@@ -93,18 +96,31 @@ async function cargarDatos() {
 }
 
 function poblarFiltroMaquinas() {
-  const select = document.getElementById('filtroMaquina');
+  const box = document.getElementById('filtroMaquinaBox');
+  box.innerHTML = '';
   const maquinas = [...new Set(datos.map(d => d.maquina))].sort();
   for (const m of maquinas) {
-    const opt = document.createElement('option');
-    opt.value = m;
-    opt.textContent = m;
-    select.appendChild(opt);
+    const label = document.createElement('label');
+    label.style.display = 'block';
+    label.style.fontWeight = 'normal';
+    label.style.fontSize = '13px';
+    label.style.padding = '2px 0';
+    label.innerHTML = `<input type="checkbox" value="${m}" onchange="aplicarFiltros()"> ${m}`;
+    box.appendChild(label);
   }
 }
 
+function marcarTodas(valor) {
+  document.querySelectorAll('#filtroMaquinaBox input[type=checkbox]').forEach(c => c.checked = valor);
+  aplicarFiltros();
+}
+
+function maquinasSeleccionadas() {
+  return Array.from(document.querySelectorAll('#filtroMaquinaBox input[type=checkbox]:checked')).map(c => c.value);
+}
+
 function aplicarFiltros() {
-  const seleccionadas = Array.from(document.getElementById('filtroMaquina').selectedOptions).map(o => o.value);
+  const seleccionadas = maquinasSeleccionadas();
   const desde = document.getElementById('filtroDesde').value;
   const hasta = document.getElementById('filtroHasta').value;
 
@@ -250,7 +266,7 @@ function normalizarSlug(texto) {
 }
 
 function descargarKML() {
-  const seleccionadas = Array.from(document.getElementById('filtroMaquina').selectedOptions).map(o => o.value);
+  const seleccionadas = maquinasSeleccionadas();
   if (seleccionadas.length === 1) {
     window.open('datos/kml/' + normalizarSlug(seleccionadas[0]) + '.kml', '_blank');
   } else {
