@@ -37,9 +37,8 @@
 
 <div class="filtros">
   <div class="campo">
-    <label>Máquina</label>
-    <select id="filtroMaquina">
-      <option value="">Todas</option>
+    <label>Máquina (Cmd/Ctrl+clic para elegir varias)</label>
+    <select id="filtroMaquina" multiple size="4" style="min-width:220px;">
     </select>
   </div>
   <div class="campo">
@@ -105,12 +104,12 @@ function poblarFiltroMaquinas() {
 }
 
 function aplicarFiltros() {
-  const maquina = document.getElementById('filtroMaquina').value;
+  const seleccionadas = Array.from(document.getElementById('filtroMaquina').selectedOptions).map(o => o.value);
   const desde = document.getElementById('filtroDesde').value;
   const hasta = document.getElementById('filtroHasta').value;
 
   filtrados = datos.filter(d => {
-    if (maquina && d.maquina !== maquina) return false;
+    if (seleccionadas.length > 0 && !seleccionadas.includes(d.maquina)) return false;
     if (desde && d.fecha < desde) return false;
     if (hasta && d.fecha > hasta) return false;
     return true;
@@ -251,11 +250,11 @@ function normalizarSlug(texto) {
 }
 
 function descargarKML() {
-  const maquina = document.getElementById('filtroMaquina').value;
-  if (!maquina) {
-    window.open('datos/hileras_detectadas.kml', '_blank');
+  const seleccionadas = Array.from(document.getElementById('filtroMaquina').selectedOptions).map(o => o.value);
+  if (seleccionadas.length === 1) {
+    window.open('datos/kml/' + normalizarSlug(seleccionadas[0]) + '.kml', '_blank');
   } else {
-    window.open('datos/kml/' + normalizarSlug(maquina) + '.kml', '_blank');
+    window.open('datos/hileras_detectadas.kml', '_blank');
   }
 }
 
