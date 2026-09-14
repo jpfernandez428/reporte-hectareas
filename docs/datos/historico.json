@@ -26798,5 +26798,37 @@
     "n_hileras": 5,
     "area_total_ha": 0.5,
     "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 12,
+    "n_hileras": 26,
+    "area_total_ha": 1.09,
+    "area_trabajada_ha": 1.09
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 43,
+    "n_hileras": 35,
+    "area_total_ha": 1.18,
+    "area_trabajada_ha": 1.18
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 78,
+    "n_hileras": 22,
+    "area_total_ha": 7.96,
+    "area_trabajada_ha": 7.96
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 80,
+    "n_hileras": 14,
+    "area_total_ha": 1.43,
+    "area_trabajada_ha": 1.43
   }
 ]
