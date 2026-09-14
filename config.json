@@ -4,21 +4,325 @@
   "fecha_inicio": "2026-01-01",
   "fecha_fin": "2026-01-01",
   "unidades": [
-    { "id": 400430680, "nombre": "Tractor 1 Deutz-Fahr Agroplus" },
-    { "id": 400430706, "nombre": "Tractor 2 Same Explorer 95" },
-    { "id": 400699913, "nombre": "Tractor 3 Same Frutetto 100" },
-    { "id": 400466323, "nombre": "Tractor 4 Same Frutetto 100" },
-    { "id": 400728279, "nombre": "Tractor 5 Same Explorer 95" },
-    { "id": 400730889, "nombre": "Tractor 6 Same Explorer 95" },
-    { "id": 400262236, "nombre": "Tractor 7 Kubota 95" },
-    { "id": 400262245, "nombre": "Tractor 8 Kubota 108" },
-    { "id": 401029915, "nombre": "Tractor 9 Deutz Fahr 115" },
-    { "id": 401045666, "nombre": "Tractor 10 Deutz Fahr 115" },
-    { "id": 401024129, "nombre": "Tractor 11 Deutz Fahr 115" },
-    { "id": 402193181, "nombre": "Tractor 13 Deutz Fahr 115" },
-    { "id": 402022367, "nombre": "Tractor 14 Deutz Fahr 115" },
-    { "id": 401976398, "nombre": "Tractor 15 Deutz Fahr 115" },
-    { "id": 402193249, "nombre": "Tractor 16 Kubota 108" },
-    { "id": 402193221, "nombre": "Tractor 17 Kubota 108" }
+    {
+      "id": 400262316,
+      "nombre": "Barredora 1"
+    },
+    {
+      "id": 400262323,
+      "nombre": "Barredora 2"
+    },
+    {
+      "id": 400262320,
+      "nombre": "Barredora 3"
+    },
+    {
+      "id": 400262322,
+      "nombre": "Barredora 4"
+    },
+    {
+      "id": 400262318,
+      "nombre": "Barredora 5"
+    },
+    {
+      "id": 400262321,
+      "nombre": "Barredora 6"
+    },
+    {
+      "id": 400262324,
+      "nombre": "Barredora 7"
+    },
+    {
+      "id": 400262315,
+      "nombre": "Barredora 8"
+    },
+    {
+      "id": 400262317,
+      "nombre": "Barredora 9 Weiss c/cab"
+    },
+    {
+      "id": 401285570,
+      "nombre": "Barredora 10"
+    },
+    {
+      "id": 401285577,
+      "nombre": "Barredora 11"
+    },
+    {
+      "id": 401289505,
+      "nombre": "Barredora 12"
+    },
+    {
+      "id": 401289488,
+      "nombre": "Barredora 13"
+    },
+    {
+      "id": 401289554,
+      "nombre": "Barredora 14"
+    },
+    {
+      "id": 401289538,
+      "nombre": "Barredora 15"
+    },
+    {
+      "id": 401289523,
+      "nombre": "Barredora 16"
+    },
+    {
+      "id": 401716243,
+      "nombre": "Barredora 17"
+    },
+    {
+      "id": 401752224,
+      "nombre": "Barredora 18"
+    },
+    {
+      "id": 401776866,
+      "nombre": "Barredora 19"
+    },
+    {
+      "id": 401729363,
+      "nombre": "Barredora 20 Weiss s/cab"
+    },
+    {
+      "id": 401976358,
+      "nombre": "Barredora 21 Weiss s/cab"
+    },
+    {
+      "id": 402192853,
+      "nombre": "Barredora 22"
+    },
+    {
+      "id": 402211996,
+      "nombre": "Barredora 23"
+    },
+    {
+      "id": 402212677,
+      "nombre": "Barredora 24 Weiss c/cab"
+    },
+    {
+      "id": 400613547,
+      "nombre": "Barredora 5497"
+    },
+    {
+      "id": 402354227,
+      "nombre": "Podadora 1"
+    },
+    {
+      "id": 400262302,
+      "nombre": "Recogedora 1"
+    },
+    {
+      "id": 400262297,
+      "nombre": "Recogedora 2"
+    },
+    {
+      "id": 400262290,
+      "nombre": "Recogedora 3"
+    },
+    {
+      "id": 400262296,
+      "nombre": "Recogedora 4"
+    },
+    {
+      "id": 400262301,
+      "nombre": "Recogedora 5"
+    },
+    {
+      "id": 400262289,
+      "nombre": "Recogedora 6"
+    },
+    {
+      "id": 400262291,
+      "nombre": "Recogedora 7"
+    },
+    {
+      "id": 400262314,
+      "nombre": "Shacker de Suelo 1"
+    },
+    {
+      "id": 400262308,
+      "nombre": "Shacker de Suelo 2"
+    },
+    {
+      "id": 400262307,
+      "nombre": "Shacker de Suelo 3"
+    },
+    {
+      "id": 400262305,
+      "nombre": "Shacker de Suelo 4"
+    },
+    {
+      "id": 400262306,
+      "nombre": "Shacker de Suelo 5"
+    },
+    {
+      "id": 400262312,
+      "nombre": "Shacker de Suelo 6"
+    },
+    {
+      "id": 400262313,
+      "nombre": "Shacker de Suelo 7"
+    },
+    {
+      "id": 401714494,
+      "nombre": "Shacker de Suelo 8"
+    },
+    {
+      "id": 401729158,
+      "nombre": "Shacker de Suelo 9"
+    },
+    {
+      "id": 401753235,
+      "nombre": "Shacker de Suelo 10 Orchard Rite"
+    },
+    {
+      "id": 402193289,
+      "nombre": "Shacker de Suelo 11 Orchard Rite"
+    },
+    {
+      "id": 400262246,
+      "nombre": "Shacker de Suelo Frontal OMC (proyecto 2027)"
+    },
+    {
+      "id": 400262331,
+      "nombre": "Shacker SBS 1"
+    },
+    {
+      "id": 400262333,
+      "nombre": "Shacker SBS 2"
+    },
+    {
+      "id": 400262335,
+      "nombre": "Shacker SBS 3"
+    },
+    {
+      "id": 400262342,
+      "nombre": "Shacker SBS 4"
+    },
+    {
+      "id": 400262338,
+      "nombre": "Shacker SBS 5"
+    },
+    {
+      "id": 400262337,
+      "nombre": "Shacker SBS 6"
+    },
+    {
+      "id": 400182232,
+      "nombre": "Shacker SBS 7"
+    },
+    {
+      "id": 400262334,
+      "nombre": "Shacker SBS 8"
+    },
+    {
+      "id": 400262343,
+      "nombre": "Shacker SBS 9"
+    },
+    {
+      "id": 400262340,
+      "nombre": "Shacker SBS 10"
+    },
+    {
+      "id": 400262341,
+      "nombre": "Shacker SBS 11"
+    },
+    {
+      "id": 400182231,
+      "nombre": "Shacker SBS 12"
+    },
+    {
+      "id": 400262339,
+      "nombre": "Shacker SBS 13"
+    },
+    {
+      "id": 400262332,
+      "nombre": "Shacker SBS 14"
+    },
+    {
+      "id": 401300829,
+      "nombre": "Shacker SBS 15 OMC"
+    },
+    {
+      "id": 400262336,
+      "nombre": "Shacker SBS Campo"
+    },
+    {
+      "id": 400613546,
+      "nombre": "Shaker Orchard Rite"
+    },
+    {
+      "id": 400659332,
+      "nombre": "Tractor # 1 (T-7)"
+    },
+    {
+      "id": 400659333,
+      "nombre": "Tractor # 2 (T-8)"
+    },
+    {
+      "id": 400430680,
+      "nombre": "Tractor 1 Deutz-Fahr Agroplus"
+    },
+    {
+      "id": 400430706,
+      "nombre": "Tractor 2 Same Explorer 95"
+    },
+    {
+      "id": 400699913,
+      "nombre": "Tractor 3 Same Frutetto 100"
+    },
+    {
+      "id": 400466323,
+      "nombre": "Tractor 4 Same Frutetto 100"
+    },
+    {
+      "id": 400728279,
+      "nombre": "Tractor 5 Same Explorer 95"
+    },
+    {
+      "id": 400730889,
+      "nombre": "Tractor 6 Same Explorer 95"
+    },
+    {
+      "id": 400262236,
+      "nombre": "Tractor 7 Kubota 95"
+    },
+    {
+      "id": 400262245,
+      "nombre": "Tractor 8 Kubota 108"
+    },
+    {
+      "id": 401029915,
+      "nombre": "Tractor 9 Deutz Fahr 115"
+    },
+    {
+      "id": 401045666,
+      "nombre": "Tractor 10 Deutz Fahr 115"
+    },
+    {
+      "id": 401024129,
+      "nombre": "Tractor 11 Deutz Fahr 115"
+    },
+    {
+      "id": 402193181,
+      "nombre": "Tractor 13 Deutz Fahr 115"
+    },
+    {
+      "id": 402022367,
+      "nombre": "Tractor 14 Deutz Fahr 115"
+    },
+    {
+      "id": 401976398,
+      "nombre": "Tractor 15 Deutz Fahr 115"
+    },
+    {
+      "id": 402193249,
+      "nombre": "Tractor 16 Kubota 108"
+    },
+    {
+      "id": 402193221,
+      "nombre": "Tractor 17 Kubota 108"
+    }
   ]
 }
