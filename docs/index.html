@@ -71,7 +71,7 @@
 
 <div class="acciones">
   <button onclick="descargarCSV()">Descargar reporte (Excel/CSV)</button>
-  <button class="secundario" onclick="window.open('datos/hileras_detectadas.kml', '_blank')">Descargar mapa (KML)</button>
+  <button class="secundario" onclick="descargarKML()">Descargar mapa (KML)</button>
 </div>
 
 <script>
@@ -160,6 +160,23 @@ function descargarCSV() {
   a.href = url;
   a.download = 'reporte_hectareas.csv';
   a.click();
+}
+
+function normalizarSlug(texto) {
+  return texto
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '') || 'unidad';
+}
+
+function descargarKML() {
+  const maquina = document.getElementById('filtroMaquina').value;
+  if (!maquina) {
+    window.open('datos/hileras_detectadas.kml', '_blank');
+  } else {
+    window.open('datos/kml/' + normalizarSlug(maquina) + '.kml', '_blank');
+  }
 }
 
 cargarDatos();
