@@ -1,0 +1,24 @@
+{
+  "host": "https://hst-api.wialon.com",
+  "token": "NO_USAR_AQUI_-_el_token_real_va_en_el_Secret_WIALON_TOKEN_de_GitHub",
+  "fecha_inicio": "2026-01-01",
+  "fecha_fin": "2026-01-01",
+  "unidades": [
+    { "id": 400430680, "nombre": "Tractor 1 Deutz-Fahr Agroplus" },
+    { "id": 400430706, "nombre": "Tractor 2 Same Explorer 95" },
+    { "id": 400699913, "nombre": "Tractor 3 Same Frutetto 100" },
+    { "id": 400466323, "nombre": "Tractor 4 Same Frutetto 100" },
+    { "id": 400728279, "nombre": "Tractor 5 Same Explorer 95" },
+    { "id": 400730889, "nombre": "Tractor 6 Same Explorer 95" },
+    { "id": 400262236, "nombre": "Tractor 7 Kubota 95" },
+    { "id": 400262245, "nombre": "Tractor 8 Kubota 108" },
+    { "id": 401029915, "nombre": "Tractor 9 Deutz Fahr 115" },
+    { "id": 401045666, "nombre": "Tractor 10 Deutz Fahr 115" },
+    { "id": 401024129, "nombre": "Tractor 11 Deutz Fahr 115" },
+    { "id": 402193181, "nombre": "Tractor 13 Deutz Fahr 115" },
+    { "id": 402022367, "nombre": "Tractor 14 Deutz Fahr 115" },
+    { "id": 401976398, "nombre": "Tractor 15 Deutz Fahr 115" },
+    { "id": 402193249, "nombre": "Tractor 16 Kubota 108" },
+    { "id": 402193221, "nombre": "Tractor 17 Kubota 108" }
+  ]
+}
