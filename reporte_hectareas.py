@@ -342,65 +342,34 @@ def agrupar_en_cuarteles(hileras):
 # Paso 5: area del cuartel por integracion entre hileras vecinas
 # ---------------------------------------------------------------------------
 
-def envolvente_convexa(puntos):
-    """Casco convexo (algoritmo monotone chain), sin dependencias externas."""
-    puntos = sorted(set(puntos))
-    if len(puntos) <= 2:
-        return puntos
-
-    def cruz(o, a, b):
-        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
-
-    inferior = []
-    for p in puntos:
-        while len(inferior) >= 2 and cruz(inferior[-2], inferior[-1], p) <= 0:
-            inferior.pop()
-        inferior.append(p)
-
-    superior = []
-    for p in reversed(puntos):
-        while len(superior) >= 2 and cruz(superior[-2], superior[-1], p) <= 0:
-            superior.pop()
-        superior.append(p)
-
-    return inferior[:-1] + superior[:-1]
-
-
-def area_poligono_m2(vertices):
-    if len(vertices) < 3:
-        return 0.0
-    doble_area = 0.0
-    n = len(vertices)
-    for i in range(n):
-        x1, y1 = vertices[i]
-        x2, y2 = vertices[(i + 1) % n]
-        doble_area += x1 * y2 - x2 * y1
-    return abs(doble_area) / 2
-
-
 def calcular_area_cuartel_m2(hileras_cuartel):
     """
-    Area del contorno que envuelve todas las hileras conocidas del cuartel
-    (como dibujar el poligono a mano sobre el mapa satelital), calculada
-    con la envolvente convexa de los extremos de cada hilera.
+    Suma las franjas (trapecios) entre cada hilera y su vecina mas cercana,
+    ordenadas por posicion lateral dentro del cuartel. Mas resistente a
+    hileras sueltas/atipicas (maniobras que se colaron en el grupo) que
+    una envolvente convexa, que se infla mucho con un solo punto extremo.
     """
-    puntos = []
-    for h in hileras_cuartel:
-        p1 = (h.origen[0] + h.direccion[0] * h.min_proy, h.origen[1] + h.direccion[1] * h.min_proy)
-        p2 = (h.origen[0] + h.direccion[0] * h.max_proy, h.origen[1] + h.direccion[1] * h.max_proy)
-        puntos.append(p1)
-        puntos.append(p2)
+    if len(hileras_cuartel) < 2:
+        h = hileras_cuartel[0]
+        ancho_estimado = 3.0
+        return h.largo_conocido * ancho_estimado
 
-    hull = envolvente_convexa(puntos)
-    area = area_poligono_m2(hull)
-    if area > 0:
-        return area
+    ref = hileras_cuartel[0]
 
-    # Caso degenerado (una sola hilera, o todas perfectamente alineadas):
-    # no hay contorno real que envolver, se estima con un ancho minimo.
-    largo_total = sum(h.largo_conocido for h in hileras_cuartel)
-    ancho_estimado = 3.0
-    return largo_total * ancho_estimado
+    def lateral(h):
+        dx = h.origen[0] - ref.origen[0]
+        dy = h.origen[1] - ref.origen[1]
+        return dx * (-ref.direccion[1]) + dy * ref.direccion[0]
+
+    ordenadas = sorted(hileras_cuartel, key=lateral)
+    posiciones = [lateral(h) for h in ordenadas]
+    largos = [h.largo_conocido for h in ordenadas]
+
+    area = 0.0
+    for i in range(len(ordenadas) - 1):
+        ancho = abs(posiciones[i + 1] - posiciones[i])
+        area += ancho * (largos[i] + largos[i + 1]) / 2
+    return area
 
 
 # ---------------------------------------------------------------------------
