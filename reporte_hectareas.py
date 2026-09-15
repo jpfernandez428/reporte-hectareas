@@ -98,6 +98,7 @@ GAP_MAXIMO_HILERA_M = CONFIG.get("gap_maximo_hilera_m", 100)
 VELOCIDAD_MAXIMA_TRABAJO_KMH = CONFIG.get("velocidad_maxima_trabajo_kmh", 14)
 MINIMO_PUNTOS_EN_GEOCERCA = CONFIG.get("minimo_puntos_en_geocerca", 3)
 TOLERANCIA_ESPACIADO = CONFIG.get("tolerancia_espaciado", 2.5)
+CUARTELES_INCLUIDOS = [n.strip().lower() for n in CONFIG.get("cuarteles_incluidos", [])]
 
 os.makedirs(CARPETA_MEMORIA, exist_ok=True)
 os.makedirs(CARPETA_REPORTES, exist_ok=True)
@@ -202,6 +203,9 @@ def obtener_geocercas(sid):
         for zona in data:
             if zona.get("t") != 2:
                 continue  # solo poligonos (1=linea, 2=poligono, 3=circulo)
+            nombre = zona.get("n", "")
+            if CUARTELES_INCLUIDOS and nombre.strip().lower() not in CUARTELES_INCLUIDOS:
+                continue  # no esta en la lista de cuarteles reales de config.json
             puntos = zona.get("p") or []
             if len(puntos) < 3:
                 continue
@@ -711,6 +715,7 @@ def generar_reporte(sid, geocercas):
     filas_resumen = []
     filas_detalle = []
     resultado_por_unidad = []  # para el KML: (nombre, {geocerca: (ref, hileras)}, descartados)
+    diagnostico = {geo["nombre"]: 0 for geo in geocercas}  # puntos totales vistos por geocerca
 
     for unidad in UNIDADES:
         descartados = []
@@ -729,6 +734,7 @@ def generar_reporte(sid, geocercas):
 
             for geo in geocercas:
                 puntos_geo = [p for p in puntos if punto_en_poligono(p["punto"], geo["contorno"])]
+                diagnostico[geo["nombre"]] += len(puntos_geo)
                 if len(puntos_geo) < MINIMO_PUNTOS_EN_GEOCERCA:
                     continue
 
@@ -791,7 +797,7 @@ def generar_reporte(sid, geocercas):
 
         resultado_por_unidad.append((unidad["nombre"], hileras_por_geocerca, descartados))
 
-    return pd.DataFrame(filas_resumen), pd.DataFrame(filas_detalle), resultado_por_unidad
+    return pd.DataFrame(filas_resumen), pd.DataFrame(filas_detalle), resultado_por_unidad, diagnostico
 
 
 def main():
@@ -801,13 +807,20 @@ def main():
 
     print("Descargando geocercas (cuarteles reales)...")
     geocercas = obtener_geocercas(sid)
-    print(f"Se encontraron {len(geocercas)} geocercas de tipo poligono.")
+    print(f"Se encontraron {len(geocercas)} geocercas de tipo poligono que califican como cuartel.")
+    for geo in geocercas:
+        print(f"  - {geo['nombre']}: {geo['area_ha']:.2f} ha, {len(geo['contorno'])} puntos de contorno")
     if not geocercas:
-        print("ADVERTENCIA: no hay geocercas creadas en Wialon todavia. "
-              "Crea una geocerca de tipo poligono por cada cuartel real antes de seguir.")
+        print("ADVERTENCIA: no hay geocercas creadas en Wialon todavia (o ninguna calza con "
+              "'cuarteles_incluidos' en config.json). Revisa el nombre exacto.")
 
     print(f"Procesando del {FECHA_INICIO.date()} al {FECHA_FIN.date()}...")
-    df_resumen, df_detalle, resultado_por_unidad = generar_reporte(sid, geocercas)
+    df_resumen, df_detalle, resultado_por_unidad, diagnostico = generar_reporte(sid, geocercas)
+
+    print("\nDiagnostico: puntos GPS (de cualquier maquina, sumados) encontrados dentro de cada geocerca:")
+    for nombre, cantidad in diagnostico.items():
+        print(f"  - {nombre}: {cantidad} puntos")
+    print()
 
     if not df_resumen.empty:
         actualizar_historico(df_resumen)
