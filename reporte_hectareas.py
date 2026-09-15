@@ -99,6 +99,7 @@ VELOCIDAD_MAXIMA_TRABAJO_KMH = CONFIG.get("velocidad_maxima_trabajo_kmh", 14)
 MINIMO_PUNTOS_EN_GEOCERCA = CONFIG.get("minimo_puntos_en_geocerca", 3)
 TOLERANCIA_ESPACIADO = CONFIG.get("tolerancia_espaciado", 2.5)
 CUARTELES_INCLUIDOS = [n.strip().lower() for n in CONFIG.get("cuarteles_incluidos", [])]
+UMBRAL_CIERRE_PORCENTAJE = CONFIG.get("umbral_cierre_porcentaje", 0.97)
 
 os.makedirs(CARPETA_MEMORIA, exist_ok=True)
 os.makedirs(CARPETA_REPORTES, exist_ok=True)
@@ -748,6 +749,8 @@ def generar_reporte(sid, geocercas):
                 porcentaje_antes = (
                     min(1.0, len(hileras_regulares_antes) / total_antes) if total_antes else 0.0
                 )
+                if porcentaje_antes >= UMBRAL_CIERRE_PORCENTAJE:
+                    porcentaje_antes = 1.0
 
                 hileras_tocadas_hoy = procesar_puntos(puntos_geo, referencia, hileras, descartados)
 
@@ -763,6 +766,8 @@ def generar_reporte(sid, geocercas):
                     porcentaje_despues = (
                         min(1.0, len(hileras_regulares) / total_estimado) if total_estimado else 0.0
                     )
+                    if porcentaje_despues >= UMBRAL_CIERRE_PORCENTAJE:
+                        porcentaje_despues = 1.0
 
                     area_trabajada_ha = geo["area_ha"] * max(0.0, porcentaje_despues - porcentaje_antes)
 
