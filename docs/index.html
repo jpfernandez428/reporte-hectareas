@@ -335,59 +335,75 @@ function normalizarSlug(texto) {
 
 async function descargarKML() {
   const seleccionadas = maquinasSeleccionadas();
+  const desde = document.getElementById('filtroDesde').value;
+  const hasta = document.getElementById('filtroHasta').value;
+  const hayFiltroFecha = !!(desde || hasta);
 
-  if (seleccionadas.length === 0) {
+  if (seleccionadas.length === 0 && !hayFiltroFecha) {
     alert('Vas a descargar el mapa de TODAS las máquinas (archivo grande). Si Google Earth da error de "límite de componentes", usa la opción "Importar como capa de datos" en vez de "elementos del mapa".');
     window.open('datos/hileras_detectadas.kml', '_blank');
     return;
   }
 
-  if (seleccionadas.length === 1) {
+  if (seleccionadas.length === 1 && !hayFiltroFecha) {
     window.open('datos/kml/' + normalizarSlug(seleccionadas[0]) + '.kml', '_blank');
     return;
   }
 
+  // Con filtro de fecha (o varias máquinas), armamos el KML en el navegador
+  // usando los archivos de geometría, que traen la fecha de cada hilera.
+  const maquinasParaMapa = seleccionadas.length > 0 ? seleccionadas
+    : [...new Set(datos.map(d => d.maquina))];
+
   try {
     const resultados = await Promise.allSettled(
-      seleccionadas.map(m => fetch('datos/kml/' + normalizarSlug(m) + '.kml').then(r => {
-        if (!r.ok) throw new Error('sin mapa');
-        return r.text();
+      maquinasParaMapa.map(m => fetch('datos/geometria/' + normalizarSlug(m) + '.json').then(r => {
+        if (!r.ok) throw new Error('sin geometria');
+        return r.json();
       }))
     );
 
-    let interior = '';
+    const colorVerde = 'ff00ff00';
+    let placemarks = '';
     const faltantes = [];
+    let totalHileras = 0;
+
     resultados.forEach((resultado, i) => {
-      if (resultado.status === 'fulfilled') {
-        const m = resultado.value.match(/<Document>([\s\S]*)<\/Document>/);
-        if (m) {
-          interior += m[1];
-        } else {
-          faltantes.push(seleccionadas[i]);
+      const nombreMaquina = maquinasParaMapa[i];
+      if (resultado.status !== 'fulfilled') {
+        faltantes.push(nombreMaquina);
+        return;
+      }
+      const cuarteles = resultado.value;
+      for (const [nombreCuartel, filas] of Object.entries(cuarteles)) {
+        for (const fila of filas) {
+          if (desde && fila.fecha_ultima < desde) continue;
+          if (hasta && fila.fecha_primera > hasta) continue;
+          totalHileras++;
+          placemarks += `<Placemark><name>${nombreMaquina} - ${nombreCuartel} - Hilera ${fila.id}</name>` +
+            `<Style><LineStyle><color>${colorVerde}</color><width>3</width></LineStyle></Style>` +
+            `<LineString><coordinates>${fila.p1[0]},${fila.p1[1]},0 ${fila.p2[0]},${fila.p2[1]},0</coordinates></LineString></Placemark>`;
         }
-      } else {
-        faltantes.push(seleccionadas[i]);
       }
     });
 
-    if (!interior) {
-      alert('Ninguna de las máquinas elegidas tiene mapa generado todavía para este período.');
+    if (totalHileras === 0) {
+      alert('No hay hileras registradas para ese filtro de máquina/fecha todavía.');
       return;
     }
-
     if (faltantes.length > 0) {
-      alert('Aviso: estas máquinas no tienen mapa disponible (sin trabajo registrado en un cuartel con geocerca) y no se incluyeron:\n' + faltantes.join('\n'));
+      alert('Aviso: estas máquinas no tienen geometría disponible y no se incluyeron:\n' + faltantes.join('\n'));
     }
 
-    const kmlFinal = '<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document>' + interior + '</Document></kml>';
+    const kmlFinal = '<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document>' + placemarks + '</Document></kml>';
     const blob = new Blob([kmlFinal], { type: 'application/vnd.google-earth.kml+xml' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'mapa_maquinas_seleccionadas.kml';
+    a.download = 'mapa_filtrado.kml';
     a.click();
   } catch (e) {
-    alert('No se pudo armar el mapa combinado de esas máquinas. Intenta descargando una a la vez.');
+    alert('No se pudo armar el mapa filtrado. Intenta sin el filtro de fecha, o con una máquina a la vez.');
   }
 }
 
