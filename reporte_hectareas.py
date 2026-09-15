@@ -330,25 +330,30 @@ def velocidad_kmh_segmento(segmento, segmento_m):
 # ---------------------------------------------------------------------------
 
 class Hilera:
-    def __init__(self, id_, origen, direccion, min_proy, max_proy, intervalos=None):
+    def __init__(self, id_, origen, direccion, min_proy, max_proy, intervalos=None,
+                 fecha_primera=None, fecha_ultima=None):
         self.id = id_
         self.origen = origen          # (x, y) en metros, punto de referencia
         self.direccion = direccion    # vector unitario (dx, dy)
         self.min_proy = min_proy
         self.max_proy = max_proy
         self.intervalos = intervalos or []   # pasadas del periodo actual, sin fusionar
+        self.fecha_primera = fecha_primera   # primera fecha en que se toco (AAAA-MM-DD)
+        self.fecha_ultima = fecha_ultima     # ultima fecha en que se toco
 
     def to_dict(self):
         return {
             "id": self.id, "origen": self.origen, "direccion": self.direccion,
             "min_proy": self.min_proy, "max_proy": self.max_proy,
             "intervalos": self.intervalos,
+            "fecha_primera": self.fecha_primera, "fecha_ultima": self.fecha_ultima,
         }
 
     @staticmethod
     def from_dict(d):
         return Hilera(d["id"], tuple(d["origen"]), tuple(d["direccion"]),
-                       d["min_proy"], d["max_proy"], d.get("intervalos", []))
+                       d["min_proy"], d["max_proy"], d.get("intervalos", []),
+                       d.get("fecha_primera"), d.get("fecha_ultima"))
 
     @property
     def largo_conocido(self):
@@ -399,15 +404,19 @@ def asignar_o_crear_hilera(segmento_m, hileras, siguiente_id):
     return nueva, siguiente_id + 1
 
 
-def actualizar_hilera(hilera, segmento_m):
+def actualizar_hilera(hilera, segmento_m, fecha_str):
     proyecciones = [proyectar(p, hilera)[0] for p in segmento_m]
     p_min, p_max = min(proyecciones), max(proyecciones)
     hilera.min_proy = min(hilera.min_proy, p_min)
     hilera.max_proy = max(hilera.max_proy, p_max)
     hilera.intervalos.append([round(p_min, 1), round(p_max, 1)])
+    if hilera.fecha_primera is None or fecha_str < hilera.fecha_primera:
+        hilera.fecha_primera = fecha_str
+    if hilera.fecha_ultima is None or fecha_str > hilera.fecha_ultima:
+        hilera.fecha_ultima = fecha_str
 
 
-def procesar_puntos(puntos, referencia, hileras, descartados):
+def procesar_puntos(puntos, referencia, hileras, descartados, fecha_str):
     segmentos = segmentar_pasadas(puntos)
 
     siguiente_id = (max((h.id for h in hileras), default=0)) + 1
@@ -424,7 +433,7 @@ def procesar_puntos(puntos, referencia, hileras, descartados):
         if hilera is None:
             descartados.append((seg[0]["punto"], seg[-1]["punto"]))
             continue
-        actualizar_hilera(hilera, seg_m)
+        actualizar_hilera(hilera, seg_m, fecha_str)
         hileras_tocadas_hoy.add(hilera.id)
 
     return list(hileras_tocadas_hoy)
@@ -752,7 +761,7 @@ def generar_reporte(sid, geocercas):
                 if porcentaje_antes >= UMBRAL_CIERRE_PORCENTAJE:
                     porcentaje_antes = 1.0
 
-                hileras_tocadas_hoy = procesar_puntos(puntos_geo, referencia, hileras, descartados)
+                hileras_tocadas_hoy = procesar_puntos(puntos_geo, referencia, hileras, descartados, dia.strftime("%Y-%m-%d"))
 
                 if hileras_tocadas_hoy:
                     hileras_regulares, hileras_irregulares = filtrar_hileras_regulares(hileras)
@@ -867,6 +876,37 @@ def main():
         exportar_kml(ruta_kml_unidad, [(nombre_unidad, hileras_por_geocerca, descartados)], geocercas)
     print(f"Mapas por maquina generados en: {carpeta_kml_por_unidad}")
     print("Abrelo con Google Earth o subelo a Google My Maps para comparar contra la foto satelital.")
+
+    carpeta_geometria = os.path.join(CARPETA_DATOS, "geometria")
+    os.makedirs(carpeta_geometria, exist_ok=True)
+    for nombre_unidad, hileras_por_geocerca, _ in resultado_por_unidad:
+        if not hileras_por_geocerca:
+            continue
+        cuarteles_json = {}
+        for nombre_geo, (referencia, hileras) in hileras_por_geocerca.items():
+            if referencia is None:
+                continue
+            filas = []
+            for h in hileras:
+                p1_m = (h.origen[0] + h.direccion[0] * h.min_proy, h.origen[1] + h.direccion[1] * h.min_proy)
+                p2_m = (h.origen[0] + h.direccion[0] * h.max_proy, h.origen[1] + h.direccion[1] * h.max_proy)
+                if math.hypot(p2_m[0] - p1_m[0], p2_m[1] - p1_m[1]) < 1.0:
+                    continue
+                lon1, lat1 = metros_a_punto(p1_m, referencia)
+                lon2, lat2 = metros_a_punto(p2_m, referencia)
+                if not all(math.isfinite(v) for v in (lon1, lat1, lon2, lat2)):
+                    continue
+                filas.append({
+                    "id": h.id, "p1": [lon1, lat1], "p2": [lon2, lat2],
+                    "fecha_primera": h.fecha_primera, "fecha_ultima": h.fecha_ultima,
+                })
+            if filas:
+                cuarteles_json[nombre_geo] = filas
+        if cuarteles_json:
+            ruta_geo = os.path.join(carpeta_geometria, f"{slug(nombre_unidad)}.json")
+            with open(ruta_geo, "w", encoding="utf-8") as f:
+                json.dump(cuarteles_json, f, ensure_ascii=False)
+    print(f"Geometria para filtrar por fecha generada en: {carpeta_geometria}")
 
 
 if __name__ == "__main__":
