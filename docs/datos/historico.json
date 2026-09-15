@@ -4060,8 +4060,8 @@
     "maquina": "Tractor 4 Same Frutetto 100",
     "cuartel": 531,
     "n_hileras": 193,
-    "area_total_ha": 9.7,
-    "area_trabajada_ha": 0.03
+    "area_total_ha": 1.91,
+    "area_trabajada_ha": 0.01
   },
   {
     "fecha": "2026-06-24",
@@ -7116,8 +7116,8 @@
     "maquina": "Tractor 7 Kubota 95",
     "cuartel": 1107,
     "n_hileras": 59,
-    "area_total_ha": 40.36,
-    "area_trabajada_ha": 0.19
+    "area_total_ha": 13.43,
+    "area_trabajada_ha": 0.01
   },
   {
     "fecha": "2026-07-14",
@@ -12771,9 +12771,9 @@
     "fecha": "2026-06-18",
     "maquina": "Tractor 10 Deutz Fahr 115",
     "cuartel": 95,
-    "n_hileras": 11,
-    "area_total_ha": 0.7,
-    "area_trabajada_ha": 0.28
+    "n_hileras": 18,
+    "area_total_ha": 1.4,
+    "area_trabajada_ha": 0.01
   },
   {
     "fecha": "2026-06-18",
@@ -15683,9 +15683,9 @@
     "fecha": "2026-06-17",
     "maquina": "Tractor 11 Deutz Fahr 115",
     "cuartel": 1,
-    "n_hileras": 13,
-    "area_total_ha": 1.01,
-    "area_trabajada_ha": 0.05
+    "n_hileras": 1332,
+    "area_total_ha": 18.95,
+    "area_trabajada_ha": 0.01
   },
   {
     "fecha": "2026-06-17",
@@ -16603,9 +16603,9 @@
     "fecha": "2026-07-24",
     "maquina": "Tractor 11 Deutz Fahr 115",
     "cuartel": 1,
-    "n_hileras": 1311,
-    "area_total_ha": 141.37,
-    "area_trabajada_ha": 0.21
+    "n_hileras": 1332,
+    "area_total_ha": 18.97,
+    "area_trabajada_ha": 0.03
   },
   {
     "fecha": "2026-07-25",
@@ -25788,8 +25788,8 @@
     "maquina": "Tractor 4 Same Frutetto 100",
     "cuartel": 2070,
     "n_hileras": 279,
-    "area_total_ha": 24.96,
-    "area_trabajada_ha": 0.33
+    "area_total_ha": 18.38,
+    "area_trabajada_ha": 0.01
   },
   {
     "fecha": "2026-08-14",
@@ -26308,8 +26308,8 @@
     "maquina": "Tractor 14 Deutz Fahr 115",
     "cuartel": 158,
     "n_hileras": 7,
-    "area_total_ha": 12.09,
-    "area_trabajada_ha": 0.04
+    "area_total_ha": 19.13,
+    "area_trabajada_ha": 0.05
   },
   {
     "fecha": "2026-06-20",
@@ -26499,9 +26499,9 @@
     "fecha": "2026-08-06",
     "maquina": "Tractor 14 Deutz Fahr 115",
     "cuartel": 641,
-    "n_hileras": 975,
-    "area_total_ha": 125.42,
-    "area_trabajada_ha": 0.1
+    "n_hileras": 974,
+    "area_total_ha": 50.2,
+    "area_trabajada_ha": 0.07
   },
   {
     "fecha": "2026-08-06",
@@ -26830,5 +26830,8717 @@
     "n_hileras": 14,
     "area_total_ha": 1.43,
     "area_trabajada_ha": 1.43
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Barredora 1",
+    "cuartel": 1,
+    "n_hileras": 21,
+    "area_total_ha": 0.13,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Barredora 1",
+    "cuartel": 3,
+    "n_hileras": 38,
+    "area_total_ha": 4.15,
+    "area_trabajada_ha": 4.15
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Barredora 1",
+    "cuartel": 82,
+    "n_hileras": 28,
+    "area_total_ha": 1.4,
+    "area_trabajada_ha": 1.4
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Barredora 1",
+    "cuartel": 1,
+    "n_hileras": 27,
+    "area_total_ha": 0.15,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Barredora 1",
+    "cuartel": 2,
+    "n_hileras": 5,
+    "area_total_ha": 0.8,
+    "area_trabajada_ha": 0.34
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Barredora 1",
+    "cuartel": 3,
+    "n_hileras": 37,
+    "area_total_ha": 4.19,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Barredora 1",
+    "cuartel": 41,
+    "n_hileras": 88,
+    "area_total_ha": 3.83,
+    "area_trabajada_ha": 2.16
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Barredora 1",
+    "cuartel": 45,
+    "n_hileras": 8,
+    "area_total_ha": 0.05,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Barredora 1",
+    "cuartel": 1,
+    "n_hileras": 33,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Barredora 1",
+    "cuartel": 2,
+    "n_hileras": 6,
+    "area_total_ha": 0.9,
+    "area_trabajada_ha": 0.21
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Barredora 1",
+    "cuartel": 41,
+    "n_hileras": 129,
+    "area_total_ha": 5.03,
+    "area_trabajada_ha": 1.63
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Barredora 1",
+    "cuartel": 45,
+    "n_hileras": 9,
+    "area_total_ha": 0.05,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 7,
+    "area_total_ha": 0.05,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 41,
+    "area_total_ha": 0.35,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 6,
+    "area_total_ha": 0.23,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Barredora 1",
+    "cuartel": 276,
+    "n_hileras": 5,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 83,
+    "area_total_ha": 3.57,
+    "area_trabajada_ha": 3.54
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Barredora 1",
+    "cuartel": 278,
+    "n_hileras": 7,
+    "area_total_ha": 0.17,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Barredora 1",
+    "cuartel": 281,
+    "n_hileras": 9,
+    "area_total_ha": 0.06,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 49,
+    "area_total_ha": 0.41,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 7,
+    "area_total_ha": 0.23,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Barredora 1",
+    "cuartel": 271,
+    "n_hileras": 6,
+    "area_total_ha": 0.19,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Barredora 1",
+    "cuartel": 272,
+    "n_hileras": 5,
+    "area_total_ha": 0.51,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Barredora 1",
+    "cuartel": 276,
+    "n_hileras": 6,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 116,
+    "area_total_ha": 5.62,
+    "area_trabajada_ha": 2.12
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Barredora 1",
+    "cuartel": 278,
+    "n_hileras": 9,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Barredora 1",
+    "cuartel": 319,
+    "n_hileras": 5,
+    "area_total_ha": 0.13,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Barredora 1",
+    "cuartel": 403,
+    "n_hileras": 6,
+    "area_total_ha": 0.21,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 55,
+    "area_total_ha": 0.47,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 11,
+    "area_total_ha": 0.21,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Barredora 1",
+    "cuartel": 272,
+    "n_hileras": 6,
+    "area_total_ha": 0.52,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Barredora 1",
+    "cuartel": 276,
+    "n_hileras": 8,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 147,
+    "area_total_ha": 9.61,
+    "area_trabajada_ha": 3.51
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Barredora 1",
+    "cuartel": 278,
+    "n_hileras": 16,
+    "area_total_ha": 0.38,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Barredora 1",
+    "cuartel": 319,
+    "n_hileras": 7,
+    "area_total_ha": 0.32,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Barredora 1",
+    "cuartel": 403,
+    "n_hileras": 17,
+    "area_total_ha": 0.55,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-06-22",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 67,
+    "area_total_ha": 0.46,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-06-22",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 17,
+    "area_total_ha": 0.43,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-22",
+    "maquina": "Barredora 1",
+    "cuartel": 276,
+    "n_hileras": 9,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-22",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 177,
+    "area_total_ha": 13.66,
+    "area_trabajada_ha": 3.9
+  },
+  {
+    "fecha": "2026-06-22",
+    "maquina": "Barredora 1",
+    "cuartel": 278,
+    "n_hileras": 11,
+    "area_total_ha": 0.33,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-06-22",
+    "maquina": "Barredora 1",
+    "cuartel": 403,
+    "n_hileras": 25,
+    "area_total_ha": 0.95,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-06-22",
+    "maquina": "Barredora 1",
+    "cuartel": 417,
+    "n_hileras": 9,
+    "area_total_ha": 0.4,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 76,
+    "area_total_ha": 0.34,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 184,
+    "area_total_ha": 15.99,
+    "area_trabajada_ha": 1.08
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Barredora 1",
+    "cuartel": 278,
+    "n_hileras": 19,
+    "area_total_ha": 0.4,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Barredora 1",
+    "cuartel": 319,
+    "n_hileras": 10,
+    "area_total_ha": 0.43,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Barredora 1",
+    "cuartel": 403,
+    "n_hileras": 28,
+    "area_total_ha": 1.19,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Barredora 1",
+    "cuartel": 622,
+    "n_hileras": 32,
+    "area_total_ha": 1.39,
+    "area_trabajada_ha": 1.31
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Barredora 1",
+    "cuartel": 654,
+    "n_hileras": 29,
+    "area_total_ha": 2.89,
+    "area_trabajada_ha": 2.89
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 83,
+    "area_total_ha": 0.35,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Barredora 1",
+    "cuartel": 278,
+    "n_hileras": 22,
+    "area_total_ha": 0.39,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Barredora 1",
+    "cuartel": 654,
+    "n_hileras": 89,
+    "area_total_ha": 8.47,
+    "area_trabajada_ha": 5.46
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Barredora 1",
+    "cuartel": 655,
+    "n_hileras": 26,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Barredora 1",
+    "cuartel": 780,
+    "n_hileras": 5,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 98,
+    "area_total_ha": 0.35,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Barredora 1",
+    "cuartel": 654,
+    "n_hileras": 115,
+    "area_total_ha": 9.98,
+    "area_trabajada_ha": 1.69
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Barredora 1",
+    "cuartel": 655,
+    "n_hileras": 32,
+    "area_total_ha": 0.06,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Barredora 1",
+    "cuartel": 855,
+    "n_hileras": 5,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Barredora 1",
+    "cuartel": 893,
+    "n_hileras": 32,
+    "area_total_ha": 0.39,
+    "area_trabajada_ha": 0.39
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 103,
+    "area_total_ha": 0.35,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 18,
+    "area_total_ha": 0.43,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Barredora 1",
+    "cuartel": 276,
+    "n_hileras": 12,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 208,
+    "area_total_ha": 18.87,
+    "area_trabajada_ha": 3.18
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Barredora 1",
+    "cuartel": 278,
+    "n_hileras": 24,
+    "area_total_ha": 0.41,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Barredora 1",
+    "cuartel": 317,
+    "n_hileras": 6,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Barredora 1",
+    "cuartel": 654,
+    "n_hileras": 229,
+    "area_total_ha": 10.74,
+    "area_trabajada_ha": 1.81
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Barredora 1",
+    "cuartel": 855,
+    "n_hileras": 7,
+    "area_total_ha": 0.27,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 113,
+    "area_total_ha": 0.35,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 19,
+    "area_total_ha": 0.45,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 1",
+    "cuartel": 276,
+    "n_hileras": 14,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 265,
+    "area_total_ha": 19.05,
+    "area_trabajada_ha": 4.02
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 1",
+    "cuartel": 403,
+    "n_hileras": 29,
+    "area_total_ha": 1.15,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 123,
+    "area_total_ha": 0.36,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 21,
+    "area_total_ha": 0.48,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Barredora 1",
+    "cuartel": 272,
+    "n_hileras": 7,
+    "area_total_ha": 0.52,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 278,
+    "area_total_ha": 19.52,
+    "area_trabajada_ha": 1.03
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Barredora 1",
+    "cuartel": 278,
+    "n_hileras": 30,
+    "area_total_ha": 0.48,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Barredora 1",
+    "cuartel": 319,
+    "n_hileras": 11,
+    "area_total_ha": 0.43,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Barredora 1",
+    "cuartel": 608,
+    "n_hileras": 6,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Barredora 1",
+    "cuartel": 622,
+    "n_hileras": 48,
+    "area_total_ha": 1.37,
+    "area_trabajada_ha": 0.45
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Barredora 1",
+    "cuartel": 654,
+    "n_hileras": 310,
+    "area_total_ha": 11.2,
+    "area_trabajada_ha": 3.44
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Barredora 1",
+    "cuartel": 656,
+    "n_hileras": 5,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Barredora 1",
+    "cuartel": 852,
+    "n_hileras": 5,
+    "area_total_ha": 0.31,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 133,
+    "area_total_ha": 0.38,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 24,
+    "area_total_ha": 0.58,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Barredora 1",
+    "cuartel": 272,
+    "n_hileras": 8,
+    "area_total_ha": 0.51,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Barredora 1",
+    "cuartel": 273,
+    "n_hileras": 7,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Barredora 1",
+    "cuartel": 276,
+    "n_hileras": 30,
+    "area_total_ha": 0.19,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 366,
+    "area_total_ha": 24.44,
+    "area_trabajada_ha": 5.0
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 135,
+    "area_total_ha": 0.38,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 140,
+    "area_total_ha": 0.37,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 25,
+    "area_total_ha": 0.57,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Barredora 1",
+    "cuartel": 272,
+    "n_hileras": 9,
+    "area_total_ha": 0.67,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Barredora 1",
+    "cuartel": 276,
+    "n_hileras": 40,
+    "area_total_ha": 0.39,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 430,
+    "area_total_ha": 28.52,
+    "area_trabajada_ha": 4.12
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Barredora 1",
+    "cuartel": 1015,
+    "n_hileras": 7,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 142,
+    "area_total_ha": 0.37,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 26,
+    "area_total_ha": 0.57,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Barredora 1",
+    "cuartel": 272,
+    "n_hileras": 10,
+    "area_total_ha": 0.67,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Barredora 1",
+    "cuartel": 276,
+    "n_hileras": 56,
+    "area_total_ha": 0.51,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 468,
+    "area_total_ha": 33.69,
+    "area_trabajada_ha": 3.92
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 149,
+    "area_total_ha": 0.36,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 28,
+    "area_total_ha": 0.57,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Barredora 1",
+    "cuartel": 272,
+    "n_hileras": 11,
+    "area_total_ha": 0.67,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Barredora 1",
+    "cuartel": 276,
+    "n_hileras": 72,
+    "area_total_ha": 0.59,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 510,
+    "area_total_ha": 39.44,
+    "area_trabajada_ha": 4.35
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Barredora 1",
+    "cuartel": 1450,
+    "n_hileras": 5,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 154,
+    "area_total_ha": 0.36,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 30,
+    "area_total_ha": 0.56,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Barredora 1",
+    "cuartel": 272,
+    "n_hileras": 13,
+    "area_total_ha": 0.85,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Barredora 1",
+    "cuartel": 276,
+    "n_hileras": 75,
+    "area_total_ha": 0.61,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 592,
+    "area_total_ha": 41.79,
+    "area_trabajada_ha": 2.82
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Barredora 1",
+    "cuartel": 1450,
+    "n_hileras": 6,
+    "area_total_ha": 0.13,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Barredora 1",
+    "cuartel": 1613,
+    "n_hileras": 16,
+    "area_total_ha": 0.13,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 159,
+    "area_total_ha": 0.37,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 32,
+    "area_total_ha": 0.54,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Barredora 1",
+    "cuartel": 276,
+    "n_hileras": 76,
+    "area_total_ha": 0.68,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 689,
+    "area_total_ha": 45.62,
+    "area_trabajada_ha": 3.97
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Barredora 1",
+    "cuartel": 1613,
+    "n_hileras": 51,
+    "area_total_ha": 0.63,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 34,
+    "area_total_ha": 0.54,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 898,
+    "area_total_ha": 47.03,
+    "area_trabajada_ha": 3.34
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 163,
+    "area_total_ha": 0.38,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Barredora 1",
+    "cuartel": 276,
+    "n_hileras": 78,
+    "area_total_ha": 0.65,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 960,
+    "area_total_ha": 51.46,
+    "area_trabajada_ha": 3.14
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Barredora 1",
+    "cuartel": 1722,
+    "n_hileras": 5,
+    "area_total_ha": 0.27,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Barredora 1",
+    "cuartel": 1989,
+    "n_hileras": 6,
+    "area_total_ha": 0.17,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Barredora 1",
+    "cuartel": 2077,
+    "n_hileras": 14,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 36,
+    "area_total_ha": 0.54,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 999,
+    "area_total_ha": 55.0,
+    "area_trabajada_ha": 2.27
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Barredora 1",
+    "cuartel": 2077,
+    "n_hileras": 15,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Barredora 1",
+    "cuartel": 2142,
+    "n_hileras": 13,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 37,
+    "area_total_ha": 0.55,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 1084,
+    "area_total_ha": 59.78,
+    "area_trabajada_ha": 3.97
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Barredora 1",
+    "cuartel": 2133,
+    "n_hileras": 5,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Barredora 1",
+    "cuartel": 2142,
+    "n_hileras": 33,
+    "area_total_ha": 0.41,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 167,
+    "area_total_ha": 0.39,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 37,
+    "area_total_ha": 0.56,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Barredora 1",
+    "cuartel": 277,
+    "n_hileras": 1177,
+    "area_total_ha": 63.15,
+    "area_trabajada_ha": 3.42
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Barredora 1",
+    "cuartel": 2088,
+    "n_hileras": 5,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Barredora 1",
+    "cuartel": 2133,
+    "n_hileras": 7,
+    "area_total_ha": 2.84,
+    "area_trabajada_ha": 1.91
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Barredora 1",
+    "cuartel": 2142,
+    "n_hileras": 50,
+    "area_total_ha": 0.58,
+    "area_trabajada_ha": 0.24
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Barredora 1",
+    "cuartel": 2157,
+    "n_hileras": 5,
+    "area_total_ha": 0.23,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Barredora 1",
+    "cuartel": 253,
+    "n_hileras": 171,
+    "area_total_ha": 0.39,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Barredora 1",
+    "cuartel": 270,
+    "n_hileras": 37,
+    "area_total_ha": 0.56,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Barredora 1",
+    "cuartel": 276,
+    "n_hileras": 1302,
+    "area_total_ha": 17.27,
+    "area_trabajada_ha": 0.63
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Barredora 1",
+    "cuartel": 2157,
+    "n_hileras": 7,
+    "area_total_ha": 0.33,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Barredora 4",
+    "cuartel": 4,
+    "n_hileras": 8,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Barredora 4",
+    "cuartel": 5,
+    "n_hileras": 11,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Barredora 4",
+    "cuartel": 5,
+    "n_hileras": 12,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Barredora 12",
+    "cuartel": 1,
+    "n_hileras": 12,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-24",
+    "maquina": "Barredora 12",
+    "cuartel": 1,
+    "n_hileras": 19,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-08-27",
+    "maquina": "Barredora 12",
+    "cuartel": 1,
+    "n_hileras": 20,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": 1,
+    "n_hileras": 11,
+    "area_total_ha": 0.27,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": 1,
+    "n_hileras": 21,
+    "area_total_ha": 0.34,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": 1,
+    "n_hileras": 24,
+    "area_total_ha": 0.33,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-20",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": 1,
+    "n_hileras": 25,
+    "area_total_ha": 0.33,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": 1,
+    "n_hileras": 26,
+    "area_total_ha": 0.33,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": 1,
+    "n_hileras": 27,
+    "area_total_ha": 0.33,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": 1,
+    "n_hileras": 29,
+    "area_total_ha": 0.33,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": 1,
+    "n_hileras": 31,
+    "area_total_ha": 0.3,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": 1,
+    "n_hileras": 32,
+    "area_total_ha": 0.3,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": 1,
+    "n_hileras": 37,
+    "area_total_ha": 0.31,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-16",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": 1,
+    "n_hileras": 39,
+    "area_total_ha": 0.32,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": 1,
+    "n_hileras": 41,
+    "area_total_ha": 0.32,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Barredora 23",
+    "cuartel": 1,
+    "n_hileras": 15,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Barredora 23",
+    "cuartel": 1,
+    "n_hileras": 19,
+    "area_total_ha": 0.21,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 14,
+    "area_total_ha": 0.28,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Barredora 23",
+    "cuartel": 32,
+    "n_hileras": 13,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 41,
+    "area_total_ha": 1.21,
+    "area_trabajada_ha": 0.46
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Barredora 23",
+    "cuartel": 83,
+    "n_hileras": 84,
+    "area_total_ha": 11.96,
+    "area_trabajada_ha": 11.95
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Barredora 23",
+    "cuartel": 177,
+    "n_hileras": 18,
+    "area_total_ha": 1.91,
+    "area_trabajada_ha": 1.91
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Barredora 23",
+    "cuartel": 178,
+    "n_hileras": 7,
+    "area_total_ha": 0.05,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Barredora 23",
+    "cuartel": 180,
+    "n_hileras": 10,
+    "area_total_ha": 0.26,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-06-27",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 46,
+    "area_total_ha": 1.21,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-06-27",
+    "maquina": "Barredora 23",
+    "cuartel": 51,
+    "n_hileras": 5,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-27",
+    "maquina": "Barredora 23",
+    "cuartel": 54,
+    "n_hileras": 5,
+    "area_total_ha": 1.78,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-06-27",
+    "maquina": "Barredora 23",
+    "cuartel": 177,
+    "n_hileras": 29,
+    "area_total_ha": 3.21,
+    "area_trabajada_ha": 0.66
+  },
+  {
+    "fecha": "2026-06-27",
+    "maquina": "Barredora 23",
+    "cuartel": 178,
+    "n_hileras": 8,
+    "area_total_ha": 0.05,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-27",
+    "maquina": "Barredora 23",
+    "cuartel": 230,
+    "n_hileras": 16,
+    "area_total_ha": 1.92,
+    "area_trabajada_ha": 1.92
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 60,
+    "area_total_ha": 0.98,
+    "area_trabajada_ha": 0.21
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 23",
+    "cuartel": 51,
+    "n_hileras": 6,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 23",
+    "cuartel": 53,
+    "n_hileras": 6,
+    "area_total_ha": 6.18,
+    "area_trabajada_ha": 2.88
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 23",
+    "cuartel": 54,
+    "n_hileras": 5,
+    "area_total_ha": 1.87,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 23",
+    "cuartel": 83,
+    "n_hileras": 86,
+    "area_total_ha": 11.95,
+    "area_trabajada_ha": 0.31
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 23",
+    "cuartel": 177,
+    "n_hileras": 45,
+    "area_total_ha": 3.15,
+    "area_trabajada_ha": 1.54
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 23",
+    "cuartel": 178,
+    "n_hileras": 12,
+    "area_total_ha": 0.24,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 23",
+    "cuartel": 189,
+    "n_hileras": 5,
+    "area_total_ha": 0.13,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 23",
+    "cuartel": 200,
+    "n_hileras": 45,
+    "area_total_ha": 1.89,
+    "area_trabajada_ha": 1.57
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 72,
+    "area_total_ha": 1.1,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Barredora 23",
+    "cuartel": 54,
+    "n_hileras": 7,
+    "area_total_ha": 1.91,
+    "area_trabajada_ha": 0.57
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Barredora 23",
+    "cuartel": 177,
+    "n_hileras": 167,
+    "area_total_ha": 6.4,
+    "area_trabajada_ha": 3.27
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Barredora 23",
+    "cuartel": 231,
+    "n_hileras": 5,
+    "area_total_ha": 0.05,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 75,
+    "area_total_ha": 1.11,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Barredora 23",
+    "cuartel": 48,
+    "n_hileras": 5,
+    "area_total_ha": 1.91,
+    "area_trabajada_ha": 0.46
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Barredora 23",
+    "cuartel": 54,
+    "n_hileras": 8,
+    "area_total_ha": 1.92,
+    "area_trabajada_ha": 0.25
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Barredora 23",
+    "cuartel": 177,
+    "n_hileras": 225,
+    "area_total_ha": 7.58,
+    "area_trabajada_ha": 2.0
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Barredora 23",
+    "cuartel": 439,
+    "n_hileras": 5,
+    "area_total_ha": 0.05,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 94,
+    "area_total_ha": 1.04,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Barredora 23",
+    "cuartel": 48,
+    "n_hileras": 5,
+    "area_total_ha": 1.92,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Barredora 23",
+    "cuartel": 53,
+    "n_hileras": 7,
+    "area_total_ha": 6.02,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Barredora 23",
+    "cuartel": 54,
+    "n_hileras": 9,
+    "area_total_ha": 2.15,
+    "area_trabajada_ha": 0.24
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Barredora 23",
+    "cuartel": 62,
+    "n_hileras": 91,
+    "area_total_ha": 5.25,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Barredora 23",
+    "cuartel": 177,
+    "n_hileras": 240,
+    "area_total_ha": 7.74,
+    "area_trabajada_ha": 0.64
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Barredora 23",
+    "cuartel": 501,
+    "n_hileras": 27,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 2.8
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 110,
+    "area_total_ha": 1.03,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Barredora 23",
+    "cuartel": 48,
+    "n_hileras": 71,
+    "area_total_ha": 6.69,
+    "area_trabajada_ha": 3.85
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Barredora 23",
+    "cuartel": 53,
+    "n_hileras": 33,
+    "area_total_ha": 4.45,
+    "area_trabajada_ha": 0.91
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Barredora 23",
+    "cuartel": 54,
+    "n_hileras": 9,
+    "area_total_ha": 2.16,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 128,
+    "area_total_ha": 1.43,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Barredora 23",
+    "cuartel": 48,
+    "n_hileras": 110,
+    "area_total_ha": 9.23,
+    "area_trabajada_ha": 2.96
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Barredora 23",
+    "cuartel": 53,
+    "n_hileras": 155,
+    "area_total_ha": 4.19,
+    "area_trabajada_ha": 0.32
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Barredora 23",
+    "cuartel": 177,
+    "n_hileras": 240,
+    "area_total_ha": 7.75,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 134,
+    "area_total_ha": 1.73,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Barredora 23",
+    "cuartel": 48,
+    "n_hileras": 287,
+    "area_total_ha": 8.33,
+    "area_trabajada_ha": 0.58
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Barredora 23",
+    "cuartel": 73,
+    "n_hileras": 263,
+    "area_total_ha": 24.67,
+    "area_trabajada_ha": 0.76
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 142,
+    "area_total_ha": 1.73,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Barredora 23",
+    "cuartel": 48,
+    "n_hileras": 301,
+    "area_total_ha": 8.3,
+    "area_trabajada_ha": 0.52
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Barredora 23",
+    "cuartel": 73,
+    "n_hileras": 267,
+    "area_total_ha": 24.66,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 146,
+    "area_total_ha": 1.86,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Barredora 23",
+    "cuartel": 48,
+    "n_hileras": 622,
+    "area_total_ha": 15.36,
+    "area_trabajada_ha": 2.1
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 150,
+    "area_total_ha": 1.87,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Barredora 23",
+    "cuartel": 48,
+    "n_hileras": 687,
+    "area_total_ha": 15.29,
+    "area_trabajada_ha": 1.41
+  },
+  {
+    "fecha": "2026-07-20",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 158,
+    "area_total_ha": 1.61,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-20",
+    "maquina": "Barredora 23",
+    "cuartel": 48,
+    "n_hileras": 714,
+    "area_total_ha": 15.27,
+    "area_trabajada_ha": 0.82
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 163,
+    "area_total_ha": 1.63,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Barredora 23",
+    "cuartel": 48,
+    "n_hileras": 346,
+    "area_total_ha": 9.41,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Barredora 23",
+    "cuartel": 63,
+    "n_hileras": 414,
+    "area_total_ha": 52.83,
+    "area_trabajada_ha": 7.66
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 177,
+    "area_total_ha": 2.31,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Barredora 23",
+    "cuartel": 48,
+    "n_hileras": 342,
+    "area_total_ha": 9.39,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Barredora 23",
+    "cuartel": 63,
+    "n_hileras": 434,
+    "area_total_ha": 56.38,
+    "area_trabajada_ha": 4.25
+  },
+  {
+    "fecha": "2026-08-03",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 179,
+    "area_total_ha": 2.33,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Barredora 23",
+    "cuartel": 1,
+    "n_hileras": 21,
+    "area_total_ha": 0.29,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Barredora 23",
+    "cuartel": 6,
+    "n_hileras": 5,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Barredora 23",
+    "cuartel": 11,
+    "n_hileras": 5,
+    "area_total_ha": 0.06,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Barredora 23",
+    "cuartel": 30,
+    "n_hileras": 181,
+    "area_total_ha": 2.18,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-24",
+    "maquina": "Barredora 23",
+    "cuartel": 6,
+    "n_hileras": 12,
+    "area_total_ha": 0.3,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Barredora 24 Weiss c/cab",
+    "cuartel": 1,
+    "n_hileras": 6,
+    "area_total_ha": 0.05,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Barredora 5497",
+    "cuartel": 13,
+    "n_hileras": 41,
+    "area_total_ha": 0.33,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Barredora 5497",
+    "cuartel": 13,
+    "n_hileras": 43,
+    "area_total_ha": 0.33,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Barredora 5497",
+    "cuartel": 12,
+    "n_hileras": 78,
+    "area_total_ha": 0.35,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-08-24",
+    "maquina": "Barredora 5497",
+    "cuartel": 12,
+    "n_hileras": 80,
+    "area_total_ha": 0.35,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Podadora 1",
+    "cuartel": 1,
+    "n_hileras": 6,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Podadora 1",
+    "cuartel": 3,
+    "n_hileras": 10,
+    "area_total_ha": 0.13,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Podadora 1",
+    "cuartel": 37,
+    "n_hileras": 15,
+    "area_total_ha": 1.59,
+    "area_trabajada_ha": 1.59
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Podadora 1",
+    "cuartel": 26,
+    "n_hileras": 19,
+    "area_total_ha": 0.57,
+    "area_trabajada_ha": 0.37
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Podadora 1",
+    "cuartel": 36,
+    "n_hileras": 10,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Podadora 1",
+    "cuartel": 37,
+    "n_hileras": 93,
+    "area_total_ha": 7.18,
+    "area_trabajada_ha": 5.73
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Podadora 1",
+    "cuartel": 160,
+    "n_hileras": 5,
+    "area_total_ha": 1.07,
+    "area_trabajada_ha": 1.07
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Podadora 1",
+    "cuartel": 23,
+    "n_hileras": 7,
+    "area_total_ha": 0.17,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Podadora 1",
+    "cuartel": 25,
+    "n_hileras": 37,
+    "area_total_ha": 0.85,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Podadora 1",
+    "cuartel": 34,
+    "n_hileras": 6,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Podadora 1",
+    "cuartel": 36,
+    "n_hileras": 14,
+    "area_total_ha": 0.38,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Podadora 1",
+    "cuartel": 37,
+    "n_hileras": 86,
+    "area_total_ha": 8.45,
+    "area_trabajada_ha": 0.54
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Podadora 1",
+    "cuartel": 70,
+    "n_hileras": 21,
+    "area_total_ha": 0.65,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Podadora 1",
+    "cuartel": 157,
+    "n_hileras": 14,
+    "area_total_ha": 0.27,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Podadora 1",
+    "cuartel": 160,
+    "n_hileras": 37,
+    "area_total_ha": 10.09,
+    "area_trabajada_ha": 8.59
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Podadora 1",
+    "cuartel": 261,
+    "n_hileras": 9,
+    "area_total_ha": 0.83,
+    "area_trabajada_ha": 0.83
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Podadora 1",
+    "cuartel": 288,
+    "n_hileras": 14,
+    "area_total_ha": 1.77,
+    "area_trabajada_ha": 1.77
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Podadora 1",
+    "cuartel": 296,
+    "n_hileras": 8,
+    "area_total_ha": 1.36,
+    "area_trabajada_ha": 1.36
+  },
+  {
+    "fecha": "2026-07-16",
+    "maquina": "Podadora 1",
+    "cuartel": 23,
+    "n_hileras": 59,
+    "area_total_ha": 0.82,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-07-16",
+    "maquina": "Podadora 1",
+    "cuartel": 34,
+    "n_hileras": 16,
+    "area_total_ha": 0.86,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-07-16",
+    "maquina": "Podadora 1",
+    "cuartel": 288,
+    "n_hileras": 81,
+    "area_total_ha": 5.64,
+    "area_trabajada_ha": 3.93
+  },
+  {
+    "fecha": "2026-07-16",
+    "maquina": "Podadora 1",
+    "cuartel": 304,
+    "n_hileras": 6,
+    "area_total_ha": 0.22,
+    "area_trabajada_ha": 0.21
+  },
+  {
+    "fecha": "2026-07-16",
+    "maquina": "Podadora 1",
+    "cuartel": 363,
+    "n_hileras": 7,
+    "area_total_ha": 1.88,
+    "area_trabajada_ha": 1.88
+  },
+  {
+    "fecha": "2026-07-16",
+    "maquina": "Podadora 1",
+    "cuartel": 374,
+    "n_hileras": 16,
+    "area_total_ha": 1.23,
+    "area_trabajada_ha": 1.23
+  },
+  {
+    "fecha": "2026-07-17",
+    "maquina": "Podadora 1",
+    "cuartel": 23,
+    "n_hileras": 86,
+    "area_total_ha": 0.94,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-07-17",
+    "maquina": "Podadora 1",
+    "cuartel": 33,
+    "n_hileras": 14,
+    "area_total_ha": 0.82,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-07-17",
+    "maquina": "Podadora 1",
+    "cuartel": 34,
+    "n_hileras": 16,
+    "area_total_ha": 0.88,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-17",
+    "maquina": "Podadora 1",
+    "cuartel": 478,
+    "n_hileras": 48,
+    "area_total_ha": 5.7,
+    "area_trabajada_ha": 5.7
+  },
+  {
+    "fecha": "2026-07-17",
+    "maquina": "Podadora 1",
+    "cuartel": 479,
+    "n_hileras": 78,
+    "area_total_ha": 3.45,
+    "area_trabajada_ha": 3.43
+  },
+  {
+    "fecha": "2026-07-18",
+    "maquina": "Podadora 1",
+    "cuartel": 23,
+    "n_hileras": 89,
+    "area_total_ha": 0.95,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-18",
+    "maquina": "Podadora 1",
+    "cuartel": 33,
+    "n_hileras": 31,
+    "area_total_ha": 2.25,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-18",
+    "maquina": "Podadora 1",
+    "cuartel": 35,
+    "n_hileras": 5,
+    "area_total_ha": 0.78,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-07-18",
+    "maquina": "Podadora 1",
+    "cuartel": 36,
+    "n_hileras": 229,
+    "area_total_ha": 15.31,
+    "area_trabajada_ha": 6.34
+  },
+  {
+    "fecha": "2026-07-20",
+    "maquina": "Podadora 1",
+    "cuartel": 23,
+    "n_hileras": 100,
+    "area_total_ha": 0.94,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-07-20",
+    "maquina": "Podadora 1",
+    "cuartel": 33,
+    "n_hileras": 32,
+    "area_total_ha": 2.25,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-07-20",
+    "maquina": "Podadora 1",
+    "cuartel": 34,
+    "n_hileras": 17,
+    "area_total_ha": 0.87,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-20",
+    "maquina": "Podadora 1",
+    "cuartel": 35,
+    "n_hileras": 6,
+    "area_total_ha": 0.82,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-07-20",
+    "maquina": "Podadora 1",
+    "cuartel": 36,
+    "n_hileras": 232,
+    "area_total_ha": 15.33,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-20",
+    "maquina": "Podadora 1",
+    "cuartel": 764,
+    "n_hileras": 18,
+    "area_total_ha": 0.97,
+    "area_trabajada_ha": 0.97
+  },
+  {
+    "fecha": "2026-07-20",
+    "maquina": "Podadora 1",
+    "cuartel": 766,
+    "n_hileras": 5,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-07-21",
+    "maquina": "Podadora 1",
+    "cuartel": 23,
+    "n_hileras": 107,
+    "area_total_ha": 1.04,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-07-21",
+    "maquina": "Podadora 1",
+    "cuartel": 763,
+    "n_hileras": 205,
+    "area_total_ha": 8.14,
+    "area_trabajada_ha": 7.56
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Podadora 1",
+    "cuartel": 23,
+    "n_hileras": 119,
+    "area_total_ha": 1.03,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Podadora 1",
+    "cuartel": 1036,
+    "n_hileras": 5,
+    "area_total_ha": 0.24,
+    "area_trabajada_ha": 0.21
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Podadora 1",
+    "cuartel": 1038,
+    "n_hileras": 15,
+    "area_total_ha": 2.64,
+    "area_trabajada_ha": 2.64
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Podadora 1",
+    "cuartel": 1055,
+    "n_hileras": 18,
+    "area_total_ha": 0.48,
+    "area_trabajada_ha": 0.47
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Podadora 1",
+    "cuartel": 1056,
+    "n_hileras": 10,
+    "area_total_ha": 4.94,
+    "area_trabajada_ha": 4.94
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Podadora 1",
+    "cuartel": 1057,
+    "n_hileras": 27,
+    "area_total_ha": 3.01,
+    "area_trabajada_ha": 2.95
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Podadora 1",
+    "cuartel": 1092,
+    "n_hileras": 5,
+    "area_total_ha": 1.59,
+    "area_trabajada_ha": 1.59
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Podadora 1",
+    "cuartel": 1125,
+    "n_hileras": 35,
+    "area_total_ha": 5.9,
+    "area_trabajada_ha": 5.9
+  },
+  {
+    "fecha": "2026-07-23",
+    "maquina": "Podadora 1",
+    "cuartel": 23,
+    "n_hileras": 130,
+    "area_total_ha": 1.03,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-07-23",
+    "maquina": "Podadora 1",
+    "cuartel": 33,
+    "n_hileras": 491,
+    "area_total_ha": 20.06,
+    "area_trabajada_ha": 5.05
+  },
+  {
+    "fecha": "2026-07-23",
+    "maquina": "Podadora 1",
+    "cuartel": 34,
+    "n_hileras": 18,
+    "area_total_ha": 0.87,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Podadora 1",
+    "cuartel": 23,
+    "n_hileras": 140,
+    "area_total_ha": 1.08,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Podadora 1",
+    "cuartel": 762,
+    "n_hileras": 6,
+    "area_total_ha": 2.07,
+    "area_trabajada_ha": 0.59
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Podadora 1",
+    "cuartel": 763,
+    "n_hileras": 224,
+    "area_total_ha": 10.83,
+    "area_trabajada_ha": 0.47
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Podadora 1",
+    "cuartel": 1356,
+    "n_hileras": 18,
+    "area_total_ha": 5.61,
+    "area_trabajada_ha": 5.61
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Podadora 1",
+    "cuartel": 1358,
+    "n_hileras": 7,
+    "area_total_ha": 1.99,
+    "area_trabajada_ha": 1.99
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Podadora 1",
+    "cuartel": 1366,
+    "n_hileras": 6,
+    "area_total_ha": 2.41,
+    "area_trabajada_ha": 2.41
+  },
+  {
+    "fecha": "2026-07-25",
+    "maquina": "Podadora 1",
+    "cuartel": 23,
+    "n_hileras": 244,
+    "area_total_ha": 4.83,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-07-25",
+    "maquina": "Podadora 1",
+    "cuartel": 34,
+    "n_hileras": 18,
+    "area_total_ha": 0.91,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-25",
+    "maquina": "Podadora 1",
+    "cuartel": 762,
+    "n_hileras": 8,
+    "area_total_ha": 1.53,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-25",
+    "maquina": "Podadora 1",
+    "cuartel": 763,
+    "n_hileras": 227,
+    "area_total_ha": 13.41,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-07-25",
+    "maquina": "Podadora 1",
+    "cuartel": 1356,
+    "n_hileras": 60,
+    "area_total_ha": 25.59,
+    "area_trabajada_ha": 19.21
+  },
+  {
+    "fecha": "2026-07-25",
+    "maquina": "Podadora 1",
+    "cuartel": 1439,
+    "n_hileras": 13,
+    "area_total_ha": 3.18,
+    "area_trabajada_ha": 3.18
+  },
+  {
+    "fecha": "2026-07-26",
+    "maquina": "Podadora 1",
+    "cuartel": 23,
+    "n_hileras": 249,
+    "area_total_ha": 4.82,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-26",
+    "maquina": "Podadora 1",
+    "cuartel": 33,
+    "n_hileras": 562,
+    "area_total_ha": 49.98,
+    "area_trabajada_ha": 1.91
+  },
+  {
+    "fecha": "2026-07-26",
+    "maquina": "Podadora 1",
+    "cuartel": 762,
+    "n_hileras": 9,
+    "area_total_ha": 1.54,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-07-26",
+    "maquina": "Podadora 1",
+    "cuartel": 763,
+    "n_hileras": 230,
+    "area_total_ha": 13.39,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-07-26",
+    "maquina": "Podadora 1",
+    "cuartel": 1358,
+    "n_hileras": 8,
+    "area_total_ha": 2.66,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-07-27",
+    "maquina": "Podadora 1",
+    "cuartel": 23,
+    "n_hileras": 254,
+    "area_total_ha": 4.83,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-27",
+    "maquina": "Podadora 1",
+    "cuartel": 33,
+    "n_hileras": 562,
+    "area_total_ha": 49.99,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Podadora 1",
+    "cuartel": 23,
+    "n_hileras": 271,
+    "area_total_ha": 4.78,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Podadora 1",
+    "cuartel": 33,
+    "n_hileras": 563,
+    "area_total_ha": 50.01,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Podadora 1",
+    "cuartel": 70,
+    "n_hileras": 23,
+    "area_total_ha": 4.98,
+    "area_trabajada_ha": 2.68
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Podadora 1",
+    "cuartel": 763,
+    "n_hileras": 413,
+    "area_total_ha": 13.6,
+    "area_trabajada_ha": 5.16
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Podadora 1",
+    "cuartel": 770,
+    "n_hileras": 7,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Podadora 1",
+    "cuartel": 810,
+    "n_hileras": 12,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-29",
+    "maquina": "Podadora 1",
+    "cuartel": 23,
+    "n_hileras": 280,
+    "area_total_ha": 4.85,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-07-29",
+    "maquina": "Podadora 1",
+    "cuartel": 33,
+    "n_hileras": 563,
+    "area_total_ha": 50.23,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-29",
+    "maquina": "Podadora 1",
+    "cuartel": 762,
+    "n_hileras": 10,
+    "area_total_ha": 1.55,
+    "area_trabajada_ha": 0.24
+  },
+  {
+    "fecha": "2026-07-29",
+    "maquina": "Podadora 1",
+    "cuartel": 763,
+    "n_hileras": 439,
+    "area_total_ha": 15.29,
+    "area_trabajada_ha": 1.22
+  },
+  {
+    "fecha": "2026-07-30",
+    "maquina": "Podadora 1",
+    "cuartel": 23,
+    "n_hileras": 284,
+    "area_total_ha": 4.85,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-30",
+    "maquina": "Podadora 1",
+    "cuartel": 1035,
+    "n_hileras": 6,
+    "area_total_ha": 1.08,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-07-30",
+    "maquina": "Podadora 1",
+    "cuartel": 1038,
+    "n_hileras": 52,
+    "area_total_ha": 5.76,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-30",
+    "maquina": "Podadora 1",
+    "cuartel": 1866,
+    "n_hileras": 14,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-07-30",
+    "maquina": "Podadora 1",
+    "cuartel": 1886,
+    "n_hileras": 22,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-30",
+    "maquina": "Podadora 1",
+    "cuartel": 1887,
+    "n_hileras": 44,
+    "area_total_ha": 6.21,
+    "area_trabajada_ha": 6.21
+  },
+  {
+    "fecha": "2026-07-30",
+    "maquina": "Podadora 1",
+    "cuartel": 1944,
+    "n_hileras": 6,
+    "area_total_ha": 0.13,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-07-31",
+    "maquina": "Podadora 1",
+    "cuartel": 1864,
+    "n_hileras": 5,
+    "area_total_ha": 0.06,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-31",
+    "maquina": "Podadora 1",
+    "cuartel": 1866,
+    "n_hileras": 25,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-31",
+    "maquina": "Podadora 1",
+    "cuartel": 1885,
+    "n_hileras": 42,
+    "area_total_ha": 0.7,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-07-31",
+    "maquina": "Podadora 1",
+    "cuartel": 1887,
+    "n_hileras": 68,
+    "area_total_ha": 9.7,
+    "area_trabajada_ha": 4.14
+  },
+  {
+    "fecha": "2026-07-31",
+    "maquina": "Podadora 1",
+    "cuartel": 1944,
+    "n_hileras": 10,
+    "area_total_ha": 0.17,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Podadora 1",
+    "cuartel": 1864,
+    "n_hileras": 7,
+    "area_total_ha": 0.06,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Podadora 1",
+    "cuartel": 1866,
+    "n_hileras": 30,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Podadora 1",
+    "cuartel": 1881,
+    "n_hileras": 9,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Podadora 1",
+    "cuartel": 1884,
+    "n_hileras": 6,
+    "area_total_ha": 4.05,
+    "area_trabajada_ha": 2.25
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Podadora 1",
+    "cuartel": 1885,
+    "n_hileras": 55,
+    "area_total_ha": 0.8,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Podadora 1",
+    "cuartel": 1887,
+    "n_hileras": 74,
+    "area_total_ha": 9.91,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Podadora 1",
+    "cuartel": 1995,
+    "n_hileras": 44,
+    "area_total_ha": 13.35,
+    "area_trabajada_ha": 12.72
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Podadora 1",
+    "cuartel": 2127,
+    "n_hileras": 11,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Podadora 1",
+    "cuartel": 2152,
+    "n_hileras": 6,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Podadora 1",
+    "cuartel": 2154,
+    "n_hileras": 23,
+    "area_total_ha": 4.95,
+    "area_trabajada_ha": 4.95
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Podadora 1",
+    "cuartel": 2197,
+    "n_hileras": 22,
+    "area_total_ha": 9.19,
+    "area_trabajada_ha": 9.17
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Podadora 1",
+    "cuartel": 2211,
+    "n_hileras": 6,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Podadora 1",
+    "cuartel": 3,
+    "n_hileras": 12,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Podadora 1",
+    "cuartel": 1864,
+    "n_hileras": 8,
+    "area_total_ha": 0.06,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Podadora 1",
+    "cuartel": 1866,
+    "n_hileras": 41,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Podadora 1",
+    "cuartel": 1879,
+    "n_hileras": 9,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Podadora 1",
+    "cuartel": 1881,
+    "n_hileras": 11,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Podadora 1",
+    "cuartel": 1883,
+    "n_hileras": 5,
+    "area_total_ha": 1.06,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Podadora 1",
+    "cuartel": 1884,
+    "n_hileras": 90,
+    "area_total_ha": 20.85,
+    "area_trabajada_ha": 11.26
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Podadora 1",
+    "cuartel": 1972,
+    "n_hileras": 7,
+    "area_total_ha": 1.96,
+    "area_trabajada_ha": 0.53
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Podadora 1",
+    "cuartel": 2242,
+    "n_hileras": 8,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Podadora 1",
+    "cuartel": 2284,
+    "n_hileras": 13,
+    "area_total_ha": 0.48,
+    "area_trabajada_ha": 0.48
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Podadora 1",
+    "cuartel": 2323,
+    "n_hileras": 8,
+    "area_total_ha": 0.26,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Podadora 1",
+    "cuartel": 2434,
+    "n_hileras": 24,
+    "area_total_ha": 17.18,
+    "area_trabajada_ha": 17.18
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Podadora 1",
+    "cuartel": 2435,
+    "n_hileras": 8,
+    "area_total_ha": 0.28,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Podadora 1",
+    "cuartel": 2437,
+    "n_hileras": 7,
+    "area_total_ha": 0.2,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Podadora 1",
+    "cuartel": 2456,
+    "n_hileras": 12,
+    "area_total_ha": 0.22,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Podadora 1",
+    "cuartel": 2422,
+    "n_hileras": 6,
+    "area_total_ha": 0.06,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Podadora 1",
+    "cuartel": 2424,
+    "n_hileras": 5,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Podadora 1",
+    "cuartel": 2428,
+    "n_hileras": 46,
+    "area_total_ha": 1.4,
+    "area_trabajada_ha": 0.73
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Podadora 1",
+    "cuartel": 2434,
+    "n_hileras": 40,
+    "area_total_ha": 24.45,
+    "area_trabajada_ha": 9.88
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Podadora 1",
+    "cuartel": 2435,
+    "n_hileras": 9,
+    "area_total_ha": 0.31,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Podadora 1",
+    "cuartel": 2437,
+    "n_hileras": 14,
+    "area_total_ha": 0.28,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Podadora 1",
+    "cuartel": 2456,
+    "n_hileras": 16,
+    "area_total_ha": 0.47,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Podadora 1",
+    "cuartel": 2515,
+    "n_hileras": 17,
+    "area_total_ha": 7.5,
+    "area_trabajada_ha": 7.48
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Podadora 1",
+    "cuartel": 2630,
+    "n_hileras": 8,
+    "area_total_ha": 3.9,
+    "area_trabajada_ha": 3.9
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Podadora 1",
+    "cuartel": 2644,
+    "n_hileras": 6,
+    "area_total_ha": 4.1,
+    "area_trabajada_ha": 4.09
+  },
+  {
+    "fecha": "2026-08-08",
+    "maquina": "Podadora 1",
+    "cuartel": 2419,
+    "n_hileras": 10,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-08",
+    "maquina": "Podadora 1",
+    "cuartel": 2422,
+    "n_hileras": 25,
+    "area_total_ha": 0.19,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-08-08",
+    "maquina": "Podadora 1",
+    "cuartel": 2515,
+    "n_hileras": 18,
+    "area_total_ha": 7.46,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-08-08",
+    "maquina": "Podadora 1",
+    "cuartel": 2628,
+    "n_hileras": 15,
+    "area_total_ha": 0.36,
+    "area_trabajada_ha": 0.24
+  },
+  {
+    "fecha": "2026-08-08",
+    "maquina": "Podadora 1",
+    "cuartel": 2630,
+    "n_hileras": 16,
+    "area_total_ha": 4.12,
+    "area_trabajada_ha": 2.07
+  },
+  {
+    "fecha": "2026-08-08",
+    "maquina": "Podadora 1",
+    "cuartel": 2644,
+    "n_hileras": 24,
+    "area_total_ha": 11.21,
+    "area_trabajada_ha": 8.34
+  },
+  {
+    "fecha": "2026-08-08",
+    "maquina": "Podadora 1",
+    "cuartel": 2646,
+    "n_hileras": 18,
+    "area_total_ha": 0.37,
+    "area_trabajada_ha": 0.35
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Podadora 1",
+    "cuartel": 2767,
+    "n_hileras": 25,
+    "area_total_ha": 6.99,
+    "area_trabajada_ha": 6.97
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Podadora 1",
+    "cuartel": 2770,
+    "n_hileras": 5,
+    "area_total_ha": 0.2,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Podadora 1",
+    "cuartel": 2814,
+    "n_hileras": 38,
+    "area_total_ha": 2.4,
+    "area_trabajada_ha": 2.4
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Podadora 1",
+    "cuartel": 2816,
+    "n_hileras": 6,
+    "area_total_ha": 0.2,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Podadora 1",
+    "cuartel": 2767,
+    "n_hileras": 27,
+    "area_total_ha": 6.96,
+    "area_trabajada_ha": 0.56
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Podadora 1",
+    "cuartel": 2807,
+    "n_hileras": 75,
+    "area_total_ha": 2.48,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Podadora 1",
+    "cuartel": 2891,
+    "n_hileras": 15,
+    "area_total_ha": 3.17,
+    "area_trabajada_ha": 3.17
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Podadora 1",
+    "cuartel": 2767,
+    "n_hileras": 30,
+    "area_total_ha": 6.95,
+    "area_trabajada_ha": 0.76
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Podadora 1",
+    "cuartel": 2772,
+    "n_hileras": 9,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Podadora 1",
+    "cuartel": 2807,
+    "n_hileras": 82,
+    "area_total_ha": 2.39,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Podadora 1",
+    "cuartel": 2818,
+    "n_hileras": 9,
+    "area_total_ha": 0.29,
+    "area_trabajada_ha": 0.25
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Podadora 1",
+    "cuartel": 2867,
+    "n_hileras": 55,
+    "area_total_ha": 18.67,
+    "area_trabajada_ha": 15.52
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Podadora 1",
+    "cuartel": 3046,
+    "n_hileras": 118,
+    "area_total_ha": 6.63,
+    "area_trabajada_ha": 6.49
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Podadora 1",
+    "cuartel": 3128,
+    "n_hileras": 38,
+    "area_total_ha": 1.67,
+    "area_trabajada_ha": 1.67
+  },
+  {
+    "fecha": "2026-08-14",
+    "maquina": "Podadora 1",
+    "cuartel": 3046,
+    "n_hileras": 153,
+    "area_total_ha": 6.33,
+    "area_trabajada_ha": 1.63
+  },
+  {
+    "fecha": "2026-08-14",
+    "maquina": "Podadora 1",
+    "cuartel": 3086,
+    "n_hileras": 5,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-08-14",
+    "maquina": "Podadora 1",
+    "cuartel": 3297,
+    "n_hileras": 20,
+    "area_total_ha": 21.97,
+    "area_trabajada_ha": 21.86
+  },
+  {
+    "fecha": "2026-08-14",
+    "maquina": "Podadora 1",
+    "cuartel": 3305,
+    "n_hileras": 6,
+    "area_total_ha": 0.36,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Podadora 1",
+    "cuartel": 3297,
+    "n_hileras": 64,
+    "area_total_ha": 33.16,
+    "area_trabajada_ha": 27.13
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Podadora 1",
+    "cuartel": 3316,
+    "n_hileras": 8,
+    "area_total_ha": 4.6,
+    "area_trabajada_ha": 2.98
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Podadora 1",
+    "cuartel": 3327,
+    "n_hileras": 11,
+    "area_total_ha": 0.33,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Podadora 1",
+    "cuartel": 3361,
+    "n_hileras": 13,
+    "area_total_ha": 1.42,
+    "area_trabajada_ha": 1.42
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Podadora 1",
+    "cuartel": 3297,
+    "n_hileras": 100,
+    "area_total_ha": 36.53,
+    "area_trabajada_ha": 8.48
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Podadora 1",
+    "cuartel": 3305,
+    "n_hileras": 19,
+    "area_total_ha": 2.88,
+    "area_trabajada_ha": 2.06
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Podadora 1",
+    "cuartel": 3316,
+    "n_hileras": 19,
+    "area_total_ha": 6.87,
+    "area_trabajada_ha": 3.95
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Podadora 1",
+    "cuartel": 3435,
+    "n_hileras": 5,
+    "area_total_ha": 0.13,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Podadora 1",
+    "cuartel": 3516,
+    "n_hileras": 6,
+    "area_total_ha": 1.05,
+    "area_trabajada_ha": 1.05
+  },
+  {
+    "fecha": "2026-08-19",
+    "maquina": "Podadora 1",
+    "cuartel": 3297,
+    "n_hileras": 106,
+    "area_total_ha": 42.02,
+    "area_trabajada_ha": 2.63
+  },
+  {
+    "fecha": "2026-08-19",
+    "maquina": "Podadora 1",
+    "cuartel": 3305,
+    "n_hileras": 21,
+    "area_total_ha": 3.78,
+    "area_trabajada_ha": 0.88
+  },
+  {
+    "fecha": "2026-08-19",
+    "maquina": "Podadora 1",
+    "cuartel": 3316,
+    "n_hileras": 21,
+    "area_total_ha": 7.22,
+    "area_trabajada_ha": 0.74
+  },
+  {
+    "fecha": "2026-08-19",
+    "maquina": "Podadora 1",
+    "cuartel": 3317,
+    "n_hileras": 14,
+    "area_total_ha": 0.38,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-08-19",
+    "maquina": "Podadora 1",
+    "cuartel": 3505,
+    "n_hileras": 7,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-19",
+    "maquina": "Podadora 1",
+    "cuartel": 3516,
+    "n_hileras": 10,
+    "area_total_ha": 3.78,
+    "area_trabajada_ha": 1.58
+  },
+  {
+    "fecha": "2026-08-19",
+    "maquina": "Podadora 1",
+    "cuartel": 3536,
+    "n_hileras": 13,
+    "area_total_ha": 0.33,
+    "area_trabajada_ha": 0.31
+  },
+  {
+    "fecha": "2026-08-19",
+    "maquina": "Podadora 1",
+    "cuartel": 3537,
+    "n_hileras": 6,
+    "area_total_ha": 6.42,
+    "area_trabajada_ha": 5.42
+  },
+  {
+    "fecha": "2026-08-20",
+    "maquina": "Podadora 1",
+    "cuartel": 3297,
+    "n_hileras": 175,
+    "area_total_ha": 35.98,
+    "area_trabajada_ha": 2.76
+  },
+  {
+    "fecha": "2026-08-20",
+    "maquina": "Podadora 1",
+    "cuartel": 3317,
+    "n_hileras": 18,
+    "area_total_ha": 0.65,
+    "area_trabajada_ha": 0.37
+  },
+  {
+    "fecha": "2026-08-20",
+    "maquina": "Podadora 1",
+    "cuartel": 3327,
+    "n_hileras": 14,
+    "area_total_ha": 0.73,
+    "area_trabajada_ha": 0.49
+  },
+  {
+    "fecha": "2026-08-20",
+    "maquina": "Podadora 1",
+    "cuartel": 3520,
+    "n_hileras": 16,
+    "area_total_ha": 0.35,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Podadora 1",
+    "cuartel": 3293,
+    "n_hileras": 6,
+    "area_total_ha": 0.17,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Podadora 1",
+    "cuartel": 3297,
+    "n_hileras": 176,
+    "area_total_ha": 35.98,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Podadora 1",
+    "cuartel": 3675,
+    "n_hileras": 25,
+    "area_total_ha": 3.01,
+    "area_trabajada_ha": 3.01
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Podadora 1",
+    "cuartel": 3683,
+    "n_hileras": 6,
+    "area_total_ha": 0.41,
+    "area_trabajada_ha": 0.41
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Podadora 1",
+    "cuartel": 3718,
+    "n_hileras": 25,
+    "area_total_ha": 11.2,
+    "area_trabajada_ha": 11.2
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Podadora 1",
+    "cuartel": 3722,
+    "n_hileras": 9,
+    "area_total_ha": 0.23,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-08-22",
+    "maquina": "Podadora 1",
+    "cuartel": 3675,
+    "n_hileras": 26,
+    "area_total_ha": 3.15,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-08-22",
+    "maquina": "Podadora 1",
+    "cuartel": 3683,
+    "n_hileras": 8,
+    "area_total_ha": 0.39,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-08-22",
+    "maquina": "Podadora 1",
+    "cuartel": 3718,
+    "n_hileras": 54,
+    "area_total_ha": 20.17,
+    "area_trabajada_ha": 8.35
+  },
+  {
+    "fecha": "2026-08-22",
+    "maquina": "Podadora 1",
+    "cuartel": 3722,
+    "n_hileras": 19,
+    "area_total_ha": 0.46,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-08-22",
+    "maquina": "Podadora 1",
+    "cuartel": 3761,
+    "n_hileras": 17,
+    "area_total_ha": 0.52,
+    "area_trabajada_ha": 0.45
+  },
+  {
+    "fecha": "2026-08-22",
+    "maquina": "Podadora 1",
+    "cuartel": 3774,
+    "n_hileras": 5,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-08-22",
+    "maquina": "Podadora 1",
+    "cuartel": 3827,
+    "n_hileras": 10,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-08-22",
+    "maquina": "Podadora 1",
+    "cuartel": 3828,
+    "n_hileras": 71,
+    "area_total_ha": 13.0,
+    "area_trabajada_ha": 13.0
+  },
+  {
+    "fecha": "2026-08-23",
+    "maquina": "Podadora 1",
+    "cuartel": 3675,
+    "n_hileras": 27,
+    "area_total_ha": 3.94,
+    "area_trabajada_ha": 0.8
+  },
+  {
+    "fecha": "2026-08-23",
+    "maquina": "Podadora 1",
+    "cuartel": 3761,
+    "n_hileras": 36,
+    "area_total_ha": 1.06,
+    "area_trabajada_ha": 0.47
+  },
+  {
+    "fecha": "2026-08-23",
+    "maquina": "Podadora 1",
+    "cuartel": 3828,
+    "n_hileras": 70,
+    "area_total_ha": 13.67,
+    "area_trabajada_ha": 0.59
+  },
+  {
+    "fecha": "2026-08-23",
+    "maquina": "Podadora 1",
+    "cuartel": 3837,
+    "n_hileras": 19,
+    "area_total_ha": 0.57,
+    "area_trabajada_ha": 0.48
+  },
+  {
+    "fecha": "2026-08-23",
+    "maquina": "Podadora 1",
+    "cuartel": 3909,
+    "n_hileras": 8,
+    "area_total_ha": 0.22,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-08-23",
+    "maquina": "Podadora 1",
+    "cuartel": 3943,
+    "n_hileras": 5,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-23",
+    "maquina": "Podadora 1",
+    "cuartel": 3944,
+    "n_hileras": 41,
+    "area_total_ha": 4.96,
+    "area_trabajada_ha": 4.86
+  },
+  {
+    "fecha": "2026-08-23",
+    "maquina": "Podadora 1",
+    "cuartel": 3946,
+    "n_hileras": 5,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-31",
+    "maquina": "Podadora 1",
+    "cuartel": 4105,
+    "n_hileras": 9,
+    "area_total_ha": 0.05,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-31",
+    "maquina": "Podadora 1",
+    "cuartel": 4111,
+    "n_hileras": 91,
+    "area_total_ha": 12.12,
+    "area_trabajada_ha": 12.12
+  },
+  {
+    "fecha": "2026-08-31",
+    "maquina": "Podadora 1",
+    "cuartel": 4129,
+    "n_hileras": 5,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-08-31",
+    "maquina": "Podadora 1",
+    "cuartel": 4179,
+    "n_hileras": 12,
+    "area_total_ha": 0.25,
+    "area_trabajada_ha": 0.25
+  },
+  {
+    "fecha": "2026-08-31",
+    "maquina": "Podadora 1",
+    "cuartel": 4198,
+    "n_hileras": 7,
+    "area_total_ha": 0.39,
+    "area_trabajada_ha": 0.39
+  },
+  {
+    "fecha": "2026-09-01",
+    "maquina": "Podadora 1",
+    "cuartel": 4087,
+    "n_hileras": 15,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-09-01",
+    "maquina": "Podadora 1",
+    "cuartel": 4100,
+    "n_hileras": 11,
+    "area_total_ha": 1.27,
+    "area_trabajada_ha": 0.93
+  },
+  {
+    "fecha": "2026-09-01",
+    "maquina": "Podadora 1",
+    "cuartel": 4102,
+    "n_hileras": 228,
+    "area_total_ha": 11.26,
+    "area_trabajada_ha": 3.96
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Podadora 1",
+    "cuartel": 4087,
+    "n_hileras": 18,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Podadora 1",
+    "cuartel": 4100,
+    "n_hileras": 345,
+    "area_total_ha": 9.1,
+    "area_trabajada_ha": 3.06
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Podadora 1",
+    "cuartel": 4179,
+    "n_hileras": 13,
+    "area_total_ha": 0.24,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Podadora 1",
+    "cuartel": 4481,
+    "n_hileras": 6,
+    "area_total_ha": 0.17,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Podadora 1",
+    "cuartel": 4100,
+    "n_hileras": 434,
+    "area_total_ha": 11.18,
+    "area_trabajada_ha": 2.17
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Podadora 1",
+    "cuartel": 4175,
+    "n_hileras": 9,
+    "area_total_ha": 5.49,
+    "area_trabajada_ha": 4.79
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Podadora 1",
+    "cuartel": 4198,
+    "n_hileras": 9,
+    "area_total_ha": 0.64,
+    "area_trabajada_ha": 0.21
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Podadora 1",
+    "cuartel": 4236,
+    "n_hileras": 6,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Podadora 1",
+    "cuartel": 4273,
+    "n_hileras": 5,
+    "area_total_ha": 0.71,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Podadora 1",
+    "cuartel": 4432,
+    "n_hileras": 5,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Podadora 1",
+    "cuartel": 4100,
+    "n_hileras": 436,
+    "area_total_ha": 11.24,
+    "area_trabajada_ha": 0.32
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Podadora 1",
+    "cuartel": 4273,
+    "n_hileras": 6,
+    "area_total_ha": 0.78,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Podadora 1",
+    "cuartel": 4432,
+    "n_hileras": 7,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Podadora 1",
+    "cuartel": 4433,
+    "n_hileras": 7,
+    "area_total_ha": 0.13,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Podadora 1",
+    "cuartel": 4706,
+    "n_hileras": 18,
+    "area_total_ha": 10.5,
+    "area_trabajada_ha": 10.5
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Podadora 1",
+    "cuartel": 4722,
+    "n_hileras": 5,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Podadora 1",
+    "cuartel": 4735,
+    "n_hileras": 5,
+    "area_total_ha": 1.6,
+    "area_trabajada_ha": 1.6
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Podadora 1",
+    "cuartel": 4100,
+    "n_hileras": 441,
+    "area_total_ha": 11.55,
+    "area_trabajada_ha": 0.31
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Podadora 1",
+    "cuartel": 4273,
+    "n_hileras": 11,
+    "area_total_ha": 1.05,
+    "area_trabajada_ha": 0.24
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Podadora 1",
+    "cuartel": 4432,
+    "n_hileras": 24,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Podadora 1",
+    "cuartel": 4706,
+    "n_hileras": 27,
+    "area_total_ha": 18.18,
+    "area_trabajada_ha": 5.41
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Podadora 1",
+    "cuartel": 4735,
+    "n_hileras": 6,
+    "area_total_ha": 1.54,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Podadora 1",
+    "cuartel": 4739,
+    "n_hileras": 36,
+    "area_total_ha": 0.99,
+    "area_trabajada_ha": 0.94
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Podadora 1",
+    "cuartel": 4742,
+    "n_hileras": 9,
+    "area_total_ha": 6.57,
+    "area_trabajada_ha": 5.13
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Podadora 1",
+    "cuartel": 4100,
+    "n_hileras": 647,
+    "area_total_ha": 10.28,
+    "area_trabajada_ha": 1.47
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Podadora 1",
+    "cuartel": 4273,
+    "n_hileras": 42,
+    "area_total_ha": 0.67,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Podadora 1",
+    "cuartel": 4100,
+    "n_hileras": 783,
+    "area_total_ha": 12.0,
+    "area_trabajada_ha": 1.7
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Podadora 1",
+    "cuartel": 4273,
+    "n_hileras": 44,
+    "area_total_ha": 0.67,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Podadora 1",
+    "cuartel": 4465,
+    "n_hileras": 6,
+    "area_total_ha": 0.56,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Podadora 1",
+    "cuartel": 4591,
+    "n_hileras": 6,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Podadora 1",
+    "cuartel": 5123,
+    "n_hileras": 9,
+    "area_total_ha": 0.21,
+    "area_trabajada_ha": 0.21
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Podadora 1",
+    "cuartel": 5148,
+    "n_hileras": 35,
+    "area_total_ha": 2.16,
+    "area_trabajada_ha": 2.14
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Podadora 1",
+    "cuartel": 4273,
+    "n_hileras": 15,
+    "area_total_ha": 1.2,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Podadora 1",
+    "cuartel": 4432,
+    "n_hileras": 37,
+    "area_total_ha": 0.17,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Podadora 1",
+    "cuartel": 4591,
+    "n_hileras": 10,
+    "area_total_ha": 1.57,
+    "area_trabajada_ha": 1.18
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Podadora 1",
+    "cuartel": 4602,
+    "n_hileras": 10,
+    "area_total_ha": 0.23,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Podadora 1",
+    "cuartel": 5086,
+    "n_hileras": 104,
+    "area_total_ha": 4.74,
+    "area_trabajada_ha": 2.93
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Podadora 1",
+    "cuartel": 5312,
+    "n_hileras": 12,
+    "area_total_ha": 1.96,
+    "area_trabajada_ha": 1.96
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Podadora 1",
+    "cuartel": 5313,
+    "n_hileras": 7,
+    "area_total_ha": 0.4,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Podadora 1",
+    "cuartel": 4100,
+    "n_hileras": 795,
+    "area_total_ha": 12.17,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Podadora 1",
+    "cuartel": 4273,
+    "n_hileras": 72,
+    "area_total_ha": 2.05,
+    "area_trabajada_ha": 0.43
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Podadora 1",
+    "cuartel": 4591,
+    "n_hileras": 11,
+    "area_total_ha": 1.58,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Podadora 1",
+    "cuartel": 4602,
+    "n_hileras": 13,
+    "area_total_ha": 0.24,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Podadora 1",
+    "cuartel": 4706,
+    "n_hileras": 46,
+    "area_total_ha": 26.0,
+    "area_trabajada_ha": 7.85
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Podadora 1",
+    "cuartel": 4739,
+    "n_hileras": 46,
+    "area_total_ha": 3.13,
+    "area_trabajada_ha": 1.29
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Podadora 1",
+    "cuartel": 4742,
+    "n_hileras": 15,
+    "area_total_ha": 9.28,
+    "area_trabajada_ha": 1.94
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Podadora 1",
+    "cuartel": 4759,
+    "n_hileras": 5,
+    "area_total_ha": 0.26,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Podadora 1",
+    "cuartel": 4789,
+    "n_hileras": 7,
+    "area_total_ha": 0.15,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Podadora 1",
+    "cuartel": 5086,
+    "n_hileras": 258,
+    "area_total_ha": 9.95,
+    "area_trabajada_ha": 4.74
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Podadora 1",
+    "cuartel": 5477,
+    "n_hileras": 11,
+    "area_total_ha": 0.15,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Podadora 1",
+    "cuartel": 5583,
+    "n_hileras": 10,
+    "area_total_ha": 0.34,
+    "area_trabajada_ha": 0.34
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Podadora 1",
+    "cuartel": 5584,
+    "n_hileras": 5,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Recogedora 4",
+    "cuartel": 4,
+    "n_hileras": 6,
+    "area_total_ha": 0.06,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-08-27",
+    "maquina": "Recogedora 4",
+    "cuartel": 1,
+    "n_hileras": 27,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-28",
+    "maquina": "Recogedora 4",
+    "cuartel": 1,
+    "n_hileras": 31,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-09-01",
+    "maquina": "Recogedora 4",
+    "cuartel": 1,
+    "n_hileras": 42,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Recogedora 4",
+    "cuartel": 1,
+    "n_hileras": 47,
+    "area_total_ha": 0.17,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Recogedora 4",
+    "cuartel": 1,
+    "n_hileras": 50,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Recogedora 6",
+    "cuartel": 26,
+    "n_hileras": 6,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Recogedora 6",
+    "cuartel": 26,
+    "n_hileras": 25,
+    "area_total_ha": 0.13,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Recogedora 6",
+    "cuartel": 26,
+    "n_hileras": 27,
+    "area_total_ha": 0.15,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Recogedora 6",
+    "cuartel": 17,
+    "n_hileras": 46,
+    "area_total_ha": 0.23,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Shacker de Suelo 4",
+    "cuartel": 9,
+    "n_hileras": 6,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Shacker de Suelo 4",
+    "cuartel": 9,
+    "n_hileras": 23,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-08-26",
+    "maquina": "Shacker de Suelo 4",
+    "cuartel": 9,
+    "n_hileras": 46,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-08-27",
+    "maquina": "Shacker de Suelo 4",
+    "cuartel": 9,
+    "n_hileras": 50,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Shacker de Suelo 7",
+    "cuartel": 11,
+    "n_hileras": 8,
+    "area_total_ha": 0.06,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": 1,
+    "n_hileras": 49,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": 1,
+    "n_hileras": 72,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": 1,
+    "n_hileras": 83,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": 1,
+    "n_hileras": 97,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-14",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": 1,
+    "n_hileras": 102,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": 1,
+    "n_hileras": 111,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": 1,
+    "n_hileras": 117,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": 1,
+    "n_hileras": 124,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": 1,
+    "n_hileras": 129,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": 1,
+    "n_hileras": 135,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-20",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": 1,
+    "n_hileras": 141,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": 1,
+    "n_hileras": 173,
+    "area_total_ha": 0.35,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": 1,
+    "n_hileras": 185,
+    "area_total_ha": 0.44,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Shacker SBS 3",
+    "cuartel": 2,
+    "n_hileras": 6,
+    "area_total_ha": 0.19,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Shacker SBS 3",
+    "cuartel": 1,
+    "n_hileras": 10,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 2,
+    "n_hileras": 5,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 1,
+    "n_hileras": 6,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 2,
+    "n_hileras": 6,
+    "area_total_ha": 0.27,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 1,
+    "n_hileras": 7,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 2,
+    "n_hileras": 9,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-16",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 1,
+    "n_hileras": 8,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-16",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 2,
+    "n_hileras": 11,
+    "area_total_ha": 0.13,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 1,
+    "n_hileras": 10,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 2,
+    "n_hileras": 13,
+    "area_total_ha": 0.23,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 2,
+    "n_hileras": 15,
+    "area_total_ha": 0.25,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 1,
+    "n_hileras": 12,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 2,
+    "n_hileras": 15,
+    "area_total_ha": 0.27,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 1,
+    "n_hileras": 14,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-24",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 1,
+    "n_hileras": 31,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 1,
+    "n_hileras": 41,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-31",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 1,
+    "n_hileras": 51,
+    "area_total_ha": 0.17,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-09-01",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 1,
+    "n_hileras": 78,
+    "area_total_ha": 0.19,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 1,
+    "n_hileras": 102,
+    "area_total_ha": 0.22,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Shacker SBS 4",
+    "cuartel": 1,
+    "n_hileras": 119,
+    "area_total_ha": 0.23,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Shacker SBS 5",
+    "cuartel": 1,
+    "n_hileras": 19,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Shacker SBS 5",
+    "cuartel": 1,
+    "n_hileras": 21,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-27",
+    "maquina": "Shacker SBS 5",
+    "cuartel": 1,
+    "n_hileras": 23,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-31",
+    "maquina": "Shacker SBS 5",
+    "cuartel": 1,
+    "n_hileras": 29,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Shacker SBS 5",
+    "cuartel": 1,
+    "n_hileras": 46,
+    "area_total_ha": 0.23,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Shacker SBS 6",
+    "cuartel": 1,
+    "n_hileras": 6,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-26",
+    "maquina": "Shacker SBS 6",
+    "cuartel": 1,
+    "n_hileras": 13,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-09-01",
+    "maquina": "Shacker SBS 6",
+    "cuartel": 1,
+    "n_hileras": 20,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Shacker SBS 6",
+    "cuartel": 1,
+    "n_hileras": 23,
+    "area_total_ha": 0.64,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Shacker SBS 6",
+    "cuartel": 1,
+    "n_hileras": 25,
+    "area_total_ha": 0.65,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Shacker SBS 6",
+    "cuartel": 1,
+    "n_hileras": 29,
+    "area_total_ha": 0.65,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Shacker SBS 6",
+    "cuartel": 1,
+    "n_hileras": 31,
+    "area_total_ha": 0.66,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Shacker SBS 6",
+    "cuartel": 1,
+    "n_hileras": 33,
+    "area_total_ha": 0.66,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-27",
+    "maquina": "Shacker SBS 7",
+    "cuartel": 1,
+    "n_hileras": 37,
+    "area_total_ha": 0.29,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-08-28",
+    "maquina": "Shacker SBS 7",
+    "cuartel": 1,
+    "n_hileras": 42,
+    "area_total_ha": 0.32,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-31",
+    "maquina": "Shacker SBS 7",
+    "cuartel": 1,
+    "n_hileras": 61,
+    "area_total_ha": 0.26,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-09-01",
+    "maquina": "Shacker SBS 7",
+    "cuartel": 1,
+    "n_hileras": 71,
+    "area_total_ha": 0.26,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Shacker SBS 7",
+    "cuartel": 1,
+    "n_hileras": 72,
+    "area_total_ha": 0.26,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Shacker SBS 7",
+    "cuartel": 1,
+    "n_hileras": 73,
+    "area_total_ha": 0.26,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Shacker SBS 7",
+    "cuartel": 1,
+    "n_hileras": 77,
+    "area_total_ha": 0.24,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Shacker SBS 8",
+    "cuartel": 1,
+    "n_hileras": 10,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Shacker SBS 8",
+    "cuartel": 1,
+    "n_hileras": 13,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Shacker SBS 8",
+    "cuartel": 1,
+    "n_hileras": 24,
+    "area_total_ha": 0.13,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Shacker SBS 8",
+    "cuartel": 1,
+    "n_hileras": 31,
+    "area_total_ha": 0.17,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Shacker SBS 8",
+    "cuartel": 1,
+    "n_hileras": 34,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-19",
+    "maquina": "Shacker SBS 8",
+    "cuartel": 1,
+    "n_hileras": 36,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Shacker SBS 9",
+    "cuartel": 1,
+    "n_hileras": 18,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-04",
+    "maquina": "Shacker SBS 9",
+    "cuartel": 1,
+    "n_hileras": 22,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Shacker SBS 9",
+    "cuartel": 1,
+    "n_hileras": 25,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Shacker SBS 9",
+    "cuartel": 1,
+    "n_hileras": 33,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Shacker SBS 9",
+    "cuartel": 1,
+    "n_hileras": 34,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Shacker SBS 9",
+    "cuartel": 1,
+    "n_hileras": 47,
+    "area_total_ha": 0.24,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Shacker SBS 9",
+    "cuartel": 1,
+    "n_hileras": 52,
+    "area_total_ha": 0.24,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-27",
+    "maquina": "Shacker SBS 9",
+    "cuartel": 1,
+    "n_hileras": 55,
+    "area_total_ha": 0.23,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-28",
+    "maquina": "Shacker SBS 9",
+    "cuartel": 1,
+    "n_hileras": 58,
+    "area_total_ha": 0.25,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Shacker SBS 9",
+    "cuartel": 1,
+    "n_hileras": 66,
+    "area_total_ha": 0.23,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Shacker SBS 9",
+    "cuartel": 1,
+    "n_hileras": 86,
+    "area_total_ha": 0.25,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Shacker SBS 9",
+    "cuartel": 1,
+    "n_hileras": 98,
+    "area_total_ha": 0.25,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Shacker SBS 9",
+    "cuartel": 1,
+    "n_hileras": 119,
+    "area_total_ha": 0.27,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-31",
+    "maquina": "Shacker SBS 11",
+    "cuartel": 1,
+    "n_hileras": 47,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-09-01",
+    "maquina": "Shacker SBS 11",
+    "cuartel": 1,
+    "n_hileras": 55,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Shacker SBS 11",
+    "cuartel": 1,
+    "n_hileras": 104,
+    "area_total_ha": 0.25,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Shacker SBS 11",
+    "cuartel": 1,
+    "n_hileras": 107,
+    "area_total_ha": 0.26,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 13,
+    "area_total_ha": 0.29,
+    "area_trabajada_ha": 0.25
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 2,
+    "n_hileras": 12,
+    "area_total_ha": 0.53,
+    "area_trabajada_ha": 0.53
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 4,
+    "n_hileras": 6,
+    "area_total_ha": 1.35,
+    "area_trabajada_ha": 1.35
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 21,
+    "n_hileras": 14,
+    "area_total_ha": 0.36,
+    "area_trabajada_ha": 0.35
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 23,
+    "n_hileras": 26,
+    "area_total_ha": 0.2,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 62,
+    "area_total_ha": 8.37,
+    "area_trabajada_ha": 4.46
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 150,
+    "n_hileras": 53,
+    "area_total_ha": 2.12,
+    "area_trabajada_ha": 2.11
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 74,
+    "area_total_ha": 7.95,
+    "area_trabajada_ha": 0.94
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 150,
+    "n_hileras": 115,
+    "area_total_ha": 1.72,
+    "area_trabajada_ha": 0.92
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 155,
+    "n_hileras": 8,
+    "area_total_ha": 0.2,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 270,
+    "area_total_ha": 12.24,
+    "area_trabajada_ha": 4.45
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 278,
+    "area_total_ha": 12.19,
+    "area_trabajada_ha": 0.41
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 155,
+    "n_hileras": 10,
+    "area_total_ha": 0.21,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 393,
+    "area_total_ha": 11.14,
+    "area_trabajada_ha": 2.41
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 18,
+    "n_hileras": 5,
+    "area_total_ha": 0.54,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 170,
+    "n_hileras": 5,
+    "area_total_ha": 0.23,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 469,
+    "area_total_ha": 11.5,
+    "area_trabajada_ha": 1.16
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 18,
+    "n_hileras": 5,
+    "area_total_ha": 0.55,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 574,
+    "n_hileras": 59,
+    "area_total_ha": 2.71,
+    "area_trabajada_ha": 2.63
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 576,
+    "n_hileras": 16,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 616,
+    "n_hileras": 7,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 662,
+    "n_hileras": 34,
+    "area_total_ha": 4.37,
+    "area_trabajada_ha": 4.37
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 515,
+    "area_total_ha": 8.51,
+    "area_trabajada_ha": 0.39
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 48,
+    "n_hileras": 8,
+    "area_total_ha": 0.06,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 49,
+    "n_hileras": 139,
+    "area_total_ha": 10.95,
+    "area_trabajada_ha": 9.2
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 574,
+    "n_hileras": 63,
+    "area_total_ha": 2.72,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 662,
+    "n_hileras": 62,
+    "area_total_ha": 8.15,
+    "area_trabajada_ha": 3.46
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 890,
+    "n_hileras": 5,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 528,
+    "area_total_ha": 8.74,
+    "area_trabajada_ha": 0.32
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 41,
+    "n_hileras": 26,
+    "area_total_ha": 0.85,
+    "area_trabajada_ha": 0.6
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 46,
+    "n_hileras": 5,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 48,
+    "n_hileras": 19,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 49,
+    "n_hileras": 167,
+    "area_total_ha": 12.11,
+    "area_trabajada_ha": 2.8
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 68,
+    "n_hileras": 7,
+    "area_total_ha": 0.06,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 890,
+    "n_hileras": 7,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 945,
+    "n_hileras": 11,
+    "area_total_ha": 0.99,
+    "area_trabajada_ha": 0.99
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 946,
+    "n_hileras": 9,
+    "area_total_ha": 2.05,
+    "area_trabajada_ha": 2.03
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 952,
+    "n_hileras": 17,
+    "area_total_ha": 1.15,
+    "area_trabajada_ha": 1.12
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1001,
+    "n_hileras": 5,
+    "area_total_ha": 0.45,
+    "area_trabajada_ha": 0.45
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1006,
+    "n_hileras": 5,
+    "area_total_ha": 0.06,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1023,
+    "n_hileras": 8,
+    "area_total_ha": 0.85,
+    "area_trabajada_ha": 0.85
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1025,
+    "n_hileras": 6,
+    "area_total_ha": 1.37,
+    "area_trabajada_ha": 1.37
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1032,
+    "n_hileras": 5,
+    "area_total_ha": 1.05,
+    "area_trabajada_ha": 1.05
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 598,
+    "area_total_ha": 8.79,
+    "area_trabajada_ha": 0.92
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 79,
+    "n_hileras": 5,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 952,
+    "n_hileras": 24,
+    "area_total_ha": 3.08,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1023,
+    "n_hileras": 16,
+    "area_total_ha": 1.82,
+    "area_trabajada_ha": 0.9
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1025,
+    "n_hileras": 11,
+    "area_total_ha": 2.81,
+    "area_trabajada_ha": 1.39
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1027,
+    "n_hileras": 5,
+    "area_total_ha": 2.29,
+    "area_trabajada_ha": 0.68
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1032,
+    "n_hileras": 6,
+    "area_total_ha": 1.19,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 603,
+    "area_total_ha": 8.78,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 79,
+    "n_hileras": 6,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 80,
+    "n_hileras": 116,
+    "area_total_ha": 4.46,
+    "area_trabajada_ha": 2.85
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1025,
+    "n_hileras": 12,
+    "area_total_ha": 2.82,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1032,
+    "n_hileras": 7,
+    "area_total_ha": 1.34,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 608,
+    "area_total_ha": 8.63,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 21,
+    "n_hileras": 15,
+    "area_total_ha": 0.35,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 23,
+    "n_hileras": 27,
+    "area_total_ha": 0.2,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 40,
+    "n_hileras": 5,
+    "area_total_ha": 0.8,
+    "area_trabajada_ha": 0.39
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 41,
+    "n_hileras": 35,
+    "area_total_ha": 0.48,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 46,
+    "n_hileras": 6,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 79,
+    "n_hileras": 7,
+    "area_total_ha": 0.13,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 80,
+    "n_hileras": 242,
+    "area_total_ha": 10.29,
+    "area_trabajada_ha": 3.34
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 662,
+    "n_hileras": 62,
+    "area_total_ha": 8.67,
+    "area_trabajada_ha": 0.87
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1006,
+    "n_hileras": 9,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1025,
+    "n_hileras": 14,
+    "area_total_ha": 3.76,
+    "area_trabajada_ha": 0.35
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1026,
+    "n_hileras": 26,
+    "area_total_ha": 0.26,
+    "area_trabajada_ha": 0.21
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 627,
+    "area_total_ha": 7.88,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 23,
+    "n_hileras": 28,
+    "area_total_ha": 0.2,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 40,
+    "n_hileras": 196,
+    "area_total_ha": 12.76,
+    "area_trabajada_ha": 1.68
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 41,
+    "n_hileras": 44,
+    "area_total_ha": 0.49,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 46,
+    "n_hileras": 6,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 48,
+    "n_hileras": 21,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 68,
+    "n_hileras": 9,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 79,
+    "n_hileras": 11,
+    "area_total_ha": 0.15,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 80,
+    "n_hileras": 308,
+    "area_total_ha": 10.85,
+    "area_trabajada_ha": 2.34
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 574,
+    "n_hileras": 74,
+    "area_total_ha": 2.71,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 593,
+    "n_hileras": 7,
+    "area_total_ha": 0.05,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 662,
+    "n_hileras": 88,
+    "area_total_ha": 8.37,
+    "area_trabajada_ha": 2.49
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1006,
+    "n_hileras": 11,
+    "area_total_ha": 0.17,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 631,
+    "area_total_ha": 6.53,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 79,
+    "n_hileras": 442,
+    "area_total_ha": 10.33,
+    "area_trabajada_ha": 3.74
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1277,
+    "area_total_ha": 8.68,
+    "area_trabajada_ha": 1.84
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1160,
+    "n_hileras": 10,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1392,
+    "area_total_ha": 10.54,
+    "area_trabajada_ha": 1.3
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 668,
+    "n_hileras": 5,
+    "area_total_ha": 5.37,
+    "area_trabajada_ha": 3.76
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1160,
+    "n_hileras": 12,
+    "area_total_ha": 0.27,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1394,
+    "area_total_ha": 10.57,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 21,
+    "n_hileras": 118,
+    "area_total_ha": 1.94,
+    "area_trabajada_ha": 1.01
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 41,
+    "n_hileras": 396,
+    "area_total_ha": 13.45,
+    "area_trabajada_ha": 6.17
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 46,
+    "n_hileras": 7,
+    "area_total_ha": 0.31,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 68,
+    "n_hileras": 92,
+    "area_total_ha": 8.84,
+    "area_trabajada_ha": 0.72
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 128,
+    "n_hileras": 11,
+    "area_total_ha": 2.37,
+    "area_trabajada_ha": 2.15
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 574,
+    "n_hileras": 75,
+    "area_total_ha": 2.72,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1060,
+    "n_hileras": 13,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1467,
+    "n_hileras": 6,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1554,
+    "area_total_ha": 11.15,
+    "area_trabajada_ha": 0.49
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 41,
+    "n_hileras": 622,
+    "area_total_ha": 12.38,
+    "area_trabajada_ha": 3.55
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 576,
+    "n_hileras": 26,
+    "area_total_ha": 0.63,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 2263,
+    "n_hileras": 19,
+    "area_total_ha": 0.05,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1559,
+    "area_total_ha": 11.19,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1597,
+    "area_total_ha": 11.17,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-07-10",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1622,
+    "area_total_ha": 11.11,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-07-11",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1646,
+    "area_total_ha": 11.14,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-07-12",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1652,
+    "area_total_ha": 11.1,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1695,
+    "area_total_ha": 11.07,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1725,
+    "area_total_ha": 11.06,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1754,
+    "area_total_ha": 11.08,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-07-16",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1766,
+    "area_total_ha": 11.17,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-21",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1779,
+    "area_total_ha": 11.12,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1800,
+    "area_total_ha": 11.04,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 21,
+    "n_hileras": 120,
+    "area_total_ha": 1.95,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 41,
+    "n_hileras": 627,
+    "area_total_ha": 12.41,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 46,
+    "n_hileras": 8,
+    "area_total_ha": 0.31,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 142,
+    "n_hileras": 6,
+    "area_total_ha": 0.46,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-07-23",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1820,
+    "area_total_ha": 10.99,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1835,
+    "area_total_ha": 11.07,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 41,
+    "n_hileras": 639,
+    "area_total_ha": 12.82,
+    "area_trabajada_ha": 0.75
+  },
+  {
+    "fecha": "2026-07-27",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1844,
+    "area_total_ha": 11.07,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-27",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 142,
+    "n_hileras": 9,
+    "area_total_ha": 0.46,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1863,
+    "area_total_ha": 11.09,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 41,
+    "n_hileras": 675,
+    "area_total_ha": 12.87,
+    "area_trabajada_ha": 0.42
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 128,
+    "n_hileras": 12,
+    "area_total_ha": 2.36,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 142,
+    "n_hileras": 11,
+    "area_total_ha": 0.44,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-29",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1883,
+    "area_total_ha": 12.28,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-07-29",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 21,
+    "n_hileras": 123,
+    "area_total_ha": 1.96,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-29",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 41,
+    "n_hileras": 728,
+    "area_total_ha": 13.22,
+    "area_trabajada_ha": 1.1
+  },
+  {
+    "fecha": "2026-07-29",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1444,
+    "n_hileras": 13,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-30",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1894,
+    "area_total_ha": 12.3,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-07-30",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 21,
+    "n_hileras": 902,
+    "area_total_ha": 14.97,
+    "area_trabajada_ha": 0.58
+  },
+  {
+    "fecha": "2026-08-03",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 1900,
+    "area_total_ha": 12.31,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-08-03",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 21,
+    "n_hileras": 940,
+    "area_total_ha": 14.93,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-08-03",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1467,
+    "n_hileras": 8,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 2960,
+    "area_total_ha": 11.18,
+    "area_trabajada_ha": 0.46
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 576,
+    "n_hileras": 28,
+    "area_total_ha": 0.67,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3043,
+    "area_total_ha": 11.26,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 142,
+    "n_hileras": 12,
+    "area_total_ha": 1.01,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1160,
+    "n_hileras": 13,
+    "area_total_ha": 0.28,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 2025,
+    "n_hileras": 5,
+    "area_total_ha": 0.13,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3099,
+    "area_total_ha": 11.13,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3134,
+    "area_total_ha": 11.04,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3220,
+    "area_total_ha": 11.08,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 802,
+    "n_hileras": 6,
+    "area_total_ha": 1.35,
+    "area_trabajada_ha": 1.04
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3287,
+    "area_total_ha": 11.05,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3326,
+    "area_total_ha": 11.13,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3417,
+    "area_total_ha": 11.25,
+    "area_trabajada_ha": 0.51
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 142,
+    "n_hileras": 12,
+    "area_total_ha": 1.18,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1160,
+    "n_hileras": 14,
+    "area_total_ha": 0.28,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-14",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3435,
+    "area_total_ha": 11.24,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3441,
+    "area_total_ha": 11.24,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1467,
+    "n_hileras": 9,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3466,
+    "area_total_ha": 11.3,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-08-19",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3528,
+    "area_total_ha": 11.32,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-08-20",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3583,
+    "area_total_ha": 11.45,
+    "area_trabajada_ha": 0.34
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3620,
+    "area_total_ha": 11.76,
+    "area_trabajada_ha": 0.38
+  },
+  {
+    "fecha": "2026-08-22",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3763,
+    "area_total_ha": 11.74,
+    "area_trabajada_ha": 0.42
+  },
+  {
+    "fecha": "2026-08-22",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 802,
+    "n_hileras": 8,
+    "area_total_ha": 1.24,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-08-22",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1445,
+    "n_hileras": 5,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-24",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3802,
+    "area_total_ha": 11.86,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3842,
+    "area_total_ha": 11.98,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-08-27",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3875,
+    "area_total_ha": 12.0,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-08-31",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3895,
+    "area_total_ha": 11.99,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-09-01",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 3971,
+    "area_total_ha": 12.03,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 4034,
+    "area_total_ha": 12.03,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 4078,
+    "area_total_ha": 12.05,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 4100,
+    "area_total_ha": 12.01,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 4123,
+    "area_total_ha": 12.05,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 4138,
+    "area_total_ha": 12.06,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 4194,
+    "area_total_ha": 12.16,
+    "area_trabajada_ha": 0.34
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1892,
+    "n_hileras": 5,
+    "area_total_ha": 0.17,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 4273,
+    "area_total_ha": 12.22,
+    "area_trabajada_ha": 0.35
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1160,
+    "n_hileras": 16,
+    "area_total_ha": 0.27,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1892,
+    "n_hileras": 8,
+    "area_total_ha": 0.24,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 12,
+    "area_total_ha": 0.73,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 15,
+    "area_total_ha": 0.76,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 17,
+    "area_total_ha": 0.48,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 48,
+    "area_total_ha": 0.48,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 2,
+    "n_hileras": 6,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 193,
+    "n_hileras": 8,
+    "area_total_ha": 1.68,
+    "area_trabajada_ha": 1.67
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 194,
+    "n_hileras": 9,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 195,
+    "n_hileras": 15,
+    "area_total_ha": 0.66,
+    "area_trabajada_ha": 0.65
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 206,
+    "n_hileras": 9,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 74,
+    "area_total_ha": 0.99,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 193,
+    "n_hileras": 25,
+    "area_total_ha": 1.42,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 194,
+    "n_hileras": 12,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-22",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 79,
+    "area_total_ha": 0.97,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 80,
+    "area_total_ha": 0.97,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 88,
+    "area_total_ha": 1.03,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 30,
+    "n_hileras": 5,
+    "area_total_ha": 1.03,
+    "area_trabajada_ha": 0.44
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 43,
+    "n_hileras": 36,
+    "area_total_ha": 1.3,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 78,
+    "n_hileras": 27,
+    "area_total_ha": 8.11,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 80,
+    "n_hileras": 18,
+    "area_total_ha": 1.43,
+    "area_trabajada_ha": 0.33
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 119,
+    "n_hileras": 5,
+    "area_total_ha": 0.06,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 194,
+    "n_hileras": 13,
+    "area_total_ha": 0.22,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 211,
+    "n_hileras": 6,
+    "area_total_ha": 0.32,
+    "area_trabajada_ha": 0.25
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 92,
+    "area_total_ha": 1.06,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 111,
+    "area_total_ha": 1.03,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 347,
+    "n_hileras": 5,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 124,
+    "area_total_ha": 1.1,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 193,
+    "n_hileras": 26,
+    "area_total_ha": 1.61,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 128,
+    "area_total_ha": 1.09,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 145,
+    "area_total_ha": 1.05,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 99,
+    "n_hileras": 5,
+    "area_total_ha": 1.97,
+    "area_trabajada_ha": 0.58
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 137,
+    "n_hileras": 5,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 193,
+    "n_hileras": 26,
+    "area_total_ha": 1.62,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 211,
+    "n_hileras": 8,
+    "area_total_ha": 0.34,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 165,
+    "area_total_ha": 1.29,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 209,
+    "n_hileras": 6,
+    "area_total_ha": 0.41,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 211,
+    "n_hileras": 11,
+    "area_total_ha": 0.37,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-07-10",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 189,
+    "area_total_ha": 1.64,
+    "area_trabajada_ha": 0.35
+  },
+  {
+    "fecha": "2026-07-10",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 193,
+    "n_hileras": 12,
+    "area_total_ha": 2.3,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-07-10",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 194,
+    "n_hileras": 32,
+    "area_total_ha": 0.42,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-07-10",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 209,
+    "n_hileras": 8,
+    "area_total_ha": 0.41,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-07-10",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 276,
+    "n_hileras": 5,
+    "area_total_ha": 1.24,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-07-11",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 213,
+    "area_total_ha": 1.78,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-07-12",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 266,
+    "area_total_ha": 9.9,
+    "area_trabajada_ha": 2.07
+  },
+  {
+    "fecha": "2026-07-12",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 194,
+    "n_hileras": 32,
+    "area_total_ha": 0.42,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 285,
+    "area_total_ha": 10.46,
+    "area_trabajada_ha": 0.84
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 194,
+    "n_hileras": 43,
+    "area_total_ha": 0.41,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 364,
+    "area_total_ha": 9.92,
+    "area_trabajada_ha": 0.92
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 137,
+    "n_hileras": 6,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 276,
+    "n_hileras": 8,
+    "area_total_ha": 0.62,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 403,
+    "area_total_ha": 9.15,
+    "area_trabajada_ha": 0.63
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 276,
+    "n_hileras": 11,
+    "area_total_ha": 0.73,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-07-16",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 409,
+    "area_total_ha": 9.08,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-07-21",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 418,
+    "area_total_ha": 9.07,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-07-22",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 460,
+    "area_total_ha": 10.36,
+    "area_trabajada_ha": 2.01
+  },
+  {
+    "fecha": "2026-07-23",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 484,
+    "area_total_ha": 11.09,
+    "area_trabajada_ha": 1.06
+  },
+  {
+    "fecha": "2026-07-23",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 41,
+    "n_hileras": 9,
+    "area_total_ha": 3.03,
+    "area_trabajada_ha": 2.14
+  },
+  {
+    "fecha": "2026-07-23",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 101,
+    "n_hileras": 61,
+    "area_total_ha": 4.34,
+    "area_trabajada_ha": 3.64
+  },
+  {
+    "fecha": "2026-07-23",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 349,
+    "n_hileras": 5,
+    "area_total_ha": 0.82,
+    "area_trabajada_ha": 0.32
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 489,
+    "area_total_ha": 11.09,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 9,
+    "n_hileras": 8,
+    "area_total_ha": 0.35,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 12,
+    "n_hileras": 59,
+    "area_total_ha": 2.43,
+    "area_trabajada_ha": 1.1
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 41,
+    "n_hileras": 41,
+    "area_total_ha": 8.64,
+    "area_trabajada_ha": 5.8
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 78,
+    "n_hileras": 28,
+    "area_total_ha": 8.59,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 101,
+    "n_hileras": 62,
+    "area_total_ha": 4.46,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 209,
+    "n_hileras": 5,
+    "area_total_ha": 0.5,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-07-24",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 349,
+    "n_hileras": 7,
+    "area_total_ha": 0.87,
+    "area_trabajada_ha": 0.25
+  },
+  {
+    "fecha": "2026-07-27",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 493,
+    "area_total_ha": 11.08,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 496,
+    "area_total_ha": 11.18,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 9,
+    "n_hileras": 12,
+    "area_total_ha": 1.01,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 12,
+    "n_hileras": 93,
+    "area_total_ha": 8.42,
+    "area_trabajada_ha": 2.63
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 43,
+    "n_hileras": 49,
+    "area_total_ha": 1.27,
+    "area_trabajada_ha": 0.33
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 78,
+    "n_hileras": 34,
+    "area_total_ha": 9.34,
+    "area_trabajada_ha": 1.83
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 99,
+    "n_hileras": 6,
+    "area_total_ha": 2.0,
+    "area_trabajada_ha": 0.38
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 101,
+    "n_hileras": 64,
+    "area_total_ha": 6.99,
+    "area_trabajada_ha": 1.36
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 119,
+    "n_hileras": 6,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 319,
+    "n_hileras": 5,
+    "area_total_ha": 0.15,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-28",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 349,
+    "n_hileras": 8,
+    "area_total_ha": 0.87,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-07-30",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 539,
+    "area_total_ha": 11.59,
+    "area_trabajada_ha": 1.22
+  },
+  {
+    "fecha": "2026-07-30",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 9,
+    "n_hileras": 16,
+    "area_total_ha": 2.09,
+    "area_trabajada_ha": 0.32
+  },
+  {
+    "fecha": "2026-07-30",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 78,
+    "n_hileras": 51,
+    "area_total_ha": 7.49,
+    "area_trabajada_ha": 1.02
+  },
+  {
+    "fecha": "2026-07-30",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 101,
+    "n_hileras": 66,
+    "area_total_ha": 8.2,
+    "area_trabajada_ha": 0.67
+  },
+  {
+    "fecha": "2026-07-31",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 542,
+    "area_total_ha": 11.59,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-03",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 548,
+    "area_total_ha": 11.62,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 558,
+    "area_total_ha": 11.64,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 9,
+    "n_hileras": 17,
+    "area_total_ha": 1.55,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 11,
+    "n_hileras": 5,
+    "area_total_ha": 0.47,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 12,
+    "n_hileras": 99,
+    "area_total_ha": 8.37,
+    "area_trabajada_ha": 1.04
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 41,
+    "n_hileras": 123,
+    "area_total_ha": 10.14,
+    "area_trabajada_ha": 4.81
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 78,
+    "n_hileras": 52,
+    "area_total_ha": 7.55,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 101,
+    "n_hileras": 80,
+    "area_total_ha": 9.42,
+    "area_trabajada_ha": 1.5
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 276,
+    "n_hileras": 10,
+    "area_total_ha": 0.77,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 614,
+    "area_total_ha": 11.84,
+    "area_trabajada_ha": 1.75
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 41,
+    "n_hileras": 124,
+    "area_total_ha": 10.16,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 101,
+    "n_hileras": 112,
+    "area_total_ha": 9.13,
+    "area_trabajada_ha": 2.15
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 621,
+    "area_total_ha": 11.86,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 361,
+    "n_hileras": 5,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 636,
+    "area_total_ha": 11.65,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 11,
+    "n_hileras": 7,
+    "area_total_ha": 0.54,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 12,
+    "n_hileras": 101,
+    "area_total_ha": 8.41,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 41,
+    "n_hileras": 128,
+    "area_total_ha": 10.2,
+    "area_trabajada_ha": 0.31
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 78,
+    "n_hileras": 55,
+    "area_total_ha": 7.6,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 101,
+    "n_hileras": 106,
+    "area_total_ha": 8.92,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 141,
+    "n_hileras": 6,
+    "area_total_ha": 0.06,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 277,
+    "n_hileras": 5,
+    "area_total_ha": 0.2,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 347,
+    "n_hileras": 6,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 663,
+    "area_total_ha": 11.56,
+    "area_trabajada_ha": 0.53
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 12,
+    "n_hileras": 104,
+    "area_total_ha": 8.16,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 34,
+    "n_hileras": 178,
+    "area_total_ha": 10.3,
+    "area_trabajada_ha": 2.97
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 101,
+    "n_hileras": 108,
+    "area_total_ha": 8.69,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 122,
+    "n_hileras": 5,
+    "area_total_ha": 0.17,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 209,
+    "n_hileras": 10,
+    "area_total_ha": 0.8,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 735,
+    "n_hileras": 5,
+    "area_total_ha": 0.52,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 734,
+    "area_total_ha": 10.73,
+    "area_trabajada_ha": 0.9
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 101,
+    "n_hileras": 124,
+    "area_total_ha": 9.37,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 277,
+    "n_hileras": 6,
+    "area_total_ha": 0.62,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 765,
+    "area_total_ha": 10.67,
+    "area_trabajada_ha": 0.34
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 101,
+    "n_hileras": 137,
+    "area_total_ha": 9.22,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 778,
+    "area_total_ha": 10.68,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 101,
+    "n_hileras": 138,
+    "area_total_ha": 9.22,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 277,
+    "n_hileras": 8,
+    "area_total_ha": 1.5,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-08-14",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 809,
+    "area_total_ha": 11.29,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-08-14",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 101,
+    "n_hileras": 140,
+    "area_total_ha": 9.21,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-16",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 941,
+    "area_total_ha": 53.52,
+    "area_trabajada_ha": 0.93
+  },
+  {
+    "fecha": "2026-08-16",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 347,
+    "n_hileras": 7,
+    "area_total_ha": 0.15,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-16",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1336,
+    "n_hileras": 6,
+    "area_total_ha": 0.62,
+    "area_trabajada_ha": 0.38
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 949,
+    "area_total_ha": 53.49,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 958,
+    "area_total_ha": 53.46,
+    "area_trabajada_ha": 0.37
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 12,
+    "n_hileras": 105,
+    "area_total_ha": 8.22,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 34,
+    "n_hileras": 180,
+    "area_total_ha": 10.21,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 78,
+    "n_hileras": 69,
+    "area_total_ha": 7.92,
+    "area_trabajada_ha": 1.79
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 122,
+    "n_hileras": 6,
+    "area_total_ha": 0.19,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-19",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 966,
+    "area_total_ha": 53.4,
+    "area_trabajada_ha": 0.63
+  },
+  {
+    "fecha": "2026-08-19",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 9,
+    "n_hileras": 22,
+    "area_total_ha": 0.5,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-19",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 12,
+    "n_hileras": 147,
+    "area_total_ha": 8.21,
+    "area_trabajada_ha": 1.54
+  },
+  {
+    "fecha": "2026-08-19",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1681,
+    "n_hileras": 8,
+    "area_total_ha": 1.66,
+    "area_trabajada_ha": 1.66
+  },
+  {
+    "fecha": "2026-08-20",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 968,
+    "area_total_ha": 62.2,
+    "area_trabajada_ha": 1.0
+  },
+  {
+    "fecha": "2026-08-20",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 301,
+    "n_hileras": 5,
+    "area_total_ha": 0.73,
+    "area_trabajada_ha": 0.47
+  },
+  {
+    "fecha": "2026-08-20",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 361,
+    "n_hileras": 6,
+    "area_total_ha": 0.29,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-08-20",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1681,
+    "n_hileras": 15,
+    "area_total_ha": 4.01,
+    "area_trabajada_ha": 1.88
+  },
+  {
+    "fecha": "2026-08-20",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1705,
+    "n_hileras": 38,
+    "area_total_ha": 11.27,
+    "area_trabajada_ha": 11.27
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 990,
+    "area_total_ha": 63.12,
+    "area_trabajada_ha": 1.55
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 301,
+    "n_hileras": 10,
+    "area_total_ha": 0.6,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 361,
+    "n_hileras": 21,
+    "area_total_ha": 1.32,
+    "area_trabajada_ha": 1.02
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1681,
+    "n_hileras": 68,
+    "area_total_ha": 21.13,
+    "area_trabajada_ha": 5.65
+  },
+  {
+    "fecha": "2026-08-24",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 993,
+    "area_total_ha": 65.72,
+    "area_trabajada_ha": 0.48
+  },
+  {
+    "fecha": "2026-08-24",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 12,
+    "n_hileras": 258,
+    "area_total_ha": 11.91,
+    "area_trabajada_ha": 1.56
+  },
+  {
+    "fecha": "2026-08-24",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 34,
+    "n_hileras": 205,
+    "area_total_ha": 10.68,
+    "area_trabajada_ha": 0.55
+  },
+  {
+    "fecha": "2026-08-24",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 146,
+    "n_hileras": 7,
+    "area_total_ha": 0.71,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-24",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 301,
+    "n_hileras": 11,
+    "area_total_ha": 0.57,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-24",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1681,
+    "n_hileras": 73,
+    "area_total_ha": 21.2,
+    "area_trabajada_ha": 1.74
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 1039,
+    "area_total_ha": 65.46,
+    "area_trabajada_ha": 1.95
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 12,
+    "n_hileras": 269,
+    "area_total_ha": 12.08,
+    "area_trabajada_ha": 0.85
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 43,
+    "n_hileras": 54,
+    "area_total_ha": 1.3,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 97,
+    "n_hileras": 6,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 319,
+    "n_hileras": 6,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 346,
+    "n_hileras": 5,
+    "area_total_ha": 1.47,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 347,
+    "n_hileras": 8,
+    "area_total_ha": 0.15,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 836,
+    "n_hileras": 19,
+    "area_total_ha": 0.34,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1336,
+    "n_hileras": 7,
+    "area_total_ha": 0.62,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-08-31",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 1132,
+    "area_total_ha": 92.71,
+    "area_trabajada_ha": 4.36
+  },
+  {
+    "fecha": "2026-08-31",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 301,
+    "n_hileras": 15,
+    "area_total_ha": 0.49,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-09-01",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 1173,
+    "area_total_ha": 92.55,
+    "area_trabajada_ha": 2.58
+  },
+  {
+    "fecha": "2026-09-01",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 34,
+    "n_hileras": 248,
+    "area_total_ha": 9.87,
+    "area_trabajada_ha": 1.73
+  },
+  {
+    "fecha": "2026-09-01",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 346,
+    "n_hileras": 6,
+    "area_total_ha": 3.41,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-09-01",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 361,
+    "n_hileras": 27,
+    "area_total_ha": 1.3,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-09-01",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 735,
+    "n_hileras": 7,
+    "area_total_ha": 0.6,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 1268,
+    "area_total_ha": 92.85,
+    "area_trabajada_ha": 5.76
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 11,
+    "n_hileras": 285,
+    "area_total_ha": 12.56,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 34,
+    "n_hileras": 249,
+    "area_total_ha": 9.88,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 347,
+    "n_hileras": 10,
+    "area_total_ha": 0.15,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1336,
+    "n_hileras": 8,
+    "area_total_ha": 0.77,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 1366,
+    "area_total_ha": 92.27,
+    "area_trabajada_ha": 4.87
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 1469,
+    "area_total_ha": 92.34,
+    "area_trabajada_ha": 4.91
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 11,
+    "n_hileras": 287,
+    "area_total_ha": 12.53,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 34,
+    "n_hileras": 261,
+    "area_total_ha": 11.98,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 347,
+    "n_hileras": 10,
+    "area_total_ha": 0.15,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 1519,
+    "area_total_ha": 91.7,
+    "area_trabajada_ha": 1.51
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 34,
+    "n_hileras": 264,
+    "area_total_ha": 11.99,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 1553,
+    "area_total_ha": 91.77,
+    "area_trabajada_ha": 1.53
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 1582,
+    "area_total_ha": 91.77,
+    "area_trabajada_ha": 1.24
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 1610,
+    "area_total_ha": 91.74,
+    "area_trabajada_ha": 1.21
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 1,
+    "n_hileras": 71,
+    "area_total_ha": 1.1,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 39,
+    "n_hileras": 86,
+    "area_total_ha": 2.91,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 42,
+    "n_hileras": 16,
+    "area_total_ha": 0.22,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 53,
+    "n_hileras": 60,
+    "area_total_ha": 8.02,
+    "area_trabajada_ha": 0.6
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 1,
+    "n_hileras": 168,
+    "area_total_ha": 11.25,
+    "area_trabajada_ha": 2.11
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 39,
+    "n_hileras": 144,
+    "area_total_ha": 2.82,
+    "area_trabajada_ha": 0.7
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 54,
+    "n_hileras": 5,
+    "area_total_ha": 0.17,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 1,
+    "n_hileras": 182,
+    "area_total_ha": 11.07,
+    "area_trabajada_ha": 0.77
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 39,
+    "n_hileras": 158,
+    "area_total_ha": 2.78,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 1,
+    "n_hileras": 370,
+    "area_total_ha": 8.14,
+    "area_trabajada_ha": 0.61
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 4,
+    "n_hileras": 63,
+    "area_total_ha": 3.4,
+    "area_trabajada_ha": 1.73
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 5,
+    "n_hileras": 23,
+    "area_total_ha": 0.36,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 7,
+    "n_hileras": 19,
+    "area_total_ha": 3.31,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 47,
+    "n_hileras": 10,
+    "area_total_ha": 0.81,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 48,
+    "n_hileras": 11,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 53,
+    "n_hileras": 9,
+    "area_total_ha": 3.07,
+    "area_trabajada_ha": 0.32
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 4,
+    "n_hileras": 126,
+    "area_total_ha": 7.81,
+    "area_trabajada_ha": 0.44
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 6,
+    "n_hileras": 12,
+    "area_total_ha": 0.26,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 8,
+    "n_hileras": 31,
+    "area_total_ha": 2.2,
+    "area_trabajada_ha": 0.69
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 27,
+    "n_hileras": 34,
+    "area_total_ha": 8.01,
+    "area_trabajada_ha": 0.58
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 47,
+    "n_hileras": 11,
+    "area_total_ha": 0.81,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 48,
+    "n_hileras": 12,
+    "area_total_ha": 0.13,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 151,
+    "n_hileras": 12,
+    "area_total_ha": 1.14,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 153,
+    "n_hileras": 128,
+    "area_total_ha": 7.3,
+    "area_trabajada_ha": 0.47
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 403,
+    "n_hileras": 5,
+    "area_total_ha": 0.39,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 404,
+    "n_hileras": 40,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 404,
+    "n_hileras": 46,
+    "area_total_ha": 2.88,
+    "area_trabajada_ha": 0.39
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 412,
+    "n_hileras": 20,
+    "area_total_ha": 4.02,
+    "area_trabajada_ha": 1.9
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 471,
+    "n_hileras": 5,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 480,
+    "n_hileras": 10,
+    "area_total_ha": 2.92,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-06-14",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 47,
+    "n_hileras": 11,
+    "area_total_ha": 0.82,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-14",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 403,
+    "n_hileras": 6,
+    "area_total_ha": 0.39,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-06-14",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 404,
+    "n_hileras": 57,
+    "area_total_ha": 2.85,
+    "area_trabajada_ha": 0.38
+  },
+  {
+    "fecha": "2026-06-14",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 412,
+    "n_hileras": 37,
+    "area_total_ha": 9.72,
+    "area_trabajada_ha": 4.42
+  },
+  {
+    "fecha": "2026-06-14",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 471,
+    "n_hileras": 7,
+    "area_total_ha": 0.15,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-14",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": 480,
+    "n_hileras": 12,
+    "area_total_ha": 2.57,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 3 Same Frutetto 100",
+    "cuartel": 1,
+    "n_hileras": 193,
+    "area_total_ha": 0.55,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": 1,
+    "n_hileras": 175,
+    "area_total_ha": 8.84,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": 4241,
+    "n_hileras": 41,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": 1,
+    "n_hileras": 197,
+    "area_total_ha": 9.62,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": 3,
+    "n_hileras": 167,
+    "area_total_ha": 2.35,
+    "area_trabajada_ha": 0.91
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": 1,
+    "n_hileras": 198,
+    "area_total_ha": 9.63,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": 3,
+    "n_hileras": 403,
+    "area_total_ha": 52.64,
+    "area_trabajada_ha": 4.6
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": 233,
+    "n_hileras": 225,
+    "area_total_ha": 2.07,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": 2485,
+    "n_hileras": 7,
+    "area_total_ha": 0.08,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-29",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": 3,
+    "n_hileras": 403,
+    "area_total_ha": 52.64,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 1016,
+    "n_hileras": 60,
+    "area_total_ha": 0.21,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 1,
+    "n_hileras": 28,
+    "area_total_ha": 0.32,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 2,
+    "n_hileras": 24,
+    "area_total_ha": 9.59,
+    "area_trabajada_ha": 7.96
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 3139,
+    "n_hileras": 5,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 1,
+    "n_hileras": 37,
+    "area_total_ha": 0.35,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 2,
+    "n_hileras": 66,
+    "area_total_ha": 12.59,
+    "area_trabajada_ha": 5.68
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 3131,
+    "n_hileras": 7,
+    "area_total_ha": 0.19,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 3269,
+    "n_hileras": 9,
+    "area_total_ha": 4.31,
+    "area_trabajada_ha": 4.31
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 3271,
+    "n_hileras": 7,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 1,
+    "n_hileras": 50,
+    "area_total_ha": 0.66,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 2,
+    "n_hileras": 68,
+    "area_total_ha": 12.88,
+    "area_trabajada_ha": 0.95
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 3120,
+    "n_hileras": 26,
+    "area_total_ha": 13.93,
+    "area_trabajada_ha": 9.32
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 3131,
+    "n_hileras": 22,
+    "area_total_ha": 0.69,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 3271,
+    "n_hileras": 8,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": 1,
+    "n_hileras": 108,
+    "area_total_ha": 2.73,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": 4,
+    "n_hileras": 9,
+    "area_total_ha": 17.93,
+    "area_trabajada_ha": 2.22
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": 5,
+    "n_hileras": 40,
+    "area_total_ha": 1.77,
+    "area_trabajada_ha": 1.06
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 1,
+    "n_hileras": 27,
+    "area_total_ha": 0.23,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 89,
+    "n_hileras": 73,
+    "area_total_ha": 38.59,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 112,
+    "n_hileras": 6,
+    "area_total_ha": 0.1,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 113,
+    "n_hileras": 18,
+    "area_total_ha": 0.46,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 340,
+    "n_hileras": 7,
+    "area_total_ha": 2.65,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 1,
+    "n_hileras": 30,
+    "area_total_ha": 0.21,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 24,
+    "n_hileras": 65,
+    "area_total_ha": 13.5,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 89,
+    "n_hileras": 73,
+    "area_total_ha": 38.86,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 111,
+    "n_hileras": 6,
+    "area_total_ha": 1.15,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 112,
+    "n_hileras": 9,
+    "area_total_ha": 0.22,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 3546,
+    "n_hileras": 14,
+    "area_total_ha": 20.71,
+    "area_trabajada_ha": 17.69
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 3547,
+    "n_hileras": 6,
+    "area_total_ha": 0.72,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 1,
+    "n_hileras": 31,
+    "area_total_ha": 0.21,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 3,
+    "n_hileras": 13,
+    "area_total_ha": 0.35,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 19,
+    "n_hileras": 7,
+    "area_total_ha": 0.75,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 20,
+    "n_hileras": 72,
+    "area_total_ha": 17.5,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 3546,
+    "n_hileras": 28,
+    "area_total_ha": 39.22,
+    "area_trabajada_ha": 17.42
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 3,
+    "n_hileras": 16,
+    "area_total_ha": 0.49,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 5,
+    "n_hileras": 45,
+    "area_total_ha": 52.45,
+    "area_trabajada_ha": 10.05
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 20,
+    "n_hileras": 75,
+    "area_total_ha": 18.67,
+    "area_trabajada_ha": 2.09
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": 111,
+    "n_hileras": 11,
+    "area_total_ha": 1.07,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 35,
+    "n_hileras": 70,
+    "area_total_ha": 1.99,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 39,
+    "n_hileras": 116,
+    "area_total_ha": 20.65,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 124,
+    "n_hileras": 6,
+    "area_total_ha": 0.26,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 5338,
+    "n_hileras": 28,
+    "area_total_ha": 11.43,
+    "area_trabajada_ha": 11.43
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 5339,
+    "n_hileras": 11,
+    "area_total_ha": 0.15,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 35,
+    "n_hileras": 77,
+    "area_total_ha": 1.93,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 39,
+    "n_hileras": 124,
+    "area_total_ha": 25.33,
+    "area_trabajada_ha": 2.48
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 40,
+    "n_hileras": 5,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 95,
+    "n_hileras": 18,
+    "area_total_ha": 1.36,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 124,
+    "n_hileras": 7,
+    "area_total_ha": 0.32,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 367,
+    "n_hileras": 22,
+    "area_total_ha": 0.38,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 5338,
+    "n_hileras": 49,
+    "area_total_ha": 18.55,
+    "area_trabajada_ha": 7.68
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 5339,
+    "n_hileras": 15,
+    "area_total_ha": 0.2,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 35,
+    "n_hileras": 87,
+    "area_total_ha": 1.89,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 39,
+    "n_hileras": 166,
+    "area_total_ha": 37.57,
+    "area_trabajada_ha": 12.67
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 124,
+    "n_hileras": 7,
+    "area_total_ha": 0.35,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 5460,
+    "n_hileras": 17,
+    "area_total_ha": 0.95,
+    "area_trabajada_ha": 0.91
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 5471,
+    "n_hileras": 8,
+    "area_total_ha": 0.24,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 35,
+    "n_hileras": 89,
+    "area_total_ha": 1.89,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 39,
+    "n_hileras": 205,
+    "area_total_ha": 44.51,
+    "area_trabajada_ha": 9.65
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 40,
+    "n_hileras": 41,
+    "area_total_ha": 0.37,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 5471,
+    "n_hileras": 9,
+    "area_total_ha": 0.25,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": 1,
+    "n_hileras": 1327,
+    "area_total_ha": 18.79,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": 116,
+    "n_hileras": 76,
+    "area_total_ha": 5.96,
+    "area_trabajada_ha": 2.36
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": 133,
+    "n_hileras": 10,
+    "area_total_ha": 1.22,
+    "area_trabajada_ha": 1.02
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": 1,
+    "n_hileras": 1332,
+    "area_total_ha": 18.95,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": 116,
+    "n_hileras": 115,
+    "area_total_ha": 5.67,
+    "area_trabajada_ha": 0.83
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": 116,
+    "n_hileras": 115,
+    "area_total_ha": 5.71,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": 1141,
+    "n_hileras": 137,
+    "area_total_ha": 1.52,
+    "area_trabajada_ha": 1.49
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": 1140,
+    "n_hileras": 186,
+    "area_total_ha": 0.81,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 1,
+    "n_hileras": 155,
+    "area_total_ha": 4.75,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 4,
+    "n_hileras": 213,
+    "area_total_ha": 78.01,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 5,
+    "n_hileras": 58,
+    "area_total_ha": 4.24,
+    "area_trabajada_ha": 0.24
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 8,
+    "n_hileras": 21,
+    "area_total_ha": 0.21,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 15,
+    "n_hileras": 344,
+    "area_total_ha": 1.73,
+    "area_trabajada_ha": 0.44
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 1565,
+    "n_hileras": 5,
+    "area_total_ha": 1.25,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 1,
+    "n_hileras": 157,
+    "area_total_ha": 4.75,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 4,
+    "n_hileras": 213,
+    "area_total_ha": 78.01,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 5,
+    "n_hileras": 59,
+    "area_total_ha": 4.25,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 8,
+    "n_hileras": 26,
+    "area_total_ha": 0.22,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 14,
+    "n_hileras": 5,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 15,
+    "n_hileras": 396,
+    "area_total_ha": 6.51,
+    "area_trabajada_ha": 1.08
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 1,
+    "n_hileras": 159,
+    "area_total_ha": 4.75,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 4,
+    "n_hileras": 215,
+    "area_total_ha": 78.02,
+    "area_trabajada_ha": 1.41
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 13,
+    "n_hileras": 5,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 15,
+    "n_hileras": 440,
+    "area_total_ha": 6.46,
+    "area_trabajada_ha": 0.64
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 95,
+    "n_hileras": 30,
+    "area_total_ha": 4.4,
+    "area_trabajada_ha": 0.85
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 151,
+    "n_hileras": 181,
+    "area_total_ha": 183.72,
+    "area_trabajada_ha": 2.24
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 2102,
+    "n_hileras": 51,
+    "area_total_ha": 2.45,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 2165,
+    "n_hileras": 12,
+    "area_total_ha": 0.27,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": 1,
+    "n_hileras": 406,
+    "area_total_ha": 5.3,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": 34,
+    "n_hileras": 9,
+    "area_total_ha": 0.43,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": 1,
+    "n_hileras": 412,
+    "area_total_ha": 5.3,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": 27,
+    "n_hileras": 6,
+    "area_total_ha": 1.43,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": 28,
+    "n_hileras": 6,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": 31,
+    "n_hileras": 6,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": 33,
+    "n_hileras": 5,
+    "area_total_ha": 0.16,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": 34,
+    "n_hileras": 15,
+    "area_total_ha": 0.4,
+    "area_trabajada_ha": 0.11
   }
 ]
