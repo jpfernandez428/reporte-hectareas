@@ -1,1 +1,1066 @@
-[]
+[
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A9",
+    "n_hileras": 1,
+    "area_total_ha": 8.75,
+    "area_trabajada_ha": 8.75
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A7",
+    "n_hileras": 2,
+    "area_total_ha": 9.42,
+    "area_trabajada_ha": 9.41
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "n_hileras": 165,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 24.13
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Barredora 11",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 5,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 5.12
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Barredora 11",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 9,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 2.49
+  },
+  {
+    "fecha": "2026-09-12",
+    "maquina": "Podadora 1",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 1,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 5.12
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Podadora 1",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 11,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 4.02
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Recogedora 4",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 7,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 5.13
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Recogedora 4",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 10,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 1.75
+  },
+  {
+    "fecha": "2026-09-11",
+    "maquina": "Recogedora 4",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 17,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 1.77
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 2,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 5.12
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Shacker SBS 4",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 63,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 4.98
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Shacker SBS 4",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 90,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 2.09
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Shacker SBS 4",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 92,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Shacker SBS 5",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 19,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 4.96
+  },
+  {
+    "fecha": "2026-09-11",
+    "maquina": "Shacker SBS 5",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 73,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 4.05
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Shacker SBS 5",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 93,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 1.56
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 3,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 5.12
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 5,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 1.13
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 8,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 1.37
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 9,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.33
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 12,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.56
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 14,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.42
+  },
+  {
+    "fecha": "2026-09-11",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 17,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.82
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 6,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 5.13
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 7,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 2.1
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 11,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 1.6
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 7,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 5.12
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 29,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 3.91
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 41,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 1.62
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 63,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 2.23
+  },
+  {
+    "fecha": "2026-09-11",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 64,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 72,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.88
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 3,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 5.12
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 78,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 4.78
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 79,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 82,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.42
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 5,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 5.12
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 8,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 1.9
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor 2 Same Explorer 95",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 9,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 5.12
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor 5 Same Explorer 95",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 15,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 5.12
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 5 Same Explorer 95",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 27,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 2.69
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor 5 Same Explorer 95",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 34,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.77
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor 5 Same Explorer 95",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 48,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 1.88
+  },
+  {
+    "fecha": "2026-09-11",
+    "maquina": "Tractor 5 Same Explorer 95",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 52,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 15,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 5.12
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 19,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 1.19
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 7,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 5.12
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 1",
+    "n_hileras": 1,
+    "area_total_ha": 4.23,
+    "area_trabajada_ha": 4.23
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 2",
+    "n_hileras": 8,
+    "area_total_ha": 7.12,
+    "area_trabajada_ha": 7.12
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 2",
+    "n_hileras": 69,
+    "area_total_ha": 7.12,
+    "area_trabajada_ha": 6.32
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 1",
+    "n_hileras": 1,
+    "area_total_ha": 4.23,
+    "area_trabajada_ha": 1.0
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 2",
+    "n_hileras": 133,
+    "area_total_ha": 7.12,
+    "area_trabajada_ha": 3.3
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 1",
+    "n_hileras": 1,
+    "area_total_ha": 4.23,
+    "area_trabajada_ha": 0.31
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 2",
+    "n_hileras": 199,
+    "area_total_ha": 7.12,
+    "area_trabajada_ha": 1.97
+  },
+  {
+    "fecha": "2026-09-06",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 1",
+    "n_hileras": 4,
+    "area_total_ha": 4.23,
+    "area_trabajada_ha": 3.17
+  },
+  {
+    "fecha": "2026-09-06",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 2",
+    "n_hileras": 227,
+    "area_total_ha": 7.12,
+    "area_trabajada_ha": 0.55
+  },
+  {
+    "fecha": "2026-09-06",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 3",
+    "n_hileras": 10,
+    "area_total_ha": 3.68,
+    "area_trabajada_ha": 3.68
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 1",
+    "n_hileras": 26,
+    "area_total_ha": 4.23,
+    "area_trabajada_ha": 3.46
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 3",
+    "n_hileras": 29,
+    "area_total_ha": 3.68,
+    "area_trabajada_ha": 2.85
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 1",
+    "n_hileras": 51,
+    "area_total_ha": 4.23,
+    "area_trabajada_ha": 1.87
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 3",
+    "n_hileras": 63,
+    "area_total_ha": 3.68,
+    "area_trabajada_ha": 2.0
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 4",
+    "n_hileras": 39,
+    "area_total_ha": 7.18,
+    "area_trabajada_ha": 7.18
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 4",
+    "n_hileras": 65,
+    "area_total_ha": 7.18,
+    "area_trabajada_ha": 3.17
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 8",
+    "n_hileras": 3,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 2.8
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "n_hileras": 14,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 6.11
+  },
+  {
+    "fecha": "2026-09-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 8",
+    "n_hileras": 27,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 2.68
+  },
+  {
+    "fecha": "2026-09-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "n_hileras": 77,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 4.57
+  },
+  {
+    "fecha": "2026-09-12",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 8",
+    "n_hileras": 61,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 1.83
+  },
+  {
+    "fecha": "2026-09-12",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "n_hileras": 113,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 1.76
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 7",
+    "n_hileras": 18,
+    "area_total_ha": 2.45,
+    "area_trabajada_ha": 2.45
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 8",
+    "n_hileras": 68,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 0.39
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "n_hileras": 122,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 0.52
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 5",
+    "n_hileras": 35,
+    "area_total_ha": 1.6,
+    "area_trabajada_ha": 1.6
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 6",
+    "n_hileras": 27,
+    "area_total_ha": 0.5,
+    "area_trabajada_ha": 0.5
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 7",
+    "n_hileras": 53,
+    "area_total_ha": 2.45,
+    "area_trabajada_ha": 1.31
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 5,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 5.12
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 1",
+    "n_hileras": 10,
+    "area_total_ha": 4.23,
+    "area_trabajada_ha": 4.23
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 3",
+    "n_hileras": 1,
+    "area_total_ha": 3.68,
+    "area_trabajada_ha": 3.68
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 1",
+    "n_hileras": 38,
+    "area_total_ha": 4.23,
+    "area_trabajada_ha": 3.16
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 3",
+    "n_hileras": 23,
+    "area_total_ha": 3.68,
+    "area_trabajada_ha": 3.44
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 1",
+    "n_hileras": 38,
+    "area_total_ha": 4.23,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 3",
+    "n_hileras": 42,
+    "area_total_ha": 3.68,
+    "area_trabajada_ha": 1.72
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 4",
+    "n_hileras": 3,
+    "area_total_ha": 7.18,
+    "area_trabajada_ha": 7.18
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 4",
+    "n_hileras": 18,
+    "area_total_ha": 7.18,
+    "area_trabajada_ha": 5.83
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 8",
+    "n_hileras": 6,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 2.8
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "n_hileras": 6,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 6.11
+  },
+  {
+    "fecha": "2026-09-11",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 8",
+    "n_hileras": 26,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 2.25
+  },
+  {
+    "fecha": "2026-09-11",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "n_hileras": 26,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 4.2
+  },
+  {
+    "fecha": "2026-09-12",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 8",
+    "n_hileras": 45,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 1.04
+  },
+  {
+    "fecha": "2026-09-12",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "n_hileras": 52,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 2.7
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 7",
+    "n_hileras": 29,
+    "area_total_ha": 2.45,
+    "area_trabajada_ha": 2.45
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 8",
+    "n_hileras": 51,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "n_hileras": 59,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 0.62
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 5",
+    "n_hileras": 18,
+    "area_total_ha": 1.6,
+    "area_trabajada_ha": 1.6
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 6",
+    "n_hileras": 3,
+    "area_total_ha": 0.5,
+    "area_trabajada_ha": 0.5
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 7",
+    "n_hileras": 64,
+    "area_total_ha": 2.45,
+    "area_trabajada_ha": 1.86
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Tractor 15 Deutz Fahr 115",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 6,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 5.12
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7A_JP",
+    "n_hileras": 3,
+    "area_total_ha": 14.96,
+    "area_trabajada_ha": 14.95
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N17_JP",
+    "n_hileras": 33,
+    "area_total_ha": 39.09,
+    "area_trabajada_ha": 39.08
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N18_JP",
+    "n_hileras": 21,
+    "area_total_ha": 20.74,
+    "area_trabajada_ha": 20.74
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7C_JP",
+    "n_hileras": 20,
+    "area_total_ha": 6.26,
+    "area_trabajada_ha": 6.26
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7A_JP",
+    "n_hileras": 9,
+    "area_total_ha": 14.96,
+    "area_trabajada_ha": 12.94
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7D_JP",
+    "n_hileras": 2,
+    "area_total_ha": 9.68,
+    "area_trabajada_ha": 9.68
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7B_JP",
+    "n_hileras": 8,
+    "area_total_ha": 9.06,
+    "area_trabajada_ha": 9.06
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N17_JP",
+    "n_hileras": 71,
+    "area_total_ha": 39.09,
+    "area_trabajada_ha": 23.58
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N18_JP",
+    "n_hileras": 24,
+    "area_total_ha": 20.74,
+    "area_trabajada_ha": 2.0
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N19_JP",
+    "n_hileras": 1,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 36.42
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7C_JP",
+    "n_hileras": 28,
+    "area_total_ha": 6.26,
+    "area_trabajada_ha": 1.61
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7A_JP",
+    "n_hileras": 10,
+    "area_total_ha": 14.96,
+    "area_trabajada_ha": 2.39
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7B_JP",
+    "n_hileras": 10,
+    "area_total_ha": 9.06,
+    "area_trabajada_ha": 2.66
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N17_JP",
+    "n_hileras": 108,
+    "area_total_ha": 39.09,
+    "area_trabajada_ha": 12.18
+  },
+  {
+    "fecha": "2026-09-06",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N19_JP",
+    "n_hileras": 2,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 18.61
+  },
+  {
+    "fecha": "2026-09-06",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7C_JP",
+    "n_hileras": 34,
+    "area_total_ha": 6.26,
+    "area_trabajada_ha": 1.37
+  },
+  {
+    "fecha": "2026-09-06",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7D_JP",
+    "n_hileras": 3,
+    "area_total_ha": 9.68,
+    "area_trabajada_ha": 2.0
+  },
+  {
+    "fecha": "2026-09-06",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7B_JP",
+    "n_hileras": 12,
+    "area_total_ha": 9.06,
+    "area_trabajada_ha": 1.64
+  },
+  {
+    "fecha": "2026-09-06",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N17_JP",
+    "n_hileras": 133,
+    "area_total_ha": 39.09,
+    "area_trabajada_ha": 7.49
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N19_JP",
+    "n_hileras": 3,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 18.92
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7C_JP",
+    "n_hileras": 35,
+    "area_total_ha": 6.26,
+    "area_trabajada_ha": 0.38
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N17_JP",
+    "n_hileras": 142,
+    "area_total_ha": 39.09,
+    "area_trabajada_ha": 2.95
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N16_JP",
+    "n_hileras": 58,
+    "area_total_ha": 13.86,
+    "area_trabajada_ha": 13.64
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N18_JP",
+    "n_hileras": 25,
+    "area_total_ha": 20.74,
+    "area_trabajada_ha": 3.29
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N5_JP",
+    "n_hileras": 3,
+    "area_total_ha": 19.15,
+    "area_trabajada_ha": 19.15
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N19_JP",
+    "n_hileras": 7,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 35.14
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N16_JP",
+    "n_hileras": 102,
+    "area_total_ha": 13.86,
+    "area_trabajada_ha": 7.83
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N18_JP",
+    "n_hileras": 26,
+    "area_total_ha": 20.74,
+    "area_trabajada_ha": 2.45
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N20_JP",
+    "n_hileras": 4,
+    "area_total_ha": 20.64,
+    "area_trabajada_ha": 20.64
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N4_JP",
+    "n_hileras": 1,
+    "area_total_ha": 26.43,
+    "area_trabajada_ha": 26.43
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N5_JP",
+    "n_hileras": 77,
+    "area_total_ha": 19.15,
+    "area_trabajada_ha": 17.98
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N19_JP",
+    "n_hileras": 12,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 19.08
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N8_JP",
+    "n_hileras": 24,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 55.81
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N5_JP",
+    "n_hileras": 92,
+    "area_total_ha": 19.15,
+    "area_trabajada_ha": 3.98
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N19_JP",
+    "n_hileras": 19,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 11.59
+  }
+]
