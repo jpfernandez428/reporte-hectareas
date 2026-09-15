@@ -766,6 +766,15 @@ def generar_reporte(sid, geocercas):
 
                     area_trabajada_ha = geo["area_ha"] * max(0.0, porcentaje_despues - porcentaje_antes)
 
+                    if round(area_trabajada_ha, 2) <= 0:
+                        print(
+                            f"  [sin avance nuevo] {dia.strftime('%Y-%m-%d')} - {unidad['nombre']} - {geo['nombre']}: "
+                            f"{len(puntos_geo)} puntos, {len(hileras)} hileras conocidas en total, "
+                            f"{len(hileras_regulares)} regulares, total_estimado="
+                            f"{round(total_estimado, 1) if total_estimado else 'N/A (<2 hileras)'}, "
+                            f"%antes={porcentaje_antes:.2f}, %despues={porcentaje_despues:.2f}"
+                        )
+
                     filas_detalle_dia = []
                     hileras_nuevas_hoy = [h for h in hileras_regulares if h.id not in ids_antes]
                     for h in hileras_nuevas_hoy:
