@@ -35542,5 +35542,589 @@
     "n_hileras": 15,
     "area_total_ha": 0.4,
     "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Barredora 1",
+    "cuartel": 2558,
+    "n_hileras": 137,
+    "area_total_ha": 6.48,
+    "area_trabajada_ha": 6.35
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Barredora 1",
+    "cuartel": 2567,
+    "n_hileras": 14,
+    "area_total_ha": 0.07,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Podadora 1",
+    "cuartel": 1,
+    "n_hileras": 28,
+    "area_total_ha": 0.54,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Shacker SBS 5",
+    "cuartel": 1,
+    "n_hileras": 85,
+    "area_total_ha": 0.28,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Shacker SBS 9",
+    "cuartel": 1,
+    "n_hileras": 128,
+    "area_total_ha": 0.27,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 1,
+    "n_hileras": 4317,
+    "area_total_ha": 12.28,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor # 1 (T-7)",
+    "cuartel": 142,
+    "n_hileras": 9,
+    "area_total_ha": 0.28,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1,
+    "n_hileras": 1653,
+    "area_total_ha": 91.71,
+    "area_trabajada_ha": 4.93
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 362,
+    "n_hileras": 5,
+    "area_total_ha": 0.14,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor # 2 (T-8)",
+    "cuartel": 1692,
+    "n_hileras": 9,
+    "area_total_ha": 0.31,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 1762,
+    "n_hileras": 108,
+    "area_total_ha": 4.3,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 1833,
+    "n_hileras": 389,
+    "area_total_ha": 7.61,
+    "area_trabajada_ha": 0.64
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 1910,
+    "n_hileras": 18,
+    "area_total_ha": 0.86,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 2315,
+    "n_hileras": 22,
+    "area_total_ha": 6.58,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 3535,
+    "n_hileras": 5,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 3579,
+    "n_hileras": 5,
+    "area_total_ha": 0.06,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 3776,
+    "n_hileras": 5,
+    "area_total_ha": 0.11,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": 3828,
+    "n_hileras": 20,
+    "area_total_ha": 0.3,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 3 Same Frutetto 100",
+    "cuartel": 809,
+    "n_hileras": 67,
+    "area_total_ha": 5.53,
+    "area_trabajada_ha": 3.71
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 3 Same Frutetto 100",
+    "cuartel": 810,
+    "n_hileras": 60,
+    "area_total_ha": 23.36,
+    "area_trabajada_ha": 3.98
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 3 Same Frutetto 100",
+    "cuartel": 983,
+    "n_hileras": 5,
+    "area_total_ha": 0.31,
+    "area_trabajada_ha": 0.31
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 3 Same Frutetto 100",
+    "cuartel": 1024,
+    "n_hileras": 6,
+    "area_total_ha": 1.49,
+    "area_trabajada_ha": 1.49
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": 1,
+    "n_hileras": 200,
+    "area_total_ha": 9.03,
+    "area_trabajada_ha": 0.31
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": 225,
+    "n_hileras": 369,
+    "area_total_ha": 9.23,
+    "area_trabajada_ha": 0.53
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": 2316,
+    "n_hileras": 5,
+    "area_total_ha": 0.49,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": 3856,
+    "n_hileras": 8,
+    "area_total_ha": 0.17,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 2448,
+    "n_hileras": 46,
+    "area_total_ha": 0.34,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 2455,
+    "n_hileras": 9,
+    "area_total_ha": 0.38,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 2456,
+    "n_hileras": 11,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 2457,
+    "n_hileras": 600,
+    "area_total_ha": 6.34,
+    "area_trabajada_ha": 1.21
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 3376,
+    "n_hileras": 7,
+    "area_total_ha": 1.39,
+    "area_trabajada_ha": 1.39
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": 3541,
+    "n_hileras": 5,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": 1471,
+    "n_hileras": 101,
+    "area_total_ha": 38.82,
+    "area_trabajada_ha": 0.57
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": 1472,
+    "n_hileras": 79,
+    "area_total_ha": 1.45,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": 2416,
+    "n_hileras": 5,
+    "area_total_ha": 0.55,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": 2429,
+    "n_hileras": 11,
+    "area_total_ha": 0.28,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": 2608,
+    "n_hileras": 5,
+    "area_total_ha": 0.72,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": 2901,
+    "n_hileras": 23,
+    "area_total_ha": 7.66,
+    "area_trabajada_ha": 7.35
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 1,
+    "n_hileras": 77,
+    "area_total_ha": 0.74,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 2,
+    "n_hileras": 6,
+    "area_total_ha": 0.89,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 3,
+    "n_hileras": 12,
+    "area_total_ha": 3.87,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 14,
+    "n_hileras": 33,
+    "area_total_ha": 8.97,
+    "area_trabajada_ha": 1.1
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 16,
+    "n_hileras": 64,
+    "area_total_ha": 2.83,
+    "area_trabajada_ha": 2.12
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": 5158,
+    "n_hileras": 6,
+    "area_total_ha": 1.46,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": 1,
+    "n_hileras": 12,
+    "area_total_ha": 0.22,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": 2,
+    "n_hileras": 37,
+    "area_total_ha": 0.31,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": 4,
+    "n_hileras": 5,
+    "area_total_ha": 0.39,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": 15,
+    "n_hileras": 6,
+    "area_total_ha": 3.69,
+    "area_trabajada_ha": 1.25
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": 16,
+    "n_hileras": 65,
+    "area_total_ha": 0.51,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": 1019,
+    "n_hileras": 6,
+    "area_total_ha": 0.8,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": 1378,
+    "n_hileras": 18,
+    "area_total_ha": 0.59,
+    "area_trabajada_ha": 0.59
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 1,
+    "n_hileras": 159,
+    "area_total_ha": 4.75,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 5,
+    "n_hileras": 94,
+    "area_total_ha": 5.66,
+    "area_trabajada_ha": 0.59
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 450,
+    "n_hileras": 7,
+    "area_total_ha": 2.35,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 923,
+    "n_hileras": 107,
+    "area_total_ha": 3.57,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 3577,
+    "n_hileras": 28,
+    "area_total_ha": 3.79,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 3582,
+    "n_hileras": 5,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 3596,
+    "n_hileras": 7,
+    "area_total_ha": 0.19,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 4124,
+    "n_hileras": 7,
+    "area_total_ha": 0.26,
+    "area_trabajada_ha": 0.25
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": 4137,
+    "n_hileras": 12,
+    "area_total_ha": 1.02,
+    "area_trabajada_ha": 1.02
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": 3336,
+    "n_hileras": 27,
+    "area_total_ha": 0.39,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": 3409,
+    "n_hileras": 5,
+    "area_total_ha": 0.46,
+    "area_trabajada_ha": 0.46
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": 3410,
+    "n_hileras": 61,
+    "area_total_ha": 7.96,
+    "area_trabajada_ha": 7.93
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": 3441,
+    "n_hileras": 5,
+    "area_total_ha": 0.12,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": 2251,
+    "n_hileras": 6,
+    "area_total_ha": 0.34,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": 2253,
+    "n_hileras": 8,
+    "area_total_ha": 0.05,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": 2257,
+    "n_hileras": 8,
+    "area_total_ha": 0.21,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": 2261,
+    "n_hileras": 6,
+    "area_total_ha": 1.37,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": 2263,
+    "n_hileras": 11,
+    "area_total_ha": 1.48,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": 2265,
+    "n_hileras": 45,
+    "area_total_ha": 7.92,
+    "area_trabajada_ha": 0.55
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": 2315,
+    "n_hileras": 8,
+    "area_total_ha": 0.09,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": 2445,
+    "n_hileras": 6,
+    "area_total_ha": 0.65,
+    "area_trabajada_ha": 0.64
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": 2446,
+    "n_hileras": 7,
+    "area_total_ha": 1.63,
+    "area_trabajada_ha": 1.63
   }
 ]
