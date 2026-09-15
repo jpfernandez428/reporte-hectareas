@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "fecha": "2026-09-15",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 10",
+    "n_hileras": 26,
+    "area_total_ha": 2.31,
+    "area_trabajada_ha": 1.1
+  },
+  {
+    "fecha": "2026-09-15",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 5",
+    "n_hileras": 25,
+    "area_total_ha": 1.6,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-09-15",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "n_hileras": 65,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-09-15",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 10",
+    "n_hileras": 16,
+    "area_total_ha": 2.31,
+    "area_trabajada_ha": 0.7
+  }
+]
