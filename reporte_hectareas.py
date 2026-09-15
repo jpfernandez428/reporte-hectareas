@@ -44,6 +44,7 @@ import json
 import math
 import os
 import re
+import statistics
 import unicodedata
 from datetime import datetime, timedelta, timezone
 
@@ -96,6 +97,7 @@ LARGO_MINIMO_TRAMO_M = CONFIG.get("largo_minimo_tramo_m", 8)
 GAP_MAXIMO_HILERA_M = CONFIG.get("gap_maximo_hilera_m", 100)
 VELOCIDAD_MAXIMA_TRABAJO_KMH = CONFIG.get("velocidad_maxima_trabajo_kmh", 14)
 MINIMO_PUNTOS_EN_GEOCERCA = CONFIG.get("minimo_puntos_en_geocerca", 3)
+TOLERANCIA_ESPACIADO = CONFIG.get("tolerancia_espaciado", 2.5)
 
 os.makedirs(CARPETA_MEMORIA, exist_ok=True)
 os.makedirs(CARPETA_REPORTES, exist_ok=True)
@@ -456,12 +458,103 @@ def contar_pasadas_max(intervalos):
     return maximo
 
 
+def filtrar_hileras_regulares(hileras):
+    """
+    Descarta hileras cuyo espaciado a sus vecinas no calza con el patron
+    regular del resto (curvas de cabecera, maniobras u otros tramos que
+    se colaron como si fueran una hilera nueva, aunque esten dentro de la
+    geocerca). Devuelve (regulares, irregulares).
+    """
+    if len(hileras) < 5:
+        return hileras, []
+
+    ref = max(hileras, key=lambda h: h.largo_conocido)
+
+    def lateral(h):
+        dx = h.origen[0] - ref.origen[0]
+        dy = h.origen[1] - ref.origen[1]
+        return dx * (-ref.direccion[1]) + dy * ref.direccion[0]
+
+    ordenadas = sorted(hileras, key=lateral)
+    posiciones = [lateral(h) for h in ordenadas]
+    gaps = [posiciones[i + 1] - posiciones[i] for i in range(len(posiciones) - 1)]
+    gaps_significativos = [g for g in gaps if g > 0.3]
+    if not gaps_significativos:
+        return hileras, []
+
+    mediana = statistics.median(gaps_significativos)
+    if mediana <= 0:
+        return hileras, []
+
+    regulares, irregulares = [], []
+    for i, h in enumerate(ordenadas):
+        candidatos = []
+        if i > 0:
+            candidatos.append(gaps[i - 1])
+        if i < len(gaps):
+            candidatos.append(gaps[i])
+        if any(g <= mediana * TOLERANCIA_ESPACIADO for g in candidatos):
+            regulares.append(h)
+        else:
+            irregulares.append(h)
+    return regulares, irregulares
+
+
+def estimar_total_hileras(hileras_regulares, contorno_geocerca, referencia):
+    """
+    Estima cuantas hileras deberia tener el cuartel en total, usando el
+    ancho REAL de la geocerca (medido de su contorno, no de lo ya visto) y
+    el espaciado promedio entre las hileras ya conocidas.
+    Devuelve None si todavia no hay suficientes hileras para estimar el
+    espaciado (hace falta al menos 2).
+    """
+    if len(hileras_regulares) < 2:
+        return None
+
+    ref = max(hileras_regulares, key=lambda h: h.largo_conocido)
+
+    def lateral(punto_m):
+        dx = punto_m[0] - ref.origen[0]
+        dy = punto_m[1] - ref.origen[1]
+        return dx * (-ref.direccion[1]) + dy * ref.direccion[0]
+
+    posiciones = sorted(lateral(h.origen) for h in hileras_regulares)
+    gaps = [posiciones[i + 1] - posiciones[i] for i in range(len(posiciones) - 1)]
+    gaps_significativos = [g for g in gaps if g > 0.3]
+    if not gaps_significativos:
+        return None
+
+    espaciado_promedio = statistics.median(gaps_significativos)
+    if espaciado_promedio <= 0:
+        return None
+
+    contorno_m = [punto_a_metros(p, referencia) for p in contorno_geocerca]
+    laterales_contorno = [lateral(p) for p in contorno_m]
+    ancho_total_geocerca = max(laterales_contorno) - min(laterales_contorno)
+
+    total_estimado = ancho_total_geocerca / espaciado_promedio
+    # nunca menos que la cantidad de hileras que ya se conocen de verdad
+    return max(total_estimado, len(hileras_regulares))
+
+
 def slug(texto):
     """Convierte un nombre en un identificador simple para nombres de archivo."""
     texto = unicodedata.normalize("NFKD", texto).encode("ascii", "ignore").decode("ascii")
     texto = texto.lower()
     texto = re.sub(r"[^a-z0-9]+", "_", texto).strip("_")
     return texto or "cuartel"
+
+
+def escapar_xml(texto):
+    """Escapa caracteres especiales para que el texto sea valido dentro de un KML."""
+    texto = str(texto)
+    return (
+        texto.replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace('"', "&quot;")
+        .replace("'", "&apos;")
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -486,8 +579,9 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas):
     partes.append('<Folder><name>Cuarteles (geocercas)</name>')
     for geo in geocercas:
         coords = " ".join(f"{lon},{lat},0" for lon, lat in geo["contorno"] + [geo["contorno"][0]])
+        nombre_geo_seguro = escapar_xml(geo["nombre"])
         partes.append(
-            f'<Placemark><name>{geo["nombre"]} ({geo["area_ha"]:.2f} ha)</name>'
+            f'<Placemark><name>{nombre_geo_seguro} ({geo["area_ha"]:.2f} ha)</name>'
             f'<Style><LineStyle><color>{AZUL_GEOCERCA}</color><width>2</width></LineStyle>'
             f'<PolyStyle><fill>0</fill></PolyStyle></Style>'
             f'<Polygon><outerBoundaryIs><LinearRing><coordinates>{coords}'
@@ -496,11 +590,13 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas):
     partes.append('</Folder>')
 
     for nombre_unidad, hileras_por_geocerca, descartados in unidades_procesadas:
-        partes.append(f'<Folder><name>{nombre_unidad}</name>')
+        nombre_unidad_seguro = escapar_xml(nombre_unidad)
+        partes.append(f'<Folder><name>{nombre_unidad_seguro}</name>')
 
         for nombre_geo, (referencia, hileras) in hileras_por_geocerca.items():
             if referencia is None:
                 continue
+            nombre_geo_seguro = escapar_xml(nombre_geo)
             for h in hileras:
                 p1_m = (h.origen[0] + h.direccion[0] * h.min_proy, h.origen[1] + h.direccion[1] * h.min_proy)
                 p2_m = (h.origen[0] + h.direccion[0] * h.max_proy, h.origen[1] + h.direccion[1] * h.max_proy)
@@ -511,7 +607,7 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas):
                 if not all(math.isfinite(v) for v in (lon1, lat1, lon2, lat2)):
                     continue
                 partes.append(
-                    f'<Placemark><name>{nombre_geo} - Hilera {h.id}</name>'
+                    f'<Placemark><name>{nombre_geo_seguro} - Hilera {h.id}</name>'
                     f'<Style><LineStyle><color>{VERDE_TRABAJADO}</color><width>3</width>'
                     f'</LineStyle></Style>'
                     f'<LineString><coordinates>{lon1},{lat1},0 {lon2},{lat2},0'
@@ -640,38 +736,50 @@ def generar_reporte(sid, geocercas):
                 if referencia is None:
                     referencia = puntos_geo[0]["punto"]
 
-                cobertura_antes = {h.id: union_intervalos(h.intervalos)[1] for h in hileras}
+                ids_antes = {h.id for h in hileras}
+                hileras_regulares_antes, _ = filtrar_hileras_regulares(hileras)
+                total_antes = estimar_total_hileras(hileras_regulares_antes, geo["contorno"], referencia)
+                porcentaje_antes = (
+                    min(1.0, len(hileras_regulares_antes) / total_antes) if total_antes else 0.0
+                )
+
                 hileras_tocadas_hoy = procesar_puntos(puntos_geo, referencia, hileras, descartados)
 
                 if hileras_tocadas_hoy:
-                    largo_total = sum(h.largo_conocido for h in hileras)
-                    largo_cubierto_hoy = 0.0
+                    hileras_regulares, hileras_irregulares = filtrar_hileras_regulares(hileras)
+                    ids_regulares = {h.id for h in hileras_regulares}
+                    if not (ids_regulares & set(hileras_tocadas_hoy)):
+                        guardar_estado(unidad["id"], geo["nombre"], referencia, hileras)
+                        hileras_por_geocerca[geo["nombre"]] = (referencia, hileras)
+                        continue
+
+                    total_estimado = estimar_total_hileras(hileras_regulares, geo["contorno"], referencia)
+                    porcentaje_despues = (
+                        min(1.0, len(hileras_regulares) / total_estimado) if total_estimado else 0.0
+                    )
+
+                    area_trabajada_ha = geo["area_ha"] * max(0.0, porcentaje_despues - porcentaje_antes)
+
                     filas_detalle_dia = []
-                    for h in hileras:
-                        _, cubierto_total = union_intervalos(h.intervalos)
-                        cubierto_antes = cobertura_antes.get(h.id, 0.0)
-                        delta_hoy = max(0.0, cubierto_total - cubierto_antes)
-                        largo_cubierto_hoy += delta_hoy
+                    hileras_nuevas_hoy = [h for h in hileras_regulares if h.id not in ids_antes]
+                    for h in hileras_nuevas_hoy:
                         pasadas = contar_pasadas_max(h.intervalos)
                         filas_detalle_dia.append({
                             "Fecha": dia.strftime("%Y-%m-%d"),
                             "Máquina": unidad["nombre"],
                             "Cuartel": geo["nombre"],
                             "Hilera": h.id,
-                            "Largo conocido (m)": round(h.largo_conocido, 1),
                             "Máx. pasadas (acumulado)": pasadas,
                         })
 
-                    area_trabajada_ha = (
-                        geo["area_ha"] * (largo_cubierto_hoy / largo_total) if largo_total else 0
-                    )
                     if round(area_trabajada_ha, 2) > 0:
                         filas_detalle.extend(filas_detalle_dia)
                         filas_resumen.append({
                             "Fecha": dia.strftime("%Y-%m-%d"),
                             "Máquina": unidad["nombre"],
                             "Cuartel": geo["nombre"],
-                            "N° hileras conocidas": len(hileras),
+                            "N° hileras conocidas": len(hileras_regulares),
+                            "N° hileras estimadas del cuartel": round(total_estimado, 1) if total_estimado else "",
                             "Área real del cuartel (ha)": round(geo["area_ha"], 2),
                             "Hectáreas trabajadas del cuartel": round(area_trabajada_ha, 2),
                         })
