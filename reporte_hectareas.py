@@ -1,41 +1,43 @@
 """
 reporte_hectareas.py
 
-Calcula las hectareas trabajadas por dia y por maquina, sin necesidad de
-definir campos ni marcos de plantacion a mano.
+Calcula las hectareas trabajadas por dia y por maquina, usando geocercas
+reales (dibujadas por el usuario en Wialon) como borde de cada cuartel, y
+deteccion automatica de hileras para saber cuanto se avanzo cuando el
+cuartel no se completa entero.
 
 Como funciona, en resumen:
-  1. Descarga el track GPS del dia desde Wialon (una maquina a la vez).
-  2. Separa el track en tramos usando los giros (cambios de rumbo) como
-     frontera: cada tramo recto entre dos giros es una pasada candidata
-     por una hilera.
-  3. Compara cada tramo contra las hileras ya conocidas de esa maquina
-     (guardadas en un archivo de memoria) y lo asigna a la que corresponda,
-     o crea una hilera nueva si no calza con ninguna. El largo conocido de
-     cada hilera crece con cada pasada nueva.
-  4. Agrupa las hileras cercanas y paralelas en cuarteles.
-  5. Calcula el area de cada cuartel integrando el largo de sus hileras
-     contra la distancia entre hileras vecinas (no hace falta un poligono
-     dibujado a mano ni el area oficial del cuartel).
+  1. Descarga las geocercas (cuarteles reales) desde Wialon, con su nombre,
+     su contorno y su area exacta.
+  2. Descarga el track GPS del dia desde Wialon (una maquina a la vez).
+  3. Para cada geocerca, filtra los puntos del track que caen DENTRO de su
+     contorno. Todo lo que quede afuera (caminos, galpon, traslados) se
+     descarta automaticamente, sin depender de reglas de velocidad ni
+     distancias.
+  4. Dentro de cada geocerca, separa el track en tramos usando los giros
+     (cambios de rumbo) como frontera: cada tramo recto entre dos giros es
+     una pasada candidata por una hilera. Se descartan ademas los tramos
+     muy rapidos (traslado dentro de la misma geocerca, ej. camino interno).
+  5. Compara cada tramo contra las hileras ya conocidas de esa
+     maquina+geocerca (guardadas en un archivo de memoria) y lo asigna a
+     la que corresponda, o crea una hilera nueva si no calza con ninguna.
+     El largo conocido de cada hilera crece con cada pasada nueva.
   6. Calcula, para el dia pedido, que tramo de cada hilera se cubrio
      (union de pasadas, no suma) y cuantas veces se paso por cada una.
-  7. Exporta un Excel: Fecha | Cuartel | Hectareas trabajadas | Detalle de
-     pasadas por hilera.
-
-QUE FALTA PARA UNA SEGUNDA VERSION (no incluido todavia):
-  - Cierre automatico de cuartel al terminar una campana de trabajo.
-  - Deteccion mas fina si dos cuarteles vecinos quedan muy pegados.
+  7. Hectareas trabajadas del dia = area real de la geocerca x (proporcion
+     del largo de hileras cubierto ese dia).
+  8. Exporta un Excel y un mapa KML para revisar.
 
 COMO SE USA (ver tambien LEEME.txt):
-  1. Completa el archivo config.json con tu token y los datos de tus
-     maquinas.
-  2. Corre en la terminal:  python3 reporte_hectareas.py
-  3. Revisa el Excel que se genera en la carpeta "reportes".
+  1. Dibuja una geocerca en Wialon por cada cuartel real (Geocercas ->
+     Crear geocerca -> poligono sobre el contorno del cuartel).
+  2. Completa config.json con tu token y los datos de tus maquinas.
+  3. Corre en la terminal:  python3 reporte_hectareas.py
+  4. Revisa el Excel que se genera en la carpeta "reportes".
 
-La "memoria" de cada maquina se guarda en la carpeta "memoria_hileras/",
-un archivo por maquina. No la borres: ahi es donde el programa va
-aprendiendo el largo real de cada hilera con cada corrida, y guarda el
-punto de referencia fijo que usa para medir distancias en metros.
+La "memoria" de cada combinacion maquina+cuartel se guarda en la carpeta
+"memoria_hileras/". No la borres: ahi es donde el programa va aprendiendo
+el largo real de cada hilera con cada corrida.
 """
 
 import json
@@ -76,11 +78,9 @@ if MODO_NUBE:
     fecha_manual_inicio = os.environ.get("FECHA_INICIO_MANUAL", "").strip()
     fecha_manual_fin = os.environ.get("FECHA_FIN_MANUAL", "").strip()
     if fecha_manual_inicio and fecha_manual_fin:
-        # Corrida manual con rango de fechas especifico (ej. relleno de historial)
         FECHA_INICIO = datetime.strptime(fecha_manual_inicio, "%Y-%m-%d")
         FECHA_FIN = datetime.strptime(fecha_manual_fin, "%Y-%m-%d")
     else:
-        # Corrida automatica nocturna: siempre procesa el dia de ayer completo.
         FECHA_INICIO = FECHA_FIN = datetime.utcnow() - timedelta(days=1)
         FECHA_INICIO = FECHA_INICIO.replace(hour=0, minute=0, second=0, microsecond=0)
         FECHA_FIN = FECHA_FIN.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -92,12 +92,10 @@ else:
 UMBRAL_GIRO_GRADOS = CONFIG.get("umbral_giro_grados", 25)
 TOLERANCIA_LATERAL_M = CONFIG.get("tolerancia_lateral_m", 1.5)
 TOLERANCIA_ANGULO_GRADOS = CONFIG.get("tolerancia_angulo_grados", 20)
-DISTANCIA_MAX_CUARTEL_M = CONFIG.get("distancia_max_cuartel_m", 60)
 LARGO_MINIMO_TRAMO_M = CONFIG.get("largo_minimo_tramo_m", 8)
-AREA_MINIMA_REPORTE_HA = CONFIG.get("area_minima_reporte_ha", 0.05)
-MINIMO_HILERAS_CUARTEL = CONFIG.get("minimo_hileras_cuartel", 5)
 GAP_MAXIMO_HILERA_M = CONFIG.get("gap_maximo_hilera_m", 100)
 VELOCIDAD_MAXIMA_TRABAJO_KMH = CONFIG.get("velocidad_maxima_trabajo_kmh", 14)
+MINIMO_PUNTOS_EN_GEOCERCA = CONFIG.get("minimo_puntos_en_geocerca", 3)
 
 os.makedirs(CARPETA_MEMORIA, exist_ok=True)
 os.makedirs(CARPETA_REPORTES, exist_ok=True)
@@ -141,6 +139,99 @@ def obtener_mensajes(sid, unit_id, dia):
     )
     data = r.json()
     return data.get("messages", [])
+
+
+# ---------------------------------------------------------------------------
+# Paso 1b: geocercas (cuarteles reales dibujados en Wialon)
+# ---------------------------------------------------------------------------
+
+def obtener_resource_ids(sid):
+    """Busca todos los recursos/cuentas de Wialon donde puede haber geocercas."""
+    params = json.dumps({
+        "spec": {
+            "itemsType": "avl_resource",
+            "propName": "sys_name",
+            "propValueMask": "*",
+            "sortType": "sys_name",
+        },
+        "force": 1,
+        "flags": 1,
+        "from": 0,
+        "to": 0,
+    })
+    r = requests.get(
+        f"{WIALON_HOST}/wialon/ajax.html",
+        params={"svc": "core/search_items", "params": params, "sid": sid},
+        timeout=30,
+    )
+    data = r.json()
+    return [item["id"] for item in data.get("items", [])]
+
+
+def area_poligono_m2(vertices_metros):
+    if len(vertices_metros) < 3:
+        return 0.0
+    doble_area = 0.0
+    n = len(vertices_metros)
+    for i in range(n):
+        x1, y1 = vertices_metros[i]
+        x2, y2 = vertices_metros[(i + 1) % n]
+        doble_area += x1 * y2 - x2 * y1
+    return abs(doble_area) / 2
+
+
+def obtener_geocercas(sid):
+    """
+    Devuelve una lista de cuarteles reales (geocercas de tipo poligono),
+    con su nombre, su contorno (lon, lat) y su area real en hectareas
+    (calculada por nosotros mismos a partir del contorno, en metros).
+    """
+    geocercas = []
+    for resource_id in obtener_resource_ids(sid):
+        params = json.dumps({"itemId": resource_id, "flags": 0x1C})
+        r = requests.get(
+            f"{WIALON_HOST}/wialon/ajax.html",
+            params={"svc": "resource/get_zone_data", "params": params, "sid": sid},
+            timeout=30,
+        )
+        data = r.json()
+        if not isinstance(data, list):
+            continue
+        for zona in data:
+            if zona.get("t") != 2:
+                continue  # solo poligonos (1=linea, 2=poligono, 3=circulo)
+            puntos = zona.get("p") or []
+            if len(puntos) < 3:
+                continue
+            contorno = [(p["x"], p["y"]) for p in puntos]
+            referencia = contorno[0]
+            contorno_m = [punto_a_metros(p, referencia) for p in contorno]
+            area_m2 = area_poligono_m2(contorno_m)
+            if area_m2 <= 0:
+                continue
+            geocercas.append({
+                "nombre": zona.get("n", f"Geocerca {zona.get('id')}"),
+                "contorno": contorno,
+                "area_ha": area_m2 / 10000,
+            })
+    return geocercas
+
+
+def punto_en_poligono(punto, poligono):
+    """Ray casting: True si el punto (lon, lat) cae dentro del poligono."""
+    x, y = punto
+    dentro = False
+    n = len(poligono)
+    j = n - 1
+    for i in range(n):
+        xi, yi = poligono[i]
+        xj, yj = poligono[j]
+        if (yi > y) != (yj > y):
+            x_interseccion = (xj - xi) * (y - yi) / (yj - yi + 1e-15) + xi
+            if x < x_interseccion:
+                dentro = not dentro
+        j = i
+    return dentro
 
 
 # ---------------------------------------------------------------------------
@@ -189,8 +280,6 @@ def segmentar_pasadas(puntos, umbral_giro=UMBRAL_GIRO_GRADOS):
 # ---------------------------------------------------------------------------
 # Conversion a metros (aproximacion plana local, sin dependencias externas)
 # ---------------------------------------------------------------------------
-# Valida para distancias de hasta varios kilometros alrededor del punto de
-# referencia, que es mas que suficiente para el tamano de un cuartel/campo.
 
 METROS_POR_GRADO_LAT = 110574.0
 
@@ -210,6 +299,23 @@ def metros_a_punto(punto_m, referencia):
     lon = lon0 + punto_m[0] / metros_por_grado_lon
     lat = lat0 + punto_m[1] / METROS_POR_GRADO_LAT
     return (lon, lat)
+
+
+def velocidad_kmh_segmento(segmento, segmento_m):
+    """Velocidad promedio del tramo, calculada de la distancia real y el tiempo."""
+    if len(segmento) < 2:
+        return 0.0
+    dist_total = 0.0
+    for i in range(len(segmento_m) - 1):
+        dist_total += math.hypot(
+            segmento_m[i + 1][0] - segmento_m[i][0],
+            segmento_m[i + 1][1] - segmento_m[i][1],
+        )
+    t0, t1 = segmento[0].get("t"), segmento[-1].get("t")
+    if not t0 or not t1 or t1 <= t0:
+        return 0.0
+    horas = (t1 - t0) / 3600
+    return (dist_total / 1000) / horas
 
 
 # ---------------------------------------------------------------------------
@@ -268,8 +374,6 @@ def asignar_o_crear_hilera(segmento_m, hileras, siguiente_id):
         proy_ini, lat_ini = proyectar(p_ini, h)
         proy_fin, lat_fin = proyectar(p_fin, h)
 
-        # Descarta candidatos que apuntan igual pero estan lejos a lo largo
-        # de la propia hilera (ej. otra hilera paralela, kilometros mas alla).
         proy_min_seg, proy_max_seg = min(proy_ini, proy_fin), max(proy_ini, proy_fin)
         if proy_max_seg < h.min_proy - GAP_MAXIMO_HILERA_M:
             continue
@@ -296,80 +400,27 @@ def actualizar_hilera(hilera, segmento_m):
     hilera.intervalos.append([round(p_min, 1), round(p_max, 1)])
 
 
-# ---------------------------------------------------------------------------
-# Paso 4: agrupar hileras en cuarteles (cercanas y paralelas)
-# ---------------------------------------------------------------------------
+def procesar_puntos(puntos, referencia, hileras, descartados):
+    segmentos = segmentar_pasadas(puntos)
 
-def agrupar_en_cuarteles(hileras):
-    padre = {h.id: h.id for h in hileras}
+    siguiente_id = (max((h.id for h in hileras), default=0)) + 1
+    hileras_tocadas_hoy = set()
 
-    def encontrar(x):
-        while padre[x] != x:
-            x = padre[x]
-        return x
+    for seg in segmentos:
+        seg_m = [punto_a_metros(p["punto"], referencia) for p in seg]
 
-    def unir(a, b):
-        ra, rb = encontrar(a), encontrar(b)
-        if ra != rb:
-            padre[ra] = rb
+        if velocidad_kmh_segmento(seg, seg_m) > VELOCIDAD_MAXIMA_TRABAJO_KMH:
+            descartados.append((seg[0]["punto"], seg[-1]["punto"]))
+            continue
 
-    for i, h1 in enumerate(hileras):
-        centro1 = (
-            h1.origen[0] + h1.direccion[0] * (h1.min_proy + h1.max_proy) / 2,
-            h1.origen[1] + h1.direccion[1] * (h1.min_proy + h1.max_proy) / 2,
-        )
-        for h2 in hileras[i + 1:]:
-            cos_ang = h1.direccion[0] * h2.direccion[0] + h1.direccion[1] * h2.direccion[1]
-            angulo = math.degrees(math.acos(max(-1, min(1, abs(cos_ang)))))
-            if angulo > TOLERANCIA_ANGULO_GRADOS:
-                continue
-            centro2 = (
-                h2.origen[0] + h2.direccion[0] * (h2.min_proy + h2.max_proy) / 2,
-                h2.origen[1] + h2.direccion[1] * (h2.min_proy + h2.max_proy) / 2,
-            )
-            dist = math.hypot(centro1[0] - centro2[0], centro1[1] - centro2[1])
-            if dist <= DISTANCIA_MAX_CUARTEL_M:
-                unir(h1.id, h2.id)
+        hilera, siguiente_id = asignar_o_crear_hilera(seg_m, hileras, siguiente_id)
+        if hilera is None:
+            descartados.append((seg[0]["punto"], seg[-1]["punto"]))
+            continue
+        actualizar_hilera(hilera, seg_m)
+        hileras_tocadas_hoy.add(hilera.id)
 
-    grupos = {}
-    for h in hileras:
-        raiz = encontrar(h.id)
-        grupos.setdefault(raiz, []).append(h)
-    return list(grupos.values())
-
-
-# ---------------------------------------------------------------------------
-# Paso 5: area del cuartel por integracion entre hileras vecinas
-# ---------------------------------------------------------------------------
-
-def calcular_area_cuartel_m2(hileras_cuartel):
-    """
-    Suma las franjas (trapecios) entre cada hilera y su vecina mas cercana,
-    ordenadas por posicion lateral dentro del cuartel. Mas resistente a
-    hileras sueltas/atipicas (maniobras que se colaron en el grupo) que
-    una envolvente convexa, que se infla mucho con un solo punto extremo.
-    """
-    if len(hileras_cuartel) < 2:
-        h = hileras_cuartel[0]
-        ancho_estimado = 3.0
-        return h.largo_conocido * ancho_estimado
-
-    ref = hileras_cuartel[0]
-
-    def lateral(h):
-        dx = h.origen[0] - ref.origen[0]
-        dy = h.origen[1] - ref.origen[1]
-        return dx * (-ref.direccion[1]) + dy * ref.direccion[0]
-
-    ordenadas = sorted(hileras_cuartel, key=lateral)
-    posiciones = [lateral(h) for h in ordenadas]
-    largos = [h.largo_conocido for h in ordenadas]
-
-    area = 0.0
-    for i in range(len(ordenadas) - 1):
-        ancho = abs(posiciones[i + 1] - posiciones[i])
-        area += ancho * (largos[i] + largos[i + 1]) / 2
-    return area
+    return list(hileras_tocadas_hoy)
 
 
 # ---------------------------------------------------------------------------
@@ -405,41 +456,12 @@ def contar_pasadas_max(intervalos):
     return maximo
 
 
-# ---------------------------------------------------------------------------
-# Persistencia: memoria por unidad (referencia de medicion + hileras)
-# ---------------------------------------------------------------------------
-
-def ruta_memoria(unit_id):
-    return os.path.join(CARPETA_MEMORIA, f"unidad_{unit_id}.json")
-
-
-def cargar_estado(unit_id):
-    ruta = ruta_memoria(unit_id)
-    if not os.path.exists(ruta):
-        return None, []
-    with open(ruta, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    referencia = tuple(data["referencia"]) if data.get("referencia") else None
-    hileras = [Hilera.from_dict(d) for d in data.get("hileras", [])]
-    return referencia, hileras
-
-
-def guardar_estado(unit_id, referencia, hileras):
-    ruta = ruta_memoria(unit_id)
-    data = {
-        "referencia": list(referencia) if referencia else None,
-        "hileras": [h.to_dict() for h in hileras],
-    }
-    with open(ruta, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-
-
 def slug(texto):
     """Convierte un nombre en un identificador simple para nombres de archivo."""
     texto = unicodedata.normalize("NFKD", texto).encode("ascii", "ignore").decode("ascii")
     texto = texto.lower()
     texto = re.sub(r"[^a-z0-9]+", "_", texto).strip("_")
-    return texto or "unidad"
+    return texto or "cuartel"
 
 
 # ---------------------------------------------------------------------------
@@ -448,70 +470,61 @@ def slug(texto):
 
 VERDE_TRABAJADO = "ff00ff00"
 AMARILLO_DESCARTADO = "ff00ffff"
+AZUL_GEOCERCA = "ffff8000"
 
 
-def exportar_kml(ruta_salida, unidades_procesadas):
+def exportar_kml(ruta_salida, unidades_procesadas, geocercas):
     """
-    unidades_procesadas: lista de (nombre_unidad, referencia, hileras, descartados)
-    Genera un archivo KML: verde = tramo contado como hilera trabajada,
-    amarillo = tramo descartado (camino/traslado o tramo muy corto).
+    unidades_procesadas: lista de (nombre_unidad, hileras_por_geocerca, descartados)
+        hileras_por_geocerca: dict {nombre_geocerca: (referencia, hileras)}
+    Genera un archivo KML: contorno de cada geocerca en azul, hileras
+    trabajadas en verde, tramos descartados en amarillo.
     """
     partes = ['<?xml version="1.0" encoding="UTF-8"?>',
               '<kml xmlns="http://www.opengis.net/kml/2.2"><Document>']
 
-    for nombre_unidad, referencia, hileras, descartados in unidades_procesadas:
-        if referencia is None:
-            continue
+    partes.append('<Folder><name>Cuarteles (geocercas)</name>')
+    for geo in geocercas:
+        coords = " ".join(f"{lon},{lat},0" for lon, lat in geo["contorno"] + [geo["contorno"][0]])
+        partes.append(
+            f'<Placemark><name>{geo["nombre"]} ({geo["area_ha"]:.2f} ha)</name>'
+            f'<Style><LineStyle><color>{AZUL_GEOCERCA}</color><width>2</width></LineStyle>'
+            f'<PolyStyle><fill>0</fill></PolyStyle></Style>'
+            f'<Polygon><outerBoundaryIs><LinearRing><coordinates>{coords}'
+            f'</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>'
+        )
+    partes.append('</Folder>')
+
+    for nombre_unidad, hileras_por_geocerca, descartados in unidades_procesadas:
         partes.append(f'<Folder><name>{nombre_unidad}</name>')
 
-        descartados_extra = list(descartados)
-        cuarteles = agrupar_en_cuarteles(hileras) if hileras else []
-        for grupo in cuarteles:
-            ref_id = min(h.id for h in grupo)
-            area_ok = calcular_area_cuartel_m2(grupo) / 10000 >= AREA_MINIMA_REPORTE_HA
-            cuenta_en_reporte = len(grupo) >= MINIMO_HILERAS_CUARTEL and area_ok
-
-            for h in grupo:
-                p1_m = (
-                    h.origen[0] + h.direccion[0] * h.min_proy,
-                    h.origen[1] + h.direccion[1] * h.min_proy,
-                )
-                p2_m = (
-                    h.origen[0] + h.direccion[0] * h.max_proy,
-                    h.origen[1] + h.direccion[1] * h.max_proy,
-                )
+        for nombre_geo, (referencia, hileras) in hileras_por_geocerca.items():
+            if referencia is None:
+                continue
+            for h in hileras:
+                p1_m = (h.origen[0] + h.direccion[0] * h.min_proy, h.origen[1] + h.direccion[1] * h.min_proy)
+                p2_m = (h.origen[0] + h.direccion[0] * h.max_proy, h.origen[1] + h.direccion[1] * h.max_proy)
                 if math.hypot(p2_m[0] - p1_m[0], p2_m[1] - p1_m[1]) < 1.0:
-                    continue  # linea degenerada (largo ~0): la salta, no sirve de igual
-
+                    continue
                 lon1, lat1 = metros_a_punto(p1_m, referencia)
                 lon2, lat2 = metros_a_punto(p2_m, referencia)
                 if not all(math.isfinite(v) for v in (lon1, lat1, lon2, lat2)):
-                    continue  # coordenada invalida, no se dibuja
+                    continue
+                partes.append(
+                    f'<Placemark><name>{nombre_geo} - Hilera {h.id}</name>'
+                    f'<Style><LineStyle><color>{VERDE_TRABAJADO}</color><width>3</width>'
+                    f'</LineStyle></Style>'
+                    f'<LineString><coordinates>{lon1},{lat1},0 {lon2},{lat2},0'
+                    f'</coordinates></LineString></Placemark>'
+                )
 
-                if cuenta_en_reporte:
-                    partes.append(
-                        f'<Placemark><name>Trabajado - Cuartel {ref_id} - Hilera {h.id}</name>'
-                        f'<Style><LineStyle><color>{VERDE_TRABAJADO}</color><width>3</width>'
-                        f'</LineStyle></Style>'
-                        f'<LineString><coordinates>{lon1},{lat1},0 {lon2},{lat2},0'
-                        f'</coordinates></LineString></Placemark>'
-                    )
-                else:
-                    partes.append(
-                        f'<Placemark><name>Descartado (grupo chico) - Hilera {h.id}</name>'
-                        f'<Style><LineStyle><color>{AMARILLO_DESCARTADO}</color><width>3</width>'
-                        f'</LineStyle></Style>'
-                        f'<LineString><coordinates>{lon1},{lat1},0 {lon2},{lat2},0'
-                        f'</coordinates></LineString></Placemark>'
-                    )
-
-        for (lon1, lat1), (lon2, lat2) in descartados_extra:
+        for (lon1, lat1), (lon2, lat2) in descartados:
             if not all(math.isfinite(v) for v in (lon1, lat1, lon2, lat2)):
                 continue
             if lon1 == lon2 and lat1 == lat2:
                 continue
             partes.append(
-                '<Placemark><name>Descartado</name>'
+                '<Placemark><name>Descartado (fuera de geocerca o traslado)</name>'
                 f'<Style><LineStyle><color>{AMARILLO_DESCARTADO}</color><width>3</width>'
                 '</LineStyle></Style>'
                 f'<LineString><coordinates>{lon1},{lat1},0 {lon2},{lat2},0'
@@ -524,6 +537,35 @@ def exportar_kml(ruta_salida, unidades_procesadas):
 
     with open(ruta_salida, "w", encoding="utf-8") as f:
         f.write("".join(partes))
+
+
+# ---------------------------------------------------------------------------
+# Persistencia: memoria por unidad + geocerca
+# ---------------------------------------------------------------------------
+
+def ruta_memoria(unit_id, nombre_geocerca):
+    return os.path.join(CARPETA_MEMORIA, f"unidad_{unit_id}_cuartel_{slug(nombre_geocerca)}.json")
+
+
+def cargar_estado(unit_id, nombre_geocerca):
+    ruta = ruta_memoria(unit_id, nombre_geocerca)
+    if not os.path.exists(ruta):
+        return None, []
+    with open(ruta, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    referencia = tuple(data["referencia"]) if data.get("referencia") else None
+    hileras = [Hilera.from_dict(d) for d in data.get("hileras", [])]
+    return referencia, hileras
+
+
+def guardar_estado(unit_id, nombre_geocerca, referencia, hileras):
+    ruta = ruta_memoria(unit_id, nombre_geocerca)
+    data = {
+        "referencia": list(referencia) if referencia else None,
+        "hileras": [h.to_dict() for h in hileras],
+    }
+    with open(ruta, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
 
 
 # ---------------------------------------------------------------------------
@@ -543,21 +585,16 @@ def guardar_historico(registros):
 
 
 def actualizar_historico(df_resumen):
-    """Combina las filas nuevas con el historico ya guardado, reemplazando
-    (no duplicando) cualquier fila con la misma fecha+maquina+cuartel."""
     historico = cargar_historico()
-    indice = {
-        (r["fecha"], r["maquina"], r["cuartel"]): i
-        for i, r in enumerate(historico)
-    }
+    indice = {(r["fecha"], r["maquina"], r["cuartel"]): i for i, r in enumerate(historico)}
 
     for _, fila in df_resumen.iterrows():
         registro = {
             "fecha": fila["Fecha"],
             "maquina": fila["Máquina"],
-            "cuartel": int(fila["Cuartel (ref.)"]),
+            "cuartel": str(fila["Cuartel"]),
             "n_hileras": int(fila["N° hileras conocidas"]),
-            "area_total_ha": float(fila["Área estimada total cuartel (ha)"]),
+            "area_total_ha": float(fila["Área real del cuartel (ha)"]),
             "area_trabajada_ha": float(fila["Hectáreas trabajadas del cuartel"]),
         }
         clave = (registro["fecha"], registro["maquina"], registro["cuartel"])
@@ -574,55 +611,14 @@ def actualizar_historico(df_resumen):
 # Orquestacion principal
 # ---------------------------------------------------------------------------
 
-def velocidad_kmh_segmento(segmento, segmento_m):
-    """Velocidad promedio del tramo, calculada de la distancia real y el tiempo."""
-    if len(segmento) < 2:
-        return 0.0
-    dist_total = 0.0
-    for i in range(len(segmento_m) - 1):
-        dist_total += math.hypot(
-            segmento_m[i + 1][0] - segmento_m[i][0],
-            segmento_m[i + 1][1] - segmento_m[i][1],
-        )
-    t0, t1 = segmento[0].get("t"), segmento[-1].get("t")
-    if not t0 or not t1 or t1 <= t0:
-        return 0.0
-    horas = (t1 - t0) / 3600
-    return (dist_total / 1000) / horas
-
-
-def procesar_puntos(puntos, referencia, hileras, descartados):
-    segmentos = segmentar_pasadas(puntos)
-
-    siguiente_id = (max((h.id for h in hileras), default=0)) + 1
-    hileras_tocadas_hoy = set()
-
-    for seg in segmentos:
-        seg_m = [punto_a_metros(p["punto"], referencia) for p in seg]
-
-        if velocidad_kmh_segmento(seg, seg_m) > VELOCIDAD_MAXIMA_TRABAJO_KMH:
-            descartados.append((seg[0]["punto"], seg[-1]["punto"]))
-            continue
-
-        hilera, siguiente_id = asignar_o_crear_hilera(seg_m, hileras, siguiente_id)
-        if hilera is None:
-            descartados.append((seg[0]["punto"], seg[-1]["punto"]))
-            continue
-        actualizar_hilera(hilera, seg_m)
-        hileras_tocadas_hoy.add(hilera.id)
-
-    return list(hileras_tocadas_hoy)
-
-
-def generar_reporte(sid):
+def generar_reporte(sid, geocercas):
     filas_resumen = []
     filas_detalle = []
-    descartados_por_unidad = {}
+    resultado_por_unidad = []  # para el KML: (nombre, {geocerca: (ref, hileras)}, descartados)
 
     for unidad in UNIDADES:
-        referencia, hileras = cargar_estado(unidad["id"])
         descartados = []
-        descartados_por_unidad[unidad["id"]] = descartados
+        hileras_por_geocerca = {}
 
         dia = FECHA_INICIO
         while dia <= FECHA_FIN:
@@ -631,69 +627,63 @@ def generar_reporte(sid):
                 {"punto": (m["pos"]["x"], m["pos"]["y"]), "t": m.get("t")}
                 for m in mensajes if m.get("pos")
             ]
+            if len(puntos) < 3:
+                dia += timedelta(days=1)
+                continue
 
-            if len(puntos) >= 3:
+            for geo in geocercas:
+                puntos_geo = [p for p in puntos if punto_en_poligono(p["punto"], geo["contorno"])]
+                if len(puntos_geo) < MINIMO_PUNTOS_EN_GEOCERCA:
+                    continue
+
+                referencia, hileras = cargar_estado(unidad["id"], geo["nombre"])
                 if referencia is None:
-                    referencia = puntos[0]["punto"]
+                    referencia = puntos_geo[0]["punto"]
 
                 cobertura_antes = {h.id: union_intervalos(h.intervalos)[1] for h in hileras}
-                hileras_tocadas_hoy = procesar_puntos(puntos, referencia, hileras, descartados)
+                hileras_tocadas_hoy = procesar_puntos(puntos_geo, referencia, hileras, descartados)
 
                 if hileras_tocadas_hoy:
-                    cuarteles = agrupar_en_cuarteles(hileras)
-                    for grupo in cuarteles:
-                        ids_grupo = {h.id for h in grupo}
-                        if not (ids_grupo & set(hileras_tocadas_hoy)):
-                            continue
+                    largo_total = sum(h.largo_conocido for h in hileras)
+                    largo_cubierto_hoy = 0.0
+                    filas_detalle_dia = []
+                    for h in hileras:
+                        _, cubierto_total = union_intervalos(h.intervalos)
+                        cubierto_antes = cobertura_antes.get(h.id, 0.0)
+                        delta_hoy = max(0.0, cubierto_total - cubierto_antes)
+                        largo_cubierto_hoy += delta_hoy
+                        pasadas = contar_pasadas_max(h.intervalos)
+                        filas_detalle_dia.append({
+                            "Fecha": dia.strftime("%Y-%m-%d"),
+                            "Máquina": unidad["nombre"],
+                            "Cuartel": geo["nombre"],
+                            "Hilera": h.id,
+                            "Largo conocido (m)": round(h.largo_conocido, 1),
+                            "Máx. pasadas (acumulado)": pasadas,
+                        })
 
-                        if len(grupo) < MINIMO_HILERAS_CUARTEL:
-                            continue  # muy pocas hileras: probable tramo de traslado o maniobra, no un cuartel real
-
-                        area_total_m2 = calcular_area_cuartel_m2(grupo)
-                        area_total_ha = area_total_m2 / 10000
-                        if area_total_ha < AREA_MINIMA_REPORTE_HA:
-                            continue  # probable ruido (maniobra/tramo suelto), no un cuartel real
-
-                        largo_total = sum(h.largo_conocido for h in grupo)
-                        largo_cubierto_hoy = 0.0
-                        filas_detalle_grupo = []
-                        for h in grupo:
-                            _, cubierto_total = union_intervalos(h.intervalos)
-                            cubierto_antes = cobertura_antes.get(h.id, 0.0)
-                            delta_hoy = max(0.0, cubierto_total - cubierto_antes)
-                            largo_cubierto_hoy += delta_hoy
-                            pasadas = contar_pasadas_max(h.intervalos)
-                            filas_detalle_grupo.append({
-                                "Fecha": dia.strftime("%Y-%m-%d"),
-                                "Máquina": unidad["nombre"],
-                                "Cuartel (ref.)": min(g.id for g in grupo),
-                                "Hilera": h.id,
-                                "Largo conocido (m)": round(h.largo_conocido, 1),
-                                "Máx. pasadas (acumulado)": pasadas,
-                            })
-
-                        area_trabajada_ha = (
-                            area_total_ha * (largo_cubierto_hoy / largo_total)
-                            if largo_total else 0
-                        )
-                        if round(area_trabajada_ha, 2) <= 0:
-                            continue  # sin hectáreas nuevas ese día: no aporta al informe
-
-                        filas_detalle.extend(filas_detalle_grupo)
+                    area_trabajada_ha = (
+                        geo["area_ha"] * (largo_cubierto_hoy / largo_total) if largo_total else 0
+                    )
+                    if round(area_trabajada_ha, 2) > 0:
+                        filas_detalle.extend(filas_detalle_dia)
                         filas_resumen.append({
                             "Fecha": dia.strftime("%Y-%m-%d"),
                             "Máquina": unidad["nombre"],
-                            "Cuartel (ref.)": min(g.id for g in grupo),
-                            "N° hileras conocidas": len(grupo),
-                            "Área estimada total cuartel (ha)": round(area_total_ha, 2),
+                            "Cuartel": geo["nombre"],
+                            "N° hileras conocidas": len(hileras),
+                            "Área real del cuartel (ha)": round(geo["area_ha"], 2),
                             "Hectáreas trabajadas del cuartel": round(area_trabajada_ha, 2),
                         })
 
+                guardar_estado(unidad["id"], geo["nombre"], referencia, hileras)
+                hileras_por_geocerca[geo["nombre"]] = (referencia, hileras)
+
             dia += timedelta(days=1)
 
-        guardar_estado(unidad["id"], referencia, hileras)
+        resultado_por_unidad.append((unidad["nombre"], hileras_por_geocerca, descartados))
 
-    return pd.DataFrame(filas_resumen), pd.DataFrame(filas_detalle), descartados_por_unidad
+    return pd.DataFrame(filas_resumen), pd.DataFrame(filas_detalle), resultado_por_unidad
 
 
 def main():
@@ -701,8 +691,15 @@ def main():
     sid = wialon_login(TOKEN)
     print("Conectado.")
 
+    print("Descargando geocercas (cuarteles reales)...")
+    geocercas = obtener_geocercas(sid)
+    print(f"Se encontraron {len(geocercas)} geocercas de tipo poligono.")
+    if not geocercas:
+        print("ADVERTENCIA: no hay geocercas creadas en Wialon todavia. "
+              "Crea una geocerca de tipo poligono por cada cuartel real antes de seguir.")
+
     print(f"Procesando del {FECHA_INICIO.date()} al {FECHA_FIN.date()}...")
-    df_resumen, df_detalle, descartados_por_unidad = generar_reporte(sid)
+    df_resumen, df_detalle, resultado_por_unidad = generar_reporte(sid, geocercas)
 
     if not df_resumen.empty:
         actualizar_historico(df_resumen)
@@ -722,23 +719,17 @@ def main():
     else:
         print(df_resumen.to_string(index=False))
 
-    unidades_para_kml = []
-    for unidad in UNIDADES:
-        referencia, hileras = cargar_estado(unidad["id"])
-        descartados = descartados_por_unidad.get(unidad["id"], [])
-        unidades_para_kml.append((unidad["nombre"], referencia, hileras, descartados))
-
     ruta_kml = os.path.join(CARPETA_DATOS, "hileras_detectadas.kml")
-    exportar_kml(ruta_kml, unidades_para_kml)
+    exportar_kml(ruta_kml, resultado_por_unidad, geocercas)
     print(f"Mapa de revision generado en: {ruta_kml}")
 
     carpeta_kml_por_unidad = os.path.join(CARPETA_DATOS, "kml")
     os.makedirs(carpeta_kml_por_unidad, exist_ok=True)
-    for nombre_unidad, referencia, hileras, descartados in unidades_para_kml:
-        if referencia is None:
+    for nombre_unidad, hileras_por_geocerca, descartados in resultado_por_unidad:
+        if not hileras_por_geocerca:
             continue
         ruta_kml_unidad = os.path.join(carpeta_kml_por_unidad, f"{slug(nombre_unidad)}.kml")
-        exportar_kml(ruta_kml_unidad, [(nombre_unidad, referencia, hileras, descartados)])
+        exportar_kml(ruta_kml_unidad, [(nombre_unidad, hileras_por_geocerca, descartados)], geocercas)
     print(f"Mapas por maquina generados en: {carpeta_kml_por_unidad}")
     print("Abrelo con Google Earth o subelo a Google My Maps para comparar contra la foto satelital.")
 
