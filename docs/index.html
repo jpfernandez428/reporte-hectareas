@@ -45,6 +45,8 @@
       <a href="#" onclick="marcarTodas(true); return false;" style="font-size:12px;">Todas</a> ·
       <a href="#" onclick="marcarTodas(false); return false;" style="font-size:12px;">Ninguna</a>
     </div>
+    <input type="text" id="buscarMaquina" placeholder="Buscar (ej. 10)" oninput="filtrarListaMaquinas()"
+           style="width:100%; box-sizing:border-box; margin-bottom:4px; padding:6px; border-radius:6px; border:1px solid #ccc;">
     <div id="filtroMaquinaBox" style="max-height:140px; overflow-y:auto; border:1px solid #ccc; border-radius:6px; padding:8px; min-width:240px; background:white;"></div>
   </div>
   <div class="campo">
@@ -107,16 +109,25 @@ async function cargarDatos() {
 function poblarFiltroMaquinas() {
   const box = document.getElementById('filtroMaquinaBox');
   box.innerHTML = '';
-  const maquinas = [...new Set(datos.map(d => d.maquina))].sort();
+  const maquinas = [...new Set(datos.map(d => d.maquina))]
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
   for (const m of maquinas) {
     const label = document.createElement('label');
     label.style.display = 'block';
     label.style.fontWeight = 'normal';
     label.style.fontSize = '13px';
     label.style.padding = '2px 0';
+    label.dataset.nombre = m.toLowerCase();
     label.innerHTML = `<input type="checkbox" value="${m}" onchange="aplicarFiltros()"> ${m}`;
     box.appendChild(label);
   }
+}
+
+function filtrarListaMaquinas() {
+  const texto = document.getElementById('buscarMaquina').value.trim().toLowerCase();
+  document.querySelectorAll('#filtroMaquinaBox label').forEach(label => {
+    label.style.display = label.dataset.nombre.includes(texto) ? 'block' : 'none';
+  });
 }
 
 function marcarTodas(valor) {
@@ -322,12 +333,61 @@ function normalizarSlug(texto) {
     .replace(/^_+|_+$/g, '') || 'unidad';
 }
 
-function descargarKML() {
+async function descargarKML() {
   const seleccionadas = maquinasSeleccionadas();
+
+  if (seleccionadas.length === 0) {
+    alert('Vas a descargar el mapa de TODAS las máquinas (archivo grande). Si Google Earth da error de "límite de componentes", usa la opción "Importar como capa de datos" en vez de "elementos del mapa".');
+    window.open('datos/hileras_detectadas.kml', '_blank');
+    return;
+  }
+
   if (seleccionadas.length === 1) {
     window.open('datos/kml/' + normalizarSlug(seleccionadas[0]) + '.kml', '_blank');
-  } else {
-    window.open('datos/hileras_detectadas.kml', '_blank');
+    return;
+  }
+
+  try {
+    const resultados = await Promise.allSettled(
+      seleccionadas.map(m => fetch('datos/kml/' + normalizarSlug(m) + '.kml').then(r => {
+        if (!r.ok) throw new Error('sin mapa');
+        return r.text();
+      }))
+    );
+
+    let interior = '';
+    const faltantes = [];
+    resultados.forEach((resultado, i) => {
+      if (resultado.status === 'fulfilled') {
+        const m = resultado.value.match(/<Document>([\s\S]*)<\/Document>/);
+        if (m) {
+          interior += m[1];
+        } else {
+          faltantes.push(seleccionadas[i]);
+        }
+      } else {
+        faltantes.push(seleccionadas[i]);
+      }
+    });
+
+    if (!interior) {
+      alert('Ninguna de las máquinas elegidas tiene mapa generado todavía para este período.');
+      return;
+    }
+
+    if (faltantes.length > 0) {
+      alert('Aviso: estas máquinas no tienen mapa disponible (sin trabajo registrado en un cuartel con geocerca) y no se incluyeron:\n' + faltantes.join('\n'));
+    }
+
+    const kmlFinal = '<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document>' + interior + '</Document></kml>';
+    const blob = new Blob([kmlFinal], { type: 'application/vnd.google-earth.kml+xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'mapa_maquinas_seleccionadas.kml';
+    a.click();
+  } catch (e) {
+    alert('No se pudo armar el mapa combinado de esas máquinas. Intenta descargando una a la vez.');
   }
 }
 
