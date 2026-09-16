@@ -605,10 +605,14 @@ def calcular_area_trabajada_y_huecos_m2(hileras_regulares, contorno_geocerca, re
         posiciones_bloque = [lateral(h.origen) for h in bloque]
         largos_bloque = [h.largo_conocido for h in bloque]
 
-        if es_primero:
+        # Solo se extiende hasta el borde real de la geocerca si la distancia
+        # hasta ese borde es comparable al espaciado normal entre hileras -
+        # si no, se trata igual que un hueco (no se adivina que llega al borde
+        # solo porque es el unico bloque conocido hasta ahora).
+        if es_primero and (posiciones_bloque[0] - poligono_min) <= mediana * TOLERANCIA_ESPACIADO:
             posiciones_bloque = [poligono_min] + posiciones_bloque
             largos_bloque = [largos_bloque[0]] + largos_bloque
-        if es_ultimo:
+        if es_ultimo and (poligono_max - posiciones_bloque[-1]) <= mediana * TOLERANCIA_ESPACIADO:
             posiciones_bloque = posiciones_bloque + [poligono_max]
             largos_bloque = largos_bloque + [largos_bloque[-1]]
 
@@ -694,8 +698,8 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas):
             entrada = hileras_por_geocerca.get(geo["nombre"])
             if not entrada:
                 continue
-            referencia, hileras = entrada
-            if calcular_porcentaje_avance(hileras, geo["contorno"], referencia) >= 1.0:
+            _, _, area_acumulada_ha = entrada
+            if geo["area_ha"] > 0 and area_acumulada_ha >= geo["area_ha"] * UMBRAL_CIERRE_PORCENTAJE:
                 completa = True
                 break
 
@@ -716,13 +720,13 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas):
         nombre_unidad_seguro = escapar_xml(nombre_unidad)
         partes.append(f'<Folder><name>{nombre_unidad_seguro}</name>')
 
-        for nombre_geo, (referencia, hileras) in hileras_por_geocerca.items():
+        for nombre_geo, (referencia, hileras, area_acumulada_ha) in hileras_por_geocerca.items():
             if referencia is None:
                 continue
             geo = next((g for g in geocercas if g["nombre"] == nombre_geo), None)
             geocerca_completa = (
-                calcular_porcentaje_avance(hileras, geo["contorno"], referencia) >= 1.0
-                if geo else False
+                geo is not None and geo["area_ha"] > 0
+                and area_acumulada_ha >= geo["area_ha"] * UMBRAL_CIERRE_PORCENTAJE
             )
             hileras_regulares, _ = filtrar_hileras_regulares(hileras)
             ids_regulares = {h.id for h in hileras_regulares}
@@ -780,19 +784,21 @@ def ruta_memoria(unit_id, nombre_geocerca):
 def cargar_estado(unit_id, nombre_geocerca):
     ruta = ruta_memoria(unit_id, nombre_geocerca)
     if not os.path.exists(ruta):
-        return None, []
+        return None, [], 0.0
     with open(ruta, "r", encoding="utf-8") as f:
         data = json.load(f)
     referencia = tuple(data["referencia"]) if data.get("referencia") else None
     hileras = [Hilera.from_dict(d) for d in data.get("hileras", [])]
-    return referencia, hileras
+    area_acumulada_ha = data.get("area_acumulada_ha", 0.0)
+    return referencia, hileras, area_acumulada_ha
 
 
-def guardar_estado(unit_id, nombre_geocerca, referencia, hileras):
+def guardar_estado(unit_id, nombre_geocerca, referencia, hileras, area_acumulada_ha):
     ruta = ruta_memoria(unit_id, nombre_geocerca)
     data = {
         "referencia": list(referencia) if referencia else None,
         "hileras": [h.to_dict() for h in hileras],
+        "area_acumulada_ha": area_acumulada_ha,
     }
     with open(ruta, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
@@ -868,21 +874,12 @@ def generar_reporte(sid, geocercas):
                 if len(puntos_geo) < MINIMO_PUNTOS_EN_GEOCERCA:
                     continue
 
-                referencia, hileras = cargar_estado(unidad["id"], geo["nombre"])
+                referencia, hileras, area_acumulada_ha = cargar_estado(unidad["id"], geo["nombre"])
                 if referencia is None:
                     referencia = puntos_geo[0]["punto"]
 
                 ids_antes = {h.id for h in hileras}
-                hileras_regulares_antes, _ = filtrar_hileras_regulares(hileras)
-                area_geocerca_m2 = area_poligono_m2(
-                    [punto_a_metros(p, referencia) for p in geo["contorno"]]
-                )
-                area_antes_ha = min(
-                    geo["area_ha"],
-                    calcular_area_trabajada_m2(hileras_regulares_antes, geo["contorno"], referencia) / 10000,
-                ) if area_geocerca_m2 > 0 else 0.0
-                if area_geocerca_m2 > 0 and area_antes_ha / geo["area_ha"] >= UMBRAL_CIERRE_PORCENTAJE:
-                    area_antes_ha = geo["area_ha"]
+                area_antes_ha = area_acumulada_ha  # nunca baja: es el maximo ya alcanzado
 
                 hileras_tocadas_hoy = procesar_puntos(puntos_geo, referencia, hileras, descartados, dia.strftime("%Y-%m-%d"))
 
@@ -890,25 +887,28 @@ def generar_reporte(sid, geocercas):
                     hileras_regulares, hileras_irregulares = filtrar_hileras_regulares(hileras)
                     ids_regulares = {h.id for h in hileras_regulares}
                     if not (ids_regulares & set(hileras_tocadas_hoy)):
-                        guardar_estado(unidad["id"], geo["nombre"], referencia, hileras)
-                        hileras_por_geocerca[geo["nombre"]] = (referencia, hileras)
+                        guardar_estado(unidad["id"], geo["nombre"], referencia, hileras, area_acumulada_ha)
+                        hileras_por_geocerca[geo["nombre"]] = (referencia, hileras, area_acumulada_ha)
                         continue
 
-                    area_despues_ha = min(
+                    area_calculada_hoy_ha = min(
                         geo["area_ha"],
                         calcular_area_trabajada_m2(hileras_regulares, geo["contorno"], referencia) / 10000,
                     )
-                    if area_despues_ha / geo["area_ha"] >= UMBRAL_CIERRE_PORCENTAJE:
-                        area_despues_ha = geo["area_ha"]
+                    if geo["area_ha"] > 0 and area_calculada_hoy_ha / geo["area_ha"] >= UMBRAL_CIERRE_PORCENTAJE:
+                        area_calculada_hoy_ha = geo["area_ha"]
 
-                    area_trabajada_ha = max(0.0, area_despues_ha - area_antes_ha)
+                    # Nunca baja del maximo ya alcanzado, aunque el recalculo de hoy de menos
+                    # (evita que un reordenamiento de bloques infle el total acumulado).
+                    area_despues_ha = max(area_antes_ha, area_calculada_hoy_ha)
+                    area_trabajada_ha = area_despues_ha - area_antes_ha
 
                     if round(area_trabajada_ha, 2) <= 0:
                         print(
                             f"  [sin avance nuevo] {dia.strftime('%Y-%m-%d')} - {unidad['nombre']} - {geo['nombre']}: "
                             f"{len(puntos_geo)} puntos, {len(hileras)} hileras conocidas en total, "
                             f"{len(hileras_regulares)} regulares, "
-                            f"area_antes={area_antes_ha:.2f} ha, area_despues={area_despues_ha:.2f} ha"
+                            f"area_antes={area_antes_ha:.2f} ha, area_calculada_hoy={area_calculada_hoy_ha:.2f} ha"
                         )
 
                     filas_detalle_dia = []
@@ -935,8 +935,10 @@ def generar_reporte(sid, geocercas):
                             "Hectáreas trabajadas del cuartel": round(area_trabajada_ha, 2),
                         })
 
-                guardar_estado(unidad["id"], geo["nombre"], referencia, hileras)
-                hileras_por_geocerca[geo["nombre"]] = (referencia, hileras)
+                    area_acumulada_ha = area_despues_ha
+
+                guardar_estado(unidad["id"], geo["nombre"], referencia, hileras, area_acumulada_ha)
+                hileras_por_geocerca[geo["nombre"]] = (referencia, hileras, area_acumulada_ha)
 
             dia += timedelta(days=1)
 
@@ -1006,13 +1008,13 @@ def main():
         if not hileras_por_geocerca:
             continue
         cuarteles_json = {}
-        for nombre_geo, (referencia, hileras) in hileras_por_geocerca.items():
+        for nombre_geo, (referencia, hileras, area_acumulada_ha) in hileras_por_geocerca.items():
             if referencia is None:
                 continue
             geo = geocercas_por_nombre.get(nombre_geo)
             completo = (
-                calcular_porcentaje_avance(hileras, geo["contorno"], referencia) >= 1.0
-                if geo else False
+                geo is not None and geo["area_ha"] > 0
+                and area_acumulada_ha >= geo["area_ha"] * UMBRAL_CIERRE_PORCENTAJE
             )
             hileras_regulares, hileras_irregulares = filtrar_hileras_regulares(hileras)
             ids_irregulares = {h.id for h in hileras_irregulares}
@@ -1055,7 +1057,11 @@ def main():
                     "cuenta": h.id not in ids_irregulares,
                 })
             if filas:
-                cuarteles_json[nombre_geo] = {"completo": completo, "hileras": filas}
+                cuarteles_json[nombre_geo] = {
+                    "completo": completo,
+                    "contorno": geo["contorno"] if geo else [],
+                    "hileras": filas,
+                }
         if cuarteles_json:
             ruta_geo = os.path.join(carpeta_geometria, f"{slug(nombre_unidad)}.json")
             with open(ruta_geo, "w", encoding="utf-8") as f:
