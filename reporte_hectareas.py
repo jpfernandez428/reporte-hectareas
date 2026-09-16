@@ -546,6 +546,89 @@ def estimar_total_hileras(hileras_regulares, contorno_geocerca, referencia):
     return max(total_estimado, len(hileras_regulares))
 
 
+def calcular_area_trabajada_m2(hileras_regulares, contorno_geocerca, referencia):
+    """
+    Sub-divide la geocerca en bloques de trabajo real (grupos de hileras
+    contiguas, separados por huecos sin trabajar) y calcula el area de
+    cada bloque:
+      - El borde que da hacia el limite REAL de la geocerca (solo en el
+        primer y el ultimo bloque) usa el contorno real dibujado.
+      - El borde que da hacia un hueco sin trabajar usa la ultima hilera
+        conocida de ese lado, sin adivinar hacia adentro del hueco.
+    Devuelve el area en m2 (nunca puede superar el area real de la geocerca).
+    """
+    return calcular_area_trabajada_y_huecos_m2(hileras_regulares, contorno_geocerca, referencia)[0]
+
+
+def calcular_area_trabajada_y_huecos_m2(hileras_regulares, contorno_geocerca, referencia):
+    """
+    Igual que calcular_area_trabajada_m2, pero ademas devuelve el area de
+    los huecos sin trabajar entre bloques (para verificar: trabajada +
+    huecos deberia dar el area total real de la geocerca).
+    Devuelve (area_trabajada_m2, area_huecos_m2).
+    """
+    if len(hileras_regulares) < 2:
+        return 0.0, 0.0
+
+    ref = max(hileras_regulares, key=lambda h: h.largo_conocido)
+
+    def lateral(punto_m):
+        dx = punto_m[0] - ref.origen[0]
+        dy = punto_m[1] - ref.origen[1]
+        return dx * (-ref.direccion[1]) + dy * ref.direccion[0]
+
+    ordenadas = sorted(hileras_regulares, key=lambda h: lateral(h.origen))
+    posiciones = [lateral(h.origen) for h in ordenadas]
+    gaps = [posiciones[i + 1] - posiciones[i] for i in range(len(posiciones) - 1)]
+    gaps_significativos = [g for g in gaps if g > 0.3]
+    if not gaps_significativos:
+        mediana = 1.0
+    else:
+        mediana = statistics.median(gaps_significativos)
+
+    # Segmentar en bloques contiguos (separados por huecos grandes)
+    bloques = [[ordenadas[0]]]
+    for i in range(1, len(ordenadas)):
+        if gaps[i - 1] > mediana * TOLERANCIA_ESPACIADO:
+            bloques.append([])
+        bloques[-1].append(ordenadas[i])
+
+    contorno_m = [punto_a_metros(p, referencia) for p in contorno_geocerca]
+    laterales_contorno = [lateral(p) for p in contorno_m]
+    poligono_min, poligono_max = min(laterales_contorno), max(laterales_contorno)
+
+    area_trabajada = 0.0
+    for idx, bloque in enumerate(bloques):
+        es_primero = (idx == 0)
+        es_ultimo = (idx == len(bloques) - 1)
+
+        posiciones_bloque = [lateral(h.origen) for h in bloque]
+        largos_bloque = [h.largo_conocido for h in bloque]
+
+        if es_primero:
+            posiciones_bloque = [poligono_min] + posiciones_bloque
+            largos_bloque = [largos_bloque[0]] + largos_bloque
+        if es_ultimo:
+            posiciones_bloque = posiciones_bloque + [poligono_max]
+            largos_bloque = largos_bloque + [largos_bloque[-1]]
+
+        for i in range(len(posiciones_bloque) - 1):
+            ancho = abs(posiciones_bloque[i + 1] - posiciones_bloque[i])
+            area_trabajada += ancho * (largos_bloque[i] + largos_bloque[i + 1]) / 2
+
+    # Area de los huecos: entre el ultimo punto de cada bloque y el primero
+    # del bloque siguiente (usando el largo de la hilera de cada lado del hueco).
+    area_huecos = 0.0
+    for idx in range(len(bloques) - 1):
+        ultima_hilera_bloque = bloques[idx][-1]
+        primera_hilera_siguiente = bloques[idx + 1][0]
+        ancho_hueco = abs(lateral(primera_hilera_siguiente.origen) - lateral(ultima_hilera_bloque.origen))
+        largo_promedio = (ultima_hilera_bloque.largo_conocido + primera_hilera_siguiente.largo_conocido) / 2
+        area_huecos += ancho_hueco * largo_promedio
+
+    return area_trabajada, area_huecos
+
+
 def slug(texto):
     """Convierte un nombre en un identificador simple para nombres de archivo."""
     texto = unicodedata.normalize("NFKD", texto).encode("ascii", "ignore").decode("ascii")
@@ -583,10 +666,13 @@ def calcular_porcentaje_avance(hileras, contorno_geocerca, referencia):
     if referencia is None:
         return 0.0
     hileras_regulares, _ = filtrar_hileras_regulares(hileras)
-    total_estimado = estimar_total_hileras(hileras_regulares, contorno_geocerca, referencia)
-    if not total_estimado:
+    area_geocerca_m2 = area_poligono_m2(
+        [punto_a_metros(p, referencia) for p in contorno_geocerca]
+    )
+    if area_geocerca_m2 <= 0:
         return 0.0
-    porcentaje = min(1.0, len(hileras_regulares) / total_estimado)
+    area_trabajada_m2 = calcular_area_trabajada_m2(hileras_regulares, contorno_geocerca, referencia)
+    porcentaje = min(1.0, area_trabajada_m2 / area_geocerca_m2)
     return 1.0 if porcentaje >= UMBRAL_CIERRE_PORCENTAJE else porcentaje
 
 
@@ -788,12 +874,15 @@ def generar_reporte(sid, geocercas):
 
                 ids_antes = {h.id for h in hileras}
                 hileras_regulares_antes, _ = filtrar_hileras_regulares(hileras)
-                total_antes = estimar_total_hileras(hileras_regulares_antes, geo["contorno"], referencia)
-                porcentaje_antes = (
-                    min(1.0, len(hileras_regulares_antes) / total_antes) if total_antes else 0.0
+                area_geocerca_m2 = area_poligono_m2(
+                    [punto_a_metros(p, referencia) for p in geo["contorno"]]
                 )
-                if porcentaje_antes >= UMBRAL_CIERRE_PORCENTAJE:
-                    porcentaje_antes = 1.0
+                area_antes_ha = min(
+                    geo["area_ha"],
+                    calcular_area_trabajada_m2(hileras_regulares_antes, geo["contorno"], referencia) / 10000,
+                ) if area_geocerca_m2 > 0 else 0.0
+                if area_geocerca_m2 > 0 and area_antes_ha / geo["area_ha"] >= UMBRAL_CIERRE_PORCENTAJE:
+                    area_antes_ha = geo["area_ha"]
 
                 hileras_tocadas_hoy = procesar_puntos(puntos_geo, referencia, hileras, descartados, dia.strftime("%Y-%m-%d"))
 
@@ -805,22 +894,21 @@ def generar_reporte(sid, geocercas):
                         hileras_por_geocerca[geo["nombre"]] = (referencia, hileras)
                         continue
 
-                    total_estimado = estimar_total_hileras(hileras_regulares, geo["contorno"], referencia)
-                    porcentaje_despues = (
-                        min(1.0, len(hileras_regulares) / total_estimado) if total_estimado else 0.0
+                    area_despues_ha = min(
+                        geo["area_ha"],
+                        calcular_area_trabajada_m2(hileras_regulares, geo["contorno"], referencia) / 10000,
                     )
-                    if porcentaje_despues >= UMBRAL_CIERRE_PORCENTAJE:
-                        porcentaje_despues = 1.0
+                    if area_despues_ha / geo["area_ha"] >= UMBRAL_CIERRE_PORCENTAJE:
+                        area_despues_ha = geo["area_ha"]
 
-                    area_trabajada_ha = geo["area_ha"] * max(0.0, porcentaje_despues - porcentaje_antes)
+                    area_trabajada_ha = max(0.0, area_despues_ha - area_antes_ha)
 
                     if round(area_trabajada_ha, 2) <= 0:
                         print(
                             f"  [sin avance nuevo] {dia.strftime('%Y-%m-%d')} - {unidad['nombre']} - {geo['nombre']}: "
                             f"{len(puntos_geo)} puntos, {len(hileras)} hileras conocidas en total, "
-                            f"{len(hileras_regulares)} regulares, total_estimado="
-                            f"{round(total_estimado, 1) if total_estimado else 'N/A (<2 hileras)'}, "
-                            f"%antes={porcentaje_antes:.2f}, %despues={porcentaje_despues:.2f}"
+                            f"{len(hileras_regulares)} regulares, "
+                            f"area_antes={area_antes_ha:.2f} ha, area_despues={area_despues_ha:.2f} ha"
                         )
 
                     filas_detalle_dia = []
@@ -842,7 +930,7 @@ def generar_reporte(sid, geocercas):
                             "Máquina": unidad["nombre"],
                             "Cuartel": geo["nombre"],
                             "N° hileras conocidas": len(hileras_regulares),
-                            "N° hileras estimadas del cuartel": round(total_estimado, 1) if total_estimado else "",
+                            "Área acumulada trabajada (ha)": round(area_despues_ha, 2),
                             "Área real del cuartel (ha)": round(geo["area_ha"], 2),
                             "Hectáreas trabajadas del cuartel": round(area_trabajada_ha, 2),
                         })
@@ -928,6 +1016,25 @@ def main():
             )
             hileras_regulares, hileras_irregulares = filtrar_hileras_regulares(hileras)
             ids_irregulares = {h.id for h in hileras_irregulares}
+
+            if geo and len(hileras_regulares) >= 2:
+                area_trab_m2, area_huecos_m2 = calcular_area_trabajada_y_huecos_m2(
+                    hileras_regulares, geo["contorno"], referencia
+                )
+                area_geocerca_m2 = area_poligono_m2(
+                    [punto_a_metros(p, referencia) for p in geo["contorno"]]
+                )
+                suma = area_trab_m2 + area_huecos_m2
+                diferencia_pct = (
+                    abs(suma - area_geocerca_m2) / area_geocerca_m2 * 100 if area_geocerca_m2 > 0 else 0
+                )
+                estado = "OK" if diferencia_pct < 2 else "REVISAR"
+                print(
+                    f"  [verificacion area] {nombre_unidad} - {nombre_geo}: "
+                    f"trabajada={area_trab_m2/10000:.2f} ha + huecos={area_huecos_m2/10000:.2f} ha "
+                    f"= {suma/10000:.2f} ha vs geocerca real={area_geocerca_m2/10000:.2f} ha "
+                    f"(diferencia {diferencia_pct:.1f}%) [{estado}]"
+                )
 
             filas = []
             for h in hileras:
