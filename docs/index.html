@@ -89,6 +89,10 @@
   <button class="secundario" onclick="descargarKML()">Descargar mapa (KML)</button>
 </div>
 
+<h2 style="margin-top:36px; font-size:18px;">Avance por cuartel (histórico completo)</h2>
+<div class="sub" style="margin-bottom:12px;">Suma de todas las máquinas y fechas — no depende de los filtros de arriba.</div>
+<div id="contenedorAvanceCuartel"></div>
+
 <script>
 let datos = [];
 let filtrados = [];
@@ -104,6 +108,51 @@ async function cargarDatos() {
   poblarFiltroMaquinas();
   filtrados = datos;
   renderTabla();
+  renderAvancePorCuartel();
+}
+
+function renderAvancePorCuartel() {
+  const cont = document.getElementById('contenedorAvanceCuartel');
+
+  if (datos.length === 0) {
+    cont.innerHTML = '<div class="vacio">No hay datos todavía.</div>';
+    return;
+  }
+
+  const porCuartel = {};
+  for (const d of datos) {
+    if (!porCuartel[d.cuartel]) {
+      porCuartel[d.cuartel] = { area_total: d.area_total_ha, trabajado: 0 };
+    }
+    porCuartel[d.cuartel].area_total = Math.max(porCuartel[d.cuartel].area_total, d.area_total_ha);
+    porCuartel[d.cuartel].trabajado += d.area_trabajada_ha;
+  }
+
+  const filas = Object.entries(porCuartel)
+    .map(([nombre, v]) => ({
+      nombre,
+      area_total: v.area_total,
+      trabajado: Math.min(v.trabajado, v.area_total),
+      porcentaje: v.area_total > 0 ? Math.min(100, (v.trabajado / v.area_total) * 100) : 0,
+    }))
+    .sort((a, b) => a.nombre.localeCompare(b.nombre, undefined, { numeric: true, sensitivity: 'base' }));
+
+  let html = '<table><thead><tr>' +
+    '<th>Cuartel</th><th>Área total (ha)</th><th>Trabajado (ha)</th><th>% avance</th>' +
+    '</tr></thead><tbody>';
+
+  for (const f of filas) {
+    const completo = f.porcentaje >= 99.5;
+    html += `<tr><td>${f.nombre}</td><td>${f.area_total.toFixed(2)}</td>` +
+      `<td>${f.trabajado.toFixed(2)}</td>` +
+      `<td><div style="display:flex; align-items:center; gap:8px;">` +
+      `<div style="flex:1; background:#eee; border-radius:4px; height:14px; overflow:hidden;">` +
+      `<div style="width:${f.porcentaje.toFixed(0)}%; background:${completo ? '#2f6f3e' : '#f0ad4e'}; height:100%;"></div>` +
+      `</div><span style="font-size:12px; white-space:nowrap;">${f.porcentaje.toFixed(0)}%${completo ? ' ✓' : ''}</span>` +
+      `</div></td></tr>`;
+  }
+  html += '</tbody></table>';
+  cont.innerHTML = html;
 }
 
 function poblarFiltroMaquinas() {
@@ -389,6 +438,7 @@ async function descargarKML() {
     const colorRojo = 'ff0000ff';
     // maquina -> fecha -> cuartel -> [placemarks]
     const estructura = {};
+    const contornosPorMaquina = {}; // maquina -> { nombreCuartel: {contorno, completo} }
     let totalHileras = 0;
 
     for (const c of condiciones) {
@@ -397,8 +447,14 @@ async function descargarKML() {
         const cuarteles = geometriaPorMaquina[nombreMaquina];
         if (!cuarteles) continue;
         if (!estructura[nombreMaquina]) estructura[nombreMaquina] = {};
+        if (!contornosPorMaquina[nombreMaquina]) contornosPorMaquina[nombreMaquina] = {};
 
         for (const [nombreCuartel, datosCuartel] of Object.entries(cuarteles)) {
+          if (datosCuartel.contorno && datosCuartel.contorno.length >= 3) {
+            contornosPorMaquina[nombreMaquina][nombreCuartel] = {
+              contorno: datosCuartel.contorno, completo: datosCuartel.completo,
+            };
+          }
           for (const fila of datosCuartel.hileras) {
             if (!fila.cuenta) continue;  // no cuenta en el area: no se dibuja
 
@@ -441,7 +497,23 @@ async function descargarKML() {
 
     let cuerpoKml = '';
     for (const nombreMaquina of Object.keys(estructura).sort()) {
-      let contenidoMaquina = '';
+      let contenidoContornos = '';
+      const cuartelesConContorno = contornosPorMaquina[nombreMaquina] || {};
+      for (const nombreCuartel of Object.keys(cuartelesConContorno).sort()) {
+        const info = cuartelesConContorno[nombreCuartel];
+        const colorBorde = info.completo ? colorVerde : colorAzul;
+        const coords = info.contorno.map(p => `${p[0]},${p[1]},0`).join(' ') +
+          ' ' + info.contorno[0][0] + ',' + info.contorno[0][1] + ',0';
+        contenidoContornos +=
+          `<Placemark><name>${nombreCuartel} (${info.completo ? 'COMPLETA' : 'en proceso'})</name>` +
+          `<Style><LineStyle><color>${colorBorde}</color><width>6</width></LineStyle>` +
+          `<PolyStyle><fill>0</fill></PolyStyle></Style>` +
+          `<Polygon><outerBoundaryIs><LinearRing><coordinates>${coords}</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>`;
+      }
+
+      let contenidoMaquina = contenidoContornos
+        ? `<Folder><name>Cuarteles (contorno)</name>${contenidoContornos}</Folder>`
+        : '';
       const fechas = Object.keys(estructura[nombreMaquina]).sort();
       for (const fecha of fechas) {
         let contenidoFecha = '';
