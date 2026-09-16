@@ -89,8 +89,8 @@
   <button class="secundario" onclick="descargarKML()">Descargar mapa (KML)</button>
 </div>
 
-<h2 style="margin-top:36px; font-size:18px;">Avance por cuartel (histórico completo)</h2>
-<div class="sub" style="margin-bottom:12px;">Suma de todas las máquinas y fechas — no depende de los filtros de arriba.</div>
+<h2 style="margin-top:36px; font-size:18px;">Avance por cuartel</h2>
+<div class="sub" style="margin-bottom:12px;">Según el filtro de arriba (máquina y fechas).</div>
 <div id="contenedorAvanceCuartel"></div>
 
 <script>
@@ -108,19 +108,18 @@ async function cargarDatos() {
   poblarFiltroMaquinas();
   filtrados = datos;
   renderTabla();
-  renderAvancePorCuartel();
 }
 
 function renderAvancePorCuartel() {
   const cont = document.getElementById('contenedorAvanceCuartel');
 
-  if (datos.length === 0) {
-    cont.innerHTML = '<div class="vacio">No hay datos todavía.</div>';
+  if (filtrados.length === 0) {
+    cont.innerHTML = '<div class="vacio">No hay datos para este filtro todavía.</div>';
     return;
   }
 
   const porCuartel = {};
-  for (const d of datos) {
+  for (const d of filtrados) {
     if (!porCuartel[d.cuartel]) {
       porCuartel[d.cuartel] = { area_total: d.area_total_ha, trabajado: 0 };
     }
@@ -272,6 +271,7 @@ function agruparFiltrados() {
 
 function renderTabla() {
   const cont = document.getElementById('contenedorTabla');
+  renderAvancePorCuartel();
 
   if (filtrados.length === 0) {
     cont.innerHTML = '<div class="vacio">No hay datos para este filtro todavía.</div>';
