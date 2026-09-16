@@ -334,68 +334,114 @@ function normalizarSlug(texto) {
 }
 
 async function descargarKML() {
-  const seleccionadas = maquinasSeleccionadas();
-  const desde = document.getElementById('filtroDesde').value;
-  const hasta = document.getElementById('filtroHasta').value;
-  const hayFiltroFecha = !!(desde || hasta);
+  // Si hay filtros combinados armados, se usan esos; si no, se usa el filtro simple actual.
+  const condiciones = gruposFiltro.length > 0
+    ? gruposFiltro.map(g => ({ maquinas: g.maquinas, desde: g.desde, hasta: g.hasta }))
+    : [{
+        maquinas: maquinasSeleccionadas(),
+        desde: document.getElementById('filtroDesde').value,
+        hasta: document.getElementById('filtroHasta').value,
+      }];
 
-  if (seleccionadas.length === 0 && !hayFiltroFecha) {
-    alert('Vas a descargar el mapa de TODAS las máquinas (archivo grande). Si Google Earth da error de "límite de componentes", usa la opción "Importar como capa de datos" en vez de "elementos del mapa".');
-    window.open('datos/hileras_detectadas.kml', '_blank');
-    return;
+  const sinFiltroFecha = condiciones.every(c => !c.desde && !c.hasta);
+
+  // Atajos rapidos: sin fecha y una sola condicion simple, se usan los KML ya generados.
+  if (condiciones.length === 1 && sinFiltroFecha) {
+    if (condiciones[0].maquinas.length === 0) {
+      alert('Vas a descargar el mapa de TODAS las máquinas (archivo grande). Si Google Earth da error de "límite de componentes", usa la opción "Importar como capa de datos" en vez de "elementos del mapa".');
+      window.open('datos/hileras_detectadas.kml', '_blank');
+      return;
+    }
+    if (condiciones[0].maquinas.length === 1) {
+      window.open('datos/kml/' + normalizarSlug(condiciones[0].maquinas[0]) + '.kml', '_blank');
+      return;
+    }
   }
 
-  if (seleccionadas.length === 1 && !hayFiltroFecha) {
-    window.open('datos/kml/' + normalizarSlug(seleccionadas[0]) + '.kml', '_blank');
-    return;
+  // Caso general: se arma el KML en el navegador, con carpetas Maquina -> Fecha -> Cuartel.
+  const todasLasMaquinas = [...new Set(datos.map(d => d.maquina))];
+  const maquinasNecesarias = new Set();
+  for (const c of condiciones) {
+    (c.maquinas.length > 0 ? c.maquinas : todasLasMaquinas).forEach(m => maquinasNecesarias.add(m));
   }
-
-  // Con filtro de fecha (o varias máquinas), armamos el KML en el navegador
-  // usando los archivos de geometría, que traen la fecha de cada hilera.
-  const maquinasParaMapa = seleccionadas.length > 0 ? seleccionadas
-    : [...new Set(datos.map(d => d.maquina))];
 
   try {
+    const listaMaquinas = [...maquinasNecesarias];
     const resultados = await Promise.allSettled(
-      maquinasParaMapa.map(m => fetch('datos/geometria/' + normalizarSlug(m) + '.json').then(r => {
+      listaMaquinas.map(m => fetch('datos/geometria/' + normalizarSlug(m) + '.json').then(r => {
         if (!r.ok) throw new Error('sin geometria');
         return r.json();
       }))
     );
 
-    const colorVerde = 'ff00ff00';
-    let placemarks = '';
+    const geometriaPorMaquina = {};
     const faltantes = [];
-    let totalHileras = 0;
-
     resultados.forEach((resultado, i) => {
-      const nombreMaquina = maquinasParaMapa[i];
-      if (resultado.status !== 'fulfilled') {
-        faltantes.push(nombreMaquina);
-        return;
-      }
-      const cuarteles = resultado.value;
-      for (const [nombreCuartel, filas] of Object.entries(cuarteles)) {
-        for (const fila of filas) {
-          if (desde && fila.fecha_ultima < desde) continue;
-          if (hasta && fila.fecha_primera > hasta) continue;
-          totalHileras++;
-          placemarks += `<Placemark><name>${nombreMaquina} - ${nombreCuartel} - Hilera ${fila.id}</name>` +
-            `<Style><LineStyle><color>${colorVerde}</color><width>3</width></LineStyle></Style>` +
-            `<LineString><coordinates>${fila.p1[0]},${fila.p1[1]},0 ${fila.p2[0]},${fila.p2[1]},0</coordinates></LineString></Placemark>`;
-        }
+      if (resultado.status === 'fulfilled') {
+        geometriaPorMaquina[listaMaquinas[i]] = resultado.value;
+      } else {
+        faltantes.push(listaMaquinas[i]);
       }
     });
 
+    const colorVerde = 'ff00ff00';
+    // maquina -> fecha -> cuartel -> [placemarks]
+    const estructura = {};
+    let totalHileras = 0;
+
+    for (const c of condiciones) {
+      const maquinasCondicion = c.maquinas.length > 0 ? c.maquinas : todasLasMaquinas;
+      for (const nombreMaquina of maquinasCondicion) {
+        const cuarteles = geometriaPorMaquina[nombreMaquina];
+        if (!cuarteles) continue;
+        if (!estructura[nombreMaquina]) estructura[nombreMaquina] = {};
+
+        for (const [nombreCuartel, filas] of Object.entries(cuarteles)) {
+          for (const fila of filas) {
+            for (const fecha of fila.fechas) {
+              if (c.desde && fecha < c.desde) continue;
+              if (c.hasta && fecha > c.hasta) continue;
+
+              if (!estructura[nombreMaquina][fecha]) estructura[nombreMaquina][fecha] = {};
+              if (!estructura[nombreMaquina][fecha][nombreCuartel]) estructura[nombreMaquina][fecha][nombreCuartel] = new Map();
+              const cuartelDia = estructura[nombreMaquina][fecha][nombreCuartel];
+              if (cuartelDia.has(fila.id)) continue;
+              totalHileras++;
+              cuartelDia.set(fila.id,
+                `<Placemark><name>Hilera ${fila.id}</name>` +
+                `<Style><LineStyle><color>${colorVerde}</color><width>3</width></LineStyle></Style>` +
+                `<LineString><coordinates>${fila.p1[0]},${fila.p1[1]},0 ${fila.p2[0]},${fila.p2[1]},0</coordinates></LineString></Placemark>`
+              );
+            }
+          }
+        }
+      }
+    }
+
     if (totalHileras === 0) {
-      alert('No hay hileras registradas para ese filtro de máquina/fecha todavía.');
+      alert('No hay hileras registradas para ese filtro todavía.');
       return;
     }
     if (faltantes.length > 0) {
       alert('Aviso: estas máquinas no tienen geometría disponible y no se incluyeron:\n' + faltantes.join('\n'));
     }
 
-    const kmlFinal = '<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document>' + placemarks + '</Document></kml>';
+    let cuerpoKml = '';
+    for (const nombreMaquina of Object.keys(estructura).sort()) {
+      let contenidoMaquina = '';
+      const fechas = Object.keys(estructura[nombreMaquina]).sort();
+      for (const fecha of fechas) {
+        let contenidoFecha = '';
+        for (const nombreCuartel of Object.keys(estructura[nombreMaquina][fecha]).sort()) {
+          const placemarks = [...estructura[nombreMaquina][fecha][nombreCuartel].values()].join('');
+          contenidoFecha += `<Folder><name>${nombreCuartel}</name>${placemarks}</Folder>`;
+        }
+        contenidoMaquina += `<Folder><name>${fecha}</name>${contenidoFecha}</Folder>`;
+      }
+      cuerpoKml += `<Folder><name>${nombreMaquina}</name>${contenidoMaquina}</Folder>`;
+    }
+
+    const kmlFinal = '<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document>' + cuerpoKml + '</Document></kml>';
     const blob = new Blob([kmlFinal], { type: 'application/vnd.google-earth.kml+xml' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -403,7 +449,7 @@ async function descargarKML() {
     a.download = 'mapa_filtrado.kml';
     a.click();
   } catch (e) {
-    alert('No se pudo armar el mapa filtrado. Intenta sin el filtro de fecha, o con una máquina a la vez.');
+    alert('No se pudo armar el mapa filtrado. Intenta con un filtro más simple.');
   }
 }
 
