@@ -501,7 +501,7 @@ async function descargarKML() {
       const cuartelesConContorno = contornosPorMaquina[nombreMaquina] || {};
       for (const nombreCuartel of Object.keys(cuartelesConContorno).sort()) {
         const info = cuartelesConContorno[nombreCuartel];
-        const colorBorde = info.completo ? colorVerde : colorAzul;
+        const colorBorde = 'ff000000';
         const coords = info.contorno.map(p => `${p[0]},${p[1]},0`).join(' ') +
           ' ' + info.contorno[0][0] + ',' + info.contorno[0][1] + ',0';
         contenidoContornos +=
