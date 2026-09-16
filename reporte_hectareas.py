@@ -98,6 +98,7 @@ GAP_MAXIMO_HILERA_M = CONFIG.get("gap_maximo_hilera_m", 100)
 VELOCIDAD_MAXIMA_TRABAJO_KMH = CONFIG.get("velocidad_maxima_trabajo_kmh", 14)
 MINIMO_PUNTOS_EN_GEOCERCA = CONFIG.get("minimo_puntos_en_geocerca", 3)
 TOLERANCIA_ESPACIADO = CONFIG.get("tolerancia_espaciado", 2.5)
+TOLERANCIA_BORDE_GEOCERCA_M = CONFIG.get("tolerancia_borde_geocerca_m", 10)
 CUARTELES_INCLUIDOS = [n.strip().lower() for n in CONFIG.get("cuarteles_incluidos", [])]
 UMBRAL_CIERRE_PORCENTAJE = CONFIG.get("umbral_cierre_porcentaje", 0.97)
 
@@ -560,6 +561,23 @@ def calcular_area_trabajada_m2(hileras_regulares, contorno_geocerca, referencia)
     return calcular_area_trabajada_y_huecos_m2(hileras_regulares, contorno_geocerca, referencia)[0]
 
 
+def largo_efectivo_hilera_m(hilera, contorno_m):
+    """
+    Largo de la hilera, extendido hasta el borde real de la geocerca en el
+    extremo (o los extremos) donde la distancia restante es razonable
+    (misma logica que el ancho, pero en el largo de cada hilera individual).
+    """
+    proyecciones = [proyectar(v, hilera)[0] for v in contorno_m]
+    poligono_min, poligono_max = min(proyecciones), max(proyecciones)
+
+    min_h, max_h = hilera.min_proy, hilera.max_proy
+    if (min_h - poligono_min) <= TOLERANCIA_BORDE_GEOCERCA_M:
+        min_h = poligono_min
+    if (poligono_max - max_h) <= TOLERANCIA_BORDE_GEOCERCA_M:
+        max_h = poligono_max
+    return max(0.0, max_h - min_h)
+
+
 def calcular_area_trabajada_y_huecos_m2(hileras_regulares, contorno_geocerca, referencia):
     """
     Igual que calcular_area_trabajada_m2, pero ademas devuelve el area de
@@ -577,6 +595,9 @@ def calcular_area_trabajada_y_huecos_m2(hileras_regulares, contorno_geocerca, re
         dy = punto_m[1] - ref.origen[1]
         return dx * (-ref.direccion[1]) + dy * ref.direccion[0]
 
+    contorno_m = [punto_a_metros(p, referencia) for p in contorno_geocerca]
+    largo_efectivo = {h.id: largo_efectivo_hilera_m(h, contorno_m) for h in hileras_regulares}
+
     ordenadas = sorted(hileras_regulares, key=lambda h: lateral(h.origen))
     posiciones = [lateral(h.origen) for h in ordenadas]
     gaps = [posiciones[i + 1] - posiciones[i] for i in range(len(posiciones) - 1)]
@@ -593,7 +614,6 @@ def calcular_area_trabajada_y_huecos_m2(hileras_regulares, contorno_geocerca, re
             bloques.append([])
         bloques[-1].append(ordenadas[i])
 
-    contorno_m = [punto_a_metros(p, referencia) for p in contorno_geocerca]
     laterales_contorno = [lateral(p) for p in contorno_m]
     poligono_min, poligono_max = min(laterales_contorno), max(laterales_contorno)
 
@@ -603,16 +623,16 @@ def calcular_area_trabajada_y_huecos_m2(hileras_regulares, contorno_geocerca, re
         es_ultimo = (idx == len(bloques) - 1)
 
         posiciones_bloque = [lateral(h.origen) for h in bloque]
-        largos_bloque = [h.largo_conocido for h in bloque]
+        largos_bloque = [largo_efectivo[h.id] for h in bloque]
 
         # Solo se extiende hasta el borde real de la geocerca si la distancia
-        # hasta ese borde es comparable al espaciado normal entre hileras -
+        # hasta ese borde es razonable (cabecera/camino perimetral tipico) -
         # si no, se trata igual que un hueco (no se adivina que llega al borde
         # solo porque es el unico bloque conocido hasta ahora).
-        if es_primero and (posiciones_bloque[0] - poligono_min) <= mediana * TOLERANCIA_ESPACIADO:
+        if es_primero and (posiciones_bloque[0] - poligono_min) <= TOLERANCIA_BORDE_GEOCERCA_M:
             posiciones_bloque = [poligono_min] + posiciones_bloque
             largos_bloque = [largos_bloque[0]] + largos_bloque
-        if es_ultimo and (poligono_max - posiciones_bloque[-1]) <= mediana * TOLERANCIA_ESPACIADO:
+        if es_ultimo and (poligono_max - posiciones_bloque[-1]) <= TOLERANCIA_BORDE_GEOCERCA_M:
             posiciones_bloque = posiciones_bloque + [poligono_max]
             largos_bloque = largos_bloque + [largos_bloque[-1]]
 
@@ -627,7 +647,7 @@ def calcular_area_trabajada_y_huecos_m2(hileras_regulares, contorno_geocerca, re
         ultima_hilera_bloque = bloques[idx][-1]
         primera_hilera_siguiente = bloques[idx + 1][0]
         ancho_hueco = abs(lateral(primera_hilera_siguiente.origen) - lateral(ultima_hilera_bloque.origen))
-        largo_promedio = (ultima_hilera_bloque.largo_conocido + primera_hilera_siguiente.largo_conocido) / 2
+        largo_promedio = (largo_efectivo[ultima_hilera_bloque.id] + largo_efectivo[primera_hilera_siguiente.id]) / 2
         area_huecos += ancho_hueco * largo_promedio
 
     return area_trabajada, area_huecos
@@ -660,8 +680,7 @@ def escapar_xml(texto):
 VERDE_TRABAJADO = "ff00ff00"
 AMARILLO_DESCARTADO = "ff00ffff"
 ROJO_NO_CUENTA = "ff0000ff"
-AZUL_GEOCERCA = "ffff8000"
-MORADO_GEOCERCA_COMPLETA = "ffff00ff"
+NEGRO_GEOCERCA = "ff000000"
 
 
 def calcular_porcentaje_avance(hileras, contorno_geocerca, referencia):
@@ -703,7 +722,7 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas):
                 completa = True
                 break
 
-        color_borde = MORADO_GEOCERCA_COMPLETA if completa else AZUL_GEOCERCA
+        color_borde = NEGRO_GEOCERCA
         etiqueta = "COMPLETA" if completa else f"{geo['area_ha']:.2f} ha"
         coords = " ".join(f"{lon},{lat},0" for lon, lat in geo["contorno"] + [geo["contorno"][0]])
         nombre_geo_seguro = escapar_xml(geo["nombre"])
