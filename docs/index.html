@@ -385,7 +385,8 @@ async function descargarKML() {
     });
 
     const colorVerde = 'ff00ff00';
-    const colorMorado = 'ffff00ff';
+    const colorAzul = 'ffff8000';
+    const colorRojo = 'ff0000ff';
     // maquina -> fecha -> cuartel -> [placemarks]
     const estructura = {};
     let totalHileras = 0;
@@ -398,8 +399,18 @@ async function descargarKML() {
         if (!estructura[nombreMaquina]) estructura[nombreMaquina] = {};
 
         for (const [nombreCuartel, datosCuartel] of Object.entries(cuarteles)) {
-          const colorHilera = datosCuartel.completo ? colorMorado : colorVerde;
           for (const fila of datosCuartel.hileras) {
+            if (!fila.cuenta) continue;  // no cuenta en el area: no se dibuja
+
+            let color, etiqueta;
+            if (datosCuartel.completo) {
+              color = colorVerde; etiqueta = ' (cuartel completo)';
+            } else if (fila.completa) {
+              color = colorAzul; etiqueta = ' (hilera completa)';
+            } else {
+              color = colorRojo; etiqueta = ' (hilera parcial)';
+            }
+
             for (const fecha of fila.fechas) {
               if (c.desde && fecha < c.desde) continue;
               if (c.hasta && fecha > c.hasta) continue;
@@ -409,10 +420,9 @@ async function descargarKML() {
               const cuartelDia = estructura[nombreMaquina][fecha][nombreCuartel];
               if (cuartelDia.has(fila.id)) continue;
               totalHileras++;
-              const etiquetaCompleto = datosCuartel.completo ? ' (cuartel completo)' : '';
               cuartelDia.set(fila.id,
-                `<Placemark><name>Hilera ${fila.id}${etiquetaCompleto}</name>` +
-                `<Style><LineStyle><color>${colorHilera}</color><width>3</width></LineStyle></Style>` +
+                `<Placemark><name>Hilera ${fila.id}${etiqueta}</name>` +
+                `<Style><LineStyle><color>${color}</color><width>3</width></LineStyle></Style>` +
                 `<LineString><coordinates>${fila.p1[0]},${fila.p1[1]},0 ${fila.p2[0]},${fila.p2[1]},0</coordinates></LineString></Placemark>`
               );
             }
