@@ -573,25 +573,52 @@ def escapar_xml(texto):
 VERDE_TRABAJADO = "ff00ff00"
 AMARILLO_DESCARTADO = "ff00ffff"
 AZUL_GEOCERCA = "ffff8000"
+MORADO_GEOCERCA_COMPLETA = "ffff00ff"
+
+
+def calcular_porcentaje_avance(hileras, contorno_geocerca, referencia):
+    """Devuelve el % de avance final (0.0 a 1.0) de una geocerca para una
+    maquina especifica, con el mismo redondeo de cierre que el reporte."""
+    if referencia is None:
+        return 0.0
+    hileras_regulares, _ = filtrar_hileras_regulares(hileras)
+    total_estimado = estimar_total_hileras(hileras_regulares, contorno_geocerca, referencia)
+    if not total_estimado:
+        return 0.0
+    porcentaje = min(1.0, len(hileras_regulares) / total_estimado)
+    return 1.0 if porcentaje >= UMBRAL_CIERRE_PORCENTAJE else porcentaje
 
 
 def exportar_kml(ruta_salida, unidades_procesadas, geocercas):
     """
     unidades_procesadas: lista de (nombre_unidad, hileras_por_geocerca, descartados)
         hileras_por_geocerca: dict {nombre_geocerca: (referencia, hileras)}
-    Genera un archivo KML: contorno de cada geocerca en azul, hileras
-    trabajadas en verde, tramos descartados en amarillo.
+    Genera un archivo KML: contorno de cada geocerca en azul (o morado si
+    ya se cuenta como completa para alguna de las maquinas incluidas),
+    hileras trabajadas en verde, tramos descartados en amarillo.
     """
     partes = ['<?xml version="1.0" encoding="UTF-8"?>',
               '<kml xmlns="http://www.opengis.net/kml/2.2"><Document>']
 
     partes.append('<Folder><name>Cuarteles (geocercas)</name>')
     for geo in geocercas:
+        completa = False
+        for _, hileras_por_geocerca, _ in unidades_procesadas:
+            entrada = hileras_por_geocerca.get(geo["nombre"])
+            if not entrada:
+                continue
+            referencia, hileras = entrada
+            if calcular_porcentaje_avance(hileras, geo["contorno"], referencia) >= 1.0:
+                completa = True
+                break
+
+        color_borde = MORADO_GEOCERCA_COMPLETA if completa else AZUL_GEOCERCA
+        etiqueta = "COMPLETA" if completa else f"{geo['area_ha']:.2f} ha"
         coords = " ".join(f"{lon},{lat},0" for lon, lat in geo["contorno"] + [geo["contorno"][0]])
         nombre_geo_seguro = escapar_xml(geo["nombre"])
         partes.append(
-            f'<Placemark><name>{nombre_geo_seguro} ({geo["area_ha"]:.2f} ha)</name>'
-            f'<Style><LineStyle><color>{AZUL_GEOCERCA}</color><width>2</width></LineStyle>'
+            f'<Placemark><name>{nombre_geo_seguro} ({etiqueta})</name>'
+            f'<Style><LineStyle><color>{color_borde}</color><width>3</width></LineStyle>'
             f'<PolyStyle><fill>0</fill></PolyStyle></Style>'
             f'<Polygon><outerBoundaryIs><LinearRing><coordinates>{coords}'
             f'</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>'
