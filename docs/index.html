@@ -385,6 +385,7 @@ async function descargarKML() {
     });
 
     const colorVerde = 'ff00ff00';
+    const colorMorado = 'ffff00ff';
     // maquina -> fecha -> cuartel -> [placemarks]
     const estructura = {};
     let totalHileras = 0;
@@ -396,8 +397,9 @@ async function descargarKML() {
         if (!cuarteles) continue;
         if (!estructura[nombreMaquina]) estructura[nombreMaquina] = {};
 
-        for (const [nombreCuartel, filas] of Object.entries(cuarteles)) {
-          for (const fila of filas) {
+        for (const [nombreCuartel, datosCuartel] of Object.entries(cuarteles)) {
+          const colorHilera = datosCuartel.completo ? colorMorado : colorVerde;
+          for (const fila of datosCuartel.hileras) {
             for (const fecha of fila.fechas) {
               if (c.desde && fecha < c.desde) continue;
               if (c.hasta && fecha > c.hasta) continue;
@@ -407,9 +409,10 @@ async function descargarKML() {
               const cuartelDia = estructura[nombreMaquina][fecha][nombreCuartel];
               if (cuartelDia.has(fila.id)) continue;
               totalHileras++;
+              const etiquetaCompleto = datosCuartel.completo ? ' (cuartel completo)' : '';
               cuartelDia.set(fila.id,
-                `<Placemark><name>Hilera ${fila.id}</name>` +
-                `<Style><LineStyle><color>${colorVerde}</color><width>3</width></LineStyle></Style>` +
+                `<Placemark><name>Hilera ${fila.id}${etiquetaCompleto}</name>` +
+                `<Style><LineStyle><color>${colorHilera}</color><width>3</width></LineStyle></Style>` +
                 `<LineString><coordinates>${fila.p1[0]},${fila.p1[1]},0 ${fila.p2[0]},${fila.p2[1]},0</coordinates></LineString></Placemark>`
               );
             }
