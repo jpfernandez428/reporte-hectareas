@@ -572,6 +572,7 @@ def escapar_xml(texto):
 
 VERDE_TRABAJADO = "ff00ff00"
 AMARILLO_DESCARTADO = "ff00ffff"
+ROJO_NO_CUENTA = "ff0000ff"
 AZUL_GEOCERCA = "ffff8000"
 MORADO_GEOCERCA_COMPLETA = "ffff00ff"
 
@@ -632,6 +633,14 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas):
         for nombre_geo, (referencia, hileras) in hileras_por_geocerca.items():
             if referencia is None:
                 continue
+            geo = next((g for g in geocercas if g["nombre"] == nombre_geo), None)
+            geocerca_completa = (
+                calcular_porcentaje_avance(hileras, geo["contorno"], referencia) >= 1.0
+                if geo else False
+            )
+            hileras_regulares, _ = filtrar_hileras_regulares(hileras)
+            ids_regulares = {h.id for h in hileras_regulares}
+
             nombre_geo_seguro = escapar_xml(nombre_geo)
             for h in hileras:
                 p1_m = (h.origen[0] + h.direccion[0] * h.min_proy, h.origen[1] + h.direccion[1] * h.min_proy)
@@ -642,9 +651,12 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas):
                 lon2, lat2 = metros_a_punto(p2_m, referencia)
                 if not all(math.isfinite(v) for v in (lon1, lat1, lon2, lat2)):
                     continue
+                cuenta = geocerca_completa or h.id in ids_regulares
+                color_hilera = VERDE_TRABAJADO if cuenta else ROJO_NO_CUENTA
+                etiqueta = "" if cuenta else " (no cuenta)"
                 partes.append(
-                    f'<Placemark><name>{nombre_geo_seguro} - Hilera {h.id}</name>'
-                    f'<Style><LineStyle><color>{VERDE_TRABAJADO}</color><width>3</width>'
+                    f'<Placemark><name>{nombre_geo_seguro} - Hilera {h.id}{etiqueta}</name>'
+                    f'<Style><LineStyle><color>{color_hilera}</color><width>3</width>'
                     f'</LineStyle></Style>'
                     f'<LineString><coordinates>{lon1},{lat1},0 {lon2},{lat2},0'
                     f'</coordinates></LineString></Placemark>'
@@ -909,6 +921,14 @@ def main():
         for nombre_geo, (referencia, hileras) in hileras_por_geocerca.items():
             if referencia is None:
                 continue
+            geo = geocercas_por_nombre.get(nombre_geo)
+            completo = (
+                calcular_porcentaje_avance(hileras, geo["contorno"], referencia) >= 1.0
+                if geo else False
+            )
+            hileras_regulares, hileras_irregulares = filtrar_hileras_regulares(hileras)
+            ids_irregulares = {h.id for h in hileras_irregulares}
+
             filas = []
             for h in hileras:
                 p1_m = (h.origen[0] + h.direccion[0] * h.min_proy, h.origen[1] + h.direccion[1] * h.min_proy)
@@ -919,16 +939,15 @@ def main():
                 lon2, lat2 = metros_a_punto(p2_m, referencia)
                 if not all(math.isfinite(v) for v in (lon1, lat1, lon2, lat2)):
                     continue
+                _, cubierto = union_intervalos(h.intervalos)
+                fraccion_propia = cubierto / h.largo_conocido if h.largo_conocido > 0 else 1.0
                 filas.append({
                     "id": h.id, "p1": [lon1, lat1], "p2": [lon2, lat2],
                     "fechas": sorted(h.fechas),
+                    "completa": fraccion_propia >= UMBRAL_CIERRE_PORCENTAJE,
+                    "cuenta": h.id not in ids_irregulares,
                 })
             if filas:
-                geo = geocercas_por_nombre.get(nombre_geo)
-                completo = (
-                    calcular_porcentaje_avance(hileras, geo["contorno"], referencia) >= 1.0
-                    if geo else False
-                )
                 cuarteles_json[nombre_geo] = {"completo": completo, "hileras": filas}
         if cuarteles_json:
             ruta_geo = os.path.join(carpeta_geometria, f"{slug(nombre_unidad)}.json")
