@@ -618,7 +618,7 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas):
         nombre_geo_seguro = escapar_xml(geo["nombre"])
         partes.append(
             f'<Placemark><name>{nombre_geo_seguro} ({etiqueta})</name>'
-            f'<Style><LineStyle><color>{color_borde}</color><width>3</width></LineStyle>'
+            f'<Style><LineStyle><color>{color_borde}</color><width>6</width></LineStyle>'
             f'<PolyStyle><fill>0</fill></PolyStyle></Style>'
             f'<Polygon><outerBoundaryIs><LinearRing><coordinates>{coords}'
             f'</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>'
@@ -901,6 +901,7 @@ def main():
 
     carpeta_geometria = os.path.join(CARPETA_DATOS, "geometria")
     os.makedirs(carpeta_geometria, exist_ok=True)
+    geocercas_por_nombre = {g["nombre"]: g for g in geocercas}
     for nombre_unidad, hileras_por_geocerca, _ in resultado_por_unidad:
         if not hileras_por_geocerca:
             continue
@@ -923,7 +924,12 @@ def main():
                     "fechas": sorted(h.fechas),
                 })
             if filas:
-                cuarteles_json[nombre_geo] = filas
+                geo = geocercas_por_nombre.get(nombre_geo)
+                completo = (
+                    calcular_porcentaje_avance(hileras, geo["contorno"], referencia) >= 1.0
+                    if geo else False
+                )
+                cuarteles_json[nombre_geo] = {"completo": completo, "hileras": filas}
         if cuarteles_json:
             ruta_geo = os.path.join(carpeta_geometria, f"{slug(nombre_unidad)}.json")
             with open(ruta_geo, "w", encoding="utf-8") as f:
