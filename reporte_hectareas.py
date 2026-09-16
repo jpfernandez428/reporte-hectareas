@@ -330,30 +330,28 @@ def velocidad_kmh_segmento(segmento, segmento_m):
 # ---------------------------------------------------------------------------
 
 class Hilera:
-    def __init__(self, id_, origen, direccion, min_proy, max_proy, intervalos=None,
-                 fecha_primera=None, fecha_ultima=None):
+    def __init__(self, id_, origen, direccion, min_proy, max_proy, intervalos=None, fechas=None):
         self.id = id_
         self.origen = origen          # (x, y) en metros, punto de referencia
         self.direccion = direccion    # vector unitario (dx, dy)
         self.min_proy = min_proy
         self.max_proy = max_proy
         self.intervalos = intervalos or []   # pasadas del periodo actual, sin fusionar
-        self.fecha_primera = fecha_primera   # primera fecha en que se toco (AAAA-MM-DD)
-        self.fecha_ultima = fecha_ultima     # ultima fecha en que se toco
+        self.fechas = set(fechas) if fechas else set()   # dias (AAAA-MM-DD) en que se toco
 
     def to_dict(self):
         return {
             "id": self.id, "origen": self.origen, "direccion": self.direccion,
             "min_proy": self.min_proy, "max_proy": self.max_proy,
             "intervalos": self.intervalos,
-            "fecha_primera": self.fecha_primera, "fecha_ultima": self.fecha_ultima,
+            "fechas": sorted(self.fechas),
         }
 
     @staticmethod
     def from_dict(d):
         return Hilera(d["id"], tuple(d["origen"]), tuple(d["direccion"]),
                        d["min_proy"], d["max_proy"], d.get("intervalos", []),
-                       d.get("fecha_primera"), d.get("fecha_ultima"))
+                       d.get("fechas", []))
 
     @property
     def largo_conocido(self):
@@ -410,10 +408,7 @@ def actualizar_hilera(hilera, segmento_m, fecha_str):
     hilera.min_proy = min(hilera.min_proy, p_min)
     hilera.max_proy = max(hilera.max_proy, p_max)
     hilera.intervalos.append([round(p_min, 1), round(p_max, 1)])
-    if hilera.fecha_primera is None or fecha_str < hilera.fecha_primera:
-        hilera.fecha_primera = fecha_str
-    if hilera.fecha_ultima is None or fecha_str > hilera.fecha_ultima:
-        hilera.fecha_ultima = fecha_str
+    hilera.fechas.add(fecha_str)
 
 
 def procesar_puntos(puntos, referencia, hileras, descartados, fecha_str):
@@ -898,7 +893,7 @@ def main():
                     continue
                 filas.append({
                     "id": h.id, "p1": [lon1, lat1], "p2": [lon2, lat2],
-                    "fecha_primera": h.fecha_primera, "fecha_ultima": h.fecha_ultima,
+                    "fechas": sorted(h.fechas),
                 })
             if filas:
                 cuarteles_json[nombre_geo] = filas
