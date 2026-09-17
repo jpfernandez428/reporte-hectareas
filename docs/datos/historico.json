@@ -350,5 +350,13 @@
     "n_hileras": 21,
     "area_total_ha": 2.33,
     "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-09-16",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 10",
+    "n_hileras": 24,
+    "area_total_ha": 2.33,
+    "area_trabajada_ha": 0.06
   }
 ]
