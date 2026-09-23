@@ -342,5 +342,6 @@
     "Aurora 14",
     "Aurora 15"
   ],
-  "largo_minimo_tramo_m": 3
+  "largo_minimo_tramo_m": 3,
+  "umbral_cierre_porcentaje": 0.95
 }
