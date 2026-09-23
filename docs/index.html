@@ -97,6 +97,7 @@
 let datos = [];
 let filtrados = [];
 let gruposFiltro = [];
+let avanceCuarteles = null;  // total por cuartel sin hileras repetidas entre maquinas
 
 async function cargarDatos() {
   try {
@@ -105,13 +106,44 @@ async function cargarDatos() {
   } catch (e) {
     datos = [];
   }
+  try {
+    const respAvance = await fetch('datos/avance_cuarteles.json?_=' + Date.now());
+    avanceCuarteles = respAvance.ok ? await respAvance.json() : null;
+  } catch (e) {
+    avanceCuarteles = null;
+  }
   poblarFiltroMaquinas();
   filtrados = datos;
   renderTabla();
 }
 
+function hayFiltrosActivos() {
+  return gruposFiltro.length > 0 ||
+    maquinasSeleccionadas().length > 0 ||
+    !!document.getElementById('filtroDesde').value ||
+    !!document.getElementById('filtroHasta').value;
+}
+
 function renderAvancePorCuartel() {
   const cont = document.getElementById('contenedorAvanceCuartel');
+
+  // Sin filtros: se usa el total calculado por el script (todas las maquinas,
+  // sin contar dos veces las hileras repetidas). Con filtros de fecha/maquina
+  // se suma el historico diario de lo filtrado.
+  if (!hayFiltrosActivos() && avanceCuarteles && avanceCuarteles.cuarteles) {
+    const umbral = (avanceCuarteles.umbral_cierre || 0.95) * 100;
+    const filasTotal = Object.entries(avanceCuarteles.cuarteles).map(([nombre, v]) => ({
+      nombre,
+      area_total: v.area_total_ha,
+      trabajado: v.trabajado_ha,
+      porcentaje: v.area_total_ha > 0 ? Math.min(100, (v.trabajado_ha / v.area_total_ha) * 100) : 0,
+      completo: v.completo,
+    }));
+    if (filasTotal.length > 0) {
+      cont.innerHTML = tablaAvance(filasTotal, umbral);
+      return;
+    }
+  }
 
   if (filtrados.length === 0) {
     cont.innerHTML = '<div class="vacio">No hay datos para este filtro todavía.</div>';
@@ -136,12 +168,17 @@ function renderAvancePorCuartel() {
     }))
     .sort((a, b) => a.nombre.localeCompare(b.nombre, undefined, { numeric: true, sensitivity: 'base' }));
 
+  cont.innerHTML = tablaAvance(filas, ((avanceCuarteles && avanceCuarteles.umbral_cierre) || 0.95) * 100);
+}
+
+function tablaAvance(filas, umbral) {
+  filas = filas.slice().sort((a, b) => a.nombre.localeCompare(b.nombre, undefined, { numeric: true, sensitivity: 'base' }));
   let html = '<table><thead><tr>' +
     '<th>Cuartel</th><th>Área total (ha)</th><th>Trabajado (ha)</th><th>% avance</th>' +
     '</tr></thead><tbody>';
 
   for (const f of filas) {
-    const completo = f.porcentaje >= 95;  // mismo umbral de cierre que el script (umbral_cierre_porcentaje)
+    const completo = f.completo !== undefined ? f.completo : f.porcentaje >= umbral;
     html += `<tr><td>${f.nombre}</td><td>${f.area_total.toFixed(2)}</td>` +
       `<td>${f.trabajado.toFixed(2)}</td>` +
       `<td><div style="display:flex; align-items:center; gap:8px;">` +
@@ -151,7 +188,7 @@ function renderAvancePorCuartel() {
       `</div></td></tr>`;
   }
   html += '</tbody></table>';
-  cont.innerHTML = html;
+  return html;
 }
 
 function poblarFiltroMaquinas() {
