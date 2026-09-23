@@ -2,9 +2,9 @@
   "umbral_cierre": 0.95,
   "cuarteles": {
     "C&H Maquinaria": {
-      "trabajado_ha": 3.694,
+      "trabajado_ha": 3.8279,
       "area_total_ha": 5.1226,
-      "porcentaje": 72.1,
+      "porcentaje": 74.7,
       "completo": false,
       "maquinas": [
         "Barredora 1",
@@ -15,12 +15,14 @@
         "Barredora 15",
         "Barredora 16",
         "Barredora 18",
+        "Barredora 19",
         "Barredora 2",
         "Barredora 20 Weiss s/cab",
         "Barredora 21 Weiss s/cab",
         "Barredora 3",
         "Barredora 4",
         "Barredora 5",
+        "Barredora 6",
         "Barredora 7",
         "Barredora 8",
         "Barredora 9 Weiss c/cab",
@@ -35,6 +37,7 @@
         "Shacker SBS 11",
         "Shacker SBS 12",
         "Shacker SBS 13",
+        "Shacker SBS 14",
         "Shacker SBS 15 OMC",
         "Shacker SBS 2",
         "Shacker SBS 3",
@@ -46,112 +49,480 @@
         "Shacker SBS 9",
         "Shacker SBS Campo",
         "Shacker de Suelo 1",
+        "Shacker de Suelo 10 Orchard Rite",
         "Shacker de Suelo 2",
+        "Shacker de Suelo 3",
         "Shacker de Suelo 5",
         "Shacker de Suelo 6",
+        "Shacker de Suelo 7",
+        "Shacker de Suelo 8",
         "Shacker de Suelo 9",
         "Tractor 1 Deutz-Fahr Agroplus",
         "Tractor 14 Deutz Fahr 115",
         "Tractor 15 Deutz Fahr 115",
+        "Tractor 3 Same Frutetto 100",
         "Tractor 4 Same Frutetto 100",
         "Tractor 8 Kubota 108",
         "Tractor 9 Deutz Fahr 115"
       ]
     },
     "Juan Valenzuela_Cuartel 1": {
-      "trabajado_ha": 9.0097,
+      "trabajado_ha": 20.1966,
       "area_total_ha": 35.8288,
-      "porcentaje": 25.1,
+      "porcentaje": 56.4,
       "completo": false,
       "maquinas": [
         "Shacker SBS 12"
       ]
     },
-    "Nancagua_SBS Campo": {
-      "trabajado_ha": 0.0679,
-      "area_total_ha": 5.6649,
-      "porcentaje": 1.2,
+    "El Roble (Palena) 2": {
+      "trabajado_ha": 2.6882,
+      "area_total_ha": 11.9735,
+      "porcentaje": 22.5,
       "completo": false,
       "maquinas": [
+        "Shacker SBS 9"
+      ]
+    },
+    "Nancagua_SBS Campo": {
+      "trabajado_ha": 0.5564,
+      "area_total_ha": 5.6649,
+      "porcentaje": 9.8,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS Campo",
         "Tractor 9 Deutz Fahr 115"
       ]
     },
     "Juan Valenzuela_Cuartel 3": {
-      "trabajado_ha": 0.6786,
+      "trabajado_ha": 1.8637,
       "area_total_ha": 18.7307,
-      "porcentaje": 3.6,
+      "porcentaje": 10.0,
       "completo": false,
       "maquinas": [
         "Shacker SBS 12"
       ]
     },
-    "MGH Cuartel 3": {
-      "trabajado_ha": 0.1434,
-      "area_total_ha": 7.6491,
-      "porcentaje": 1.9,
+    "Juan Valenzuela_Cuartel 4": {
+      "trabajado_ha": 5.7089,
+      "area_total_ha": 20.8915,
+      "porcentaje": 27.3,
       "completo": false,
       "maquinas": [
+        "Shacker SBS 12"
+      ]
+    },
+    "Ag_El_Carmen_San_Gregorio_Cuartel_2": {
+      "trabajado_ha": 3.4232,
+      "area_total_ha": 3.8155,
+      "porcentaje": 89.7,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 14"
+      ]
+    },
+    "Ag_El_Carmen_San Gregorio_ Cuartel 3": {
+      "trabajado_ha": 2.1709,
+      "area_total_ha": 2.3628,
+      "porcentaje": 91.9,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 14"
+      ]
+    },
+    "Nancagua MGH Cuartel 2": {
+      "trabajado_ha": 0.0288,
+      "area_total_ha": 0.7834,
+      "porcentaje": 3.7,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS Campo"
+      ]
+    },
+    "MGH Cuartel 3": {
+      "trabajado_ha": 0.2798,
+      "area_total_ha": 7.6491,
+      "porcentaje": 3.7,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS Campo",
         "Tractor 9 Deutz Fahr 115"
       ]
     },
     "MGH Cuartel 4": {
-      "trabajado_ha": 0.109,
+      "trabajado_ha": 3.3657,
       "area_total_ha": 5.7736,
-      "porcentaje": 1.9,
+      "porcentaje": 58.3,
       "completo": false,
       "maquinas": [
+        "Shacker SBS Campo",
         "Tractor 9 Deutz Fahr 115"
       ]
     },
+    "Camilo Del Real 4": {
+      "trabajado_ha": 4.6047,
+      "area_total_ha": 8.994,
+      "porcentaje": 51.2,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 10"
+      ]
+    },
+    "KANKURA Lado a": {
+      "trabajado_ha": 3.4878,
+      "area_total_ha": 12.6121,
+      "porcentaje": 27.7,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 7"
+      ]
+    },
+    "Kankura Lado B": {
+      "trabajado_ha": 0.1348,
+      "area_total_ha": 18.9671,
+      "porcentaje": 0.7,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 7"
+      ]
+    },
+    "Kankura C": {
+      "trabajado_ha": 0.1938,
+      "area_total_ha": 12.6542,
+      "porcentaje": 1.5,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 7"
+      ]
+    },
     "Matias Cardoen C1": {
-      "trabajado_ha": 0.2337,
+      "trabajado_ha": 0.223,
       "area_total_ha": 3.1217,
-      "porcentaje": 7.5,
+      "porcentaje": 7.1,
       "completo": false,
       "maquinas": [
         "Shacker SBS 1"
       ]
     },
     "Matias Cardoen C2": {
-      "trabajado_ha": 0.0184,
+      "trabajado_ha": 0.1072,
       "area_total_ha": 0.7304,
-      "porcentaje": 2.5,
+      "porcentaje": 14.7,
       "completo": false,
       "maquinas": [
         "Shacker SBS 1"
       ]
     },
+    "Matias Cardoen C3": {
+      "trabajado_ha": 3.113,
+      "area_total_ha": 4.534,
+      "porcentaje": 68.7,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 1"
+      ]
+    },
+    "Matias Cardoen C4": {
+      "trabajado_ha": 0.75,
+      "area_total_ha": 2.7342,
+      "porcentaje": 27.4,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 1"
+      ]
+    },
+    "Bruno Raggi 5": {
+      "trabajado_ha": 0.3069,
+      "area_total_ha": 2.7275,
+      "porcentaje": 11.3,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 2"
+      ]
+    },
+    "Bruno Raggi 6": {
+      "trabajado_ha": 0.0045,
+      "area_total_ha": 7.5674,
+      "porcentaje": 0.1,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 2"
+      ]
+    },
+    "Bruno Raggi 7": {
+      "trabajado_ha": 0.0854,
+      "area_total_ha": 2.2251,
+      "porcentaje": 3.8,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 2"
+      ]
+    },
+    "Bruno Raggi 8": {
+      "trabajado_ha": 0.0345,
+      "area_total_ha": 8.1601,
+      "porcentaje": 0.4,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 2"
+      ]
+    },
+    "Bruno Raggi 21": {
+      "trabajado_ha": 2.4928,
+      "area_total_ha": 6.4063,
+      "porcentaje": 38.9,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 2"
+      ]
+    },
+    "Bruno Raggi 22": {
+      "trabajado_ha": 2.2097,
+      "area_total_ha": 4.4965,
+      "porcentaje": 49.1,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 2"
+      ]
+    },
+    "Bruno Raggi 23": {
+      "trabajado_ha": 3.6355,
+      "area_total_ha": 11.4315,
+      "porcentaje": 31.8,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 2"
+      ]
+    },
     "Matias Cardoen C5": {
-      "trabajado_ha": 4.3444,
+      "trabajado_ha": 7.2281,
       "area_total_ha": 11.4216,
-      "porcentaje": 38.0,
+      "porcentaje": 63.3,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 1"
+      ]
+    },
+    "Matias Cardoen C6": {
+      "trabajado_ha": 0.237,
+      "area_total_ha": 1.5729,
+      "porcentaje": 15.1,
       "completo": false,
       "maquinas": [
         "Shacker SBS 1"
       ]
     },
     "Catalina Gonzalez": {
-      "trabajado_ha": 6.789,
+      "trabajado_ha": 23.8241,
       "area_total_ha": 44.1546,
-      "porcentaje": 15.4,
+      "porcentaje": 54.0,
       "completo": false,
       "maquinas": [
         "Shacker SBS 6"
       ]
     },
+    "Maria Ignacia Eyzaguirre": {
+      "trabajado_ha": 1.0891,
+      "area_total_ha": 1.9676,
+      "porcentaje": 55.4,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 11"
+      ]
+    },
+    "Maria Ignacia Eyzaguirre 2": {
+      "trabajado_ha": 0.0134,
+      "area_total_ha": 1.2981,
+      "porcentaje": 1.0,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 11"
+      ]
+    },
+    "Maria Ignacia Eyzaguirre 3": {
+      "trabajado_ha": 0.0321,
+      "area_total_ha": 3.2403,
+      "porcentaje": 1.0,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 11"
+      ]
+    },
+    "Ochagavía San Gregorio": {
+      "trabajado_ha": 0.0807,
+      "area_total_ha": 9.9308,
+      "porcentaje": 0.8,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 14"
+      ]
+    },
+    "EL PRINCIPIO 1": {
+      "trabajado_ha": 0.6832,
+      "area_total_ha": 2.3778,
+      "porcentaje": 28.7,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 7"
+      ]
+    },
+    "EL PRINCIPIO 2": {
+      "trabajado_ha": 0.6791,
+      "area_total_ha": 3.2249,
+      "porcentaje": 21.1,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 7"
+      ]
+    },
+    "EL PRINCIPIO 3": {
+      "trabajado_ha": 1.1235,
+      "area_total_ha": 4.8981,
+      "porcentaje": 22.9,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 7"
+      ]
+    },
+    "EL PRINCIPIO 4": {
+      "trabajado_ha": 0.0746,
+      "area_total_ha": 1.6029,
+      "porcentaje": 4.7,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 7"
+      ]
+    },
+    "EL PRINCIPIO 7": {
+      "trabajado_ha": 0.0657,
+      "area_total_ha": 4.2096,
+      "porcentaje": 1.6,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 7"
+      ]
+    },
+    "EL PRINCIPIO 11": {
+      "trabajado_ha": 0.0164,
+      "area_total_ha": 1.8133,
+      "porcentaje": 0.9,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 7"
+      ]
+    },
+    "EL PRINCIPIO 12": {
+      "trabajado_ha": 3.2357,
+      "area_total_ha": 4.8292,
+      "porcentaje": 67.0,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 7"
+      ]
+    },
+    "EL PRINCIPIO 13": {
+      "trabajado_ha": 0.0755,
+      "area_total_ha": 2.5738,
+      "porcentaje": 2.9,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 7"
+      ]
+    },
     "Matias Cardoen C7 prueba": {
-      "trabajado_ha": 0.6734,
+      "trabajado_ha": 0.9285,
       "area_total_ha": 3.6941,
-      "porcentaje": 18.2,
+      "porcentaje": 25.1,
       "completo": false,
       "maquinas": [
         "Shacker SBS 1"
       ]
     },
+    "Matias Cardoen C8 prueba": {
+      "trabajado_ha": 1.5726,
+      "area_total_ha": 1.717,
+      "porcentaje": 91.6,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 1"
+      ]
+    },
+    "San Gregorio Agricola el Carmen C2": {
+      "trabajado_ha": 1.6312,
+      "area_total_ha": 2.4343,
+      "porcentaje": 67.0,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 14"
+      ]
+    },
+    "San Gregorio Agricola El Carmen C3": {
+      "trabajado_ha": 3.1758,
+      "area_total_ha": 3.7615,
+      "porcentaje": 84.4,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 14"
+      ]
+    },
+    "Kankura Completo": {
+      "trabajado_ha": 2.8382,
+      "area_total_ha": 42.5545,
+      "porcentaje": 6.7,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 7"
+      ]
+    },
+    "Maria Ignacia Eyzaguirre 5": {
+      "trabajado_ha": 1.9698,
+      "area_total_ha": 2.5976,
+      "porcentaje": 75.8,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 11"
+      ]
+    },
+    "Palena El Roble Completo": {
+      "trabajado_ha": 2.5693,
+      "area_total_ha": 13.76,
+      "porcentaje": 18.7,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 9"
+      ]
+    },
+    "Maria Ignacia Eyzaguirre 7": {
+      "trabajado_ha": 1.4597,
+      "area_total_ha": 1.7295,
+      "porcentaje": 84.4,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 11"
+      ]
+    },
+    "Maria Ignacia Eyzaguirre Campo 1 2024": {
+      "trabajado_ha": 3.3277,
+      "area_total_ha": 4.1696,
+      "porcentaje": 79.8,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 11"
+      ]
+    },
+    "Maria Ignacia Eyzaguirre Campo 2 2024": {
+      "trabajado_ha": 0.9387,
+      "area_total_ha": 13.2677,
+      "porcentaje": 7.1,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 11"
+      ]
+    },
     "Matias Cardoen Completo": {
-      "trabajado_ha": 4.9132,
+      "trabajado_ha": 10.1885,
       "area_total_ha": 42.0859,
-      "porcentaje": 11.7,
+      "porcentaje": 24.2,
       "completo": false,
       "maquinas": [
         "Shacker SBS 1"
