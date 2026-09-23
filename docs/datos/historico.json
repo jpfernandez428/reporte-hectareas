@@ -16230,5 +16230,1437 @@
     "n_hileras": 187,
     "area_total_ha": 30.28,
     "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A10",
+    "n_hileras": 116,
+    "area_total_ha": 22.53,
+    "area_trabajada_ha": 0.35
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 1",
+    "n_hileras": 68,
+    "area_total_ha": 1.91,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 1",
+    "n_hileras": 69,
+    "area_total_ha": 1.91,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Barredora 2",
+    "cuartel": "Achurra 3",
+    "n_hileras": 64,
+    "area_total_ha": 9.17,
+    "area_trabajada_ha": 0.44
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Barredora 2",
+    "cuartel": "Achurra 4",
+    "n_hileras": 4,
+    "area_total_ha": 8.42,
+    "area_trabajada_ha": 0.75
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 2",
+    "n_hileras": 39,
+    "area_total_ha": 1.93,
+    "area_trabajada_ha": 0.56
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 2",
+    "n_hileras": 59,
+    "area_total_ha": 1.93,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 3",
+    "n_hileras": 1,
+    "area_total_ha": 2.32,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 3",
+    "n_hileras": 2,
+    "area_total_ha": 2.32,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Recogedora 5",
+    "cuartel": "Bernardo Lira Pomaire 3",
+    "n_hileras": 1,
+    "area_total_ha": 2.32,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Recogedora 5",
+    "cuartel": "Bernardo Lira Pomaire 4",
+    "n_hileras": 3,
+    "area_total_ha": 2.56,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Recogedora 5",
+    "cuartel": "Bernardo Lira Pomaire 6",
+    "n_hileras": 3,
+    "area_total_ha": 3.22,
+    "area_trabajada_ha": 0.65
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 8",
+    "n_hileras": 1,
+    "area_total_ha": 2.96,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 9",
+    "n_hileras": 7,
+    "area_total_ha": 2.19,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Recogedora 5",
+    "cuartel": "Bernardo Lira Pomaire 12",
+    "n_hileras": 54,
+    "area_total_ha": 3.42,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Recogedora 7",
+    "cuartel": "Santa Ana 2.13",
+    "n_hileras": 44,
+    "area_total_ha": 5.68,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.20",
+    "n_hileras": 13,
+    "area_total_ha": 1.75,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-15",
+    "maquina": "Barredora 3",
+    "cuartel": "Santa Ana 2.22",
+    "n_hileras": 25,
+    "area_total_ha": 0.6,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A10",
+    "n_hileras": 105,
+    "area_total_ha": 22.53,
+    "area_trabajada_ha": 0.8
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A10",
+    "n_hileras": 173,
+    "area_total_ha": 22.53,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker de Suelo 7",
+    "cuartel": "Bernardo Lira Chiñihue A11",
+    "n_hileras": 2,
+    "area_total_ha": 9.47,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 2",
+    "cuartel": "Achurra 3",
+    "n_hileras": 114,
+    "area_total_ha": 9.17,
+    "area_trabajada_ha": 1.59
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 3",
+    "n_hileras": 106,
+    "area_total_ha": 9.17,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker de Suelo 7",
+    "cuartel": "Bernardo Lira Chiñihue A13",
+    "n_hileras": 6,
+    "area_total_ha": 2.99,
+    "area_trabajada_ha": 0.24
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 2",
+    "n_hileras": 69,
+    "area_total_ha": 1.93,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 2",
+    "n_hileras": 62,
+    "area_total_ha": 1.93,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 3",
+    "n_hileras": 2,
+    "area_total_ha": 2.32,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 3",
+    "n_hileras": 40,
+    "area_total_ha": 2.32,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 4",
+    "n_hileras": 68,
+    "area_total_ha": 2.56,
+    "area_trabajada_ha": 0.38
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 5",
+    "n_hileras": 75,
+    "area_total_ha": 2.66,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 6",
+    "n_hileras": 78,
+    "area_total_ha": 3.22,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 8",
+    "n_hileras": 75,
+    "area_total_ha": 2.96,
+    "area_trabajada_ha": 1.22
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 8",
+    "n_hileras": 85,
+    "area_total_ha": 2.96,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 9",
+    "n_hileras": 10,
+    "area_total_ha": 2.19,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 14",
+    "n_hileras": 9,
+    "area_total_ha": 1.74,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 15",
+    "n_hileras": 27,
+    "area_total_ha": 1.86,
+    "area_trabajada_ha": 0.32
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 16",
+    "n_hileras": 1,
+    "area_total_ha": 2.02,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 16",
+    "n_hileras": 48,
+    "area_total_ha": 2.02,
+    "area_trabajada_ha": 0.32
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Agricola Aeropuerto 3",
+    "n_hileras": 6,
+    "area_total_ha": 47.53,
+    "area_trabajada_ha": 9.76
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Agricola Aeropuerto 3",
+    "n_hileras": 2,
+    "area_total_ha": 47.53,
+    "area_trabajada_ha": 0.34
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Agricola Aeropuerto 4",
+    "n_hileras": 1,
+    "area_total_ha": 21.26,
+    "area_trabajada_ha": 0.53
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Agricola Aeropuerto 5",
+    "n_hileras": 20,
+    "area_total_ha": 31.49,
+    "area_trabajada_ha": 4.66
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Agricola Aeropuerto 5",
+    "n_hileras": 71,
+    "area_total_ha": 31.49,
+    "area_trabajada_ha": 1.2
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Agricola Aeropuerto 6",
+    "n_hileras": 2,
+    "area_total_ha": 37.22,
+    "area_trabajada_ha": 0.73
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Agricola Aeropuerto 6",
+    "n_hileras": 3,
+    "area_total_ha": 37.22,
+    "area_trabajada_ha": 1.16
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": "Gonzalo Sanchez 16",
+    "n_hileras": 23,
+    "area_total_ha": 1.71,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": "Gonzalo Sanchez 19",
+    "n_hileras": 53,
+    "area_total_ha": 2.95,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": "Gonzalo Sanchez 22",
+    "n_hileras": 25,
+    "area_total_ha": 1.62,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker SBS 4",
+    "cuartel": "Santa Elena 3",
+    "n_hileras": 80,
+    "area_total_ha": 15.44,
+    "area_trabajada_ha": 2.27
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "BALLERINA_N14_JP",
+    "n_hileras": 128,
+    "area_total_ha": 25.07,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Recogedora 7",
+    "cuartel": "Santa Ana 2.13",
+    "n_hileras": 59,
+    "area_total_ha": 5.68,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 3",
+    "cuartel": "Santa Ana 2.20",
+    "n_hileras": 49,
+    "area_total_ha": 1.75,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 3",
+    "cuartel": "Santa Ana 2.24",
+    "n_hileras": 17,
+    "area_total_ha": 0.36,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 11",
+    "cuartel": "A6C",
+    "n_hileras": 40,
+    "area_total_ha": 7.43,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 11",
+    "cuartel": "A6A",
+    "n_hileras": 95,
+    "area_total_ha": 41.14,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 10",
+    "cuartel": "A6A",
+    "n_hileras": 96,
+    "area_total_ha": 41.14,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.25",
+    "n_hileras": 67,
+    "area_total_ha": 1.66,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Recogedora 7",
+    "cuartel": "Santa Ana 2.28",
+    "n_hileras": 7,
+    "area_total_ha": 2.7,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N19_JP",
+    "n_hileras": 19,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": "MP4",
+    "n_hileras": 109,
+    "area_total_ha": 16.38,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A10",
+    "n_hileras": 145,
+    "area_total_ha": 22.53,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker de Suelo 7",
+    "cuartel": "Bernardo Lira Chiñihue A11",
+    "n_hileras": 4,
+    "area_total_ha": 9.47,
+    "area_trabajada_ha": 2.05
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 2",
+    "cuartel": "Achurra 4",
+    "n_hileras": 84,
+    "area_total_ha": 8.42,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker de Suelo 7",
+    "cuartel": "Bernardo Lira Chiñihue A13",
+    "n_hileras": 26,
+    "area_total_ha": 2.99,
+    "area_trabajada_ha": 1.98
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A13",
+    "n_hileras": 3,
+    "area_total_ha": 2.99,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 3",
+    "n_hileras": 65,
+    "area_total_ha": 2.32,
+    "area_trabajada_ha": 0.69
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 4",
+    "n_hileras": 79,
+    "area_total_ha": 2.56,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 5",
+    "n_hileras": 78,
+    "area_total_ha": 2.66,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 6",
+    "n_hileras": 4,
+    "area_total_ha": 3.22,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 7",
+    "n_hileras": 59,
+    "area_total_ha": 3.31,
+    "area_trabajada_ha": 0.5
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 8",
+    "n_hileras": 116,
+    "area_total_ha": 2.96,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 13",
+    "n_hileras": 13,
+    "area_total_ha": 1.67,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 14",
+    "n_hileras": 25,
+    "area_total_ha": 1.74,
+    "area_trabajada_ha": 0.33
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 15",
+    "n_hileras": 48,
+    "area_total_ha": 1.86,
+    "area_trabajada_ha": 0.34
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 15",
+    "n_hileras": 4,
+    "area_total_ha": 1.86,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 16",
+    "n_hileras": 59,
+    "area_total_ha": 2.02,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 16",
+    "n_hileras": 5,
+    "area_total_ha": 2.02,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 20",
+    "n_hileras": 6,
+    "area_total_ha": 1.94,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker de Suelo 7",
+    "cuartel": "Bernardo Lira Chiñihue A14",
+    "n_hileras": 21,
+    "area_total_ha": 3.34,
+    "area_trabajada_ha": 2.89
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A14",
+    "n_hileras": 2,
+    "area_total_ha": 3.34,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A15",
+    "n_hileras": 1,
+    "area_total_ha": 3.46,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Agricola Aeropuerto 3",
+    "n_hileras": 4,
+    "area_total_ha": 47.53,
+    "area_trabajada_ha": 19.32
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Agricola Aeropuerto 5",
+    "n_hileras": 98,
+    "area_total_ha": 31.49,
+    "area_trabajada_ha": 1.36
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Agricola Aeropuerto 5",
+    "n_hileras": 23,
+    "area_total_ha": 31.49,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Agricola Aeropuerto 6",
+    "n_hileras": 3,
+    "area_total_ha": 37.22,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker SBS 4",
+    "cuartel": "Santa Elena 3",
+    "n_hileras": 215,
+    "area_total_ha": 15.44,
+    "area_trabajada_ha": 5.11
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 10",
+    "cuartel": "A2",
+    "n_hileras": 118,
+    "area_total_ha": 32.15,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": "MP1",
+    "n_hileras": 97,
+    "area_total_ha": 10.87,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A11",
+    "n_hileras": 2,
+    "area_total_ha": 9.47,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Shacker de Suelo 7",
+    "cuartel": "Bernardo Lira Chiñihue A11",
+    "n_hileras": 18,
+    "area_total_ha": 9.47,
+    "area_trabajada_ha": 4.75
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": "Bernardo Lira Chiñihue A11",
+    "n_hileras": 12,
+    "area_total_ha": 9.47,
+    "area_trabajada_ha": 1.76
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Recogedora 5",
+    "cuartel": "Bernardo Lira Pomaire 1",
+    "n_hileras": 37,
+    "area_total_ha": 1.91,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Shacker de Suelo 7",
+    "cuartel": "Bernardo Lira Chiñihue A3",
+    "n_hileras": 2,
+    "area_total_ha": 1.58,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 7",
+    "n_hileras": 32,
+    "area_total_ha": 3.31,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 7",
+    "n_hileras": 75,
+    "area_total_ha": 3.31,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 13",
+    "n_hileras": 47,
+    "area_total_ha": 1.67,
+    "area_trabajada_ha": 0.5
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 14",
+    "n_hileras": 43,
+    "area_total_ha": 1.74,
+    "area_trabajada_ha": 0.6
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 15",
+    "n_hileras": 55,
+    "area_total_ha": 1.86,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 21",
+    "n_hileras": 5,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 22",
+    "n_hileras": 16,
+    "area_total_ha": 3.97,
+    "area_trabajada_ha": 0.7
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A15",
+    "n_hileras": 2,
+    "area_total_ha": 3.46,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Agricola Aeropuerto 5",
+    "n_hileras": 38,
+    "area_total_ha": 31.49,
+    "area_trabajada_ha": 2.75
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Agricola Aeropuerto 5",
+    "n_hileras": 189,
+    "area_total_ha": 31.49,
+    "area_trabajada_ha": 3.06
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Agricola Aeropuerto 6",
+    "n_hileras": 5,
+    "area_total_ha": 37.22,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Shacker SBS 4",
+    "cuartel": "Santa Elena 3",
+    "n_hileras": 339,
+    "area_total_ha": 15.44,
+    "area_trabajada_ha": 4.0
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N1_JP",
+    "n_hileras": 1,
+    "area_total_ha": 22.81,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "BALLERINA_N14_JP",
+    "n_hileras": 189,
+    "area_total_ha": 25.07,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N19_JP",
+    "n_hileras": 22,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N15_JP",
+    "n_hileras": 15,
+    "area_total_ha": 20.82,
+    "area_trabajada_ha": 0.34
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 7",
+    "cuartel": "MP4",
+    "n_hileras": 298,
+    "area_total_ha": 16.38,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": "Bernardo Lira Chiñihue A7",
+    "n_hileras": 15,
+    "area_total_ha": 9.42,
+    "area_trabajada_ha": 7.19
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker de Suelo 7",
+    "cuartel": "Bernardo Lira Chiñihue A7",
+    "n_hileras": 18,
+    "area_total_ha": 9.42,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker de Suelo 7",
+    "cuartel": "Bernardo Lira Chiñihue A6",
+    "n_hileras": 18,
+    "area_total_ha": 8.76,
+    "area_trabajada_ha": 5.53
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": "Bernardo Lira Chiñihue A6",
+    "n_hileras": 15,
+    "area_total_ha": 8.76,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": "Bernardo Lira Chiñihue A3",
+    "n_hileras": 6,
+    "area_total_ha": 1.58,
+    "area_trabajada_ha": 0.5
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker de Suelo 7",
+    "cuartel": "Bernardo Lira Chiñihue A3",
+    "n_hileras": 7,
+    "area_total_ha": 1.58,
+    "area_trabajada_ha": 0.83
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "n_hileras": 3,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 5.47
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "n_hileras": 1,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Recogedora 5",
+    "cuartel": "Bernardo Lira Pomaire 2",
+    "n_hileras": 41,
+    "area_total_ha": 1.93,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 5",
+    "n_hileras": 4,
+    "area_total_ha": 2.66,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 6",
+    "n_hileras": 100,
+    "area_total_ha": 3.22,
+    "area_trabajada_ha": 0.59
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Recogedora 5",
+    "cuartel": "Bernardo Lira Pomaire 6",
+    "n_hileras": 4,
+    "area_total_ha": 3.22,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 7",
+    "n_hileras": 87,
+    "area_total_ha": 3.31,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Recogedora 5",
+    "cuartel": "Bernardo Lira Pomaire 9",
+    "n_hileras": 3,
+    "area_total_ha": 2.19,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 9",
+    "n_hileras": 68,
+    "area_total_ha": 2.19,
+    "area_trabajada_ha": 1.55
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 14",
+    "n_hileras": 40,
+    "area_total_ha": 1.74,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 22",
+    "n_hileras": 62,
+    "area_total_ha": 3.97,
+    "area_trabajada_ha": 1.08
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 23",
+    "n_hileras": 13,
+    "area_total_ha": 3.14,
+    "area_trabajada_ha": 0.41
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Recogedora 6",
+    "cuartel": "Bernardo Lira Chiñihue A15",
+    "n_hileras": 2,
+    "area_total_ha": 3.46,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Agricola Aeropuerto 3",
+    "n_hileras": 11,
+    "area_total_ha": 47.53,
+    "area_trabajada_ha": 9.36
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Agricola Aeropuerto 4",
+    "n_hileras": 2,
+    "area_total_ha": 21.26,
+    "area_trabajada_ha": 1.34
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Agricola Aeropuerto 5",
+    "n_hileras": 221,
+    "area_total_ha": 31.49,
+    "area_trabajada_ha": 1.72
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Agricola Aeropuerto 5",
+    "n_hileras": 44,
+    "area_total_ha": 31.49,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Agricola Aeropuerto 6",
+    "n_hileras": 12,
+    "area_total_ha": 37.22,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 16",
+    "n_hileras": 137,
+    "area_total_ha": 1.71,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 17",
+    "n_hileras": 211,
+    "area_total_ha": 3.69,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 19",
+    "n_hileras": 161,
+    "area_total_ha": 2.95,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 22",
+    "n_hileras": 94,
+    "area_total_ha": 1.62,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Shacker SBS 4",
+    "cuartel": "Santa Elena 3",
+    "n_hileras": 435,
+    "area_total_ha": 15.44,
+    "area_trabajada_ha": 2.62
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N9_JP",
+    "n_hileras": 4,
+    "area_total_ha": 58.84,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N14_JP",
+    "n_hileras": 85,
+    "area_total_ha": 25.07,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N20_JP",
+    "n_hileras": 2,
+    "area_total_ha": 20.64,
+    "area_trabajada_ha": 17.26
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Recogedora 3",
+    "cuartel": "BALLERINA_N20_JP",
+    "n_hileras": 1,
+    "area_total_ha": 20.64,
+    "area_trabajada_ha": 2.33
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N5_JP",
+    "n_hileras": 3,
+    "area_total_ha": 19.15,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Recogedora 3",
+    "cuartel": "BALLERINA_N5_JP",
+    "n_hileras": 1,
+    "area_total_ha": 19.15,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 10",
+    "cuartel": "A2",
+    "n_hileras": 122,
+    "area_total_ha": 32.15,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 11",
+    "cuartel": "A6A",
+    "n_hileras": 123,
+    "area_total_ha": 41.14,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "Gonzalo Sanchez Cancha",
+    "n_hileras": 37,
+    "area_total_ha": 2.11,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 27",
+    "n_hileras": 3,
+    "area_total_ha": 0.23,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 1",
+    "cuartel": "ciruelo chiñihue 1",
+    "n_hileras": 1,
+    "area_total_ha": 7.39,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 15",
+    "cuartel": "ciruelo chiñihue 1",
+    "n_hileras": 1,
+    "area_total_ha": 7.39,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 7",
+    "cuartel": "MP4",
+    "n_hileras": 348,
+    "area_total_ha": 16.38,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "MP4",
+    "n_hileras": 145,
+    "area_total_ha": 16.38,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 1",
+    "n_hileras": 186,
+    "area_total_ha": 3.41,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Shacker de Suelo 7",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "n_hileras": 13,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 9.42
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "n_hileras": 15,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 4",
+    "n_hileras": 4,
+    "area_total_ha": 2.56,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 5",
+    "n_hileras": 20,
+    "area_total_ha": 2.66,
+    "area_trabajada_ha": 0.32
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Recogedora 5",
+    "cuartel": "Bernardo Lira Pomaire 5",
+    "n_hileras": 5,
+    "area_total_ha": 2.66,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 6",
+    "n_hileras": 154,
+    "area_total_ha": 3.22,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 20",
+    "n_hileras": 7,
+    "area_total_ha": 1.94,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 22",
+    "n_hileras": 100,
+    "area_total_ha": 3.97,
+    "area_trabajada_ha": 0.75
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 23",
+    "n_hileras": 64,
+    "area_total_ha": 3.14,
+    "area_trabajada_ha": 0.94
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Shacker de Suelo 6",
+    "cuartel": "Bernardo Lira Pomaire 24",
+    "n_hileras": 5,
+    "area_total_ha": 0.67,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Agricola Aeropuerto 3",
+    "n_hileras": 13,
+    "area_total_ha": 47.53,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Agricola Aeropuerto 4",
+    "n_hileras": 1,
+    "area_total_ha": 21.26,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Agricola Aeropuerto 6",
+    "n_hileras": 113,
+    "area_total_ha": 37.22,
+    "area_trabajada_ha": 3.38
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Agricola Aeropuerto 6",
+    "n_hileras": 20,
+    "area_total_ha": 37.22,
+    "area_trabajada_ha": 3.16
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "Gonzalo Sanchez 7",
+    "n_hileras": 3,
+    "area_total_ha": 0.46,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 15",
+    "n_hileras": 112,
+    "area_total_ha": 1.42,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Recogedora 3",
+    "cuartel": "BALLERINA_N1_JP",
+    "n_hileras": 1,
+    "area_total_ha": 22.81,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N19_JP",
+    "n_hileras": 24,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A11B",
+    "n_hileras": 13,
+    "area_total_ha": 3.26,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "MP1",
+    "n_hileras": 265,
+    "area_total_ha": 10.87,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "MP1",
+    "n_hileras": 131,
+    "area_total_ha": 10.87,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "MP2",
+    "n_hileras": 180,
+    "area_total_ha": 7.34,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-21",
+    "maquina": "Shacker de Suelo 8",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "n_hileras": 27,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 7.43
+  },
+  {
+    "fecha": "2026-03-21",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "n_hileras": 77,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-03-21",
+    "maquina": "Shacker de Suelo 7",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "n_hileras": 22,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 0.21
   }
 ]
