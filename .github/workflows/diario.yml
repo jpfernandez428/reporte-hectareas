@@ -15,6 +15,10 @@ on:
         description: 'Fecha fin (AAAA-MM-DD). Dejar vacio para usar el dia de ayer.'
         required: false
         default: ''
+      diagnostico:
+        description: 'Poner 1 para solo revisar Wialon (geocercas y datos GPS disponibles), sin calcular nada.'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -39,6 +43,7 @@ jobs:
           WIALON_TOKEN: ${{ secrets.WIALON_TOKEN }}
           FECHA_INICIO_MANUAL: ${{ inputs.fecha_inicio }}
           FECHA_FIN_MANUAL: ${{ inputs.fecha_fin }}
+          MODO_DIAGNOSTICO: ${{ inputs.diagnostico }}
         run: python3 reporte_hectareas.py
 
       - name: Guardar los resultados en el repositorio

@@ -113,6 +113,12 @@ UMBRAL_CIERRE_PORCENTAJE = CONFIG.get("umbral_cierre_porcentaje", 0.95)
 TOLERANCIA_MISMA_HILERA_M = CONFIG.get("tolerancia_misma_hilera_m", 1.5)
 # Grilla para medir la cobertura, y espaciado a usar cuando no se puede medir.
 TAMANO_CELDA_M = CONFIG.get("tamano_celda_m", 1.0)
+# En geocercas muy grandes la celda se agranda para no pasar de este numero
+# de celdas (memoria y tiempo acotados).
+MAXIMO_CELDAS_GRILLA = CONFIG.get("maximo_celdas_grilla", 400000)
+# Modo diagnostico: solo lee de Wialon (geocercas y disponibilidad de datos
+# GPS) e imprime un resumen; no calcula ni guarda nada.
+MODO_DIAGNOSTICO = os.environ.get("MODO_DIAGNOSTICO", "").strip().lower() in ("1", "true", "si")
 ESPACIADO_HILERAS_DEFECTO_M = CONFIG.get("espaciado_hileras_defecto_m", 4.0)
 
 os.makedirs(CARPETA_MEMORIA, exist_ok=True)
@@ -198,11 +204,13 @@ def area_poligono_m2(vertices_metros):
     return abs(doble_area) / 2
 
 
-def obtener_geocercas(sid):
+def obtener_geocercas(sid, filtrar=True):
     """
     Devuelve una lista de cuarteles reales (geocercas de tipo poligono),
-    con su nombre, su contorno (lon, lat) y su area real en hectareas
-    (calculada por nosotros mismos a partir del contorno, en metros).
+    con su nombre, su contorno (lon, lat), su area real en hectareas
+    (calculada por nosotros mismos a partir del contorno, en metros) y su
+    rectangulo envolvente (bbox). Con filtrar=False no aplica
+    cuarteles_incluidos.
     """
     geocercas = []
     for resource_id in obtener_resource_ids(sid):
@@ -219,7 +227,7 @@ def obtener_geocercas(sid):
             if zona.get("t") != 2:
                 continue  # solo poligonos (1=linea, 2=poligono, 3=circulo)
             nombre = zona.get("n", "")
-            if CUARTELES_INCLUIDOS and nombre.strip().lower() not in CUARTELES_INCLUIDOS:
+            if filtrar and CUARTELES_INCLUIDOS and nombre.strip().lower() not in CUARTELES_INCLUIDOS:
                 continue  # no esta en la lista de cuarteles reales de config.json
             puntos = zona.get("p") or []
             if len(puntos) < 3:
@@ -234,8 +242,39 @@ def obtener_geocercas(sid):
                 "nombre": zona.get("n", f"Geocerca {zona.get('id')}"),
                 "contorno": contorno,
                 "area_ha": area_m2 / 10000,
+                "bbox": (min(p[0] for p in contorno), min(p[1] for p in contorno),
+                         max(p[0] for p in contorno), max(p[1] for p in contorno)),
+                "vertices": len(contorno),
             })
     return geocercas
+
+
+GRADOS_CUBETA_INDICE = 0.005  # ~500 m
+
+
+def indice_geocercas(geocercas):
+    """Indice espacial simple: cubeta (lon, lat) -> geocercas cuyo bbox la
+    toca. Evita comparar cada punto GPS contra todas las geocercas."""
+    indice = {}
+    for geo in geocercas:
+        x1, y1, x2, y2 = geo["bbox"]
+        for i in range(int(math.floor(x1 / GRADOS_CUBETA_INDICE)), int(math.floor(x2 / GRADOS_CUBETA_INDICE)) + 1):
+            for j in range(int(math.floor(y1 / GRADOS_CUBETA_INDICE)), int(math.floor(y2 / GRADOS_CUBETA_INDICE)) + 1):
+                indice.setdefault((i, j), []).append(geo)
+    return indice
+
+
+def repartir_puntos_por_geocerca(puntos, indice):
+    """Devuelve {nombre_geocerca: [puntos dentro]} usando el indice espacial."""
+    por_geocerca = {}
+    for p in puntos:
+        lon, lat = p["punto"]
+        clave = (int(math.floor(lon / GRADOS_CUBETA_INDICE)), int(math.floor(lat / GRADOS_CUBETA_INDICE)))
+        for geo in indice.get(clave, ()):
+            x1, y1, x2, y2 = geo["bbox"]
+            if x1 <= lon <= x2 and y1 <= lat <= y2 and punto_en_poligono(p["punto"], geo["contorno"]):
+                por_geocerca.setdefault(geo["nombre"], []).append(p)
+    return por_geocerca
 
 
 def punto_en_poligono(punto, poligono):
@@ -578,20 +617,23 @@ _grillas = {}
 
 
 def grilla_geocerca(geo):
-    """Celdas (i, j) de TAMANO_CELDA_M que caen dentro de la geocerca, en
-    metros respecto del primer punto de su contorno. Se calcula una vez."""
+    """Celdas (i, j) que caen dentro de la geocerca, en metros respecto del
+    primer punto de su contorno. Devuelve (referencia, celdas, lado_celda_m).
+    La celda es de TAMANO_CELDA_M, o mas grande en geocercas enormes para no
+    pasar de MAXIMO_CELDAS_GRILLA. Se calcula una vez por geocerca."""
     if geo["nombre"] not in _grillas:
         referencia = geo["contorno"][0]
         contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]]
         xs = [p[0] for p in contorno_m]
         ys = [p[1] for p in contorno_m]
+        area_bbox = (max(xs) - min(xs)) * (max(ys) - min(ys))
+        lado = max(TAMANO_CELDA_M, math.sqrt(area_bbox / MAXIMO_CELDAS_GRILLA))
         celdas = set()
-        for i in range(int(math.floor(min(xs) / TAMANO_CELDA_M)), int(math.ceil(max(xs) / TAMANO_CELDA_M)) + 1):
-            for j in range(int(math.floor(min(ys) / TAMANO_CELDA_M)), int(math.ceil(max(ys) / TAMANO_CELDA_M)) + 1):
-                centro = ((i + 0.5) * TAMANO_CELDA_M, (j + 0.5) * TAMANO_CELDA_M)
-                if punto_en_poligono(centro, contorno_m):
+        for i in range(int(math.floor(min(xs) / lado)), int(math.ceil(max(xs) / lado)) + 1):
+            for j in range(int(math.floor(min(ys) / lado)), int(math.ceil(max(ys) / lado)) + 1):
+                if punto_en_poligono(((i + 0.5) * lado, (j + 0.5) * lado), contorno_m):
                     celdas.add((i, j))
-        _grillas[geo["nombre"]] = (referencia, celdas)
+        _grillas[geo["nombre"]] = (referencia, celdas, lado)
     return _grillas[geo["nombre"]]
 
 
@@ -599,7 +641,7 @@ def marcar_franja_hilera(hilera, referencia, geo, ancho_m, marcadas):
     """Marca las celdas de la franja de `ancho_m` alrededor de la hilera,
     alargada hasta el borde de la geocerca en los extremos que llegan a la
     cabecera (TOLERANCIA_CABECERA_M)."""
-    referencia_grilla, celdas = grilla_geocerca(geo)
+    referencia_grilla, celdas, lado = grilla_geocerca(geo)
     contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]]
     ini, fin = hilera.min_proy, hilera.max_proy
     tramo = tramo_geocerca_en_hilera(hilera, contorno_m)
@@ -618,7 +660,7 @@ def marcar_franja_hilera(hilera, referencia, geo, ancho_m, marcadas):
     if largo < 0.5:
         return
     ux, uy = (b[0] - a[0]) / largo, (b[1] - a[1]) / largo
-    paso = TAMANO_CELDA_M / 2
+    paso = lado / 2
     n_largo = int(largo / paso) + 1
     n_ancho = int(ancho_m / paso) + 1
     for k in range(n_largo + 1):
@@ -627,7 +669,7 @@ def marcar_franja_hilera(hilera, referencia, geo, ancho_m, marcadas):
             d = -ancho_m / 2 + min(m * paso, ancho_m)
             x = a[0] + ux * t - uy * d
             y = a[1] + uy * t + ux * d
-            celda = (int(math.floor(x / TAMANO_CELDA_M)), int(math.floor(y / TAMANO_CELDA_M)))
+            celda = (int(math.floor(x / lado)), int(math.floor(y / lado)))
             if celda in celdas:
                 marcadas.add(celda)
 
@@ -660,7 +702,7 @@ def celdas_trabajadas(geo, trabajos):
     Celdas trabajadas de una geocerca, uniendo todas las maquinas.
     trabajos: lista de (referencia, hileras) de cada maquina.
     """
-    _, celdas = grilla_geocerca(geo)
+    _, celdas, lado = grilla_geocerca(geo)
     marcadas = set()
     espaciados = []
     for referencia, hileras in trabajos:
@@ -673,12 +715,12 @@ def celdas_trabajadas(geo, trabajos):
             marcar_franja_hilera(h, referencia, geo, espaciado, marcadas)
     if not espaciados:
         return set()
-    radio = int(round(max(espaciados) / 2 / TAMANO_CELDA_M))
+    radio = int(round(max(espaciados) / 2 / lado))
     return rellenar_franjas_angostas(marcadas, celdas, radio)
 
 
 def fraccion_trabajada(geo, celdas_cubiertas):
-    _, celdas = grilla_geocerca(geo)
+    _, celdas, _ = grilla_geocerca(geo)
     return len(celdas_cubiertas) / len(celdas) if celdas else 0.0
 
 
@@ -941,6 +983,7 @@ def generar_reporte(sid, geocercas):
             cobertura[geo["nombre"]] = celdas_trabajadas(geo, trabajos)
         return cobertura[geo["nombre"]]
 
+    indice = indice_geocercas(geocercas)
     dia = FECHA_INICIO
     while dia <= FECHA_FIN:
         fecha_str = dia.strftime("%Y-%m-%d")
@@ -953,12 +996,11 @@ def generar_reporte(sid, geocercas):
             ]
             if len(puntos) < 3:
                 continue
-            for geo in geocercas:
-                puntos_geo = [p for p in puntos if punto_en_poligono(p["punto"], geo["contorno"])]
-                diagnostico[geo["nombre"]] += len(puntos_geo)
+            for nombre_geo, puntos_geo in repartir_puntos_por_geocerca(puntos, indice).items():
+                diagnostico[nombre_geo] += len(puntos_geo)
                 if len(puntos_geo) >= MINIMO_PUNTOS_EN_GEOCERCA:
                     hora_entrada = min((p["t"] for p in puntos_geo if p["t"] is not None), default=0)
-                    entradas[geo["nombre"]].append((hora_entrada, unidad, puntos_geo))
+                    entradas[nombre_geo].append((hora_entrada, unidad, puntos_geo))
 
         for geo in geocercas:
             for _, unidad, puntos_geo in sorted(entradas[geo["nombre"]], key=lambda e: e[0]):
@@ -975,7 +1017,7 @@ def generar_reporte(sid, geocercas):
                     estado[(unidad["id"], geo["nombre"])][0] = referencia
                     cobertura.pop(geo["nombre"], None)
                     celdas_despues = cobertura_actual(geo)
-                    _, celdas_geo = grilla_geocerca(geo)
+                    _, celdas_geo, _ = grilla_geocerca(geo)
                     nuevas = len(celdas_despues - celdas_antes)
                     area_trabajada_ha = nuevas / len(celdas_geo) * geo["area_ha"] if celdas_geo else 0.0
                     area_acreditada_ha += area_trabajada_ha
@@ -1026,10 +1068,53 @@ def generar_reporte(sid, geocercas):
     return pd.DataFrame(filas_resumen), pd.DataFrame(filas_detalle), resultado_por_unidad, diagnostico
 
 
+def primer_mensaje(sid, unit_id, desde, hasta):
+    """Hora (unix) del primer mensaje GPS de la unidad en el intervalo, o
+    None. Solo lectura: pide un unico mensaje."""
+    params = json.dumps({
+        "itemId": unit_id,
+        "timeFrom": int(desde.replace(tzinfo=timezone.utc).timestamp()),
+        "timeTo": int(hasta.replace(tzinfo=timezone.utc).timestamp()),
+        "flags": 0, "flagsMask": 0, "loadCount": 1,
+    })
+    r = requests.get(
+        f"{WIALON_HOST}/wialon/ajax.html",
+        params={"svc": "messages/load_interval", "params": params, "sid": sid},
+        timeout=60,
+    )
+    mensajes = r.json().get("messages", []) if r.ok else []
+    return mensajes[0].get("t") if mensajes else None
+
+
+def diagnostico_wialon(sid):
+    """Imprime todas las geocercas poligono y, por maquina, la primera
+    fecha con datos GPS desde el 2026-01-01 (y si hay datos antes)."""
+    geocercas = obtener_geocercas(sid, filtrar=False)
+    print(f"DIAG geocercas poligono en Wialon: {len(geocercas)}")
+    for g in sorted(geocercas, key=lambda g: g["nombre"].lower()):
+        ancho = (g["bbox"][2] - g["bbox"][0]) * 111320.0 * math.cos(math.radians(g["bbox"][1]))
+        alto = (g["bbox"][3] - g["bbox"][1]) * METROS_POR_GRADO_LAT
+        print(f"DIAG geocerca | {g['nombre']} | {g['area_ha']:.2f} ha | {g['vertices']} vertices | "
+              f"{ancho:.0f} x {alto:.0f} m")
+
+    inicio = datetime(2026, 1, 1)
+    ahora = datetime.utcnow()
+    for unidad in UNIDADES:
+        t = primer_mensaje(sid, unidad["id"], inicio, ahora)
+        t_antes = primer_mensaje(sid, unidad["id"], datetime(2025, 12, 1), inicio)
+        primera = datetime.fromtimestamp(t, tz=timezone.utc).strftime("%Y-%m-%d") if t else "sin datos"
+        print(f"DIAG unidad | {unidad['nombre']} | primer dato 2026: {primera} | "
+              f"datos en dic-2025: {'si' if t_antes else 'no'}")
+
+
 def main():
     print("Conectando con Wialon...")
     sid = wialon_login(TOKEN)
     print("Conectado.")
+
+    if MODO_DIAGNOSTICO:
+        diagnostico_wialon(sid)
+        return
 
     print("Descargando geocercas (cuarteles reales)...")
     geocercas = obtener_geocercas(sid)
