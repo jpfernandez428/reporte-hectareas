@@ -141,7 +141,7 @@ function renderAvancePorCuartel() {
     '</tr></thead><tbody>';
 
   for (const f of filas) {
-    const completo = f.porcentaje >= 99.5;
+    const completo = f.porcentaje >= 97;  // mismo umbral de cierre que el script (umbral_cierre_porcentaje)
     html += `<tr><td>${f.nombre}</td><td>${f.area_total.toFixed(2)}</td>` +
       `<td>${f.trabajado.toFixed(2)}</td>` +
       `<td><div style="display:flex; align-items:center; gap:8px;">` +

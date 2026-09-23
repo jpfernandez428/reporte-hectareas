@@ -472,6 +472,27 @@ def contar_pasadas_max(intervalos):
     return maximo
 
 
+def angulo_entre_hileras(h1, h2):
+    """Angulo (0 a 90 grados) entre las direcciones de dos hileras."""
+    cos_ang = h1.direccion[0] * h2.direccion[0] + h1.direccion[1] * h2.direccion[1]
+    return math.degrees(math.acos(max(-1, min(1, abs(cos_ang)))))
+
+
+def hilera_referencia(hileras):
+    """
+    Hilera que marca la direccion real de las hileras del cuartel: la que
+    tiene mas metros de hileras alineadas con ella. No se usa simplemente la
+    mas larga, porque un traslado en diagonal cruzando el cuartel puede
+    quedar registrado como la "hilera" mas larga y torcer todos los calculos.
+    """
+    def metros_alineados(h):
+        return sum(
+            otra.largo_conocido for otra in hileras
+            if angulo_entre_hileras(h, otra) <= TOLERANCIA_ANGULO_GRADOS
+        )
+    return max(hileras, key=lambda h: (metros_alineados(h), h.largo_conocido))
+
+
 def filtrar_hileras_regulares(hileras):
     """
     Descarta hileras cuyo espaciado a sus vecinas no calza con el patron
@@ -482,7 +503,14 @@ def filtrar_hileras_regulares(hileras):
     if len(hileras) < 5:
         return hileras, []
 
-    ref = max(hileras, key=lambda h: h.largo_conocido)
+    ref = hilera_referencia(hileras)
+
+    # Tramos cruzados respecto de la direccion de las hileras (traslados en
+    # diagonal, cabeceras): no son hileras.
+    cruzadas = [h for h in hileras if angulo_entre_hileras(h, ref) > TOLERANCIA_ANGULO_GRADOS]
+    hileras = [h for h in hileras if angulo_entre_hileras(h, ref) <= TOLERANCIA_ANGULO_GRADOS]
+    if len(hileras) < 2:
+        return hileras, cruzadas
 
     def lateral(h):
         dx = h.origen[0] - ref.origen[0]
@@ -494,11 +522,11 @@ def filtrar_hileras_regulares(hileras):
     gaps = [posiciones[i + 1] - posiciones[i] for i in range(len(posiciones) - 1)]
     gaps_significativos = [g for g in gaps if g > 0.3]
     if not gaps_significativos:
-        return hileras, []
+        return hileras, cruzadas
 
     mediana = statistics.median(gaps_significativos)
     if mediana <= 0:
-        return hileras, []
+        return hileras, cruzadas
 
     regulares, irregulares = [], []
     for i, h in enumerate(ordenadas):
@@ -511,7 +539,7 @@ def filtrar_hileras_regulares(hileras):
             regulares.append(h)
         else:
             irregulares.append(h)
-    return regulares, irregulares
+    return regulares, irregulares + cruzadas
 
 
 def estimar_total_hileras(hileras_regulares, contorno_geocerca, referencia):
@@ -525,7 +553,7 @@ def estimar_total_hileras(hileras_regulares, contorno_geocerca, referencia):
     if len(hileras_regulares) < 2:
         return None
 
-    ref = max(hileras_regulares, key=lambda h: h.largo_conocido)
+    ref = hilera_referencia(hileras_regulares)
 
     def lateral(punto_m):
         dx = punto_m[0] - ref.origen[0]
@@ -638,7 +666,7 @@ def calcular_area_trabajada_y_huecos_m2(hileras_regulares, contorno_geocerca, re
     if len(hileras_regulares) < 2:
         return 0.0, 0.0
 
-    ref = max(hileras_regulares, key=lambda h: h.largo_conocido)
+    ref = hilera_referencia(hileras_regulares)
 
     def lateral(punto_m):
         dx = punto_m[0] - ref.origen[0]
@@ -749,28 +777,59 @@ def calcular_porcentaje_avance(hileras, contorno_geocerca, referencia):
     return 1.0 if porcentaje >= UMBRAL_CIERRE_PORCENTAJE else porcentaje
 
 
-def exportar_kml(ruta_salida, unidades_procesadas, geocercas):
+def area_trabajada_maquina_ha(geo, referencia, hileras, area_acumulada_ha):
+    """Area trabajada por UNA maquina en una geocerca: lo acumulado en su
+    memoria, o el recalculo con sus hileras actuales si da mas (asi las
+    correcciones del calculo aplican tambien a cuarteles ya trabajados)."""
+    if referencia is None:
+        return area_acumulada_ha
+    hileras_regulares, _ = filtrar_hileras_regulares(hileras)
+    recalculada_ha = calcular_area_trabajada_m2(hileras_regulares, geo["contorno"], referencia) / 10000
+    return max(area_acumulada_ha, min(geo["area_ha"], recalculada_ha))
+
+
+def avance_total_por_geocerca(unidades_procesadas, geocercas):
+    """
+    Suma el area trabajada por TODAS las maquinas en cada geocerca (un
+    cuartel puede completarse entre varias maquinas). Devuelve
+    {nombre_geocerca: (area_total_trabajada_ha, completa)}, donde completa
+    es True si la suma llega al umbral de cierre del area real.
+    """
+    suma_ha = {}
+    geocercas_por_nombre = {g["nombre"]: g for g in geocercas}
+    for _, hileras_por_geocerca, _ in unidades_procesadas:
+        for nombre_geo, (referencia, hileras, area_acumulada_ha) in hileras_por_geocerca.items():
+            geo = geocercas_por_nombre.get(nombre_geo)
+            if geo is None:
+                continue
+            suma_ha[nombre_geo] = suma_ha.get(nombre_geo, 0.0) + area_trabajada_maquina_ha(
+                geo, referencia, hileras, area_acumulada_ha
+            )
+
+    avance = {}
+    for nombre_geo, total_ha in suma_ha.items():
+        area_real_ha = geocercas_por_nombre[nombre_geo]["area_ha"]
+        completa = area_real_ha > 0 and total_ha >= area_real_ha * UMBRAL_CIERRE_PORCENTAJE
+        avance[nombre_geo] = (min(total_ha, area_real_ha), completa)
+    return avance
+
+
+def exportar_kml(ruta_salida, unidades_procesadas, geocercas, avance_total):
     """
     unidades_procesadas: lista de (nombre_unidad, hileras_por_geocerca, descartados)
         hileras_por_geocerca: dict {nombre_geocerca: (referencia, hileras)}
-    Genera un archivo KML: contorno de cada geocerca en azul (o morado si
-    ya se cuenta como completa para alguna de las maquinas incluidas),
-    hileras trabajadas en verde, tramos descartados en amarillo.
+    avance_total: resultado de avance_total_por_geocerca (suma de TODAS las
+        maquinas, aunque este KML muestre solo algunas).
+    Genera un archivo KML: contorno de cada geocerca (marcada COMPLETA si
+    entre todas las maquinas se llego al umbral de cierre), hileras
+    trabajadas en verde, tramos descartados en amarillo.
     """
     partes = ['<?xml version="1.0" encoding="UTF-8"?>',
               '<kml xmlns="http://www.opengis.net/kml/2.2"><Document>']
 
     partes.append('<Folder><name>Cuarteles (geocercas)</name>')
     for geo in geocercas:
-        completa = False
-        for _, hileras_por_geocerca, _ in unidades_procesadas:
-            entrada = hileras_por_geocerca.get(geo["nombre"])
-            if not entrada:
-                continue
-            _, _, area_acumulada_ha = entrada
-            if geo["area_ha"] > 0 and area_acumulada_ha >= geo["area_ha"] * UMBRAL_CIERRE_PORCENTAJE:
-                completa = True
-                break
+        completa = avance_total.get(geo["nombre"], (0.0, False))[1]
 
         color_borde = NEGRO_GEOCERCA
         etiqueta = "COMPLETA" if completa else f"{geo['area_ha']:.2f} ha"
@@ -793,10 +852,7 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas):
             if referencia is None:
                 continue
             geo = next((g for g in geocercas if g["nombre"] == nombre_geo), None)
-            geocerca_completa = (
-                geo is not None and geo["area_ha"] > 0
-                and area_acumulada_ha >= geo["area_ha"] * UMBRAL_CIERRE_PORCENTAJE
-            )
+            geocerca_completa = avance_total.get(nombre_geo, (0.0, False))[1]
             hileras_regulares, _ = filtrar_hileras_regulares(hileras)
             ids_regulares = {h.id for h in hileras_regulares}
 
@@ -1066,7 +1122,14 @@ def main():
         print(df_resumen.to_string(index=False))
 
     ruta_kml = os.path.join(CARPETA_DATOS, "hileras_detectadas.kml")
-    exportar_kml(ruta_kml, resultado_por_unidad, geocercas)
+    avance_total = avance_total_por_geocerca(resultado_por_unidad, geocercas)
+    print("\nAvance por cuartel (suma de todas las maquinas):")
+    for nombre_geo, (total_ha, completa) in sorted(avance_total.items()):
+        area_real_ha = next(g["area_ha"] for g in geocercas if g["nombre"] == nombre_geo)
+        print(f"  - {nombre_geo}: {total_ha:.2f} de {area_real_ha:.2f} ha"
+              f"{' -> COMPLETO' if completa else ''}")
+
+    exportar_kml(ruta_kml, resultado_por_unidad, geocercas, avance_total)
     print(f"Mapa de revision generado en: {ruta_kml}")
 
     carpeta_kml_por_unidad = os.path.join(CARPETA_DATOS, "kml")
@@ -1075,7 +1138,7 @@ def main():
         if not hileras_por_geocerca:
             continue
         ruta_kml_unidad = os.path.join(carpeta_kml_por_unidad, f"{slug(nombre_unidad)}.kml")
-        exportar_kml(ruta_kml_unidad, [(nombre_unidad, hileras_por_geocerca, descartados)], geocercas)
+        exportar_kml(ruta_kml_unidad, [(nombre_unidad, hileras_por_geocerca, descartados)], geocercas, avance_total)
     print(f"Mapas por maquina generados en: {carpeta_kml_por_unidad}")
     print("Abrelo con Google Earth o subelo a Google My Maps para comparar contra la foto satelital.")
 
@@ -1090,10 +1153,7 @@ def main():
             if referencia is None:
                 continue
             geo = geocercas_por_nombre.get(nombre_geo)
-            completo = (
-                geo is not None and geo["area_ha"] > 0
-                and area_acumulada_ha >= geo["area_ha"] * UMBRAL_CIERRE_PORCENTAJE
-            )
+            completo = avance_total.get(nombre_geo, (0.0, False))[1]
             hileras_regulares, hileras_irregulares = filtrar_hileras_regulares(hileras)
             ids_irregulares = {h.id for h in hileras_irregulares}
 
