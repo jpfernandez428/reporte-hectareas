@@ -434,7 +434,6 @@ async function descargarKML() {
     });
 
     const colorVerde = 'ff00ff00';
-    const colorAzul = 'ffff8000';
     const colorRojo = 'ff0000ff';
     // maquina -> fecha -> cuartel -> [placemarks]
     const estructura = {};
@@ -462,7 +461,7 @@ async function descargarKML() {
             if (datosCuartel.completo) {
               color = colorVerde; etiqueta = ' (cuartel completo)';
             } else if (fila.completa) {
-              color = colorAzul; etiqueta = ' (hilera completa)';
+              color = colorVerde; etiqueta = ' (hilera completa)';
             } else {
               color = colorRojo; etiqueta = ' (hilera parcial)';
             }

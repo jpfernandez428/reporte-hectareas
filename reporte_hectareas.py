@@ -99,6 +99,10 @@ VELOCIDAD_MAXIMA_TRABAJO_KMH = CONFIG.get("velocidad_maxima_trabajo_kmh", 14)
 MINIMO_PUNTOS_EN_GEOCERCA = CONFIG.get("minimo_puntos_en_geocerca", 3)
 TOLERANCIA_ESPACIADO = CONFIG.get("tolerancia_espaciado", 2.5)
 TOLERANCIA_BORDE_GEOCERCA_M = CONFIG.get("tolerancia_borde_geocerca_m", 10)
+# Distancia maxima entre el extremo de una hilera y el borde de la geocerca
+# (en la posicion de ESA hilera) para considerar que la hilera llego al final
+# (cabecera + distancia entre puntos GPS).
+TOLERANCIA_CABECERA_M = CONFIG.get("tolerancia_cabecera_m", 20)
 CUARTELES_INCLUIDOS = [n.strip().lower() for n in CONFIG.get("cuarteles_incluidos", [])]
 UMBRAL_CIERRE_PORCENTAJE = CONFIG.get("umbral_cierre_porcentaje", 0.97)
 
@@ -561,20 +565,66 @@ def calcular_area_trabajada_m2(hileras_regulares, contorno_geocerca, referencia)
     return calcular_area_trabajada_y_huecos_m2(hileras_regulares, contorno_geocerca, referencia)[0]
 
 
+def tramo_geocerca_en_hilera(hilera, contorno_m):
+    """
+    Devuelve (ini, fin), en la misma escala que min_proy/max_proy, del tramo
+    de la recta de la hilera que queda dentro de la geocerca, en la posicion
+    de ESA hilera. Como el contorno no siempre es rectangular, cada hilera
+    tiene su propio largo real. Devuelve None si no se puede calcular.
+    """
+    cruces = []
+    n = len(contorno_m)
+    for i in range(n):
+        a, b = contorno_m[i], contorno_m[(i + 1) % n]
+        lat_a = (a[0] - hilera.origen[0]) * hilera.direccion[1] - (a[1] - hilera.origen[1]) * hilera.direccion[0]
+        lat_b = (b[0] - hilera.origen[0]) * hilera.direccion[1] - (b[1] - hilera.origen[1]) * hilera.direccion[0]
+        if (lat_a > 0) != (lat_b > 0):
+            t = lat_a / (lat_a - lat_b)
+            proy_a, proy_b = proyectar(a, hilera)[0], proyectar(b, hilera)[0]
+            cruces.append(proy_a + t * (proy_b - proy_a))
+    cruces.sort()
+    tramos = [(cruces[i], cruces[i + 1]) for i in range(0, len(cruces) - 1, 2)]
+    if not tramos:
+        return None
+
+    centro = (hilera.min_proy + hilera.max_proy) / 2
+    return min(tramos, key=lambda t: 0 if t[0] <= centro <= t[1] else min(abs(centro - t[0]), abs(centro - t[1])))
+
+
+def hilera_llega_a_los_bordes(hilera, contorno_m):
+    """True si la hilera se recorrio de borde a borde de la geocerca (en su
+    propia posicion), con la tolerancia de cabecera."""
+    tramo = tramo_geocerca_en_hilera(hilera, contorno_m)
+    if tramo is None:
+        return False
+    return (
+        hilera.min_proy - tramo[0] <= TOLERANCIA_CABECERA_M
+        and tramo[1] - hilera.max_proy <= TOLERANCIA_CABECERA_M
+    )
+
+
 def largo_efectivo_hilera_m(hilera, contorno_m):
     """
     Largo de la hilera, extendido hasta el borde real de la geocerca en el
     extremo (o los extremos) donde la distancia restante es razonable
     (misma logica que el ancho, pero en el largo de cada hilera individual).
+    El borde se mide en la posicion de la hilera, asi las hileras mas cortas
+    de un cuartel irregular tambien llegan a su propio final.
     """
-    proyecciones = [proyectar(v, hilera)[0] for v in contorno_m]
-    poligono_min, poligono_max = min(proyecciones), max(proyecciones)
+    tramo = tramo_geocerca_en_hilera(hilera, contorno_m)
+    if tramo is not None:
+        poligono_min, poligono_max = tramo
+        tolerancia = TOLERANCIA_CABECERA_M
+    else:
+        proyecciones = [proyectar(v, hilera)[0] for v in contorno_m]
+        poligono_min, poligono_max = min(proyecciones), max(proyecciones)
+        tolerancia = TOLERANCIA_BORDE_GEOCERCA_M
 
     min_h, max_h = hilera.min_proy, hilera.max_proy
-    if (min_h - poligono_min) <= TOLERANCIA_BORDE_GEOCERCA_M:
-        min_h = poligono_min
-    if (poligono_max - max_h) <= TOLERANCIA_BORDE_GEOCERCA_M:
-        max_h = poligono_max
+    if (min_h - poligono_min) <= tolerancia:
+        min_h = min(min_h, poligono_min)
+    if (poligono_max - max_h) <= tolerancia:
+        max_h = max(max_h, poligono_max)
     return max(0.0, max_h - min_h)
 
 
@@ -961,6 +1011,15 @@ def generar_reporte(sid, geocercas):
 
             dia += timedelta(days=1)
 
+        # Cuarteles trabajados antes de este periodo: se cargan de la memoria
+        # para que sigan apareciendo en los mapas y en la geometria de la web.
+        for geo in geocercas:
+            if geo["nombre"] in hileras_por_geocerca:
+                continue
+            referencia, hileras, area_acumulada_ha = cargar_estado(unidad["id"], geo["nombre"])
+            if referencia is not None and hileras:
+                hileras_por_geocerca[geo["nombre"]] = (referencia, hileras, area_acumulada_ha)
+
         resultado_por_unidad.append((unidad["nombre"], hileras_por_geocerca, descartados))
 
     return pd.DataFrame(filas_resumen), pd.DataFrame(filas_detalle), resultado_por_unidad, diagnostico
@@ -1057,6 +1116,7 @@ def main():
                     f"(diferencia {diferencia_pct:.1f}%) [{estado}]"
                 )
 
+            contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]] if geo else []
             filas = []
             for h in hileras:
                 p1_m = (h.origen[0] + h.direccion[0] * h.min_proy, h.origen[1] + h.direccion[1] * h.min_proy)
@@ -1067,12 +1127,10 @@ def main():
                 lon2, lat2 = metros_a_punto(p2_m, referencia)
                 if not all(math.isfinite(v) for v in (lon1, lat1, lon2, lat2)):
                     continue
-                _, cubierto = union_intervalos(h.intervalos)
-                fraccion_propia = cubierto / h.largo_conocido if h.largo_conocido > 0 else 1.0
                 filas.append({
                     "id": h.id, "p1": [lon1, lat1], "p2": [lon2, lat2],
                     "fechas": sorted(h.fechas),
-                    "completa": fraccion_propia >= UMBRAL_CIERRE_PORCENTAJE,
+                    "completa": bool(contorno_m) and hilera_llega_a_los_bordes(h, contorno_m),
                     "cuenta": h.id not in ids_irregulares,
                 })
             if filas:
