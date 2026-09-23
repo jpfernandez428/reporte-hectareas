@@ -1,1 +1,210 @@
-[]
+[
+  {
+    "fecha": "2026-01-02",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 9,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-01-02",
+    "maquina": "Tractor 15 Deutz Fahr 115",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 10,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-01-02",
+    "maquina": "Shacker SBS 4",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 2,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-01-02",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 7,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-01-02",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 11,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-01-02",
+    "maquina": "Shacker de Suelo 1",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 1,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-01-05",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 4,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-01-05",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 9,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-01-06",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 1,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-01-07",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 34,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.42
+  },
+  {
+    "fecha": "2026-01-07",
+    "maquina": "Barredora 3",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 5,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-01-07",
+    "maquina": "Recogedora 7",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 3,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-01-08",
+    "maquina": "Recogedora 1",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 1,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-01-08",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 95,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 1.32
+  },
+  {
+    "fecha": "2026-01-08",
+    "maquina": "Tractor 15 Deutz Fahr 115",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 15,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-01-09",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 111,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.39
+  },
+  {
+    "fecha": "2026-01-12",
+    "maquina": "Shacker SBS 5",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 13,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-01-13",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 15,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-01-14",
+    "maquina": "Shacker de Suelo 1",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 14,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-01-14",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 4,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-01-14",
+    "maquina": "Barredora 4",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 8,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-01-14",
+    "maquina": "Barredora 5",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 7,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-01-14",
+    "maquina": "Barredora 11",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 1,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-01-15",
+    "maquina": "Tractor 15 Deutz Fahr 115",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 22,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-01-15",
+    "maquina": "Barredora 11",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 4,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-01-15",
+    "maquina": "Barredora 12",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 1,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.07
+  }
+]

@@ -1,0 +1,47 @@
+{
+  "umbral_cierre": 0.95,
+  "cuarteles": {
+    "C&H Maquinaria": {
+      "trabajado_ha": 3.4742,
+      "area_total_ha": 5.1226,
+      "porcentaje": 67.8,
+      "completo": false,
+      "maquinas": [
+        "Barredora 1",
+        "Barredora 10",
+        "Barredora 11",
+        "Barredora 12",
+        "Barredora 15",
+        "Barredora 16",
+        "Barredora 18",
+        "Barredora 3",
+        "Barredora 4",
+        "Barredora 5",
+        "Recogedora 1",
+        "Recogedora 2",
+        "Recogedora 6",
+        "Recogedora 7",
+        "Shacker SBS 1",
+        "Shacker SBS 10",
+        "Shacker SBS 11",
+        "Shacker SBS 12",
+        "Shacker SBS 13",
+        "Shacker SBS 15 OMC",
+        "Shacker SBS 3",
+        "Shacker SBS 4",
+        "Shacker SBS 5",
+        "Shacker SBS 7",
+        "Shacker SBS 8",
+        "Shacker SBS 9",
+        "Shacker SBS Campo",
+        "Shacker de Suelo 1",
+        "Tractor 1 Deutz-Fahr Agroplus",
+        "Tractor 14 Deutz Fahr 115",
+        "Tractor 15 Deutz Fahr 115",
+        "Tractor 4 Same Frutetto 100",
+        "Tractor 8 Kubota 108",
+        "Tractor 9 Deutz Fahr 115"
+      ]
+    }
+  }
+}
