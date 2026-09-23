@@ -325,23 +325,7 @@
       "nombre": "Tractor 17 Kubota 108"
     }
   ],
-  "cuarteles_incluidos": [
-    "Aurora 1",
-    "Aurora 2",
-    "Aurora 3",
-    "Aurora 4",
-    "Aurora 5",
-    "Aurora 6",
-    "Aurora 7",
-    "Aurora 8",
-    "Aurora 9",
-    "Aurora 10",
-    "Aurora 11",
-    "Aurora 12",
-    "Aurora 13",
-    "Aurora 14",
-    "Aurora 15"
-  ],
+  "cuarteles_incluidos": [],
   "largo_minimo_tramo_m": 3,
   "umbral_cierre_porcentaje": 0.95
 }

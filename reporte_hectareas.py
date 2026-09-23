@@ -44,6 +44,7 @@ La "memoria" de cada combinacion maquina+cuartel se guarda en la carpeta
 el largo real de cada hilera con cada corrida.
 """
 
+import hashlib
 import json
 import math
 import os
@@ -52,6 +53,7 @@ import statistics
 import unicodedata
 from datetime import datetime, timedelta, timezone
 
+import numpy as np
 import requests
 import pandas as pd
 
@@ -116,6 +118,7 @@ TAMANO_CELDA_M = CONFIG.get("tamano_celda_m", 1.0)
 # En geocercas muy grandes la celda se agranda para no pasar de este numero
 # de celdas (memoria y tiempo acotados).
 MAXIMO_CELDAS_GRILLA = CONFIG.get("maximo_celdas_grilla", 400000)
+MAXIMO_HILERAS_KML_GENERAL = CONFIG.get("maximo_hileras_kml_general", 150000)
 # Modo diagnostico: solo lee de Wialon (geocercas y disponibilidad de datos
 # GPS) e imprime un resumen; no calcula ni guarda nada.
 MODO_DIAGNOSTICO = os.environ.get("MODO_DIAGNOSTICO", "").strip().lower() in ("1", "true", "si")
@@ -239,6 +242,7 @@ def obtener_geocercas(sid, filtrar=True):
             if area_m2 <= 0:
                 continue
             geocercas.append({
+                "id_wialon": f"{resource_id}-{zona.get('id')}",
                 "nombre": zona.get("n", f"Geocerca {zona.get('id')}"),
                 "contorno": contorno,
                 "area_ha": area_m2 / 10000,
@@ -246,6 +250,16 @@ def obtener_geocercas(sid, filtrar=True):
                          max(p[0] for p in contorno), max(p[1] for p in contorno)),
                 "vertices": len(contorno),
             })
+
+    # El nombre identifica al cuartel (memoria, reportes): los nombres
+    # repetidos en Wialon se distinguen agregando su id.
+    cuenta_nombres = {}
+    for geo in geocercas:
+        clave = geo["nombre"].strip().lower()
+        cuenta_nombres[clave] = cuenta_nombres.get(clave, 0) + 1
+    for geo in geocercas:
+        if cuenta_nombres[geo["nombre"].strip().lower()] > 1:
+            geo["nombre"] = f"{geo['nombre']} (id {geo['id_wialon']})"
     return geocercas
 
 
@@ -616,11 +630,30 @@ def hilera_llega_a_los_bordes(hilera, contorno_m):
 _grillas = {}
 
 
+def dentro_poligono_np(x, y, poligono):
+    """Version vectorizada de punto_en_poligono para arreglos x, y."""
+    dentro = np.zeros(x.shape, dtype=bool)
+    n = len(poligono)
+    j = n - 1
+    for i in range(n):
+        xi, yi = poligono[i]
+        xj, yj = poligono[j]
+        cruza = (yi > y) != (yj > y)
+        x_interseccion = (xj - xi) * (y - yi) / (yj - yi + 1e-15) + xi
+        dentro ^= cruza & (x < x_interseccion)
+        j = i
+    return dentro
+
+
 def grilla_geocerca(geo):
-    """Celdas (i, j) que caen dentro de la geocerca, en metros respecto del
-    primer punto de su contorno. Devuelve (referencia, celdas, lado_celda_m).
-    La celda es de TAMANO_CELDA_M, o mas grande en geocercas enormes para no
-    pasar de MAXIMO_CELDAS_GRILLA. Se calcula una vez por geocerca."""
+    """
+    Grilla de celdas cuadradas sobre la geocerca, en metros respecto del
+    primer punto de su contorno. Devuelve un dict con: referencia, lado
+    (m), i0/j0 (indice de la primera celda), mascara (celdas dentro de la
+    geocerca) y n_celdas. La celda es de TAMANO_CELDA_M, o mas grande en
+    geocercas enormes para no pasar de MAXIMO_CELDAS_GRILLA. Se calcula una
+    vez por geocerca.
+    """
     if geo["nombre"] not in _grillas:
         referencia = geo["contorno"][0]
         contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]]
@@ -628,20 +661,25 @@ def grilla_geocerca(geo):
         ys = [p[1] for p in contorno_m]
         area_bbox = (max(xs) - min(xs)) * (max(ys) - min(ys))
         lado = max(TAMANO_CELDA_M, math.sqrt(area_bbox / MAXIMO_CELDAS_GRILLA))
-        celdas = set()
-        for i in range(int(math.floor(min(xs) / lado)), int(math.ceil(max(xs) / lado)) + 1):
-            for j in range(int(math.floor(min(ys) / lado)), int(math.ceil(max(ys) / lado)) + 1):
-                if punto_en_poligono(((i + 0.5) * lado, (j + 0.5) * lado), contorno_m):
-                    celdas.add((i, j))
-        _grillas[geo["nombre"]] = (referencia, celdas, lado)
+        i0, i1 = int(math.floor(min(xs) / lado)), int(math.ceil(max(xs) / lado))
+        j0, j1 = int(math.floor(min(ys) / lado)), int(math.ceil(max(ys) / lado))
+        ci = (np.arange(i0, i1 + 1) + 0.5) * lado
+        cj = (np.arange(j0, j1 + 1) + 0.5) * lado
+        cx, cy = np.meshgrid(ci, cj, indexing="ij")
+        mascara = dentro_poligono_np(cx, cy, contorno_m)
+        _grillas[geo["nombre"]] = {
+            "referencia": referencia, "lado": lado, "i0": i0, "j0": j0,
+            "mascara": mascara, "n_celdas": int(mascara.sum()),
+        }
     return _grillas[geo["nombre"]]
 
 
 def marcar_franja_hilera(hilera, referencia, geo, ancho_m, marcadas):
-    """Marca las celdas de la franja de `ancho_m` alrededor de la hilera,
-    alargada hasta el borde de la geocerca en los extremos que llegan a la
-    cabecera (TOLERANCIA_CABECERA_M)."""
-    referencia_grilla, celdas, lado = grilla_geocerca(geo)
+    """Marca (en el arreglo `marcadas`) las celdas de la franja de `ancho_m`
+    alrededor de la hilera, alargada hasta el borde de la geocerca en los
+    extremos que llegan a la cabecera (TOLERANCIA_CABECERA_M)."""
+    grilla = grilla_geocerca(geo)
+    lado = grilla["lado"]
     contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]]
     ini, fin = hilera.min_proy, hilera.max_proy
     tramo = tramo_geocerca_en_hilera(hilera, contorno_m)
@@ -653,7 +691,7 @@ def marcar_franja_hilera(hilera, referencia, geo, ancho_m, marcadas):
 
     def a_grilla(proy):
         punto = (hilera.origen[0] + hilera.direccion[0] * proy, hilera.origen[1] + hilera.direccion[1] * proy)
-        return punto_a_metros(metros_a_punto(punto, referencia), referencia_grilla)
+        return punto_a_metros(metros_a_punto(punto, referencia), grilla["referencia"])
 
     a, b = a_grilla(ini), a_grilla(fin)
     largo = math.hypot(b[0] - a[0], b[1] - a[1])
@@ -661,67 +699,79 @@ def marcar_franja_hilera(hilera, referencia, geo, ancho_m, marcadas):
         return
     ux, uy = (b[0] - a[0]) / largo, (b[1] - a[1]) / largo
     paso = lado / 2
-    n_largo = int(largo / paso) + 1
-    n_ancho = int(ancho_m / paso) + 1
-    for k in range(n_largo + 1):
-        t = min(k * paso, largo)
-        for m in range(n_ancho + 1):
-            d = -ancho_m / 2 + min(m * paso, ancho_m)
-            x = a[0] + ux * t - uy * d
-            y = a[1] + uy * t + ux * d
-            celda = (int(math.floor(x / lado)), int(math.floor(y / lado)))
-            if celda in celdas:
-                marcadas.add(celda)
+    t = np.linspace(0.0, largo, int(largo / paso) + 2)
+    d = np.linspace(-ancho_m / 2, ancho_m / 2, int(ancho_m / paso) + 2)
+    tt, dd = np.meshgrid(t, d, indexing="ij")
+    ii = np.floor((a[0] + ux * tt - uy * dd) / lado).astype(np.int64) - grilla["i0"]
+    jj = np.floor((a[1] + uy * tt + ux * dd) / lado).astype(np.int64) - grilla["j0"]
+    validas = (ii >= 0) & (ii < marcadas.shape[0]) & (jj >= 0) & (jj < marcadas.shape[1])
+    marcadas[ii[validas], jj[validas]] = True
 
 
-def rellenar_franjas_angostas(marcadas, celdas, radio_celdas):
+def marcar_trabajo_maquina(geo, referencia, hileras):
+    """Celdas marcadas por las hileras de UNA maquina (sin rellenar) y su
+    espaciado entre hileras. Devuelve (arreglo, espaciado_m) o None."""
+    if referencia is None or not hileras:
+        return None
+    grilla = grilla_geocerca(geo)
+    alineadas, _ = filtrar_hileras_regulares(hileras)
+    espaciado = espaciado_real_m(alineadas)
+    marcadas = np.zeros(grilla["mascara"].shape, dtype=bool)
+    for h in alineadas:
+        marcar_franja_hilera(h, referencia, geo, espaciado, marcadas)
+    return marcadas & grilla["mascara"], espaciado
+
+
+def desplazados(arreglo, radio, relleno):
+    """Genera el arreglo desplazado en cada offset de un disco de `radio`."""
+    ancho, alto = arreglo.shape
+    ampliado = np.pad(arreglo, radio, constant_values=relleno)
+    for di in range(-radio, radio + 1):
+        for dj in range(-radio, radio + 1):
+            if di * di + dj * dj <= radio * radio:
+                yield ampliado[radio + di:radio + di + ancho, radio + dj:radio + dj + alto]
+
+
+def rellenar_franjas_angostas(marcadas, mascara, radio_celdas):
     """Cierre morfologico: rellena las franjas sin marcar de menos de
     2 x radio (entre hileras no del todo paralelas, o contra el borde). Un
     hueco mas ancho, como una hilera saltada entera, queda sin rellenar."""
-    if radio_celdas < 1 or not marcadas:
-        return set(marcadas)
-    disco = [(di, dj) for di in range(-radio_celdas, radio_celdas + 1)
-             for dj in range(-radio_celdas, radio_celdas + 1) if di * di + dj * dj <= radio_celdas * radio_celdas]
-    dilatadas = set()
-    for i, j in marcadas:
-        for di, dj in disco:
-            dilatadas.add((i + di, j + dj))
+    if radio_celdas < 1 or not marcadas.any():
+        return marcadas & mascara
+    dilatadas = np.zeros_like(marcadas)
+    for vecino in desplazados(marcadas, radio_celdas, False):
+        dilatadas |= vecino
     # Fuera de la geocerca cuenta como marcado, para que el borde no se "coma".
-    cerradas = {
-        c for c in celdas
-        if c in dilatadas and all(
-            (c[0] + di, c[1] + dj) in dilatadas or (c[0] + di, c[1] + dj) not in celdas
-            for di, dj in disco
-        )
-    }
-    return cerradas | (marcadas & celdas)
+    base = dilatadas | ~mascara
+    cerradas = np.ones_like(marcadas)
+    for vecino in desplazados(base, radio_celdas, True):
+        cerradas &= vecino
+    return (cerradas & mascara) | (marcadas & mascara)
+
+
+def unir_trabajos(geo, marcas):
+    """Une las marcas de varias maquinas [(arreglo, espaciado)] y rellena
+    las franjas angostas. Devuelve el arreglo de celdas trabajadas."""
+    grilla = grilla_geocerca(geo)
+    marcas = [m for m in marcas if m is not None]
+    if not marcas:
+        return np.zeros(grilla["mascara"].shape, dtype=bool)
+    union = np.zeros(grilla["mascara"].shape, dtype=bool)
+    for arreglo, _ in marcas:
+        union |= arreglo
+    radio = int(round(max(e for _, e in marcas) / 2 / grilla["lado"]))
+    return rellenar_franjas_angostas(union, grilla["mascara"], radio)
 
 
 def celdas_trabajadas(geo, trabajos):
-    """
-    Celdas trabajadas de una geocerca, uniendo todas las maquinas.
-    trabajos: lista de (referencia, hileras) de cada maquina.
-    """
-    _, celdas, lado = grilla_geocerca(geo)
-    marcadas = set()
-    espaciados = []
-    for referencia, hileras in trabajos:
-        if referencia is None or not hileras:
-            continue
-        alineadas, _ = filtrar_hileras_regulares(hileras)
-        espaciado = espaciado_real_m(alineadas)
-        espaciados.append(espaciado)
-        for h in alineadas:
-            marcar_franja_hilera(h, referencia, geo, espaciado, marcadas)
-    if not espaciados:
-        return set()
-    radio = int(round(max(espaciados) / 2 / lado))
-    return rellenar_franjas_angostas(marcadas, celdas, radio)
+    """Celdas trabajadas de una geocerca, uniendo todas las maquinas.
+    trabajos: lista de (referencia, hileras) de cada maquina."""
+    return unir_trabajos(geo, [marcar_trabajo_maquina(geo, ref, hs) for ref, hs in trabajos])
 
 
 def fraccion_trabajada(geo, celdas_cubiertas):
-    _, celdas, _ = grilla_geocerca(geo)
-    return len(celdas_cubiertas) / len(celdas) if celdas else 0.0
+    n_celdas = grilla_geocerca(geo)["n_celdas"]
+    return int(celdas_cubiertas.sum()) / n_celdas if n_celdas else 0.0
 
 
 def slug(texto):
@@ -883,7 +933,10 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas, avance_total):
 # ---------------------------------------------------------------------------
 
 def ruta_memoria(unit_id, nombre_geocerca):
-    return os.path.join(CARPETA_MEMORIA, f"unidad_{unit_id}_cuartel_{slug(nombre_geocerca)}.json")
+    # El codigo corto evita que dos nombres parecidos (ej. con y sin tilde)
+    # compartan el mismo archivo.
+    codigo = hashlib.md5(nombre_geocerca.encode("utf-8")).hexdigest()[:6]
+    return os.path.join(CARPETA_MEMORIA, f"unidad_{unit_id}_cuartel_{slug(nombre_geocerca)}_{codigo}.json")
 
 
 def cargar_estado(unit_id, nombre_geocerca):
@@ -971,16 +1024,19 @@ def generar_reporte(sid, geocercas):
             estado[clave] = list(cargar_estado(unidad["id"], geo["nombre"]))
         return estado[clave]
 
+    marcas = {}  # (unit_id, nombre_geo) -> marcas de esa maquina (se recalculan si trabaja)
     cobertura = {}  # nombre_geo -> celdas trabajadas actuales (todas las maquinas)
 
     def cobertura_actual(geo):
         if geo["nombre"] not in cobertura:
-            trabajos = []
+            lista = []
             for u in UNIDADES:
-                referencia, hileras, _ = estado_de(u, geo)
-                if referencia is not None and hileras:
-                    trabajos.append((referencia, hileras))
-            cobertura[geo["nombre"]] = celdas_trabajadas(geo, trabajos)
+                clave = (u["id"], geo["nombre"])
+                if clave not in marcas:
+                    referencia, hileras, _ = estado_de(u, geo)
+                    marcas[clave] = marcar_trabajo_maquina(geo, referencia, hileras)
+                lista.append(marcas[clave])
+            cobertura[geo["nombre"]] = unir_trabajos(geo, lista)
         return cobertura[geo["nombre"]]
 
     indice = indice_geocercas(geocercas)
@@ -1015,11 +1071,12 @@ def generar_reporte(sid, geocercas):
                 )
                 if hileras_tocadas_hoy:
                     estado[(unidad["id"], geo["nombre"])][0] = referencia
+                    marcas.pop((unidad["id"], geo["nombre"]), None)
                     cobertura.pop(geo["nombre"], None)
                     celdas_despues = cobertura_actual(geo)
-                    _, celdas_geo, _ = grilla_geocerca(geo)
-                    nuevas = len(celdas_despues - celdas_antes)
-                    area_trabajada_ha = nuevas / len(celdas_geo) * geo["area_ha"] if celdas_geo else 0.0
+                    n_celdas = grilla_geocerca(geo)["n_celdas"]
+                    nuevas = int((celdas_despues & ~celdas_antes).sum())
+                    area_trabajada_ha = nuevas / n_celdas * geo["area_ha"] if n_celdas else 0.0
                     area_acreditada_ha += area_trabajada_ha
                     alineadas, _ = filtrar_hileras_regulares(hileras)
 
@@ -1161,7 +1218,14 @@ def main():
         json.dump({"umbral_cierre": UMBRAL_CIERRE_PORCENTAJE, "cuarteles": avance_total},
                   f, ensure_ascii=False, indent=2)
 
-    exportar_kml(ruta_kml, resultado_por_unidad, geocercas, avance_total)
+    # GitHub no acepta archivos de mas de 100 MB: si hay demasiadas hileras,
+    # el mapa general lleva solo los contornos (cada maquina tiene el suyo).
+    total_hileras = sum(len(h) for _, hpg, _ in resultado_por_unidad for _, h, _ in hpg.values())
+    if total_hileras > MAXIMO_HILERAS_KML_GENERAL:
+        print(f"Mapa general con solo contornos ({total_hileras} hileras, maximo {MAXIMO_HILERAS_KML_GENERAL}).")
+        exportar_kml(ruta_kml, [], geocercas, avance_total)
+    else:
+        exportar_kml(ruta_kml, resultado_por_unidad, geocercas, avance_total)
     print(f"Mapa de revision generado en: {ruta_kml}")
 
     carpeta_kml_por_unidad = os.path.join(CARPETA_DATOS, "kml")
