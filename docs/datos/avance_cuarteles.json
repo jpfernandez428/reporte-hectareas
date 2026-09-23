@@ -2,9 +2,9 @@
   "umbral_cierre": 0.95,
   "cuarteles": {
     "C&H Maquinaria": {
-      "trabajado_ha": 4.4487,
+      "trabajado_ha": 4.3383,
       "area_total_ha": 5.1226,
-      "porcentaje": 86.8,
+      "porcentaje": 84.7,
       "completo": false,
       "maquinas": [
         "Barredora 1",
@@ -399,66 +399,98 @@
         "Barredora 16"
       ]
     },
-    "Facundo Lozano C2": {
-      "trabajado_ha": 0.0995,
-      "area_total_ha": 5.737,
-      "porcentaje": 1.7,
+    "Facundo Lozano C1": {
+      "trabajado_ha": 6.0855,
+      "area_total_ha": 6.8057,
+      "porcentaje": 89.4,
       "completo": false,
       "maquinas": [
-        "Shacker SBS 4"
+        "Shacker SBS 11",
+        "Shacker SBS 5",
+        "Shacker SBS 8"
+      ]
+    },
+    "Facundo Lozano C2": {
+      "trabajado_ha": 5.1594,
+      "area_total_ha": 5.737,
+      "porcentaje": 89.9,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 11",
+        "Shacker SBS 4",
+        "Shacker SBS 5",
+        "Shacker SBS 8"
+      ]
+    },
+    "Facundo Lozano C3": {
+      "trabajado_ha": 6.7808,
+      "area_total_ha": 6.8784,
+      "porcentaje": 98.6,
+      "completo": true,
+      "maquinas": [
+        "Shacker SBS 11",
+        "Shacker SBS 5",
+        "Shacker SBS 8"
       ]
     },
     "Facundo Lozano C4": {
-      "trabajado_ha": 0.0265,
+      "trabajado_ha": 3.2615,
       "area_total_ha": 3.702,
-      "porcentaje": 0.7,
+      "porcentaje": 88.1,
       "completo": false,
       "maquinas": [
-        "Shacker SBS 4"
+        "Shacker SBS 11",
+        "Shacker SBS 4",
+        "Shacker SBS 5",
+        "Shacker SBS 8"
       ]
     },
     "Facundo Lozano C5": {
-      "trabajado_ha": 1.9261,
+      "trabajado_ha": 10.013,
       "area_total_ha": 11.0786,
-      "porcentaje": 17.4,
+      "porcentaje": 90.4,
       "completo": false,
       "maquinas": [
         "Shacker SBS 11",
         "Shacker SBS 4",
-        "Shacker SBS 5"
+        "Shacker SBS 5",
+        "Shacker SBS 8"
       ]
     },
     "Facundo Lozano C6": {
-      "trabajado_ha": 1.5053,
+      "trabajado_ha": 10.0631,
       "area_total_ha": 11.2854,
-      "porcentaje": 13.3,
+      "porcentaje": 89.2,
       "completo": false,
       "maquinas": [
         "Shacker SBS 11",
         "Shacker SBS 4",
-        "Shacker SBS 5"
+        "Shacker SBS 5",
+        "Shacker SBS 8"
       ]
     },
     "Facundo Lozano C7": {
-      "trabajado_ha": 8.0457,
+      "trabajado_ha": 8.1046,
       "area_total_ha": 11.8828,
-      "porcentaje": 67.7,
+      "porcentaje": 68.2,
       "completo": false,
       "maquinas": [
         "Shacker SBS 11",
         "Shacker SBS 4",
-        "Shacker SBS 5"
+        "Shacker SBS 5",
+        "Shacker SBS 8"
       ]
     },
     "Facundo Lozano C8": {
-      "trabajado_ha": 8.2548,
+      "trabajado_ha": 8.2935,
       "area_total_ha": 11.7978,
-      "porcentaje": 70.0,
+      "porcentaje": 70.3,
       "completo": false,
       "maquinas": [
         "Shacker SBS 11",
         "Shacker SBS 4",
-        "Shacker SBS 5"
+        "Shacker SBS 5",
+        "Shacker SBS 8"
       ]
     },
     "Facundo Lozano C9": {
@@ -572,14 +604,24 @@
         "Barredora 1",
         "Barredora 15",
         "Barredora 5",
+        "Recogedora 6",
         "Shacker de Suelo 6",
         "Shacker de Suelo 7"
       ]
     },
+    "Bernardo Lira Chiñihue A9": {
+      "trabajado_ha": 7.6923,
+      "area_total_ha": 8.7468,
+      "porcentaje": 87.9,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 7"
+      ]
+    },
     "Bernardo Lira Chiñihue A1": {
-      "trabajado_ha": 4.7296,
+      "trabajado_ha": 4.7321,
       "area_total_ha": 4.7321,
-      "porcentaje": 99.9,
+      "porcentaje": 100.0,
       "completo": true,
       "maquinas": [
         "Barredora 1",
@@ -589,11 +631,20 @@
         "Shacker de Suelo 7"
       ]
     },
-    "Gonzalo Sanchez 1": {
-      "trabajado_ha": 1.3944,
-      "area_total_ha": 3.4081,
-      "porcentaje": 40.9,
+    "Bernardo Lira Pomaire 1": {
+      "trabajado_ha": 0.7296,
+      "area_total_ha": 1.9088,
+      "porcentaje": 38.2,
       "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Gonzalo Sanchez 1": {
+      "trabajado_ha": 3.3877,
+      "area_total_ha": 3.4081,
+      "porcentaje": 99.4,
+      "completo": true,
       "maquinas": [
         "Barredora 7",
         "Shacker de Suelo 8",
@@ -611,11 +662,12 @@
       ]
     },
     "Bernardo Lira Chiñihue A3": {
-      "trabajado_ha": 0.011,
+      "trabajado_ha": 0.0262,
       "area_total_ha": 1.5774,
-      "porcentaje": 0.7,
+      "porcentaje": 1.7,
       "completo": false,
       "maquinas": [
+        "Recogedora 6",
         "Shacker de Suelo 7"
       ]
     },
@@ -633,20 +685,64 @@
       ]
     },
     "Bernardo Lira Chiñihue A12": {
-      "trabajado_ha": 4.2863,
+      "trabajado_ha": 5.2883,
       "area_total_ha": 5.3013,
-      "porcentaje": 80.9,
-      "completo": false,
+      "porcentaje": 99.8,
+      "completo": true,
       "maquinas": [
+        "Barredora 1",
+        "Barredora 15",
+        "Barredora 5",
+        "Recogedora 6",
         "Shacker de Suelo 6",
         "Shacker de Suelo 7"
       ]
     },
-    "Achurra 6": {
-      "trabajado_ha": 6.1201,
-      "area_total_ha": 6.5839,
-      "porcentaje": 93.0,
+    "Achurra 2": {
+      "trabajado_ha": 1.1495,
+      "area_total_ha": 1.9717,
+      "porcentaje": 58.3,
       "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 4"
+      ]
+    },
+    "Achurra 3": {
+      "trabajado_ha": 3.9597,
+      "area_total_ha": 9.1669,
+      "porcentaje": 43.2,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 10 Orchard Rite"
+      ]
+    },
+    "Achurra 4": {
+      "trabajado_ha": 4.835,
+      "area_total_ha": 8.4229,
+      "porcentaje": 57.4,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 10 Orchard Rite",
+        "Shacker de Suelo 4"
+      ]
+    },
+    "Achurra 5": {
+      "trabajado_ha": 2.9951,
+      "area_total_ha": 5.5329,
+      "porcentaje": 54.1,
+      "completo": false,
+      "maquinas": [
+        "Barredora 4",
+        "Recogedora 2",
+        "Shacker de Suelo 10 Orchard Rite",
+        "Shacker de Suelo 4"
+      ]
+    },
+    "Achurra 6": {
+      "trabajado_ha": 6.5812,
+      "area_total_ha": 6.5839,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
         "Barredora 4",
         "Recogedora 2",
@@ -655,10 +751,10 @@
       ]
     },
     "Achurra 7": {
-      "trabajado_ha": 12.0463,
+      "trabajado_ha": 12.8339,
       "area_total_ha": 12.8339,
-      "porcentaje": 93.9,
-      "completo": false,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
         "Barredora 4",
         "Recogedora 2",
@@ -667,28 +763,264 @@
       ]
     },
     "Bernardo Lira Chiñihue A4": {
-      "trabajado_ha": 2.4349,
+      "trabajado_ha": 3.5617,
       "area_total_ha": 3.5617,
-      "porcentaje": 68.4,
-      "completo": false,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
+        "Barredora 1",
+        "Barredora 15",
+        "Barredora 5",
+        "Recogedora 6",
         "Shacker de Suelo 6",
         "Shacker de Suelo 7"
       ]
     },
     "Bernardo Lira Chiñihue A5": {
-      "trabajado_ha": 1.3721,
+      "trabajado_ha": 1.4854,
       "area_total_ha": 1.4854,
-      "porcentaje": 92.4,
+      "porcentaje": 100.0,
+      "completo": true,
+      "maquinas": [
+        "Barredora 1",
+        "Barredora 15",
+        "Recogedora 6",
+        "Shacker de Suelo 6",
+        "Shacker de Suelo 7"
+      ]
+    },
+    "Bernardo Lira Pomaire 2": {
+      "trabajado_ha": 0.9459,
+      "area_total_ha": 1.9274,
+      "porcentaje": 49.1,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 3": {
+      "trabajado_ha": 0.0482,
+      "area_total_ha": 2.3234,
+      "porcentaje": 2.1,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 4": {
+      "trabajado_ha": 0.3091,
+      "area_total_ha": 2.5641,
+      "porcentaje": 12.1,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 6": {
+      "trabajado_ha": 0.7201,
+      "area_total_ha": 3.22,
+      "porcentaje": 22.4,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 7": {
+      "trabajado_ha": 0.2242,
+      "area_total_ha": 3.3116,
+      "porcentaje": 6.8,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 8": {
+      "trabajado_ha": 0.5807,
+      "area_total_ha": 2.9625,
+      "porcentaje": 19.6,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 9": {
+      "trabajado_ha": 0.1173,
+      "area_total_ha": 2.1871,
+      "porcentaje": 5.4,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 10": {
+      "trabajado_ha": 0.2953,
+      "area_total_ha": 0.5479,
+      "porcentaje": 53.9,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 11": {
+      "trabajado_ha": 0.3867,
+      "area_total_ha": 0.7496,
+      "porcentaje": 51.6,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 12": {
+      "trabajado_ha": 2.1255,
+      "area_total_ha": 3.4213,
+      "porcentaje": 62.1,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 13": {
+      "trabajado_ha": 0.0358,
+      "area_total_ha": 1.6672,
+      "porcentaje": 2.1,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 14": {
+      "trabajado_ha": 0.0572,
+      "area_total_ha": 1.7384,
+      "porcentaje": 3.3,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 15": {
+      "trabajado_ha": 0.1013,
+      "area_total_ha": 1.8618,
+      "porcentaje": 5.4,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 17": {
+      "trabajado_ha": 2.0507,
+      "area_total_ha": 3.5073,
+      "porcentaje": 58.5,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 18": {
+      "trabajado_ha": 0.7087,
+      "area_total_ha": 1.4975,
+      "porcentaje": 47.3,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 19": {
+      "trabajado_ha": 1.1212,
+      "area_total_ha": 1.3847,
+      "porcentaje": 81.0,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Pomaire 20": {
+      "trabajado_ha": 0.0242,
+      "area_total_ha": 1.9366,
+      "porcentaje": 1.2,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 6"
+      ]
+    },
+    "Bernardo Lira Chiñihue A17": {
+      "trabajado_ha": 3.1644,
+      "area_total_ha": 3.1644,
+      "porcentaje": 100.0,
+      "completo": true,
+      "maquinas": [
+        "Barredora 1",
+        "Barredora 15",
+        "Barredora 5",
+        "Shacker de Suelo 6",
+        "Shacker de Suelo 7"
+      ]
+    },
+    "Bernardo Lira Chiñihue A18": {
+      "trabajado_ha": 4.6663,
+      "area_total_ha": 4.6663,
+      "porcentaje": 100.0,
+      "completo": true,
+      "maquinas": [
+        "Barredora 1",
+        "Barredora 5",
+        "Shacker de Suelo 6",
+        "Shacker de Suelo 7"
+      ]
+    },
+    "Bernardo Lira Chiñihue A19": {
+      "trabajado_ha": 1.7064,
+      "area_total_ha": 1.7064,
+      "porcentaje": 100.0,
+      "completo": true,
+      "maquinas": [
+        "Barredora 1",
+        "Barredora 15",
+        "Barredora 5",
+        "Shacker de Suelo 6",
+        "Shacker de Suelo 7"
+      ]
+    },
+    "Bernardo Lira Chiñihue A20": {
+      "trabajado_ha": 1.8976,
+      "area_total_ha": 1.8976,
+      "porcentaje": 100.0,
+      "completo": true,
+      "maquinas": [
+        "Barredora 1",
+        "Barredora 15",
+        "Barredora 5",
+        "Shacker de Suelo 6",
+        "Shacker de Suelo 7"
+      ]
+    },
+    "Bernardo Lira Chiñihue A21": {
+      "trabajado_ha": 1.9659,
+      "area_total_ha": 1.9659,
+      "porcentaje": 100.0,
+      "completo": true,
+      "maquinas": [
+        "Barredora 1",
+        "Barredora 15",
+        "Barredora 5",
+        "Shacker de Suelo 6",
+        "Shacker de Suelo 7"
+      ]
+    },
+    "Bernardo Lira Chiñihue A22": {
+      "trabajado_ha": 2.9916,
+      "area_total_ha": 3.1631,
+      "porcentaje": 94.6,
       "completo": false,
       "maquinas": [
         "Barredora 1",
+        "Barredora 15",
+        "Barredora 5",
         "Shacker de Suelo 6",
         "Shacker de Suelo 7"
       ]
     },
     "Gonzalo Sanchez 2": {
-      "trabajado_ha": 0.2518,
+      "trabajado_ha": 0.2516,
       "area_total_ha": 0.254,
       "porcentaje": 99.1,
       "completo": true,
@@ -699,9 +1031,9 @@
       ]
     },
     "Gonzalo Sanchez 3": {
-      "trabajado_ha": 0.7266,
+      "trabajado_ha": 0.7308,
       "area_total_ha": 0.7356,
-      "porcentaje": 98.8,
+      "porcentaje": 99.3,
       "completo": true,
       "maquinas": [
         "Barredora 7",
@@ -710,10 +1042,10 @@
       ]
     },
     "Gonzalo Sanchez 4": {
-      "trabajado_ha": 0.7139,
+      "trabajado_ha": 2.9978,
       "area_total_ha": 3.0062,
-      "porcentaje": 23.7,
-      "completo": false,
+      "porcentaje": 99.7,
+      "completo": true,
       "maquinas": [
         "Barredora 7",
         "Shacker de Suelo 8",
@@ -721,10 +1053,42 @@
       ]
     },
     "Gonzalo Sanchez 5": {
-      "trabajado_ha": 0.7627,
+      "trabajado_ha": 1.0622,
       "area_total_ha": 1.0687,
-      "porcentaje": 71.4,
+      "porcentaje": 99.4,
+      "completo": true,
+      "maquinas": [
+        "Barredora 7",
+        "Shacker de Suelo 8",
+        "Tractor 14 Deutz Fahr 115"
+      ]
+    },
+    "Gonzalo Sanchez 6": {
+      "trabajado_ha": 1.4073,
+      "area_total_ha": 1.4389,
+      "porcentaje": 97.8,
+      "completo": true,
+      "maquinas": [
+        "Barredora 7",
+        "Shacker de Suelo 8",
+        "Tractor 14 Deutz Fahr 115"
+      ]
+    },
+    "Gonzalo Sanchez 7": {
+      "trabajado_ha": 0.2214,
+      "area_total_ha": 0.4551,
+      "porcentaje": 48.6,
       "completo": false,
+      "maquinas": [
+        "Barredora 7",
+        "Tractor 14 Deutz Fahr 115"
+      ]
+    },
+    "Gonzalo Sanchez 8": {
+      "trabajado_ha": 0.1425,
+      "area_total_ha": 0.145,
+      "porcentaje": 98.3,
+      "completo": true,
       "maquinas": [
         "Barredora 7",
         "Shacker de Suelo 8",
@@ -1008,9 +1372,9 @@
       ]
     },
     "Gonzalo Sanchez 11": {
-      "trabajado_ha": 0.9583,
+      "trabajado_ha": 0.9536,
       "area_total_ha": 0.9583,
-      "porcentaje": 100.0,
+      "porcentaje": 99.5,
       "completo": true,
       "maquinas": [
         "Barredora 7",
@@ -1052,9 +1416,9 @@
       ]
     },
     "Gonzalo Sanchez 15": {
-      "trabajado_ha": 1.4217,
+      "trabajado_ha": 1.4058,
       "area_total_ha": 1.4217,
-      "porcentaje": 100.0,
+      "porcentaje": 98.9,
       "completo": true,
       "maquinas": [
         "Barredora 7",
@@ -1063,9 +1427,9 @@
       ]
     },
     "Gonzalo Sanchez 16": {
-      "trabajado_ha": 1.6676,
+      "trabajado_ha": 1.6289,
       "area_total_ha": 1.7075,
-      "porcentaje": 97.7,
+      "porcentaje": 95.4,
       "completo": true,
       "maquinas": [
         "Barredora 7",
@@ -1074,7 +1438,7 @@
       ]
     },
     "Gonzalo Sanchez 17": {
-      "trabajado_ha": 3.6652,
+      "trabajado_ha": 3.6637,
       "area_total_ha": 3.686,
       "porcentaje": 99.4,
       "completo": true,
@@ -1085,7 +1449,7 @@
       ]
     },
     "Gonzalo Sanchez 18": {
-      "trabajado_ha": 3.2516,
+      "trabajado_ha": 3.2515,
       "area_total_ha": 3.2635,
       "porcentaje": 99.6,
       "completo": true,
@@ -1096,9 +1460,9 @@
       ]
     },
     "Gonzalo Sanchez 19": {
-      "trabajado_ha": 2.9399,
+      "trabajado_ha": 2.8913,
       "area_total_ha": 2.9543,
-      "porcentaje": 99.5,
+      "porcentaje": 97.9,
       "completo": true,
       "maquinas": [
         "Barredora 7",
@@ -1129,9 +1493,9 @@
       ]
     },
     "Gonzalo Sanchez 22": {
-      "trabajado_ha": 1.5995,
+      "trabajado_ha": 1.5793,
       "area_total_ha": 1.6216,
-      "porcentaje": 98.6,
+      "porcentaje": 97.4,
       "completo": true,
       "maquinas": [
         "Barredora 7",
@@ -1139,8 +1503,19 @@
         "Tractor 14 Deutz Fahr 115"
       ]
     },
+    "Santa Ana 1 C2": {
+      "trabajado_ha": 22.652,
+      "area_total_ha": 64.3993,
+      "porcentaje": 35.2,
+      "completo": false,
+      "maquinas": [
+        "Barredora 16",
+        "Shacker de Suelo 1",
+        "Shacker de Suelo 2"
+      ]
+    },
     "BALLERINA_N9_JP": {
-      "trabajado_ha": 1.2295,
+      "trabajado_ha": 1.2239,
       "area_total_ha": 58.8413,
       "porcentaje": 2.1,
       "completo": false,
@@ -1153,9 +1528,9 @@
       ]
     },
     "BALLERINA_N10_JP": {
-      "trabajado_ha": 0.8591,
+      "trabajado_ha": 0.8885,
       "area_total_ha": 46.8414,
-      "porcentaje": 1.8,
+      "porcentaje": 1.9,
       "completo": false,
       "maquinas": [
         "Barredora 10",
@@ -1166,91 +1541,104 @@
       ]
     },
     "BALLERINA_N14_JP": {
-      "trabajado_ha": 0.0519,
+      "trabajado_ha": 5.4575,
       "area_total_ha": 25.0659,
-      "porcentaje": 0.2,
+      "porcentaje": 21.8,
       "completo": false,
       "maquinas": [
         "Barredora 10",
         "Barredora 11",
         "Barredora 12",
-        "Barredora 13"
+        "Barredora 13",
+        "Barredora 8",
+        "Barredora 9 Weiss c/cab",
+        "Shacker de Suelo 5"
       ]
     },
     "BALLERINA_N5_JP": {
-      "trabajado_ha": 0.2025,
+      "trabajado_ha": 0.2529,
       "area_total_ha": 19.1459,
-      "porcentaje": 1.1,
+      "porcentaje": 1.3,
       "completo": false,
       "maquinas": [
         "Barredora 10",
+        "Barredora 11",
         "Barredora 12",
         "Barredora 13",
+        "Barredora 9 Weiss c/cab",
         "Shacker de Suelo 5"
       ]
     },
     "Santa Ana 2.1": {
-      "trabajado_ha": 0.6161,
+      "trabajado_ha": 0.689,
       "area_total_ha": 0.689,
-      "porcentaje": 89.4,
-      "completo": false,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
         "Barredora 3",
+        "Recogedora 7",
         "Shacker de Suelo 1",
+        "Shacker de Suelo 2",
         "Shacker de Suelo 6"
       ]
     },
     "Santa Ana 2.2": {
-      "trabajado_ha": 2.2202,
+      "trabajado_ha": 2.7431,
       "area_total_ha": 2.7431,
-      "porcentaje": 80.9,
-      "completo": false,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
         "Barredora 3",
+        "Recogedora 7",
         "Shacker de Suelo 1",
+        "Shacker de Suelo 2",
         "Shacker de Suelo 6"
       ]
     },
     "Santa Ana 2.3": {
-      "trabajado_ha": 2.5465,
+      "trabajado_ha": 3.0258,
       "area_total_ha": 3.0258,
-      "porcentaje": 84.2,
-      "completo": false,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
         "Barredora 3",
+        "Recogedora 7",
         "Shacker de Suelo 1",
         "Shacker de Suelo 6"
       ]
     },
     "Santa Ana 2.4": {
-      "trabajado_ha": 2.3437,
+      "trabajado_ha": 2.8144,
       "area_total_ha": 2.8144,
-      "porcentaje": 83.3,
-      "completo": false,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
         "Barredora 3",
+        "Recogedora 7",
         "Shacker de Suelo 1",
         "Shacker de Suelo 6"
       ]
     },
     "Santa Ana 2.5": {
-      "trabajado_ha": 0.892,
+      "trabajado_ha": 0.9015,
       "area_total_ha": 0.9045,
-      "porcentaje": 98.6,
+      "porcentaje": 99.7,
       "completo": true,
       "maquinas": [
         "Barredora 3",
+        "Recogedora 7",
         "Shacker de Suelo 1",
         "Shacker de Suelo 6"
       ]
     },
     "Santa Ana 2.6": {
-      "trabajado_ha": 0.1623,
+      "trabajado_ha": 0.1753,
       "area_total_ha": 0.1753,
-      "porcentaje": 92.6,
-      "completo": false,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
         "Barredora 3",
+        "Recogedora 7",
         "Shacker de Suelo 6"
       ]
     },
@@ -1318,29 +1706,35 @@
       ]
     },
     "Santa Ana 2.7": {
-      "trabajado_ha": 1.8617,
+      "trabajado_ha": 3.5828,
       "area_total_ha": 3.5865,
-      "porcentaje": 51.9,
-      "completo": false,
+      "porcentaje": 99.9,
+      "completo": true,
       "maquinas": [
+        "Barredora 3",
+        "Recogedora 7",
         "Shacker de Suelo 1"
       ]
     },
     "Santa Ana 2.8": {
-      "trabajado_ha": 2.2381,
+      "trabajado_ha": 4.0438,
       "area_total_ha": 4.0976,
-      "porcentaje": 54.6,
-      "completo": false,
+      "porcentaje": 98.7,
+      "completo": true,
       "maquinas": [
+        "Barredora 3",
+        "Recogedora 7",
         "Shacker de Suelo 1"
       ]
     },
     "Santa Ana 2.9": {
-      "trabajado_ha": 0.3082,
+      "trabajado_ha": 0.3361,
       "area_total_ha": 0.3361,
-      "porcentaje": 91.7,
-      "completo": false,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
+        "Barredora 3",
+        "Recogedora 7",
         "Shacker de Suelo 1"
       ]
     },
@@ -1353,39 +1747,114 @@
         "Shacker de Suelo 1"
       ]
     },
-    "Santa Ana 2.15": {
-      "trabajado_ha": 0.6552,
-      "area_total_ha": 2.7063,
-      "porcentaje": 24.2,
+    "Santa Ana 2.12": {
+      "trabajado_ha": 0.0607,
+      "area_total_ha": 3.9727,
+      "porcentaje": 1.5,
+      "completo": false,
+      "maquinas": [
+        "Barredora 3"
+      ]
+    },
+    "Santa Ana 2.13": {
+      "trabajado_ha": 0.1347,
+      "area_total_ha": 5.6785,
+      "porcentaje": 2.4,
       "completo": false,
       "maquinas": [
         "Shacker de Suelo 1"
+      ]
+    },
+    "Santa Ana 2.14": {
+      "trabajado_ha": 2.248,
+      "area_total_ha": 3.8575,
+      "porcentaje": 58.3,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 1"
+      ]
+    },
+    "Santa Ana 2.15": {
+      "trabajado_ha": 2.5304,
+      "area_total_ha": 2.7063,
+      "porcentaje": 93.5,
+      "completo": false,
+      "maquinas": [
+        "Barredora 3",
+        "Shacker de Suelo 1",
+        "Shacker de Suelo 2"
       ]
     },
     "Santa Ana 2.16": {
-      "trabajado_ha": 0.2296,
+      "trabajado_ha": 3.3527,
       "area_total_ha": 3.3527,
-      "porcentaje": 6.8,
-      "completo": false,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
-        "Shacker de Suelo 1"
+        "Barredora 3",
+        "Recogedora 7",
+        "Shacker de Suelo 1",
+        "Shacker de Suelo 2"
       ]
     },
     "Santa Ana 2.17 (id 400262141-355)": {
-      "trabajado_ha": 0.32,
+      "trabajado_ha": 3.4471,
       "area_total_ha": 3.4471,
-      "porcentaje": 9.3,
+      "porcentaje": 100.0,
+      "completo": true,
+      "maquinas": [
+        "Barredora 3",
+        "Recogedora 7",
+        "Shacker de Suelo 1",
+        "Shacker de Suelo 2"
+      ]
+    },
+    "Santa Ana 2.18": {
+      "trabajado_ha": 0.2682,
+      "area_total_ha": 0.5269,
+      "porcentaje": 50.9,
       "completo": false,
       "maquinas": [
-        "Shacker de Suelo 1"
+        "Shacker de Suelo 2"
+      ]
+    },
+    "Santa Ana 2.19": {
+      "trabajado_ha": 0.3904,
+      "area_total_ha": 3.6043,
+      "porcentaje": 10.8,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 2"
+      ]
+    },
+    "Santa Ana 2.20": {
+      "trabajado_ha": 0.3235,
+      "area_total_ha": 1.7485,
+      "porcentaje": 18.5,
+      "completo": false,
+      "maquinas": [
+        "Barredora 3",
+        "Shacker de Suelo 2"
+      ]
+    },
+    "Achurra 8": {
+      "trabajado_ha": 3.4326,
+      "area_total_ha": 3.5735,
+      "porcentaje": 96.1,
+      "completo": true,
+      "maquinas": [
+        "Barredora 4",
+        "Shacker de Suelo 10 Orchard Rite",
+        "Shacker de Suelo 4"
       ]
     },
     "Achurra 9": {
-      "trabajado_ha": 7.9342,
+      "trabajado_ha": 9.9819,
       "area_total_ha": 9.9819,
-      "porcentaje": 79.5,
-      "completo": false,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
+        "Barredora 2",
         "Barredora 4",
         "Recogedora 2",
         "Shacker de Suelo 10 Orchard Rite",
@@ -1393,22 +1862,9 @@
       ]
     },
     "A1": {
-      "trabajado_ha": 27.5174,
+      "trabajado_ha": 37.0778,
       "area_total_ha": 37.1086,
-      "porcentaje": 74.2,
-      "completo": false,
-      "maquinas": [
-        "Barredora 10",
-        "Barredora 11",
-        "Barredora 12",
-        "Barredora 13",
-        "Shacker de Suelo 5"
-      ]
-    },
-    "A2": {
-      "trabajado_ha": 32.154,
-      "area_total_ha": 32.154,
-      "porcentaje": 100.0,
+      "porcentaje": 99.9,
       "completo": true,
       "maquinas": [
         "Barredora 10",
@@ -1418,14 +1874,32 @@
         "Shacker de Suelo 5"
       ]
     },
-    "A3": {
-      "trabajado_ha": 0.1123,
-      "area_total_ha": 19.5511,
-      "porcentaje": 0.6,
+    "A2": {
+      "trabajado_ha": 25.9865,
+      "area_total_ha": 32.154,
+      "porcentaje": 80.8,
       "completo": false,
       "maquinas": [
         "Barredora 10",
-        "Barredora 13"
+        "Barredora 11",
+        "Barredora 12",
+        "Barredora 13",
+        "Shacker de Suelo 5"
+      ]
+    },
+    "A3": {
+      "trabajado_ha": 19.5385,
+      "area_total_ha": 19.5511,
+      "porcentaje": 99.9,
+      "completo": true,
+      "maquinas": [
+        "Barredora 10",
+        "Barredora 11",
+        "Barredora 12",
+        "Barredora 13",
+        "Barredora 8",
+        "Barredora 9 Weiss c/cab",
+        "Shacker de Suelo 5"
       ]
     },
     "A4": {
@@ -1442,15 +1916,16 @@
       ]
     },
     "A5": {
-      "trabajado_ha": 12.8855,
+      "trabajado_ha": 27.3647,
       "area_total_ha": 27.3647,
-      "porcentaje": 47.1,
-      "completo": false,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
         "Barredora 10",
         "Barredora 11",
         "Barredora 12",
-        "Barredora 13"
+        "Barredora 13",
+        "Shacker de Suelo 5"
       ]
     },
     "A6B": {
@@ -1661,34 +2136,85 @@
         "Shacker SBS 2"
       ]
     },
+    "Santa Ana 2.25": {
+      "trabajado_ha": 0.0792,
+      "area_total_ha": 1.6592,
+      "porcentaje": 4.8,
+      "completo": false,
+      "maquinas": [
+        "Recogedora 7"
+      ]
+    },
+    "Santa Ana 2.26": {
+      "trabajado_ha": 0.7954,
+      "area_total_ha": 0.9906,
+      "porcentaje": 80.3,
+      "completo": false,
+      "maquinas": [
+        "Barredora 3",
+        "Shacker de Suelo 1"
+      ]
+    },
+    "Santa Ana 2.27": {
+      "trabajado_ha": 2.6105,
+      "area_total_ha": 3.597,
+      "porcentaje": 72.6,
+      "completo": false,
+      "maquinas": [
+        "Barredora 3",
+        "Shacker de Suelo 1"
+      ]
+    },
+    "Santa Ana 2.28": {
+      "trabajado_ha": 0.0085,
+      "area_total_ha": 2.6998,
+      "porcentaje": 0.3,
+      "completo": false,
+      "maquinas": [
+        "Shacker de Suelo 1"
+      ]
+    },
     "BALLERINA_N19_JP": {
-      "trabajado_ha": 7.1138,
+      "trabajado_ha": 6.0308,
       "area_total_ha": 36.4344,
-      "porcentaje": 19.5,
+      "porcentaje": 16.6,
       "completo": false,
       "maquinas": [
         "Barredora 10",
         "Barredora 11",
         "Barredora 12",
         "Barredora 13",
+        "Barredora 8",
+        "Barredora 9 Weiss c/cab",
         "Shacker de Suelo 5"
       ]
     },
+    "Santa Ana Cancha 2": {
+      "trabajado_ha": 0.2387,
+      "area_total_ha": 0.2433,
+      "porcentaje": 98.1,
+      "completo": true,
+      "maquinas": [
+        "Barredora 3",
+        "Recogedora 7"
+      ]
+    },
     "Gonzalo Sanchez 23": {
-      "trabajado_ha": 0.0479,
+      "trabajado_ha": 0.4316,
       "area_total_ha": 0.4316,
-      "porcentaje": 11.1,
-      "completo": false,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
         "Barredora 7",
+        "Shacker de Suelo 8",
         "Tractor 14 Deutz Fahr 115"
       ]
     },
     "Gonzalo Sanchez 24": {
-      "trabajado_ha": 0.4401,
+      "trabajado_ha": 0.5563,
       "area_total_ha": 0.5563,
-      "porcentaje": 79.1,
-      "completo": false,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
         "Barredora 7",
         "Shacker de Suelo 8",
@@ -1707,9 +2233,9 @@
       ]
     },
     "Gonzalo Sanchez 26": {
-      "trabajado_ha": 1.1325,
+      "trabajado_ha": 1.1249,
       "area_total_ha": 2.6999,
-      "porcentaje": 41.9,
+      "porcentaje": 41.7,
       "completo": false,
       "maquinas": [
         "Barredora 7",
@@ -1718,9 +2244,9 @@
       ]
     },
     "Gonzalo Sanchez Cancha": {
-      "trabajado_ha": 0.7625,
+      "trabajado_ha": 0.7924,
       "area_total_ha": 2.1107,
-      "porcentaje": 36.1,
+      "porcentaje": 37.5,
       "completo": false,
       "maquinas": [
         "Barredora 7",
@@ -2178,36 +2704,63 @@
       ]
     },
     "Bernardo Lira San Jose A1 (punta no es capaz)": {
-      "trabajado_ha": 1.9677,
+      "trabajado_ha": 1.9224,
       "area_total_ha": 3.2513,
-      "porcentaje": 60.5,
+      "porcentaje": 59.1,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 7"
+      ]
+    },
+    "Bernardo Lira San Jose A2 (punta no es capaz)": {
+      "trabajado_ha": 0.9713,
+      "area_total_ha": 1.1288,
+      "porcentaje": 86.0,
       "completo": false,
       "maquinas": [
         "Shacker SBS 7"
       ]
     },
     "Bernardo Lira San Jose A3": {
-      "trabajado_ha": 2.414,
+      "trabajado_ha": 2.4931,
       "area_total_ha": 2.7837,
-      "porcentaje": 86.7,
+      "porcentaje": 89.6,
       "completo": false,
       "maquinas": [
         "Shacker SBS 7"
       ]
     },
     "Bernardo Lira San Jose A4": {
-      "trabajado_ha": 1.227,
+      "trabajado_ha": 1.4254,
       "area_total_ha": 2.1129,
-      "porcentaje": 58.1,
+      "porcentaje": 67.5,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 7"
+      ]
+    },
+    "Bernardo Lira San Jose A5": {
+      "trabajado_ha": 1.0156,
+      "area_total_ha": 2.3107,
+      "porcentaje": 44.0,
       "completo": false,
       "maquinas": [
         "Shacker SBS 7"
       ]
     },
     "Bernardo Lira San Jose A6": {
-      "trabajado_ha": 1.677,
+      "trabajado_ha": 4.993,
       "area_total_ha": 7.5726,
-      "porcentaje": 22.1,
+      "porcentaje": 65.9,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 7"
+      ]
+    },
+    "Bernardo Lira San Jose A7 (no cosechable maq)": {
+      "trabajado_ha": 0.4988,
+      "area_total_ha": 0.6284,
+      "porcentaje": 79.4,
       "completo": false,
       "maquinas": [
         "Shacker SBS 7"
@@ -2252,9 +2805,9 @@
       ]
     },
     "BALLERINA_N15_JP": {
-      "trabajado_ha": 2.8766,
+      "trabajado_ha": 3.1509,
       "area_total_ha": 20.8247,
-      "porcentaje": 13.8,
+      "porcentaje": 15.1,
       "completo": false,
       "maquinas": [
         "Barredora 10",
@@ -2315,11 +2868,12 @@
       ]
     },
     "A12": {
-      "trabajado_ha": 0.0027,
+      "trabajado_ha": 0.1173,
       "area_total_ha": 4.0485,
-      "porcentaje": 0.1,
+      "porcentaje": 2.9,
       "completo": false,
       "maquinas": [
+        "Barredora 10",
         "Shacker de Suelo 5"
       ]
     },
@@ -2332,7 +2886,8 @@
         "Barredora 10",
         "Barredora 11",
         "Barredora 12",
-        "Barredora 13"
+        "Barredora 13",
+        "Shacker de Suelo 5"
       ]
     },
     "A15": {
@@ -2584,23 +3139,27 @@
       ]
     },
     "Facundo Lozano Completo": {
-      "trabajado_ha": 79.8789,
+      "trabajado_ha": 107.7444,
       "area_total_ha": 140.6957,
-      "porcentaje": 56.8,
+      "porcentaje": 76.6,
       "completo": false,
       "maquinas": [
         "Shacker SBS 11",
         "Shacker SBS 4",
-        "Shacker SBS 5"
+        "Shacker SBS 5",
+        "Shacker SBS 8"
       ]
     },
     "Santa Ana 2.17 (id 400262141-1079)": {
-      "trabajado_ha": 0.3139,
+      "trabajado_ha": 3.3827,
       "area_total_ha": 3.3827,
-      "porcentaje": 9.3,
-      "completo": false,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
-        "Shacker de Suelo 1"
+        "Barredora 3",
+        "Recogedora 7",
+        "Shacker de Suelo 1",
+        "Shacker de Suelo 2"
       ]
     },
     "Achurra 10": {
@@ -2627,20 +3186,30 @@
         "Shacker de Suelo 10 Orchard Rite"
       ]
     },
+    "Achurra 1": {
+      "trabajado_ha": 2.5372,
+      "area_total_ha": 2.5666,
+      "porcentaje": 98.9,
+      "completo": true,
+      "maquinas": [
+        "Shacker de Suelo 4"
+      ]
+    },
     "Geofrut Almendras": {
-      "trabajado_ha": 24.4124,
+      "trabajado_ha": 29.4617,
       "area_total_ha": 30.2799,
-      "porcentaje": 80.6,
-      "completo": false,
+      "porcentaje": 97.3,
+      "completo": true,
       "maquinas": [
         "Barredora 2",
-        "Shacker de Suelo 1"
+        "Shacker de Suelo 1",
+        "Tractor 7 Kubota 95"
       ]
     },
     "MP1": {
-      "trabajado_ha": 3.9142,
+      "trabajado_ha": 10.1098,
       "area_total_ha": 10.8717,
-      "porcentaje": 36.0,
+      "porcentaje": 93.0,
       "completo": false,
       "maquinas": [
         "Barredora 7",
@@ -2649,9 +3218,9 @@
       ]
     },
     "MP2": {
-      "trabajado_ha": 7.2541,
+      "trabajado_ha": 7.2961,
       "area_total_ha": 7.3383,
-      "porcentaje": 98.9,
+      "porcentaje": 99.4,
       "completo": true,
       "maquinas": [
         "Barredora 7",
@@ -2660,9 +3229,9 @@
       ]
     },
     "MP3": {
-      "trabajado_ha": 1.4378,
+      "trabajado_ha": 1.4458,
       "area_total_ha": 2.9476,
-      "porcentaje": 48.8,
+      "porcentaje": 49.1,
       "completo": false,
       "maquinas": [
         "Barredora 7",
@@ -2671,9 +3240,9 @@
       ]
     },
     "MP4": {
-      "trabajado_ha": 16.1427,
+      "trabajado_ha": 16.0836,
       "area_total_ha": 16.3753,
-      "porcentaje": 98.6,
+      "porcentaje": 98.2,
       "completo": true,
       "maquinas": [
         "Barredora 7",
