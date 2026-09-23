@@ -1,0 +1,104 @@
+{
+  "umbral_cierre": 0.95,
+  "cuarteles": {
+    "Aurora 1": {
+      "trabajado_ha": 3.8905,
+      "area_total_ha": 4.2294,
+      "porcentaje": 92.0,
+      "completo": false,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 2": {
+      "trabajado_ha": 6.1791,
+      "area_total_ha": 7.1152,
+      "porcentaje": 86.8,
+      "completo": false,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 3": {
+      "trabajado_ha": 3.6689,
+      "area_total_ha": 3.6763,
+      "porcentaje": 99.8,
+      "completo": true,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 4": {
+      "trabajado_ha": 4.8286,
+      "area_total_ha": 7.1814,
+      "porcentaje": 67.2,
+      "completo": false,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 5": {
+      "trabajado_ha": 1.5784,
+      "area_total_ha": 1.603,
+      "porcentaje": 98.5,
+      "completo": true,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 6": {
+      "trabajado_ha": 0.4611,
+      "area_total_ha": 0.4951,
+      "porcentaje": 93.1,
+      "completo": false,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 7": {
+      "trabajado_ha": 2.4253,
+      "area_total_ha": 2.4543,
+      "porcentaje": 98.8,
+      "completo": true,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 8": {
+      "trabajado_ha": 2.6681,
+      "area_total_ha": 2.8025,
+      "porcentaje": 95.2,
+      "completo": true,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 9": {
+      "trabajado_ha": 6.0091,
+      "area_total_ha": 6.1052,
+      "porcentaje": 98.4,
+      "completo": true,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 10": {
+      "trabajado_ha": 2.3229,
+      "area_total_ha": 2.3305,
+      "porcentaje": 99.7,
+      "completo": true,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    }
+  }
+}
