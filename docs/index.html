@@ -470,7 +470,9 @@ async function descargarKML() {
       }
     });
 
+    // verde = cuartel terminado; azul = hilera completa (cuartel en proceso); rojo = hilera parcial
     const colorVerde = 'ff00ff00';
+    const colorAzul = 'ffff8000';
     const colorRojo = 'ff0000ff';
     // maquina -> fecha -> cuartel -> [placemarks]
     const estructura = {};
@@ -492,13 +494,14 @@ async function descargarKML() {
             };
           }
           for (const fila of datosCuartel.hileras) {
-            if (!fila.cuenta) continue;  // no cuenta en el area: no se dibuja
+            // Tramos que no cuentan (cruzados) solo se dibujan si el cuartel esta terminado.
+            if (!fila.cuenta && !datosCuartel.completo) continue;
 
             let color, etiqueta;
             if (datosCuartel.completo) {
               color = colorVerde; etiqueta = ' (cuartel completo)';
             } else if (fila.completa) {
-              color = colorVerde; etiqueta = ' (hilera completa)';
+              color = colorAzul; etiqueta = ' (hilera completa)';
             } else {
               color = colorRojo; etiqueta = ' (hilera parcial)';
             }

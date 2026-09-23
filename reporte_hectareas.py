@@ -22,10 +22,14 @@ Como funciona, en resumen:
      maquina+geocerca (guardadas en un archivo de memoria) y lo asigna a
      la que corresponda, o crea una hilera nueva si no calza con ninguna.
      El largo conocido de cada hilera crece con cada pasada nueva.
-  6. Calcula, para el dia pedido, que tramo de cada hilera se cubrio
-     (union de pasadas, no suma) y cuantas veces se paso por cada una.
-  7. Hectareas trabajadas del dia = area real de la geocerca x (proporcion
-     del largo de hileras cubierto ese dia).
+  6. Mide la cobertura sobre una grilla de celdas de 1 m dentro de cada
+     geocerca: cada hilera marca una franja de un espaciado de ancho
+     (alargada hasta el borde si llega a la cabecera), se rellenan las
+     franjas sin marcar mas angostas que un espaciado, y se unen las
+     celdas de TODAS las maquinas (una hilera repetida cuenta una vez).
+  7. Avance del cuartel = celdas trabajadas / celdas de la geocerca. Las
+     hectareas nuevas de cada dia se acreditan a la maquina que cubrio
+     primero esas celdas (los dias se procesan en orden cronologico).
   8. Exporta un Excel y un mapa KML para revisar.
 
 COMO SE USA (ver tambien LEEME.txt):
@@ -98,18 +102,18 @@ LARGO_MINIMO_TRAMO_M = CONFIG.get("largo_minimo_tramo_m", 8)
 GAP_MAXIMO_HILERA_M = CONFIG.get("gap_maximo_hilera_m", 100)
 VELOCIDAD_MAXIMA_TRABAJO_KMH = CONFIG.get("velocidad_maxima_trabajo_kmh", 14)
 MINIMO_PUNTOS_EN_GEOCERCA = CONFIG.get("minimo_puntos_en_geocerca", 3)
-TOLERANCIA_ESPACIADO = CONFIG.get("tolerancia_espaciado", 2.5)
-TOLERANCIA_BORDE_GEOCERCA_M = CONFIG.get("tolerancia_borde_geocerca_m", 10)
 # Distancia maxima entre el extremo de una hilera y el borde de la geocerca
 # (en la posicion de ESA hilera) para considerar que la hilera llego al final
 # (cabecera + distancia entre puntos GPS).
 TOLERANCIA_CABECERA_M = CONFIG.get("tolerancia_cabecera_m", 20)
 CUARTELES_INCLUIDOS = [n.strip().lower() for n in CONFIG.get("cuarteles_incluidos", [])]
 UMBRAL_CIERRE_PORCENTAJE = CONFIG.get("umbral_cierre_porcentaje", 0.95)
-# Distancia lateral maxima (aproximada) para considerar que dos maquinas
-# distintas pasaron por la MISMA hilera. Nunca se usa mas de la mitad del
-# espaciado entre hileras, para no confundir una hilera con su vecina.
+# Pasadas a menos de esta distancia lateral se consideran la misma hilera
+# fisica (el GPS a veces parte una hilera en varias lineas paralelas).
 TOLERANCIA_MISMA_HILERA_M = CONFIG.get("tolerancia_misma_hilera_m", 1.5)
+# Grilla para medir la cobertura, y espaciado a usar cuando no se puede medir.
+TAMANO_CELDA_M = CONFIG.get("tamano_celda_m", 1.0)
+ESPACIADO_HILERAS_DEFECTO_M = CONFIG.get("espaciado_hileras_defecto_m", 4.0)
 
 os.makedirs(CARPETA_MEMORIA, exist_ok=True)
 os.makedirs(CARPETA_REPORTES, exist_ok=True)
@@ -453,20 +457,6 @@ def procesar_puntos(puntos, referencia, hileras, descartados, fecha_str):
 # Paso 6: cobertura del dia y conteo de pasadas
 # ---------------------------------------------------------------------------
 
-def union_intervalos(intervalos):
-    if not intervalos:
-        return [], 0.0
-    ordenados = sorted(intervalos)
-    fusionados = [list(ordenados[0])]
-    for ini, fin in ordenados[1:]:
-        if ini <= fusionados[-1][1]:
-            fusionados[-1][1] = max(fusionados[-1][1], fin)
-        else:
-            fusionados.append([ini, fin])
-    largo_total = sum(f[1] - f[0] for f in fusionados)
-    return fusionados, largo_total
-
-
 def contar_pasadas_max(intervalos):
     if not intervalos:
         return 0
@@ -505,102 +495,41 @@ def hilera_referencia(hileras):
 
 def filtrar_hileras_regulares(hileras):
     """
-    Descarta hileras cuyo espaciado a sus vecinas no calza con el patron
-    regular del resto (curvas de cabecera, maniobras u otros tramos que
-    se colaron como si fueran una hilera nueva, aunque esten dentro de la
-    geocerca). Devuelve (regulares, irregulares).
+    Separa las hileras alineadas con la direccion del cuartel de los tramos
+    cruzados (traslados en diagonal, vueltas de cabecera), que no son
+    hileras. Devuelve (alineadas, cruzadas).
     """
-    if len(hileras) < 5:
-        return hileras, []
-
-    ref = hilera_referencia(hileras)
-
-    # Tramos cruzados respecto de la direccion de las hileras (traslados en
-    # diagonal, cabeceras): no son hileras.
-    cruzadas = [h for h in hileras if angulo_entre_hileras(h, ref) > TOLERANCIA_ANGULO_GRADOS]
-    hileras = [h for h in hileras if angulo_entre_hileras(h, ref) <= TOLERANCIA_ANGULO_GRADOS]
     if len(hileras) < 2:
-        return hileras, cruzadas
+        return hileras, []
+    ref = hilera_referencia(hileras)
+    alineadas, cruzadas = [], []
+    for h in hileras:
+        (alineadas if angulo_entre_hileras(h, ref) <= TOLERANCIA_ANGULO_GRADOS else cruzadas).append(h)
+    return alineadas, cruzadas
 
-    def lateral(h):
-        dx = h.origen[0] - ref.origen[0]
-        dy = h.origen[1] - ref.origen[1]
-        return dx * (-ref.direccion[1]) + dy * ref.direccion[0]
 
-    ordenadas = sorted(hileras, key=lateral)
-    posiciones = [lateral(h) for h in ordenadas]
-    gaps = [posiciones[i + 1] - posiciones[i] for i in range(len(posiciones) - 1)]
-    gaps_significativos = [g for g in gaps if g > 0.3]
-    if not gaps_significativos:
-        return hileras, cruzadas
-
-    mediana = statistics.median(gaps_significativos)
-    if mediana <= 0:
-        return hileras, cruzadas
-
-    regulares, irregulares = [], []
-    for i, h in enumerate(ordenadas):
-        candidatos = []
-        if i > 0:
-            candidatos.append(gaps[i - 1])
-        if i < len(gaps):
-            candidatos.append(gaps[i])
-        if any(g <= mediana * TOLERANCIA_ESPACIADO for g in candidatos):
-            regulares.append(h)
+def espaciado_real_m(hileras_alineadas):
+    """
+    Espaciado entre hileras fisicas vecinas (mediana). Antes se agrupan las
+    pasadas a menos de TOLERANCIA_MISMA_HILERA_M, que son la misma hilera
+    partida por el GPS; si no, el espaciado sale mucho menor que el real.
+    """
+    if len(hileras_alineadas) < 2:
+        return ESPACIADO_HILERAS_DEFECTO_M
+    ref = hilera_referencia(hileras_alineadas)
+    posiciones = sorted(
+        (h.origen[0] - ref.origen[0]) * (-ref.direccion[1]) + (h.origen[1] - ref.origen[1]) * ref.direccion[0]
+        for h in hileras_alineadas
+    )
+    grupos = [[posiciones[0]]]
+    for pos in posiciones[1:]:
+        if pos - grupos[-1][-1] < TOLERANCIA_MISMA_HILERA_M:
+            grupos[-1].append(pos)
         else:
-            irregulares.append(h)
-    return regulares, irregulares + cruzadas
-
-
-def estimar_total_hileras(hileras_regulares, contorno_geocerca, referencia):
-    """
-    Estima cuantas hileras deberia tener el cuartel en total, usando el
-    ancho REAL de la geocerca (medido de su contorno, no de lo ya visto) y
-    el espaciado promedio entre las hileras ya conocidas.
-    Devuelve None si todavia no hay suficientes hileras para estimar el
-    espaciado (hace falta al menos 2).
-    """
-    if len(hileras_regulares) < 2:
-        return None
-
-    ref = hilera_referencia(hileras_regulares)
-
-    def lateral(punto_m):
-        dx = punto_m[0] - ref.origen[0]
-        dy = punto_m[1] - ref.origen[1]
-        return dx * (-ref.direccion[1]) + dy * ref.direccion[0]
-
-    posiciones = sorted(lateral(h.origen) for h in hileras_regulares)
-    gaps = [posiciones[i + 1] - posiciones[i] for i in range(len(posiciones) - 1)]
-    gaps_significativos = [g for g in gaps if g > 0.3]
-    if not gaps_significativos:
-        return None
-
-    espaciado_promedio = statistics.median(gaps_significativos)
-    if espaciado_promedio <= 0:
-        return None
-
-    contorno_m = [punto_a_metros(p, referencia) for p in contorno_geocerca]
-    laterales_contorno = [lateral(p) for p in contorno_m]
-    ancho_total_geocerca = max(laterales_contorno) - min(laterales_contorno)
-
-    total_estimado = ancho_total_geocerca / espaciado_promedio
-    # nunca menos que la cantidad de hileras que ya se conocen de verdad
-    return max(total_estimado, len(hileras_regulares))
-
-
-def calcular_area_trabajada_m2(hileras_regulares, contorno_geocerca, referencia):
-    """
-    Sub-divide la geocerca en bloques de trabajo real (grupos de hileras
-    contiguas, separados por huecos sin trabajar) y calcula el area de
-    cada bloque:
-      - El borde que da hacia el limite REAL de la geocerca (solo en el
-        primer y el ultimo bloque) usa el contorno real dibujado.
-      - El borde que da hacia un hueco sin trabajar usa la ultima hilera
-        conocida de ese lado, sin adivinar hacia adentro del hueco.
-    Devuelve el area en m2 (nunca puede superar el area real de la geocerca).
-    """
-    return calcular_area_trabajada_y_huecos_m2(hileras_regulares, contorno_geocerca, referencia)[0]
+            grupos.append([pos])
+    centros = [statistics.mean(g) for g in grupos]
+    gaps = [b - a for a, b in zip(centros, centros[1:])]
+    return statistics.median(gaps) if gaps else ESPACIADO_HILERAS_DEFECTO_M
 
 
 def tramo_geocerca_en_hilera(hilera, contorno_m):
@@ -641,104 +570,116 @@ def hilera_llega_a_los_bordes(hilera, contorno_m):
     )
 
 
-def largo_efectivo_hilera_m(hilera, contorno_m):
-    """
-    Largo de la hilera, extendido hasta el borde real de la geocerca en el
-    extremo (o los extremos) donde la distancia restante es razonable
-    (misma logica que el ancho, pero en el largo de cada hilera individual).
-    El borde se mide en la posicion de la hilera, asi las hileras mas cortas
-    de un cuartel irregular tambien llegan a su propio final.
-    """
+# ---------------------------------------------------------------------------
+# Paso 7: cobertura sobre una grilla de celdas
+# ---------------------------------------------------------------------------
+
+_grillas = {}
+
+
+def grilla_geocerca(geo):
+    """Celdas (i, j) de TAMANO_CELDA_M que caen dentro de la geocerca, en
+    metros respecto del primer punto de su contorno. Se calcula una vez."""
+    if geo["nombre"] not in _grillas:
+        referencia = geo["contorno"][0]
+        contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]]
+        xs = [p[0] for p in contorno_m]
+        ys = [p[1] for p in contorno_m]
+        celdas = set()
+        for i in range(int(math.floor(min(xs) / TAMANO_CELDA_M)), int(math.ceil(max(xs) / TAMANO_CELDA_M)) + 1):
+            for j in range(int(math.floor(min(ys) / TAMANO_CELDA_M)), int(math.ceil(max(ys) / TAMANO_CELDA_M)) + 1):
+                centro = ((i + 0.5) * TAMANO_CELDA_M, (j + 0.5) * TAMANO_CELDA_M)
+                if punto_en_poligono(centro, contorno_m):
+                    celdas.add((i, j))
+        _grillas[geo["nombre"]] = (referencia, celdas)
+    return _grillas[geo["nombre"]]
+
+
+def marcar_franja_hilera(hilera, referencia, geo, ancho_m, marcadas):
+    """Marca las celdas de la franja de `ancho_m` alrededor de la hilera,
+    alargada hasta el borde de la geocerca en los extremos que llegan a la
+    cabecera (TOLERANCIA_CABECERA_M)."""
+    referencia_grilla, celdas = grilla_geocerca(geo)
+    contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]]
+    ini, fin = hilera.min_proy, hilera.max_proy
     tramo = tramo_geocerca_en_hilera(hilera, contorno_m)
     if tramo is not None:
-        poligono_min, poligono_max = tramo
-        tolerancia = TOLERANCIA_CABECERA_M
-    else:
-        proyecciones = [proyectar(v, hilera)[0] for v in contorno_m]
-        poligono_min, poligono_max = min(proyecciones), max(proyecciones)
-        tolerancia = TOLERANCIA_BORDE_GEOCERCA_M
+        if ini - tramo[0] <= TOLERANCIA_CABECERA_M:
+            ini = min(ini, tramo[0])
+        if tramo[1] - fin <= TOLERANCIA_CABECERA_M:
+            fin = max(fin, tramo[1])
 
-    min_h, max_h = hilera.min_proy, hilera.max_proy
-    if (min_h - poligono_min) <= tolerancia:
-        min_h = min(min_h, poligono_min)
-    if (poligono_max - max_h) <= tolerancia:
-        max_h = max(max_h, poligono_max)
-    return max(0.0, max_h - min_h)
+    def a_grilla(proy):
+        punto = (hilera.origen[0] + hilera.direccion[0] * proy, hilera.origen[1] + hilera.direccion[1] * proy)
+        return punto_a_metros(metros_a_punto(punto, referencia), referencia_grilla)
+
+    a, b = a_grilla(ini), a_grilla(fin)
+    largo = math.hypot(b[0] - a[0], b[1] - a[1])
+    if largo < 0.5:
+        return
+    ux, uy = (b[0] - a[0]) / largo, (b[1] - a[1]) / largo
+    paso = TAMANO_CELDA_M / 2
+    n_largo = int(largo / paso) + 1
+    n_ancho = int(ancho_m / paso) + 1
+    for k in range(n_largo + 1):
+        t = min(k * paso, largo)
+        for m in range(n_ancho + 1):
+            d = -ancho_m / 2 + min(m * paso, ancho_m)
+            x = a[0] + ux * t - uy * d
+            y = a[1] + uy * t + ux * d
+            celda = (int(math.floor(x / TAMANO_CELDA_M)), int(math.floor(y / TAMANO_CELDA_M)))
+            if celda in celdas:
+                marcadas.add(celda)
 
 
-def calcular_area_trabajada_y_huecos_m2(hileras_regulares, contorno_geocerca, referencia):
+def rellenar_franjas_angostas(marcadas, celdas, radio_celdas):
+    """Cierre morfologico: rellena las franjas sin marcar de menos de
+    2 x radio (entre hileras no del todo paralelas, o contra el borde). Un
+    hueco mas ancho, como una hilera saltada entera, queda sin rellenar."""
+    if radio_celdas < 1 or not marcadas:
+        return set(marcadas)
+    disco = [(di, dj) for di in range(-radio_celdas, radio_celdas + 1)
+             for dj in range(-radio_celdas, radio_celdas + 1) if di * di + dj * dj <= radio_celdas * radio_celdas]
+    dilatadas = set()
+    for i, j in marcadas:
+        for di, dj in disco:
+            dilatadas.add((i + di, j + dj))
+    # Fuera de la geocerca cuenta como marcado, para que el borde no se "coma".
+    cerradas = {
+        c for c in celdas
+        if c in dilatadas and all(
+            (c[0] + di, c[1] + dj) in dilatadas or (c[0] + di, c[1] + dj) not in celdas
+            for di, dj in disco
+        )
+    }
+    return cerradas | (marcadas & celdas)
+
+
+def celdas_trabajadas(geo, trabajos):
     """
-    Igual que calcular_area_trabajada_m2, pero ademas devuelve el area de
-    los huecos sin trabajar entre bloques (para verificar: trabajada +
-    huecos deberia dar el area total real de la geocerca).
-    Devuelve (area_trabajada_m2, area_huecos_m2).
+    Celdas trabajadas de una geocerca, uniendo todas las maquinas.
+    trabajos: lista de (referencia, hileras) de cada maquina.
     """
-    if len(hileras_regulares) < 2:
-        return 0.0, 0.0
+    _, celdas = grilla_geocerca(geo)
+    marcadas = set()
+    espaciados = []
+    for referencia, hileras in trabajos:
+        if referencia is None or not hileras:
+            continue
+        alineadas, _ = filtrar_hileras_regulares(hileras)
+        espaciado = espaciado_real_m(alineadas)
+        espaciados.append(espaciado)
+        for h in alineadas:
+            marcar_franja_hilera(h, referencia, geo, espaciado, marcadas)
+    if not espaciados:
+        return set()
+    radio = int(round(max(espaciados) / 2 / TAMANO_CELDA_M))
+    return rellenar_franjas_angostas(marcadas, celdas, radio)
 
-    ref = hilera_referencia(hileras_regulares)
 
-    def lateral(punto_m):
-        dx = punto_m[0] - ref.origen[0]
-        dy = punto_m[1] - ref.origen[1]
-        return dx * (-ref.direccion[1]) + dy * ref.direccion[0]
-
-    contorno_m = [punto_a_metros(p, referencia) for p in contorno_geocerca]
-    largo_efectivo = {h.id: largo_efectivo_hilera_m(h, contorno_m) for h in hileras_regulares}
-
-    ordenadas = sorted(hileras_regulares, key=lambda h: lateral(h.origen))
-    posiciones = [lateral(h.origen) for h in ordenadas]
-    gaps = [posiciones[i + 1] - posiciones[i] for i in range(len(posiciones) - 1)]
-    gaps_significativos = [g for g in gaps if g > 0.3]
-    if not gaps_significativos:
-        mediana = 1.0
-    else:
-        mediana = statistics.median(gaps_significativos)
-
-    # Segmentar en bloques contiguos (separados por huecos grandes)
-    bloques = [[ordenadas[0]]]
-    for i in range(1, len(ordenadas)):
-        if gaps[i - 1] > mediana * TOLERANCIA_ESPACIADO:
-            bloques.append([])
-        bloques[-1].append(ordenadas[i])
-
-    laterales_contorno = [lateral(p) for p in contorno_m]
-    poligono_min, poligono_max = min(laterales_contorno), max(laterales_contorno)
-
-    area_trabajada = 0.0
-    for idx, bloque in enumerate(bloques):
-        es_primero = (idx == 0)
-        es_ultimo = (idx == len(bloques) - 1)
-
-        posiciones_bloque = [lateral(h.origen) for h in bloque]
-        largos_bloque = [largo_efectivo[h.id] for h in bloque]
-
-        # Solo se extiende hasta el borde real de la geocerca si la distancia
-        # hasta ese borde es razonable (cabecera/camino perimetral tipico) -
-        # si no, se trata igual que un hueco (no se adivina que llega al borde
-        # solo porque es el unico bloque conocido hasta ahora).
-        if es_primero and (posiciones_bloque[0] - poligono_min) <= TOLERANCIA_BORDE_GEOCERCA_M:
-            posiciones_bloque = [poligono_min] + posiciones_bloque
-            largos_bloque = [largos_bloque[0]] + largos_bloque
-        if es_ultimo and (poligono_max - posiciones_bloque[-1]) <= TOLERANCIA_BORDE_GEOCERCA_M:
-            posiciones_bloque = posiciones_bloque + [poligono_max]
-            largos_bloque = largos_bloque + [largos_bloque[-1]]
-
-        for i in range(len(posiciones_bloque) - 1):
-            ancho = abs(posiciones_bloque[i + 1] - posiciones_bloque[i])
-            area_trabajada += ancho * (largos_bloque[i] + largos_bloque[i + 1]) / 2
-
-    # Area de los huecos: entre el ultimo punto de cada bloque y el primero
-    # del bloque siguiente (usando el largo de la hilera de cada lado del hueco).
-    area_huecos = 0.0
-    for idx in range(len(bloques) - 1):
-        ultima_hilera_bloque = bloques[idx][-1]
-        primera_hilera_siguiente = bloques[idx + 1][0]
-        ancho_hueco = abs(lateral(primera_hilera_siguiente.origen) - lateral(ultima_hilera_bloque.origen))
-        largo_promedio = (largo_efectivo[ultima_hilera_bloque.id] + largo_efectivo[primera_hilera_siguiente.id]) / 2
-        area_huecos += ancho_hueco * largo_promedio
-
-    return area_trabajada, area_huecos
+def fraccion_trabajada(geo, celdas_cubiertas):
+    _, celdas = grilla_geocerca(geo)
+    return len(celdas_cubiertas) / len(celdas) if celdas else 0.0
 
 
 def slug(texto):
@@ -765,141 +706,40 @@ def escapar_xml(texto):
 # Exportacion a KML para revisar visualmente contra la foto satelital
 # ---------------------------------------------------------------------------
 
-VERDE_TRABAJADO = "ff00ff00"
+# Colores KML (formato aabbggrr)
+VERDE_CUARTEL_COMPLETO = "ff00ff00"
+AZUL_HILERA_COMPLETA = "ffff8000"
+ROJO_HILERA_PARCIAL = "ff0000ff"
+GRIS_NO_CUENTA = "ff888888"
 AMARILLO_DESCARTADO = "ff00ffff"
-ROJO_NO_CUENTA = "ff0000ff"
 NEGRO_GEOCERCA = "ff000000"
-
-
-def calcular_porcentaje_avance(hileras, contorno_geocerca, referencia):
-    """Devuelve el % de avance final (0.0 a 1.0) de una geocerca para una
-    maquina especifica, con el mismo redondeo de cierre que el reporte."""
-    if referencia is None:
-        return 0.0
-    hileras_regulares, _ = filtrar_hileras_regulares(hileras)
-    area_geocerca_m2 = area_poligono_m2(
-        [punto_a_metros(p, referencia) for p in contorno_geocerca]
-    )
-    if area_geocerca_m2 <= 0:
-        return 0.0
-    area_trabajada_m2 = calcular_area_trabajada_m2(hileras_regulares, contorno_geocerca, referencia)
-    porcentaje = min(1.0, area_trabajada_m2 / area_geocerca_m2)
-    return 1.0 if porcentaje >= UMBRAL_CIERRE_PORCENTAJE else porcentaje
-
-
-def espaciado_hileras_m(hileras_regulares):
-    """Espaciado tipico (mediana) entre hileras vecinas, en metros."""
-    if len(hileras_regulares) < 2:
-        return None
-    ref = hilera_referencia(hileras_regulares)
-    posiciones = sorted(
-        (h.origen[0] - ref.origen[0]) * (-ref.direccion[1]) + (h.origen[1] - ref.origen[1]) * ref.direccion[0]
-        for h in hileras_regulares
-    )
-    gaps = [b - a for a, b in zip(posiciones, posiciones[1:]) if b - a > 0.3]
-    return statistics.median(gaps) if gaps else None
-
-
-def momento_primera_pasada(hilera):
-    """Hora de la primera pasada; para hileras sin hora guardada se usa el
-    inicio del primer dia registrado."""
-    if hilera.primera_vez is not None:
-        return hilera.primera_vez
-    if hilera.fechas:
-        dia = datetime.strptime(min(hilera.fechas), "%Y-%m-%d")
-        return dia.replace(tzinfo=timezone.utc).timestamp()
-    return float("inf")
-
-
-def area_repetida_entre_maquinas_m2(trabajo_por_maquina, referencia_comun):
-    """
-    Area que se contaria dos veces al sumar maquinas: tramos de hilera que
-    una maquina recorrio DESPUES de que otra maquina ya habia pasado por esa
-    misma hilera (cuenta la que llego primero).
-
-    trabajo_por_maquina: lista de (nombre_maquina, referencia, hileras_regulares)
-    Criterio aproximado de "misma hilera" (entre maquinas distintas):
-      - direccion parecida (TOLERANCIA_ANGULO_GRADOS),
-      - distancia lateral <= TOLERANCIA_MISMA_HILERA_M, y nunca mas de la
-        mitad del espaciado entre hileras,
-      - y solo el tramo en que ambas se superponen a lo largo.
-    """
-    tramos = []  # (momento, maquina, hilera en marco comun, ancho_m)
-    for nombre_maquina, referencia, hileras_regulares in trabajo_por_maquina:
-        espaciado = espaciado_hileras_m(hileras_regulares)
-        if not espaciado:
-            continue
-        for h in hileras_regulares:
-            origen = punto_a_metros(metros_a_punto(h.origen, referencia), referencia_comun)
-            h_comun = Hilera(h.id, origen, h.direccion, h.min_proy, h.max_proy)
-            tramos.append((momento_primera_pasada(h), nombre_maquina, h_comun, espaciado))
-    tramos.sort(key=lambda t: t[0])
-
-    area_repetida = 0.0
-    anteriores = []
-    for _, maquina, h, ancho in tramos:
-        repetidos = []
-        for maquina_prev, h_prev, ancho_prev in anteriores:
-            if maquina_prev == maquina:
-                continue  # dentro de una misma maquina ya no se duplica
-            if angulo_entre_hileras(h, h_prev) > TOLERANCIA_ANGULO_GRADOS:
-                continue
-            p_ini = (h_prev.origen[0] + h_prev.direccion[0] * h_prev.min_proy,
-                     h_prev.origen[1] + h_prev.direccion[1] * h_prev.min_proy)
-            p_fin = (h_prev.origen[0] + h_prev.direccion[0] * h_prev.max_proy,
-                     h_prev.origen[1] + h_prev.direccion[1] * h_prev.max_proy)
-            (q_ini, lat_ini), (q_fin, lat_fin) = proyectar(p_ini, h), proyectar(p_fin, h)
-            if (lat_ini + lat_fin) / 2 > min(TOLERANCIA_MISMA_HILERA_M, ancho / 2, ancho_prev / 2):
-                continue
-            ini = max(min(q_ini, q_fin), h.min_proy)
-            fin = min(max(q_ini, q_fin), h.max_proy)
-            if fin > ini:
-                repetidos.append([ini, fin])
-        _, largo_repetido = union_intervalos(repetidos)
-        area_repetida += largo_repetido * ancho
-        anteriores.append((maquina, h, ancho))
-    return area_repetida
 
 
 def avance_total_por_geocerca(unidades_procesadas, geocercas):
     """
-    Suma el area trabajada por TODAS las maquinas en cada geocerca (un
-    cuartel puede completarse entre varias maquinas), descontando las
-    hileras repetidas entre maquinas (cuenta la que paso primero).
-    Devuelve {nombre_geocerca: {"trabajado_ha", "area_total_ha", "completo",
-    "maquinas"}}; completo es True si llega al umbral de cierre.
+    Avance de cada geocerca con el trabajo de TODAS las maquinas (union de
+    celdas: una hilera repetida por dos maquinas cuenta una sola vez).
+    Devuelve {nombre_geocerca: {"trabajado_ha", "area_total_ha",
+    "porcentaje", "completo", "maquinas"}}.
     """
-    geocercas_por_nombre = {g["nombre"]: g for g in geocercas}
-    trabajo = {}  # nombre_geo -> [(maquina, referencia, hileras_regulares, area_ha)]
+    trabajos = {}
     for nombre_maquina, hileras_por_geocerca, _ in unidades_procesadas:
         for nombre_geo, (referencia, hileras, _) in hileras_por_geocerca.items():
-            geo = geocercas_por_nombre.get(nombre_geo)
-            if geo is None or referencia is None:
-                continue
-            hileras_regulares, _ = filtrar_hileras_regulares(hileras)
-            area_ha = calcular_area_trabajada_m2(hileras_regulares, geo["contorno"], referencia) / 10000
-            if area_ha <= 0:
-                continue
-            trabajo.setdefault(nombre_geo, []).append(
-                (nombre_maquina, referencia, hileras_regulares, min(geo["area_ha"], area_ha))
-            )
+            if referencia is not None and hileras:
+                trabajos.setdefault(nombre_geo, []).append((nombre_maquina, referencia, hileras))
 
     avance = {}
-    for nombre_geo, lista in trabajo.items():
-        geo = geocercas_por_nombre[nombre_geo]
-        suma_ha = sum(area_ha for *_, area_ha in lista)
-        repetida_ha = 0.0
-        if len(lista) > 1:
-            repetida_ha = area_repetida_entre_maquinas_m2(
-                [(m, ref, regs) for m, ref, regs, _ in lista], lista[0][1]
-            ) / 10000
-        total_ha = min(geo["area_ha"], max(0.0, suma_ha - repetida_ha))
-        avance[nombre_geo] = {
-            "trabajado_ha": round(total_ha, 4),
+    for geo in geocercas:
+        lista = trabajos.get(geo["nombre"])
+        if not lista:
+            continue
+        fraccion = fraccion_trabajada(geo, celdas_trabajadas(geo, [(ref, hs) for _, ref, hs in lista]))
+        avance[geo["nombre"]] = {
+            "trabajado_ha": round(fraccion * geo["area_ha"], 4),
             "area_total_ha": round(geo["area_ha"], 4),
-            "repetido_ha": round(repetida_ha, 4),
-            "completo": geo["area_ha"] > 0 and total_ha >= geo["area_ha"] * UMBRAL_CIERRE_PORCENTAJE,
-            "maquinas": sorted(m for m, *_ in lista),
+            "porcentaje": round(fraccion * 100, 1),
+            "completo": fraccion >= UMBRAL_CIERRE_PORCENTAJE,
+            "maquinas": sorted({m for m, _, _ in lista}),
         }
     return avance
 
@@ -911,8 +751,10 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas, avance_total):
     avance_total: resultado de avance_total_por_geocerca (suma de TODAS las
         maquinas, aunque este KML muestre solo algunas).
     Genera un archivo KML: contorno de cada geocerca (marcada COMPLETA si
-    entre todas las maquinas se llego al umbral de cierre), hileras
-    trabajadas en verde, tramos descartados en amarillo.
+    entre todas las maquinas se llego al umbral de cierre). Hileras: verde
+    si el cuartel esta terminado, azul si la hilera llego de borde a borde,
+    rojo si es parcial, gris si es un tramo cruzado que no cuenta. Tramos
+    descartados en amarillo.
     """
     partes = ['<?xml version="1.0" encoding="UTF-8"?>',
               '<kml xmlns="http://www.opengis.net/kml/2.2"><Document>']
@@ -943,8 +785,9 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas, avance_total):
                 continue
             geo = next((g for g in geocercas if g["nombre"] == nombre_geo), None)
             geocerca_completa = avance_total.get(nombre_geo, {}).get("completo", False)
-            hileras_regulares, _ = filtrar_hileras_regulares(hileras)
-            ids_regulares = {h.id for h in hileras_regulares}
+            _, cruzadas = filtrar_hileras_regulares(hileras)
+            ids_cruzadas = {h.id for h in cruzadas}
+            contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]] if geo else []
 
             nombre_geo_seguro = escapar_xml(nombre_geo)
             for h in hileras:
@@ -956,9 +799,14 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas, avance_total):
                 lon2, lat2 = metros_a_punto(p2_m, referencia)
                 if not all(math.isfinite(v) for v in (lon1, lat1, lon2, lat2)):
                     continue
-                cuenta = geocerca_completa or h.id in ids_regulares
-                color_hilera = VERDE_TRABAJADO if cuenta else ROJO_NO_CUENTA
-                etiqueta = "" if cuenta else " (no cuenta)"
+                if geocerca_completa:
+                    color_hilera, etiqueta = VERDE_CUARTEL_COMPLETO, " (cuartel completo)"
+                elif h.id in ids_cruzadas:
+                    color_hilera, etiqueta = GRIS_NO_CUENTA, " (no cuenta)"
+                elif contorno_m and hilera_llega_a_los_bordes(h, contorno_m):
+                    color_hilera, etiqueta = AZUL_HILERA_COMPLETA, " (hilera completa)"
+                else:
+                    color_hilera, etiqueta = ROJO_HILERA_PARCIAL, " (hilera parcial)"
                 partes.append(
                     f'<Placemark><name>{nombre_geo_seguro} - Hilera {h.id}{etiqueta}</name>'
                     f'<Style><LineStyle><color>{color_hilera}</color><width>3</width>'
@@ -1063,110 +911,117 @@ def actualizar_historico(df_resumen):
 # ---------------------------------------------------------------------------
 
 def generar_reporte(sid, geocercas):
+    """
+    Procesa los dias en orden cronologico. Cada dia, en cada geocerca, las
+    maquinas se procesan en el orden en que entraron a ella; las hectareas
+    nuevas se acreditan a la maquina que cubrio primero esas celdas, asi el
+    trabajo repetido por otra maquina no suma dos veces.
+    """
     filas_resumen = []
     filas_detalle = []
-    resultado_por_unidad = []  # para el KML: (nombre, {geocerca: (ref, hileras)}, descartados)
     diagnostico = {geo["nombre"]: 0 for geo in geocercas}  # puntos totales vistos por geocerca
+    descartados = {u["id"]: [] for u in UNIDADES}
+    estado = {}  # (unit_id, nombre_geo) -> [referencia, hileras, area_acreditada_ha]
 
-    for unidad in UNIDADES:
-        descartados = []
-        hileras_por_geocerca = {}
+    def estado_de(unidad, geo):
+        clave = (unidad["id"], geo["nombre"])
+        if clave not in estado:
+            estado[clave] = list(cargar_estado(unidad["id"], geo["nombre"]))
+        return estado[clave]
 
-        dia = FECHA_INICIO
-        while dia <= FECHA_FIN:
+    cobertura = {}  # nombre_geo -> celdas trabajadas actuales (todas las maquinas)
+
+    def cobertura_actual(geo):
+        if geo["nombre"] not in cobertura:
+            trabajos = []
+            for u in UNIDADES:
+                referencia, hileras, _ = estado_de(u, geo)
+                if referencia is not None and hileras:
+                    trabajos.append((referencia, hileras))
+            cobertura[geo["nombre"]] = celdas_trabajadas(geo, trabajos)
+        return cobertura[geo["nombre"]]
+
+    dia = FECHA_INICIO
+    while dia <= FECHA_FIN:
+        fecha_str = dia.strftime("%Y-%m-%d")
+        entradas = {geo["nombre"]: [] for geo in geocercas}  # geo -> [(hora_entrada, unidad, puntos)]
+        for unidad in UNIDADES:
             mensajes = obtener_mensajes(sid, unidad["id"], dia)
             puntos = [
                 {"punto": (m["pos"]["x"], m["pos"]["y"]), "t": m.get("t")}
                 for m in mensajes if m.get("pos")
             ]
             if len(puntos) < 3:
-                dia += timedelta(days=1)
                 continue
-
             for geo in geocercas:
                 puntos_geo = [p for p in puntos if punto_en_poligono(p["punto"], geo["contorno"])]
                 diagnostico[geo["nombre"]] += len(puntos_geo)
-                if len(puntos_geo) < MINIMO_PUNTOS_EN_GEOCERCA:
-                    continue
+                if len(puntos_geo) >= MINIMO_PUNTOS_EN_GEOCERCA:
+                    hora_entrada = min((p["t"] for p in puntos_geo if p["t"] is not None), default=0)
+                    entradas[geo["nombre"]].append((hora_entrada, unidad, puntos_geo))
 
-                referencia, hileras, area_acumulada_ha = cargar_estado(unidad["id"], geo["nombre"])
+        for geo in geocercas:
+            for _, unidad, puntos_geo in sorted(entradas[geo["nombre"]], key=lambda e: e[0]):
+                referencia, hileras, area_acreditada_ha = estado_de(unidad, geo)
                 if referencia is None:
                     referencia = puntos_geo[0]["punto"]
-
                 ids_antes = {h.id for h in hileras}
-                area_antes_ha = area_acumulada_ha  # nunca baja: es el maximo ya alcanzado
+                celdas_antes = cobertura_actual(geo)
 
-                hileras_tocadas_hoy = procesar_puntos(puntos_geo, referencia, hileras, descartados, dia.strftime("%Y-%m-%d"))
-
+                hileras_tocadas_hoy = procesar_puntos(
+                    puntos_geo, referencia, hileras, descartados[unidad["id"]], fecha_str
+                )
                 if hileras_tocadas_hoy:
-                    hileras_regulares, hileras_irregulares = filtrar_hileras_regulares(hileras)
-                    ids_regulares = {h.id for h in hileras_regulares}
-                    if not (ids_regulares & set(hileras_tocadas_hoy)):
-                        guardar_estado(unidad["id"], geo["nombre"], referencia, hileras, area_acumulada_ha)
-                        hileras_por_geocerca[geo["nombre"]] = (referencia, hileras, area_acumulada_ha)
-                        continue
-
-                    area_calculada_hoy_ha = min(
-                        geo["area_ha"],
-                        calcular_area_trabajada_m2(hileras_regulares, geo["contorno"], referencia) / 10000,
-                    )
-                    if geo["area_ha"] > 0 and area_calculada_hoy_ha / geo["area_ha"] >= UMBRAL_CIERRE_PORCENTAJE:
-                        area_calculada_hoy_ha = geo["area_ha"]
-
-                    # Nunca baja del maximo ya alcanzado, aunque el recalculo de hoy de menos
-                    # (evita que un reordenamiento de bloques infle el total acumulado).
-                    area_despues_ha = max(area_antes_ha, area_calculada_hoy_ha)
-                    area_trabajada_ha = area_despues_ha - area_antes_ha
-
-                    if round(area_trabajada_ha, 2) <= 0:
-                        print(
-                            f"  [sin avance nuevo] {dia.strftime('%Y-%m-%d')} - {unidad['nombre']} - {geo['nombre']}: "
-                            f"{len(puntos_geo)} puntos, {len(hileras)} hileras conocidas en total, "
-                            f"{len(hileras_regulares)} regulares, "
-                            f"area_antes={area_antes_ha:.2f} ha, area_calculada_hoy={area_calculada_hoy_ha:.2f} ha"
-                        )
-
-                    filas_detalle_dia = []
-                    hileras_nuevas_hoy = [h for h in hileras_regulares if h.id not in ids_antes]
-                    for h in hileras_nuevas_hoy:
-                        pasadas = contar_pasadas_max(h.intervalos)
-                        filas_detalle_dia.append({
-                            "Fecha": dia.strftime("%Y-%m-%d"),
-                            "Máquina": unidad["nombre"],
-                            "Cuartel": geo["nombre"],
-                            "Hilera": h.id,
-                            "Máx. pasadas (acumulado)": pasadas,
-                        })
+                    estado[(unidad["id"], geo["nombre"])][0] = referencia
+                    cobertura.pop(geo["nombre"], None)
+                    celdas_despues = cobertura_actual(geo)
+                    _, celdas_geo = grilla_geocerca(geo)
+                    nuevas = len(celdas_despues - celdas_antes)
+                    area_trabajada_ha = nuevas / len(celdas_geo) * geo["area_ha"] if celdas_geo else 0.0
+                    area_acreditada_ha += area_trabajada_ha
+                    alineadas, _ = filtrar_hileras_regulares(hileras)
 
                     if round(area_trabajada_ha, 2) > 0:
-                        filas_detalle.extend(filas_detalle_dia)
+                        for h in alineadas:
+                            if h.id not in ids_antes:
+                                filas_detalle.append({
+                                    "Fecha": fecha_str,
+                                    "Máquina": unidad["nombre"],
+                                    "Cuartel": geo["nombre"],
+                                    "Hilera": h.id,
+                                    "Máx. pasadas (acumulado)": contar_pasadas_max(h.intervalos),
+                                })
                         filas_resumen.append({
-                            "Fecha": dia.strftime("%Y-%m-%d"),
+                            "Fecha": fecha_str,
                             "Máquina": unidad["nombre"],
                             "Cuartel": geo["nombre"],
-                            "N° hileras conocidas": len(hileras_regulares),
-                            "Área acumulada trabajada (ha)": round(area_despues_ha, 2),
+                            "N° hileras conocidas": len(alineadas),
+                            "Área acumulada trabajada (ha)": round(area_acreditada_ha, 2),
                             "Área real del cuartel (ha)": round(geo["area_ha"], 2),
                             "Hectáreas trabajadas del cuartel": round(area_trabajada_ha, 2),
                         })
+                    else:
+                        print(
+                            f"  [sin avance nuevo] {fecha_str} - {unidad['nombre']} - {geo['nombre']}: "
+                            f"{len(puntos_geo)} puntos, {len(hileras)} hileras conocidas, "
+                            f"avance del cuartel {fraccion_trabajada(geo, celdas_despues) * 100:.1f}%"
+                        )
 
-                    area_acumulada_ha = area_despues_ha
+                estado[(unidad["id"], geo["nombre"])] = [referencia, hileras, area_acreditada_ha]
+                guardar_estado(unidad["id"], geo["nombre"], referencia, hileras, area_acreditada_ha)
 
-                guardar_estado(unidad["id"], geo["nombre"], referencia, hileras, area_acumulada_ha)
-                hileras_por_geocerca[geo["nombre"]] = (referencia, hileras, area_acumulada_ha)
+        dia += timedelta(days=1)
 
-            dia += timedelta(days=1)
-
-        # Cuarteles trabajados antes de este periodo: se cargan de la memoria
-        # para que sigan apareciendo en los mapas y en la geometria de la web.
+    # Incluye tambien los cuarteles trabajados antes de este periodo (memoria),
+    # para que sigan apareciendo en los mapas y en la geometria de la web.
+    resultado_por_unidad = []
+    for unidad in UNIDADES:
+        hileras_por_geocerca = {}
         for geo in geocercas:
-            if geo["nombre"] in hileras_por_geocerca:
-                continue
-            referencia, hileras, area_acumulada_ha = cargar_estado(unidad["id"], geo["nombre"])
+            referencia, hileras, area_acreditada_ha = estado_de(unidad, geo)
             if referencia is not None and hileras:
-                hileras_por_geocerca[geo["nombre"]] = (referencia, hileras, area_acumulada_ha)
-
-        resultado_por_unidad.append((unidad["nombre"], hileras_por_geocerca, descartados))
+                hileras_por_geocerca[geo["nombre"]] = (referencia, hileras, area_acreditada_ha)
+        resultado_por_unidad.append((unidad["nombre"], hileras_por_geocerca, descartados[unidad["id"]]))
 
     return pd.DataFrame(filas_resumen), pd.DataFrame(filas_detalle), resultado_por_unidad, diagnostico
 
@@ -1213,11 +1068,10 @@ def main():
 
     ruta_kml = os.path.join(CARPETA_DATOS, "hileras_detectadas.kml")
     avance_total = avance_total_por_geocerca(resultado_por_unidad, geocercas)
-    print("\nAvance por cuartel (todas las maquinas, sin hileras repetidas):")
+    print("\nAvance por cuartel (todas las maquinas, sin contar dos veces lo repetido):")
     for nombre_geo, info in sorted(avance_total.items()):
         print(f"  - {nombre_geo}: {info['trabajado_ha']:.2f} de {info['area_total_ha']:.2f} ha"
-              f" (repetido descontado {info['repetido_ha']:.2f} ha)"
-              f"{' -> COMPLETO' if info['completo'] else ''}")
+              f" ({info['porcentaje']:.1f}%){' -> COMPLETO' if info['completo'] else ''}")
     with open(RUTA_AVANCE_CUARTELES, "w", encoding="utf-8") as f:
         json.dump({"umbral_cierre": UMBRAL_CIERRE_PORCENTAJE, "cuarteles": avance_total},
                   f, ensure_ascii=False, indent=2)
@@ -1247,27 +1101,8 @@ def main():
                 continue
             geo = geocercas_por_nombre.get(nombre_geo)
             completo = avance_total.get(nombre_geo, {}).get("completo", False)
-            hileras_regulares, hileras_irregulares = filtrar_hileras_regulares(hileras)
-            ids_irregulares = {h.id for h in hileras_irregulares}
-
-            if geo and len(hileras_regulares) >= 2:
-                area_trab_m2, area_huecos_m2 = calcular_area_trabajada_y_huecos_m2(
-                    hileras_regulares, geo["contorno"], referencia
-                )
-                area_geocerca_m2 = area_poligono_m2(
-                    [punto_a_metros(p, referencia) for p in geo["contorno"]]
-                )
-                suma = area_trab_m2 + area_huecos_m2
-                diferencia_pct = (
-                    abs(suma - area_geocerca_m2) / area_geocerca_m2 * 100 if area_geocerca_m2 > 0 else 0
-                )
-                estado = "OK" if diferencia_pct < 2 else "REVISAR"
-                print(
-                    f"  [verificacion area] {nombre_unidad} - {nombre_geo}: "
-                    f"trabajada={area_trab_m2/10000:.2f} ha + huecos={area_huecos_m2/10000:.2f} ha "
-                    f"= {suma/10000:.2f} ha vs geocerca real={area_geocerca_m2/10000:.2f} ha "
-                    f"(diferencia {diferencia_pct:.1f}%) [{estado}]"
-                )
+            _, cruzadas = filtrar_hileras_regulares(hileras)
+            ids_cruzadas = {h.id for h in cruzadas}
 
             contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]] if geo else []
             filas = []
@@ -1284,7 +1119,7 @@ def main():
                     "id": h.id, "p1": [lon1, lat1], "p2": [lon2, lat2],
                     "fechas": sorted(h.fechas),
                     "completa": bool(contorno_m) and hilera_llega_a_los_bordes(h, contorno_m),
-                    "cuenta": h.id not in ids_irregulares,
+                    "cuenta": h.id not in ids_cruzadas,
                 })
             if filas:
                 cuarteles_json[nombre_geo] = {
