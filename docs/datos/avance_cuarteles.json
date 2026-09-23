@@ -2,23 +2,32 @@
   "umbral_cierre": 0.95,
   "cuarteles": {
     "C&H Maquinaria": {
-      "trabajado_ha": 3.4742,
+      "trabajado_ha": 3.694,
       "area_total_ha": 5.1226,
-      "porcentaje": 67.8,
+      "porcentaje": 72.1,
       "completo": false,
       "maquinas": [
         "Barredora 1",
         "Barredora 10",
         "Barredora 11",
         "Barredora 12",
+        "Barredora 13",
         "Barredora 15",
         "Barredora 16",
         "Barredora 18",
+        "Barredora 2",
+        "Barredora 20 Weiss s/cab",
+        "Barredora 21 Weiss s/cab",
         "Barredora 3",
         "Barredora 4",
         "Barredora 5",
+        "Barredora 7",
+        "Barredora 8",
+        "Barredora 9 Weiss c/cab",
         "Recogedora 1",
         "Recogedora 2",
+        "Recogedora 4",
+        "Recogedora 5",
         "Recogedora 6",
         "Recogedora 7",
         "Shacker SBS 1",
@@ -27,20 +36,125 @@
         "Shacker SBS 12",
         "Shacker SBS 13",
         "Shacker SBS 15 OMC",
+        "Shacker SBS 2",
         "Shacker SBS 3",
         "Shacker SBS 4",
         "Shacker SBS 5",
+        "Shacker SBS 6",
         "Shacker SBS 7",
         "Shacker SBS 8",
         "Shacker SBS 9",
         "Shacker SBS Campo",
         "Shacker de Suelo 1",
+        "Shacker de Suelo 2",
+        "Shacker de Suelo 5",
+        "Shacker de Suelo 6",
+        "Shacker de Suelo 9",
         "Tractor 1 Deutz-Fahr Agroplus",
         "Tractor 14 Deutz Fahr 115",
         "Tractor 15 Deutz Fahr 115",
         "Tractor 4 Same Frutetto 100",
         "Tractor 8 Kubota 108",
         "Tractor 9 Deutz Fahr 115"
+      ]
+    },
+    "Juan Valenzuela_Cuartel 1": {
+      "trabajado_ha": 9.0097,
+      "area_total_ha": 35.8288,
+      "porcentaje": 25.1,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 12"
+      ]
+    },
+    "Nancagua_SBS Campo": {
+      "trabajado_ha": 0.0679,
+      "area_total_ha": 5.6649,
+      "porcentaje": 1.2,
+      "completo": false,
+      "maquinas": [
+        "Tractor 9 Deutz Fahr 115"
+      ]
+    },
+    "Juan Valenzuela_Cuartel 3": {
+      "trabajado_ha": 0.6786,
+      "area_total_ha": 18.7307,
+      "porcentaje": 3.6,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 12"
+      ]
+    },
+    "MGH Cuartel 3": {
+      "trabajado_ha": 0.1434,
+      "area_total_ha": 7.6491,
+      "porcentaje": 1.9,
+      "completo": false,
+      "maquinas": [
+        "Tractor 9 Deutz Fahr 115"
+      ]
+    },
+    "MGH Cuartel 4": {
+      "trabajado_ha": 0.109,
+      "area_total_ha": 5.7736,
+      "porcentaje": 1.9,
+      "completo": false,
+      "maquinas": [
+        "Tractor 9 Deutz Fahr 115"
+      ]
+    },
+    "Matias Cardoen C1": {
+      "trabajado_ha": 0.2337,
+      "area_total_ha": 3.1217,
+      "porcentaje": 7.5,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 1"
+      ]
+    },
+    "Matias Cardoen C2": {
+      "trabajado_ha": 0.0184,
+      "area_total_ha": 0.7304,
+      "porcentaje": 2.5,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 1"
+      ]
+    },
+    "Matias Cardoen C5": {
+      "trabajado_ha": 4.3444,
+      "area_total_ha": 11.4216,
+      "porcentaje": 38.0,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 1"
+      ]
+    },
+    "Catalina Gonzalez": {
+      "trabajado_ha": 6.789,
+      "area_total_ha": 44.1546,
+      "porcentaje": 15.4,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 6"
+      ]
+    },
+    "Matias Cardoen C7 prueba": {
+      "trabajado_ha": 0.6734,
+      "area_total_ha": 3.6941,
+      "porcentaje": 18.2,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 1"
+      ]
+    },
+    "Matias Cardoen Completo": {
+      "trabajado_ha": 4.9132,
+      "area_total_ha": 42.0859,
+      "porcentaje": 11.7,
+      "completo": false,
+      "maquinas": [
+        "Shacker SBS 1"
       ]
     }
   }

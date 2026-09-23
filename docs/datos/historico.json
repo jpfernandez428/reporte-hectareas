@@ -206,5 +206,333 @@
     "n_hileras": 1,
     "area_total_ha": 5.12,
     "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-01-19",
+    "maquina": "Shacker SBS 4",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 2,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-01-19",
+    "maquina": "Barredora 8",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 3,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-01-20",
+    "maquina": "Tractor 15 Deutz Fahr 115",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 31,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-01-20",
+    "maquina": "Barredora 12",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 7,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-01-21",
+    "maquina": "Recogedora 6",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 23,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-01-21",
+    "maquina": "Barredora 13",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 10,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-01-22",
+    "maquina": "Barredora 11",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 14,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-01-23",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 13,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-01-23",
+    "maquina": "Recogedora 2",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 16,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-01-23",
+    "maquina": "Shacker SBS 3",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 9,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-01-23",
+    "maquina": "Barredora 3",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 14,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-01-23",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Nancagua_SBS Campo",
+    "n_hileras": 1,
+    "area_total_ha": 5.66,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-01-23",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "MGH Cuartel 3",
+    "n_hileras": 1,
+    "area_total_ha": 7.65,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-01-23",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "MGH Cuartel 4",
+    "n_hileras": 3,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-01-26",
+    "maquina": "Barredora 11",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 25,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-01-27",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 34,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-01-27",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 3",
+    "n_hileras": 1,
+    "area_total_ha": 18.73,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-01-28",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 37,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-01-28",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 11,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-01-28",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 1",
+    "n_hileras": 70,
+    "area_total_ha": 35.83,
+    "area_trabajada_ha": 1.55
+  },
+  {
+    "fecha": "2026-01-28",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 3",
+    "n_hileras": 2,
+    "area_total_ha": 18.73,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-01-29",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 1",
+    "n_hileras": 155,
+    "area_total_ha": 35.83,
+    "area_trabajada_ha": 2.85
+  },
+  {
+    "fecha": "2026-01-29",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 3",
+    "n_hileras": 6,
+    "area_total_ha": 18.73,
+    "area_trabajada_ha": 0.41
+  },
+  {
+    "fecha": "2026-01-29",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C1",
+    "n_hileras": 2,
+    "area_total_ha": 3.12,
+    "area_trabajada_ha": 0.24
+  },
+  {
+    "fecha": "2026-01-29",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C5",
+    "n_hileras": 57,
+    "area_total_ha": 11.42,
+    "area_trabajada_ha": 1.07
+  },
+  {
+    "fecha": "2026-01-29",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "n_hileras": 30,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 1.66
+  },
+  {
+    "fecha": "2026-01-29",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C7 prueba",
+    "n_hileras": 2,
+    "area_total_ha": 3.69,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-01-29",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen Completo",
+    "n_hileras": 62,
+    "area_total_ha": 42.09,
+    "area_trabajada_ha": 1.45
+  },
+  {
+    "fecha": "2026-01-30",
+    "maquina": "Shacker SBS 4",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 11,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-01-30",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 1",
+    "n_hileras": 208,
+    "area_total_ha": 35.83,
+    "area_trabajada_ha": 2.29
+  },
+  {
+    "fecha": "2026-01-30",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C2",
+    "n_hileras": 1,
+    "area_total_ha": 0.73,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-01-30",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C5",
+    "n_hileras": 142,
+    "area_total_ha": 11.42,
+    "area_trabajada_ha": 1.72
+  },
+  {
+    "fecha": "2026-01-30",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "n_hileras": 68,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 2.7
+  },
+  {
+    "fecha": "2026-01-30",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C7 prueba",
+    "n_hileras": 3,
+    "area_total_ha": 3.69,
+    "area_trabajada_ha": 0.46
+  },
+  {
+    "fecha": "2026-01-30",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen Completo",
+    "n_hileras": 142,
+    "area_total_ha": 42.09,
+    "area_trabajada_ha": 1.76
+  },
+  {
+    "fecha": "2026-01-31",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 122,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-01-31",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 1",
+    "n_hileras": 284,
+    "area_total_ha": 35.83,
+    "area_trabajada_ha": 2.44
+  },
+  {
+    "fecha": "2026-01-31",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 3",
+    "n_hileras": 8,
+    "area_total_ha": 18.73,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-01-31",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C5",
+    "n_hileras": 234,
+    "area_total_ha": 11.42,
+    "area_trabajada_ha": 1.56
+  },
+  {
+    "fecha": "2026-01-31",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "n_hileras": 98,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 2.47
+  },
+  {
+    "fecha": "2026-01-31",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen Completo",
+    "n_hileras": 236,
+    "area_total_ha": 42.09,
+    "area_trabajada_ha": 1.71
   }
 ]
