@@ -2,9 +2,9 @@
   "umbral_cierre": 0.95,
   "cuarteles": {
     "C&H Maquinaria": {
-      "trabajado_ha": 4.1169,
+      "trabajado_ha": 4.1076,
       "area_total_ha": 5.1226,
-      "porcentaje": 80.4,
+      "porcentaje": 80.2,
       "completo": false,
       "maquinas": [
         "Barredora 1",
@@ -86,11 +86,12 @@
       ]
     },
     "Juan Valenzuela_Cuartel 1": {
-      "trabajado_ha": 20.1725,
+      "trabajado_ha": 20.1866,
       "area_total_ha": 35.8288,
       "porcentaje": 56.3,
       "completo": false,
       "maquinas": [
+        "Barredora 23",
         "Shacker SBS 12"
       ]
     },
@@ -138,20 +139,22 @@
       ]
     },
     "Juan Valenzuela_Cuartel 3": {
-      "trabajado_ha": 2.4764,
+      "trabajado_ha": 2.4907,
       "area_total_ha": 18.7307,
-      "porcentaje": 13.2,
+      "porcentaje": 13.3,
       "completo": false,
       "maquinas": [
+        "Barredora 23",
         "Shacker SBS 12"
       ]
     },
     "Juan Valenzuela_Cuartel 4": {
-      "trabajado_ha": 9.6985,
+      "trabajado_ha": 20.8915,
       "area_total_ha": 20.8915,
-      "porcentaje": 46.4,
-      "completo": false,
+      "porcentaje": 100.0,
+      "completo": true,
       "maquinas": [
+        "Barredora 23",
         "Shacker SBS 12"
       ]
     },
@@ -1570,7 +1573,7 @@
       ]
     },
     "Bernardo Lira Chiñihue N3": {
-      "trabajado_ha": 33.6402,
+      "trabajado_ha": 33.6398,
       "area_total_ha": 33.9868,
       "porcentaje": 99.0,
       "completo": true,
@@ -5646,12 +5649,13 @@
       ]
     },
     "Huertos de Nogal": {
-      "trabajado_ha": 33.1236,
+      "trabajado_ha": 38.0683,
       "area_total_ha": 39.8235,
-      "porcentaje": 83.2,
-      "completo": false,
+      "porcentaje": 95.6,
+      "completo": true,
       "maquinas": [
-        "Shacker SBS 6"
+        "Shacker SBS 6",
+        "Tractor 16 Kubota 108"
       ]
     },
     "volcan 10": {
@@ -6043,13 +6047,67 @@
       ]
     },
     "Aurora 10": {
-      "trabajado_ha": 2.1677,
+      "trabajado_ha": 2.3229,
       "area_total_ha": 2.3305,
-      "porcentaje": 93.0,
-      "completo": false,
+      "porcentaje": 99.7,
+      "completo": true,
       "maquinas": [
         "Tractor 10 Deutz Fahr 115",
         "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Juan V Nogales 1": {
+      "trabajado_ha": 1.8651,
+      "area_total_ha": 7.8688,
+      "porcentaje": 23.7,
+      "completo": false,
+      "maquinas": [
+        "Barredora 23"
+      ]
+    },
+    "Juan V Nogales 2": {
+      "trabajado_ha": 1.7442,
+      "area_total_ha": 5.6816,
+      "porcentaje": 30.7,
+      "completo": false,
+      "maquinas": [
+        "Barredora 23"
+      ]
+    },
+    "Juan V Nogales 3": {
+      "trabajado_ha": 1.6267,
+      "area_total_ha": 4.6644,
+      "porcentaje": 34.9,
+      "completo": false,
+      "maquinas": [
+        "Barredora 23"
+      ]
+    },
+    "Juan V Nogales 4": {
+      "trabajado_ha": 1.4476,
+      "area_total_ha": 4.0786,
+      "porcentaje": 35.5,
+      "completo": false,
+      "maquinas": [
+        "Barredora 23"
+      ]
+    },
+    "Juan V Nogales 5": {
+      "trabajado_ha": 1.4606,
+      "area_total_ha": 2.9905,
+      "porcentaje": 48.8,
+      "completo": false,
+      "maquinas": [
+        "Barredora 23"
+      ]
+    },
+    "Juan V Nogales 6": {
+      "trabajado_ha": 1.1925,
+      "area_total_ha": 1.4597,
+      "porcentaje": 81.7,
+      "completo": false,
+      "maquinas": [
+        "Barredora 23"
       ]
     }
   }
