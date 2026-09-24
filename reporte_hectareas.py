@@ -580,12 +580,20 @@ def hilera_referencia(hileras):
     mas larga, porque un traslado en diagonal cruzando el cuartel puede
     quedar registrado como la "hilera" mas larga y torcer todos los calculos.
     """
-    def metros_alineados(h):
-        return sum(
-            otra.largo_conocido for otra in hileras
-            if angulo_entre_hileras(h, otra) <= TOLERANCIA_ANGULO_GRADOS
-        )
-    return max(hileras, key=lambda h: (metros_alineados(h), h.largo_conocido))
+    if len(hileras) == 1:
+        return hileras[0]
+    # Angulo de cada hilera (0-180) y metros de hileras dentro de +-tolerancia,
+    # con sumas acumuladas sobre los angulos ordenados (circular en 180).
+    angulos = np.array([math.degrees(math.atan2(h.direccion[1], h.direccion[0])) % 180.0 for h in hileras])
+    largos = np.array([h.largo_conocido for h in hileras])
+    orden = np.argsort(angulos)
+    ang_ext = np.concatenate([angulos[orden] - 180.0, angulos[orden], angulos[orden] + 180.0])
+    acumulado = np.concatenate([[0.0], np.cumsum(np.tile(largos[orden], 3))])
+    izq = np.searchsorted(ang_ext, angulos - TOLERANCIA_ANGULO_GRADOS, side="left")
+    der = np.searchsorted(ang_ext, angulos + TOLERANCIA_ANGULO_GRADOS, side="right")
+    metros_alineados = acumulado[der] - acumulado[izq]
+    mejor = max(range(len(hileras)), key=lambda i: (metros_alineados[i], largos[i]))
+    return hileras[mejor]
 
 
 def filtrar_hileras_regulares(hileras):
@@ -606,28 +614,34 @@ def filtrar_hileras_regulares(hileras):
     if not alineadas:
         return [], descartadas
 
+    # Posicion de cada pasada respecto de la direccion del cuartel: lateral
+    # (centro) y tramo a lo largo. Se ordenan por posicion lateral y cada una
+    # se compara solo con las cercanas.
     origen = np.array([h.origen for h in alineadas])
     direccion = np.array([h.direccion for h in alineadas])
-    minimo = np.array([h.min_proy for h in alineadas])
-    maximo = np.array([h.max_proy for h in alineadas])
-    ini = origen + direccion * minimo[:, None]
-    fin = origen + direccion * maximo[:, None]
-    cos_tolerancia = math.cos(math.radians(TOLERANCIA_ANGULO_GRADOS))
-    cuentan = []
-    for k, h in enumerate(alineadas):
-        o, d = origen[k], direccion[k]
-        q_ini = (ini - o) @ d
-        q_fin = (fin - o) @ d
-        lat_ini = np.abs((ini[:, 0] - o[0]) * d[1] - (ini[:, 1] - o[1]) * d[0])
-        lat_fin = np.abs((fin[:, 0] - o[0]) * d[1] - (fin[:, 1] - o[1]) * d[0])
-        lateral = (lat_ini + lat_fin) / 2
-        solape = np.minimum(np.maximum(q_ini, q_fin), maximo[k]) - np.maximum(np.minimum(q_ini, q_fin), minimo[k])
-        paralelas = (
-            (np.abs(direccion @ d) >= cos_tolerancia)
-            & (lateral >= TOLERANCIA_MISMA_HILERA_M) & (lateral <= DISTANCIA_MAXIMA_SERIE_M)
-            & (solape > 0)
-        )
-        (cuentan if int(paralelas.sum()) >= MINIMO_PARALELAS_SERIE else descartadas).append(h)
+    ini = origen + direccion * np.array([h.min_proy for h in alineadas])[:, None]
+    fin = origen + direccion * np.array([h.max_proy for h in alineadas])[:, None]
+    base = np.array(ref.origen)
+    eje = np.array(ref.direccion)
+    normal = np.array([-eje[1], eje[0]])
+    lateral = (((ini + fin) / 2) - base) @ normal
+    desde_a = np.minimum((ini - base) @ eje, (fin - base) @ eje)
+    hasta_a = np.maximum((ini - base) @ eje, (fin - base) @ eje)
+    orden = np.argsort(lateral)
+    lat_o, desde_o, hasta_o = lateral[orden], desde_a[orden], hasta_a[orden]
+    izq = np.searchsorted(lat_o, lat_o - DISTANCIA_MAXIMA_SERIE_M, side="left")
+    der = np.searchsorted(lat_o, lat_o + DISTANCIA_MAXIMA_SERIE_M, side="right")
+    cuenta_ordenada = np.zeros(len(alineadas), dtype=bool)
+    for k in range(len(alineadas)):
+        v = slice(izq[k], der[k])
+        distancia = np.abs(lat_o[v] - lat_o[k])
+        solape = np.minimum(hasta_o[v], hasta_o[k]) - np.maximum(desde_o[v], desde_o[k])
+        paralelas = (distancia >= TOLERANCIA_MISMA_HILERA_M) & (solape > 0)
+        cuenta_ordenada[k] = int(paralelas.sum()) >= MINIMO_PARALELAS_SERIE
+    cuenta = np.zeros(len(alineadas), dtype=bool)
+    cuenta[orden] = cuenta_ordenada
+    cuentan = [h for h, c in zip(alineadas, cuenta) if c]
+    descartadas += [h for h, c in zip(alineadas, cuenta) if not c]
     return cuentan, descartadas
 
 
@@ -1433,7 +1447,13 @@ def prueba_pasadas(sid, nombre):
                     segmentos.append((seg[0]["t"] or 0, seg[0]["punto"], seg[-1]["punto"]))
         segmentos.sort(key=lambda s: s[0])
         puntos_geo = [p for pu in por_unidad.values() for p in pu]
-        pasadas, en_curso = contar_pasadas_completas(geo, segmentos)
+        estado = {"pasadas": [], "tramos_ultima": [], "en_curso": [], "fraccion_en_curso": 0.0}
+        por_dia = {}
+        for tramo in segmentos:
+            por_dia.setdefault(datetime.fromtimestamp(tramo[0], tz=timezone.utc).date(), []).append(tramo)
+        for dia_tramos in sorted(por_dia):
+            avanzar_pasadas(geo, estado, por_dia[dia_tramos])
+        pasadas, en_curso = estado["pasadas"], estado["fraccion_en_curso"]
         fechas = lambda t: datetime.fromtimestamp(t, tz=timezone.utc).strftime("%Y-%m-%d")
         detalle = "; ".join(f"pasada {i + 1}: {fechas(a)} a {fechas(b)}" for i, (a, b) in enumerate(pasadas))
         dias = sorted({fechas(p["t"]) for p in puntos_geo if p["t"]})
