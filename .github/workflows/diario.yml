@@ -16,7 +16,11 @@ on:
         required: false
         default: ''
       diagnostico:
-        description: 'Poner 1 para solo revisar Wialon (geocercas y datos GPS disponibles), sin calcular nada.'
+        description: 'Poner 1 para solo revisar Wialon (unidades y labores), sin calcular nada.'
+        required: false
+        default: ''
+      prueba_pasadas:
+        description: 'Con diagnostico=1: nombre de una barredora para probar el conteo de pasadas del año.'
         required: false
         default: ''
 
@@ -44,6 +48,7 @@ jobs:
           FECHA_INICIO_MANUAL: ${{ inputs.fecha_inicio }}
           FECHA_FIN_MANUAL: ${{ inputs.fecha_fin }}
           MODO_DIAGNOSTICO: ${{ inputs.diagnostico }}
+          PRUEBA_PASADAS_UNIDAD: ${{ inputs.prueba_pasadas }}
         run: python3 reporte_hectareas.py
 
       - name: Guardar los resultados en el repositorio

@@ -419,6 +419,13 @@ function normalizarSlug(texto) {
     .replace(/^_+|_+$/g, '') || 'unidad';
 }
 
+// Escapa texto para que el KML sea XML valido (ej. "C&H Maquinaria").
+function escaparXml(texto) {
+  return String(texto)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+}
+
 async function descargarKML() {
   // Si hay filtros combinados armados, se usan esos; si no, se usa el filtro simple actual.
   const condiciones = gruposFiltro.length > 0
@@ -429,22 +436,8 @@ async function descargarKML() {
         hasta: document.getElementById('filtroHasta').value,
       }];
 
-  const sinFiltroFecha = condiciones.every(c => !c.desde && !c.hasta);
 
-  // Atajos rapidos: sin fecha y una sola condicion simple, se usan los KML ya generados.
-  if (condiciones.length === 1 && sinFiltroFecha) {
-    if (condiciones[0].maquinas.length === 0) {
-      alert('Vas a descargar el mapa de TODAS las máquinas (archivo grande). Si Google Earth da error de "límite de componentes", usa la opción "Importar como capa de datos" en vez de "elementos del mapa".');
-      window.open('datos/hileras_detectadas.kml', '_blank');
-      return;
-    }
-    if (condiciones[0].maquinas.length === 1) {
-      window.open('datos/kml/' + normalizarSlug(condiciones[0].maquinas[0]) + '.kml', '_blank');
-      return;
-    }
-  }
-
-  // Caso general: se arma el KML en el navegador, con carpetas Maquina -> Fecha -> Cuartel.
+  // El KML se arma en el navegador desde la geometria, con carpetas Maquina -> Fecha -> Cuartel.
   const todasLasMaquinas = [...new Set(datos.map(d => d.maquina))];
   const maquinasNecesarias = new Set();
   for (const c of condiciones) {
@@ -516,7 +509,7 @@ async function descargarKML() {
               if (cuartelDia.has(fila.id)) continue;
               totalHileras++;
               cuartelDia.set(fila.id,
-                `<Placemark><name>Hilera ${fila.id}${etiqueta}</name>` +
+                `<Placemark><name>Hilera ${fila.id}${escaparXml(etiqueta)}</name>` +
                 `<Style><LineStyle><color>${color}</color><width>3</width></LineStyle></Style>` +
                 `<LineString><coordinates>${fila.p1[0]},${fila.p1[1]},0 ${fila.p2[0]},${fila.p2[1]},0</coordinates></LineString></Placemark>`
               );
@@ -544,7 +537,7 @@ async function descargarKML() {
         const coords = info.contorno.map(p => `${p[0]},${p[1]},0`).join(' ') +
           ' ' + info.contorno[0][0] + ',' + info.contorno[0][1] + ',0';
         contenidoContornos +=
-          `<Placemark><name>${nombreCuartel} (${info.completo ? 'COMPLETA' : 'en proceso'})</name>` +
+          `<Placemark><name>${escaparXml(nombreCuartel)} (${info.completo ? 'COMPLETA' : 'en proceso'})</name>` +
           `<Style><LineStyle><color>${colorBorde}</color><width>6</width></LineStyle>` +
           `<PolyStyle><fill>0</fill></PolyStyle></Style>` +
           `<Polygon><outerBoundaryIs><LinearRing><coordinates>${coords}</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>`;
@@ -558,11 +551,11 @@ async function descargarKML() {
         let contenidoFecha = '';
         for (const nombreCuartel of Object.keys(estructura[nombreMaquina][fecha]).sort()) {
           const placemarks = [...estructura[nombreMaquina][fecha][nombreCuartel].values()].join('');
-          contenidoFecha += `<Folder><name>${nombreCuartel}</name>${placemarks}</Folder>`;
+          contenidoFecha += `<Folder><name>${escaparXml(nombreCuartel)}</name>${placemarks}</Folder>`;
         }
-        contenidoMaquina += `<Folder><name>${fecha}</name>${contenidoFecha}</Folder>`;
+        contenidoMaquina += `<Folder><name>${escaparXml(fecha)}</name>${contenidoFecha}</Folder>`;
       }
-      cuerpoKml += `<Folder><name>${nombreMaquina}</name>${contenidoMaquina}</Folder>`;
+      cuerpoKml += `<Folder><name>${escaparXml(nombreMaquina)}</name>${contenidoMaquina}</Folder>`;
     }
 
     const kmlFinal = '<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document>' + cuerpoKml + '</Document></kml>';

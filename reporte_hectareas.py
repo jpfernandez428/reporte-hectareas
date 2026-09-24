@@ -109,6 +109,10 @@ MINIMO_PUNTOS_EN_GEOCERCA = CONFIG.get("minimo_puntos_en_geocerca", 3)
 # (cabecera + distancia entre puntos GPS).
 TOLERANCIA_CABECERA_M = CONFIG.get("tolerancia_cabecera_m", 20)
 CUARTELES_INCLUIDOS = [n.strip().lower() for n in CONFIG.get("cuarteles_incluidos", [])]
+# Geocercas que no son cuarteles (patios, agregados "Completo"/"Total"): por
+# nombre exacto o por patron (expresion regular, sin distinguir mayusculas).
+GEOCERCAS_EXCLUIDAS = {n.strip().lower() for n in CONFIG.get("geocercas_excluidas", [])}
+PATRONES_GEOCERCAS_EXCLUIDAS = [re.compile(p, re.IGNORECASE) for p in CONFIG.get("patrones_geocercas_excluidas", [])]
 UMBRAL_CIERRE_PORCENTAJE = CONFIG.get("umbral_cierre_porcentaje", 0.95)
 # Pasadas a menos de esta distancia lateral se consideran la misma hilera
 # fisica (el GPS a veces parte una hilera en varias lineas paralelas).
@@ -207,6 +211,11 @@ def area_poligono_m2(vertices_metros):
     return abs(doble_area) / 2
 
 
+def geocerca_excluida(nombre):
+    return (nombre.strip().lower() in GEOCERCAS_EXCLUIDAS
+            or any(p.search(nombre) for p in PATRONES_GEOCERCAS_EXCLUIDAS))
+
+
 def obtener_geocercas(sid, filtrar=True):
     """
     Devuelve una lista de cuarteles reales (geocercas de tipo poligono),
@@ -232,6 +241,8 @@ def obtener_geocercas(sid, filtrar=True):
             nombre = zona.get("n", "")
             if filtrar and CUARTELES_INCLUIDOS and nombre.strip().lower() not in CUARTELES_INCLUIDOS:
                 continue  # no esta en la lista de cuarteles reales de config.json
+            if filtrar and geocerca_excluida(nombre):
+                continue  # patio o agregado: se usa siempre el cuartel mas detallado
             puntos = zona.get("p") or []
             if len(puntos) < 3:
                 continue
@@ -1164,13 +1175,100 @@ def diagnostico_wialon(sid):
               f"datos en dic-2025: {'si' if t_antes else 'no'}")
 
 
+def obtener_unidades_wialon(sid):
+    """Todas las unidades visibles en Wialon (solo lectura): [(id, nombre)]."""
+    params = json.dumps({
+        "spec": {"itemsType": "avl_unit", "propName": "sys_name", "propValueMask": "*", "sortType": "sys_name"},
+        "force": 1, "flags": 1, "from": 0, "to": 0,
+    })
+    r = requests.get(f"{WIALON_HOST}/wialon/ajax.html",
+                     params={"svc": "core/search_items", "params": params, "sid": sid}, timeout=60)
+    return [(item["id"], item.get("nm", "")) for item in r.json().get("items", [])]
+
+
+def contar_pasadas_completas(geo, segmentos):
+    """
+    Pasadas completas de barrido en una geocerca. `segmentos`: lista
+    cronologica de (hora_unix, [(x, y) en metros respecto de geo["contorno"][0]]).
+    Cada tramo recto marca una franja en la pasada en curso; cuando la pasada
+    cubre el umbral de cierre (95 %) se cuenta como completa y la siguiente
+    empieza desde cero. Devuelve (pasadas [(inicio, fin)], % de la en curso).
+    """
+    grilla = grilla_geocerca(geo)
+    referencia = geo["contorno"][0]
+    hileras = []
+    for t, seg in segmentos:
+        (x0, y0), (x1, y1) = seg[0], seg[-1]
+        largo = math.hypot(x1 - x0, y1 - y0)
+        if largo >= LARGO_MINIMO_TRAMO_M:
+            hileras.append((t, Hilera(0, (x0, y0), ((x1 - x0) / largo, (y1 - y0) / largo), 0, largo)))
+    if len(hileras) < 2:
+        return [], 0.0
+    ref = hilera_referencia([h for _, h in hileras])
+    alineadas = [(t, h) for t, h in hileras if angulo_entre_hileras(h, ref) <= TOLERANCIA_ANGULO_GRADOS]
+    espaciado = espaciado_real_m([h for _, h in alineadas]) if len(alineadas) >= 10 else ESPACIADO_HILERAS_DEFECTO_M
+    espaciado = min(7.0, max(2.5, espaciado))
+    radio = int(round(espaciado / 2 / grilla["lado"]))
+    pasadas, inicio = [], None
+    marcadas = np.zeros(grilla["mascara"].shape, dtype=bool)
+    fraccion = 0.0
+    for t, h in alineadas:
+        inicio = inicio or t
+        marcar_franja_hilera(h, referencia, geo, espaciado, marcadas)
+        fraccion = rellenar_franjas_angostas(marcadas, grilla["mascara"], radio).sum() / grilla["n_celdas"]
+        if fraccion >= UMBRAL_CIERRE_PORCENTAJE:
+            pasadas.append((inicio, t))
+            marcadas[:] = False
+            inicio, fraccion = None, 0.0
+    return pasadas, fraccion
+
+
+def prueba_pasadas(sid, nombre_unidad):
+    """Cuenta las pasadas completas de una barredora en el año (solo lectura)."""
+    unidad = next(u for u in UNIDADES if u["nombre"] == nombre_unidad)
+    geocercas = obtener_geocercas(sid)
+    indice = indice_geocercas(geocercas)
+    por_geocerca = {}
+    dia = datetime(2026, 1, 1)
+    while dia < datetime.utcnow() - timedelta(days=1):
+        mensajes = obtener_mensajes(sid, unidad["id"], dia)
+        puntos = [{"punto": (m["pos"]["x"], m["pos"]["y"]), "t": m.get("t")} for m in mensajes if m.get("pos")]
+        for nombre_geo, puntos_geo in repartir_puntos_por_geocerca(puntos, indice).items():
+            if len(puntos_geo) >= MINIMO_PUNTOS_EN_GEOCERCA:
+                por_geocerca.setdefault(nombre_geo, []).extend(puntos_geo)
+        dia += timedelta(days=1)
+    geos = {g["nombre"]: g for g in geocercas}
+    for nombre_geo, puntos_geo in sorted(por_geocerca.items()):
+        geo = geos[nombre_geo]
+        referencia = geo["contorno"][0]
+        segmentos = []
+        for seg in segmentar_pasadas(sorted(puntos_geo, key=lambda p: p["t"] or 0)):
+            seg_m = [punto_a_metros(p["punto"], referencia) for p in seg]
+            if velocidad_kmh_segmento(seg, seg_m) <= VELOCIDAD_MAXIMA_TRABAJO_KMH:
+                segmentos.append((seg[0]["t"] or 0, seg_m))
+        pasadas, en_curso = contar_pasadas_completas(geo, segmentos)
+        fechas = lambda t: datetime.fromtimestamp(t, tz=timezone.utc).strftime("%Y-%m-%d")
+        detalle = "; ".join(f"pasada {i + 1}: {fechas(a)} a {fechas(b)}" for i, (a, b) in enumerate(pasadas))
+        dias = sorted({fechas(p["t"]) for p in puntos_geo if p["t"]})
+        print(f"DIAG pasadas | {nombre_geo} | {geo['area_ha']:.2f} ha | dias con puntos: {len(dias)} "
+              f"({dias[0]} a {dias[-1]}) | pasadas completas: {len(pasadas)} | en curso: {en_curso * 100:.0f}% | {detalle}")
+
+
 def main():
     print("Conectando con Wialon...")
     sid = wialon_login(TOKEN)
     print("Conectado.")
 
     if MODO_DIAGNOSTICO:
-        diagnostico_wialon(sid)
+        unidad_prueba = os.environ.get("PRUEBA_PASADAS_UNIDAD", "").strip()
+        if unidad_prueba:
+            prueba_pasadas(sid, unidad_prueba)
+            return
+        configuradas = {u["id"]: u for u in UNIDADES}
+        for id_wialon, nombre in obtener_unidades_wialon(sid):
+            u = configuradas.get(id_wialon)
+            print(f"DIAG unidad wialon | {nombre} | id {id_wialon} | "
+                  f"{'labor: ' + u.get('labor', 'SIN LABOR') if u else 'NO ESTA EN config.json'}")
         return
 
     print("Descargando geocercas (cuarteles reales)...")
@@ -1228,14 +1326,7 @@ def main():
         exportar_kml(ruta_kml, resultado_por_unidad, geocercas, avance_total)
     print(f"Mapa de revision generado en: {ruta_kml}")
 
-    carpeta_kml_por_unidad = os.path.join(CARPETA_DATOS, "kml")
-    os.makedirs(carpeta_kml_por_unidad, exist_ok=True)
-    for nombre_unidad, hileras_por_geocerca, descartados in resultado_por_unidad:
-        if not hileras_por_geocerca:
-            continue
-        ruta_kml_unidad = os.path.join(carpeta_kml_por_unidad, f"{slug(nombre_unidad)}.kml")
-        exportar_kml(ruta_kml_unidad, [(nombre_unidad, hileras_por_geocerca, descartados)], geocercas, avance_total)
-    print(f"Mapas por maquina generados en: {carpeta_kml_por_unidad}")
+    # Los KML por maquina ya no se guardan: la web los arma desde la geometria.
     print("Abrelo con Google Earth o subelo a Google My Maps para comparar contra la foto satelital.")
 
     carpeta_geometria = os.path.join(CARPETA_DATOS, "geometria")
