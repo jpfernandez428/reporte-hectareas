@@ -167,6 +167,9 @@ GEOCERCA_PATIO = CONFIG.get("geocerca_patio", "C&H Maquinaria")
 MINIMO_PASADAS_TRABAJO = CONFIG.get("minimo_pasadas_trabajo", 6)
 DISTANCIA_ZONA_TRABAJO_M = CONFIG.get("distancia_zona_trabajo_m", 150)
 PAUSA_GIRO_CABECERA_S = CONFIG.get("pausa_giro_cabecera_min", 5) * 60
+# Para las horas trabajadas solo cuenta el tiempo en movimiento (el GPS de una
+# maquina detenida "salta" unos metros y no debe sumar horas).
+VELOCIDAD_MINIMA_MOVIMIENTO_KMH = CONFIG.get("velocidad_minima_movimiento_kmh", 1.0)
 DIAS_ALERTAS = CONFIG.get("dias_alertas", 30)
 # Filtros del panel (se aplican al mostrar; las alertas se guardan completas):
 #   - horas minimas de trabajo por dia en esa zona;
@@ -647,8 +650,13 @@ def detectar_trabajo_fuera(unidad, fecha_str, puntos, dentro_ids):
         segs = sorted((seg for seg, h in miembros if h.id in ids), key=lambda sg: sg[0]["t"] or 0)
         segundos, fin_anterior = 0.0, None
         for seg in segs:
+            for p1, p2 in zip(seg, seg[1:]):
+                dt = (p2["t"] or 0) - (p1["t"] or 0)
+                if 0 < dt <= 120:
+                    d = math.hypot(*punto_a_metros(p2["punto"], p1["punto"]))
+                    if d / dt * 3.6 >= VELOCIDAD_MINIMA_MOVIMIENTO_KMH:
+                        segundos += dt  # solo tiempo en movimiento
             t0, t1 = seg[0]["t"] or 0, seg[-1]["t"] or 0
-            segundos += max(0, t1 - t0)
             if fin_anterior is not None and 0 < t0 - fin_anterior <= PAUSA_GIRO_CABECERA_S:
                 segundos += t0 - fin_anterior  # giro en cabecera
             fin_anterior = t1
@@ -674,8 +682,7 @@ def detectar_trabajo_fuera(unidad, fecha_str, puntos, dentro_ids):
             "pasadas": len(cuentan),
             "lineas": lineas,
             "ancho_m": round(laterales[-1] - laterales[0], 1),
-            "km_h": round(sum(h.largo_conocido for h in cuentan) / 1000
-                          / max(1e-6, sum(max(1, (sg[-1]["t"] or 0) - (sg[0]["t"] or 0)) for sg in segs) / 3600), 1),
+            "km_h": round(largo_total / 1000 / max(1e-6, segundos / 3600), 1),
             "ha_aprox": round(largo_total * espaciado_real_m(cuentan) / 10000, 2),
             "lat": round(lat, 6),
             "lon": round(lon, 6),
