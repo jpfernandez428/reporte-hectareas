@@ -2,9 +2,9 @@
   "umbral_cierre": 0.95,
   "cuarteles": {
     "C&H Maquinaria": {
-      "trabajado_ha": 4.185,
+      "trabajado_ha": 4.0408,
       "area_total_ha": 5.1226,
-      "porcentaje": 81.7,
+      "porcentaje": 78.9,
       "completo": false,
       "maquinas": [
         "Barredora 1",
@@ -119,6 +119,7 @@
         "Shacker SBS Campo",
         "Tractor 1 Deutz-Fahr Agroplus",
         "Tractor 11 Deutz Fahr 115",
+        "Tractor 16 Kubota 108",
         "Tractor 9 Deutz Fahr 115"
       ]
     },
@@ -2482,9 +2483,9 @@
       ]
     },
     "Agricola Flor Oriente": {
-      "trabajado_ha": 9.6781,
+      "trabajado_ha": 9.6895,
       "area_total_ha": 9.6946,
-      "porcentaje": 99.8,
+      "porcentaje": 99.9,
       "completo": true,
       "maquinas": [
         "Shacker SBS 6",
@@ -2515,25 +2516,27 @@
       ]
     },
     "Agricola Flor Oriente 4": {
-      "trabajado_ha": 4.3312,
+      "trabajado_ha": 4.3425,
       "area_total_ha": 4.3549,
-      "porcentaje": 99.5,
+      "porcentaje": 99.7,
       "completo": true,
       "maquinas": [
         "Barredora 23",
         "Shacker SBS 10",
-        "Shacker SBS 6"
+        "Shacker SBS 6",
+        "Tractor 10 Deutz Fahr 115"
       ]
     },
     "Agricola Flor Oriente 5": {
-      "trabajado_ha": 12.7905,
+      "trabajado_ha": 12.7934,
       "area_total_ha": 12.8297,
       "porcentaje": 99.7,
       "completo": true,
       "maquinas": [
         "Barredora 23",
         "Shacker SBS 10",
-        "Shacker SBS 6"
+        "Shacker SBS 6",
+        "Tractor 10 Deutz Fahr 115"
       ]
     },
     "Pedro Silva 6": {
@@ -2807,6 +2810,51 @@
         "Recogedora 7",
         "Shacker de Suelo 1",
         "Shacker de Suelo 2"
+      ]
+    },
+    "Longavi 2": {
+      "trabajado_ha": 1.0042,
+      "area_total_ha": 3.3185,
+      "porcentaje": 30.3,
+      "completo": false,
+      "maquinas": [
+        "Tractor 11 Deutz Fahr 115"
+      ]
+    },
+    "Longavi 3": {
+      "trabajado_ha": 9.0783,
+      "area_total_ha": 9.4374,
+      "porcentaje": 96.2,
+      "completo": true,
+      "maquinas": [
+        "Tractor 11 Deutz Fahr 115"
+      ]
+    },
+    "Longavi 4": {
+      "trabajado_ha": 8.6278,
+      "area_total_ha": 11.1449,
+      "porcentaje": 77.4,
+      "completo": false,
+      "maquinas": [
+        "Tractor 11 Deutz Fahr 115"
+      ]
+    },
+    "Longavi 5": {
+      "trabajado_ha": 8.8689,
+      "area_total_ha": 13.9455,
+      "porcentaje": 63.6,
+      "completo": false,
+      "maquinas": [
+        "Tractor 11 Deutz Fahr 115"
+      ]
+    },
+    "Longavi 6": {
+      "trabajado_ha": 0.0186,
+      "area_total_ha": 7.4687,
+      "porcentaje": 0.2,
+      "completo": false,
+      "maquinas": [
+        "Tractor 11 Deutz Fahr 115"
       ]
     },
     "Los Migueles, Rengo": {
@@ -3431,87 +3479,94 @@
       ]
     },
     "Solfrut": {
-      "trabajado_ha": 14.8358,
+      "trabajado_ha": 15.5758,
       "area_total_ha": 15.7706,
-      "porcentaje": 94.1,
-      "completo": false,
+      "porcentaje": 98.8,
+      "completo": true,
       "maquinas": [
         "Barredora 2",
         "Recogedora 4",
         "Shacker SBS 3",
-        "Shacker de Suelo 10 Orchard Rite"
+        "Shacker de Suelo 10 Orchard Rite",
+        "Tractor 10 Deutz Fahr 115"
       ]
     },
     "Solfrut 2": {
-      "trabajado_ha": 18.0254,
+      "trabajado_ha": 18.2688,
       "area_total_ha": 18.3827,
-      "porcentaje": 98.1,
+      "porcentaje": 99.4,
       "completo": true,
       "maquinas": [
         "Barredora 2",
         "Recogedora 4",
         "Shacker SBS 3",
-        "Shacker de Suelo 10 Orchard Rite"
+        "Shacker de Suelo 10 Orchard Rite",
+        "Tractor 10 Deutz Fahr 115"
       ]
     },
     "Solfrut 3": {
-      "trabajado_ha": 16.796,
+      "trabajado_ha": 18.1275,
       "area_total_ha": 18.4369,
-      "porcentaje": 91.1,
-      "completo": false,
-      "maquinas": [
-        "Barredora 2",
-        "Recogedora 4",
-        "Shacker SBS 3",
-        "Shacker de Suelo 10 Orchard Rite"
-      ]
-    },
-    "Solfrut 4": {
-      "trabajado_ha": 16.3458,
-      "area_total_ha": 17.0496,
-      "porcentaje": 95.9,
+      "porcentaje": 98.3,
       "completo": true,
       "maquinas": [
         "Barredora 2",
         "Recogedora 4",
         "Shacker SBS 3",
-        "Shacker de Suelo 10 Orchard Rite"
+        "Shacker de Suelo 10 Orchard Rite",
+        "Tractor 10 Deutz Fahr 115"
+      ]
+    },
+    "Solfrut 4": {
+      "trabajado_ha": 16.9827,
+      "area_total_ha": 17.0496,
+      "porcentaje": 99.6,
+      "completo": true,
+      "maquinas": [
+        "Barredora 2",
+        "Recogedora 4",
+        "Shacker SBS 3",
+        "Shacker de Suelo 10 Orchard Rite",
+        "Tractor 10 Deutz Fahr 115"
       ]
     },
     "Solfrut 5": {
-      "trabajado_ha": 8.6442,
+      "trabajado_ha": 9.5904,
       "area_total_ha": 9.6925,
-      "porcentaje": 89.2,
-      "completo": false,
+      "porcentaje": 98.9,
+      "completo": true,
       "maquinas": [
         "Barredora 2",
         "Recogedora 4",
         "Shacker SBS 3",
-        "Shacker de Suelo 10 Orchard Rite"
+        "Shacker de Suelo 10 Orchard Rite",
+        "Tractor 10 Deutz Fahr 115"
       ]
     },
     "Solfrut 6": {
-      "trabajado_ha": 8.5223,
+      "trabajado_ha": 10.0758,
       "area_total_ha": 10.3144,
-      "porcentaje": 82.6,
-      "completo": false,
+      "porcentaje": 97.7,
+      "completo": true,
       "maquinas": [
         "Barredora 2",
         "Recogedora 4",
         "Shacker SBS 3",
-        "Shacker de Suelo 10 Orchard Rite"
+        "Shacker de Suelo 10 Orchard Rite",
+        "Tractor 10 Deutz Fahr 115"
       ]
     },
     "Solfrut 7": {
-      "trabajado_ha": 10.4157,
+      "trabajado_ha": 11.6052,
       "area_total_ha": 11.8855,
-      "porcentaje": 87.6,
-      "completo": false,
+      "porcentaje": 97.6,
+      "completo": true,
       "maquinas": [
         "Barredora 2",
         "Recogedora 4",
         "Shacker SBS 3",
-        "Shacker de Suelo 10 Orchard Rite"
+        "Shacker de Suelo 10 Orchard Rite",
+        "Tractor 10 Deutz Fahr 115"
       ]
     },
     "Agricola Aeropuerto 7": {
@@ -3901,14 +3956,15 @@
       ]
     },
     "Juan Hiribarren": {
-      "trabajado_ha": 7.8845,
+      "trabajado_ha": 9.9674,
       "area_total_ha": 10.1606,
-      "porcentaje": 77.6,
-      "completo": false,
+      "porcentaje": 98.1,
+      "completo": true,
       "maquinas": [
         "Barredora 23",
         "Shacker SBS 10",
-        "Shacker SBS 6"
+        "Shacker SBS 6",
+        "Tractor 10 Deutz Fahr 115"
       ]
     },
     "Viconto 4.1": {
@@ -5372,20 +5428,21 @@
       ]
     },
     "santa Isabel": {
-      "trabajado_ha": 5.7786,
+      "trabajado_ha": 11.5435,
       "area_total_ha": 12.169,
-      "porcentaje": 47.5,
+      "porcentaje": 94.9,
       "completo": false,
       "maquinas": [
         "Barredora 1"
       ]
     },
     "Santa Isabel 2": {
-      "trabajado_ha": 36.9674,
+      "trabajado_ha": 42.7314,
       "area_total_ha": 43.2493,
-      "porcentaje": 85.5,
-      "completo": false,
+      "porcentaje": 98.8,
+      "completo": true,
       "maquinas": [
+        "Barredora 1",
         "Shacker SBS 11"
       ]
     },

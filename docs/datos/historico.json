@@ -30502,5 +30502,669 @@
     "n_hileras": 54,
     "area_total_ha": 12.17,
     "area_trabajada_ha": 5.78
+  },
+  {
+    "fecha": "2026-06-01",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 4",
+    "n_hileras": 85,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-01",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan Hiribarren",
+    "n_hileras": 36,
+    "area_total_ha": 10.16,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-06-01",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Juan Hiribarren",
+    "n_hileras": 40,
+    "area_total_ha": 10.16,
+    "area_trabajada_ha": 0.35
+  },
+  {
+    "fecha": "2026-06-01",
+    "maquina": "Barredora 1",
+    "cuartel": "santa Isabel",
+    "n_hileras": 116,
+    "area_total_ha": 12.17,
+    "area_trabajada_ha": 5.79
+  },
+  {
+    "fecha": "2026-06-02",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Juan Hiribarren",
+    "n_hileras": 45,
+    "area_total_ha": 10.16,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-06-02",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan Hiribarren",
+    "n_hileras": 132,
+    "area_total_ha": 10.16,
+    "area_trabajada_ha": 0.86
+  },
+  {
+    "fecha": "2026-06-02",
+    "maquina": "Barredora 1",
+    "cuartel": "Santa Isabel 2",
+    "n_hileras": 95,
+    "area_total_ha": 43.25,
+    "area_trabajada_ha": 0.5
+  },
+  {
+    "fecha": "2026-06-03",
+    "maquina": "Barredora 23",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 32,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-03",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut",
+    "n_hileras": 17,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-03",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 3",
+    "n_hileras": 17,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-06-03",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 4",
+    "n_hileras": 19,
+    "area_total_ha": 17.05,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-03",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan Hiribarren",
+    "n_hileras": 165,
+    "area_total_ha": 10.16,
+    "area_trabajada_ha": 0.6
+  },
+  {
+    "fecha": "2026-06-04",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 2",
+    "n_hileras": 7,
+    "area_total_ha": 3.32,
+    "area_trabajada_ha": 0.73
+  },
+  {
+    "fecha": "2026-06-04",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 3",
+    "n_hileras": 7,
+    "area_total_ha": 9.44,
+    "area_trabajada_ha": 1.21
+  },
+  {
+    "fecha": "2026-06-04",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 4",
+    "n_hileras": 7,
+    "area_total_ha": 11.14,
+    "area_trabajada_ha": 1.36
+  },
+  {
+    "fecha": "2026-06-04",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 5",
+    "n_hileras": 9,
+    "area_total_ha": 13.95,
+    "area_trabajada_ha": 1.22
+  },
+  {
+    "fecha": "2026-06-04",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut",
+    "n_hileras": 32,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 0.37
+  },
+  {
+    "fecha": "2026-06-04",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 2",
+    "n_hileras": 24,
+    "area_total_ha": 18.38,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-06-04",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 3",
+    "n_hileras": 32,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-06-04",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 4",
+    "n_hileras": 34,
+    "area_total_ha": 17.05,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-06-04",
+    "maquina": "Barredora 1",
+    "cuartel": "Santa Isabel 2",
+    "n_hileras": 144,
+    "area_total_ha": 43.25,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-06-05",
+    "maquina": "Tractor 15 Deutz Fahr 115",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 96,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-05",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 2",
+    "n_hileras": 18,
+    "area_total_ha": 3.32,
+    "area_trabajada_ha": 1.05
+  },
+  {
+    "fecha": "2026-06-05",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 3",
+    "n_hileras": 18,
+    "area_total_ha": 9.44,
+    "area_trabajada_ha": 2.11
+  },
+  {
+    "fecha": "2026-06-05",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 4",
+    "n_hileras": 18,
+    "area_total_ha": 11.14,
+    "area_trabajada_ha": 2.1
+  },
+  {
+    "fecha": "2026-06-05",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 5",
+    "n_hileras": 19,
+    "area_total_ha": 13.95,
+    "area_trabajada_ha": 2.03
+  },
+  {
+    "fecha": "2026-06-05",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut",
+    "n_hileras": 61,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-06-05",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 2",
+    "n_hileras": 50,
+    "area_total_ha": 18.38,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-05",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 3",
+    "n_hileras": 57,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-05",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 4",
+    "n_hileras": 64,
+    "area_total_ha": 17.05,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-06-05",
+    "maquina": "Barredora 1",
+    "cuartel": "Santa Isabel 2",
+    "n_hileras": 220,
+    "area_total_ha": 43.25,
+    "area_trabajada_ha": 0.74
+  },
+  {
+    "fecha": "2026-06-06",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 2",
+    "n_hileras": 23,
+    "area_total_ha": 3.32,
+    "area_trabajada_ha": 0.5
+  },
+  {
+    "fecha": "2026-06-06",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 3",
+    "n_hileras": 25,
+    "area_total_ha": 9.44,
+    "area_trabajada_ha": 1.15
+  },
+  {
+    "fecha": "2026-06-06",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 4",
+    "n_hileras": 32,
+    "area_total_ha": 11.14,
+    "area_trabajada_ha": 1.1
+  },
+  {
+    "fecha": "2026-06-06",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 5",
+    "n_hileras": 26,
+    "area_total_ha": 13.95,
+    "area_trabajada_ha": 1.06
+  },
+  {
+    "fecha": "2026-06-06",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 3",
+    "n_hileras": 77,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-06-08",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 2",
+    "n_hileras": 28,
+    "area_total_ha": 3.32,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-06-08",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 3",
+    "n_hileras": 30,
+    "area_total_ha": 9.44,
+    "area_trabajada_ha": 1.0
+  },
+  {
+    "fecha": "2026-06-08",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 4",
+    "n_hileras": 41,
+    "area_total_ha": 11.14,
+    "area_trabajada_ha": 1.12
+  },
+  {
+    "fecha": "2026-06-08",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 5",
+    "n_hileras": 33,
+    "area_total_ha": 13.95,
+    "area_trabajada_ha": 0.86
+  },
+  {
+    "fecha": "2026-06-08",
+    "maquina": "Barredora 1",
+    "cuartel": "Santa Isabel 2",
+    "n_hileras": 245,
+    "area_total_ha": 43.25,
+    "area_trabajada_ha": 0.38
+  },
+  {
+    "fecha": "2026-06-09",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 2",
+    "n_hileras": 21,
+    "area_total_ha": 3.32,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-06-09",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 3",
+    "n_hileras": 39,
+    "area_total_ha": 9.44,
+    "area_trabajada_ha": 2.01
+  },
+  {
+    "fecha": "2026-06-09",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 4",
+    "n_hileras": 52,
+    "area_total_ha": 11.14,
+    "area_trabajada_ha": 2.04
+  },
+  {
+    "fecha": "2026-06-09",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 5",
+    "n_hileras": 42,
+    "area_total_ha": 13.95,
+    "area_trabajada_ha": 1.66
+  },
+  {
+    "fecha": "2026-06-09",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 3",
+    "n_hileras": 121,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-09",
+    "maquina": "Barredora 1",
+    "cuartel": "Santa Isabel 2",
+    "n_hileras": 296,
+    "area_total_ha": 43.25,
+    "area_trabajada_ha": 2.88
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut",
+    "n_hileras": 168,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 2",
+    "n_hileras": 143,
+    "area_total_ha": 18.38,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 3",
+    "n_hileras": 143,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-06-10",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 5",
+    "n_hileras": 6,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.78
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente",
+    "n_hileras": 123,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 2",
+    "n_hileras": 23,
+    "area_total_ha": 3.32,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 3",
+    "n_hileras": 52,
+    "area_total_ha": 9.44,
+    "area_trabajada_ha": 1.43
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 4",
+    "n_hileras": 69,
+    "area_total_ha": 11.14,
+    "area_trabajada_ha": 2.9
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 5",
+    "n_hileras": 63,
+    "area_total_ha": 13.95,
+    "area_trabajada_ha": 3.07
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut",
+    "n_hileras": 188,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 0.21
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 2",
+    "n_hileras": 158,
+    "area_total_ha": 18.38,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 3",
+    "n_hileras": 168,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 0.58
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 4",
+    "n_hileras": 196,
+    "area_total_ha": 17.05,
+    "area_trabajada_ha": 0.31
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 6",
+    "n_hileras": 9,
+    "area_total_ha": 10.31,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-06-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 7",
+    "n_hileras": 12,
+    "area_total_ha": 11.89,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 36,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 2",
+    "n_hileras": 24,
+    "area_total_ha": 3.32,
+    "area_trabajada_ha": 0.25
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 3",
+    "n_hileras": 54,
+    "area_total_ha": 9.44,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 4",
+    "n_hileras": 74,
+    "area_total_ha": 11.14,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 5",
+    "n_hileras": 75,
+    "area_total_ha": 13.95,
+    "area_trabajada_ha": 1.4
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 5",
+    "n_hileras": 70,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.58
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 6",
+    "n_hileras": 48,
+    "area_total_ha": 10.31,
+    "area_trabajada_ha": 0.81
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 7",
+    "n_hileras": 55,
+    "area_total_ha": 11.89,
+    "area_trabajada_ha": 0.54
+  },
+  {
+    "fecha": "2026-06-12",
+    "maquina": "Barredora 1",
+    "cuartel": "Santa Isabel 2",
+    "n_hileras": 350,
+    "area_total_ha": 43.25,
+    "area_trabajada_ha": 0.74
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 5",
+    "n_hileras": 103,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 6",
+    "n_hileras": 79,
+    "area_total_ha": 10.31,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-06-13",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 7",
+    "n_hileras": 91,
+    "area_total_ha": 11.89,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 2",
+    "n_hileras": 25,
+    "area_total_ha": 3.32,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 3",
+    "n_hileras": 61,
+    "area_total_ha": 9.44,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 4",
+    "n_hileras": 79,
+    "area_total_ha": 11.14,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 5",
+    "n_hileras": 83,
+    "area_total_ha": 13.95,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 6",
+    "n_hileras": 1,
+    "area_total_ha": 7.47,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 5",
+    "n_hileras": 114,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 6",
+    "n_hileras": 94,
+    "area_total_ha": 10.31,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 7",
+    "n_hileras": 107,
+    "area_total_ha": 11.89,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-06-15",
+    "maquina": "Barredora 1",
+    "cuartel": "Santa Isabel 2",
+    "n_hileras": 412,
+    "area_total_ha": 43.25,
+    "area_trabajada_ha": 0.16
   }
 ]
