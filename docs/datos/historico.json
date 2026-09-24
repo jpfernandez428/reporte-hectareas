@@ -30350,5 +30350,85 @@
     "n_hileras": 8,
     "area_total_ha": 9.9,
     "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-05-15",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "n_hileras": 13,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-05-15",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente",
+    "n_hileras": 2,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 1.37
+  },
+  {
+    "fecha": "2026-05-18",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente",
+    "n_hileras": 6,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 1.39
+  },
+  {
+    "fecha": "2026-05-19",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente 3",
+    "n_hileras": 106,
+    "area_total_ha": 9.9,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-05-19",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 4",
+    "n_hileras": 29,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 0.35
+  },
+  {
+    "fecha": "2026-05-19",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "n_hileras": 22,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 0.37
+  },
+  {
+    "fecha": "2026-05-20",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente",
+    "n_hileras": 9,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 1.24
+  },
+  {
+    "fecha": "2026-05-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "n_hileras": 63,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 0.34
+  },
+  {
+    "fecha": "2026-05-21",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "n_hileras": 68,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-05-21",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 4",
+    "n_hileras": 42,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 0.1
   }
 ]

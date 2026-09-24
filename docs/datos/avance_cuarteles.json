@@ -2482,12 +2482,13 @@
       ]
     },
     "Agricola Flor Oriente": {
-      "trabajado_ha": 6.4861,
+      "trabajado_ha": 8.012,
       "area_total_ha": 9.6946,
-      "porcentaje": 66.9,
+      "porcentaje": 82.6,
       "completo": false,
       "maquinas": [
         "Shacker SBS 6",
+        "Tractor 1 Deutz-Fahr Agroplus",
         "Tractor 10 Deutz Fahr 115"
       ]
     },
@@ -2498,35 +2499,39 @@
       "completo": true,
       "maquinas": [
         "Shacker SBS 6",
+        "Tractor 1 Deutz-Fahr Agroplus",
         "Tractor 10 Deutz Fahr 115"
       ]
     },
     "Agricola Flor Oriente 3": {
-      "trabajado_ha": 9.7327,
+      "trabajado_ha": 9.9028,
       "area_total_ha": 9.9028,
-      "porcentaje": 98.3,
+      "porcentaje": 100.0,
       "completo": true,
       "maquinas": [
         "Shacker SBS 6",
+        "Tractor 1 Deutz-Fahr Agroplus",
         "Tractor 10 Deutz Fahr 115"
       ]
     },
     "Agricola Flor Oriente 4": {
-      "trabajado_ha": 3.6453,
+      "trabajado_ha": 4.0922,
       "area_total_ha": 4.3549,
-      "porcentaje": 83.7,
+      "porcentaje": 94.0,
       "completo": false,
       "maquinas": [
+        "Barredora 23",
         "Shacker SBS 10",
         "Shacker SBS 6"
       ]
     },
     "Agricola Flor Oriente 5": {
-      "trabajado_ha": 11.5581,
+      "trabajado_ha": 12.2624,
       "area_total_ha": 12.8297,
-      "porcentaje": 90.1,
-      "completo": false,
+      "porcentaje": 95.6,
+      "completo": true,
       "maquinas": [
+        "Barredora 23",
         "Shacker SBS 10",
         "Shacker SBS 6"
       ]
