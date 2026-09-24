@@ -31,12 +31,32 @@
   .chip { display: inline-flex; align-items: center; gap: 6px; background: #e8f0e9; border: 1px solid #cfe0d1;
           border-radius: 16px; padding: 5px 10px 5px 12px; margin: 0 8px 8px 0; font-size: 13px; }
   .chip button { background: none; color: #666; border: none; cursor: pointer; font-size: 14px; padding: 0 2px; }
+  .layout { display: flex; gap: 24px; align-items: flex-start; }
+  .principal { flex: 1; min-width: 0; }
+  .panel { width: 340px; flex-shrink: 0; position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow-y: auto; }
+  .tarjeta { background: white; border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .tarjeta h3 { font-size: 15px; margin: 0 0 8px 0; }
+  .tarjeta .nota { font-size: 12px; color: #666; margin-bottom: 8px; }
+  .lista-patio { font-size: 13px; line-height: 1.6; columns: 2; column-gap: 12px; }
+  .alerta { background: #fdecea; border: 2px solid #d93025; }
+  .alerta h3 { color: #b3261e; }
+  .item-alerta { border-top: 1px solid #f3c1bd; padding: 8px 0; font-size: 13px; }
+  .item-alerta:first-of-type { border-top: none; }
+  .item-alerta .maq { font-weight: 700; }
+  .item-alerta a { color: #1a5fb4; font-weight: 600; }
+  @media (max-width: 900px) {
+    .layout { flex-direction: column; }
+    .panel { width: 100%; position: static; max-height: none; }
+  }
 </style>
 </head>
 <body>
 
 <h1>Reporte de Hectáreas Trabajadas</h1>
 <div class="sub">C&amp;H Maquinaria — datos actualizados automáticamente desde Wialon</div>
+
+<div class="layout">
+<main class="principal">
 
 <div class="filtros">
   <div class="campo">
@@ -93,6 +113,23 @@
 <div class="sub" style="margin-bottom:12px;">Según el filtro de arriba (máquina y fechas).</div>
 <div id="contenedorAvanceCuartel"></div>
 
+</main>
+
+<aside class="panel">
+  <div class="tarjeta">
+    <h3>Máquinas en CYH</h3>
+    <div class="nota" id="notaPatio">Cargando…</div>
+    <div class="lista-patio" id="listaPatio"></div>
+  </div>
+  <div class="tarjeta alerta">
+    <h3>⚠ Máquinas trabajando sin geocerca</h3>
+    <div class="nota">Trabajo en hileras (no traslados) fuera de toda geocerca, últimos 30 días.
+      Al crear la geocerca en Wialon, ese trabajo se recupera y la alerta desaparece.</div>
+    <div id="listaAlertas"></div>
+  </div>
+</aside>
+</div>
+
 <script>
 let datos = [];
 let filtrados = [];
@@ -112,6 +149,7 @@ async function cargarDatos() {
   } catch (e) {
     avanceCuarteles = null;
   }
+  cargarEstadoMaquinas();
   poblarFiltroMaquinas();
   filtrados = datos;
   renderTabla();
@@ -426,6 +464,36 @@ function normalizarSlug(texto) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_+|_+$/g, '') || 'unidad';
+}
+
+async function cargarEstadoMaquinas() {
+  const nota = document.getElementById('notaPatio');
+  const listaPatio = document.getElementById('listaPatio');
+  const listaAlertas = document.getElementById('listaAlertas');
+  let estado = null;
+  try {
+    const r = await fetch('datos/estado_maquinas.json?_=' + Date.now());
+    estado = r.ok ? await r.json() : null;
+  } catch (e) {
+    estado = null;
+  }
+  if (!estado) {
+    nota.textContent = 'Todavía no hay datos del estado de las máquinas.';
+    listaAlertas.innerHTML = '<div class="nota">Sin datos.</div>';
+    return;
+  }
+  nota.textContent = `Último día procesado: ${estado.fecha} — ${estado.en_patio.length} máquina(s) terminaron el día en el patio.`;
+  listaPatio.innerHTML = estado.en_patio.map(m => `<div>${escaparXml(m)}</div>`).join('') || '<div>Ninguna</div>';
+  if (!estado.alertas || estado.alertas.length === 0) {
+    listaAlertas.innerHTML = '<div class="nota">No hay trabajo fuera de geocercas en los últimos 30 días.</div>';
+    return;
+  }
+  listaAlertas.innerHTML = estado.alertas.map(a =>
+    `<div class="item-alerta"><div class="maq">${escaparXml(a.maquina)}</div>` +
+    `<div>${escaparXml(a.labor)} · ${escaparXml(a.fecha)}</div>` +
+    `<div>${a.horas.toFixed(1)} h trabajadas fuera de geocerca · ~${a.ha_aprox.toFixed(1)} ha</div>` +
+    `<div><a href="${a.mapa}" target="_blank" rel="noopener">Ver ubicación en Google Maps</a></div></div>`
+  ).join('');
 }
 
 // Escapa texto para que el KML sea XML valido (ej. "C&H Maquinaria").

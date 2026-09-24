@@ -70,6 +70,11 @@ RUTA_HISTORICO = os.path.join(CARPETA_DATOS, "historico.json")
 RUTA_AVANCE_CUARTELES = os.path.join(CARPETA_DATOS, "avance_cuarteles.json")
 # Estado del avance por geocerca + labor (maximo alcanzado, pasadas de barrido).
 RUTA_ESTADO_AVANCE = os.path.join(CARPETA_MEMORIA, "_avance_por_labor.json")
+# Geocercas ya conocidas (por id de Wialon): las nuevas se calculan con los
+# ultimos DIAS_GEOCERCA_NUEVA dias.
+RUTA_GEOCERCAS_CONOCIDAS = os.path.join(CARPETA_MEMORIA, "_geocercas_conocidas.json")
+# Panel de la web: maquinas en el patio y trabajo fuera de geocercas.
+RUTA_ESTADO_MAQUINAS = os.path.join(CARPETA_DATOS, "estado_maquinas.json")
 
 with open(RUTA_CONFIG, "r", encoding="utf-8") as f:
     CONFIG = json.load(f)
@@ -153,6 +158,17 @@ MINIMO_PARALELAS_SERIE = CONFIG.get("minimo_paralelas_serie", 2)
 # alcanzan a marcar): cuenta como trabajada hasta esta distancia del limite,
 # solo donde el trabajo cubierto llega hasta ella.
 FRANJA_BORDE_M = CONFIG.get("franja_borde_m", 8)
+# Patio donde se guardan las maquinas (no es cuartel; se usa para el panel).
+GEOCERCA_PATIO = CONFIG.get("geocerca_patio", "C&H Maquinaria")
+# Trabajo fuera de geocercas: una zona cuenta como trabajo si tiene al menos
+# MINIMO_PASADAS_TRABAJO pasadas que cuentan (rectas, paralelas, a velocidad
+# de trabajo; las mismas reglas de las hileras). Las alertas se guardan
+# DIAS_ALERTAS dias.
+MINIMO_PASADAS_TRABAJO = CONFIG.get("minimo_pasadas_trabajo", 6)
+DISTANCIA_ZONA_TRABAJO_M = CONFIG.get("distancia_zona_trabajo_m", 150)
+PAUSA_GIRO_CABECERA_S = CONFIG.get("pausa_giro_cabecera_min", 5) * 60
+DIAS_ALERTAS = CONFIG.get("dias_alertas", 30)
+DIAS_GEOCERCA_NUEVA = CONFIG.get("dias_geocerca_nueva", 30)
 # Barrido: los dias se cuentan en hora de Chile.
 try:
     from zoneinfo import ZoneInfo
@@ -566,6 +582,97 @@ def procesar_puntos(puntos, referencia, hileras, descartados, fecha_str, tramos_
 # ---------------------------------------------------------------------------
 # Paso 6: cobertura del dia y conteo de pasadas
 # ---------------------------------------------------------------------------
+
+def detectar_trabajo_fuera(unidad, fecha_str, puntos, dentro_ids):
+    """
+    Zonas donde la maquina trabajo ese dia fuera de toda geocerca (y fuera
+    del patio). `dentro_ids`: ids de los puntos que caen en alguna geocerca
+    o en el patio. Se usa el mismo criterio de las hileras: tramos rectos a
+    velocidad de trabajo, alineados y en serie (al menos 2 paralelas a menos
+    de 40 m); ir y volver por un camino no cuenta. Devuelve una lista de
+    alertas (dicts).
+    """
+    if len(puntos) < 3:
+        return []
+    referencia = puntos[0]["punto"]
+    candidatos = []  # (segmento, hilera en metros)
+    for seg in segmentar_pasadas(puntos):
+        if sum(1 for p in seg if id(p) not in dentro_ids) < 0.8 * len(seg):
+            continue
+        seg_m = [punto_a_metros(p["punto"], referencia) for p in seg]
+        if velocidad_kmh_segmento(seg, seg_m) > VELOCIDAD_MAXIMA_TRABAJO_KMH:
+            continue
+        (x0, y0), (x1, y1) = seg_m[0], seg_m[-1]
+        largo = math.hypot(x1 - x0, y1 - y0)
+        if largo < LARGO_MINIMO_TRAMO_M:
+            continue
+        candidatos.append((seg, Hilera(len(candidatos), (x0, y0), ((x1 - x0) / largo, (y1 - y0) / largo), 0, largo)))
+    if len(candidatos) < MINIMO_PASADAS_TRABAJO:
+        return []
+
+    # Zonas: tramos cuyos puntos medios estan a menos de DISTANCIA_ZONA_TRABAJO_M.
+    medios = np.array([(h.origen[0] + h.direccion[0] * h.max_proy / 2, h.origen[1] + h.direccion[1] * h.max_proy / 2)
+                       for _, h in candidatos])
+    zona = list(range(len(candidatos)))
+    def raiz(i):
+        while zona[i] != i:
+            zona[i] = zona[zona[i]]
+            i = zona[i]
+        return i
+    for i in range(len(candidatos)):
+        cerca = np.nonzero(np.hypot(*(medios[i + 1:] - medios[i]).T) <= DISTANCIA_ZONA_TRABAJO_M)[0] + i + 1
+        for j in cerca:
+            zona[raiz(j)] = raiz(i)
+    zonas = {}
+    for i in range(len(candidatos)):
+        zonas.setdefault(raiz(i), []).append(candidatos[i])
+
+    alertas = []
+    for miembros in zonas.values():
+        cuentan, _ = filtrar_hileras_regulares([h for _, h in miembros])
+        if len(cuentan) < MINIMO_PASADAS_TRABAJO:
+            continue
+        ids = {h.id for h in cuentan}
+        segs = sorted((seg for seg, h in miembros if h.id in ids), key=lambda sg: sg[0]["t"] or 0)
+        segundos, fin_anterior = 0.0, None
+        for seg in segs:
+            t0, t1 = seg[0]["t"] or 0, seg[-1]["t"] or 0
+            segundos += max(0, t1 - t0)
+            if fin_anterior is not None and 0 < t0 - fin_anterior <= PAUSA_GIRO_CABECERA_S:
+                segundos += t0 - fin_anterior  # giro en cabecera
+            fin_anterior = t1
+        largo_total = sum(h.largo_conocido for h in cuentan)
+        puntos_zona = [p["punto"] for seg in segs for p in seg]
+        lon = sum(p[0] for p in puntos_zona) / len(puntos_zona)
+        lat = sum(p[1] for p in puntos_zona) / len(puntos_zona)
+        muestras = [seg[len(seg) // 2]["punto"] for seg in segs]
+        paso = max(1, len(muestras) // 40)
+        alertas.append({
+            "fecha": fecha_str,
+            "maquina": unidad["nombre"],
+            "labor": labor_de(unidad),
+            "horas": round(segundos / 3600, 2),
+            "pasadas": len(cuentan),
+            "ha_aprox": round(largo_total * espaciado_real_m(cuentan) / 10000, 2),
+            "lat": round(lat, 6),
+            "lon": round(lon, 6),
+            "mapa": f"https://www.google.com/maps?q={lat:.6f},{lon:.6f}",
+            "muestras": [[round(x, 6), round(y, 6)] for x, y in muestras[::paso]],
+        })
+    return alertas
+
+
+def alerta_resuelta(alerta, geocercas):
+    """True si la mayoria de las pasadas de la alerta caen dentro de alguna
+    geocerca (por ejemplo, una creada despues)."""
+    for geo in geocercas:
+        x1, y1, x2, y2 = geo["bbox"]
+        dentro = sum(1 for lon, lat in alerta["muestras"]
+                     if x1 <= lon <= x2 and y1 <= lat <= y2 and punto_en_poligono((lon, lat), geo["contorno"]))
+        if dentro >= 0.5 * len(alerta["muestras"]):
+            return True
+    return False
+
 
 def contar_pasadas_max(intervalos):
     if not intervalos:
@@ -1111,6 +1218,46 @@ def guardar_estado_avance(estado):
         json.dump(estado, f, ensure_ascii=False)
 
 
+def cargar_geocercas_conocidas():
+    """{id_wialon: nombre} de las geocercas ya procesadas, o None la primera vez."""
+    if not os.path.exists(RUTA_GEOCERCAS_CONOCIDAS):
+        return None
+    with open(RUTA_GEOCERCAS_CONOCIDAS, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def guardar_geocercas_conocidas(geocercas):
+    with open(RUTA_GEOCERCAS_CONOCIDAS, "w", encoding="utf-8") as f:
+        json.dump({g["id_wialon"]: g["nombre"] for g in geocercas}, f, ensure_ascii=False, indent=1)
+
+
+def actualizar_estado_maquinas(extra, fecha_inicio, fecha_fin, geocercas, patio):
+    """Panel de la web: maquinas en el patio el ultimo dia y alertas de
+    trabajo fuera de geocercas de los ultimos DIAS_ALERTAS dias. Las alertas
+    de los dias recien procesados se reemplazan; las que ya caen dentro de
+    alguna geocerca (creada despues) se eliminan."""
+    anteriores = []
+    if os.path.exists(RUTA_ESTADO_MAQUINAS):
+        with open(RUTA_ESTADO_MAQUINAS, "r", encoding="utf-8") as f:
+            anteriores = json.load(f).get("alertas", [])
+    desde, hasta = fecha_inicio.strftime("%Y-%m-%d"), fecha_fin.strftime("%Y-%m-%d")
+    limite = (fecha_fin - timedelta(days=DIAS_ALERTAS - 1)).strftime("%Y-%m-%d")
+    alertas = [a for a in anteriores if not (desde <= a["fecha"] <= hasta)] + extra["alertas"]
+    referencia = geocercas + ([patio] if patio else [])
+    alertas = [a for a in alertas if a["fecha"] >= limite and not alerta_resuelta(a, referencia)]
+    alertas.sort(key=lambda a: (a["fecha"], a["maquina"]), reverse=True)
+    estado = {
+        "fecha": hasta,
+        "patio": GEOCERCA_PATIO,
+        "en_patio": sorted(extra["en_patio"]),
+        "maquinas_con_datos": len(extra["con_datos"]),
+        "alertas": alertas,
+    }
+    with open(RUTA_ESTADO_MAQUINAS, "w", encoding="utf-8") as f:
+        json.dump(estado, f, ensure_ascii=False, indent=1)
+    return estado
+
+
 def clave_avance(nombre_geo, labor):
     return f"{nombre_geo}||{labor}"
 
@@ -1165,7 +1312,8 @@ def actualizar_historico(df_resumen):
 # Orquestacion principal
 # ---------------------------------------------------------------------------
 
-def generar_reporte(sid, geocercas, estado_avance):
+def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=None,
+                    geocercas_referencia=None, patio=None, detectar_fuera=True):
     """
     Procesa los dias en orden cronologico. El avance se calcula por geocerca
     y LABOR: dentro de una labor se unen las maquinas (lo repetido cuenta una
@@ -1173,7 +1321,17 @@ def generar_reporte(sid, geocercas, estado_avance):
     primero (cada dia, las maquinas se procesan en el orden en que entraron
     a la geocerca). El avance de cada geocerca + labor nunca baja. En la
     labor de barrido se cuentan pasadas completas (ver avanzar_pasadas).
+
+    Ademas, si detectar_fuera: registra el trabajo fuera de toda geocerca de
+    `geocercas_referencia` (y fuera del patio) de los ultimos DIAS_ALERTAS
+    dias, y que maquinas terminan el ultimo dia en el patio.
+    Devuelve (resumen, detalle, resultado_por_unidad, diagnostico, extra).
     """
+    fecha_inicio = fecha_inicio or FECHA_INICIO
+    fecha_fin = fecha_fin or FECHA_FIN
+    if geocercas_referencia is None:
+        geocercas_referencia = geocercas
+    extra = {"alertas": [], "en_patio": [], "con_datos": []}
     filas_resumen = []
     filas_detalle = []
     diagnostico = {geo["nombre"]: 0 for geo in geocercas}  # puntos totales vistos por geocerca
@@ -1205,8 +1363,10 @@ def generar_reporte(sid, geocercas, estado_avance):
         return cobertura[clave_cobertura]
 
     indice = indice_geocercas(geocercas)
-    dia = FECHA_INICIO
-    while dia <= FECHA_FIN:
+    indice_referencia = indice if geocercas_referencia is geocercas else indice_geocercas(geocercas_referencia)
+    desde_alertas = fecha_fin - timedelta(days=DIAS_ALERTAS - 1)
+    dia = fecha_inicio
+    while dia <= fecha_fin:
         fecha_str = dia.strftime("%Y-%m-%d")
         entradas = {geo["nombre"]: [] for geo in geocercas}  # geo -> [(hora_entrada, unidad, puntos)]
         for unidad in UNIDADES:
@@ -1217,7 +1377,23 @@ def generar_reporte(sid, geocercas, estado_avance):
             ]
             if len(puntos) < 3:
                 continue
-            for nombre_geo, puntos_geo in repartir_puntos_por_geocerca(puntos, indice).items():
+            por_geocerca = repartir_puntos_por_geocerca(puntos, indice)
+            if detectar_fuera:
+                if dia == fecha_fin:
+                    extra["con_datos"].append(unidad["nombre"])
+                    if patio and punto_en_poligono(puntos[-1]["punto"], patio["contorno"]):
+                        extra["en_patio"].append(unidad["nombre"])
+                if dia >= desde_alertas:
+                    por_referencia = (por_geocerca if indice_referencia is indice
+                                      else repartir_puntos_por_geocerca(puntos, indice_referencia))
+                    dentro = {id(p) for lista in por_referencia.values() for p in lista}
+                    if patio:
+                        x1, y1, x2, y2 = patio["bbox"]
+                        dentro |= {id(p) for p in puntos
+                                   if x1 <= p["punto"][0] <= x2 and y1 <= p["punto"][1] <= y2
+                                   and punto_en_poligono(p["punto"], patio["contorno"])}
+                    extra["alertas"] += detectar_trabajo_fuera(unidad, fecha_str, puntos, dentro)
+            for nombre_geo, puntos_geo in por_geocerca.items():
                 diagnostico[nombre_geo] += len(puntos_geo)
                 if len(puntos_geo) >= MINIMO_PUNTOS_EN_GEOCERCA:
                     hora_entrada = min((p["t"] for p in puntos_geo if p["t"] is not None), default=0)
@@ -1316,7 +1492,7 @@ def generar_reporte(sid, geocercas, estado_avance):
                 hileras_por_geocerca[geo["nombre"]] = (referencia, hileras, area_acreditada_ha)
         resultado_por_unidad.append((unidad["nombre"], hileras_por_geocerca, descartados[unidad["id"]]))
 
-    return pd.DataFrame(filas_resumen), pd.DataFrame(filas_detalle), resultado_por_unidad, diagnostico
+    return pd.DataFrame(filas_resumen), pd.DataFrame(filas_detalle), resultado_por_unidad, diagnostico, extra
 
 
 def primer_mensaje(sid, unit_id, desde, hasta):
@@ -1520,12 +1696,59 @@ def prueba_pasadas(sid, nombre):
         json.dump(volcado, f)
 
 
+def prueba_estado_y_geocerca_nueva(sid):
+    """
+    Prueba (solo lectura; nada se guarda en el repositorio):
+      - PRUEBA_ESTADO=1: panel de maquinas del dia FECHA_FIN.
+      - PRUEBA_GEOCERCA_NUEVA=<nombre>: hace de cuenta que esa geocerca no
+        existia: muestra el trabajo que habria salido como alerta, la calcula
+        como geocerca nueva con los ultimos DIAS_GEOCERCA_NUEVA dias y verifica
+        que esas alertas se resuelven.
+    """
+    import tempfile
+    temporal = tempfile.mkdtemp()
+    globals()["CARPETA_MEMORIA"] = temporal
+    globals()["RUTA_ESTADO_AVANCE"] = os.path.join(temporal, "_avance_por_labor.json")
+    geocercas = obtener_geocercas(sid)
+    patio = next((g for g in obtener_geocercas(sid, filtrar=False)
+                  if g["nombre"].strip().lower() == GEOCERCA_PATIO.strip().lower()), None)
+    print(f"DIAG patio: {patio['nombre'] if patio else 'NO ENCONTRADO'}")
+    nombre_nueva = os.environ.get("PRUEBA_GEOCERCA_NUEVA", "").strip()
+    nueva = next((g for g in geocercas if g["nombre"] == nombre_nueva), None)
+    fin = FECHA_FIN
+    if nueva is None:
+        _, _, _, _, extra = generar_reporte(sid, [], {}, fin, fin, geocercas, patio)
+    else:
+        sin_nueva = [g for g in geocercas if g is not nueva]
+        inicio = fin - timedelta(days=DIAS_GEOCERCA_NUEVA - 1)
+        estado_avance = {}
+        _, _, res, _, extra = generar_reporte(sid, [nueva], estado_avance, inicio, fin, sin_nueva, patio)
+    print(f"DIAG estado {fin:%Y-%m-%d} | en patio ({len(extra['en_patio'])} de {len(extra['con_datos'])} con datos): "
+          f"{', '.join(sorted(extra['en_patio']))}")
+    for a in sorted(extra["alertas"], key=lambda a: (a["fecha"], a["maquina"])):
+        dentro = nueva is not None and alerta_resuelta(a, [nueva])
+        print(f"DIAG alerta | {a['fecha']} | {a['maquina']} | {a['labor']} | {a['horas']} h | {a['pasadas']} pasadas | "
+              f"~{a['ha_aprox']} ha | {a['mapa']} | {'DENTRO DE ' + nombre_nueva if dentro else ''}")
+    if nueva is not None:
+        avance = avance_total_por_geocerca(res, [nueva], estado_avance)
+        for labor, info in avance.get(nueva["nombre"], {}).get("labores", {}).items():
+            print(f"DIAG geocerca nueva | {nueva['nombre']} | {labor} | {info.get('trabajado_ha', 0):.2f} ha | "
+                  f"{info.get('porcentaje', 0)}% | pasadas {info.get('pasadas_completas', '-')} | maquinas {', '.join(info['maquinas'])}")
+        quedan = [a for a in extra["alertas"] if alerta_resuelta(a, [nueva])]
+        todas = geocercas + ([patio] if patio else [])
+        print(f"DIAG resolucion | alertas dentro de {nueva['nombre']} antes de crearla: {len(quedan)} | "
+              f"despues de crearla quedan: {sum(1 for a in quedan if not alerta_resuelta(a, todas))}")
+
+
 def main():
     print("Conectando con Wialon...")
     sid = wialon_login(TOKEN)
     print("Conectado.")
 
     if MODO_DIAGNOSTICO:
+        if os.environ.get("PRUEBA_ESTADO", "").strip() or os.environ.get("PRUEBA_GEOCERCA_NUEVA", "").strip():
+            prueba_estado_y_geocerca_nueva(sid)
+            return
         unidad_prueba = os.environ.get("PRUEBA_PASADAS_UNIDAD", "").strip()
         if unidad_prueba:
             prueba_pasadas(sid, unidad_prueba)
@@ -1546,9 +1769,37 @@ def main():
         print("ADVERTENCIA: no hay geocercas creadas en Wialon todavia (o ninguna calza con "
               "'cuarteles_incluidos' en config.json). Revisa el nombre exacto.")
 
+    patio = next((g for g in obtener_geocercas(sid, filtrar=False)
+                  if g["nombre"].strip().lower() == GEOCERCA_PATIO.strip().lower()), None)
+
+    # Geocercas nuevas (no estaban en la corrida anterior): se calculan solas
+    # con los ultimos DIAS_GEOCERCA_NUEVA dias de todas las maquinas. La
+    # primera vez se registran todas como conocidas, sin recalcular.
+    conocidas = cargar_geocercas_conocidas()
+    nuevas = [] if conocidas is None else [g for g in geocercas if g["id_wialon"] not in conocidas]
+    existentes = [g for g in geocercas if g not in nuevas]
+
     print(f"Procesando del {FECHA_INICIO.date()} al {FECHA_FIN.date()}...")
     estado_avance = cargar_estado_avance()
-    df_resumen, df_detalle, resultado_por_unidad, diagnostico = generar_reporte(sid, geocercas, estado_avance)
+    df_resumen, df_detalle, resultado_por_unidad, diagnostico, extra = generar_reporte(
+        sid, existentes, estado_avance, FECHA_INICIO, FECHA_FIN, geocercas, patio)
+    if nuevas:
+        desde_nuevas = FECHA_FIN - timedelta(days=DIAS_GEOCERCA_NUEVA - 1)
+        print(f"Geocercas nuevas ({len(nuevas)}): {', '.join(g['nombre'] for g in nuevas)}. "
+              f"Se calculan del {desde_nuevas.date()} al {FECHA_FIN.date()}.")
+        df_n, det_n, res_n, diag_n, _ = generar_reporte(
+            sid, nuevas, estado_avance, desde_nuevas, FECHA_FIN, geocercas, None, detectar_fuera=False)
+        df_resumen = pd.concat([df_resumen, df_n], ignore_index=True)
+        df_detalle = pd.concat([df_detalle, det_n], ignore_index=True)
+        diagnostico.update(diag_n)
+        for (_, hpg, desc), (_, hpg_n, desc_n) in zip(resultado_por_unidad, res_n):
+            hpg.update(hpg_n)
+            desc.extend(desc_n)
+    guardar_geocercas_conocidas(geocercas)
+
+    estado_maquinas = actualizar_estado_maquinas(extra, FECHA_INICIO, FECHA_FIN, geocercas, patio)
+    print(f"\nEstado de maquinas al {estado_maquinas['fecha']}: {len(estado_maquinas['en_patio'])} en "
+          f"{GEOCERCA_PATIO}, {len(estado_maquinas['alertas'])} alertas de trabajo sin geocerca (ultimos {DIAS_ALERTAS} dias).")
 
     print("\nDiagnostico: puntos GPS (de cualquier maquina, sumados) encontrados dentro de cada geocerca:")
     for nombre, cantidad in diagnostico.items():

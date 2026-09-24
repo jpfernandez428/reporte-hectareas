@@ -23,6 +23,14 @@ on:
         description: 'Con diagnostico=1: maquina o labor (ej. Barrido) para probar el conteo de pasadas.'
         required: false
         default: ''
+      prueba_estado:
+        description: 'Con diagnostico=1: poner 1 para probar el panel de maquinas del dia fecha_fin.'
+        required: false
+        default: ''
+      prueba_geocerca_nueva:
+        description: 'Con diagnostico=1: nombre de una geocerca para simular que es nueva (30 dias hasta fecha_fin).'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -51,6 +59,8 @@ jobs:
           PRUEBA_PASADAS_UNIDAD: ${{ inputs.prueba_pasadas }}
           PRUEBA_DESDE: ${{ inputs.fecha_inicio }}
           PRUEBA_HASTA: ${{ inputs.fecha_fin }}
+          PRUEBA_ESTADO: ${{ inputs.prueba_estado }}
+          PRUEBA_GEOCERCA_NUEVA: ${{ inputs.prueba_geocerca_nueva }}
         run: python3 reporte_hectareas.py
 
       - name: Guardar los tramos de la prueba de pasadas (solo diagnostico)
