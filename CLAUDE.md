@@ -135,8 +135,38 @@ editable por el usuario.
 - El KML generado debe ser XML válido (escapar `&`, `<`, `>` y comillas en
   nombres).
 
+## Panel de estado de máquinas (en prueba)
+
+Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
+último día procesado:
+
+- **Máquinas en CYH:** las que terminan el día dentro de la geocerca "C&H
+  Maquinaria" (`geocerca_patio` en `config.json`).
+- **⚠ Máquinas trabajando sin geocerca:** máquinas que no están en CYH y que
+  trabajaron fuera de toda geocerca. Trabajo = mismo criterio de las
+  hileras: tramos rectos a velocidad de trabajo, alineados y en serie (al
+  menos 2 paralelas a menos de 40 m), con al menos 6 pasadas por zona; ir y
+  volver por un camino no cuenta. Por cada zona: máquina, labor, fecha, horas
+  trabajadas fuera de geocerca (tramos + giros de cabecera de hasta 5 min),
+  ha aproximadas y enlace a Google Maps para crear la geocerca.
+- Las alertas se guardan 30 días. En cada corrida se revisan contra las
+  geocercas actuales: si ya hay una geocerca donde fue el trabajo, la alerta
+  desaparece.
+
+## Geocercas nuevas (en prueba)
+
+- Se guarda la lista de geocercas conocidas por id de Wialon
+  (`memoria_hileras/_geocercas_conocidas.json`). La primera vez se registran
+  todas, sin recalcular.
+- Cuando la corrida diaria encuentra una geocerca nueva, la calcula **solo a
+  ella** con los últimos 30 días de TODAS las máquinas, por labor y con las
+  mismas reglas (unión dentro de la labor, franja de borde de 8 m, pasadas de
+  barredoras, etc.). Las demás geocercas siguen con el día normal.
+- Se conecta con el panel: el trabajo que salió como alerta se recupera y la
+  alerta desaparece.
+- Costo: bajar 30 días de todas las máquinas toma ~40 min (solo el día en
+  que aparecen geocercas nuevas; varias nuevas se calculan juntas).
+
 ## Pendientes
 
-- Detectar geocercas nuevas en Wialon y calcularlas con los últimos 30 días.
-- Avisar cuando una máquina trabaje fuera de cualquier geocerca (salvo el
-  patio C&H Maquinaria), distinguiendo trabajo de traslados.
+- Confirmar el umbral del 50 % para el repaso de barredoras el mismo día.
