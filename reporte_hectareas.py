@@ -168,6 +168,17 @@ MINIMO_PASADAS_TRABAJO = CONFIG.get("minimo_pasadas_trabajo", 6)
 DISTANCIA_ZONA_TRABAJO_M = CONFIG.get("distancia_zona_trabajo_m", 150)
 PAUSA_GIRO_CABECERA_S = CONFIG.get("pausa_giro_cabecera_min", 5) * 60
 DIAS_ALERTAS = CONFIG.get("dias_alertas", 30)
+# Filtros del panel (se aplican al mostrar; las alertas se guardan completas):
+#   - horas minimas de trabajo por dia en esa zona;
+#   - que parezca un campo y no un camino de acceso: al menos
+#     MINIMO_LINEAS_TRABAJO lineas distintas (a mas de 1,5 m entre si) que
+#     cubran al menos ANCHO_MINIMO_TRABAJO_M de ancho.
+HORAS_MINIMAS_ALERTA = CONFIG.get("horas_minimas_alerta", 1.0)
+MINIMO_LINEAS_TRABAJO = CONFIG.get("minimo_lineas_trabajo", 4)
+ANCHO_MINIMO_TRABAJO_M = CONFIG.get("ancho_minimo_trabajo_m", 12)
+# Una misma maquina en el mismo lugar (a menos de esta distancia) en dias
+# distintos es una sola linea del panel.
+DISTANCIA_MISMO_LUGAR_M = CONFIG.get("distancia_mismo_lugar_m", 600)
 DIAS_GEOCERCA_NUEVA = CONFIG.get("dias_geocerca_nueva", 30)
 # Barrido: los dias se cuentan en hora de Chile.
 try:
@@ -642,6 +653,14 @@ def detectar_trabajo_fuera(unidad, fecha_str, puntos, dentro_ids):
                 segundos += t0 - fin_anterior  # giro en cabecera
             fin_anterior = t1
         largo_total = sum(h.largo_conocido for h in cuentan)
+        # Lineas distintas recorridas y ancho que cubren (un camino de acceso,
+        # aunque se recorra lento o varias veces, son 1 o 2 lineas y pocos metros).
+        ref = hilera_referencia(cuentan)
+        laterales = sorted(
+            ((h.origen[0] + h.direccion[0] * h.max_proy / 2) - ref.origen[0]) * -ref.direccion[1]
+            + ((h.origen[1] + h.direccion[1] * h.max_proy / 2) - ref.origen[1]) * ref.direccion[0]
+            for h in cuentan)
+        lineas = 1 + sum(1 for a, b in zip(laterales, laterales[1:]) if b - a >= TOLERANCIA_MISMA_HILERA_M)
         puntos_zona = [p["punto"] for seg in segs for p in seg]
         lon = sum(p[0] for p in puntos_zona) / len(puntos_zona)
         lat = sum(p[1] for p in puntos_zona) / len(puntos_zona)
@@ -653,6 +672,10 @@ def detectar_trabajo_fuera(unidad, fecha_str, puntos, dentro_ids):
             "labor": labor_de(unidad),
             "horas": round(segundos / 3600, 2),
             "pasadas": len(cuentan),
+            "lineas": lineas,
+            "ancho_m": round(laterales[-1] - laterales[0], 1),
+            "km_h": round(sum(h.largo_conocido for h in cuentan) / 1000
+                          / max(1e-6, sum(max(1, (sg[-1]["t"] or 0) - (sg[0]["t"] or 0)) for sg in segs) / 3600), 1),
             "ha_aprox": round(largo_total * espaciado_real_m(cuentan) / 10000, 2),
             "lat": round(lat, 6),
             "lon": round(lon, 6),
@@ -1231,11 +1254,45 @@ def guardar_geocercas_conocidas(geocercas):
         json.dump({g["id_wialon"]: g["nombre"] for g in geocercas}, f, ensure_ascii=False, indent=1)
 
 
+def alerta_visible(alerta):
+    """Filtros del panel: horas minimas y forma de campo (no camino)."""
+    return (alerta["horas"] >= HORAS_MINIMAS_ALERTA
+            and alerta.get("lineas", 99) >= MINIMO_LINEAS_TRABAJO
+            and alerta.get("ancho_m", 999) >= ANCHO_MINIMO_TRABAJO_M)
+
+
+def agrupar_alertas(alertas, fecha_panel):
+    """Una linea por maquina y lugar: 'trabajando hace N dias sin geocerca',
+    con N = dias desde la primera vez (dentro del plazo) que trabajo ahi."""
+    grupos = []
+    for a in sorted(alertas, key=lambda a: a["fecha"]):
+        for g in grupos:
+            if g["maquina"] == a["maquina"] and math.hypot(
+                    (a["lat"] - g["lat"]) * METROS_POR_GRADO_LAT,
+                    (a["lon"] - g["lon"]) * 111320.0 * math.cos(math.radians(a["lat"]))) <= DISTANCIA_MISMO_LUGAR_M:
+                g["dias_trabajados"].add(a["fecha"])
+                g["horas"] += a["horas"]
+                g["ha_aprox"] += a["ha_aprox"]
+                g["ultima_fecha"] = a["fecha"]
+                break
+        else:
+            grupos.append({"maquina": a["maquina"], "labor": a["labor"], "lat": a["lat"], "lon": a["lon"],
+                           "mapa": a["mapa"], "primera_fecha": a["fecha"], "ultima_fecha": a["fecha"],
+                           "dias_trabajados": {a["fecha"]}, "horas": a["horas"], "ha_aprox": a["ha_aprox"]})
+    panel = datetime.strptime(fecha_panel, "%Y-%m-%d").date()
+    for g in grupos:
+        g["hace_dias"] = (panel - datetime.strptime(g["primera_fecha"], "%Y-%m-%d").date()).days
+        g["dias_trabajados"] = len(g["dias_trabajados"])
+        g["horas"] = round(g["horas"], 1)
+        g["ha_aprox"] = round(g["ha_aprox"], 1)
+    return sorted(grupos, key=lambda g: (-g["hace_dias"], g["maquina"]))
+
+
 def actualizar_estado_maquinas(extra, fecha_inicio, fecha_fin, geocercas, patio):
-    """Panel de la web: maquinas en el patio el ultimo dia y alertas de
-    trabajo fuera de geocercas de los ultimos DIAS_ALERTAS dias. Las alertas
-    de los dias recien procesados se reemplazan; las que ya caen dentro de
-    alguna geocerca (creada despues) se eliminan."""
+    """Panel de la web: maquinas en el patio el ultimo dia y trabajo fuera de
+    geocercas de los ultimos DIAS_ALERTAS dias, una linea por maquina y
+    lugar. Las alertas de los dias recien procesados se reemplazan; las que
+    ya caen dentro de alguna geocerca (creada despues) se eliminan."""
     anteriores = []
     if os.path.exists(RUTA_ESTADO_MAQUINAS):
         with open(RUTA_ESTADO_MAQUINAS, "r", encoding="utf-8") as f:
@@ -1251,6 +1308,7 @@ def actualizar_estado_maquinas(extra, fecha_inicio, fecha_fin, geocercas, patio)
         "patio": GEOCERCA_PATIO,
         "en_patio": sorted(extra["en_patio"]),
         "maquinas_con_datos": len(extra["con_datos"]),
+        "sin_geocerca": agrupar_alertas([a for a in alertas if alerta_visible(a)], hasta),
         "alertas": alertas,
     }
     with open(RUTA_ESTADO_MAQUINAS, "w", encoding="utf-8") as f:
@@ -1364,7 +1422,9 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
 
     indice = indice_geocercas(geocercas)
     indice_referencia = indice if geocercas_referencia is geocercas else indice_geocercas(geocercas_referencia)
-    desde_alertas = fecha_fin - timedelta(days=DIAS_ALERTAS - 1)
+    # Solo trabajo reciente: en un recalculo del año no se detecta en dias viejos.
+    desde_alertas = (datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+                     - timedelta(days=DIAS_ALERTAS))
     dia = fecha_inicio
     while dia <= fecha_fin:
         fecha_str = dia.strftime("%Y-%m-%d")
@@ -1717,7 +1777,10 @@ def prueba_estado_y_geocerca_nueva(sid):
     nueva = next((g for g in geocercas if g["nombre"] == nombre_nueva), None)
     fin = FECHA_FIN
     if nueva is None:
-        _, _, _, _, extra = generar_reporte(sid, [], {}, fin, fin, geocercas, patio)
+        _, _, _, _, extra = generar_reporte(sid, [], {}, FECHA_INICIO, fin, geocercas, patio)
+        with open("alertas_diagnostico.json", "w", encoding="utf-8") as f:
+            json.dump({"fecha": fin.strftime("%Y-%m-%d"), "en_patio": extra["en_patio"],
+                       "con_datos": extra["con_datos"], "alertas": extra["alertas"]}, f, ensure_ascii=False)
     else:
         sin_nueva = [g for g in geocercas if g is not nueva]
         inicio = fin - timedelta(days=DIAS_GEOCERCA_NUEVA - 1)
@@ -1799,7 +1862,8 @@ def main():
 
     estado_maquinas = actualizar_estado_maquinas(extra, FECHA_INICIO, FECHA_FIN, geocercas, patio)
     print(f"\nEstado de maquinas al {estado_maquinas['fecha']}: {len(estado_maquinas['en_patio'])} en "
-          f"{GEOCERCA_PATIO}, {len(estado_maquinas['alertas'])} alertas de trabajo sin geocerca (ultimos {DIAS_ALERTAS} dias).")
+          f"{GEOCERCA_PATIO}, {len(estado_maquinas['sin_geocerca'])} maquinas/lugares trabajando sin geocerca "
+          f"(ultimos {DIAS_ALERTAS} dias).")
 
     print("\nDiagnostico: puntos GPS (de cualquier maquina, sumados) encontrados dentro de cada geocerca:")
     for nombre, cantidad in diagnostico.items():

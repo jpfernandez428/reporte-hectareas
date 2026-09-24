@@ -484,16 +484,20 @@ async function cargarEstadoMaquinas() {
   }
   nota.textContent = `Último día procesado: ${estado.fecha} — ${estado.en_patio.length} máquina(s) terminaron el día en el patio.`;
   listaPatio.innerHTML = estado.en_patio.map(m => `<div>${escaparXml(m)}</div>`).join('') || '<div>Ninguna</div>';
-  if (!estado.alertas || estado.alertas.length === 0) {
-    listaAlertas.innerHTML = '<div class="nota">No hay trabajo fuera de geocercas en los últimos 30 días.</div>';
+  const lineas = estado.sin_geocerca || [];
+  if (lineas.length === 0) {
+    listaAlertas.innerHTML = '<div class="nota">No hay máquinas trabajando fuera de geocercas en los últimos 30 días.</div>';
     return;
   }
-  listaAlertas.innerHTML = estado.alertas.map(a =>
-    `<div class="item-alerta"><div class="maq">${escaparXml(a.maquina)}</div>` +
-    `<div>${escaparXml(a.labor)} · ${escaparXml(a.fecha)}</div>` +
-    `<div>${a.horas.toFixed(1)} h trabajadas fuera de geocerca · ~${a.ha_aprox.toFixed(1)} ha</div>` +
-    `<div><a href="${a.mapa}" target="_blank" rel="noopener">Ver ubicación en Google Maps</a></div></div>`
-  ).join('');
+  // Una linea por maquina y lugar, de mas dias a menos.
+  listaAlertas.innerHTML = lineas.map(g => {
+    const hace = g.hace_dias === 0 ? 'trabajando desde hoy' :
+      `trabajando hace ${g.hace_dias} día${g.hace_dias === 1 ? '' : 's'}`;
+    return `<div class="item-alerta"><div><span class="maq">${escaparXml(g.maquina)}</span> – ${hace} sin geocerca – ` +
+      `<a href="${g.mapa}" target="_blank" rel="noopener">mapa</a></div>` +
+      `<div class="nota" style="margin:2px 0 0 0;">${escaparXml(g.labor)} · ${g.dias_trabajados} día(s) con trabajo · ` +
+      `${g.horas.toFixed(1)} h · ~${g.ha_aprox.toFixed(1)} ha · desde ${escaparXml(g.primera_fecha)}</div></div>`;
+  }).join('');
 }
 
 // Escapa texto para que el KML sea XML valido (ej. "C&H Maquinaria").

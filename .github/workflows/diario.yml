@@ -63,12 +63,15 @@ jobs:
           PRUEBA_GEOCERCA_NUEVA: ${{ inputs.prueba_geocerca_nueva }}
         run: python3 reporte_hectareas.py
 
-      - name: Guardar los tramos de la prueba de pasadas (solo diagnostico)
-        if: ${{ inputs.prueba_pasadas != '' }}
+      - name: Guardar los datos de las pruebas (solo diagnostico)
+        if: ${{ inputs.diagnostico != '' }}
         uses: actions/upload-artifact@v4
         with:
-          name: tramos-diagnostico
-          path: tramos_diagnostico.json
+          name: datos-diagnostico
+          path: |
+            tramos_diagnostico.json
+            alertas_diagnostico.json
+          if-no-files-found: ignore
           retention-days: 7
 
       - name: Guardar los resultados en el repositorio
