@@ -2,9 +2,9 @@
   "umbral_cierre": 0.95,
   "cuarteles": {
     "C&H Maquinaria": {
-      "trabajado_ha": 4.1089,
+      "trabajado_ha": 4.1132,
       "area_total_ha": 5.1226,
-      "porcentaje": 80.2,
+      "porcentaje": 80.3,
       "completo": false,
       "maquinas": [
         "Barredora 1",
@@ -182,7 +182,8 @@
       "completo": true,
       "maquinas": [
         "Shacker SBS 14",
-        "Tractor 16 Kubota 108"
+        "Tractor 16 Kubota 108",
+        "Tractor 17 Kubota 108"
       ]
     },
     "Ag El Carmen San Gregorio Cuartel 5": {
@@ -193,7 +194,8 @@
       "maquinas": [
         "Shacker SBS 14",
         "Tractor 15 Deutz Fahr 115",
-        "Tractor 16 Kubota 108"
+        "Tractor 16 Kubota 108",
+        "Tractor 17 Kubota 108"
       ]
     },
     "Nancagua MGH Cuartel 2": {
@@ -317,30 +319,33 @@
       ]
     },
     "Campo Lolol AEC C1": {
-      "trabajado_ha": 5.0238,
+      "trabajado_ha": 5.4705,
       "area_total_ha": 5.5013,
-      "porcentaje": 91.3,
-      "completo": false,
+      "porcentaje": 99.4,
+      "completo": true,
       "maquinas": [
-        "Shacker SBS 12"
+        "Shacker SBS 12",
+        "Tractor 17 Kubota 108"
       ]
     },
     "Campo Lolol AEC": {
-      "trabajado_ha": 4.1153,
+      "trabajado_ha": 4.14,
       "area_total_ha": 4.2799,
-      "porcentaje": 96.2,
+      "porcentaje": 96.7,
       "completo": true,
       "maquinas": [
-        "Shacker SBS 12"
+        "Shacker SBS 12",
+        "Tractor 17 Kubota 108"
       ]
     },
     "Campo Lolol AEC C3": {
-      "trabajado_ha": 0.095,
+      "trabajado_ha": 2.0498,
       "area_total_ha": 2.0842,
-      "porcentaje": 4.6,
-      "completo": false,
+      "porcentaje": 98.3,
+      "completo": true,
       "maquinas": [
-        "Shacker SBS 12"
+        "Shacker SBS 12",
+        "Tractor 17 Kubota 108"
       ]
     },
     "Rodrigo Bunster C1": {
@@ -1804,12 +1809,13 @@
       ]
     },
     "Campo Lolol C5": {
-      "trabajado_ha": 0.4289,
+      "trabajado_ha": 1.4494,
       "area_total_ha": 5.2573,
-      "porcentaje": 8.2,
+      "porcentaje": 27.6,
       "completo": false,
       "maquinas": [
-        "Shacker SBS 12"
+        "Shacker SBS 12",
+        "Tractor 17 Kubota 108"
       ]
     },
     "Bruno Raggi 1": {
@@ -2233,6 +2239,7 @@
         "Barredora 12",
         "Barredora 2",
         "Barredora 9 Weiss c/cab",
+        "Podadora 1",
         "Recogedora 3",
         "Shacker de Suelo 5"
       ]
@@ -2249,6 +2256,7 @@
         "Barredora 13",
         "Barredora 8",
         "Barredora 9 Weiss c/cab",
+        "Podadora 1",
         "Recogedora 3",
         "Shacker de Suelo 5"
       ]
@@ -2284,6 +2292,7 @@
         "Barredora 2",
         "Barredora 8",
         "Barredora 9 Weiss c/cab",
+        "Podadora 1",
         "Recogedora 3",
         "Shacker SBS 8",
         "Shacker de Suelo 11 Orchard Rite",
@@ -2303,6 +2312,7 @@
         "Barredora 2",
         "Barredora 8",
         "Barredora 9 Weiss c/cab",
+        "Podadora 1",
         "Recogedora 3",
         "Shacker SBS 8",
         "Shacker de Suelo 11 Orchard Rite",
@@ -2856,9 +2866,9 @@
       ]
     },
     "Longavi 3": {
-      "trabajado_ha": 5.8321,
+      "trabajado_ha": 5.8606,
       "area_total_ha": 9.4374,
-      "porcentaje": 61.8,
+      "porcentaje": 62.1,
       "completo": false,
       "maquinas": [
         "Tractor 11 Deutz Fahr 115"
@@ -2874,9 +2884,9 @@
       ]
     },
     "Longavi 5": {
-      "trabajado_ha": 8.0451,
+      "trabajado_ha": 8.0089,
       "area_total_ha": 13.9455,
-      "porcentaje": 57.7,
+      "porcentaje": 57.4,
       "completo": false,
       "maquinas": [
         "Tractor 11 Deutz Fahr 115"
@@ -2919,36 +2929,36 @@
       ]
     },
     "Longavi 10": {
-      "trabajado_ha": 0.0751,
+      "trabajado_ha": 5.4011,
       "area_total_ha": 8.9045,
-      "porcentaje": 0.8,
+      "porcentaje": 60.7,
       "completo": false,
       "maquinas": [
         "Tractor 11 Deutz Fahr 115"
       ]
     },
     "Longavi 11": {
-      "trabajado_ha": 0.0472,
+      "trabajado_ha": 7.3425,
       "area_total_ha": 10.6183,
-      "porcentaje": 0.4,
+      "porcentaje": 69.1,
       "completo": false,
       "maquinas": [
         "Tractor 11 Deutz Fahr 115"
       ]
     },
     "Longavi 12": {
-      "trabajado_ha": 0.0284,
+      "trabajado_ha": 6.8505,
       "area_total_ha": 9.9468,
-      "porcentaje": 0.3,
+      "porcentaje": 68.9,
       "completo": false,
       "maquinas": [
         "Tractor 11 Deutz Fahr 115"
       ]
     },
     "Longavi 13": {
-      "trabajado_ha": 0.4299,
+      "trabajado_ha": 6.143,
       "area_total_ha": 8.9533,
-      "porcentaje": 4.8,
+      "porcentaje": 68.6,
       "completo": false,
       "maquinas": [
         "Tractor 11 Deutz Fahr 115"
@@ -3631,9 +3641,9 @@
       ]
     },
     "Solfrut": {
-      "trabajado_ha": 15.7282,
+      "trabajado_ha": 15.7315,
       "area_total_ha": 15.7706,
-      "porcentaje": 99.7,
+      "porcentaje": 99.8,
       "completo": true,
       "maquinas": [
         "Barredora 2",
@@ -3659,9 +3669,9 @@
       ]
     },
     "Solfrut 3": {
-      "trabajado_ha": 18.3953,
+      "trabajado_ha": 18.3766,
       "area_total_ha": 18.4369,
-      "porcentaje": 99.8,
+      "porcentaje": 99.7,
       "completo": true,
       "maquinas": [
         "Barredora 2",
@@ -3715,9 +3725,9 @@
       ]
     },
     "Solfrut 7": {
-      "trabajado_ha": 11.8855,
+      "trabajado_ha": 11.8081,
       "area_total_ha": 11.8855,
-      "porcentaje": 100.0,
+      "porcentaje": 99.3,
       "completo": true,
       "maquinas": [
         "Barredora 2",
@@ -3803,6 +3813,7 @@
         "Barredora 13",
         "Barredora 2",
         "Barredora 9 Weiss c/cab",
+        "Podadora 1",
         "Shacker SBS 8",
         "Shacker SBS Campo",
         "Shacker de Suelo 11 Orchard Rite",
@@ -3888,6 +3899,7 @@
         "Barredora 13",
         "Barredora 2",
         "Barredora 9 Weiss c/cab",
+        "Podadora 1",
         "Shacker SBS 8",
         "Shacker de Suelo 11 Orchard Rite",
         "Shacker de Suelo 5"
@@ -3904,6 +3916,7 @@
         "Barredora 12",
         "Barredora 13",
         "Barredora 2",
+        "Podadora 1",
         "Shacker SBS 8",
         "Shacker SBS Campo",
         "Shacker de Suelo 11 Orchard Rite",
@@ -3944,6 +3957,7 @@
         "Barredora 12",
         "Barredora 13",
         "Barredora 2",
+        "Podadora 1",
         "Shacker SBS 8",
         "Shacker de Suelo 5"
       ]
@@ -4215,6 +4229,7 @@
         "Barredora 2",
         "Barredora 8",
         "Barredora 9 Weiss c/cab",
+        "Podadora 1",
         "Recogedora 3",
         "Shacker SBS 8",
         "Shacker de Suelo 11 Orchard Rite",
@@ -4269,6 +4284,15 @@
         "Shacker SBS 10",
         "Shacker SBS 3",
         "Tractor 7 Kubota 95"
+      ]
+    },
+    "El Volcan 2022 2": {
+      "trabajado_ha": 4.1048,
+      "area_total_ha": 17.9426,
+      "porcentaje": 22.9,
+      "completo": false,
+      "maquinas": [
+        "Tractor 9 Deutz Fahr 115"
       ]
     },
     "Gonzalo Sanchez 23": {
@@ -4985,23 +5009,24 @@
       ]
     },
     "BALLERINA_N7C_JP": {
-      "trabajado_ha": 5.9427,
+      "trabajado_ha": 5.986,
       "area_total_ha": 6.2645,
-      "porcentaje": 94.9,
-      "completo": false,
+      "porcentaje": 95.6,
+      "completo": true,
       "maquinas": [
         "Barredora 10",
         "Barredora 11",
         "Barredora 12",
         "Barredora 9 Weiss c/cab",
+        "Podadora 1",
         "Recogedora 3",
         "Shacker de Suelo 5"
       ]
     },
     "BALLERINA_N7A_JP": {
-      "trabajado_ha": 14.8849,
+      "trabajado_ha": 14.9623,
       "area_total_ha": 14.9623,
-      "porcentaje": 99.5,
+      "porcentaje": 100.0,
       "completo": true,
       "maquinas": [
         "Barredora 10",
@@ -5009,6 +5034,7 @@
         "Barredora 12",
         "Barredora 2",
         "Barredora 9 Weiss c/cab",
+        "Podadora 1",
         "Recogedora 3",
         "Shacker de Suelo 5"
       ]
@@ -5024,6 +5050,7 @@
         "Barredora 12",
         "Barredora 2",
         "Barredora 9 Weiss c/cab",
+        "Podadora 1",
         "Recogedora 3",
         "Shacker SBS 8",
         "Shacker de Suelo 5"
@@ -5040,12 +5067,13 @@
         "Barredora 12",
         "Barredora 2",
         "Barredora 9 Weiss c/cab",
+        "Podadora 1",
         "Recogedora 3",
         "Shacker de Suelo 5"
       ]
     },
     "BALLERINA_N17_JP": {
-      "trabajado_ha": 39.0507,
+      "trabajado_ha": 39.0512,
       "area_total_ha": 39.0896,
       "porcentaje": 99.9,
       "completo": true,
@@ -5055,14 +5083,15 @@
         "Barredora 12",
         "Barredora 2",
         "Barredora 9 Weiss c/cab",
+        "Podadora 1",
         "Recogedora 3",
         "Shacker de Suelo 5"
       ]
     },
     "BALLERINA_N16_JP": {
-      "trabajado_ha": 13.3804,
+      "trabajado_ha": 13.6007,
       "area_total_ha": 13.8575,
-      "porcentaje": 96.6,
+      "porcentaje": 98.1,
       "completo": true,
       "maquinas": [
         "Barredora 10",
@@ -5070,6 +5099,7 @@
         "Barredora 12",
         "Barredora 2",
         "Barredora 9 Weiss c/cab",
+        "Podadora 1",
         "Recogedora 3",
         "Shacker de Suelo 5"
       ]
@@ -5303,7 +5333,8 @@
       "maquinas": [
         "Shacker SBS 14",
         "Tractor 15 Deutz Fahr 115",
-        "Tractor 16 Kubota 108"
+        "Tractor 16 Kubota 108",
+        "Tractor 17 Kubota 108"
       ]
     },
     "San Gregorio Agricola el Carmen C2": {
