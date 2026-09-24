@@ -68,6 +68,8 @@ CARPETA_REPORTES = os.path.join(CARPETA_BASE, "reportes")
 CARPETA_DATOS = os.path.join(CARPETA_BASE, "docs", "datos")
 RUTA_HISTORICO = os.path.join(CARPETA_DATOS, "historico.json")
 RUTA_AVANCE_CUARTELES = os.path.join(CARPETA_DATOS, "avance_cuarteles.json")
+# Estado del avance por geocerca + labor (maximo alcanzado, pasadas de barrido).
+RUTA_ESTADO_AVANCE = os.path.join(CARPETA_MEMORIA, "_avance_por_labor.json")
 
 with open(RUTA_CONFIG, "r", encoding="utf-8") as f:
     CONFIG = json.load(f)
@@ -80,7 +82,16 @@ WIALON_HOST = CONFIG.get("host", "https://hst-api.wialon.com")
 MODO_NUBE = bool(os.environ.get("WIALON_TOKEN"))
 TOKEN = os.environ.get("WIALON_TOKEN") or CONFIG["token"]
 
-UNIDADES = CONFIG["unidades"]           # lista de {"id": ..., "nombre": ...}
+# Lista de {"id", "nombre", "labor"}. La labor se edita en config.json. Las
+# maquinas con labor "No incluir" no se procesan.
+LABOR_NO_INCLUIR = "No incluir"
+LABOR_CON_PASADAS = CONFIG.get("labor_con_pasadas", "Barrido")
+UNIDADES = [u for u in CONFIG["unidades"] if u.get("labor") != LABOR_NO_INCLUIR]
+LABOR_POR_MAQUINA = {u["nombre"]: u.get("labor") or "Sin labor" for u in UNIDADES}
+
+
+def labor_de(unidad):
+    return unidad.get("labor") or "Sin labor"
 
 if MODO_NUBE:
     fecha_manual_inicio = os.environ.get("FECHA_INICIO_MANUAL", "").strip()
@@ -127,6 +138,21 @@ MAXIMO_HILERAS_KML_GENERAL = CONFIG.get("maximo_hileras_kml_general", 150000)
 # GPS) e imprime un resumen; no calcula ni guarda nada.
 MODO_DIAGNOSTICO = os.environ.get("MODO_DIAGNOSTICO", "").strip().lower() in ("1", "true", "si")
 ESPACIADO_HILERAS_DEFECTO_M = CONFIG.get("espaciado_hileras_defecto_m", 4.0)
+# Ancho que se asume para cada hilera: el espaciado medido, acotado a este
+# rango (nunca mas de 5 m). Con menos de MINIMO_HILERAS_ESPACIADO hileras se
+# usa el valor por defecto.
+ESPACIADO_MINIMO_M = CONFIG.get("espaciado_minimo_m", 2.5)
+ESPACIADO_MAXIMO_M = CONFIG.get("espaciado_maximo_m", 5.0)
+MINIMO_HILERAS_ESPACIADO = CONFIG.get("minimo_hileras_espaciado", 10)
+# Una pasada cuenta si tiene al menos MINIMO_PARALELAS_SERIE pasadas paralelas
+# de la misma maquina a menos de DISTANCIA_MAXIMA_SERIE_M (trabajo en serie,
+# aunque se salte hileras). Las pasadas aisladas (traslados por el borde o por
+# el medio) no cuentan.
+MINIMO_PARALELAS_SERIE = CONFIG.get("minimo_paralelas_serie", 2)
+# Barrido: despues de completar una pasada, lo que la barredora sigue haciendo
+# sin una pausa de al menos estas horas es terminar esa misma pasada.
+PAUSA_NUEVA_PASADA_S = CONFIG.get("pausa_nueva_pasada_horas", 2) * 3600
+DISTANCIA_MAXIMA_SERIE_M = CONFIG.get("distancia_maxima_serie_m", 40)
 
 os.makedirs(CARPETA_MEMORIA, exist_ok=True)
 os.makedirs(CARPETA_REPORTES, exist_ok=True)
@@ -494,7 +520,10 @@ def actualizar_hilera(hilera, segmento_m, fecha_str, hora_unix=None):
         hilera.primera_vez = hora_unix
 
 
-def procesar_puntos(puntos, referencia, hileras, descartados, fecha_str):
+def procesar_puntos(puntos, referencia, hileras, descartados, fecha_str, tramos_aceptados=None):
+    """Asigna los tramos del dia a hileras. Si se pasa `tramos_aceptados`, le
+    agrega (hora, punto_inicio, punto_fin) de cada tramo que quedo en una
+    hilera (se usa para contar las pasadas de barrido)."""
     segmentos = segmentar_pasadas(puntos)
 
     siguiente_id = (max((h.id for h in hileras), default=0)) + 1
@@ -513,6 +542,8 @@ def procesar_puntos(puntos, referencia, hileras, descartados, fecha_str):
             continue
         actualizar_hilera(hilera, seg_m, fecha_str, seg[0].get("t"))
         hileras_tocadas_hoy.add(hilera.id)
+        if tramos_aceptados is not None:
+            tramos_aceptados.append((seg[0].get("t") or 0, seg[0]["punto"], seg[-1]["punto"]))
 
     return list(hileras_tocadas_hoy)
 
@@ -559,17 +590,45 @@ def hilera_referencia(hileras):
 
 def filtrar_hileras_regulares(hileras):
     """
-    Separa las hileras alineadas con la direccion del cuartel de los tramos
-    cruzados (traslados en diagonal, vueltas de cabecera), que no son
-    hileras. Devuelve (alineadas, cruzadas).
+    Devuelve (hileras que cuentan, tramos que no cuentan). No cuentan:
+      - los tramos cruzados respecto de la direccion del cuartel (traslados
+        en diagonal, vueltas de cabecera);
+      - las pasadas aisladas: sin al menos MINIMO_PARALELAS_SERIE pasadas
+        paralelas de la misma maquina a menos de DISTANCIA_MAXIMA_SERIE_M
+        (ej. un traslado por el borde de la geocerca).
     """
     if len(hileras) < 2:
-        return hileras, []
+        return [], list(hileras)
     ref = hilera_referencia(hileras)
-    alineadas, cruzadas = [], []
+    alineadas, descartadas = [], []
     for h in hileras:
-        (alineadas if angulo_entre_hileras(h, ref) <= TOLERANCIA_ANGULO_GRADOS else cruzadas).append(h)
-    return alineadas, cruzadas
+        (alineadas if angulo_entre_hileras(h, ref) <= TOLERANCIA_ANGULO_GRADOS else descartadas).append(h)
+    if not alineadas:
+        return [], descartadas
+
+    origen = np.array([h.origen for h in alineadas])
+    direccion = np.array([h.direccion for h in alineadas])
+    minimo = np.array([h.min_proy for h in alineadas])
+    maximo = np.array([h.max_proy for h in alineadas])
+    ini = origen + direccion * minimo[:, None]
+    fin = origen + direccion * maximo[:, None]
+    cos_tolerancia = math.cos(math.radians(TOLERANCIA_ANGULO_GRADOS))
+    cuentan = []
+    for k, h in enumerate(alineadas):
+        o, d = origen[k], direccion[k]
+        q_ini = (ini - o) @ d
+        q_fin = (fin - o) @ d
+        lat_ini = np.abs((ini[:, 0] - o[0]) * d[1] - (ini[:, 1] - o[1]) * d[0])
+        lat_fin = np.abs((fin[:, 0] - o[0]) * d[1] - (fin[:, 1] - o[1]) * d[0])
+        lateral = (lat_ini + lat_fin) / 2
+        solape = np.minimum(np.maximum(q_ini, q_fin), maximo[k]) - np.maximum(np.minimum(q_ini, q_fin), minimo[k])
+        paralelas = (
+            (np.abs(direccion @ d) >= cos_tolerancia)
+            & (lateral >= TOLERANCIA_MISMA_HILERA_M) & (lateral <= DISTANCIA_MAXIMA_SERIE_M)
+            & (solape > 0)
+        )
+        (cuentan if int(paralelas.sum()) >= MINIMO_PARALELAS_SERIE else descartadas).append(h)
+    return cuentan, descartadas
 
 
 def espaciado_real_m(hileras_alineadas):
@@ -578,7 +637,7 @@ def espaciado_real_m(hileras_alineadas):
     pasadas a menos de TOLERANCIA_MISMA_HILERA_M, que son la misma hilera
     partida por el GPS; si no, el espaciado sale mucho menor que el real.
     """
-    if len(hileras_alineadas) < 2:
+    if len(hileras_alineadas) < MINIMO_HILERAS_ESPACIADO:
         return ESPACIADO_HILERAS_DEFECTO_M
     ref = hilera_referencia(hileras_alineadas)
     posiciones = sorted(
@@ -593,7 +652,8 @@ def espaciado_real_m(hileras_alineadas):
             grupos.append([pos])
     centros = [statistics.mean(g) for g in grupos]
     gaps = [b - a for a, b in zip(centros, centros[1:])]
-    return statistics.median(gaps) if gaps else ESPACIADO_HILERAS_DEFECTO_M
+    medido = statistics.median(gaps) if gaps else ESPACIADO_HILERAS_DEFECTO_M
+    return min(ESPACIADO_MAXIMO_M, max(ESPACIADO_MINIMO_M, medido))
 
 
 def tramo_geocerca_en_hilera(hilera, contorno_m):
@@ -818,33 +878,53 @@ AMARILLO_DESCARTADO = "ff00ffff"
 NEGRO_GEOCERCA = "ff000000"
 
 
-def avance_total_por_geocerca(unidades_procesadas, geocercas):
+def avance_total_por_geocerca(unidades_procesadas, geocercas, estado_avance):
     """
-    Avance de cada geocerca con el trabajo de TODAS las maquinas (union de
-    celdas: una hilera repetida por dos maquinas cuenta una sola vez).
-    Devuelve {nombre_geocerca: {"trabajado_ha", "area_total_ha",
-    "porcentaje", "completo", "maquinas"}}.
+    Avance de cada geocerca POR LABOR. Dentro de una labor se unen las
+    maquinas (lo repetido cuenta una vez); entre labores se cuenta aparte.
+    El avance nunca baja: se usa el maximo alcanzado. En la labor de barrido
+    se informan las pasadas completas y el % de la pasada en curso.
+    Devuelve {nombre_geocerca: {"area_total_ha", "labores": {labor: {...}}}}.
     """
     trabajos = {}
     for nombre_maquina, hileras_por_geocerca, _ in unidades_procesadas:
+        labor = LABOR_POR_MAQUINA.get(nombre_maquina, "Sin labor")
         for nombre_geo, (referencia, hileras, _) in hileras_por_geocerca.items():
             if referencia is not None and hileras:
-                trabajos.setdefault(nombre_geo, []).append((nombre_maquina, referencia, hileras))
+                trabajos.setdefault((nombre_geo, labor), []).append((nombre_maquina, referencia, hileras))
 
+    geos = {g["nombre"]: g for g in geocercas}
     avance = {}
-    for geo in geocercas:
-        lista = trabajos.get(geo["nombre"])
-        if not lista:
+    for (nombre_geo, labor), lista in sorted(trabajos.items()):
+        geo = geos.get(nombre_geo)
+        if geo is None:
             continue
-        fraccion = fraccion_trabajada(geo, celdas_trabajadas(geo, [(ref, hs) for _, ref, hs in lista]))
-        avance[geo["nombre"]] = {
-            "trabajado_ha": round(fraccion * geo["area_ha"], 4),
-            "area_total_ha": round(geo["area_ha"], 4),
-            "porcentaje": round(fraccion * 100, 1),
-            "completo": fraccion >= UMBRAL_CIERRE_PORCENTAJE,
-            "maquinas": sorted({m for m, _, _ in lista}),
-        }
+        estado = estado_avance_de(estado_avance, nombre_geo, labor)
+        info = {"maquinas": sorted({m for m, _, _ in lista})}
+        if labor == LABOR_CON_PASADAS:
+            info.update({
+                "pasadas_completas": len(estado["pasadas"]),
+                "porcentaje_en_curso": round(estado["fraccion_en_curso"] * 100, 1),
+                "trabajado_ha": round(estado["fraccion_en_curso"] * geo["area_ha"], 4),
+                "porcentaje": round(estado["fraccion_en_curso"] * 100, 1),
+                "completo": len(estado["pasadas"]) > 0,
+            })
+        else:
+            fraccion = max(estado["max_fraccion"], fraccion_trabajada(
+                geo, celdas_trabajadas(geo, [(ref, hs) for _, ref, hs in lista])))
+            estado["max_fraccion"] = fraccion
+            info.update({
+                "trabajado_ha": round(fraccion * geo["area_ha"], 4),
+                "porcentaje": round(fraccion * 100, 1),
+                "completo": fraccion >= UMBRAL_CIERRE_PORCENTAJE,
+            })
+        entrada = avance.setdefault(nombre_geo, {"area_total_ha": round(geo["area_ha"], 4), "labores": {}})
+        entrada["labores"][labor] = info
     return avance
+
+
+def labor_completa(avance_total, nombre_geo, labor):
+    return avance_total.get(nombre_geo, {}).get("labores", {}).get(labor, {}).get("completo", False)
 
 
 def exportar_kml(ruta_salida, unidades_procesadas, geocercas, avance_total):
@@ -864,10 +944,11 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas, avance_total):
 
     partes.append('<Folder><name>Cuarteles (geocercas)</name>')
     for geo in geocercas:
-        completa = avance_total.get(geo["nombre"], {}).get("completo", False)
+        labores = avance_total.get(geo["nombre"], {}).get("labores", {})
+        completas = sorted(l for l, info in labores.items() if info.get("completo"))
 
         color_borde = NEGRO_GEOCERCA
-        etiqueta = "COMPLETA" if completa else f"{geo['area_ha']:.2f} ha"
+        etiqueta = (f"COMPLETA: {', '.join(completas)}" if completas else f"{geo['area_ha']:.2f} ha")
         coords = " ".join(f"{lon},{lat},0" for lon, lat in geo["contorno"] + [geo["contorno"][0]])
         nombre_geo_seguro = escapar_xml(geo["nombre"])
         partes.append(
@@ -887,7 +968,7 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas, avance_total):
             if referencia is None:
                 continue
             geo = next((g for g in geocercas if g["nombre"] == nombre_geo), None)
-            geocerca_completa = avance_total.get(nombre_geo, {}).get("completo", False)
+            geocerca_completa = labor_completa(avance_total, nombre_geo, LABOR_POR_MAQUINA.get(nombre_unidad))
             _, cruzadas = filtrar_hileras_regulares(hileras)
             ids_cruzadas = {h.id for h in cruzadas}
             contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]] if geo else []
@@ -943,15 +1024,17 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas, avance_total):
 # Persistencia: memoria por unidad + geocerca
 # ---------------------------------------------------------------------------
 
-def ruta_memoria(unit_id, nombre_geocerca):
-    # El codigo corto evita que dos nombres parecidos (ej. con y sin tilde)
-    # compartan el mismo archivo.
+def ruta_memoria(unit_id, nombre_geocerca, labor):
+    # La labor va en el nombre: si una maquina cambia de labor, lo ya hecho
+    # queda en la labor anterior. El codigo corto evita que dos nombres
+    # parecidos (ej. con y sin tilde) compartan el mismo archivo.
     codigo = hashlib.md5(nombre_geocerca.encode("utf-8")).hexdigest()[:6]
-    return os.path.join(CARPETA_MEMORIA, f"unidad_{unit_id}_cuartel_{slug(nombre_geocerca)}_{codigo}.json")
+    return os.path.join(CARPETA_MEMORIA,
+                        f"unidad_{unit_id}_{slug(labor)}_cuartel_{slug(nombre_geocerca)}_{codigo}.json")
 
 
-def cargar_estado(unit_id, nombre_geocerca):
-    ruta = ruta_memoria(unit_id, nombre_geocerca)
+def cargar_estado(unit_id, nombre_geocerca, labor):
+    ruta = ruta_memoria(unit_id, nombre_geocerca, labor)
     if not os.path.exists(ruta):
         return None, [], 0.0
     with open(ruta, "r", encoding="utf-8") as f:
@@ -962,15 +1045,38 @@ def cargar_estado(unit_id, nombre_geocerca):
     return referencia, hileras, area_acumulada_ha
 
 
-def guardar_estado(unit_id, nombre_geocerca, referencia, hileras, area_acumulada_ha):
-    ruta = ruta_memoria(unit_id, nombre_geocerca)
+def guardar_estado(unit_id, nombre_geocerca, labor, referencia, hileras, area_acumulada_ha):
+    ruta = ruta_memoria(unit_id, nombre_geocerca, labor)
     data = {
         "referencia": list(referencia) if referencia else None,
+        "labor": labor,
         "hileras": [h.to_dict() for h in hileras],
         "area_acumulada_ha": area_acumulada_ha,
     }
     with open(ruta, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+
+
+def cargar_estado_avance():
+    if not os.path.exists(RUTA_ESTADO_AVANCE):
+        return {}
+    with open(RUTA_ESTADO_AVANCE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def guardar_estado_avance(estado):
+    with open(RUTA_ESTADO_AVANCE, "w", encoding="utf-8") as f:
+        json.dump(estado, f, ensure_ascii=False)
+
+
+def clave_avance(nombre_geo, labor):
+    return f"{nombre_geo}||{labor}"
+
+
+def estado_avance_de(estado, nombre_geo, labor):
+    return estado.setdefault(clave_avance(nombre_geo, labor), {
+        "max_fraccion": 0.0, "pasadas": [], "tramos_ultima": [], "en_curso": [], "fraccion_en_curso": 0.0,
+    })
 
 
 # ---------------------------------------------------------------------------
@@ -991,18 +1097,19 @@ def guardar_historico(registros):
 
 def actualizar_historico(df_resumen):
     historico = cargar_historico()
-    indice = {(r["fecha"], r["maquina"], r["cuartel"]): i for i, r in enumerate(historico)}
+    indice = {(r["fecha"], r["maquina"], r["cuartel"], r.get("labor")): i for i, r in enumerate(historico)}
 
     for _, fila in df_resumen.iterrows():
         registro = {
             "fecha": fila["Fecha"],
             "maquina": fila["Máquina"],
             "cuartel": str(fila["Cuartel"]),
+            "labor": str(fila["Labor"]),
             "n_hileras": int(fila["N° hileras conocidas"]),
             "area_total_ha": float(fila["Área real del cuartel (ha)"]),
             "area_trabajada_ha": float(fila["Hectáreas trabajadas del cuartel"]),
         }
-        clave = (registro["fecha"], registro["maquina"], registro["cuartel"])
+        clave = (registro["fecha"], registro["maquina"], registro["cuartel"], registro["labor"])
         if clave in indice:
             historico[indice[clave]] = registro
         else:
@@ -1016,12 +1123,14 @@ def actualizar_historico(df_resumen):
 # Orquestacion principal
 # ---------------------------------------------------------------------------
 
-def generar_reporte(sid, geocercas):
+def generar_reporte(sid, geocercas, estado_avance):
     """
-    Procesa los dias en orden cronologico. Cada dia, en cada geocerca, las
-    maquinas se procesan en el orden en que entraron a ella; las hectareas
-    nuevas se acreditan a la maquina que cubrio primero esas celdas, asi el
-    trabajo repetido por otra maquina no suma dos veces.
+    Procesa los dias en orden cronologico. El avance se calcula por geocerca
+    y LABOR: dentro de una labor se unen las maquinas (lo repetido cuenta una
+    vez) y las hectareas nuevas se acreditan a la maquina que las cubrio
+    primero (cada dia, las maquinas se procesan en el orden en que entraron
+    a la geocerca). El avance de cada geocerca + labor nunca baja. En la
+    labor de barrido se cuentan pasadas completas (ver avanzar_pasadas).
     """
     filas_resumen = []
     filas_detalle = []
@@ -1032,23 +1141,26 @@ def generar_reporte(sid, geocercas):
     def estado_de(unidad, geo):
         clave = (unidad["id"], geo["nombre"])
         if clave not in estado:
-            estado[clave] = list(cargar_estado(unidad["id"], geo["nombre"]))
+            estado[clave] = list(cargar_estado(unidad["id"], geo["nombre"], labor_de(unidad)))
         return estado[clave]
 
     marcas = {}  # (unit_id, nombre_geo) -> marcas de esa maquina (se recalculan si trabaja)
-    cobertura = {}  # nombre_geo -> celdas trabajadas actuales (todas las maquinas)
+    cobertura = {}  # (nombre_geo, labor) -> celdas trabajadas actuales de esa labor
 
-    def cobertura_actual(geo):
-        if geo["nombre"] not in cobertura:
+    def cobertura_actual(geo, labor):
+        clave_cobertura = (geo["nombre"], labor)
+        if clave_cobertura not in cobertura:
             lista = []
             for u in UNIDADES:
+                if labor_de(u) != labor:
+                    continue
                 clave = (u["id"], geo["nombre"])
                 if clave not in marcas:
                     referencia, hileras, _ = estado_de(u, geo)
                     marcas[clave] = marcar_trabajo_maquina(geo, referencia, hileras)
                 lista.append(marcas[clave])
-            cobertura[geo["nombre"]] = unir_trabajos(geo, lista)
-        return cobertura[geo["nombre"]]
+            cobertura[clave_cobertura] = unir_trabajos(geo, lista)
+        return cobertura[clave_cobertura]
 
     indice = indice_geocercas(geocercas)
     dia = FECHA_INICIO
@@ -1071,23 +1183,31 @@ def generar_reporte(sid, geocercas):
 
         for geo in geocercas:
             for _, unidad, puntos_geo in sorted(entradas[geo["nombre"]], key=lambda e: e[0]):
+                labor = labor_de(unidad)
                 referencia, hileras, area_acreditada_ha = estado_de(unidad, geo)
                 if referencia is None:
                     referencia = puntos_geo[0]["punto"]
                 ids_antes = {h.id for h in hileras}
-                celdas_antes = cobertura_actual(geo)
+                tramos_hoy = []
 
                 hileras_tocadas_hoy = procesar_puntos(
-                    puntos_geo, referencia, hileras, descartados[unidad["id"]], fecha_str
+                    puntos_geo, referencia, hileras, descartados[unidad["id"]], fecha_str, tramos_hoy
                 )
                 if hileras_tocadas_hoy:
                     estado[(unidad["id"], geo["nombre"])][0] = referencia
                     marcas.pop((unidad["id"], geo["nombre"]), None)
-                    cobertura.pop(geo["nombre"], None)
-                    celdas_despues = cobertura_actual(geo)
-                    n_celdas = grilla_geocerca(geo)["n_celdas"]
-                    nuevas = int((celdas_despues & ~celdas_antes).sum())
-                    area_trabajada_ha = nuevas / n_celdas * geo["area_ha"] if n_celdas else 0.0
+                    cobertura.pop((geo["nombre"], labor), None)
+                    avance = estado_avance_de(estado_avance, geo["nombre"], labor)
+                    if labor == LABOR_CON_PASADAS:
+                        area_trabajada_ha = avanzar_pasadas(geo, avance, tramos_hoy)
+                        resumen_avance = (f"{len(avance['pasadas'])} pasadas completas, "
+                                          f"en curso {avance['fraccion_en_curso'] * 100:.1f}%")
+                    else:
+                        # El avance nunca baja: solo se acredita lo que supera el maximo.
+                        fraccion = fraccion_trabajada(geo, cobertura_actual(geo, labor))
+                        area_trabajada_ha = max(0.0, fraccion - avance["max_fraccion"]) * geo["area_ha"]
+                        avance["max_fraccion"] = max(avance["max_fraccion"], fraccion)
+                        resumen_avance = f"avance {avance['max_fraccion'] * 100:.1f}%"
                     area_acreditada_ha += area_trabajada_ha
                     alineadas, _ = filtrar_hileras_regulares(hileras)
 
@@ -1097,6 +1217,7 @@ def generar_reporte(sid, geocercas):
                                 filas_detalle.append({
                                     "Fecha": fecha_str,
                                     "Máquina": unidad["nombre"],
+                                    "Labor": labor,
                                     "Cuartel": geo["nombre"],
                                     "Hilera": h.id,
                                     "Máx. pasadas (acumulado)": contar_pasadas_max(h.intervalos),
@@ -1104,6 +1225,7 @@ def generar_reporte(sid, geocercas):
                         filas_resumen.append({
                             "Fecha": fecha_str,
                             "Máquina": unidad["nombre"],
+                            "Labor": labor,
                             "Cuartel": geo["nombre"],
                             "N° hileras conocidas": len(alineadas),
                             "Área acumulada trabajada (ha)": round(area_acreditada_ha, 2),
@@ -1112,13 +1234,12 @@ def generar_reporte(sid, geocercas):
                         })
                     else:
                         print(
-                            f"  [sin avance nuevo] {fecha_str} - {unidad['nombre']} - {geo['nombre']}: "
-                            f"{len(puntos_geo)} puntos, {len(hileras)} hileras conocidas, "
-                            f"avance del cuartel {fraccion_trabajada(geo, celdas_despues) * 100:.1f}%"
+                            f"  [sin avance nuevo] {fecha_str} - {unidad['nombre']} ({labor}) - {geo['nombre']}: "
+                            f"{len(puntos_geo)} puntos, {len(hileras)} hileras conocidas, {resumen_avance}"
                         )
 
                 estado[(unidad["id"], geo["nombre"])] = [referencia, hileras, area_acreditada_ha]
-                guardar_estado(unidad["id"], geo["nombre"], referencia, hileras, area_acreditada_ha)
+                guardar_estado(unidad["id"], geo["nombre"], labor, referencia, hileras, area_acreditada_ha)
 
         dia += timedelta(days=1)
 
@@ -1186,43 +1307,98 @@ def obtener_unidades_wialon(sid):
     return [(item["id"], item.get("nm", "")) for item in r.json().get("items", [])]
 
 
-def contar_pasadas_completas(geo, segmentos):
-    """
-    Pasadas completas de barrido en una geocerca. `segmentos`: lista
-    cronologica de (hora_unix, [(x, y) en metros respecto de geo["contorno"][0]]).
-    Cada tramo recto marca una franja en la pasada en curso; cuando la pasada
-    cubre el umbral de cierre (95 %) se cuenta como completa y la siguiente
-    empieza desde cero. Devuelve (pasadas [(inicio, fin)], % de la en curso).
-    """
-    grilla = grilla_geocerca(geo)
+def tramos_a_hileras(geo, tramos):
+    """Convierte tramos [(hora, (lon, lat) inicio, (lon, lat) fin)] en hileras
+    en metros respecto del primer punto del contorno de la geocerca."""
     referencia = geo["contorno"][0]
     hileras = []
-    for t, seg in segmentos:
-        (x0, y0), (x1, y1) = seg[0], seg[-1]
+    for _, p_ini, p_fin in tramos:
+        (x0, y0), (x1, y1) = punto_a_metros(p_ini, referencia), punto_a_metros(p_fin, referencia)
         largo = math.hypot(x1 - x0, y1 - y0)
         if largo >= LARGO_MINIMO_TRAMO_M:
-            hileras.append((t, Hilera(0, (x0, y0), ((x1 - x0) / largo, (y1 - y0) / largo), 0, largo)))
-    if len(hileras) < 2:
-        return [], 0.0
-    ref = hilera_referencia([h for _, h in hileras])
-    alineadas = [(t, h) for t, h in hileras if angulo_entre_hileras(h, ref) <= TOLERANCIA_ANGULO_GRADOS]
-    espaciado = espaciado_real_m([h for _, h in alineadas]) if len(alineadas) >= 10 else ESPACIADO_HILERAS_DEFECTO_M
-    espaciado = min(7.0, max(2.5, espaciado))
-    radio = int(round(espaciado / 2 / grilla["lado"]))
-    pasadas, inicio = [], None
-    marcadas = np.zeros(grilla["mascara"].shape, dtype=bool)
-    fraccion = 0.0
-    for t, h in alineadas:
-        inicio = inicio or t
-        marcar_franja_hilera(h, referencia, geo, espaciado, marcadas)
-        fraccion = marcadas.sum() / grilla["n_celdas"]
-        if fraccion >= 0.6:  # el relleno solo agrega franjas angostas: antes no puede llegar al 95 %
-            fraccion = rellenar_franjas_angostas(marcadas, grilla["mascara"], radio).sum() / grilla["n_celdas"]
-        if fraccion >= UMBRAL_CIERRE_PORCENTAJE:
-            pasadas.append((inicio, t))
-            marcadas[:] = False
-            inicio, fraccion = None, 0.0
-    return pasadas, fraccion
+            hileras.append(Hilera(0, (x0, y0), ((x1 - x0) / largo, (y1 - y0) / largo), 0, largo))
+    return hileras
+
+
+def celdas_de_tramos(geo, tramos):
+    """Celdas cubiertas por los tramos, con las mismas reglas que el resto
+    (tramos cruzados y pasadas aisladas no cuentan)."""
+    return celdas_trabajadas(geo, [(geo["contorno"][0], tramos_a_hileras(geo, tramos))])
+
+
+def fraccion_de_tramos(geo, tramos):
+    return fraccion_trabajada(geo, celdas_de_tramos(geo, tramos)) if tramos else 0.0
+
+
+def tramo_termina_pasada(geo, tramo, celdas_pasada, espaciado):
+    """True si la mayor parte de la franja del tramo cae donde la pasada ya
+    completa todavia no habia pasado (esta terminando esa pasada, no
+    empezando la siguiente)."""
+    hileras = tramos_a_hileras(geo, [tramo])
+    if not hileras:
+        return False
+    franja = np.zeros(celdas_pasada.shape, dtype=bool)
+    marcar_franja_hilera(hileras[0], geo["contorno"][0], geo, espaciado, franja)
+    franja &= grilla_geocerca(geo)["mascara"]
+    total = int(franja.sum())
+    return total > 0 and int((franja & ~celdas_pasada).sum()) > total / 2
+
+
+def avanzar_pasadas(geo, estado, nuevos_tramos):
+    """
+    Pasadas completas de barrido (todas las barredoras juntas). `estado`:
+    {"pasadas": [[inicio, fin], ...], "tramos_ultima": [...], "en_curso": [...],
+    "fraccion_en_curso"}. Los tramos nuevos, en orden, primero terminan la
+    ultima pasada completa si siguen sin pausa (menos de PAUSA_NUEVA_PASADA_S
+    desde el tramo anterior) o si cubren zona que esa pasada no tenia; luego
+    se suman a la pasada en curso. Cuando la pasada en curso cubre el umbral de
+    cierre (95 %) se cuenta como completa y la siguiente empieza desde cero.
+    Devuelve las hectareas barridas nuevas (una pasada completa cuenta el
+    area entera).
+    """
+    estado.setdefault("tramos_ultima", [])
+    fraccion_antes = estado.get("fraccion_en_curso", 0.0)
+    completadas = 0
+    pendientes = sorted(nuevos_tramos, key=lambda t: t[0])
+    while pendientes:
+        if not estado["en_curso"] and estado["tramos_ultima"]:
+            celdas_ultima = celdas_de_tramos(geo, estado["tramos_ultima"])
+            espaciado = espaciado_real_m(filtrar_hileras_regulares(tramos_a_hileras(geo, estado["tramos_ultima"]))[0])
+            while pendientes and (
+                pendientes[0][0] - estado["tramos_ultima"][-1][0] <= PAUSA_NUEVA_PASADA_S
+                or tramo_termina_pasada(geo, pendientes[0], celdas_ultima, espaciado)
+            ):
+                estado["tramos_ultima"].append(pendientes.pop(0))
+                estado["pasadas"][-1][1] = estado["tramos_ultima"][-1][0]
+            if not pendientes:
+                break
+        en_curso = estado["en_curso"]
+        if fraccion_de_tramos(geo, en_curso + pendientes) < UMBRAL_CIERRE_PORCENTAJE:
+            estado["en_curso"] = en_curso + pendientes
+            break
+        # Busca el primer tramo con el que la pasada llega al umbral.
+        bajo, alto = 1, len(pendientes)
+        while bajo < alto:
+            medio = (bajo + alto) // 2
+            if fraccion_de_tramos(geo, en_curso + pendientes[:medio]) >= UMBRAL_CIERRE_PORCENTAJE:
+                alto = medio
+            else:
+                bajo = medio + 1
+        tramos_pasada = en_curso + pendientes[:bajo]
+        estado["pasadas"].append([tramos_pasada[0][0], tramos_pasada[-1][0]])
+        estado["tramos_ultima"] = tramos_pasada
+        estado["en_curso"] = []
+        pendientes = pendientes[bajo:]
+        completadas += 1
+    estado["fraccion_en_curso"] = fraccion_de_tramos(geo, estado["en_curso"])
+    return max(0.0, completadas - fraccion_antes + estado["fraccion_en_curso"]) * geo["area_ha"]
+
+
+def contar_pasadas_completas(geo, tramos):
+    """Pasadas completas de una lista cronologica de tramos (para pruebas)."""
+    estado = {"pasadas": [], "tramos_ultima": [], "en_curso": [], "fraccion_en_curso": 0.0}
+    avanzar_pasadas(geo, estado, tramos)
+    return [tuple(p) for p in estado["pasadas"]], estado["fraccion_en_curso"]
 
 
 def prueba_pasadas(sid, nombre):
@@ -1254,7 +1430,7 @@ def prueba_pasadas(sid, nombre):
             for seg in segmentar_pasadas(sorted(puntos_unidad, key=lambda p: p["t"] or 0)):
                 seg_m = [punto_a_metros(p["punto"], referencia) for p in seg]
                 if velocidad_kmh_segmento(seg, seg_m) <= VELOCIDAD_MAXIMA_TRABAJO_KMH:
-                    segmentos.append((seg[0]["t"] or 0, seg_m))
+                    segmentos.append((seg[0]["t"] or 0, seg[0]["punto"], seg[-1]["punto"]))
         segmentos.sort(key=lambda s: s[0])
         puntos_geo = [p for pu in por_unidad.values() for p in pu]
         pasadas, en_curso = contar_pasadas_completas(geo, segmentos)
@@ -1292,7 +1468,8 @@ def main():
               "'cuarteles_incluidos' en config.json). Revisa el nombre exacto.")
 
     print(f"Procesando del {FECHA_INICIO.date()} al {FECHA_FIN.date()}...")
-    df_resumen, df_detalle, resultado_por_unidad, diagnostico = generar_reporte(sid, geocercas)
+    estado_avance = cargar_estado_avance()
+    df_resumen, df_detalle, resultado_por_unidad, diagnostico = generar_reporte(sid, geocercas, estado_avance)
 
     print("\nDiagnostico: puntos GPS (de cualquier maquina, sumados) encontrados dentro de cada geocerca:")
     for nombre, cantidad in diagnostico.items():
@@ -1318,11 +1495,17 @@ def main():
         print(df_resumen.to_string(index=False))
 
     ruta_kml = os.path.join(CARPETA_DATOS, "hileras_detectadas.kml")
-    avance_total = avance_total_por_geocerca(resultado_por_unidad, geocercas)
-    print("\nAvance por cuartel (todas las maquinas, sin contar dos veces lo repetido):")
-    for nombre_geo, info in sorted(avance_total.items()):
-        print(f"  - {nombre_geo}: {info['trabajado_ha']:.2f} de {info['area_total_ha']:.2f} ha"
-              f" ({info['porcentaje']:.1f}%){' -> COMPLETO' if info['completo'] else ''}")
+    avance_total = avance_total_por_geocerca(resultado_por_unidad, geocercas, estado_avance)
+    guardar_estado_avance(estado_avance)
+    print("\nAvance por cuartel y labor (dentro de cada labor, lo repetido cuenta una vez):")
+    for nombre_geo, entrada in sorted(avance_total.items()):
+        for labor, info in sorted(entrada["labores"].items()):
+            if labor == LABOR_CON_PASADAS:
+                detalle = f"{info['pasadas_completas']} pasadas completas, en curso {info['porcentaje_en_curso']:.1f}%"
+            else:
+                detalle = (f"{info['trabajado_ha']:.2f} de {entrada['area_total_ha']:.2f} ha "
+                           f"({info['porcentaje']:.1f}%){' -> COMPLETO' if info['completo'] else ''}")
+            print(f"  - {nombre_geo} – {labor}: {detalle}")
     with open(RUTA_AVANCE_CUARTELES, "w", encoding="utf-8") as f:
         json.dump({"umbral_cierre": UMBRAL_CIERRE_PORCENTAJE, "cuarteles": avance_total},
                   f, ensure_ascii=False, indent=2)
@@ -1351,7 +1534,8 @@ def main():
             if referencia is None:
                 continue
             geo = geocercas_por_nombre.get(nombre_geo)
-            completo = avance_total.get(nombre_geo, {}).get("completo", False)
+            labor = LABOR_POR_MAQUINA.get(nombre_unidad, "Sin labor")
+            completo = labor_completa(avance_total, nombre_geo, labor)
             _, cruzadas = filtrar_hileras_regulares(hileras)
             ids_cruzadas = {h.id for h in cruzadas}
 
@@ -1374,6 +1558,7 @@ def main():
                 })
             if filas:
                 cuarteles_json[nombre_geo] = {
+                    "labor": labor,
                     "completo": completo,
                     "contorno": geo["contorno"] if geo else [],
                     "hileras": filas,

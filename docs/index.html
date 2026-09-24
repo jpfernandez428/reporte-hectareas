@@ -126,19 +126,25 @@ function hayFiltrosActivos() {
 
 function renderAvancePorCuartel() {
   const cont = document.getElementById('contenedorAvanceCuartel');
+  const umbral = ((avanceCuarteles && avanceCuarteles.umbral_cierre) || 0.95) * 100;
 
-  // Sin filtros: se usa el total calculado por el script (todas las maquinas,
-  // sin contar dos veces las hileras repetidas). Con filtros de fecha/maquina
-  // se suma el historico diario de lo filtrado.
+  // Sin filtros: se usa el avance calculado por el script, por cuartel y labor
+  // (dentro de cada labor, lo repetido cuenta una vez). Con filtros de
+  // fecha/maquina se suma el historico diario de lo filtrado.
   if (!hayFiltrosActivos() && avanceCuarteles && avanceCuarteles.cuarteles) {
-    const umbral = (avanceCuarteles.umbral_cierre || 0.95) * 100;
-    const filasTotal = Object.entries(avanceCuarteles.cuarteles).map(([nombre, v]) => ({
-      nombre,
-      area_total: v.area_total_ha,
-      trabajado: v.trabajado_ha,
-      porcentaje: v.area_total_ha > 0 ? Math.min(100, (v.trabajado_ha / v.area_total_ha) * 100) : 0,
-      completo: v.completo,
-    }));
+    const filasTotal = [];
+    for (const [nombre, v] of Object.entries(avanceCuarteles.cuarteles)) {
+      for (const [labor, info] of Object.entries(v.labores || {})) {
+        filasTotal.push({
+          nombre, labor,
+          area_total: v.area_total_ha,
+          trabajado: info.trabajado_ha,
+          porcentaje: Math.min(100, info.porcentaje),
+          completo: info.completo,
+          pasadas: info.pasadas_completas,
+        });
+      }
+    }
     if (filasTotal.length > 0) {
       cont.innerHTML = tablaAvance(filasTotal, umbral);
       return;
@@ -152,39 +158,42 @@ function renderAvancePorCuartel() {
 
   const porCuartel = {};
   for (const d of filtrados) {
-    if (!porCuartel[d.cuartel]) {
-      porCuartel[d.cuartel] = { area_total: d.area_total_ha, trabajado: 0 };
+    const clave = d.cuartel + '||' + (d.labor || '');
+    if (!porCuartel[clave]) {
+      porCuartel[clave] = { nombre: d.cuartel, labor: d.labor || '', area_total: d.area_total_ha, trabajado: 0 };
     }
-    porCuartel[d.cuartel].area_total = Math.max(porCuartel[d.cuartel].area_total, d.area_total_ha);
-    porCuartel[d.cuartel].trabajado += d.area_trabajada_ha;
+    porCuartel[clave].area_total = Math.max(porCuartel[clave].area_total, d.area_total_ha);
+    porCuartel[clave].trabajado += d.area_trabajada_ha;
   }
 
-  const filas = Object.entries(porCuartel)
-    .map(([nombre, v]) => ({
-      nombre,
-      area_total: v.area_total,
-      trabajado: Math.min(v.trabajado, v.area_total),
-      porcentaje: v.area_total > 0 ? Math.min(100, (v.trabajado / v.area_total) * 100) : 0,
-    }))
-    .sort((a, b) => a.nombre.localeCompare(b.nombre, undefined, { numeric: true, sensitivity: 'base' }));
-
-  cont.innerHTML = tablaAvance(filas, ((avanceCuarteles && avanceCuarteles.umbral_cierre) || 0.95) * 100);
+  // En barrido las hectareas pueden superar el area (varias pasadas).
+  const filas = Object.values(porCuartel).map(v => ({
+    nombre: v.nombre, labor: v.labor, area_total: v.area_total,
+    trabajado: v.trabajado,
+    porcentaje: v.area_total > 0 ? Math.min(100, (v.trabajado / v.area_total) * 100) : 0,
+  }));
+  cont.innerHTML = tablaAvance(filas, umbral);
 }
 
 function tablaAvance(filas, umbral) {
-  filas = filas.slice().sort((a, b) => a.nombre.localeCompare(b.nombre, undefined, { numeric: true, sensitivity: 'base' }));
+  const orden = (a, b) => a.nombre.localeCompare(b.nombre, undefined, { numeric: true, sensitivity: 'base' }) ||
+    (a.labor || '').localeCompare(b.labor || '');
+  filas = filas.slice().sort(orden);
   let html = '<table><thead><tr>' +
-    '<th>Cuartel</th><th>Área total (ha)</th><th>Trabajado (ha)</th><th>% avance</th>' +
+    '<th>Cuartel</th><th>Labor</th><th>Área total (ha)</th><th>Trabajado (ha)</th><th>% avance</th>' +
     '</tr></thead><tbody>';
 
   for (const f of filas) {
     const completo = f.completo !== undefined ? f.completo : f.porcentaje >= umbral;
-    html += `<tr><td>${f.nombre}</td><td>${f.area_total.toFixed(2)}</td>` +
-      `<td>${f.trabajado.toFixed(2)}</td>` +
+    const texto = f.pasadas !== undefined
+      ? `${f.pasadas} pasada${f.pasadas === 1 ? '' : 's'} + ${f.porcentaje.toFixed(0)}%`
+      : `${f.porcentaje.toFixed(0)}%${completo ? ' ✓' : ''}`;
+    html += `<tr><td>${escaparXml(f.nombre)}</td><td>${escaparXml(f.labor || '')}</td>` +
+      `<td>${f.area_total.toFixed(2)}</td><td>${f.trabajado.toFixed(2)}</td>` +
       `<td><div style="display:flex; align-items:center; gap:8px;">` +
       `<div style="flex:1; background:#eee; border-radius:4px; height:14px; overflow:hidden;">` +
       `<div style="width:${f.porcentaje.toFixed(0)}%; background:${completo ? '#2f6f3e' : '#f0ad4e'}; height:100%;"></div>` +
-      `</div><span style="font-size:12px; white-space:nowrap;">${f.porcentaje.toFixed(0)}%${completo ? ' ✓' : ''}</span>` +
+      `</div><span style="font-size:12px; white-space:nowrap;">${texto}</span>` +
       `</div></td></tr>`;
   }
   html += '</tbody></table>';

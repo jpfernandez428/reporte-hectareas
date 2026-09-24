@@ -45,15 +45,24 @@ cambiarlas sin preguntar.
   verde), **azul** = hilera completa en un cuartel en proceso, **rojo** =
   hilera parcial.
 
-### Correcciones pendientes de aplicar (aprobadas en concepto)
+### Correcciones aplicadas en el código (septiembre 2026, falta relanzar)
 
-- Espaciado acotado a 2,5–7 m; 4 m por defecto si hay menos de 10 hileras
-  (una máquina con pocas hileras daba espaciados de hasta 401 m e inflaba el
-  avance).
+- Espaciado (ancho asumido de cada hilera) acotado a **2,5–5 m**; 4 m por
+  defecto si hay menos de 10 hileras. Nunca más de 5 m (una máquina con
+  pocas hileras llegaba a dar 30–400 m e inflaba el avance, ej. Solfrut 8).
+- No se rellenan huecos de más de un espaciado (máx. 5 m): cada pasada
+  cuenta solo su propia franja.
+- Pasadas aisladas no cuentan: una pasada cuenta si tiene al menos 2 pasadas
+  paralelas de la misma máquina a menos de 40 m (trabajo en serie, aunque se
+  salte hileras). Así los traslados por el borde quedan fuera (Juan
+  Valenzuela_Cuartel 4: Barrido 0 %, Cosecha con recibidor ~46 %, ambos
+  confirmados en terreno).
 - El avance de cada geocerca + labor nunca baja: se acredita solo lo que
-  supera el máximo ya alcanzado (así la suma del historial no pasa del área).
-- Descartar pasadas aisladas (traslados por el borde o por el medio). Regla
-  exacta por confirmar (ver caso Solfrut 8 / Juan Valenzuela_Cuartel 4).
+  supera el máximo ya alcanzado (la suma del historial no puede pasar del
+  área). Estado en `memoria_hileras/_avance_por_labor.json`.
+- Con estas reglas: Solfrut 8 – Picado 13,5 %, Solfrut 10 – Picado 9,1 %;
+  Aurora sigue calibrado (3: 98,2 %, 7: 98,8 %, 1: 91,8 %, 2: 86,5 %,
+  6: 91,1 %).
 
 ## Geocercas
 
@@ -90,11 +99,16 @@ editable por el usuario.
 
 ### Barredoras: pasadas completas
 
-- Cuando las barredoras cubren el 95 % de la geocerca, esa es la pasada 1. Si
-  después vuelven a pasar por la misma geocerca, empieza la pasada 2 desde
-  cero, y así sucesivamente.
+- Todas las barredoras se unen (a veces una sola hace el cuartel, a veces
+  dos juntas). Cuando entre todas cubren el 95 % de la geocerca, esa es la
+  pasada 1. Lo que siguen haciendo sin una pausa de 2 h o más, o por zona
+  que esa pasada no tenía, sigue siendo la pasada 1. Si después vuelven a
+  pasar por la misma geocerca, empieza la pasada 2 desde cero, y así
+  sucesivamente.
 - El resumen muestra cuántas pasadas completas lleva cada cuartel y el % de
   la pasada en curso. **No** usar la mediana de días por hilera.
+- Las hectáreas de barrido del historial suman todas las pasadas (pueden
+  superar el área del cuartel).
 
 ## Mapas
 
