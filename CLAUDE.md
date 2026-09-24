@@ -142,16 +142,24 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
 
 - **Máquinas en CYH:** las que terminan el día dentro de la geocerca "C&H
   Maquinaria" (`geocerca_patio` en `config.json`).
-- **⚠ Máquinas trabajando sin geocerca:** máquinas que no están en CYH y que
-  trabajaron fuera de toda geocerca. Trabajo = mismo criterio de las
-  hileras: tramos rectos a velocidad de trabajo, alineados y en serie (al
-  menos 2 paralelas a menos de 40 m), con al menos 6 pasadas por zona; ir y
-  volver por un camino no cuenta. Por cada zona: máquina, labor, fecha, horas
-  trabajadas fuera de geocerca (tramos + giros de cabecera de hasta 5 min),
-  ha aproximadas y enlace a Google Maps para crear la geocerca.
-- Las alertas se guardan 30 días. En cada corrida se revisan contra las
-  geocercas actuales: si ya hay una geocerca donde fue el trabajo, la alerta
-  desaparece.
+- **⚠ Máquinas trabajando sin geocerca:** solo trabajo reciente, de los
+  **últimos 30 días** (el mismo plazo de la recuperación de geocercas nuevas).
+  Nunca alertas viejas del historial del año.
+- **Formato:** una sola línea por máquina y lugar, no una por día:
+  "Tractor 7 Kubota 95 – trabajando hace 5 días sin geocerca – [mapa]".
+  "Hace N días" = días desde la primera vez que trabajó en ese lugar sin
+  geocerca, dentro de los 30 días. Si la misma máquina trabajó en dos
+  lugares distintos (a más de 600 m), una línea por lugar. Orden: de más días
+  a menos.
+- **Qué es trabajo:** mismo criterio de las hileras (tramos rectos a
+  velocidad de trabajo, alineados y en serie; al menos 6 pasadas por zona).
+  Además, para no confundir caminos de acceso con trabajo aunque la máquina
+  vaya lento: la zona debe tener varias líneas distintas (a más de 1,5 m
+  entre sí) que cubran un ancho mínimo, y un mínimo de horas por día.
+  Valores por elegir (ver pendientes).
+- **Al crear la geocerca** en Wialon, la alerta de esa máquina en ese lugar
+  desaparece (las alertas se revisan en cada corrida contra las geocercas
+  actuales).
 
 ## Geocercas nuevas (en prueba)
 
@@ -170,3 +178,5 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
 ## Pendientes
 
 - Confirmar el umbral del 50 % para el repaso de barredoras el mismo día.
+- Elegir las horas mínimas por día para las alertas sin geocerca (30 min,
+  1 h o 2 h) y confirmar el filtro de caminos (líneas y ancho mínimos).
