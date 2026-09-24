@@ -35,8 +35,8 @@ cambiarlas sin preguntar.
   marcar más angostas que un espaciado; una hilera saltada queda sin cubrir.
 - El espaciado entre hileras se mide agrupando las pasadas a menos de 1,5 m
   (el GPS parte una misma hilera en varias líneas).
-- Solo se descartan como "no hilera" los tramos cruzados (traslados en
-  diagonal, vueltas).
+- No cuentan como hilera los tramos cruzados (traslados en diagonal,
+  vueltas) ni las pasadas aisladas (ver correcciones abajo).
 - Umbral de cierre: **95 %** (`umbral_cierre_porcentaje` en `config.json`).
 - Calibración de terreno (septiembre 2026): Aurora 3 y Aurora 7 terminados;
   Aurora 1, 2 y 6 casi terminados. Cualquier cambio de fórmula debe mantener
