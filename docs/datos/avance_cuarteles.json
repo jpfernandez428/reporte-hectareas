@@ -1573,7 +1573,7 @@
       ]
     },
     "Bernardo Lira Chiñihue N3": {
-      "trabajado_ha": 33.6398,
+      "trabajado_ha": 33.6422,
       "area_total_ha": 33.9868,
       "porcentaje": 99.0,
       "completo": true,
@@ -1587,9 +1587,9 @@
       ]
     },
     "Bernardo Lira Chiñihue N5": {
-      "trabajado_ha": 0.4362,
+      "trabajado_ha": 0.4557,
       "area_total_ha": 2.7315,
-      "porcentaje": 16.0,
+      "porcentaje": 16.7,
       "completo": false,
       "maquinas": [
         "Barredora 1",
@@ -5649,9 +5649,9 @@
       ]
     },
     "Huertos de Nogal": {
-      "trabajado_ha": 38.0683,
+      "trabajado_ha": 39.4579,
       "area_total_ha": 39.8235,
-      "porcentaje": 95.6,
+      "porcentaje": 99.1,
       "completo": true,
       "maquinas": [
         "Shacker SBS 6",
@@ -6047,7 +6047,7 @@
       ]
     },
     "Aurora 10": {
-      "trabajado_ha": 2.3229,
+      "trabajado_ha": 2.3235,
       "area_total_ha": 2.3305,
       "porcentaje": 99.7,
       "completo": true,
