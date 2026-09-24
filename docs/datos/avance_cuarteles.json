@@ -2,7 +2,7 @@
   "umbral_cierre": 0.95,
   "cuarteles": {
     "C&H Maquinaria": {
-      "trabajado_ha": 4.1847,
+      "trabajado_ha": 4.1838,
       "area_total_ha": 5.1226,
       "porcentaje": 81.7,
       "completo": false,
@@ -2482,10 +2482,10 @@
       ]
     },
     "Agricola Flor Oriente": {
-      "trabajado_ha": 8.012,
+      "trabajado_ha": 9.674,
       "area_total_ha": 9.6946,
-      "porcentaje": 82.6,
-      "completo": false,
+      "porcentaje": 99.8,
+      "completo": true,
       "maquinas": [
         "Shacker SBS 6",
         "Tractor 1 Deutz-Fahr Agroplus",
@@ -2515,10 +2515,10 @@
       ]
     },
     "Agricola Flor Oriente 4": {
-      "trabajado_ha": 4.0922,
+      "trabajado_ha": 4.3323,
       "area_total_ha": 4.3549,
-      "porcentaje": 94.0,
-      "completo": false,
+      "porcentaje": 99.5,
+      "completo": true,
       "maquinas": [
         "Barredora 23",
         "Shacker SBS 10",
@@ -2526,9 +2526,9 @@
       ]
     },
     "Agricola Flor Oriente 5": {
-      "trabajado_ha": 12.2624,
+      "trabajado_ha": 12.7891,
       "area_total_ha": 12.8297,
-      "porcentaje": 95.6,
+      "porcentaje": 99.7,
       "completo": true,
       "maquinas": [
         "Barredora 23",

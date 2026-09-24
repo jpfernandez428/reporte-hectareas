@@ -30430,5 +30430,61 @@
     "n_hileras": 42,
     "area_total_ha": 4.35,
     "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-05-22",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "n_hileras": 98,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.21
+  },
+  {
+    "fecha": "2026-05-25",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "n_hileras": 136,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 1.46
+  },
+  {
+    "fecha": "2026-05-26",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente",
+    "n_hileras": 84,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-05-27",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 4",
+    "n_hileras": 45,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-05-27",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "n_hileras": 87,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-05-28",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 4",
+    "n_hileras": 77,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-05-28",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "n_hileras": 122,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 0.24
   }
 ]
