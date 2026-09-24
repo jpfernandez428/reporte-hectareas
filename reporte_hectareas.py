@@ -159,11 +159,10 @@ try:
     ZONA_HORARIA = ZoneInfo(CONFIG.get("zona_horaria", "America/Santiago"))
 except Exception:
     ZONA_HORARIA = timezone(timedelta(hours=-4))
-# Barrido: despues de completar una pasada, si en el mismo dia se vuelven a
-# barrer hileras ya barridas en esa pasada (TRAMOS_REPASO tramos seguidos con
-# al menos FRACCION_REPASO de su franja ya barrida), empieza una pasada nueva.
-TRAMOS_REPASO = CONFIG.get("tramos_repaso", 3)
-FRACCION_REPASO = CONFIG.get("fraccion_repaso", 0.7)
+# Barrido: despues de completar una pasada, lo barrido ese mismo dia cuenta
+# como pasada nueva (repaso) solo si por si solo cubre al menos esta fraccion
+# del cuartel; si no, es terminar la pasada (el 5 % restante).
+FRACCION_REPASO_MISMO_DIA = CONFIG.get("fraccion_repaso_mismo_dia", 0.5)
 
 
 def dia_local(hora_unix):
@@ -1393,28 +1392,6 @@ def fraccion_de_tramos(geo, tramos):
     return fraccion_trabajada(geo, celdas_de_tramos(geo, tramos)) if tramos else 0.0
 
 
-def tramo_ya_barrido(geo, tramo, celdas_pasada, espaciado):
-    """True si al menos FRACCION_REPASO de la franja del tramo ya estaba
-    barrida en la pasada (el tramo repasa hileras ya barridas)."""
-    hileras = tramos_a_hileras(geo, [tramo])
-    if not hileras:
-        return False
-    franja = np.zeros(celdas_pasada.shape, dtype=bool)
-    marcar_franja_hilera(hileras[0], geo["contorno"][0], geo, espaciado, franja)
-    franja &= grilla_geocerca(geo)["mascara"]
-    total = int(franja.sum())
-    return total > 0 and int((franja & celdas_pasada).sum()) >= FRACCION_REPASO * total
-
-
-def empieza_repaso(geo, tramos, celdas_pasada, espaciado):
-    """True si los proximos TRAMOS_REPASO tramos repasan hileras ya barridas
-    (un solo tramo repetido, ej. una hilera que el GPS partio en dos, no
-    alcanza para empezar una pasada nueva)."""
-    siguientes = tramos[:TRAMOS_REPASO]
-    return len(siguientes) == TRAMOS_REPASO and all(
-        tramo_ya_barrido(geo, t, celdas_pasada, espaciado) for t in siguientes)
-
-
 def avanzar_pasadas(geo, estado, nuevos_tramos):
     """
     Pasadas completas de barrido (todas las barredoras juntas). `estado`:
@@ -1425,8 +1402,9 @@ def avanzar_pasadas(geo, estado, nuevos_tramos):
       - Lo que sigan barriendo ese mismo dia (hora de Chile) sigue siendo esa
         pasada (terminar el 5 % restante).
       - La pasada nueva empieza cuando vuelven otro dia.
-      - Excepcion: si el mismo dia, ya cerrada la pasada, empiezan a barrer
-        de nuevo hileras ya barridas en ella, eso empieza una pasada nueva. Cuando la pasada en curso cubre el umbral de
+      - Excepcion: si el mismo dia, ya cerrada la pasada, vuelven a barrer
+        el cuartel (lo barrido despues del cierre cubre por si solo al menos
+        FRACCION_REPASO_MISMO_DIA del cuartel), eso es una pasada nueva. Cuando la pasada en curso cubre el umbral de
     cierre (95 %) se cuenta como completa y la siguiente empieza desde cero.
     Devuelve las hectareas barridas nuevas (una pasada completa cuenta el
     area entera).
@@ -1437,13 +1415,28 @@ def avanzar_pasadas(geo, estado, nuevos_tramos):
     pendientes = sorted(nuevos_tramos, key=lambda t: t[0])
     while pendientes:
         if not estado["en_curso"] and estado["tramos_ultima"]:
-            celdas_ultima = celdas_de_tramos(geo, estado["tramos_ultima"])
-            espaciado = espaciado_real_m(filtrar_hileras_regulares(tramos_a_hileras(geo, estado["tramos_ultima"]))[0])
             dia_cierre = dia_local(estado.get("hora_cierre") or estado["pasadas"][-1][1])
-            while (pendientes and dia_local(pendientes[0][0]) == dia_cierre
-                   and not empieza_repaso(geo, pendientes, celdas_ultima, espaciado)):
-                estado["tramos_ultima"].append(pendientes.pop(0))
-                estado["pasadas"][-1][1] = estado["tramos_ultima"][-1][0]
+            mismo_dia = [t for t in pendientes if dia_local(t[0]) == dia_cierre]
+            if mismo_dia:
+                pendientes = pendientes[len(mismo_dia):]
+                despues_cierre = estado.get("despues_cierre", []) + mismo_dia
+                if fraccion_de_tramos(geo, despues_cierre) >= FRACCION_REPASO_MISMO_DIA:
+                    # Repaso el mismo dia: lo barrido despues del cierre es una pasada nueva.
+                    # Los tramos de despues del cierre estan al final de la pasada cerrada.
+                    n_previos = len(estado.get("despues_cierre", []))
+                    if n_previos:
+                        estado["tramos_ultima"] = estado["tramos_ultima"][:-n_previos]
+                    estado["despues_cierre"] = []
+                    estado["en_curso"] = []
+                    pendientes = despues_cierre + pendientes
+                else:
+                    # Terminar la pasada ya cerrada (el 5 % restante).
+                    estado["tramos_ultima"] += mismo_dia
+                    estado["despues_cierre"] = despues_cierre
+                    estado["pasadas"][-1][1] = mismo_dia[-1][0]
+                    if not pendientes:
+                        break
+            estado["despues_cierre"] = []
             if not pendientes:
                 break
         en_curso = estado["en_curso"]
@@ -1461,6 +1454,7 @@ def avanzar_pasadas(geo, estado, nuevos_tramos):
         tramos_pasada = en_curso + pendientes[:bajo]
         estado["pasadas"].append([tramos_pasada[0][0], tramos_pasada[-1][0]])
         estado["hora_cierre"] = tramos_pasada[-1][0]
+        estado["despues_cierre"] = []
         estado["tramos_ultima"] = tramos_pasada
         estado["en_curso"] = []
         pendientes = pendientes[bajo:]

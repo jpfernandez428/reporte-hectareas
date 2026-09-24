@@ -117,8 +117,11 @@ editable por el usuario.
 - La pasada nueva empieza cuando vuelven otro día.
 - Excepción: si el mismo día ya completaron el cuartel y empiezan a barrer de
   nuevo hileras que ya habían barrido en esa pasada, eso cuenta como pasada
-  nueva (se exige que sean 3 tramos seguidos sobre zona ya barrida, para que
-  una hilera que el GPS partió en dos no cree una pasada falsa).
+  nueva. Criterio (propuesto, por confirmar): lo barrido ese día después del
+  cierre debe cubrir por sí solo al menos el 50 % del cuartel
+  (`fraccion_repaso_mismo_dia`). Con datos reales, terminar el 5 % restante
+  cubre entre 5 % y 32 % (la franja de cada hilera se superpone con lo ya
+  barrido), así que un criterio por tramos sueltos marcaba repasos falsos.
 - El resumen muestra cuántas pasadas completas lleva cada cuartel y el % de
   la pasada en curso. **No** usar la mediana de días por hilera.
 - Las hectáreas de barrido del historial suman todas las pasadas (pueden
