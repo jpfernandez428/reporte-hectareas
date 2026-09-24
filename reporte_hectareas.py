@@ -652,7 +652,7 @@ def detectar_trabajo_fuera(unidad, fecha_str, puntos, dentro_ids):
         for seg in segs:
             for p1, p2 in zip(seg, seg[1:]):
                 dt = (p2["t"] or 0) - (p1["t"] or 0)
-                if 0 < dt <= 120:
+                if 0 < dt <= 600:  # algunos GPS mandan puntos cada varios minutos
                     d = math.hypot(*punto_a_metros(p2["punto"], p1["punto"]))
                     if d / dt * 3.6 >= VELOCIDAD_MINIMA_MOVIMIENTO_KMH:
                         segundos += dt  # solo tiempo en movimiento
