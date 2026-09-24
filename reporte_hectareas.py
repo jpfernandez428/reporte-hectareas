@@ -149,6 +149,10 @@ MINIMO_HILERAS_ESPACIADO = CONFIG.get("minimo_hileras_espaciado", 10)
 # aunque se salte hileras). Las pasadas aisladas (traslados por el borde o por
 # el medio) no cuentan.
 MINIMO_PARALELAS_SERIE = CONFIG.get("minimo_paralelas_serie", 2)
+# Franja junto al limite de la geocerca (cabeceras, bordes que no se
+# alcanzan a marcar): cuenta como trabajada hasta esta distancia del limite,
+# solo donde el trabajo cubierto llega hasta ella.
+FRANJA_BORDE_M = CONFIG.get("franja_borde_m", 8)
 # Barrido: los dias se cuentan en hora de Chile.
 try:
     from zoneinfo import ZoneInfo
@@ -764,9 +768,17 @@ def grilla_geocerca(geo):
         cj = (np.arange(j0, j1 + 1) + 0.5) * lado
         cx, cy = np.meshgrid(ci, cj, indexing="ij")
         mascara = dentro_poligono_np(cx, cy, contorno_m)
+        # Celdas a menos de FRANJA_BORDE_M del limite.
+        distancia = np.full(cx.shape, np.inf)
+        for k in range(len(contorno_m)):
+            (ax, ay), (bx, by) = contorno_m[k], contorno_m[(k + 1) % len(contorno_m)]
+            dx, dy = bx - ax, by - ay
+            t = np.clip(((cx - ax) * dx + (cy - ay) * dy) / max(dx * dx + dy * dy, 1e-9), 0, 1)
+            distancia = np.minimum(distancia, np.hypot(cx - ax - t * dx, cy - ay - t * dy))
         _grillas[geo["nombre"]] = {
             "referencia": referencia, "lado": lado, "i0": i0, "j0": j0,
             "mascara": mascara, "n_celdas": int(mascara.sum()),
+            "franja_borde": mascara & (distancia <= FRANJA_BORDE_M),
         }
     return _grillas[geo["nombre"]]
 
@@ -857,7 +869,12 @@ def unir_trabajos(geo, marcas):
     for arreglo, _ in marcas:
         union |= arreglo
     radio = int(round(max(e for _, e in marcas) / 2 / grilla["lado"]))
-    return rellenar_franjas_angostas(union, grilla["mascara"], radio)
+    cerradas = rellenar_franjas_angostas(union, grilla["mascara"], radio)
+    # La franja junto al limite cuenta donde el trabajo cubierto llega hasta ella.
+    alcance = np.zeros_like(cerradas)
+    for vecino in desplazados(cerradas, int(round(FRANJA_BORDE_M / grilla["lado"])), False):
+        alcance |= vecino
+    return cerradas | (alcance & grilla["franja_borde"])
 
 
 def celdas_trabajadas(geo, trabajos):

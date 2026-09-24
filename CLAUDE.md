@@ -38,9 +38,13 @@ cambiarlas sin preguntar.
 - No cuentan como hilera los tramos cruzados (traslados en diagonal,
   vueltas) ni las pasadas aisladas (ver correcciones abajo).
 - Umbral de cierre: **95 %** (`umbral_cierre_porcentaje` en `config.json`).
-- Calibración de terreno (septiembre 2026): Aurora 3 y Aurora 7 terminados;
-  Aurora 1, 2 y 6 casi terminados. Cualquier cambio de fórmula debe mantener
-  eso.
+- **Calibración de terreno (poda, hasta el 22 de septiembre de 2026).**
+  Cualquier cambio de fórmula debe mantener esto:
+  - Aurora 3, 5, 6, 7, 8 y 9: terminados al 100 %.
+  - Aurora 1 y 2: casi terminados (no deben quedar completos).
+  - Aurora 4: 4,8 ha podadas.
+  - Con la fórmula actual: Aurora 3 99,6 %, 5 99,8 %, 6 95,9 %, 7 99,4 %,
+    8 97,6 %, 9 98,7 %; Aurora 1 92,4 %, 2 88,4 %; Aurora 4 67,7 % (4,86 ha).
 - Colores del mapa: **verde** = cuartel terminado (todas sus hileras en
   verde), **azul** = hilera completa en un cuartel en proceso, **rojo** =
   hilera parcial.
@@ -60,9 +64,14 @@ cambiarlas sin preguntar.
 - El avance de cada geocerca + labor nunca baja: se acredita solo lo que
   supera el máximo ya alcanzado (la suma del historial no puede pasar del
   área). Estado en `memoria_hileras/_avance_por_labor.json`.
-- Con estas reglas: Solfrut 8 – Picado 13,5 %, Solfrut 10 – Picado 9,1 %;
-  Aurora sigue calibrado (3: 98,2 %, 7: 98,8 %, 1: 91,8 %, 2: 86,5 %,
-  6: 91,1 %).
+- **Franja junto al límite de 8 m** (`franja_borde_m`): las celdas a menos
+  de 8 m del límite de la geocerca cuentan como trabajadas solo donde el
+  trabajo cubierto llega hasta ellas (cabeceras y bordes que la franja de la
+  hilera no alcanza a tapar, ej. Aurora 6, triangular). Una franja de borde
+  al lado de una zona sin trabajar sigue sin contar. Aplica a todas las
+  labores y geocercas.
+- Con estas reglas: Solfrut 8 – Picado 16,6 %, Solfrut 10 – Picado 12,1 %;
+  Juan Valenzuela_Cuartel 4 – Barrido 0 %, Cosecha con recibidor 47 %.
 
 ## Geocercas
 
