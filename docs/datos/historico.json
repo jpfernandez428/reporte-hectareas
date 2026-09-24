@@ -30262,5 +30262,29 @@
     "n_hileras": 65,
     "area_total_ha": 20.82,
     "area_trabajada_ha": 0.24
+  },
+  {
+    "fecha": "2026-05-04",
+    "maquina": "Recogedora 3",
+    "cuartel": "Bernardo Lira Pomaire 20",
+    "n_hileras": 3,
+    "area_total_ha": 1.94,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-05-07",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "n_hileras": 1,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-05-07",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente 2",
+    "n_hileras": 9,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.39
   }
 ]

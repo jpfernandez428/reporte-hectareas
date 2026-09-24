@@ -2,9 +2,9 @@
   "umbral_cierre": 0.95,
   "cuarteles": {
     "C&H Maquinaria": {
-      "trabajado_ha": 4.2041,
+      "trabajado_ha": 4.187,
       "area_total_ha": 5.1226,
-      "porcentaje": 82.1,
+      "porcentaje": 81.7,
       "completo": false,
       "maquinas": [
         "Barredora 1",
@@ -616,7 +616,9 @@
       "maquinas": [
         "Barredora 1",
         "Barredora 15",
+        "Barredora 23",
         "Barredora 5",
+        "Recogedora 3",
         "Recogedora 6",
         "Shacker de Suelo 6",
         "Shacker de Suelo 7",
@@ -683,6 +685,7 @@
       "maquinas": [
         "Barredora 1",
         "Barredora 15",
+        "Recogedora 3",
         "Recogedora 6",
         "Shacker de Suelo 7",
         "Shacker de Suelo 8"
@@ -1330,9 +1333,9 @@
       ]
     },
     "Bernardo Lira Pomaire 20": {
-      "trabajado_ha": 0.374,
+      "trabajado_ha": 0.3814,
       "area_total_ha": 1.9366,
-      "porcentaje": 19.3,
+      "porcentaje": 19.7,
       "completo": false,
       "maquinas": [
         "Barredora 16",
@@ -2478,21 +2481,23 @@
       ]
     },
     "Agricola Flor Oriente": {
-      "trabajado_ha": 6.3239,
+      "trabajado_ha": 6.3565,
       "area_total_ha": 9.6946,
-      "porcentaje": 65.2,
+      "porcentaje": 65.6,
       "completo": false,
       "maquinas": [
-        "Shacker SBS 6"
+        "Shacker SBS 6",
+        "Tractor 10 Deutz Fahr 115"
       ]
     },
     "Agricola Flor Oriente 2": {
-      "trabajado_ha": 8.5208,
+      "trabajado_ha": 8.9086,
       "area_total_ha": 9.8101,
-      "porcentaje": 86.9,
+      "porcentaje": 90.8,
       "completo": false,
       "maquinas": [
-        "Shacker SBS 6"
+        "Shacker SBS 6",
+        "Tractor 10 Deutz Fahr 115"
       ]
     },
     "Agricola Flor Oriente 3": {
@@ -4241,9 +4246,9 @@
       ]
     },
     "Nueva geocerca (id 400262141-758)": {
-      "trabajado_ha": 12.9483,
+      "trabajado_ha": 12.4649,
       "area_total_ha": 15.8457,
-      "porcentaje": 81.7,
+      "porcentaje": 78.7,
       "completo": false,
       "maquinas": [
         "Barredora 22",
