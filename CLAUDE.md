@@ -154,9 +154,16 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
 - **Qué es trabajo:** mismo criterio de las hileras (tramos rectos a
   velocidad de trabajo, alineados y en serie; al menos 6 pasadas por zona).
   Además, para no confundir caminos de acceso con trabajo aunque la máquina
-  vaya lento: la zona debe tener varias líneas distintas (a más de 1,5 m
-  entre sí) que cubran un ancho mínimo, y un mínimo de horas por día.
-  Valores por elegir (ver pendientes).
+  vaya lento: la zona debe tener al menos 4 líneas distintas (a más de 1,5 m
+  entre sí) que cubran al menos 12 m de ancho (un camino, aunque se recorra
+  lento o varias veces, son 1–3 líneas en pocos metros).
+- **Horas:** solo cuenta el tiempo en movimiento (≥ 1 km/h entre puntos GPS,
+  intervalos de hasta 10 min porque algunos GPS mandan puntos espaciados),
+  más los giros de cabecera. Un rato detenido no suma horas.
+- **Mínimo por día:** 1 hora de trabajo en esa zona (`horas_minimas_alerta`),
+  recomendado; por confirmar entre 30 min, 1 h y 2 h. Con datos reales
+  (26-ago a 24-sep): 30 min → 58 líneas en el panel, 1 h → 55, 2 h → 45
+  (2 h ya pierde trabajo claro, ej. 1,5–1,9 h con 2–2,7 ha).
 - **Al crear la geocerca** en Wialon, la alerta de esa máquina en ese lugar
   desaparece (las alertas se revisan en cada corrida contra las geocercas
   actuales).
@@ -177,6 +184,7 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
 
 ## Pendientes
 
-- Confirmar el umbral del 50 % para el repaso de barredoras el mismo día.
-- Elegir las horas mínimas por día para las alertas sin geocerca (30 min,
-  1 h o 2 h) y confirmar el filtro de caminos (líneas y ancho mínimos).
+- Confirmar el umbral del 50 % para el repaso de barredoras el mismo día
+  (recomendado: dejarlo en 50 %).
+- Confirmar el mínimo de horas por día de las alertas sin geocerca
+  (recomendado: 1 h).
