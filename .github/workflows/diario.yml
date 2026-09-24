@@ -1,10 +1,8 @@
 name: Reporte diario de hectareas
 
 on:
-  # Corrida diaria automatica PAUSADA mientras se valida la formula nueva.
-  # Para reactivarla, descomentar estas dos lineas:
-  # schedule:
-  #   - cron: '0 9 * * *'   # 09:00 UTC = ~06:00 Chile (horario de invierno)
+  schedule:
+    - cron: '0 9 * * *'   # 09:00 UTC = ~06:00 Chile (horario de invierno)
   workflow_dispatch:
     inputs:
       fecha_inicio:
