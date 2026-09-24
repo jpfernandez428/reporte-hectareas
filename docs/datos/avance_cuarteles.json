@@ -2,9 +2,9 @@
   "umbral_cierre": 0.95,
   "cuarteles": {
     "C&H Maquinaria": {
-      "trabajado_ha": 4.1137,
+      "trabajado_ha": 4.1169,
       "area_total_ha": 5.1226,
-      "porcentaje": 80.3,
+      "porcentaje": 80.4,
       "completo": false,
       "maquinas": [
         "Barredora 1",
@@ -1570,9 +1570,9 @@
       ]
     },
     "Bernardo Lira Chiñihue N3": {
-      "trabajado_ha": 33.6242,
+      "trabajado_ha": 33.6402,
       "area_total_ha": 33.9868,
-      "porcentaje": 98.9,
+      "porcentaje": 99.0,
       "completo": true,
       "maquinas": [
         "Barredora 1",
@@ -1584,9 +1584,9 @@
       ]
     },
     "Bernardo Lira Chiñihue N5": {
-      "trabajado_ha": 0.4348,
+      "trabajado_ha": 0.4362,
       "area_total_ha": 2.7315,
-      "porcentaje": 15.9,
+      "porcentaje": 16.0,
       "completo": false,
       "maquinas": [
         "Barredora 1",
@@ -2298,7 +2298,8 @@
         "Podadora 1",
         "Recogedora 3",
         "Shacker de Suelo 11 Orchard Rite",
-        "Shacker de Suelo 5"
+        "Shacker de Suelo 5",
+        "Tractor 16 Kubota 108"
       ]
     },
     "BALLERINA_N9_JP": {
@@ -2391,7 +2392,8 @@
         "Barredora 2",
         "Barredora 9 Weiss c/cab",
         "Recogedora 3",
-        "Shacker de Suelo 5"
+        "Shacker de Suelo 5",
+        "Tractor 16 Kubota 108"
       ]
     },
     "BALLERINA_N5_JP": {
@@ -5104,9 +5106,9 @@
       ]
     },
     "BALLERINA_N7C_JP": {
-      "trabajado_ha": 5.986,
+      "trabajado_ha": 6.0841,
       "area_total_ha": 6.2645,
-      "porcentaje": 95.6,
+      "porcentaje": 97.1,
       "completo": true,
       "maquinas": [
         "Barredora 10",
@@ -5115,7 +5117,8 @@
         "Barredora 9 Weiss c/cab",
         "Podadora 1",
         "Recogedora 3",
-        "Shacker de Suelo 5"
+        "Shacker de Suelo 5",
+        "Tractor 16 Kubota 108"
       ]
     },
     "BALLERINA_N7A_JP": {
@@ -5131,7 +5134,8 @@
         "Barredora 9 Weiss c/cab",
         "Podadora 1",
         "Recogedora 3",
-        "Shacker de Suelo 5"
+        "Shacker de Suelo 5",
+        "Tractor 16 Kubota 108"
       ]
     },
     "BALLERINA_N7D_JP": {
@@ -5148,7 +5152,8 @@
         "Podadora 1",
         "Recogedora 3",
         "Shacker SBS 8",
-        "Shacker de Suelo 5"
+        "Shacker de Suelo 5",
+        "Tractor 16 Kubota 108"
       ]
     },
     "BALLERINA_N7B_JP": {
@@ -5169,7 +5174,7 @@
       ]
     },
     "BALLERINA_N17_JP": {
-      "trabajado_ha": 39.0608,
+      "trabajado_ha": 39.0628,
       "area_total_ha": 39.0896,
       "porcentaje": 99.9,
       "completo": true,
@@ -5198,13 +5203,14 @@
         "Barredora 9 Weiss c/cab",
         "Podadora 1",
         "Recogedora 3",
-        "Shacker de Suelo 5"
+        "Shacker de Suelo 5",
+        "Tractor 16 Kubota 108"
       ]
     },
     "BALLERINA_N18_JP": {
-      "trabajado_ha": 19.9312,
+      "trabajado_ha": 20.4536,
       "area_total_ha": 20.7424,
-      "porcentaje": 96.1,
+      "porcentaje": 98.6,
       "completo": true,
       "maquinas": [
         "Barredora 10",
@@ -5945,6 +5951,105 @@
         "Barredora 7",
         "Shacker de Suelo 8",
         "Tractor 14 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 1": {
+      "trabajado_ha": 3.8902,
+      "area_total_ha": 4.2294,
+      "porcentaje": 92.0,
+      "completo": false,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 2": {
+      "trabajado_ha": 6.1784,
+      "area_total_ha": 7.1152,
+      "porcentaje": 86.8,
+      "completo": false,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 3": {
+      "trabajado_ha": 3.6681,
+      "area_total_ha": 3.6763,
+      "porcentaje": 99.8,
+      "completo": true,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 4": {
+      "trabajado_ha": 4.8294,
+      "area_total_ha": 7.1814,
+      "porcentaje": 67.2,
+      "completo": false,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 5": {
+      "trabajado_ha": 1.5784,
+      "area_total_ha": 1.603,
+      "porcentaje": 98.5,
+      "completo": true,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 6": {
+      "trabajado_ha": 0.4607,
+      "area_total_ha": 0.4951,
+      "porcentaje": 93.1,
+      "completo": false,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 7": {
+      "trabajado_ha": 2.4253,
+      "area_total_ha": 2.4543,
+      "porcentaje": 98.8,
+      "completo": true,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 8": {
+      "trabajado_ha": 2.6719,
+      "area_total_ha": 2.8025,
+      "porcentaje": 95.3,
+      "completo": true,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 9": {
+      "trabajado_ha": 6.0112,
+      "area_total_ha": 6.1052,
+      "porcentaje": 98.5,
+      "completo": true,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
+      ]
+    },
+    "Aurora 10": {
+      "trabajado_ha": 2.1677,
+      "area_total_ha": 2.3305,
+      "porcentaje": 93.0,
+      "completo": false,
+      "maquinas": [
+        "Tractor 10 Deutz Fahr 115",
+        "Tractor 13 Deutz Fahr 115"
       ]
     }
   }
