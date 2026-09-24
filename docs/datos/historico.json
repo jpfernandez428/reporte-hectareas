@@ -33262,5 +33262,197 @@
     "n_hileras": 10,
     "area_total_ha": 0.78,
     "area_trabajada_ha": 0.68
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "MGH Cuartel 4",
+    "n_hileras": 66,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N10",
+    "n_hileras": 3,
+    "area_total_ha": 0.9,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 11",
+    "n_hileras": 22,
+    "area_total_ha": 5.73,
+    "area_trabajada_ha": 1.71
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 8",
+    "n_hileras": 6,
+    "area_total_ha": 10.21,
+    "area_trabajada_ha": 2.71
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Rincon de Abra 4",
+    "n_hileras": 96,
+    "area_total_ha": 10.65,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 12",
+    "n_hileras": 20,
+    "area_total_ha": 7.32,
+    "area_trabajada_ha": 2.13
+  },
+  {
+    "fecha": "2026-08-17",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 13",
+    "n_hileras": 24,
+    "area_total_ha": 8.54,
+    "area_trabajada_ha": 2.64
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "n_hileras": 276,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 8",
+    "n_hileras": 21,
+    "area_total_ha": 10.21,
+    "area_trabajada_ha": 7.25
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 9",
+    "n_hileras": 11,
+    "area_total_ha": 8.31,
+    "area_trabajada_ha": 7.75
+  },
+  {
+    "fecha": "2026-08-18",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 10",
+    "n_hileras": 12,
+    "area_total_ha": 4.37,
+    "area_trabajada_ha": 4.26
+  },
+  {
+    "fecha": "2026-08-19",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Rincon de Abra 7",
+    "n_hileras": 46,
+    "area_total_ha": 2.41,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-20",
+    "maquina": "Tractor 5 Same Explorer 95",
+    "cuartel": "C&H Maquinaria",
+    "n_hileras": 12,
+    "area_total_ha": 5.12,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-08-20",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Rincon de Abra",
+    "n_hileras": 1,
+    "area_total_ha": 4.29,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-20",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Rincon de Abra 6",
+    "n_hileras": 49,
+    "area_total_ha": 4.11,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "n_hileras": 318,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 0.59
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Rincon de Abra",
+    "n_hileras": 23,
+    "area_total_ha": 4.29,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-08-21",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Rincon de Abra 2",
+    "n_hileras": 42,
+    "area_total_ha": 6.78,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-24",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Agrofarming",
+    "n_hileras": 6,
+    "area_total_ha": 36.4,
+    "area_trabajada_ha": 2.52
+  },
+  {
+    "fecha": "2026-08-25",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Agrofarming",
+    "n_hileras": 43,
+    "area_total_ha": 36.4,
+    "area_trabajada_ha": 6.81
+  },
+  {
+    "fecha": "2026-08-27",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Agrofarming",
+    "n_hileras": 87,
+    "area_total_ha": 36.4,
+    "area_trabajada_ha": 9.87
+  },
+  {
+    "fecha": "2026-08-27",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N18_JP",
+    "n_hileras": 31,
+    "area_total_ha": 20.74,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-28",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Agrofarming",
+    "n_hileras": 148,
+    "area_total_ha": 36.4,
+    "area_trabajada_ha": 10.91
+  },
+  {
+    "fecha": "2026-08-31",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N17_JP",
+    "n_hileras": 138,
+    "area_total_ha": 39.09,
+    "area_trabajada_ha": 0.01
   }
 ]

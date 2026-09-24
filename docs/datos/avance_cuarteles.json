@@ -2,9 +2,9 @@
   "umbral_cierre": 0.95,
   "cuarteles": {
     "C&H Maquinaria": {
-      "trabajado_ha": 4.1167,
+      "trabajado_ha": 4.1137,
       "area_total_ha": 5.1226,
-      "porcentaje": 80.4,
+      "porcentaje": 80.3,
       "completo": false,
       "maquinas": [
         "Barredora 1",
@@ -221,9 +221,9 @@
       ]
     },
     "MGH Cuartel 4": {
-      "trabajado_ha": 5.7496,
+      "trabajado_ha": 5.7736,
       "area_total_ha": 5.7736,
-      "porcentaje": 99.6,
+      "porcentaje": 100.0,
       "completo": true,
       "maquinas": [
         "Shacker SBS Campo",
@@ -651,7 +651,8 @@
         "Recogedora 6",
         "Shacker de Suelo 6",
         "Shacker de Suelo 7",
-        "Shacker de Suelo 8"
+        "Shacker de Suelo 8",
+        "Tractor 9 Deutz Fahr 115"
       ]
     },
     "Bernardo Lira Chiñihue A9": {
@@ -1569,9 +1570,9 @@
       ]
     },
     "Bernardo Lira Chiñihue N3": {
-      "trabajado_ha": 32.9218,
+      "trabajado_ha": 33.6242,
       "area_total_ha": 33.9868,
-      "porcentaje": 96.9,
+      "porcentaje": 98.9,
       "completo": true,
       "maquinas": [
         "Barredora 1",
@@ -1626,13 +1627,14 @@
       ]
     },
     "Bernardo Lira Chiñihue N10": {
-      "trabajado_ha": 0.2118,
+      "trabajado_ha": 0.2375,
       "area_total_ha": 0.896,
-      "porcentaje": 23.6,
+      "porcentaje": 26.5,
       "completo": false,
       "maquinas": [
         "Barredora 1",
-        "Recogedora 6"
+        "Recogedora 6",
+        "Tractor 9 Deutz Fahr 115"
       ]
     },
     "Agricola Aeropuerto 1": {
@@ -2372,7 +2374,8 @@
         "Barredora 8",
         "Barredora 9 Weiss c/cab",
         "Recogedora 3",
-        "Shacker de Suelo 5"
+        "Shacker de Suelo 5",
+        "Tractor 16 Kubota 108"
       ]
     },
     "BALLERINA_N4_JP": {
@@ -2408,7 +2411,8 @@
         "Recogedora 3",
         "Shacker SBS 8",
         "Shacker de Suelo 11 Orchard Rite",
-        "Shacker de Suelo 5"
+        "Shacker de Suelo 5",
+        "Tractor 16 Kubota 108"
       ]
     },
     "Santa Ana 2.1": {
@@ -2521,6 +2525,15 @@
       "completo": false,
       "maquinas": [
         "Shacker SBS 14"
+      ]
+    },
+    "Agrofarming": {
+      "trabajado_ha": 29.1673,
+      "area_total_ha": 36.4005,
+      "porcentaje": 80.1,
+      "completo": false,
+      "maquinas": [
+        "Tractor 13 Deutz Fahr 115"
       ]
     },
     "Agricola Flor Oriente": {
@@ -3078,24 +3091,26 @@
       ]
     },
     "Rincon de Abra": {
-      "trabajado_ha": 3.7327,
+      "trabajado_ha": 3.8104,
       "area_total_ha": 4.2867,
-      "porcentaje": 87.1,
+      "porcentaje": 88.9,
       "completo": false,
       "maquinas": [
         "Barredora 17",
         "Shacker SBS 14",
+        "Tractor 11 Deutz Fahr 115",
         "Tractor 6 Same Explorer 95"
       ]
     },
     "Rincon de Abra 2": {
-      "trabajado_ha": 6.7701,
+      "trabajado_ha": 6.7795,
       "area_total_ha": 6.7795,
-      "porcentaje": 99.9,
+      "porcentaje": 100.0,
       "completo": true,
       "maquinas": [
         "Barredora 17",
         "Shacker SBS 14",
+        "Tractor 11 Deutz Fahr 115",
         "Tractor 6 Same Explorer 95"
       ]
     },
@@ -3386,9 +3401,9 @@
       ]
     },
     "Solfrut 11": {
-      "trabajado_ha": 2.8727,
+      "trabajado_ha": 4.5824,
       "area_total_ha": 5.7337,
-      "porcentaje": 50.1,
+      "porcentaje": 79.9,
       "completo": false,
       "maquinas": [
         "Tractor 16 Kubota 108"
@@ -3767,6 +3782,33 @@
         "Tractor 16 Kubota 108"
       ]
     },
+    "Solfrut 8": {
+      "trabajado_ha": 9.9603,
+      "area_total_ha": 10.2145,
+      "porcentaje": 97.5,
+      "completo": true,
+      "maquinas": [
+        "Tractor 16 Kubota 108"
+      ]
+    },
+    "Solfrut 9": {
+      "trabajado_ha": 7.7518,
+      "area_total_ha": 8.3091,
+      "porcentaje": 93.3,
+      "completo": false,
+      "maquinas": [
+        "Tractor 16 Kubota 108"
+      ]
+    },
+    "Solfrut 10": {
+      "trabajado_ha": 4.2556,
+      "area_total_ha": 4.3724,
+      "porcentaje": 97.3,
+      "completo": true,
+      "maquinas": [
+        "Tractor 16 Kubota 108"
+      ]
+    },
     "Agricola Aeropuerto 7": {
       "trabajado_ha": 23.0507,
       "area_total_ha": 24.0117,
@@ -3822,13 +3864,14 @@
       ]
     },
     "Rincon de Abra 5": {
-      "trabajado_ha": 5.4281,
+      "trabajado_ha": 5.4297,
       "area_total_ha": 5.4297,
       "porcentaje": 100.0,
       "completo": true,
       "maquinas": [
         "Barredora 17",
         "Shacker SBS 14",
+        "Tractor 11 Deutz Fahr 115",
         "Tractor 6 Same Explorer 95"
       ]
     },
@@ -4264,7 +4307,8 @@
         "Recogedora 3",
         "Shacker SBS 8",
         "Shacker de Suelo 11 Orchard Rite",
-        "Shacker de Suelo 5"
+        "Shacker de Suelo 5",
+        "Tractor 16 Kubota 108"
       ]
     },
     "Santa Ana Cancha 2": {
@@ -4282,24 +4326,26 @@
       ]
     },
     "Rincon de Abra 6": {
-      "trabajado_ha": 4.0514,
+      "trabajado_ha": 4.0955,
       "area_total_ha": 4.1106,
-      "porcentaje": 98.6,
+      "porcentaje": 99.6,
       "completo": true,
       "maquinas": [
         "Barredora 17",
         "Shacker SBS 14",
+        "Tractor 11 Deutz Fahr 115",
         "Tractor 6 Same Explorer 95"
       ]
     },
     "Rincon de Abra 7": {
-      "trabajado_ha": 2.3915,
+      "trabajado_ha": 2.398,
       "area_total_ha": 2.4137,
-      "porcentaje": 99.1,
+      "porcentaje": 99.3,
       "completo": true,
       "maquinas": [
         "Barredora 17",
         "Shacker SBS 14",
+        "Tractor 11 Deutz Fahr 115",
         "Tractor 6 Same Explorer 95"
       ]
     },
@@ -4405,18 +4451,18 @@
       ]
     },
     "Solfrut 12": {
-      "trabajado_ha": 4.4711,
+      "trabajado_ha": 6.6045,
       "area_total_ha": 7.3243,
-      "porcentaje": 61.0,
+      "porcentaje": 90.2,
       "completo": false,
       "maquinas": [
         "Tractor 16 Kubota 108"
       ]
     },
     "Solfrut 13": {
-      "trabajado_ha": 4.3469,
+      "trabajado_ha": 6.991,
       "area_total_ha": 8.5391,
-      "porcentaje": 50.9,
+      "porcentaje": 81.9,
       "completo": false,
       "maquinas": [
         "Tractor 16 Kubota 108"
@@ -5118,11 +5164,12 @@
         "Barredora 9 Weiss c/cab",
         "Podadora 1",
         "Recogedora 3",
-        "Shacker de Suelo 5"
+        "Shacker de Suelo 5",
+        "Tractor 16 Kubota 108"
       ]
     },
     "BALLERINA_N17_JP": {
-      "trabajado_ha": 39.0512,
+      "trabajado_ha": 39.0608,
       "area_total_ha": 39.0896,
       "porcentaje": 99.9,
       "completo": true,
@@ -5134,7 +5181,8 @@
         "Barredora 9 Weiss c/cab",
         "Podadora 1",
         "Recogedora 3",
-        "Shacker de Suelo 5"
+        "Shacker de Suelo 5",
+        "Tractor 16 Kubota 108"
       ]
     },
     "BALLERINA_N16_JP": {
@@ -5154,7 +5202,7 @@
       ]
     },
     "BALLERINA_N18_JP": {
-      "trabajado_ha": 19.9242,
+      "trabajado_ha": 19.9312,
       "area_total_ha": 20.7424,
       "porcentaje": 96.1,
       "completo": true,
@@ -5167,7 +5215,8 @@
         "Barredora 9 Weiss c/cab",
         "Podadora 1",
         "Recogedora 3",
-        "Shacker de Suelo 5"
+        "Shacker de Suelo 5",
+        "Tractor 16 Kubota 108"
       ]
     },
     "BALLERINA_N15_JP": {
@@ -5340,7 +5389,8 @@
         "Barredora 8",
         "Barredora 9 Weiss c/cab",
         "Recogedora 3",
-        "Shacker de Suelo 5"
+        "Shacker de Suelo 5",
+        "Tractor 16 Kubota 108"
       ]
     },
     "A14": {
