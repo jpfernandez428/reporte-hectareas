@@ -31838,5 +31838,597 @@
     "n_hileras": 58,
     "area_total_ha": 15.11,
     "area_trabajada_ha": 5.04
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Ag_El_Carmen_San_Gregorio_Cuartel_2",
+    "n_hileras": 15,
+    "area_total_ha": 3.82,
+    "area_trabajada_ha": 0.35
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Ochagavía San Gregorio",
+    "n_hileras": 1,
+    "area_total_ha": 9.93,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Ochagavia San Gregorio 0 prueba",
+    "n_hileras": 1,
+    "area_total_ha": 8.21,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "San Gregorio Agricola el Carmen C2",
+    "n_hileras": 18,
+    "area_total_ha": 2.43,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-07-01",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "San Gregorio Agricola El Carmen C3",
+    "n_hileras": 20,
+    "area_total_ha": 3.76,
+    "area_trabajada_ha": 0.49
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Ag_El_Carmen_San_Gregorio_Cuartel_2",
+    "n_hileras": 29,
+    "area_total_ha": 3.82,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 4",
+    "n_hileras": 114,
+    "area_total_ha": 11.14,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 6",
+    "n_hileras": 82,
+    "area_total_ha": 7.47,
+    "area_trabajada_ha": 0.46
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 7",
+    "n_hileras": 70,
+    "area_total_ha": 8.4,
+    "area_trabajada_ha": 0.81
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 8",
+    "n_hileras": 68,
+    "area_total_ha": 8.77,
+    "area_trabajada_ha": 0.46
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 9",
+    "n_hileras": 27,
+    "area_total_ha": 1.56,
+    "area_trabajada_ha": 0.78
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 13",
+    "n_hileras": 3,
+    "area_total_ha": 8.95,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 14",
+    "n_hileras": 3,
+    "area_total_ha": 8.7,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 15",
+    "n_hileras": 1,
+    "area_total_ha": 7.34,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 16",
+    "n_hileras": 1,
+    "area_total_ha": 6.14,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 17",
+    "n_hileras": 1,
+    "area_total_ha": 3.94,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-02",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "San Gregorio Agricola El Carmen C3",
+    "n_hileras": 36,
+    "area_total_ha": 3.76,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Ag. El Carmen-San Gregorio_ Cuartel 1",
+    "n_hileras": 24,
+    "area_total_ha": 2.31,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 6",
+    "n_hileras": 82,
+    "area_total_ha": 7.47,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 8",
+    "n_hileras": 69,
+    "area_total_ha": 8.77,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 13",
+    "n_hileras": 7,
+    "area_total_ha": 8.95,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 14",
+    "n_hileras": 14,
+    "area_total_ha": 8.7,
+    "area_trabajada_ha": 2.07
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 15",
+    "n_hileras": 11,
+    "area_total_ha": 7.34,
+    "area_trabajada_ha": 2.43
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 16",
+    "n_hileras": 7,
+    "area_total_ha": 6.14,
+    "area_trabajada_ha": 1.88
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 17",
+    "n_hileras": 12,
+    "area_total_ha": 3.94,
+    "area_trabajada_ha": 1.1
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "San Gregorio Agricola El Carmen C3",
+    "n_hileras": 37,
+    "area_total_ha": 3.76,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-03",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "San Gregorio Agricola El Carmen C4",
+    "n_hileras": 22,
+    "area_total_ha": 2.4,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-07-04",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 16",
+    "n_hileras": 8,
+    "area_total_ha": 6.14,
+    "area_trabajada_ha": 0.45
+  },
+  {
+    "fecha": "2026-07-04",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 17",
+    "n_hileras": 14,
+    "area_total_ha": 3.94,
+    "area_trabajada_ha": 0.58
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Ag El Carmen San Gregorio Cuartel 4",
+    "n_hileras": 17,
+    "area_total_ha": 3.11,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 6",
+    "n_hileras": 83,
+    "area_total_ha": 7.47,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 13",
+    "n_hileras": 9,
+    "area_total_ha": 8.95,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 14",
+    "n_hileras": 27,
+    "area_total_ha": 8.7,
+    "area_trabajada_ha": 0.39
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 15",
+    "n_hileras": 20,
+    "area_total_ha": 7.34,
+    "area_trabajada_ha": 0.37
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 16",
+    "n_hileras": 16,
+    "area_total_ha": 6.14,
+    "area_trabajada_ha": 1.25
+  },
+  {
+    "fecha": "2026-07-06",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 17",
+    "n_hileras": 18,
+    "area_total_ha": 3.94,
+    "area_trabajada_ha": 1.0
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 13",
+    "n_hileras": 10,
+    "area_total_ha": 8.95,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 14",
+    "n_hileras": 40,
+    "area_total_ha": 8.7,
+    "area_trabajada_ha": 2.63
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 15",
+    "n_hileras": 28,
+    "area_total_ha": 7.34,
+    "area_trabajada_ha": 2.68
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 16",
+    "n_hileras": 26,
+    "area_total_ha": 6.14,
+    "area_trabajada_ha": 1.58
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 17",
+    "n_hileras": 25,
+    "area_total_ha": 3.94,
+    "area_trabajada_ha": 1.13
+  },
+  {
+    "fecha": "2026-07-07",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 14",
+    "n_hileras": 11,
+    "area_total_ha": 1.75,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Ag El Carmen San Gregorio Cuartel 4",
+    "n_hileras": 27,
+    "area_total_ha": 3.11,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 13",
+    "n_hileras": 13,
+    "area_total_ha": 8.95,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 14",
+    "n_hileras": 47,
+    "area_total_ha": 8.7,
+    "area_trabajada_ha": 2.05
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 15",
+    "n_hileras": 35,
+    "area_total_ha": 7.34,
+    "area_trabajada_ha": 2.02
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 16",
+    "n_hileras": 31,
+    "area_total_ha": 6.14,
+    "area_trabajada_ha": 0.54
+  },
+  {
+    "fecha": "2026-07-08",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 19",
+    "n_hileras": 22,
+    "area_total_ha": 5.85,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 13",
+    "n_hileras": 13,
+    "area_total_ha": 8.95,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 14",
+    "n_hileras": 63,
+    "area_total_ha": 8.7,
+    "area_trabajada_ha": 1.68
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 15",
+    "n_hileras": 44,
+    "area_total_ha": 7.34,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-07-09",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 16",
+    "n_hileras": 34,
+    "area_total_ha": 6.14,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-07-11",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut",
+    "n_hileras": 7,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-07-11",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 2",
+    "n_hileras": 3,
+    "area_total_ha": 18.38,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-11",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 3",
+    "n_hileras": 4,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-07-11",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 4",
+    "n_hileras": 4,
+    "area_total_ha": 17.05,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-07-11",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Volcan Talca 2",
+    "n_hileras": 59,
+    "area_total_ha": 15.11,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 14",
+    "n_hileras": 69,
+    "area_total_ha": 8.7,
+    "area_trabajada_ha": 0.6
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 15",
+    "n_hileras": 49,
+    "area_total_ha": 7.34,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 16",
+    "n_hileras": 41,
+    "area_total_ha": 6.14,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 17",
+    "n_hileras": 29,
+    "area_total_ha": 3.94,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-13",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut",
+    "n_hileras": 15,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "MGH Cuartel 4",
+    "n_hileras": 8,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 4",
+    "n_hileras": 115,
+    "area_total_ha": 11.14,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 14",
+    "n_hileras": 84,
+    "area_total_ha": 8.7,
+    "area_trabajada_ha": 1.38
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 15",
+    "n_hileras": 60,
+    "area_total_ha": 7.34,
+    "area_trabajada_ha": 0.77
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 16",
+    "n_hileras": 50,
+    "area_total_ha": 6.14,
+    "area_trabajada_ha": 1.1
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña",
+    "n_hileras": 66,
+    "area_total_ha": 19.57,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 5",
+    "n_hileras": 10,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 6",
+    "n_hileras": 9,
+    "area_total_ha": 10.31,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 7",
+    "n_hileras": 8,
+    "area_total_ha": 11.89,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-07-14",
+    "maquina": "Podadora 1",
+    "cuartel": "BALLERINA_N18_JP",
+    "n_hileras": 73,
+    "area_total_ha": 20.74,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "MGH Cuartel 4",
+    "n_hileras": 30,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-07-15",
+    "maquina": "Podadora 1",
+    "cuartel": "BALLERINA_N18_JP",
+    "n_hileras": 80,
+    "area_total_ha": 20.74,
+    "area_trabajada_ha": 1.67
   }
 ]
