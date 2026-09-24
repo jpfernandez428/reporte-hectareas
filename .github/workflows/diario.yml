@@ -53,6 +53,14 @@ jobs:
           PRUEBA_HASTA: ${{ inputs.fecha_fin }}
         run: python3 reporte_hectareas.py
 
+      - name: Guardar los tramos de la prueba de pasadas (solo diagnostico)
+        if: ${{ inputs.prueba_pasadas != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: tramos-diagnostico
+          path: tramos_diagnostico.json
+          retention-days: 7
+
       - name: Guardar los resultados en el repositorio
         run: |
           git config user.name "Reporte automatico"

@@ -149,9 +149,21 @@ MINIMO_HILERAS_ESPACIADO = CONFIG.get("minimo_hileras_espaciado", 10)
 # aunque se salte hileras). Las pasadas aisladas (traslados por el borde o por
 # el medio) no cuentan.
 MINIMO_PARALELAS_SERIE = CONFIG.get("minimo_paralelas_serie", 2)
-# Barrido: despues de completar una pasada, lo que la barredora sigue haciendo
-# sin una pausa de al menos estas horas es terminar esa misma pasada.
-PAUSA_NUEVA_PASADA_S = CONFIG.get("pausa_nueva_pasada_horas", 2) * 3600
+# Barrido: los dias se cuentan en hora de Chile.
+try:
+    from zoneinfo import ZoneInfo
+    ZONA_HORARIA = ZoneInfo(CONFIG.get("zona_horaria", "America/Santiago"))
+except Exception:
+    ZONA_HORARIA = timezone(timedelta(hours=-4))
+# Barrido: despues de completar una pasada, si en el mismo dia se vuelven a
+# barrer hileras ya barridas en esa pasada (TRAMOS_REPASO tramos seguidos con
+# al menos FRACCION_REPASO de su franja ya barrida), empieza una pasada nueva.
+TRAMOS_REPASO = CONFIG.get("tramos_repaso", 3)
+FRACCION_REPASO = CONFIG.get("fraccion_repaso", 0.7)
+
+
+def dia_local(hora_unix):
+    return datetime.fromtimestamp(hora_unix, ZONA_HORARIA).date()
 DISTANCIA_MAXIMA_SERIE_M = CONFIG.get("distancia_maxima_serie_m", 40)
 
 os.makedirs(CARPETA_MEMORIA, exist_ok=True)
@@ -1196,66 +1208,86 @@ def generar_reporte(sid, geocercas, estado_avance):
                     entradas[nombre_geo].append((hora_entrada, unidad, puntos_geo))
 
         for geo in geocercas:
+            barrido_hoy = []  # [(unidad, tramos, hileras, ids_antes, n_puntos)] de las barredoras
+
+            def registrar(unidad, labor, hileras, ids_antes, n_puntos, area_trabajada_ha, resumen_avance):
+                clave = (unidad["id"], geo["nombre"])
+                estado[clave][2] += area_trabajada_ha
+                alineadas, _ = filtrar_hileras_regulares(hileras)
+                if round(area_trabajada_ha, 2) > 0:
+                    for h in alineadas:
+                        if h.id not in ids_antes:
+                            filas_detalle.append({
+                                "Fecha": fecha_str,
+                                "Máquina": unidad["nombre"],
+                                "Labor": labor,
+                                "Cuartel": geo["nombre"],
+                                "Hilera": h.id,
+                                "Máx. pasadas (acumulado)": contar_pasadas_max(h.intervalos),
+                            })
+                    filas_resumen.append({
+                        "Fecha": fecha_str,
+                        "Máquina": unidad["nombre"],
+                        "Labor": labor,
+                        "Cuartel": geo["nombre"],
+                        "N° hileras conocidas": len(alineadas),
+                        "Área acumulada trabajada (ha)": round(estado[clave][2], 2),
+                        "Área real del cuartel (ha)": round(geo["area_ha"], 2),
+                        "Hectáreas trabajadas del cuartel": round(area_trabajada_ha, 2),
+                    })
+                else:
+                    print(
+                        f"  [sin avance nuevo] {fecha_str} - {unidad['nombre']} ({labor}) - {geo['nombre']}: "
+                        f"{n_puntos} puntos, {len(hileras)} hileras conocidas, {resumen_avance}"
+                    )
+                guardar_estado(unidad["id"], geo["nombre"], labor, *estado[clave])
+
             for _, unidad, puntos_geo in sorted(entradas[geo["nombre"]], key=lambda e: e[0]):
                 labor = labor_de(unidad)
-                referencia, hileras, area_acreditada_ha = estado_de(unidad, geo)
+                referencia, hileras, _ = estado_de(unidad, geo)
                 if referencia is None:
                     referencia = puntos_geo[0]["punto"]
+                    estado[(unidad["id"], geo["nombre"])][0] = referencia
                 ids_antes = {h.id for h in hileras}
                 tramos_hoy = []
 
                 hileras_tocadas_hoy = procesar_puntos(
                     puntos_geo, referencia, hileras, descartados[unidad["id"]], fecha_str, tramos_hoy
                 )
-                if hileras_tocadas_hoy:
-                    estado[(unidad["id"], geo["nombre"])][0] = referencia
-                    marcas.pop((unidad["id"], geo["nombre"]), None)
-                    cobertura.pop((geo["nombre"], labor), None)
-                    avance = estado_avance_de(estado_avance, geo["nombre"], labor)
-                    if labor == LABOR_CON_PASADAS:
-                        area_trabajada_ha = avanzar_pasadas(geo, avance, tramos_hoy)
-                        resumen_avance = (f"{len(avance['pasadas'])} pasadas completas, "
-                                          f"en curso {avance['fraccion_en_curso'] * 100:.1f}%")
-                    else:
-                        # El avance nunca baja: solo se acredita lo que supera el maximo.
-                        fraccion = fraccion_trabajada(geo, cobertura_actual(geo, labor))
-                        area_trabajada_ha = max(0.0, fraccion - avance["max_fraccion"]) * geo["area_ha"]
-                        avance["max_fraccion"] = max(avance["max_fraccion"], fraccion)
-                        resumen_avance = f"avance {avance['max_fraccion'] * 100:.1f}%"
-                    area_acreditada_ha += area_trabajada_ha
-                    alineadas, _ = filtrar_hileras_regulares(hileras)
+                if not hileras_tocadas_hoy:
+                    guardar_estado(unidad["id"], geo["nombre"], labor, *estado[(unidad["id"], geo["nombre"])])
+                    continue
+                marcas.pop((unidad["id"], geo["nombre"]), None)
+                cobertura.pop((geo["nombre"], labor), None)
+                if labor == LABOR_CON_PASADAS:
+                    # Se procesa al final, con todas las barredoras del dia juntas.
+                    barrido_hoy.append((unidad, tramos_hoy, hileras, ids_antes, len(puntos_geo)))
+                    continue
+                # El avance nunca baja: solo se acredita lo que supera el maximo.
+                avance = estado_avance_de(estado_avance, geo["nombre"], labor)
+                fraccion = fraccion_trabajada(geo, cobertura_actual(geo, labor))
+                area_trabajada_ha = max(0.0, fraccion - avance["max_fraccion"]) * geo["area_ha"]
+                avance["max_fraccion"] = max(avance["max_fraccion"], fraccion)
+                registrar(unidad, labor, hileras, ids_antes, len(puntos_geo), area_trabajada_ha,
+                          f"avance {avance['max_fraccion'] * 100:.1f}%")
 
-                    if round(area_trabajada_ha, 2) > 0:
-                        for h in alineadas:
-                            if h.id not in ids_antes:
-                                filas_detalle.append({
-                                    "Fecha": fecha_str,
-                                    "Máquina": unidad["nombre"],
-                                    "Labor": labor,
-                                    "Cuartel": geo["nombre"],
-                                    "Hilera": h.id,
-                                    "Máx. pasadas (acumulado)": contar_pasadas_max(h.intervalos),
-                                })
-                        filas_resumen.append({
-                            "Fecha": fecha_str,
-                            "Máquina": unidad["nombre"],
-                            "Labor": labor,
-                            "Cuartel": geo["nombre"],
-                            "N° hileras conocidas": len(alineadas),
-                            "Área acumulada trabajada (ha)": round(area_acreditada_ha, 2),
-                            "Área real del cuartel (ha)": round(geo["area_ha"], 2),
-                            "Hectáreas trabajadas del cuartel": round(area_trabajada_ha, 2),
-                        })
-                    else:
-                        print(
-                            f"  [sin avance nuevo] {fecha_str} - {unidad['nombre']} ({labor}) - {geo['nombre']}: "
-                            f"{len(puntos_geo)} puntos, {len(hileras)} hileras conocidas, {resumen_avance}"
-                        )
-
-                estado[(unidad["id"], geo["nombre"])] = [referencia, hileras, area_acreditada_ha]
-                guardar_estado(unidad["id"], geo["nombre"], labor, referencia, hileras, area_acreditada_ha)
+            if barrido_hoy:
+                avance = estado_avance_de(estado_avance, geo["nombre"], LABOR_CON_PASADAS)
+                todos = [t for _, tramos, _, _, _ in barrido_hoy for t in tramos]
+                area_total_ha = avanzar_pasadas(geo, avance, todos)
+                resumen = (f"{len(avance['pasadas'])} pasadas completas, "
+                           f"en curso {avance['fraccion_en_curso'] * 100:.1f}%")
+                # Las hectareas barridas del dia se reparten segun los metros barridos por cada una.
+                def metros(tramos):
+                    return sum(math.hypot(*punto_a_metros(t[2], t[1])) for t in tramos)
+                total_metros = sum(metros(tr) for _, tr, _, _, _ in barrido_hoy) or 1.0
+                for unidad, tramos, hileras, ids_antes, n_puntos in barrido_hoy:
+                    registrar(unidad, LABOR_CON_PASADAS, hileras, ids_antes, n_puntos,
+                              area_total_ha * metros(tramos) / total_metros, resumen)
 
         dia += timedelta(days=1)
+
+    # Incluye tambien        dia += timedelta(days=1)
 
     # Incluye tambien los cuarteles trabajados antes de este periodo (memoria),
     # para que sigan apareciendo en los mapas y en la geometria de la web.
@@ -1344,10 +1376,9 @@ def fraccion_de_tramos(geo, tramos):
     return fraccion_trabajada(geo, celdas_de_tramos(geo, tramos)) if tramos else 0.0
 
 
-def tramo_termina_pasada(geo, tramo, celdas_pasada, espaciado):
-    """True si la mayor parte de la franja del tramo cae donde la pasada ya
-    completa todavia no habia pasado (esta terminando esa pasada, no
-    empezando la siguiente)."""
+def tramo_ya_barrido(geo, tramo, celdas_pasada, espaciado):
+    """True si al menos FRACCION_REPASO de la franja del tramo ya estaba
+    barrida en la pasada (el tramo repasa hileras ya barridas)."""
     hileras = tramos_a_hileras(geo, [tramo])
     if not hileras:
         return False
@@ -1355,17 +1386,30 @@ def tramo_termina_pasada(geo, tramo, celdas_pasada, espaciado):
     marcar_franja_hilera(hileras[0], geo["contorno"][0], geo, espaciado, franja)
     franja &= grilla_geocerca(geo)["mascara"]
     total = int(franja.sum())
-    return total > 0 and int((franja & ~celdas_pasada).sum()) > total / 2
+    return total > 0 and int((franja & celdas_pasada).sum()) >= FRACCION_REPASO * total
+
+
+def empieza_repaso(geo, tramos, celdas_pasada, espaciado):
+    """True si los proximos TRAMOS_REPASO tramos repasan hileras ya barridas
+    (un solo tramo repetido, ej. una hilera que el GPS partio en dos, no
+    alcanza para empezar una pasada nueva)."""
+    siguientes = tramos[:TRAMOS_REPASO]
+    return len(siguientes) == TRAMOS_REPASO and all(
+        tramo_ya_barrido(geo, t, celdas_pasada, espaciado) for t in siguientes)
 
 
 def avanzar_pasadas(geo, estado, nuevos_tramos):
     """
     Pasadas completas de barrido (todas las barredoras juntas). `estado`:
-    {"pasadas": [[inicio, fin], ...], "tramos_ultima": [...], "en_curso": [...],
-    "fraccion_en_curso"}. Los tramos nuevos, en orden, primero terminan la
-    ultima pasada completa si siguen sin pausa (menos de PAUSA_NUEVA_PASADA_S
-    desde el tramo anterior) o si cubren zona que esa pasada no tenia; luego
-    se suman a la pasada en curso. Cuando la pasada en curso cubre el umbral de
+    {"pasadas": [[inicio, fin], ...], "hora_cierre", "tramos_ultima": [...],
+    "en_curso": [...], "fraccion_en_curso"}. Reglas:
+      - Una pasada se cierra cuando entre todas las barredoras cubren el
+        umbral de cierre (95 %) de la geocerca.
+      - Lo que sigan barriendo ese mismo dia (hora de Chile) sigue siendo esa
+        pasada (terminar el 5 % restante).
+      - La pasada nueva empieza cuando vuelven otro dia.
+      - Excepcion: si el mismo dia, ya cerrada la pasada, empiezan a barrer
+        de nuevo hileras ya barridas en ella, eso empieza una pasada nueva. Cuando la pasada en curso cubre el umbral de
     cierre (95 %) se cuenta como completa y la siguiente empieza desde cero.
     Devuelve las hectareas barridas nuevas (una pasada completa cuenta el
     area entera).
@@ -1378,10 +1422,9 @@ def avanzar_pasadas(geo, estado, nuevos_tramos):
         if not estado["en_curso"] and estado["tramos_ultima"]:
             celdas_ultima = celdas_de_tramos(geo, estado["tramos_ultima"])
             espaciado = espaciado_real_m(filtrar_hileras_regulares(tramos_a_hileras(geo, estado["tramos_ultima"]))[0])
-            while pendientes and (
-                pendientes[0][0] - estado["tramos_ultima"][-1][0] <= PAUSA_NUEVA_PASADA_S
-                or tramo_termina_pasada(geo, pendientes[0], celdas_ultima, espaciado)
-            ):
+            dia_cierre = dia_local(estado.get("hora_cierre") or estado["pasadas"][-1][1])
+            while (pendientes and dia_local(pendientes[0][0]) == dia_cierre
+                   and not empieza_repaso(geo, pendientes, celdas_ultima, espaciado)):
                 estado["tramos_ultima"].append(pendientes.pop(0))
                 estado["pasadas"][-1][1] = estado["tramos_ultima"][-1][0]
             if not pendientes:
@@ -1400,6 +1443,7 @@ def avanzar_pasadas(geo, estado, nuevos_tramos):
                 bajo = medio + 1
         tramos_pasada = en_curso + pendientes[:bajo]
         estado["pasadas"].append([tramos_pasada[0][0], tramos_pasada[-1][0]])
+        estado["hora_cierre"] = tramos_pasada[-1][0]
         estado["tramos_ultima"] = tramos_pasada
         estado["en_curso"] = []
         pendientes = pendientes[bajo:]
@@ -1436,6 +1480,7 @@ def prueba_pasadas(sid, nombre):
                     por_geocerca.setdefault(nombre_geo, {}).setdefault(unidad["id"], []).extend(puntos_geo)
             dia += timedelta(days=1)
     geos = {g["nombre"]: g for g in geocercas}
+    volcado = {}  # tramos por geocerca, para probar reglas sin volver a descargar
     for nombre_geo, por_unidad in sorted(por_geocerca.items()):
         geo = geos[nombre_geo]
         referencia = geo["contorno"][0]
@@ -1447,18 +1492,21 @@ def prueba_pasadas(sid, nombre):
                     segmentos.append((seg[0]["t"] or 0, seg[0]["punto"], seg[-1]["punto"]))
         segmentos.sort(key=lambda s: s[0])
         puntos_geo = [p for pu in por_unidad.values() for p in pu]
+        volcado[nombre_geo] = {"contorno": geo["contorno"], "area_ha": geo["area_ha"], "tramos": segmentos}
         estado = {"pasadas": [], "tramos_ultima": [], "en_curso": [], "fraccion_en_curso": 0.0}
         por_dia = {}
         for tramo in segmentos:
-            por_dia.setdefault(datetime.fromtimestamp(tramo[0], tz=timezone.utc).date(), []).append(tramo)
+            por_dia.setdefault(dia_local(tramo[0]), []).append(tramo)
         for dia_tramos in sorted(por_dia):
             avanzar_pasadas(geo, estado, por_dia[dia_tramos])
         pasadas, en_curso = estado["pasadas"], estado["fraccion_en_curso"]
-        fechas = lambda t: datetime.fromtimestamp(t, tz=timezone.utc).strftime("%Y-%m-%d")
+        fechas = lambda t: dia_local(t).isoformat()
         detalle = "; ".join(f"pasada {i + 1}: {fechas(a)} a {fechas(b)}" for i, (a, b) in enumerate(pasadas))
         dias = sorted({fechas(p["t"]) for p in puntos_geo if p["t"]})
         print(f"DIAG pasadas | {nombre_geo} | {geo['area_ha']:.2f} ha | maquinas: {len(por_unidad)} | dias con puntos: {len(dias)} "
               f"({dias[0]} a {dias[-1]}) | pasadas completas: {len(pasadas)} | en curso: {en_curso * 100:.0f}% | {detalle}")
+    with open(os.environ.get("RUTA_TRAMOS_DIAGNOSTICO", "tramos_diagnostico.json"), "w", encoding="utf-8") as f:
+        json.dump(volcado, f)
 
 
 def main():

@@ -100,15 +100,21 @@ editable por el usuario.
 ### Barredoras: pasadas completas
 
 - Todas las barredoras se unen (a veces una sola hace el cuartel, a veces
-  dos juntas). Cuando entre todas cubren el 95 % de la geocerca, esa es la
-  pasada 1. Lo que siguen haciendo sin una pausa de 2 h o más, o por zona
-  que esa pasada no tenía, sigue siendo la pasada 1. Si después vuelven a
-  pasar por la misma geocerca, empieza la pasada 2 desde cero, y así
-  sucesivamente.
+  dos juntas). El repaso normalmente se hace al menos un día después.
+- Una pasada se cierra cuando entre todas las barredoras cubren el 95 % del
+  cuartel.
+- Lo que sigan barriendo ese mismo día (hora de Chile) sigue siendo parte de
+  esa pasada (terminar el 5 % restante).
+- La pasada nueva empieza cuando vuelven otro día.
+- Excepción: si el mismo día ya completaron el cuartel y empiezan a barrer de
+  nuevo hileras que ya habían barrido en esa pasada, eso cuenta como pasada
+  nueva (se exige que sean 3 tramos seguidos sobre zona ya barrida, para que
+  una hilera que el GPS partió en dos no cree una pasada falsa).
 - El resumen muestra cuántas pasadas completas lleva cada cuartel y el % de
   la pasada en curso. **No** usar la mediana de días por hilera.
 - Las hectáreas de barrido del historial suman todas las pasadas (pueden
-  superar el área del cuartel).
+  superar el área del cuartel); las del día se reparten entre las barredoras
+  según los metros que barrió cada una.
 
 ## Mapas
 
