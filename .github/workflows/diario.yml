@@ -66,5 +66,10 @@ jobs:
           git config user.name "Reporte automatico"
           git config user.email "actions@users.noreply.github.com"
           git add memoria_hileras docs/datos
-          git diff --staged --quiet || git commit -m "Actualizacion automatica $(date -u +%F)"
-          git push
+          # Solo se sube si hay resultados nuevos; antes se integra lo que se
+          # haya subido a GitHub mientras corria (ej. un cambio de codigo).
+          if ! git diff --staged --quiet; then
+            git commit -m "Actualizacion automatica $(date -u +%F)"
+            git pull --rebase origin main
+            git push
+          fi
