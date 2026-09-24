@@ -2,7 +2,7 @@
   "umbral_cierre": 0.95,
   "cuarteles": {
     "C&H Maquinaria": {
-      "trabajado_ha": 4.1838,
+      "trabajado_ha": 4.185,
       "area_total_ha": 5.1226,
       "porcentaje": 81.7,
       "completo": false,
@@ -2482,7 +2482,7 @@
       ]
     },
     "Agricola Flor Oriente": {
-      "trabajado_ha": 9.674,
+      "trabajado_ha": 9.6781,
       "area_total_ha": 9.6946,
       "porcentaje": 99.8,
       "completo": true,
@@ -2515,7 +2515,7 @@
       ]
     },
     "Agricola Flor Oriente 4": {
-      "trabajado_ha": 4.3323,
+      "trabajado_ha": 4.3312,
       "area_total_ha": 4.3549,
       "porcentaje": 99.5,
       "completo": true,
@@ -2526,7 +2526,7 @@
       ]
     },
     "Agricola Flor Oriente 5": {
-      "trabajado_ha": 12.7891,
+      "trabajado_ha": 12.7905,
       "area_total_ha": 12.8297,
       "porcentaje": 99.7,
       "completo": true,
@@ -3901,11 +3901,12 @@
       ]
     },
     "Juan Hiribarren": {
-      "trabajado_ha": 7.6672,
+      "trabajado_ha": 7.8845,
       "area_total_ha": 10.1606,
-      "porcentaje": 75.5,
+      "porcentaje": 77.6,
       "completo": false,
       "maquinas": [
+        "Barredora 23",
         "Shacker SBS 10",
         "Shacker SBS 6"
       ]
@@ -5368,6 +5369,15 @@
         "Shacker SBS 4",
         "Shacker SBS 5",
         "Shacker SBS 8"
+      ]
+    },
+    "santa Isabel": {
+      "trabajado_ha": 5.7786,
+      "area_total_ha": 12.169,
+      "porcentaje": 47.5,
+      "completo": false,
+      "maquinas": [
+        "Barredora 1"
       ]
     },
     "Santa Isabel 2": {

@@ -30486,5 +30486,21 @@
     "n_hileras": 122,
     "area_total_ha": 12.83,
     "area_trabajada_ha": 0.24
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan Hiribarren",
+    "n_hileras": 20,
+    "area_total_ha": 10.16,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Barredora 1",
+    "cuartel": "santa Isabel",
+    "n_hileras": 54,
+    "area_total_ha": 12.17,
+    "area_trabajada_ha": 5.78
   }
 ]
