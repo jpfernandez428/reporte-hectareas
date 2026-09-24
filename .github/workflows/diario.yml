@@ -20,7 +20,7 @@ on:
         required: false
         default: ''
       prueba_pasadas:
-        description: 'Con diagnostico=1: nombre de una barredora para probar el conteo de pasadas del año.'
+        description: 'Con diagnostico=1: maquina o labor (ej. Barrido) para probar el conteo de pasadas.'
         required: false
         default: ''
 
@@ -49,6 +49,8 @@ jobs:
           FECHA_FIN_MANUAL: ${{ inputs.fecha_fin }}
           MODO_DIAGNOSTICO: ${{ inputs.diagnostico }}
           PRUEBA_PASADAS_UNIDAD: ${{ inputs.prueba_pasadas }}
+          PRUEBA_DESDE: ${{ inputs.fecha_inicio }}
+          PRUEBA_HASTA: ${{ inputs.fecha_fin }}
         run: python3 reporte_hectareas.py
 
       - name: Guardar los resultados en el repositorio

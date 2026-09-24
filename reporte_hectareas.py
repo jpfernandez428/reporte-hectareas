@@ -1215,7 +1215,9 @@ def contar_pasadas_completas(geo, segmentos):
     for t, h in alineadas:
         inicio = inicio or t
         marcar_franja_hilera(h, referencia, geo, espaciado, marcadas)
-        fraccion = rellenar_franjas_angostas(marcadas, grilla["mascara"], radio).sum() / grilla["n_celdas"]
+        fraccion = marcadas.sum() / grilla["n_celdas"]
+        if fraccion >= 0.6:  # el relleno solo agrega franjas angostas: antes no puede llegar al 95 %
+            fraccion = rellenar_franjas_angostas(marcadas, grilla["mascara"], radio).sum() / grilla["n_celdas"]
         if fraccion >= UMBRAL_CIERRE_PORCENTAJE:
             pasadas.append((inicio, t))
             marcadas[:] = False
@@ -1223,34 +1225,43 @@ def contar_pasadas_completas(geo, segmentos):
     return pasadas, fraccion
 
 
-def prueba_pasadas(sid, nombre_unidad):
-    """Cuenta las pasadas completas de una barredora en el año (solo lectura)."""
-    unidad = next(u for u in UNIDADES if u["nombre"] == nombre_unidad)
+def prueba_pasadas(sid, nombre):
+    """Cuenta las pasadas completas en el periodo (solo lectura). `nombre` es
+    una maquina o una labor (ej. "Barrido": todas las barredoras juntas)."""
+    unidades = [u for u in UNIDADES if u["nombre"] == nombre or u.get("labor") == nombre]
+    desde = datetime.strptime(os.environ.get("PRUEBA_DESDE", "") or "2026-01-01", "%Y-%m-%d")
+    hasta = datetime.strptime(os.environ.get("PRUEBA_HASTA", "") or
+                              (datetime.utcnow() - timedelta(days=1)).strftime("%Y-%m-%d"), "%Y-%m-%d")
+    print(f"DIAG prueba de pasadas: {len(unidades)} maquinas, {desde:%Y-%m-%d} a {hasta:%Y-%m-%d}")
     geocercas = obtener_geocercas(sid)
     indice = indice_geocercas(geocercas)
-    por_geocerca = {}
-    dia = datetime(2026, 1, 1)
-    while dia < datetime.utcnow() - timedelta(days=1):
-        mensajes = obtener_mensajes(sid, unidad["id"], dia)
-        puntos = [{"punto": (m["pos"]["x"], m["pos"]["y"]), "t": m.get("t")} for m in mensajes if m.get("pos")]
-        for nombre_geo, puntos_geo in repartir_puntos_por_geocerca(puntos, indice).items():
-            if len(puntos_geo) >= MINIMO_PUNTOS_EN_GEOCERCA:
-                por_geocerca.setdefault(nombre_geo, []).extend(puntos_geo)
-        dia += timedelta(days=1)
+    por_geocerca = {}  # nombre_geo -> {unit_id: [puntos]}
+    for unidad in unidades:
+        dia = desde
+        while dia <= hasta:
+            mensajes = obtener_mensajes(sid, unidad["id"], dia)
+            puntos = [{"punto": (m["pos"]["x"], m["pos"]["y"]), "t": m.get("t")} for m in mensajes if m.get("pos")]
+            for nombre_geo, puntos_geo in repartir_puntos_por_geocerca(puntos, indice).items():
+                if len(puntos_geo) >= MINIMO_PUNTOS_EN_GEOCERCA:
+                    por_geocerca.setdefault(nombre_geo, {}).setdefault(unidad["id"], []).extend(puntos_geo)
+            dia += timedelta(days=1)
     geos = {g["nombre"]: g for g in geocercas}
-    for nombre_geo, puntos_geo in sorted(por_geocerca.items()):
+    for nombre_geo, por_unidad in sorted(por_geocerca.items()):
         geo = geos[nombre_geo]
         referencia = geo["contorno"][0]
         segmentos = []
-        for seg in segmentar_pasadas(sorted(puntos_geo, key=lambda p: p["t"] or 0)):
-            seg_m = [punto_a_metros(p["punto"], referencia) for p in seg]
-            if velocidad_kmh_segmento(seg, seg_m) <= VELOCIDAD_MAXIMA_TRABAJO_KMH:
-                segmentos.append((seg[0]["t"] or 0, seg_m))
+        for puntos_unidad in por_unidad.values():  # los tramos se segmentan por maquina
+            for seg in segmentar_pasadas(sorted(puntos_unidad, key=lambda p: p["t"] or 0)):
+                seg_m = [punto_a_metros(p["punto"], referencia) for p in seg]
+                if velocidad_kmh_segmento(seg, seg_m) <= VELOCIDAD_MAXIMA_TRABAJO_KMH:
+                    segmentos.append((seg[0]["t"] or 0, seg_m))
+        segmentos.sort(key=lambda s: s[0])
+        puntos_geo = [p for pu in por_unidad.values() for p in pu]
         pasadas, en_curso = contar_pasadas_completas(geo, segmentos)
         fechas = lambda t: datetime.fromtimestamp(t, tz=timezone.utc).strftime("%Y-%m-%d")
         detalle = "; ".join(f"pasada {i + 1}: {fechas(a)} a {fechas(b)}" for i, (a, b) in enumerate(pasadas))
         dias = sorted({fechas(p["t"]) for p in puntos_geo if p["t"]})
-        print(f"DIAG pasadas | {nombre_geo} | {geo['area_ha']:.2f} ha | dias con puntos: {len(dias)} "
+        print(f"DIAG pasadas | {nombre_geo} | {geo['area_ha']:.2f} ha | maquinas: {len(por_unidad)} | dias con puntos: {len(dias)} "
               f"({dias[0]} a {dias[-1]}) | pasadas completas: {len(pasadas)} | en curso: {en_curso * 100:.0f}% | {detalle}")
 
 
