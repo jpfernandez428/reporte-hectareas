@@ -73,6 +73,42 @@ cambiarlas sin preguntar.
 - Con estas reglas: Solfrut 8 – Picado 16,6 %, Solfrut 10 – Picado 12,1 %;
   Juan Valenzuela_Cuartel 4 – Barrido 0 %, Cosecha con recibidor 47 %.
 
+### Patrones de trabajo y contorno (programado, septiembre 2026)
+
+- La poda y el picado se hacen con distintos patrones: todas las hileras, 2
+  veces por hilera, o cada 2 o 3 hileras. Por cada máquina se agrupan sus
+  pasadas paralelas en líneas (a menos de 1,5 m es la misma línea: pasar 2
+  veces por la misma hilera cuenta una sola vez) y se miden las separaciones.
+- Si varias líneas seguidas (al menos 3) tienen separaciones parecidas
+  (±2 m, `patron_tolerancia_m`) y de hasta 15 m (`patron_separacion_maxima_m`,
+  cada 3 hileras), es un patrón: el área entre la primera y la última pasada
+  cuenta como trabajada, a lo largo del tramo común de las hileras (dentro de
+  la geocerca). Además se exige que las pasadas vecinas sean del mismo día
+  (`patron_mismo_dia`), para no rellenar franjas que quedaron pendientes.
+- Más separadas que 15 m no es patrón: cuenta solo la franja de cada pasada
+  (ej. Solfrut 8 y 10, pasadas cada ~30 m).
+- Las pasadas por el contorno de la geocerca nunca cuentan: pasada a menos de
+  4 m del límite y paralela a él (`distancia_contorno_m`).
+
+### Casos de prueba (verificar después de cada cambio de fórmula)
+
+| Caso | Esperado (terreno) | Fórmula actual |
+|---|---|---|
+| Aurora 3, 5, 6, 7, 8, 9 – Poda | 100 % (terminados) | 99,4–99,8 %, Aurora 6 97,2 % |
+| Aurora 1 y 2 – Poda | casi terminados (no completos) | 94,6 % y 90,1 % |
+| Aurora 4 – Poda | 4,8 ha | 4,87 ha |
+| Barredora 1, 23-09-2026, Bernardo Lira Chiñihue N3 | 3,88 + 4,17 = 8,05 ha, en dos partes | 4,25 + 4,57 ≈ 8,8 ha (ambas partes detectadas) |
+| Tractor 11, 27-06-2026, Longaví 5 – Poda | 0 ha (solo recorrió el contorno) | 0 ha |
+| Tractor 11, 27-06-2026, Longaví 8 – Poda | ~2,4 ha | 0,82 ha — **pendiente** (ver abajo) |
+| Solfrut 8 y 10 – Picado | solo la franja de cada pasada | 16,6 % y 12,1 % (13,5 % y 9,1 % antes de la franja de borde de 8 m) |
+| Juan Valenzuela_Cuartel 4 | Barrido 0 %, Cosecha con recibidor ~46 % | 0 % y 48,3 % |
+
+Longaví 8: el Tractor 11 hizo pasadas cada ~35 m (con una extra a ~10 m) y
+entre ellas estaba trabajando en Longaví 6 y 7 (no son huecos del GPS). Con
+el máximo de 15 m no es patrón. Una variante de 40 m sin exigir separación
+pareja da 2,42 ha, pero deja Aurora 1 en 97,1 % (completo) y Solfrut en
+54,8 %: no se aplicó. Por resolver con el usuario.
+
 ## Geocercas
 
 Regla: **siempre el cuartel más detallado, nunca agregados.**
@@ -184,5 +220,6 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
 
 ## Pendientes
 
-- Relanzar el año completo con la fórmula actual (lo lanza el usuario después
-  de revisar el panel).
+- Longaví 8 (Tractor 11, 27-06-2026): ~2,4 ha en terreno, el sistema da
+  0,82 ha. Aclarar cómo se trabajó (ver casos de prueba).
+- Relanzar el año completo con la fórmula actual (lo lanza el usuario).

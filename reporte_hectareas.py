@@ -158,6 +158,16 @@ MINIMO_PARALELAS_SERIE = CONFIG.get("minimo_paralelas_serie", 2)
 # alcanzan a marcar): cuenta como trabajada hasta esta distancia del limite,
 # solo donde el trabajo cubierto llega hasta ella.
 FRANJA_BORDE_M = CONFIG.get("franja_borde_m", 8)
+# Patron de trabajo (cada 2 o 3 hileras, etc.): si las pasadas paralelas de
+# una maquina estan separadas por distancias parecidas (+-PATRON_TOLERANCIA_M)
+# y de hasta PATRON_SEPARACION_MAXIMA_M, el area entre ellas cuenta como
+# trabajada. Mas separadas, cuenta solo la franja de cada pasada.
+PATRON_SEPARACION_MAXIMA_M = CONFIG.get("patron_separacion_maxima_m", 15)
+PATRON_TOLERANCIA_M = CONFIG.get("patron_tolerancia_m", 2)
+PATRON_MISMO_DIA = CONFIG.get("patron_mismo_dia", True)
+# Pasadas por el contorno (a menos de esta distancia del limite y paralelas a
+# el) nunca cuentan.
+DISTANCIA_CONTORNO_M = CONFIG.get("distancia_contorno_m", 4)
 # Patio donde se guardan las maquinas (no es cuartel; se usa para el panel).
 GEOCERCA_PATIO = CONFIG.get("geocerca_patio", "C&H Maquinaria")
 # Trabajo fuera de geocercas: una zona cuenta como trabajo si tiene al menos
@@ -919,12 +929,10 @@ def grilla_geocerca(geo):
     return _grillas[geo["nombre"]]
 
 
-def marcar_franja_hilera(hilera, referencia, geo, ancho_m, marcadas):
-    """Marca (en el arreglo `marcadas`) las celdas de la franja de `ancho_m`
-    alrededor de la hilera, alargada hasta el borde de la geocerca en los
-    extremos que llegan a la cabecera (TOLERANCIA_CABECERA_M)."""
+def extremos_en_grilla(hilera, referencia, geo):
+    """Extremos de la hilera en metros de la grilla de la geocerca, alargados
+    hasta el borde en los extremos que llegan a la cabecera."""
     grilla = grilla_geocerca(geo)
-    lado = grilla["lado"]
     contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]]
     ini, fin = hilera.min_proy, hilera.max_proy
     tramo = tramo_geocerca_en_hilera(hilera, contorno_m)
@@ -938,7 +946,14 @@ def marcar_franja_hilera(hilera, referencia, geo, ancho_m, marcadas):
         punto = (hilera.origen[0] + hilera.direccion[0] * proy, hilera.origen[1] + hilera.direccion[1] * proy)
         return punto_a_metros(metros_a_punto(punto, referencia), grilla["referencia"])
 
-    a, b = a_grilla(ini), a_grilla(fin)
+    return a_grilla(ini), a_grilla(fin)
+
+
+def marcar_rectangulo(geo, a, b, ancho_m, marcadas):
+    """Marca las celdas del rectangulo de eje a-b (metros de la grilla) y
+    ancho `ancho_m` centrado en ese eje."""
+    grilla = grilla_geocerca(geo)
+    lado = grilla["lado"]
     largo = math.hypot(b[0] - a[0], b[1] - a[1])
     if largo < 0.5:
         return
@@ -953,17 +968,105 @@ def marcar_franja_hilera(hilera, referencia, geo, ancho_m, marcadas):
     marcadas[ii[validas], jj[validas]] = True
 
 
+def marcar_franja_hilera(hilera, referencia, geo, ancho_m, marcadas):
+    """Marca (en el arreglo `marcadas`) las celdas de la franja de `ancho_m`
+    alrededor de la hilera, alargada hasta el borde de la geocerca en los
+    extremos que llegan a la cabecera (TOLERANCIA_CABECERA_M)."""
+    a, b = extremos_en_grilla(hilera, referencia, geo)
+    marcar_rectangulo(geo, a, b, ancho_m, marcadas)
+
+
+def es_pasada_de_contorno(hilera, contorno_m):
+    """True si la pasada va pegada al limite de la geocerca (a menos de
+    DISTANCIA_CONTORNO_M) y paralela a el: recorrer el contorno no es trabajo."""
+    puntos = [(hilera.origen[0] + hilera.direccion[0] * p, hilera.origen[1] + hilera.direccion[1] * p)
+              for p in np.linspace(hilera.min_proy, hilera.max_proy, 5)]
+    cerca = 0
+    for px, py in puntos:
+        mejor, paralelo = float("inf"), False
+        for k in range(len(contorno_m)):
+            (ax, ay), (bx, by) = contorno_m[k], contorno_m[(k + 1) % len(contorno_m)]
+            dx, dy = bx - ax, by - ay
+            largo2 = dx * dx + dy * dy
+            if largo2 < 1e-6:
+                continue
+            t = max(0.0, min(1.0, ((px - ax) * dx + (py - ay) * dy) / largo2))
+            dist = math.hypot(px - ax - t * dx, py - ay - t * dy)
+            if dist < mejor:
+                coseno = abs(dx * hilera.direccion[0] + dy * hilera.direccion[1]) / math.sqrt(largo2)
+                mejor, paralelo = dist, coseno >= math.cos(math.radians(TOLERANCIA_ANGULO_GRADOS))
+        cerca += mejor <= DISTANCIA_CONTORNO_M and paralelo
+    return cerca >= 4
+
+
+def rellenar_patron(geo, referencia, alineadas, marcadas):
+    """
+    Patron de trabajo de una maquina: agrupa sus pasadas en lineas (a menos
+    de 1,5 m es la misma linea, ej. pasar 2 veces por la misma hilera) y
+    busca tramos de lineas consecutivas con separaciones parecidas
+    (+-PATRON_TOLERANCIA_M) de hasta PATRON_SEPARACION_MAXIMA_M. Entre esas
+    lineas marca como trabajada el area comun (desde la primera hasta la
+    ultima pasada del patron, a lo largo de las hileras).
+    """
+    if len(alineadas) < 3:
+        return
+    ref = hilera_referencia(alineadas)
+    ux, uy = ref.direccion
+    lineas = []  # (lateral, desde, hasta, fechas) en metros de la grilla
+    for h in alineadas:
+        a, b = extremos_en_grilla(h, referencia, geo)
+        lateral = ((a[0] + b[0]) / 2) * -uy + ((a[1] + b[1]) / 2) * ux
+        largo_a, largo_b = a[0] * ux + a[1] * uy, b[0] * ux + b[1] * uy
+        lineas.append([lateral, min(largo_a, largo_b), max(largo_a, largo_b), set(h.fechas)])
+    lineas.sort(key=lambda x: x[0])
+    agrupadas = [lineas[0][:3] + [set(lineas[0][3])]]
+    for lat, desde, hasta, fechas in lineas[1:]:
+        ultima = agrupadas[-1]
+        if lat - ultima[0] < TOLERANCIA_MISMA_HILERA_M:
+            ultima[1], ultima[2] = min(ultima[1], desde), max(ultima[2], hasta)
+            ultima[3] |= fechas
+        else:
+            agrupadas.append([lat, desde, hasta, set(fechas)])
+    # Bloques de separaciones parecidas.
+    bloque = [0]
+    bloques = []
+    for k in range(1, len(agrupadas)):
+        sep = agrupadas[k][0] - agrupadas[k - 1][0]
+        seps = [agrupadas[i + 1][0] - agrupadas[i][0] for i in bloque[:-1]]
+        parecida = not seps or abs(sep - statistics.median(seps)) <= PATRON_TOLERANCIA_M
+        if sep <= PATRON_SEPARACION_MAXIMA_M and parecida:
+            bloque.append(k)
+        else:
+            bloques.append(bloque)
+            bloque = [k]
+    bloques.append(bloque)
+    for bloque in bloques:
+        if len(bloque) < 3:
+            continue
+        for i, j in zip(bloque, bloque[1:]):
+            (lat1, d1, h1, f1), (lat2, d2, h2, f2) = agrupadas[i], agrupadas[j]
+            desde, hasta = max(d1, d2), min(h1, h2)
+            if hasta <= desde or (PATRON_MISMO_DIA and f1 and f2 and not f1 & f2):
+                continue  # sin solape a lo largo, o pasadas de dias distintos
+            medio = (lat1 + lat2) / 2
+            a = (desde * ux - medio * uy, desde * uy + medio * ux)
+            b = (hasta * ux - medio * uy, hasta * uy + medio * ux)
+            marcar_rectangulo(geo, a, b, lat2 - lat1, marcadas)
+
+
 def marcar_trabajo_maquina(geo, referencia, hileras):
     """Celdas marcadas por las hileras de UNA maquina (sin rellenar) y su
     espaciado entre hileras. Devuelve (arreglo, espaciado_m) o None."""
     if referencia is None or not hileras:
         return None
     grilla = grilla_geocerca(geo)
-    alineadas, _ = filtrar_hileras_regulares(hileras)
+    contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]]
+    alineadas, _ = filtrar_hileras_regulares([h for h in hileras if not es_pasada_de_contorno(h, contorno_m)])
     espaciado = espaciado_real_m(alineadas)
     marcadas = np.zeros(grilla["mascara"].shape, dtype=bool)
     for h in alineadas:
         marcar_franja_hilera(h, referencia, geo, espaciado, marcadas)
+    rellenar_patron(geo, referencia, alineadas, marcadas)
     return marcadas & grilla["mascara"], espaciado
 
 
