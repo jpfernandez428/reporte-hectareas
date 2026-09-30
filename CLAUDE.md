@@ -117,8 +117,8 @@ editable por el usuario.
 - La pasada nueva empieza cuando vuelven otro día.
 - Excepción: si el mismo día ya completaron el cuartel y empiezan a barrer de
   nuevo hileras que ya habían barrido en esa pasada, eso cuenta como pasada
-  nueva. Criterio (propuesto, por confirmar): lo barrido ese día después del
-  cierre debe cubrir por sí solo al menos el 50 % del cuartel
+  nueva. Criterio (aprobado): lo barrido ese día después del cierre debe
+  cubrir por sí solo al menos el 50 % del cuartel
   (`fraccion_repaso_mismo_dia`). Con datos reales, terminar el 5 % restante
   cubre entre 5 % y 32 % (la franja de cada hilera se superpone con lo ya
   barrido), así que un criterio por tramos sueltos marcaba repasos falsos.
@@ -160,8 +160,8 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
 - **Horas:** solo cuenta el tiempo en movimiento (≥ 1 km/h entre puntos GPS,
   intervalos de hasta 10 min porque algunos GPS mandan puntos espaciados),
   más los giros de cabecera. Un rato detenido no suma horas.
-- **Mínimo por día:** 1 hora de trabajo en esa zona (`horas_minimas_alerta`),
-  recomendado; por confirmar entre 30 min, 1 h y 2 h. Con datos reales
+- **Mínimo por día (aprobado):** 1 hora de trabajo en esa zona
+  (`horas_minimas_alerta`). Con datos reales
   (26-ago a 24-sep): 30 min → 58 líneas en el panel, 1 h → 55, 2 h → 45
   (2 h ya pierde trabajo claro, ej. 1,5–1,9 h con 2–2,7 ha).
 - **Al crear la geocerca** en Wialon, la alerta de esa máquina en ese lugar
@@ -184,7 +184,5 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
 
 ## Pendientes
 
-- Confirmar el umbral del 50 % para el repaso de barredoras el mismo día
-  (recomendado: dejarlo en 50 %).
-- Confirmar el mínimo de horas por día de las alertas sin geocerca
-  (recomendado: 1 h).
+- Relanzar el año completo con la fórmula actual (lo lanza el usuario después
+  de revisar el panel).
