@@ -73,6 +73,10 @@ RUTA_ESTADO_AVANCE = os.path.join(CARPETA_MEMORIA, "_avance_por_labor.json")
 # Geocercas ya conocidas (por id de Wialon): las nuevas se calculan con los
 # ultimos DIAS_GEOCERCA_NUEVA dias.
 RUTA_GEOCERCAS_CONOCIDAS = os.path.join(CARPETA_MEMORIA, "_geocercas_conocidas.json")
+# Separacion tipica de cada maquina cada dia, medida en todas las geocercas que
+# recorrio (el tractor puede ir y volver entre geocercas vecinas).
+RUTA_ESTILOS = os.path.join(CARPETA_MEMORIA, "_estilo_maquinas.json")
+ESTILOS = {}  # "maquina||AAAA-MM-DD" -> separacion tipica (m)
 # Panel de la web: maquinas en el patio y trabajo fuera de geocercas.
 RUTA_ESTADO_MAQUINAS = os.path.join(CARPETA_DATOS, "estado_maquinas.json")
 
@@ -158,19 +162,22 @@ MINIMO_PARALELAS_SERIE = CONFIG.get("minimo_paralelas_serie", 2)
 # alcanzan a marcar): cuenta como trabajada hasta esta distancia del limite,
 # solo donde el trabajo cubierto llega hasta ella.
 FRANJA_BORDE_M = CONFIG.get("franja_borde_m", 8)
-# Patron de trabajo (todas las hileras, cada 2, cada 7...): por cada maquina
-# en cada cuartel se busca la separacion predominante entre sus pasadas
-# paralelas (+-PATRON_TOLERANCIA_M). Cadenas de al menos 3 pasadas con esa
-# separacion cuentan el area entre ellas como trabajada, de cualquier dia.
-# PATRON_SEPARACION_MAXIMA_M es solo un limite de seguridad amplio.
-PATRON_SEPARACION_MAXIMA_M = CONFIG.get("patron_separacion_maxima_m", 50)
-PATRON_TOLERANCIA_M = CONFIG.get("patron_tolerancia_m", 2)
-# Dentro de la zona del patron se rellena entre pasadas vecinas salvo huecos
-# de mas de este multiplo de la separacion del patron (parte no trabajada).
-PATRON_HUECO_MAXIMO = CONFIG.get("patron_hueco_maximo", 1.5)
+# Dos estilos de trabajo (solo poda y picado, LABORES_CON_PATRON):
+#   - hileras pegadas (separacion tipica entre pasadas vecinas menor que
+#     SEPARACION_PATRON_ANCHO_M, ej. Aurora): no se rellena; un hueco de una o
+#     mas hileras es trabajo pendiente.
+#   - patron ancho (saltandose varias hileras, ej. Solfrut, Longavi 8): todos
+#     los huecos entre la primera y la ultima pasada cuentan como trabajados,
+#     aunque la separacion varie, hasta un limite de seguridad.
+LABORES_CON_PATRON = CONFIG.get("labores_con_patron", ["Poda", "Picado"])
+SEPARACION_PATRON_ANCHO_M = CONFIG.get("separacion_patron_ancho_m", 7)
+HUECO_MAXIMO_PATRON_ANCHO_M = CONFIG.get("hueco_maximo_patron_ancho_m", 75)
+# En un patron ancho, junto al limite cuenta hasta esta fraccion de la
+# separacion del patron (solo donde el trabajo llega hasta ella).
+FRACCION_BORDE_PATRON_ANCHO = CONFIG.get("fraccion_borde_patron_ancho", 0.5)
 # Pasadas por el contorno (a menos de esta distancia del limite y paralelas a
 # el) nunca cuentan.
-DISTANCIA_CONTORNO_M = CONFIG.get("distancia_contorno_m", 4)
+DISTANCIA_CONTORNO_M = CONFIG.get("distancia_contorno_m", 2)
 # Patio donde se guardan las maquinas (no es cuartel; se usa para el panel).
 GEOCERCA_PATIO = CONFIG.get("geocerca_patio", "C&H Maquinaria")
 # Trabajo fuera de geocercas: una zona cuenta como trabajo si tiene al menos
@@ -761,7 +768,7 @@ def hilera_referencia(hileras):
     return hileras[mejor]
 
 
-def filtrar_hileras_regulares(hileras):
+def filtrar_hileras_regulares(hileras, minimo_paralelas=None):
     """
     Devuelve (hileras que cuentan, tramos que no cuentan). No cuentan:
       - los tramos cruzados respecto de la direccion del cuartel (traslados
@@ -802,7 +809,7 @@ def filtrar_hileras_regulares(hileras):
         distancia = np.abs(lat_o[v] - lat_o[k])
         solape = np.minimum(hasta_o[v], hasta_o[k]) - np.maximum(desde_o[v], desde_o[k])
         paralelas = (distancia >= TOLERANCIA_MISMA_HILERA_M) & (solape > 0)
-        cuenta_ordenada[k] = int(paralelas.sum()) >= MINIMO_PARALELAS_SERIE
+        cuenta_ordenada[k] = int(paralelas.sum()) >= (minimo_paralelas or MINIMO_PARALELAS_SERIE)
     cuenta = np.zeros(len(alineadas), dtype=bool)
     cuenta[orden] = cuenta_ordenada
     cuentan = [h for h, c in zip(alineadas, cuenta) if c]
@@ -928,6 +935,7 @@ def grilla_geocerca(geo):
             "referencia": referencia, "lado": lado, "i0": i0, "j0": j0,
             "mascara": mascara, "n_celdas": int(mascara.sum()),
             "franja_borde": mascara & (distancia <= FRANJA_BORDE_M),
+            "distancia_borde": distancia.astype(np.float32),
         }
     return _grillas[geo["nombre"]]
 
@@ -967,6 +975,23 @@ def marcar_rectangulo(geo, a, b, ancho_m, marcadas):
     tt, dd = np.meshgrid(t, d, indexing="ij")
     ii = np.floor((a[0] + ux * tt - uy * dd) / lado).astype(np.int64) - grilla["i0"]
     jj = np.floor((a[1] + uy * tt + ux * dd) / lado).astype(np.int64) - grilla["j0"]
+    validas = (ii >= 0) & (ii < marcadas.shape[0]) & (jj >= 0) & (jj < marcadas.shape[1])
+    marcadas[ii[validas], jj[validas]] = True
+
+
+def marcar_cuadrilatero(geo, a1, b1, a2, b2, marcadas):
+    """Marca el cuadrilatero entre el tramo a1-b1 y el tramo a2-b2 (metros de
+    la grilla): interpolando entre los extremos de ambas pasadas."""
+    grilla = grilla_geocerca(geo)
+    paso = grilla["lado"] / 2
+    largo = max(math.hypot(b1[0] - a1[0], b1[1] - a1[1]), math.hypot(b2[0] - a2[0], b2[1] - a2[1]))
+    ancho = max(math.hypot(a2[0] - a1[0], a2[1] - a1[1]), math.hypot(b2[0] - b1[0], b2[1] - b1[1]))
+    t = np.linspace(0.0, 1.0, int(largo / paso) + 2)[:, None]
+    u = np.linspace(0.0, 1.0, int(ancho / paso) + 2)[None, :]
+    x = (1 - u) * (a1[0] + t * (b1[0] - a1[0])) + u * (a2[0] + t * (b2[0] - a2[0]))
+    y = (1 - u) * (a1[1] + t * (b1[1] - a1[1])) + u * (a2[1] + t * (b2[1] - a2[1]))
+    ii = np.floor(x / grilla["lado"]).astype(np.int64) - grilla["i0"]
+    jj = np.floor(y / grilla["lado"]).astype(np.int64) - grilla["j0"]
     validas = (ii >= 0) & (ii < marcadas.shape[0]) & (jj >= 0) & (jj < marcadas.shape[1])
     marcadas[ii[validas], jj[validas]] = True
 
@@ -1025,94 +1050,120 @@ def lineas_de_pasadas(geo, referencia, alineadas, direccion):
     return agrupadas
 
 
-def detectar_patron(laterales):
-    """
-    Separacion predominante entre lineas: la separacion S (de 2 a
-    PATRON_SEPARACION_MAXIMA_M) con la que mas lineas quedan en cadenas de al
-    menos 3 lineas separadas S +-PATRON_TOLERANCIA_M. Devuelve (S, lineas en
-    cadena) o (None, set()).
-    """
-    lat = np.array(laterales)
-    if len(lat) < 3:
-        return None, set()
-
-    def cadenas(sep):
-        siguiente = {}
-        for i, x in enumerate(lat):
-            j = int(np.argmin(np.abs(lat - (x + sep))))
-            if j > i and abs(lat[j] - x - sep) <= PATRON_TOLERANCIA_M:
-                siguiente[i] = j
-        anteriores = set(siguiente.values())
-        en_cadena, pasos = set(), []
-        for inicio in [i for i in siguiente if i not in anteriores]:
-            cadena = [inicio]
-            while cadena[-1] in siguiente:
-                cadena.append(siguiente[cadena[-1]])
-            if len(cadena) >= 3:
-                en_cadena.update(cadena)
-                pasos += [lat[b] - lat[a] for a, b in zip(cadena, cadena[1:])]
-        return en_cadena, pasos
-
-    mejor, mejor_cadena, mejor_pasos = None, set(), []
-    for sep in np.arange(TOLERANCIA_MISMA_HILERA_M + PATRON_TOLERANCIA_M, PATRON_SEPARACION_MAXIMA_M + 0.01, 0.5):
-        en_cadena, pasos = cadenas(sep)
-        if len(en_cadena) > len(mejor_cadena):
-            mejor, mejor_cadena, mejor_pasos = sep, en_cadena, pasos
-    if not mejor_cadena:
-        return None, set()
-    return float(statistics.median(mejor_pasos)), mejor_cadena
+def separacion_tipica(laterales):
+    """Mediana de las separaciones entre lineas vecinas (None si hay menos de 3)."""
+    if len(laterales) < 3:
+        return None
+    return float(statistics.median(b - a for a, b in zip(laterales, laterales[1:])))
 
 
-def rellenar_patron(geo, referencia, alineadas, marcadas):
+def rellenar_patron(geo, referencia, alineadas, marcadas, separacion_vecinas=None):
     """
-    Zona del patron de la maquina en esta geocerca: desde la primera hasta la
-    ultima pasada. Dentro de ella se marca como trabajada el area entre
-    pasadas vecinas, salvo huecos de mas de PATRON_HUECO_MAXIMO veces la
-    separacion del patron. Las pasadas extra (repasar una hilera saltada) no
-    suman ni rompen el patron. Devuelve la separacion del patron o None.
+    Patron ancho: si la separacion tipica de la maquina en esta geocerca (o,
+    con pocas pasadas, la de ese dia en las geocercas vecinas) es de al
+    menos SEPARACION_PATRON_ANCHO_M, se marcan como trabajados los huecos
+    entre la primera y la ultima pasada, aunque la separacion varie (hasta
+    HUECO_MAXIMO_PATRON_ANCHO_M). Con hileras pegadas no se rellena nada.
+    Devuelve la separacion tipica usada (o None).
     """
-    if len(alineadas) < 3:
+    if len(alineadas) < 2:
         return None
     direccion = hilera_referencia(alineadas).direccion
     ux, uy = direccion
     lineas = lineas_de_pasadas(geo, referencia, alineadas, direccion)
-    separacion, en_cadena = detectar_patron([l[0] for l in lineas])
+    separacion = separacion_tipica([l[0] for l in lineas])
     if separacion is None:
-        return None
-    primera, ultima = min(en_cadena), max(en_cadena)
-    # La zona se extiende a las lineas vecinas mientras no haya un hueco grande.
-    while primera > 0 and lineas[primera][0] - lineas[primera - 1][0] <= PATRON_HUECO_MAXIMO * separacion:
-        primera -= 1
-    while ultima < len(lineas) - 1 and lineas[ultima + 1][0] - lineas[ultima][0] <= PATRON_HUECO_MAXIMO * separacion:
-        ultima += 1
-    for i in range(primera, ultima):
-        (lat1, d1, h1), (lat2, d2, h2) = lineas[i], lineas[i + 1]
-        if lat2 - lat1 > PATRON_HUECO_MAXIMO * separacion:
-            continue  # hueco: parte no trabajada
-        desde, hasta = max(d1, d2), min(h1, h2)
-        if hasta <= desde:
-            continue
-        medio = (lat1 + lat2) / 2
-        a = (desde * ux - medio * uy, desde * uy + medio * ux)
-        b = (hasta * ux - medio * uy, hasta * uy + medio * ux)
-        marcar_rectangulo(geo, a, b, lat2 - lat1, marcadas)
+        separacion = separacion_vecinas
+    if separacion is None or separacion < SEPARACION_PATRON_ANCHO_M:
+        return separacion  # hileras pegadas: un hueco es trabajo pendiente
+    punto = lambda largo, lat: (largo * ux - lat * uy, largo * uy + lat * ux)
+    for (lat1, d1, h1), (lat2, d2, h2) in zip(lineas, lineas[1:]):
+        if lat2 - lat1 > HUECO_MAXIMO_PATRON_ANCHO_M or min(h1, h2) <= max(d1, d2):
+            continue  # hueco demasiado grande, o pasadas que no se enfrentan
+        # Trapecio entre los extremos reales de ambas pasadas (sigue el largo
+        # de cada hilera, ej. contra un borde en diagonal).
+        marcar_cuadrilatero(geo, punto(d1, lat1), punto(h1, lat1), punto(d2, lat2), punto(h2, lat2), marcadas)
     return separacion
 
 
-def marcar_trabajo_maquina(geo, referencia, hileras):
+def separacion_del_dia(puntos_por_geocerca):
+    """Separacion tipica de una maquina en un dia, juntando las separaciones
+    entre pasadas vecinas de todas las geocercas que recorrio."""
+    separaciones = []
+    for puntos_geo in puntos_por_geocerca:
+        if len(puntos_geo) < 3:
+            continue
+        referencia = puntos_geo[0]["punto"]
+        hileras = []
+        for seg in segmentar_pasadas(puntos_geo):
+            (x0, y0), (x1, y1) = punto_a_metros(seg[0]["punto"], referencia), punto_a_metros(seg[-1]["punto"], referencia)
+            largo = math.hypot(x1 - x0, y1 - y0)
+            if largo >= 20:
+                hileras.append(Hilera(0, (x0, y0), ((x1 - x0) / largo, (y1 - y0) / largo), 0, largo))
+        alineadas, _ = filtrar_hileras_regulares(hileras)
+        if len(alineadas) < 2:
+            continue
+        ux, uy = hilera_referencia(alineadas).direccion
+        laterales = sorted((h.origen[0] + h.direccion[0] * h.max_proy / 2) * -uy
+                           + (h.origen[1] + h.direccion[1] * h.max_proy / 2) * ux for h in alineadas)
+        distintas = [laterales[0]]
+        for x in laterales[1:]:
+            if x - distintas[-1] >= TOLERANCIA_MISMA_HILERA_M:
+                distintas.append(x)
+        separaciones += [b - a for a, b in zip(distintas, distintas[1:])]
+    return float(statistics.median(separaciones)) if separaciones else None
+
+
+def separacion_vecinas_de(nombre_maquina, hileras):
+    """Separacion tipica de la maquina en los dias en que trabajo estas hileras."""
+    valores = [ESTILOS[f"{nombre_maquina}||{f}"] for f in sorted({f for h in hileras for f in h.fechas})
+               if f"{nombre_maquina}||{f}" in ESTILOS]
+    return float(statistics.median(valores)) if valores else None
+
+
+def marcar_trabajo_maquina(geo, referencia, hileras, labor=None, separacion_vecinas=None):
     """Celdas marcadas por las hileras de UNA maquina (sin rellenar) y su
-    espaciado entre hileras. Devuelve (arreglo, espaciado_m) o None."""
+    espaciado entre hileras. En poda y picado se aplica el patron de trabajo.
+    Devuelve (arreglo, espaciado_m) o None."""
     if referencia is None or not hileras:
         return None
     grilla = grilla_geocerca(geo)
     contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]]
-    alineadas, _ = filtrar_hileras_regulares([h for h in hileras if not es_pasada_de_contorno(h, contorno_m)])
+    # En poda y picado basta una pasada paralela vecina: en un patron ancho la
+    # pasada del extremo tiene solo una vecina cerca.
+    alineadas, _ = filtrar_hileras_regulares([h for h in hileras if not es_pasada_de_contorno(h, contorno_m)],
+                                             1 if labor in LABORES_CON_PATRON else None)
     espaciado = espaciado_real_m(alineadas)
     marcadas = np.zeros(grilla["mascara"].shape, dtype=bool)
     for h in alineadas:
         marcar_franja_hilera(h, referencia, geo, espaciado, marcadas)
-    rellenar_patron(geo, referencia, alineadas, marcadas)
+    if labor in LABORES_CON_PATRON:
+        separacion = rellenar_patron(geo, referencia, alineadas, marcadas, separacion_vecinas)
+        if separacion is not None and separacion >= SEPARACION_PATRON_ANCHO_M:
+            # Patron ancho: cada pasada atiende las hileras saltadas a su
+            # alrededor; junto al limite, la franja llega hasta una separacion
+            # del patron (solo donde el trabajo llega hasta ella).
+            ancho = min(separacion, HUECO_MAXIMO_PATRON_ANCHO_M) * FRACCION_BORDE_PATRON_ANCHO
+            alcance = dilatar_cuadrado(marcadas, int(round(ancho / grilla["lado"])))
+            marcadas |= alcance & grilla["mascara"] & (grilla["distancia_borde"] <= ancho)
     return marcadas & grilla["mascara"], espaciado
+
+
+def dilatar_cuadrado(arreglo, radio):
+    """Dilatacion rapida con un cuadrado de lado 2*radio+1 (sumas acumuladas)."""
+    if radio < 1:
+        return arreglo.copy()
+    resultado = arreglo
+    for eje in (0, 1):
+        n = resultado.shape[eje]
+        acumulada = np.cumsum(np.pad(resultado.astype(np.int32), [(1, 0) if e == eje else (0, 0) for e in (0, 1)]), axis=eje)
+        hasta = np.clip(np.arange(n) + radio + 1, 0, n)
+        desde = np.clip(np.arange(n) - radio, 0, n)
+        if eje == 0:
+            resultado = (acumulada[hasta, :] - acumulada[desde, :]) > 0
+        else:
+            resultado = (acumulada[:, hasta] - acumulada[:, desde]) > 0
+    return resultado
 
 
 def desplazados(arreglo, radio, relleno):
@@ -1161,10 +1212,13 @@ def unir_trabajos(geo, marcas):
     return cerradas | (alcance & grilla["franja_borde"])
 
 
-def celdas_trabajadas(geo, trabajos):
-    """Celdas trabajadas de una geocerca, uniendo todas las maquinas.
-    trabajos: lista de (referencia, hileras) de cada maquina."""
-    return unir_trabajos(geo, [marcar_trabajo_maquina(geo, ref, hs) for ref, hs in trabajos])
+def celdas_trabajadas(geo, trabajos, labor=None):
+    """Celdas trabajadas de una geocerca, uniendo todas las maquinas de una
+    labor. trabajos: lista de (referencia, hileras) o (referencia, hileras,
+    nombre_maquina) de cada maquina."""
+    return unir_trabajos(geo, [
+        marcar_trabajo_maquina(geo, t[0], t[1], labor, separacion_vecinas_de(t[2], t[1]) if len(t) > 2 else None)
+        for t in trabajos])
 
 
 def fraccion_trabajada(geo, celdas_cubiertas):
@@ -1238,7 +1292,7 @@ def avance_total_por_geocerca(unidades_procesadas, geocercas, estado_avance):
             })
         else:
             fraccion = max(estado["max_fraccion"], fraccion_trabajada(
-                geo, celdas_trabajadas(geo, [(ref, hs) for _, ref, hs in lista])))
+                geo, celdas_trabajadas(geo, [(ref, hs, m) for m, ref, hs in lista], labor)))
             estado["max_fraccion"] = fraccion
             info.update({
                 "trabajado_ha": round(fraccion * geo["area_ha"], 4),
@@ -1394,6 +1448,18 @@ def cargar_estado_avance():
 def guardar_estado_avance(estado):
     with open(RUTA_ESTADO_AVANCE, "w", encoding="utf-8") as f:
         json.dump(estado, f, ensure_ascii=False)
+
+
+def cargar_estilos():
+    ESTILOS.clear()
+    if os.path.exists(RUTA_ESTILOS):
+        with open(RUTA_ESTILOS, "r", encoding="utf-8") as f:
+            ESTILOS.update(json.load(f))
+
+
+def guardar_estilos():
+    with open(RUTA_ESTILOS, "w", encoding="utf-8") as f:
+        json.dump(ESTILOS, f, ensure_ascii=False, indent=0, sort_keys=True)
 
 
 def cargar_geocercas_conocidas():
@@ -1570,7 +1636,8 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                 clave = (u["id"], geo["nombre"])
                 if clave not in marcas:
                     referencia, hileras, _ = estado_de(u, geo)
-                    marcas[clave] = marcar_trabajo_maquina(geo, referencia, hileras)
+                    marcas[clave] = marcar_trabajo_maquina(geo, referencia, hileras, labor,
+                                                           separacion_vecinas_de(u["nombre"], hileras))
                 lista.append(marcas[clave])
             cobertura[clave_cobertura] = unir_trabajos(geo, lista)
         return cobertura[clave_cobertura]
@@ -1593,6 +1660,10 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
             if len(puntos) < 3:
                 continue
             por_geocerca = repartir_puntos_por_geocerca(puntos, indice)
+            if labor_de(unidad) in LABORES_CON_PATRON and por_geocerca:
+                estilo = separacion_del_dia(list(por_geocerca.values()))
+                if estilo is not None:
+                    ESTILOS[f"{unidad['nombre']}||{fecha_str}"] = round(estilo, 1)
             if detectar_fuera:
                 if dia == fecha_fin:
                     extra["con_datos"].append(unidad["nombre"])
@@ -2032,6 +2103,7 @@ def main():
 
     print(f"Procesando del {FECHA_INICIO.date()} al {FECHA_FIN.date()}...")
     estado_avance = cargar_estado_avance()
+    cargar_estilos()
     df_resumen, df_detalle, resultado_por_unidad, diagnostico, extra = generar_reporte(
         sid, existentes, estado_avance, FECHA_INICIO, FECHA_FIN, geocercas, patio)
     if nuevas:
@@ -2047,6 +2119,7 @@ def main():
             hpg.update(hpg_n)
             desc.extend(desc_n)
     guardar_geocercas_conocidas(geocercas)
+    guardar_estilos()
 
     estado_maquinas = actualizar_estado_maquinas(extra, FECHA_INICIO, FECHA_FIN, geocercas, patio)
     print(f"\nEstado de maquinas al {estado_maquinas['fecha']}: {len(estado_maquinas['en_patio'])} en "

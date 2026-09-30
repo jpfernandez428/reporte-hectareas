@@ -75,44 +75,58 @@ cambiarlas sin preguntar.
 
 ### Patrones de trabajo (reglas del usuario, 30-sep-2026)
 
-- La poda y el picado se hacen saltándose hileras con un patrón constante
-  (todas, cada 2, cada 7...). El operador nunca cambia de patrón dentro de un
-  cuartel. Lo que define trabajo completo es el patrón, no un tope de
-  separación: al menos 3 pasadas paralelas de la misma máquina en el mismo
-  cuartel con separaciones parejas (±2 m), sea de 4 m o de 35 m. Límite de
-  seguridad amplio: 50 m (`patron_separacion_maxima_m`).
-- Por máquina y cuartel se detecta la separación predominante y se aplica a
-  todo lo que trabajó ahí, de cualquier día (Solfrut se hizo en dos días).
-- Una pasada extra (repasar una hilera saltada, ej. la de ~10 m en Longaví 8)
-  no suma área y no rompe el patrón.
-- Pasadas sueltas que no forman patrón cuentan solo su propia franja.
-- La detección no depende de conocer el espaciado de hileras (muchos campos
-  no tienen pasada de shaker).
-- Hileras a la mitad: se calcula a lo largo del recorrido real; una pasada
-  cortada por un salto del GPS en la misma línea se junta como una sola.
-- Pasadas por el contorno de la geocerca nunca cuentan (a menos de 4 m del
-  límite y paralelas a él, `distancia_contorno_m`).
-- Implementación: la zona del patrón va desde la primera hasta la última
-  pasada; dentro se rellena entre pasadas vecinas salvo huecos de más de 1,5
-  veces la separación del patrón (`patron_hueco_maximo`), que se toman como
-  parte no trabajada. Para no descartar pasadas del patrón como "aisladas",
-  la ventana de vecinas es de 75 m (`distancia_maxima_serie_m`).
+- Solo en **poda y picado** (`labores_con_patron`). Las barredoras siempre
+  pasan por todas las hileras; dos pasadas por la misma hilera cuentan una
+  sola vez y no crean una pasada nueva.
+- Dos estilos, según la separación típica (mediana de la distancia entre
+  líneas vecinas) de cada máquina en cada cuartel:
+  - **Hileras pegadas** (menos de 7 m, `separacion_patron_ancho_m`; ej.
+    Aurora, 3–5 m): se pasa por todas las hileras. Un hueco de una o más
+    hileras es trabajo pendiente y no se rellena.
+  - **Patrón ancho** (7 m o más: saltándose una o varias hileras; ej.
+    Solfrut 27–53 m, Longaví 8 ~35 m, Longaví 15 y 16 ~8–10 m): todos los
+    huecos entre la primera y la última pasada cuentan como trabajados,
+    aunque la separación varíe o siga una secuencia (saltar 2, luego 4,
+    luego 2...). Límite de seguridad: huecos de hasta 75 m
+    (`hueco_maximo_patron_ancho_m`). Junto al límite de la geocerca cuenta
+    hasta media separación del patrón (`fraccion_borde_patron_ancho`), solo
+    donde el trabajo llega hasta ella.
+- El operador no cambia de patrón en el cuartel, y la máquina puede ir y
+  volver entre geocercas vecinas: si en una geocerca hay pocas pasadas, se
+  usa la separación típica de esa máquina ese día en todas las geocercas que
+  recorrió (`memoria_hileras/_estilo_maquinas.json`).
+- Entre dos pasadas vecinas se rellena el trapecio que forman sus extremos
+  reales (sigue el largo de cada hilera, ej. contra un borde en diagonal).
+- Pasada extra (repasar una hilera saltada) no suma ni rompe el patrón. Dos
+  pasadas a menos de 1,5 m son la misma línea (también una pasada cortada
+  por un salto del GPS).
+- Pasadas sueltas: en poda y picado cuenta una pasada paralela con al menos
+  una vecina paralela a menos de 75 m; en las demás labores se piden dos
+  (así los recorridos por el borde de las barredoras no cuentan).
+- Contorno: una pasada a menos de 2 m del límite y paralela a él nunca
+  cuenta (`distancia_contorno_m`; con 4 m se perdía una hilera real de
+  Aurora 6).
+- La detección no depende de conocer el espaciado de hileras.
 
 ### Casos de calibración (verificar después de cada cambio de fórmula)
 
 | Caso | Esperado (terreno) | Resultado actual |
 |---|---|---|
-| Aurora 3, 5, 6, 7, 8, 9 – Poda (al 22-09) | ≥ 95 % | 99,9 / 99,8 / 97,2 / 99,4 / 98,9 / 99,9 % ✓ |
-| Aurora 4 – Poda (al 22-09) | ~4,8 ha | 4,87 ha ✓ |
-| Aurora 2 – Poda | casi terminado | 93,0 % ✓ |
-| Aurora 1 – Poda, datos hasta el 22-09 | < 95 % | 95,9 % ✗ (ver pendientes) |
-| Aurora 1 – Poda, datos hasta el 29-09 (terminado 24–27-09) | ≥ 95 % | 99,7 % ✓ |
-| Solfrut 8 – Picado (Tractor 16, 17 y 18-08) | ≥ 95 % (100 % en terreno) | 89,6 % ✗ |
-| Solfrut 10 – Picado (Tractor 16, 18-08) | ≥ 95 % (100 % en terreno) | 46,3 % ✗ |
-| Longaví 8 – Poda (Tractor 11, 27-06) | ~2,4 ha | 2,42 ha ✓ |
+| Aurora 3, 5, 6, 7, 8, 9 – Poda (al 22-09) | ≥ 95 % | 99,6 / 99,8 / 95,5 / 99,4 / 97,6 / 98,7 % ✓ |
+| Aurora 4 – Poda (al 22-09) | ~4,8 ha | 4,86 ha ✓ |
+| Aurora 2 – Poda | casi terminado | 88,4 % ✓ |
+| Aurora 1 – Poda, datos hasta el 22-09 | < 95 % | 92,4 % ✓ |
+| Aurora 1 – Poda, datos hasta el 29-09 (Tractor 13 terminó el 24–25) | ≥ 95 % | 99,5 % ✓ |
+| Solfrut 8 – Picado (Tractor 16, 17 y 18-08) | ≥ 95 % | 99,5 % ✓ |
+| Solfrut 10 – Picado (Tractor 16, 17 y 18-08) | ≥ 95 % | 99,6 % ✓ |
+| Longaví 8 – Poda (Tractor 11, 27-06) | ~2,4 ha | 2,63 ha ✓ (+10 %) |
 | Longaví 5 – Poda (Tractor 11, 27-06) | 0 ha (solo pasó) | 0 ha ✓ |
-| Barredora 1, 23-09, Bernardo Lira Chiñihue N3 | 3,88 + 4,17 = 8,05 ha | 9,49 ha (ambas partes) ~ +18 % |
-| Juan Valenzuela_Cuartel 4 | Barrido 0 %, Cosecha con recibidor ~46 % | 0 % y 48,4 % ✓ |
+| Barredora 1, 23-09, Bernardo Lira Chiñihue N3 | ~8,05 ha (dos partes) | 8,89 ha ✓ (+10 %) |
+| Juan Valenzuela_Cuartel 4 | Barrido 0 %, Cosecha con recibidor ~46 % | 0 % y 47 % ✓ |
+
+Aurora 1 al 22-09 daba 95,9 % mientras se rellenaba el patrón también en
+hileras pegadas: tapaba el 58 % de las hileras que el Tractor 13 completó el
+24–25. Por eso con hileras pegadas no se rellena.
 
 ## Geocercas
 
@@ -225,6 +239,8 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
 
 ## Pendientes
 
-- Casos de calibración que no se cumplen (ver tabla): Solfrut 8 y 10, Aurora 1
-  al 22-09. Consultado al usuario (30-sep).
+- Confirmar en terreno Longaví 15 y 16 (Tractor 11, julio): con patrón ancho
+  de ~8–10 m quedan en 95,6 % y 97,4 %.
+- Revisar en el mapa: Don Cristóbal Larraín (85,2 %), Agrícola Aeropuerto 7
+  (78 %) y 8 (78,9 %), todos Cosecha con recibidor.
 - Relanzar el año completo con la fórmula actual (lo lanza el usuario).
