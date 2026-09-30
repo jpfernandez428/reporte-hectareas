@@ -35,6 +35,10 @@ on:
         description: 'Con diagnostico=1: casos "maquina|AAAA-MM-DD|geocerca;..." para bajar su GPS.'
         required: false
         default: ''
+      prueba_info_unidad:
+        description: 'Con diagnostico=1: nombre de una maquina para ver su ficha en Wialon (id, IMEI, equipo).'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -66,6 +70,7 @@ jobs:
           PRUEBA_ESTADO: ${{ inputs.prueba_estado }}
           PRUEBA_GEOCERCA_NUEVA: ${{ inputs.prueba_geocerca_nueva }}
           PRUEBA_CASOS: ${{ inputs.prueba_casos }}
+          PRUEBA_INFO_UNIDAD: ${{ inputs.prueba_info_unidad }}
         run: python3 reporte_hectareas.py
 
       - name: Guardar los datos de las pruebas (solo diagnostico)

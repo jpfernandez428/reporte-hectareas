@@ -1982,6 +1982,26 @@ def prueba_pasadas(sid, nombre):
         json.dump(volcado, f)
 
 
+def info_unidad(sid, nombre):
+    """Ficha de una unidad en Wialon (solo lectura): nombre, id, IMEI y tipo
+    de equipo GPS, ultimo mensaje."""
+    unidad = next(u for u in UNIDADES if u["nombre"] == nombre)
+    r = requests.get(f"{WIALON_HOST}/wialon/ajax.html", params={
+        "svc": "core/search_item", "params": json.dumps({"id": unidad["id"], "flags": 0x1 | 0x100 | 0x400}),
+        "sid": sid}, timeout=60).json().get("item", {})
+    tipo = ""
+    if r.get("hw"):
+        tipos = requests.get(f"{WIALON_HOST}/wialon/ajax.html", params={
+            "svc": "core/get_hw_types", "params": json.dumps({"filterType": "id", "filterValue": [r["hw"]], "includeType": True}),
+            "sid": sid}, timeout=60).json()
+        tipo = tipos[0].get("name", "") if isinstance(tipos, list) and tipos else ""
+    ultimo = r.get("lmsg") or {}
+    print(f"DIAG unidad | nombre: {r.get('nm')} | id: {r.get('id')} | IMEI/identificador: {r.get('uid')} | "
+          f"identificador 2: {r.get('uid2') or '-'} | tipo de equipo: {tipo or r.get('hw')} | "
+          f"ultimo mensaje: {datetime.fromtimestamp(ultimo['t'], ZONA_HORARIA):%Y-%m-%d %H:%M} " if ultimo.get('t') else
+          f"DIAG unidad | nombre: {r.get('nm')} | id: {r.get('id')} | IMEI/identificador: {r.get('uid')} | tipo de equipo: {tipo or r.get('hw')}")
+
+
 def prueba_casos(sid):
     """
     Descarga (solo lectura) el GPS de casos puntuales para revisarlos:
@@ -1997,8 +2017,8 @@ def prueba_casos(sid):
         maquina, fecha, texto = [x.strip() for x in caso.split("|")]
         unidad = next(u for u in UNIDADES if normalizar(u["nombre"]).startswith(normalizar(maquina)))
         dia = datetime.strptime(fecha, "%Y-%m-%d")
-        puntos = [{"punto": (m["pos"]["x"], m["pos"]["y"]), "t": m.get("t")}
-                  for m in obtener_mensajes(sid, unidad["id"], dia) if m.get("pos")]
+        mensajes = [m for m in obtener_mensajes(sid, unidad["id"], dia) if m.get("pos")]
+        puntos = [{"punto": (m["pos"]["x"], m["pos"]["y"]), "t": m.get("t")} for m in mensajes]
         por_geo = repartir_puntos_por_geocerca(puntos, indice)
         nombres = {g["nombre"] for g in geocercas if normalizar(texto) in normalizar(g["nombre"])} | set(por_geo)
         print(f"DIAG caso | {unidad['nombre']} | {fecha} | {len(puntos)} puntos | geocercas con '{texto}': "
@@ -2006,6 +2026,8 @@ def prueba_casos(sid):
               f"{ {n: len(v) for n, v in por_geo.items()} }")
         salida.append({"maquina": unidad["nombre"], "id": unidad["id"], "labor": labor_de(unidad), "fecha": fecha,
                        "texto": texto, "puntos": [[p["punto"][0], p["punto"][1], p["t"]] for p in puntos],
+                       # velocidad (km/h) y satelites que informa el propio equipo GPS
+                       "equipo": [[m["pos"].get("s"), m["pos"].get("sc")] for m in mensajes],
                        "geocercas": [{k: g[k] for k in ("nombre", "contorno", "area_ha", "bbox", "id_wialon")}
                                      for g in geocercas if g["nombre"] in nombres]})
     with open("casos_diagnostico.json", "w", encoding="utf-8") as f:
@@ -2065,6 +2087,8 @@ def main():
     print("Conectado.")
 
     if MODO_DIAGNOSTICO:
+        if os.environ.get("PRUEBA_INFO_UNIDAD", "").strip():
+            info_unidad(sid, os.environ["PRUEBA_INFO_UNIDAD"].strip())
         if os.environ.get("PRUEBA_CASOS", "").strip():
             prueba_casos(sid)
             return
