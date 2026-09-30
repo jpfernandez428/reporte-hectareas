@@ -158,13 +158,16 @@ MINIMO_PARALELAS_SERIE = CONFIG.get("minimo_paralelas_serie", 2)
 # alcanzan a marcar): cuenta como trabajada hasta esta distancia del limite,
 # solo donde el trabajo cubierto llega hasta ella.
 FRANJA_BORDE_M = CONFIG.get("franja_borde_m", 8)
-# Patron de trabajo (cada 2 o 3 hileras, etc.): si las pasadas paralelas de
-# una maquina estan separadas por distancias parecidas (+-PATRON_TOLERANCIA_M)
-# y de hasta PATRON_SEPARACION_MAXIMA_M, el area entre ellas cuenta como
-# trabajada. Mas separadas, cuenta solo la franja de cada pasada.
-PATRON_SEPARACION_MAXIMA_M = CONFIG.get("patron_separacion_maxima_m", 15)
+# Patron de trabajo (todas las hileras, cada 2, cada 7...): por cada maquina
+# en cada cuartel se busca la separacion predominante entre sus pasadas
+# paralelas (+-PATRON_TOLERANCIA_M). Cadenas de al menos 3 pasadas con esa
+# separacion cuentan el area entre ellas como trabajada, de cualquier dia.
+# PATRON_SEPARACION_MAXIMA_M es solo un limite de seguridad amplio.
+PATRON_SEPARACION_MAXIMA_M = CONFIG.get("patron_separacion_maxima_m", 50)
 PATRON_TOLERANCIA_M = CONFIG.get("patron_tolerancia_m", 2)
-PATRON_MISMO_DIA = CONFIG.get("patron_mismo_dia", True)
+# Dentro de la zona del patron se rellena entre pasadas vecinas salvo huecos
+# de mas de este multiplo de la separacion del patron (parte no trabajada).
+PATRON_HUECO_MAXIMO = CONFIG.get("patron_hueco_maximo", 1.5)
 # Pasadas por el contorno (a menos de esta distancia del limite y paralelas a
 # el) nunca cuentan.
 DISTANCIA_CONTORNO_M = CONFIG.get("distancia_contorno_m", 4)
@@ -207,7 +210,7 @@ FRACCION_REPASO_MISMO_DIA = CONFIG.get("fraccion_repaso_mismo_dia", 0.5)
 
 def dia_local(hora_unix):
     return datetime.fromtimestamp(hora_unix, ZONA_HORARIA).date()
-DISTANCIA_MAXIMA_SERIE_M = CONFIG.get("distancia_maxima_serie_m", 40)
+DISTANCIA_MAXIMA_SERIE_M = CONFIG.get("distancia_maxima_serie_m", 75)
 
 os.makedirs(CARPETA_MEMORIA, exist_ok=True)
 os.makedirs(CARPETA_REPORTES, exist_ok=True)
@@ -999,59 +1002,101 @@ def es_pasada_de_contorno(hilera, contorno_m):
     return cerca >= 4
 
 
-def rellenar_patron(geo, referencia, alineadas, marcadas):
-    """
-    Patron de trabajo de una maquina: agrupa sus pasadas en lineas (a menos
-    de 1,5 m es la misma linea, ej. pasar 2 veces por la misma hilera) y
-    busca tramos de lineas consecutivas con separaciones parecidas
-    (+-PATRON_TOLERANCIA_M) de hasta PATRON_SEPARACION_MAXIMA_M. Entre esas
-    lineas marca como trabajada el area comun (desde la primera hasta la
-    ultima pasada del patron, a lo largo de las hileras).
-    """
-    if len(alineadas) < 3:
-        return
-    ref = hilera_referencia(alineadas)
-    ux, uy = ref.direccion
-    lineas = []  # (lateral, desde, hasta, fechas) en metros de la grilla
+def lineas_de_pasadas(geo, referencia, alineadas, direccion):
+    """Agrupa las pasadas en lineas: posicion lateral respecto de `direccion`
+    y tramo a lo largo (metros de la grilla). A menos de 1,5 m es la misma
+    linea (pasar 2 veces por la misma hilera, o una pasada cortada por un
+    salto del GPS): se juntan en una sola, con el largo de ambas."""
+    ux, uy = direccion
+    lineas = []
     for h in alineadas:
         a, b = extremos_en_grilla(h, referencia, geo)
         lateral = ((a[0] + b[0]) / 2) * -uy + ((a[1] + b[1]) / 2) * ux
         largo_a, largo_b = a[0] * ux + a[1] * uy, b[0] * ux + b[1] * uy
-        lineas.append([lateral, min(largo_a, largo_b), max(largo_a, largo_b), set(h.fechas)])
-    lineas.sort(key=lambda x: x[0])
-    agrupadas = [lineas[0][:3] + [set(lineas[0][3])]]
-    for lat, desde, hasta, fechas in lineas[1:]:
-        ultima = agrupadas[-1]
-        if lat - ultima[0] < TOLERANCIA_MISMA_HILERA_M:
+        lineas.append([lateral, min(largo_a, largo_b), max(largo_a, largo_b)])
+    lineas.sort()
+    agrupadas = []
+    for lat, desde, hasta in lineas:
+        if agrupadas and lat - agrupadas[-1][0] < TOLERANCIA_MISMA_HILERA_M:
+            ultima = agrupadas[-1]
             ultima[1], ultima[2] = min(ultima[1], desde), max(ultima[2], hasta)
-            ultima[3] |= fechas
         else:
-            agrupadas.append([lat, desde, hasta, set(fechas)])
-    # Bloques de separaciones parecidas.
-    bloque = [0]
-    bloques = []
-    for k in range(1, len(agrupadas)):
-        sep = agrupadas[k][0] - agrupadas[k - 1][0]
-        seps = [agrupadas[i + 1][0] - agrupadas[i][0] for i in bloque[:-1]]
-        parecida = not seps or abs(sep - statistics.median(seps)) <= PATRON_TOLERANCIA_M
-        if sep <= PATRON_SEPARACION_MAXIMA_M and parecida:
-            bloque.append(k)
-        else:
-            bloques.append(bloque)
-            bloque = [k]
-    bloques.append(bloque)
-    for bloque in bloques:
-        if len(bloque) < 3:
+            agrupadas.append([lat, desde, hasta])
+    return agrupadas
+
+
+def detectar_patron(laterales):
+    """
+    Separacion predominante entre lineas: la separacion S (de 2 a
+    PATRON_SEPARACION_MAXIMA_M) con la que mas lineas quedan en cadenas de al
+    menos 3 lineas separadas S +-PATRON_TOLERANCIA_M. Devuelve (S, lineas en
+    cadena) o (None, set()).
+    """
+    lat = np.array(laterales)
+    if len(lat) < 3:
+        return None, set()
+
+    def cadenas(sep):
+        siguiente = {}
+        for i, x in enumerate(lat):
+            j = int(np.argmin(np.abs(lat - (x + sep))))
+            if j > i and abs(lat[j] - x - sep) <= PATRON_TOLERANCIA_M:
+                siguiente[i] = j
+        anteriores = set(siguiente.values())
+        en_cadena, pasos = set(), []
+        for inicio in [i for i in siguiente if i not in anteriores]:
+            cadena = [inicio]
+            while cadena[-1] in siguiente:
+                cadena.append(siguiente[cadena[-1]])
+            if len(cadena) >= 3:
+                en_cadena.update(cadena)
+                pasos += [lat[b] - lat[a] for a, b in zip(cadena, cadena[1:])]
+        return en_cadena, pasos
+
+    mejor, mejor_cadena, mejor_pasos = None, set(), []
+    for sep in np.arange(TOLERANCIA_MISMA_HILERA_M + PATRON_TOLERANCIA_M, PATRON_SEPARACION_MAXIMA_M + 0.01, 0.5):
+        en_cadena, pasos = cadenas(sep)
+        if len(en_cadena) > len(mejor_cadena):
+            mejor, mejor_cadena, mejor_pasos = sep, en_cadena, pasos
+    if not mejor_cadena:
+        return None, set()
+    return float(statistics.median(mejor_pasos)), mejor_cadena
+
+
+def rellenar_patron(geo, referencia, alineadas, marcadas):
+    """
+    Zona del patron de la maquina en esta geocerca: desde la primera hasta la
+    ultima pasada. Dentro de ella se marca como trabajada el area entre
+    pasadas vecinas, salvo huecos de mas de PATRON_HUECO_MAXIMO veces la
+    separacion del patron. Las pasadas extra (repasar una hilera saltada) no
+    suman ni rompen el patron. Devuelve la separacion del patron o None.
+    """
+    if len(alineadas) < 3:
+        return None
+    direccion = hilera_referencia(alineadas).direccion
+    ux, uy = direccion
+    lineas = lineas_de_pasadas(geo, referencia, alineadas, direccion)
+    separacion, en_cadena = detectar_patron([l[0] for l in lineas])
+    if separacion is None:
+        return None
+    primera, ultima = min(en_cadena), max(en_cadena)
+    # La zona se extiende a las lineas vecinas mientras no haya un hueco grande.
+    while primera > 0 and lineas[primera][0] - lineas[primera - 1][0] <= PATRON_HUECO_MAXIMO * separacion:
+        primera -= 1
+    while ultima < len(lineas) - 1 and lineas[ultima + 1][0] - lineas[ultima][0] <= PATRON_HUECO_MAXIMO * separacion:
+        ultima += 1
+    for i in range(primera, ultima):
+        (lat1, d1, h1), (lat2, d2, h2) = lineas[i], lineas[i + 1]
+        if lat2 - lat1 > PATRON_HUECO_MAXIMO * separacion:
+            continue  # hueco: parte no trabajada
+        desde, hasta = max(d1, d2), min(h1, h2)
+        if hasta <= desde:
             continue
-        for i, j in zip(bloque, bloque[1:]):
-            (lat1, d1, h1, f1), (lat2, d2, h2, f2) = agrupadas[i], agrupadas[j]
-            desde, hasta = max(d1, d2), min(h1, h2)
-            if hasta <= desde or (PATRON_MISMO_DIA and f1 and f2 and not f1 & f2):
-                continue  # sin solape a lo largo, o pasadas de dias distintos
-            medio = (lat1 + lat2) / 2
-            a = (desde * ux - medio * uy, desde * uy + medio * ux)
-            b = (hasta * ux - medio * uy, hasta * uy + medio * ux)
-            marcar_rectangulo(geo, a, b, lat2 - lat1, marcadas)
+        medio = (lat1 + lat2) / 2
+        a = (desde * ux - medio * uy, desde * uy + medio * ux)
+        b = (hasta * ux - medio * uy, hasta * uy + medio * ux)
+        marcar_rectangulo(geo, a, b, lat2 - lat1, marcadas)
+    return separacion
 
 
 def marcar_trabajo_maquina(geo, referencia, hileras):
