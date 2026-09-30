@@ -108,6 +108,22 @@ cambiarlas sin preguntar.
   Aurora 6).
 - La detección no depende de conocer el espaciado de hileras.
 
+### Cosecha con recibidor (reglas del usuario, 30-sep-2026)
+
+- El shaker va por un lado de la hilera de árboles y el recibidor (sin GPS)
+  por el otro. Normalmente el shaker pasa por todas las entrehileras. Cuando
+  cosechan hacia el otro lado, el recibidor pasa por una entrehilera y el
+  shaker se la salta: eso se ve como un hueco.
+- Regla: un hueco de una sola entrehilera entre pasadas de shaker cuenta
+  como trabajado; huecos más grandes no.
+- Implementación (`relleno_recibidor`): con todos los shakers de la labor
+  juntos (se reparten las hileras), el ancho de una entrehilera es la
+  mediana de las separaciones entre pasadas largas vecinas que caen entre 4
+  y 10 m (`entrehilera_minima_m`, `entrehilera_maxima_m`). Entre pasadas
+  largas vecinas separadas hasta 2 entrehileras (±2 m) se rellena toda la
+  banda. Los tramos cortos o en diagonal que se cruzan en medio no parten
+  el hueco.
+
 ### Casos de calibración (verificar después de cada cambio de fórmula)
 
 | Caso | Esperado (terreno) | Resultado actual |
@@ -122,20 +138,17 @@ cambiarlas sin preguntar.
 | Longaví 8 – Poda (Tractor 11, 27-06) | ~2,4 ha | 2,63 ha ✓ (+10 %) |
 | Longaví 5 – Poda (Tractor 11, 27-06) | 0 ha (solo pasó) | 0 ha ✓ |
 | Barredora 1, 23-09, Bernardo Lira Chiñihue N3 | ~8,05 ha (dos partes) | 8,89 ha ✓ (+10 %) |
-| Juan Valenzuela_Cuartel 4 | Barrido 0 %, Cosecha con recibidor ~46 % | 0 % y 47 % ✓ |
+| Juan Valenzuela_Cuartel 4 | Barrido 0 %, Cosecha con recibidor ~46 % | 0 % y 49,9 % ✓ |
 | Longaví 15 y 16 – Poda (Tractor 11, 2 al 14-07) | completos (≥ 95 %) | 95,6 % y 97,4 % ✓ (patrón ancho de ~8–10 m) |
-| Viconto – Barrido (Barredora 5497 y Barredora 6, 7 al 9-04) | ~7,3 ha en 3 partes (el resto del cuartel se hizo otros días o con máquinas del cliente; no debe quedar completo) | 5,13 ha ✗ (ver nota) |
+| Viconto – Barrido (Barredoras 6 y 5497, 7 al 9-04) | 4,7 ha en 3 partes (1,5 + 1,8 + 1,4); la franja central sin barrer es correcta | 5,13 ha (1,6 + 2,0 + 1,55) ✓ (+9 %) |
+| Viconto 4 – Barrido (Barredoras 6 y 5497, 8 y 9-04) | ~9,3 ha en 3 partes | 9,28 ha ✓ |
+| Agrícola Aeropuerto 7 – Cosecha con recibidor (Shacker SBS 9 y SBS 12, 7 al 17-04) | completo (≥ 95 %) | 91,9 % ✗ |
+| Agrícola Aeropuerto 8 – Cosecha con recibidor (Shacker SBS 9 y SBS 12, 7 al 17-04) | completo (≥ 95 %) | 95,2 % ✓ |
 
-Viconto (revisado el 30-09 con el GPS del 6 al 9 de abril): dentro de la
-geocerca "Viconto" las dos barredoras solo trabajaron el 7 de abril (el 8
-estuvieron en Viconto 4 y el 9 en Viconto 4 y 4.1). El GPS muestra 3 partes
-barridas casi al 100 % (1,6 + 2,0 + 1,55 ha = 5,1 ha) y una franja de ~100 m
-de ancho (~3 ha) entre la segunda y la tercera con solo 1–3 puntos por cada
-10 m (traslados). No hay saltos del GPS, silencios durante el trabajo ni
-pasadas descartadas por las reglas (solo giros y 5 tramos de contorno). La
-Barredora 5497 manda un punto cada ~41 s (la Barredora 6 cada ~20 s), con
-15 satélites de mediana y sin saltos. Falta aclarar con el usuario dónde
-están las 3 partes de terreno.
+Viconto: las dos barredoras trabajaron dentro de "Viconto" solo el 7 de
+abril (el 8 en Viconto 4, el 9 en Viconto 4 y 4.1). El GPS de la Barredora
+5497 está sano: sin saltos, 15 satélites de mediana, un punto cada ~41 s
+(la Barredora 6 cada ~20 s); detenida manda un punto por hora.
 
 Aurora 1 al 22-09 daba 95,9 % mientras se rellenaba el patrón también en
 hileras pegadas: tapaba el 58 % de las hileras que el Tractor 13 completó el
@@ -252,9 +265,7 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
 
 ## Pendientes
 
-- Viconto – Barrido 7 al 9-04: terreno ~7,3 ha, sistema 5,13 ha. El GPS no
-  muestra trabajo en la franja central (~3 ha); aclarar con el usuario dónde
-  están las 3 partes.
-- Revisar en el mapa: Don Cristóbal Larraín (85,2 %), Agrícola Aeropuerto 7
-  (78 %) y 8 (78,9 %), todos Cosecha con recibidor.
+- Agrícola Aeropuerto 7 (Cosecha con recibidor) queda en 91,9 %: lo que
+  falta está donde el recorrido del Shacker SBS 12 viene muy cortado y en
+  diagonal. Consultado al usuario.
 - Relanzar el año completo con la fórmula actual (lo lanza el usuario).

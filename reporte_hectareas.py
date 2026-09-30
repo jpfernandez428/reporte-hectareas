@@ -170,6 +170,14 @@ FRANJA_BORDE_M = CONFIG.get("franja_borde_m", 8)
 #     los huecos entre la primera y la ultima pasada cuentan como trabajados,
 #     aunque la separacion varie, hasta un limite de seguridad.
 LABORES_CON_PATRON = CONFIG.get("labores_con_patron", ["Poda", "Picado"])
+# Cosecha con recibidor: el recibidor (sin GPS) va por el otro lado de la
+# hilera. Cuando cosechan hacia el otro lado, el shaker se salta la
+# entrehilera por donde paso el recibidor: un hueco de una sola entrehilera
+# entre pasadas de shaker cuenta como trabajado; huecos mas grandes no.
+LABOR_CON_RECIBIDOR = CONFIG.get("labor_con_recibidor", "Cosecha con recibidor")
+TOLERANCIA_RECIBIDOR_M = CONFIG.get("tolerancia_recibidor_m", 2)
+ENTREHILERA_MINIMA_M = CONFIG.get("entrehilera_minima_m", 4)
+ENTREHILERA_MAXIMA_M = CONFIG.get("entrehilera_maxima_m", 10)
 SEPARACION_PATRON_ANCHO_M = CONFIG.get("separacion_patron_ancho_m", 7)
 HUECO_MAXIMO_PATRON_ANCHO_M = CONFIG.get("hueco_maximo_patron_ancho_m", 75)
 # En un patron ancho, junto al limite cuenta hasta esta fraccion de la
@@ -1212,13 +1220,70 @@ def unir_trabajos(geo, marcas):
     return cerradas | (alcance & grilla["franja_borde"])
 
 
+def relleno_recibidor(geo, trabajos):
+    """Huecos de una sola entrehilera entre pasadas de shaker (todos los
+    shakers de la labor juntos, porque se reparten las hileras). La
+    separacion entre entrehileras se mide con las pasadas largas; se rellena
+    un hueco de ~2 entrehileras (+-TOLERANCIA_RECIBIDOR_M)."""
+    grilla = grilla_geocerca(geo)
+    relleno = np.zeros(grilla["mascara"].shape, dtype=bool)
+    alineadas_por_maquina = []
+    for t in trabajos:
+        referencia, hileras = t[0], t[1]
+        if referencia is None or not hileras:
+            continue
+        contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]]
+        alineadas, _ = filtrar_hileras_regulares([h for h in hileras if not es_pasada_de_contorno(h, contorno_m)])
+        if alineadas:
+            alineadas_por_maquina.append((referencia, alineadas))
+    todas = [h for _, al in alineadas_por_maquina for h in al]
+    if len(todas) < 3:
+        return relleno
+    direccion = hilera_referencia(todas).direccion
+    ux, uy = direccion
+    lineas = []
+    for referencia, alineadas in alineadas_por_maquina:
+        lineas += lineas_de_pasadas(geo, referencia, alineadas, direccion)
+    lineas.sort()
+    agrupadas = []
+    for lat, desde, hasta in lineas:
+        if agrupadas and lat - agrupadas[-1][0] < TOLERANCIA_MISMA_HILERA_M:
+            agrupadas[-1][1], agrupadas[-1][2] = min(agrupadas[-1][1], desde), max(agrupadas[-1][2], hasta)
+        else:
+            agrupadas.append([lat, desde, hasta])
+    # Ancho de una entrehilera: mediana de las separaciones entre pasadas
+    # largas vecinas que caen en un rango razonable de huerto
+    # (ENTREHILERA_MINIMA_M a ENTREHILERA_MAXIMA_M). Las pasadas cortadas o
+    # repetidas dan distancias menores, y los saltos por el recibidor, el doble.
+    largo_tipico = statistics.median(h - d for _, d, h in agrupadas)
+    largas = [l for l in agrupadas if l[2] - l[1] >= 0.5 * largo_tipico]
+    separaciones = [b[0] - a[0] for a, b in zip(largas, largas[1:])
+                    if ENTREHILERA_MINIMA_M <= b[0] - a[0] <= ENTREHILERA_MAXIMA_M]
+    if len(separaciones) < 3:
+        return relleno
+    separacion = statistics.median(separaciones)
+    punto = lambda largo, lat: (largo * ux - lat * uy, largo * uy + lat * ux)
+    # El hueco se mide entre pasadas largas vecinas (los tramos cortos que se
+    # cruzan en medio no lo parten).
+    for (lat1, d1, h1), (lat2, d2, h2) in zip(largas, largas[1:]):
+        hueco = lat2 - lat1
+        # Hasta una entrehilera saltada (~2 entrehileras entre pasadas): toda la
+        # banda entre ambas pasadas cuenta como cosechada.
+        if hueco <= 2 * separacion + TOLERANCIA_RECIBIDOR_M and min(h1, h2) > max(d1, d2):
+            marcar_cuadrilatero(geo, punto(d1, lat1), punto(h1, lat1), punto(d2, lat2), punto(h2, lat2), relleno)
+    return relleno & grilla["mascara"]
+
+
 def celdas_trabajadas(geo, trabajos, labor=None):
     """Celdas trabajadas de una geocerca, uniendo todas las maquinas de una
     labor. trabajos: lista de (referencia, hileras) o (referencia, hileras,
     nombre_maquina) de cada maquina."""
-    return unir_trabajos(geo, [
+    celdas = unir_trabajos(geo, [
         marcar_trabajo_maquina(geo, t[0], t[1], labor, separacion_vecinas_de(t[2], t[1]) if len(t) > 2 else None)
         for t in trabajos])
+    if labor == LABOR_CON_RECIBIDOR:
+        celdas |= relleno_recibidor(geo, trabajos)
+    return celdas
 
 
 def fraccion_trabajada(geo, celdas_cubiertas):
@@ -1640,6 +1705,9 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                                                            separacion_vecinas_de(u["nombre"], hileras))
                 lista.append(marcas[clave])
             cobertura[clave_cobertura] = unir_trabajos(geo, lista)
+            if labor == LABOR_CON_RECIBIDOR:
+                cobertura[clave_cobertura] |= relleno_recibidor(geo, [
+                    estado_de(u, geo)[:2] for u in UNIDADES if labor_de(u) == labor])
         return cobertura[clave_cobertura]
 
     indice = indice_geocercas(geocercas)
