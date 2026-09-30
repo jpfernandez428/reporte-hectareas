@@ -97,6 +97,20 @@ cambiarlas sin preguntar.
   recorrió (`memoria_hileras/_estilo_maquinas.json`).
 - Entre dos pasadas vecinas se rellena el trapecio que forman sus extremos
   reales (sigue el largo de cada hilera, ej. contra un borde en diagonal).
+- Además se rellena **por tramos a lo largo** de las hileras
+  (`rellenar_por_tramos`): en cada tramo, entre dos pasadas que pasan por
+  ahí, con la posición real de cada pasada en ese punto (no todas son
+  paralelas). Así una pasada cortada en pedazos por el GPS no deja huecos
+  (El Volcán 14: el Tractor 7 reporta un punto por minuto).
+- **Patrón del campo** (regla del usuario, 30-sep-2026): el campo es la raíz
+  del nombre del cuartel, sin el número ni lo que sigue ("El Volcán 14" →
+  "el volcan", "Solfrut 8" → "solfrut"). Cuando una máquina tiene 15 líneas
+  o más en un cuartel (`lineas_patron_claro`), su separación típica queda
+  como referencia del campo para esa labor. En un cuartel con menos
+  líneas se usa la mediana de las referencias del mismo campo y labor; si el
+  campo no tiene ninguna, la de esa máquina ese día en las geocercas
+  vecinas, y si tampoco, la propia. Se guarda en
+  `memoria_hileras/_estilo_maquinas.json` (`por_campo`).
 - Pasada extra (repasar una hilera saltada) no suma ni rompe el patrón. Dos
   pasadas a menos de 1,5 m son la misma línea (también una pasada cortada
   por un salto del GPS).
@@ -107,6 +121,24 @@ cambiarlas sin preguntar.
   cuenta (`distancia_contorno_m`; con 4 m se perdía una hilera real de
   Aurora 6).
 - La detección no depende de conocer el espaciado de hileras.
+
+### GPS (reglas del 30-sep-2026, calibradas con AA7, Don Cristóbal y El Volcán 14)
+
+- **Puntos detenidos**: un punto se usa solo si la máquina se movió al menos
+  3 m desde el último que quedó (`movimiento_minimo_punto_m`). El Shacker
+  SBS 12 manda un punto cada 3 s y se detiene en cada árbol: el "baile" del
+  GPS detenido cortaba sus pasadas en pedazos.
+- **Solo pasó por el borde**: una máquina con menos de 10 pasadas en un
+  cuartel, todas con su punto medio a menos de 15 m del límite, no trabajó
+  ahí y no cuenta (`maximo_pasadas_solo_borde`, `distancia_solo_borde_m`).
+  Ej. Shacker SBS 13 en Don Cristóbal Larraín, 25–26 de febrero. La regla
+  del contorno (2 m y paralela) no lo descartaba porque sus pasadas no iban
+  pegadas al límite (a más de 2 m).
+- **GPS que reporta poco**: cada hilera guarda la distancia típica entre sus
+  puntos (`paso_gps`). El extremo de una hilera se alarga hasta la cabecera
+  si queda a menos de 20 m del borde, o a menos de esa distancia si es
+  mayor (con un punto por minuto, el final de la hilera queda entre dos
+  puntos).
 
 ### Cosecha con recibidor (reglas del usuario, 30-sep-2026)
 
@@ -123,6 +155,11 @@ cambiarlas sin preguntar.
   largas vecinas separadas hasta 2 entrehileras (±2 m) se rellena toda la
   banda. Los tramos cortos o en diagonal que se cruzan en medio no parten
   el hueco.
+- Además, por tramos a lo largo (`rellenar_por_tramos`), con todas las
+  pasadas de los shakers (también las cortadas) en su posición real: en
+  cada tramo se rellena el hueco entre pasadas vecinas de hasta 2
+  entrehileras (±2 m).
+- Un shaker que solo pasó por el borde no cuenta ni para el relleno.
 
 ### Casos de calibración (verificar después de cada cambio de fórmula)
 
@@ -131,19 +168,22 @@ cambiarlas sin preguntar.
 | Aurora 3, 5, 6, 7, 8, 9 – Poda (al 22-09) | ≥ 95 % | 99,6 / 99,8 / 95,5 / 99,4 / 97,6 / 98,7 % ✓ |
 | Aurora 4 – Poda (al 22-09) | ~4,8 ha | 4,86 ha ✓ |
 | Aurora 2 – Poda | casi terminado | 88,4 % ✓ |
-| Aurora 1 – Poda, datos hasta el 22-09 | < 95 % | 92,4 % ✓ |
-| Aurora 1 – Poda, datos hasta el 29-09 (Tractor 13 terminó el 24–25) | ≥ 95 % | 99,5 % ✓ |
-| Solfrut 8 – Picado (Tractor 16, 17 y 18-08) | ≥ 95 % | 99,5 % ✓ |
-| Solfrut 10 – Picado (Tractor 16, 17 y 18-08) | ≥ 95 % | 99,6 % ✓ |
-| Longaví 8 – Poda (Tractor 11, 27-06) | ~2,4 ha | 2,63 ha ✓ (+10 %) |
+| Aurora 1 – Poda, datos hasta el 22-09 | < 95 % | 93,0 % ✓ |
+| Aurora 1 – Poda, datos hasta el 29-09 (Tractor 13 terminó el 24–25) | ≥ 95 % | 100 % ✓ |
+| Solfrut 8 – Picado (Tractor 16, 17 y 18-08) | ≥ 95 % | 100 % ✓ |
+| Solfrut 10 – Picado (Tractor 16, 17 y 18-08) | ≥ 95 % | 100 % ✓ |
+| Longaví 8 – Poda (Tractor 11, 27-06) | ~2,4 ha | 2,60 ha ✓ (+8 %) |
 | Longaví 5 – Poda (Tractor 11, 27-06) | 0 ha (solo pasó) | 0 ha ✓ |
-| Barredora 1, 23-09, Bernardo Lira Chiñihue N3 | ~8,05 ha (dos partes) | 8,89 ha ✓ (+10 %) |
-| Juan Valenzuela_Cuartel 4 | Barrido 0 %, Cosecha con recibidor ~46 % | 0 % y 49,9 % ✓ |
-| Longaví 15 y 16 – Poda (Tractor 11, 2 al 14-07) | completos (≥ 95 %) | 95,6 % y 97,4 % ✓ (patrón ancho de ~8–10 m) |
-| Viconto – Barrido (Barredoras 6 y 5497, 7 al 9-04) | 4,7 ha en 3 partes (1,5 + 1,8 + 1,4); la franja central sin barrer es correcta | 5,13 ha (1,6 + 2,0 + 1,55) ✓ (+9 %) |
-| Viconto 4 – Barrido (Barredoras 6 y 5497, 8 y 9-04) | ~9,3 ha en 3 partes | 9,28 ha ✓ |
-| Agrícola Aeropuerto 7 – Cosecha con recibidor (Shacker SBS 9 y SBS 12, 7 al 17-04) | completo (≥ 95 %) | 91,9 % ✗ |
-| Agrícola Aeropuerto 8 – Cosecha con recibidor (Shacker SBS 9 y SBS 12, 7 al 17-04) | completo (≥ 95 %) | 95,2 % ✓ |
+| Barredora 1, 23-09, Bernardo Lira Chiñihue N3 | ~8,05 ha (dos partes) | 8,80 ha ✓ (+9 %) |
+| Juan Valenzuela_Cuartel 4 | Barrido 0 %, Cosecha con recibidor ~46 % | 0 % y 50,3 % ✓ |
+| Longaví 15 y 16 – Poda (Tractor 11, 2 al 14-07) | completos (≥ 95 %) | 100 % y 99,6 % ✓ (patrón ancho de ~8–10 m) |
+| Viconto – Barrido (Barredoras 6 y 5497, 7 al 9-04) | 4,7 ha en 3 partes (1,5 + 1,8 + 1,4); la franja central sin barrer es correcta | 5,15 ha ✓ (+10 %) |
+| Viconto 4 – Barrido (Barredoras 6 y 5497, 8 y 9-04) | ~9,3 ha en 3 partes | 9,27 ha ✓ |
+| Agrícola Aeropuerto 7 – Cosecha con recibidor (Shacker SBS 9 y SBS 12, 7 al 17-04) | completo (≥ 95 %) | 95,0 % ✓ (justo en el umbral) |
+| Agrícola Aeropuerto 8 – Cosecha con recibidor (Shacker SBS 9 y SBS 12, 7 al 17-04) | completo (≥ 95 %) | 99,2 % ✓ |
+| Don Cristóbal Larraín – Cosecha con recibidor (febrero) | completo (≥ 95 %); solo trabajó el Shacker SBS 11; el SBS 13 solo pasó por el borde (25–26-02) y no debe contar | 99,1 % ✓ (igual con y sin el SBS 13) |
+| El Volcán 14 – Cosecha | completa | ✓ |
+| El Volcán 14 – Picado (Tractor 7, 7-07) | completo (≥ 95 %) | 92,8 % ✗ (ver pendientes) |
 
 Viconto: las dos barredoras trabajaron dentro de "Viconto" solo el 7 de
 abril (el 8 en Viconto 4, el 9 en Viconto 4 y 4.1). El GPS de la Barredora
@@ -265,7 +305,11 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
 
 ## Pendientes
 
-- Agrícola Aeropuerto 7 (Cosecha con recibidor) queda en 91,9 %: lo que
-  falta está donde el recorrido del Shacker SBS 12 viene muy cortado y en
-  diagonal. Consultado al usuario.
+- El Volcán 14 – Picado queda en 92,8 %: el 5,4 % del cuartel es el lóbulo
+  del extremo sur-oeste, donde el GPS del Tractor 7 no tiene ningún punto el
+  7 de julio (un punto por minuto; el recorrido lo bordea). Sin ese lóbulo
+  el máximo posible es ~94,6 %. Consultado al usuario (¿se trabajó otro
+  día, con otra máquina, o la geocerca incluye un área sin plantar?).
+- Las memorias guardadas (`memoria_hileras`) se calcularon sin el filtro de
+  puntos detenidos ni `paso_gps`: se corrigen al relanzar el año.
 - Relanzar el año completo con la fórmula actual (lo lanza el usuario).

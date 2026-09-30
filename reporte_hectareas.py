@@ -77,6 +77,7 @@ RUTA_GEOCERCAS_CONOCIDAS = os.path.join(CARPETA_MEMORIA, "_geocercas_conocidas.j
 # recorrio (el tractor puede ir y volver entre geocercas vecinas).
 RUTA_ESTILOS = os.path.join(CARPETA_MEMORIA, "_estilo_maquinas.json")
 ESTILOS = {}  # "maquina||AAAA-MM-DD" -> separacion tipica (m)
+ESTILOS_CAMPO = {}  # "raiz||labor||geocerca||maquina" -> separacion tipica con patron claro (m)
 # Panel de la web: maquinas en el patio y trabajo fuera de geocercas.
 RUTA_ESTADO_MAQUINAS = os.path.join(CARPETA_DATOS, "estado_maquinas.json")
 
@@ -175,6 +176,19 @@ LABORES_CON_PATRON = CONFIG.get("labores_con_patron", ["Poda", "Picado"])
 # entrehilera por donde paso el recibidor: un hueco de una sola entrehilera
 # entre pasadas de shaker cuenta como trabajado; huecos mas grandes no.
 LABOR_CON_RECIBIDOR = CONFIG.get("labor_con_recibidor", "Cosecha con recibidor")
+# GPS que mandan puntos muy seguido (ej. cada 3 s) con la maquina detenida
+# (el shaker para en cada arbol): el "baile" del GPS parece giros y parte el
+# recorrido. Un punto nuevo solo cuenta si la maquina se movio al menos esto.
+MOVIMIENTO_MINIMO_PUNTO_M = CONFIG.get("movimiento_minimo_punto_m", 3)
+# Maquina que solo paso por el borde: si todas sus pasadas en un cuartel
+# estan a menos de esta distancia del limite y son menos de
+# MAXIMO_PASADAS_SOLO_BORDE, no cuentan (ej. SBS 13 en Don Cristobal Larrain).
+DISTANCIA_SOLO_BORDE_M = CONFIG.get("distancia_solo_borde_m", 15)
+MAXIMO_PASADAS_SOLO_BORDE = CONFIG.get("maximo_pasadas_solo_borde", 10)
+# Patron del campo: en cuarteles del mismo campo (misma raiz del nombre) y la
+# misma labor el patron suele ser parecido. Con menos de
+# LINEAS_PATRON_CLARO lineas en el cuartel se usa el patron del campo.
+LINEAS_PATRON_CLARO = CONFIG.get("lineas_patron_claro", 15)
 TOLERANCIA_RECIBIDOR_M = CONFIG.get("tolerancia_recibidor_m", 2)
 ENTREHILERA_MINIMA_M = CONFIG.get("entrehilera_minima_m", 4)
 ENTREHILERA_MAXIMA_M = CONFIG.get("entrehilera_maxima_m", 10)
@@ -432,6 +446,21 @@ def rumbo(p1, p2):
     return (math.degrees(math.atan2(x, y)) + 360) % 360
 
 
+def adelgazar_puntos(puntos, minimo_m=None):
+    """Deja solo los puntos en que la maquina se movio al menos `minimo_m`
+    desde el ultimo punto que quedo (quita el "baile" del GPS detenido)."""
+    minimo_m = MOVIMIENTO_MINIMO_PUNTO_M if minimo_m is None else minimo_m
+    if not puntos or minimo_m <= 0:
+        return puntos
+    quedan = [puntos[0]]
+    for p in puntos[1:]:
+        if math.hypot(*punto_a_metros(p["punto"], quedan[-1]["punto"])) >= minimo_m:
+            quedan.append(p)
+    if quedan[-1] is not puntos[-1]:
+        quedan.append(puntos[-1])
+    return quedan
+
+
 def segmentar_pasadas(puntos, umbral_giro=UMBRAL_GIRO_GRADOS):
     """
     puntos: lista de dicts {"punto": (lon, lat), "t": timestamp}, ordenados
@@ -439,6 +468,7 @@ def segmentar_pasadas(puntos, umbral_giro=UMBRAL_GIRO_GRADOS):
     Devuelve una lista de segmentos (cada uno, una lista de puntos) que
     representan tramos de rumbo estable entre dos giros.
     """
+    puntos = adelgazar_puntos(puntos)
     if len(puntos) < 3:
         return []
 
@@ -508,7 +538,7 @@ def velocidad_kmh_segmento(segmento, segmento_m):
 
 class Hilera:
     def __init__(self, id_, origen, direccion, min_proy, max_proy, intervalos=None, fechas=None,
-                 primera_vez=None):
+                 primera_vez=None, paso_gps=0.0):
         self.id = id_
         self.origen = origen          # (x, y) en metros, punto de referencia
         self.direccion = direccion    # vector unitario (dx, dy)
@@ -517,6 +547,7 @@ class Hilera:
         self.intervalos = intervalos or []   # pasadas del periodo actual, sin fusionar
         self.fechas = set(fechas) if fechas else set()   # dias (AAAA-MM-DD) en que se toco
         self.primera_vez = primera_vez   # hora (unix, UTC) de la primera pasada
+        self.paso_gps = paso_gps      # distancia tipica (m) entre puntos del GPS en sus pasadas
 
     def to_dict(self):
         return {
@@ -525,13 +556,14 @@ class Hilera:
             "intervalos": self.intervalos,
             "fechas": sorted(self.fechas),
             "primera_vez": self.primera_vez,
+            "paso_gps": self.paso_gps,
         }
 
     @staticmethod
     def from_dict(d):
         return Hilera(d["id"], tuple(d["origen"]), tuple(d["direccion"]),
                        d["min_proy"], d["max_proy"], d.get("intervalos", []),
-                       d.get("fechas", []), d.get("primera_vez"))
+                       d.get("fechas", []), d.get("primera_vez"), d.get("paso_gps", 0.0))
 
     @property
     def largo_conocido(self):
@@ -588,6 +620,9 @@ def actualizar_hilera(hilera, segmento_m, fecha_str, hora_unix=None):
     hilera.min_proy = min(hilera.min_proy, p_min)
     hilera.max_proy = max(hilera.max_proy, p_max)
     hilera.intervalos.append([round(p_min, 1), round(p_max, 1)])
+    pasos = [math.hypot(b[0] - a[0], b[1] - a[1]) for a, b in zip(segmento_m, segmento_m[1:])]
+    if pasos:
+        hilera.paso_gps = round(max(hilera.paso_gps, statistics.median(pasos)), 1)
     hilera.fechas.add(fecha_str)
     if hora_unix is not None and (hilera.primera_vez is None or hora_unix < hilera.primera_vez):
         hilera.primera_vez = hora_unix
@@ -950,15 +985,18 @@ def grilla_geocerca(geo):
 
 def extremos_en_grilla(hilera, referencia, geo):
     """Extremos de la hilera en metros de la grilla de la geocerca, alargados
-    hasta el borde en los extremos que llegan a la cabecera."""
+    hasta el borde en los extremos que llegan a la cabecera. Con un GPS que
+    reporta poco, el ultimo tramo de la hilera puede quedar entre dos puntos:
+    la tolerancia es al menos la distancia tipica entre puntos."""
     grilla = grilla_geocerca(geo)
     contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]]
     ini, fin = hilera.min_proy, hilera.max_proy
+    tolerancia = max(TOLERANCIA_CABECERA_M, hilera.paso_gps)
     tramo = tramo_geocerca_en_hilera(hilera, contorno_m)
     if tramo is not None:
-        if ini - tramo[0] <= TOLERANCIA_CABECERA_M:
+        if ini - tramo[0] <= tolerancia:
             ini = min(ini, tramo[0])
-        if tramo[1] - fin <= TOLERANCIA_CABECERA_M:
+        if tramo[1] - fin <= tolerancia:
             fin = max(fin, tramo[1])
 
     def a_grilla(proy):
@@ -1065,7 +1103,7 @@ def separacion_tipica(laterales):
     return float(statistics.median(b - a for a, b in zip(laterales, laterales[1:])))
 
 
-def rellenar_patron(geo, referencia, alineadas, marcadas, separacion_vecinas=None):
+def rellenar_patron(geo, referencia, alineadas, marcadas, separacion_vecinas=None, labor=None, nombre_maquina=None):
     """
     Patron ancho: si la separacion tipica de la maquina en esta geocerca (o,
     con pocas pasadas, la de ese dia en las geocercas vecinas) es de al
@@ -1080,8 +1118,14 @@ def rellenar_patron(geo, referencia, alineadas, marcadas, separacion_vecinas=Non
     ux, uy = direccion
     lineas = lineas_de_pasadas(geo, referencia, alineadas, direccion)
     separacion = separacion_tipica([l[0] for l in lineas])
-    if separacion is None:
-        separacion = separacion_vecinas
+    if len(lineas) >= LINEAS_PATRON_CLARO:
+        # Patron claro: se guarda como referencia para los cuarteles del campo.
+        if labor and nombre_maquina:
+            ESTILOS_CAMPO[f"{raiz_campo(geo['nombre'])}||{labor}||{geo['nombre']}||{nombre_maquina}"] = round(separacion, 1)
+    else:
+        # Pocas pasadas: patron del campo, o el de ese dia en geocercas vecinas.
+        referencia_campo = separacion_campo(geo["nombre"], labor) if labor else None
+        separacion = referencia_campo or separacion_vecinas or separacion
     if separacion is None or separacion < SEPARACION_PATRON_ANCHO_M:
         return separacion  # hileras pegadas: un hueco es trabajo pendiente
     punto = lambda largo, lat: (largo * ux - lat * uy, largo * uy + lat * ux)
@@ -1091,7 +1135,42 @@ def rellenar_patron(geo, referencia, alineadas, marcadas, separacion_vecinas=Non
         # Trapecio entre los extremos reales de ambas pasadas (sigue el largo
         # de cada hilera, ej. contra un borde en diagonal).
         marcar_cuadrilatero(geo, punto(d1, lat1), punto(h1, lat1), punto(d2, lat2), punto(h2, lat2), marcadas)
+    # Por tramos a lo largo: entre dos pasadas que pasan por el mismo tramo se
+    # rellena el hueco aunque entre ellas haya pasadas cortas (GPS que reporta
+    # cada minuto corta las pasadas en pedazos).
+    rellenar_por_tramos(geo, tramos_a_lo_largo(geo, referencia, alineadas, direccion),
+                        HUECO_MAXIMO_PATRON_ANCHO_M, direccion, marcadas)
     return separacion
+
+
+def tramos_a_lo_largo(geo, referencia, alineadas, direccion):
+    """Cada pasada como (desde, lateral_desde, hasta, lateral_hasta) en los
+    ejes de `direccion` (metros de la grilla): con su posicion real en cada
+    extremo, porque no todas son paralelas."""
+    ux, uy = direccion
+    tramos = []
+    for h in alineadas:
+        a, b = extremos_en_grilla(h, referencia, geo)
+        (sa, la), (sb, lb) = sorted(((p[0] * ux + p[1] * uy, p[0] * -uy + p[1] * ux) for p in (a, b)))
+        if sb - sa > 1:
+            tramos.append((sa, la, sb, lb))
+    return tramos
+
+
+def rellenar_por_tramos(geo, tramos, hueco_maximo, direccion, marcadas):
+    """Por tramos a lo largo de las hileras: entre dos pasadas vecinas que
+    pasan por el mismo tramo se marca el hueco si mide hasta `hueco_maximo`,
+    aunque en otros tramos haya pasadas cortas entre ellas (un GPS que reporta
+    poco, o que salta, corta las pasadas en pedazos)."""
+    ux, uy = direccion
+    punto = lambda largo, lat: (largo * ux - lat * uy, largo * uy + lat * ux)
+    lateral_en = lambda t, s: t[1] + (t[3] - t[1]) * (s - t[0]) / (t[2] - t[0])
+    cortes = sorted({t[0] for t in tramos} | {t[2] for t in tramos})
+    for s1, s2 in zip(cortes, cortes[1:]):
+        presentes = sorted((lateral_en(t, s1), lateral_en(t, s2)) for t in tramos if t[0] <= s1 and t[2] >= s2)
+        for (a1, a2), (b1, b2) in zip(presentes, presentes[1:]):
+            if max(b1 - a1, b2 - a2) <= hueco_maximo:
+                marcar_cuadrilatero(geo, punto(s1, a1), punto(s2, a2), punto(s1, b1), punto(s2, b2), marcadas)
 
 
 def separacion_del_dia(puntos_por_geocerca):
@@ -1122,6 +1201,27 @@ def separacion_del_dia(puntos_por_geocerca):
     return float(statistics.median(separaciones)) if separaciones else None
 
 
+def raiz_campo(nombre_geocerca):
+    """Raiz del nombre del cuartel (el campo): sin tildes, en minusculas y
+    sin el numero ni lo que viene despues. "El Volcan 14" -> "el volcan",
+    "BALLERINA_N15_JP" -> "ballerina"."""
+    texto = unicodedata.normalize("NFKD", nombre_geocerca).encode("ascii", "ignore").decode().lower()
+    palabras = []
+    for palabra in re.split(r"[\s_]+", texto):
+        if re.search(r"\d", palabra):
+            break
+        palabras.append(palabra)
+    return " ".join(palabras).strip() or texto.strip()
+
+
+def separacion_campo(nombre_geocerca, labor):
+    """Separacion tipica de la labor en los cuarteles del mismo campo donde
+    el patron se ve claro (mediana), o None."""
+    prefijo = f"{raiz_campo(nombre_geocerca)}||{labor}||"
+    valores = [v for k, v in ESTILOS_CAMPO.items() if k.startswith(prefijo)]
+    return float(statistics.median(valores)) if valores else None
+
+
 def separacion_vecinas_de(nombre_maquina, hileras):
     """Separacion tipica de la maquina en los dias en que trabajo estas hileras."""
     valores = [ESTILOS[f"{nombre_maquina}||{f}"] for f in sorted({f for h in hileras for f in h.fechas})
@@ -1129,7 +1229,26 @@ def separacion_vecinas_de(nombre_maquina, hileras):
     return float(statistics.median(valores)) if valores else None
 
 
-def marcar_trabajo_maquina(geo, referencia, hileras, labor=None, separacion_vecinas=None):
+def solo_paso_por_el_borde(geo, referencia, alineadas):
+    """True si la maquina tiene pocas pasadas en el cuartel y todas pegadas al
+    limite: solo paso por el borde, no trabajo ahi."""
+    if not alineadas or len(alineadas) >= MAXIMO_PASADAS_SOLO_BORDE:
+        return False
+    grilla = grilla_geocerca(geo)
+    distancia = grilla["distancia_borde"]
+    for h in alineadas:
+        a, b = extremos_en_grilla(h, referencia, geo)
+        medio = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)
+        i = int(math.floor(medio[0] / grilla["lado"])) - grilla["i0"]
+        j = int(math.floor(medio[1] / grilla["lado"])) - grilla["j0"]
+        if not (0 <= i < distancia.shape[0] and 0 <= j < distancia.shape[1]):
+            continue
+        if distancia[i, j] > DISTANCIA_SOLO_BORDE_M:
+            return False
+    return True
+
+
+def marcar_trabajo_maquina(geo, referencia, hileras, labor=None, separacion_vecinas=None, nombre_maquina=None):
     """Celdas marcadas por las hileras de UNA maquina (sin rellenar) y su
     espaciado entre hileras. En poda y picado se aplica el patron de trabajo.
     Devuelve (arreglo, espaciado_m) o None."""
@@ -1141,12 +1260,14 @@ def marcar_trabajo_maquina(geo, referencia, hileras, labor=None, separacion_veci
     # pasada del extremo tiene solo una vecina cerca.
     alineadas, _ = filtrar_hileras_regulares([h for h in hileras if not es_pasada_de_contorno(h, contorno_m)],
                                              1 if labor in LABORES_CON_PATRON else None)
+    if solo_paso_por_el_borde(geo, referencia, alineadas):
+        return None
     espaciado = espaciado_real_m(alineadas)
     marcadas = np.zeros(grilla["mascara"].shape, dtype=bool)
     for h in alineadas:
         marcar_franja_hilera(h, referencia, geo, espaciado, marcadas)
     if labor in LABORES_CON_PATRON:
-        separacion = rellenar_patron(geo, referencia, alineadas, marcadas, separacion_vecinas)
+        separacion = rellenar_patron(geo, referencia, alineadas, marcadas, separacion_vecinas, labor, nombre_maquina)
         if separacion is not None and separacion >= SEPARACION_PATRON_ANCHO_M:
             # Patron ancho: cada pasada atiende las hileras saltadas a su
             # alrededor; junto al limite, la franja llega hasta una separacion
@@ -1234,7 +1355,7 @@ def relleno_recibidor(geo, trabajos):
             continue
         contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]]
         alineadas, _ = filtrar_hileras_regulares([h for h in hileras if not es_pasada_de_contorno(h, contorno_m)])
-        if alineadas:
+        if alineadas and not solo_paso_por_el_borde(geo, referencia, alineadas):
             alineadas_por_maquina.append((referencia, alineadas))
     todas = [h for _, al in alineadas_por_maquina for h in al]
     if len(todas) < 3:
@@ -1271,6 +1392,11 @@ def relleno_recibidor(geo, trabajos):
         # banda entre ambas pasadas cuenta como cosechada.
         if hueco <= 2 * separacion + TOLERANCIA_RECIBIDOR_M and min(h1, h2) > max(d1, d2):
             marcar_cuadrilatero(geo, punto(d1, lat1), punto(h1, lat1), punto(d2, lat2), punto(h2, lat2), relleno)
+    # Por tramos a lo largo, con todas las pasadas (tambien las cortadas por
+    # el GPS) en su posicion real: el mismo hueco maximo.
+    tramos = [tramo for referencia, alineadas in alineadas_por_maquina
+              for tramo in tramos_a_lo_largo(geo, referencia, alineadas, direccion)]
+    rellenar_por_tramos(geo, tramos, 2 * separacion + TOLERANCIA_RECIBIDOR_M, direccion, relleno)
     return relleno & grilla["mascara"]
 
 
@@ -1279,7 +1405,8 @@ def celdas_trabajadas(geo, trabajos, labor=None):
     labor. trabajos: lista de (referencia, hileras) o (referencia, hileras,
     nombre_maquina) de cada maquina."""
     celdas = unir_trabajos(geo, [
-        marcar_trabajo_maquina(geo, t[0], t[1], labor, separacion_vecinas_de(t[2], t[1]) if len(t) > 2 else None)
+        marcar_trabajo_maquina(geo, t[0], t[1], labor, separacion_vecinas_de(t[2], t[1]) if len(t) > 2 else None,
+                               t[2] if len(t) > 2 else None)
         for t in trabajos])
     if labor == LABOR_CON_RECIBIDOR:
         celdas |= relleno_recibidor(geo, trabajos)
@@ -1517,14 +1644,17 @@ def guardar_estado_avance(estado):
 
 def cargar_estilos():
     ESTILOS.clear()
+    ESTILOS_CAMPO.clear()
     if os.path.exists(RUTA_ESTILOS):
         with open(RUTA_ESTILOS, "r", encoding="utf-8") as f:
-            ESTILOS.update(json.load(f))
+            data = json.load(f)
+        ESTILOS.update(data.get("por_dia", {}))
+        ESTILOS_CAMPO.update(data.get("por_campo", {}))
 
 
 def guardar_estilos():
     with open(RUTA_ESTILOS, "w", encoding="utf-8") as f:
-        json.dump(ESTILOS, f, ensure_ascii=False, indent=0, sort_keys=True)
+        json.dump({"por_dia": ESTILOS, "por_campo": ESTILOS_CAMPO}, f, ensure_ascii=False, indent=0, sort_keys=True)
 
 
 def cargar_geocercas_conocidas():
@@ -1702,7 +1832,7 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                 if clave not in marcas:
                     referencia, hileras, _ = estado_de(u, geo)
                     marcas[clave] = marcar_trabajo_maquina(geo, referencia, hileras, labor,
-                                                           separacion_vecinas_de(u["nombre"], hileras))
+                                                           separacion_vecinas_de(u["nombre"], hileras), u["nombre"])
                 lista.append(marcas[clave])
             cobertura[clave_cobertura] = unir_trabajos(geo, lista)
             if labor == LABOR_CON_RECIBIDOR:
