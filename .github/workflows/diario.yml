@@ -31,6 +31,10 @@ on:
         description: 'Con diagnostico=1: nombre de una geocerca para simular que es nueva (30 dias hasta fecha_fin).'
         required: false
         default: ''
+      prueba_casos:
+        description: 'Con diagnostico=1: casos "maquina|AAAA-MM-DD|geocerca;..." para bajar su GPS.'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -61,6 +65,7 @@ jobs:
           PRUEBA_HASTA: ${{ inputs.fecha_fin }}
           PRUEBA_ESTADO: ${{ inputs.prueba_estado }}
           PRUEBA_GEOCERCA_NUEVA: ${{ inputs.prueba_geocerca_nueva }}
+          PRUEBA_CASOS: ${{ inputs.prueba_casos }}
         run: python3 reporte_hectareas.py
 
       - name: Guardar los datos de las pruebas (solo diagnostico)
@@ -71,6 +76,7 @@ jobs:
           path: |
             tramos_diagnostico.json
             alertas_diagnostico.json
+            casos_diagnostico.json
           if-no-files-found: ignore
           retention-days: 7
 

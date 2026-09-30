@@ -1763,6 +1763,36 @@ def prueba_pasadas(sid, nombre):
         json.dump(volcado, f)
 
 
+def prueba_casos(sid):
+    """
+    Descarga (solo lectura) el GPS de casos puntuales para revisarlos:
+    PRUEBA_CASOS = "maquina|AAAA-MM-DD|texto de geocerca;...". Guarda en
+    casos_diagnostico.json los puntos del dia de cada maquina y las geocercas
+    cuyo nombre contiene el texto (sin tildes ni mayusculas) o por donde paso.
+    """
+    normalizar = lambda t: unicodedata.normalize("NFKD", t).encode("ascii", "ignore").decode().lower()
+    geocercas = obtener_geocercas(sid)
+    indice = indice_geocercas(geocercas)
+    salida = []
+    for caso in os.environ["PRUEBA_CASOS"].split(";"):
+        maquina, fecha, texto = [x.strip() for x in caso.split("|")]
+        unidad = next(u for u in UNIDADES if normalizar(u["nombre"]).startswith(normalizar(maquina)))
+        dia = datetime.strptime(fecha, "%Y-%m-%d")
+        puntos = [{"punto": (m["pos"]["x"], m["pos"]["y"]), "t": m.get("t")}
+                  for m in obtener_mensajes(sid, unidad["id"], dia) if m.get("pos")]
+        por_geo = repartir_puntos_por_geocerca(puntos, indice)
+        nombres = {g["nombre"] for g in geocercas if normalizar(texto) in normalizar(g["nombre"])} | set(por_geo)
+        print(f"DIAG caso | {unidad['nombre']} | {fecha} | {len(puntos)} puntos | geocercas con '{texto}': "
+              f"{sorted(n for n in nombres if normalizar(texto) in normalizar(n))} | geocercas recorridas: "
+              f"{ {n: len(v) for n, v in por_geo.items()} }")
+        salida.append({"maquina": unidad["nombre"], "id": unidad["id"], "labor": labor_de(unidad), "fecha": fecha,
+                       "texto": texto, "puntos": [[p["punto"][0], p["punto"][1], p["t"]] for p in puntos],
+                       "geocercas": [{k: g[k] for k in ("nombre", "contorno", "area_ha", "bbox", "id_wialon")}
+                                     for g in geocercas if g["nombre"] in nombres]})
+    with open("casos_diagnostico.json", "w", encoding="utf-8") as f:
+        json.dump(salida, f, ensure_ascii=False)
+
+
 def prueba_estado_y_geocerca_nueva(sid):
     """
     Prueba (solo lectura; nada se guarda en el repositorio):
@@ -1816,6 +1846,9 @@ def main():
     print("Conectado.")
 
     if MODO_DIAGNOSTICO:
+        if os.environ.get("PRUEBA_CASOS", "").strip():
+            prueba_casos(sid)
+            return
         if os.environ.get("PRUEBA_ESTADO", "").strip() or os.environ.get("PRUEBA_GEOCERCA_NUEVA", "").strip():
             prueba_estado_y_geocerca_nueva(sid)
             return
