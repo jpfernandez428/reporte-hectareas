@@ -173,13 +173,31 @@ function renderAvancePorCuartel() {
     const filasTotal = [];
     for (const [nombre, v] of Object.entries(avanceCuarteles.cuarteles)) {
       for (const [labor, info] of Object.entries(v.labores || {})) {
+        const pasadas = info.pasadas_completas || 0;
+        if (pasadas > 0) {
+          // Barrido con la primera pasada cerrada: esa linea queda en 100 % y
+          // lo que sigue (pasada nueva segun la regla de pasadas) es el repaso.
+          const enCurso = info.porcentaje_en_curso || 0;
+          filasTotal.push({ nombre, labor, area_total: v.area_total_ha, trabajado: v.area_total_ha,
+                            porcentaje: 100, completo: true });
+          if (enCurso > 0 || pasadas > 1) {
+            filasTotal.push({
+              nombre, labor: labor + ' – repaso',
+              area_total: v.area_total_ha,
+              trabajado: v.area_total_ha * enCurso / 100,
+              porcentaje: Math.min(100, enCurso),
+              completo: false,
+              repasosCompletos: pasadas - 1,
+            });
+          }
+          continue;
+        }
         filasTotal.push({
           nombre, labor,
           area_total: v.area_total_ha,
           trabajado: info.trabajado_ha,
           porcentaje: Math.min(100, info.porcentaje),
           completo: info.completo,
-          pasadas: info.pasadas_completas,
         });
       }
     }
@@ -223,9 +241,10 @@ function tablaAvance(filas, umbral) {
 
   for (const f of filas) {
     const completo = f.completo !== undefined ? f.completo : f.porcentaje >= umbral;
-    const texto = f.pasadas !== undefined
-      ? `${f.pasadas} pasada${f.pasadas === 1 ? '' : 's'} + ${f.porcentaje.toFixed(0)}%`
-      : `${f.porcentaje.toFixed(0)}%${completo ? ' ✓' : ''}`;
+    let texto = `${f.porcentaje.toFixed(0)}%${completo ? ' ✓' : ''}`;
+    if (f.repasosCompletos) {
+      texto = `${f.repasosCompletos} repaso${f.repasosCompletos === 1 ? '' : 's'} completo${f.repasosCompletos === 1 ? '' : 's'} + ${f.porcentaje.toFixed(0)}%`;
+    }
     html += `<tr><td>${escaparXml(f.nombre)}</td><td>${escaparXml(f.labor || '')}</td>` +
       `<td>${f.area_total.toFixed(2)}</td><td>${f.trabajado.toFixed(2)}</td>` +
       `<td><div style="display:flex; align-items:center; gap:8px;">` +

@@ -118,6 +118,10 @@ cambiarlas sin preguntar.
   campo no tiene ninguna, la de esa máquina ese día en las geocercas
   vecinas, y si tampoco, la propia. Se guarda en
   `memoria_hileras/_estilo_maquinas.json` (`por_campo`).
+  - Cada día se usa el patrón del campo conocido al empezar el día
+    (`ESTILOS_CAMPO_REFERENCIA`): el resultado no depende del orden en que
+    se calculan los cuarteles ese día (Gonzalo Sánchez 2 – Picado daba
+    90,5 % o 100 % según el orden).
 - Pasada extra (repasar una hilera saltada) no suma ni rompe el patrón. Dos
   pasadas a menos de 1,5 m son la misma línea (también una pasada cortada
   por un salto del GPS).
@@ -159,6 +163,14 @@ cambiarlas sin preguntar.
   si queda a menos de 20 m del borde, o a menos de esa distancia si es
   mayor (con un punto por minuto, el final de la hilera queda entre dos
   puntos).
+- **Pasadas que cruzan la geocerca** (1-oct-2026): el tramo entre dos puntos
+  GPS seguidos se corta en el límite de cada geocerca (se agregan los puntos
+  de entrada y salida, con hora interpolada; `repartir_puntos_por_geocerca`).
+  Antes solo se usaban los puntos que caían adentro: con un punto por minuto
+  (Tractor 14, Shacker de Suelo 8: ~37 m entre puntos) una pasada que cruza
+  un cuartel chico dejaba 0–1 puntos adentro y se perdía. Cada visita a la
+  geocerca se segmenta por separado (la salida no se une con la siguiente
+  entrada). Gonzalo Sánchez 2: Picado 56,1 → 90,5 %, Remecido 70,6 → 93,0 %.
 
 ### Cosecha con recibidor (reglas del usuario, 30-sep-2026)
 
@@ -185,26 +197,35 @@ cambiarlas sin preguntar.
 
 | Caso | Esperado (terreno) | Resultado actual |
 |---|---|---|
-| Aurora 3, 5, 6, 7, 8, 9 – Poda (al 22-09) | ≥ 95 % | 99,6 / 99,8 / 95,5 / 99,4 / 97,6 / 98,7 % ✓ |
-| Aurora 4 – Poda (al 22-09) | ~4,8 ha | 4,86 ha ✓ |
-| Aurora 2 – Poda | casi terminado | 88,4 % ✓ |
-| Aurora 1 – Poda, datos hasta el 22-09 | < 95 % | 93,0 % ✓ |
+Resultados al 1-oct-2026, con GPS crudo (salvo donde se indica):
+
+| Caso | Esperado (terreno) | Resultado actual |
+|---|---|---|
+| Aurora 3, 5, 6, 7, 8, 9 – Poda (al 22-09) | ≥ 95 % | 100 / 100 / 99,4 / 99,7 / 99,8 / 97,9 % ✓ |
+| Aurora 4 – Poda (al 22-09) | ~4,8 ha | 4,83 ha ✓ |
+| Aurora 2 – Poda (al 22-09) | casi terminado | 90,3 % ✓ |
+| Aurora 1 – Poda, datos hasta el 22-09 | < 95 % | 92,6 % ✓ |
 | Aurora 1 – Poda, datos hasta el 29-09 (Tractor 13 terminó el 24–25) | ≥ 95 % | 100 % ✓ |
 | Solfrut 8 – Picado (Tractor 16, 17 y 18-08) | ≥ 95 % | 100 % ✓ |
 | Solfrut 10 – Picado (Tractor 16, 17 y 18-08) | ≥ 95 % | 100 % ✓ |
-| Longaví 8 – Poda (Tractor 11, 27-06) | ~2,4 ha | 2,61 ha ✓ (+9 %) |
+| Longaví 8 – Poda (Tractor 11, 27-06) | ~2,4 ha | 2,55 ha ✓ (+6 %) |
 | Longaví 5 – Poda (Tractor 11, 27-06) | 0 ha (solo pasó) | 0 ha ✓ |
-| Barredora 1, 23-09, Bernardo Lira Chiñihue N3 | ~8,05 ha (dos partes) | 8,80 ha ✓ (+9 %) |
-| Juan Valenzuela_Cuartel 4 | Barrido 0 %, Cosecha con recibidor ~46 % | 0 % y 50,3 % ✓ |
-| Longaví 15 y 16 – Poda (Tractor 11, 2 al 14-07) | completos (≥ 95 %) | 100 % y 99,5 % ✓ (patrón ancho de ~8–10 m) |
-| Viconto – Barrido (Barredoras 6 y 5497, 7 al 9-04) | 4,7 ha en 3 partes (1,5 + 1,8 + 1,4); la franja central sin barrer es correcta | 5,15 ha ✓ (+10 %) |
-| Viconto 4 – Barrido (Barredoras 6 y 5497, 8 y 9-04) | ~9,3 ha en 3 partes | 9,27 ha ✓ |
-| Agrícola Aeropuerto 7 – Cosecha con recibidor (Shacker SBS 9 y SBS 12, 7 al 17-04) | completo (≥ 95 %) | 95,0 % ✓ (justo en el umbral) |
-| Agrícola Aeropuerto 8 – Cosecha con recibidor (Shacker SBS 9 y SBS 12, 7 al 17-04) | completo (≥ 95 %) | 99,2 % ✓ |
-| Don Cristóbal Larraín – Cosecha con recibidor (febrero) | completo (≥ 95 %); solo trabajó el Shacker SBS 11; el SBS 13 solo pasó por el borde (25–26-02) y no debe contar | 99,1 % ✓ (igual con y sin el SBS 13; al SBS 13 se le acreditan 0 ha) |
-| El Volcán 14 – Cosecha con recibidor | completa | 99,2 % ✓ (con la regla del borde solo por 15 m daba 55,2 %) |
-| El Volcán 14 – Picado (Tractor 7, 7-07) | completo en terreno; el lóbulo sur-oeste no se pasó. **Caso conocido: el usuario acepta 92,6 %** | 92,6 % ✓ (aceptado) |
-| Cuarteles chicos (< 0,5 ha), ej. Gonzalo Sánchez 8 – Picado (Tractor 14) | el trabajo real no se descarta como "solo pasó por el borde" | 74,8 % ✓ (antes 0 %) |
+| Barredora 1, 23-09, Bernardo Lira Chiñihue N3 | ~8,05 ha (dos partes) | 8,50 ha ✓ (+6 %) |
+| Juan Valenzuela_Cuartel 4 | Barrido 0 %, Cosecha con recibidor ~46 % | 0 % y 50,9 % ✓ |
+| Longaví 15 y 16 – Poda (Tractor 11, 2 al 14-07) | completos (≥ 95 %) | 100 % y 100 % ✓ (patrón ancho de ~8–10 m) |
+| Viconto – Barrido (Barredoras 6 y 5497, 7 al 9-04) | 4,7 ha en 3 partes (1,5 + 1,8 + 1,4); la franja central sin barrer es correcta | 5,23 ha ✓ (+11 %) |
+| Viconto 4 – Barrido (Barredoras 6 y 5497, 8 y 9-04) | ~9,3 ha en 3 partes | 9,38 ha ✓ |
+| Agrícola Aeropuerto 7 – Cosecha con recibidor (Shacker SBS 9 y SBS 12, 7 al 17-04) | completo (≥ 95 %) | 99,9 % ✓ |
+| Agrícola Aeropuerto 8 – Cosecha con recibidor (Shacker SBS 9 y SBS 12, 7 al 17-04) | completo (≥ 95 %) | 99,6 % ✓ |
+| Don Cristóbal Larraín – Cosecha con recibidor (febrero) | completo (≥ 95 %); solo trabajó el Shacker SBS 11; el SBS 13 solo pasó por el borde (25–26-02) y no debe contar | 99,3 % ✓ (igual con y sin el SBS 13; al SBS 13 se le acreditan 0 ha) |
+| El Volcán 14 – Cosecha con recibidor | completa | 99,2 % ✓ (memoria; con la regla del borde solo por 15 m daba 55,2 %) |
+| El Volcán 14 – Picado (Tractor 7, 7-07) | completo en terreno; el lóbulo sur-oeste no se pasó. **Caso conocido: el usuario acepta ~92,6 %** | 93,4 % ✓ (aceptado) |
+| Cuarteles chicos (< 0,5 ha), ej. Gonzalo Sánchez 8 – Picado (Tractor 14) | el trabajo real no se descarta como "solo pasó por el borde" | 100 % ✓ (antes 0 %) |
+| Gonzalo Sánchez 2 – Barrido (Barredora 7) | completo el 27-02 y después repasado | 100 % + línea "repaso" 87,2 % (04-03 + 20-03) ✓ |
+| Gonzalo Sánchez 2 – Picado (Tractor 14, todo el 28-02) | ≥ 95 % | 90,5 % ✗ (ver Gonzalo Sánchez abajo) |
+| Gonzalo Sánchez 2 – Remecido de suelo (Shacker de Suelo 8, todo el cuartel) | ≥ 95 % | 93,0 % ✗ (ver Gonzalo Sánchez abajo) |
+| Gonzalo Sánchez 7 – Barrido (Barredora 7, 03-03, 2 pasadas, probando) | 0 % | 0 % ✓ |
+| Gonzalo Sánchez 9 – Barrido, pasadas del 04-03 | no cuentan (pasó y no siguió) | no cuentan ✓ |
 
 Viconto: las dos barredoras trabajaron dentro de "Viconto" solo el 7 de
 abril (el 8 en Viconto 4, el 9 en Viconto 4 y 4.1). El GPS de la Barredora
@@ -214,6 +235,32 @@ abril (el 8 en Viconto 4, el 9 en Viconto 4 y 4.1). El GPS de la Barredora
 Aurora 1 al 22-09 daba 95,9 % mientras se rellenaba el patrón también en
 hileras pegadas: tapaba el 58 % de las hileras que el Tractor 13 completó el
 24–25. Por eso con hileras pegadas no se rellena.
+
+**Gonzalo Sánchez (revisión 1-oct-2026, GPS crudo):**
+- GS 2 es un pentágono de 0,25 ha (~45 × 60 m) que se superpone en parte
+  con la geocerca MP1. El Tractor 14 y el Shacker de Suelo 8 reportan un
+  punto por minuto (~37 m entre puntos): sus pasadas cruzan GS 2 en
+  diagonal, siguiendo las hileras de los bloques vecinos.
+- Picado 28-02 (Tractor 14): las pasadas dentro de GS 2 quedan en los
+  laterales 5, 9, 16, 23, 31, 35, 40, 44, 58, 68 y 72 m; entre 44 y 58 m
+  (~12–15 m) el GPS no muestra ninguna pasada. El patrón de picado del campo
+  es de hileras pegadas (4–5 m), así que ese hueco no se rellena → 90,5 %.
+- Remecido (Shacker de Suelo 8): queda una franja de ~8 m sin pasada entre
+  dos pasadas, más la punta sur → 93,0 %. Consultado al usuario si en
+  remecido una entrehilera sin pasada es normal (como en cosecha con
+  recibidor).
+- 20-03 (Tractor 14 y Barredora 7 en GS 2, 7, 8 y 9): no fue traslado puro.
+  Ambas máquinas trabajaban los bloques vecinos (MP1, GS 6, GS 1) con
+  hileras largas NO–SE; lo que cae dentro de GS 2, 7 y 8 son vueltas de
+  cabecera (entran, giran y salen por el mismo lado) y puntas de hileras
+  que cortan una esquina. En GS 9 el Tractor 14 entró al campo cruzándolo a
+  lo largo (09:15–09:23) y giró adentro (10:26–10:31); la Barredora 7 hizo
+  ~8 pasadas a lo largo de GS 9 (07:56–08:45), que parece barrido real.
+  Ningún indicador simple (pasadas, metros recorridos, cobertura del día)
+  separa bien esas vueltas del trabajo real en cuarteles tan chicos: ej. el
+  Shacker de Suelo 8 en GS 2 el 26-02 (trabajo real) recorrió adentro lo
+  mismo que la Barredora 7 el 20-03 (razón recorrido/necesario 0,48 vs
+  0,46). Regla para el 20-03: pendiente, consultada al usuario.
 
 **Caso conocido – El Volcán 14, Picado (aceptado por el usuario, 1-oct-2026):**
 queda en 92,6 % aunque en terreno está completo. El lóbulo sur-oeste (5,4 %
@@ -274,6 +321,12 @@ editable por el usuario.
   barrido), así que un criterio por tramos sueltos marcaba repasos falsos.
 - El resumen muestra cuántas pasadas completas lleva cada cuartel y el % de
   la pasada en curso. **No** usar la mediana de días por hilera.
+- **Línea de repaso** (pedido del usuario, 1-oct-2026): cuando la primera
+  pasada está cerrada, la línea "Cuartel – Barrido" queda en 100 % y aparece
+  otra, "Cuartel – Barrido – repaso", con el % de la pasada en curso (si ya
+  hubo repasos completos: "N repasos completos + X %"). Solo aparece cuando
+  la regla de pasadas abrió una pasada nueva (otro día, o el mismo día con
+  ≥ 50 % del cuartel después del cierre).
 - Las hectáreas de barrido del historial suman todas las pasadas (pueden
   superar el área del cuartel); las del día se reparten entre las barredoras
   según los metros que barrió cada una.
@@ -334,6 +387,23 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
 
 ## Pendientes
 
+- **Propuesta (falta aprobar): pasadas sueltas pendientes** (regla del
+  usuario, 1-oct-2026). Cómo se haría con "el avance nunca baja":
+  1. Cada día, por máquina + cuartel + labor, las pasadas de ese día se
+     clasifican: "trabajo" o "sueltas" (las que hoy se descartan). Las
+     sueltas se guardan en la memoria marcadas como pendientes, con su
+     fecha; no suman.
+  2. Cuando otro día posterior la misma labor (cualquier máquina de la
+     labor) trabaja ese cuartel, las pendientes anteriores pasan a contar
+     junto con el trabajo nuevo, desde ese día.
+  3. El avance nunca baja: las rescatadas solo agregan celdas; las
+     hectáreas nuevas se acreditan el día del rescate (máximo nuevo − máximo
+     anterior). Los días pasados del historial no se reescriben.
+  4. Barrido: las rescatadas se suman a la pasada en curso del día del
+     rescate (el repaso), nunca a una pasada ya cerrada.
+  - Efecto a revisar: en GS 9 las pasadas de barrido del 04-03 se contarían
+    desde el 20-03 (la Barredora 7 volvió ese día); en GS 7 las del 03-03
+    siguen pendientes mientras no vuelva el barrido.
 - Las memorias guardadas (`memoria_hileras`) se calcularon sin el filtro de
   puntos detenidos ni `paso_gps`: se corrigen al relanzar el año.
 - Relanzar el año completo con la fórmula actual (lo lanza el usuario).

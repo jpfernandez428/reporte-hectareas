@@ -78,6 +78,9 @@ RUTA_GEOCERCAS_CONOCIDAS = os.path.join(CARPETA_MEMORIA, "_geocercas_conocidas.j
 RUTA_ESTILOS = os.path.join(CARPETA_MEMORIA, "_estilo_maquinas.json")
 ESTILOS = {}  # "maquina||AAAA-MM-DD" -> separacion tipica (m)
 ESTILOS_CAMPO = {}  # "raiz||labor||geocerca||maquina" -> separacion tipica con patron claro (m)
+# Copia de ESTILOS_CAMPO tomada al empezar cada dia: el patron del campo que usa
+# un cuartel no depende del orden en que se calculan los cuarteles ese dia.
+ESTILOS_CAMPO_REFERENCIA = {}
 # Panel de la web: maquinas en el patio y trabajo fuera de geocercas.
 RUTA_ESTADO_MAQUINAS = os.path.join(CARPETA_DATOS, "estado_maquinas.json")
 
@@ -403,17 +406,92 @@ def indice_geocercas(geocercas):
     return indice
 
 
+MARGEN_CRUCE_GRADOS = 0.001  # ~100 m: tramos que cruzan una geocerca cercana
+
+
 def repartir_puntos_por_geocerca(puntos, indice):
-    """Devuelve {nombre_geocerca: [puntos dentro]} usando el indice espacial."""
+    """
+    Devuelve {nombre_geocerca: [puntos]} con el recorrido de la maquina dentro
+    de cada geocerca. Ademas de los puntos que caen dentro, el tramo entre dos
+    puntos seguidos se corta en el limite: se agregan los puntos de entrada y
+    de salida (hora interpolada). Con un GPS que reporta cada minuto, una
+    pasada que cruza un cuartel chico puede no dejar ningun punto adentro.
+    Cada visita a la geocerca empieza con un punto marcado "corte", para que
+    la salida no se una con la siguiente entrada.
+    """
+    if not puntos:
+        return {}
+    lon = np.array([p["punto"][0] for p in puntos])
+    lat = np.array([p["punto"][1] for p in puntos])
+    candidatas = {}
+    for x, y in zip(lon, lat):
+        for di in (-1, 0, 1):
+            for dj in (-1, 0, 1):
+                clave = (int(math.floor(x / GRADOS_CUBETA_INDICE)) + di, int(math.floor(y / GRADOS_CUBETA_INDICE)) + dj)
+                for geo in indice.get(clave, ()):
+                    candidatas[geo["nombre"]] = geo
     por_geocerca = {}
-    for p in puntos:
-        lon, lat = p["punto"]
-        clave = (int(math.floor(lon / GRADOS_CUBETA_INDICE)), int(math.floor(lat / GRADOS_CUBETA_INDICE)))
-        for geo in indice.get(clave, ()):
-            x1, y1, x2, y2 = geo["bbox"]
-            if x1 <= lon <= x2 and y1 <= lat <= y2 and punto_en_poligono(p["punto"], geo["contorno"]):
-                por_geocerca.setdefault(geo["nombre"], []).append(p)
+    for geo in candidatas.values():
+        x1, y1, x2, y2 = geo["bbox"]
+        cerca = ((lon >= x1 - MARGEN_CRUCE_GRADOS) & (lon <= x2 + MARGEN_CRUCE_GRADOS)
+                 & (lat >= y1 - MARGEN_CRUCE_GRADOS) & (lat <= y2 + MARGEN_CRUCE_GRADOS))
+        if not cerca.any():
+            continue
+        recorrido = recorrido_en_poligono(puntos, lon, lat, cerca, geo["contorno"], geo["bbox"])
+        if recorrido:
+            por_geocerca[geo["nombre"]] = recorrido
     return por_geocerca
+
+
+def recorrido_en_poligono(puntos, lon, lat, cerca, poligono, bbox):
+    """Puntos del recorrido dentro del poligono, con los cruces del limite
+    (ver repartir_puntos_por_geocerca)."""
+    dentro = np.zeros(len(puntos), dtype=bool)
+    dentro[cerca] = dentro_poligono_np(lon[cerca], lat[cerca], poligono)
+    # Tramos que pueden cruzar el limite: cambian de lado, o van por fuera
+    # con su rectangulo tocando el de la geocerca.
+    x0, y0, x1, y1 = lon[:-1], lat[:-1], lon[1:], lat[1:]
+    toca = ((np.maximum(x0, x1) >= bbox[0]) & (np.minimum(x0, x1) <= bbox[2])
+            & (np.maximum(y0, y1) >= bbox[1]) & (np.minimum(y0, y1) <= bbox[3]))
+    revisar = np.nonzero((dentro[:-1] != dentro[1:]) | (~dentro[:-1] & ~dentro[1:] & toca))[0]
+    cruces = {}
+    if len(revisar):
+        ex = np.array([p[0] for p in poligono]); ey = np.array([p[1] for p in poligono])
+        fx = np.roll(ex, -1) - ex; fy = np.roll(ey, -1) - ey
+        ax, ay = x0[revisar][:, None], y0[revisar][:, None]
+        dx, dy = (x1 - x0)[revisar][:, None], (y1 - y0)[revisar][:, None]
+        den = dx * fy - dy * fx
+        with np.errstate(divide="ignore", invalid="ignore"):
+            t = ((ex - ax) * fy - (ey - ay) * fx) / den
+            u = ((ex - ax) * dy - (ey - ay) * dx) / den
+        valido = (den != 0) & (t > 0) & (t < 1) & (u >= 0) & (u <= 1)
+        for fila, k in enumerate(revisar):
+            ts = np.sort(t[fila][valido[fila]])
+            if len(ts):
+                cruces[k] = ts
+    resultado = []
+    adentro = False
+
+    def agregar(punto, nuevo):
+        if nuevo:
+            punto = {**punto, "corte": True, "origen": punto.get("origen", id(punto))}
+        resultado.append(punto)
+
+    for k, p in enumerate(puntos):
+        if dentro[k] and not adentro:
+            agregar(p, True)
+        elif dentro[k]:
+            agregar(p, False)
+        adentro = bool(dentro[k])
+        if k + 1 >= len(puntos):
+            break
+        t0, t1 = p.get("t"), puntos[k + 1].get("t")
+        for f in cruces.get(k, ()):
+            cruce = {"punto": (lon[k] + f * (lon[k + 1] - lon[k]), lat[k] + f * (lat[k + 1] - lat[k])),
+                     "t": None if t0 is None or t1 is None else t0 + f * (t1 - t0), "borde": True}
+            agregar(cruce, not adentro)
+            adentro = not adentro
+    return resultado
 
 
 def punto_en_poligono(punto, poligono):
@@ -469,7 +547,17 @@ def segmentar_pasadas(puntos, umbral_giro=UMBRAL_GIRO_GRADOS):
     Devuelve una lista de segmentos (cada uno, una lista de puntos) que
     representan tramos de rumbo estable entre dos giros.
     """
+    # Cada visita a la geocerca (punto con "corte") se segmenta por separado.
+    visitas = []
+    for p in puntos:
+        if p.get("corte") or not visitas:
+            visitas.append([])
+        visitas[-1].append(p)
+    if len(visitas) > 1:
+        return [seg for visita in visitas for seg in segmentar_pasadas(visita, umbral_giro)]
     puntos = adelgazar_puntos(puntos)
+    if len(puntos) == 2:
+        return [puntos]  # una pasada que cruza la geocerca sin puntos adentro
     if len(puntos) < 3:
         return []
 
@@ -1219,7 +1307,7 @@ def separacion_campo(nombre_geocerca, labor):
     """Separacion tipica de la labor en los cuarteles del mismo campo donde
     el patron se ve claro (mediana), o None."""
     prefijo = f"{raiz_campo(nombre_geocerca)}||{labor}||"
-    valores = [v for k, v in ESTILOS_CAMPO.items() if k.startswith(prefijo)]
+    valores = [v for k, v in ESTILOS_CAMPO_REFERENCIA.items() if k.startswith(prefijo)]
     return float(statistics.median(valores)) if valores else None
 
 
@@ -1502,13 +1590,25 @@ def avance_total_por_geocerca(unidades_procesadas, geocercas, estado_avance):
         estado = estado_avance_de(estado_avance, nombre_geo, labor)
         info = {"maquinas": sorted({m for m, _, _ in lista})}
         if labor == LABOR_CON_PASADAS:
+            completas = len(estado["pasadas"])
+            en_curso = estado["fraccion_en_curso"]
+            # Con la primera pasada cerrada, la linea de barrido queda en 100 %
+            # y lo que sigue (pasada nueva segun la regla de pasadas) es el
+            # repaso: "Cuartel – Barrido – repaso".
+            fraccion = 1.0 if completas else en_curso
             info.update({
-                "pasadas_completas": len(estado["pasadas"]),
-                "porcentaje_en_curso": round(estado["fraccion_en_curso"] * 100, 1),
-                "trabajado_ha": round(estado["fraccion_en_curso"] * geo["area_ha"], 4),
-                "porcentaje": round(estado["fraccion_en_curso"] * 100, 1),
-                "completo": len(estado["pasadas"]) > 0,
+                "pasadas_completas": completas,
+                "porcentaje_en_curso": round(en_curso * 100, 1),
+                "trabajado_ha": round(fraccion * geo["area_ha"], 4),
+                "porcentaje": round(fraccion * 100, 1),
+                "completo": completas > 0,
             })
+            if completas and (en_curso > 0 or completas > 1):
+                info["repaso"] = {
+                    "repasos_completos": completas - 1,
+                    "trabajado_ha": round(en_curso * geo["area_ha"], 4),
+                    "porcentaje": round(en_curso * 100, 1),
+                }
         else:
             fraccion = max(estado["max_fraccion"], fraccion_trabajada(
                 geo, celdas_trabajadas(geo, [(ref, hs, m) for m, ref, hs in lista], labor)))
@@ -1677,6 +1777,8 @@ def cargar_estilos():
             data = json.load(f)
         ESTILOS.update(data.get("por_dia", {}))
         ESTILOS_CAMPO.update(data.get("por_campo", {}))
+    ESTILOS_CAMPO_REFERENCIA.clear()
+    ESTILOS_CAMPO_REFERENCIA.update(ESTILOS_CAMPO)
 
 
 def guardar_estilos():
@@ -1875,6 +1977,8 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
     dia = fecha_inicio
     while dia <= fecha_fin:
         fecha_str = dia.strftime("%Y-%m-%d")
+        ESTILOS_CAMPO_REFERENCIA.clear()
+        ESTILOS_CAMPO_REFERENCIA.update(ESTILOS_CAMPO)
         entradas = {geo["nombre"]: [] for geo in geocercas}  # geo -> [(hora_entrada, unidad, puntos)]
         for unidad in UNIDADES:
             mensajes = obtener_mensajes(sid, unidad["id"], dia)
@@ -1897,7 +2001,7 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                 if dia >= desde_alertas:
                     por_referencia = (por_geocerca if indice_referencia is indice
                                       else repartir_puntos_por_geocerca(puntos, indice_referencia))
-                    dentro = {id(p) for lista in por_referencia.values() for p in lista}
+                    dentro = {p.get("origen", id(p)) for lista in por_referencia.values() for p in lista}
                     if patio:
                         x1, y1, x2, y2 = patio["bbox"]
                         dentro |= {id(p) for p in puntos
@@ -1989,8 +2093,8 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                               area_total_ha * metros(tramos) / total_metros, resumen)
 
         dia += timedelta(days=1)
-
-    # Incluye tambien        dia += timedelta(days=1)
+    ESTILOS_CAMPO_REFERENCIA.clear()
+    ESTILOS_CAMPO_REFERENCIA.update(ESTILOS_CAMPO)
 
     # Incluye tambien los cuarteles trabajados antes de este periodo (memoria),
     # para que sigan apareciendo en los mapas y en la geometria de la web.
@@ -2406,6 +2510,10 @@ def main():
         for labor, info in sorted(entrada["labores"].items()):
             if labor == LABOR_CON_PASADAS:
                 detalle = f"{info['pasadas_completas']} pasadas completas, en curso {info['porcentaje_en_curso']:.1f}%"
+                if "repaso" in info:
+                    r = info["repaso"]
+                    previos = f"{r['repasos_completos']} repasos completos + " if r["repasos_completos"] else ""
+                    print(f"  - {nombre_geo} – {labor} – repaso: {previos}{r['porcentaje']:.1f}%")
             else:
                 detalle = (f"{info['trabajado_ha']:.2f} de {entrada['area_total_ha']:.2f} ha "
                            f"({info['porcentaje']:.1f}%){' -> COMPLETO' if info['completo'] else ''}")
