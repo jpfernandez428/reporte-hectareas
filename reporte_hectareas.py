@@ -183,7 +183,11 @@ MOVIMIENTO_MINIMO_PUNTO_M = CONFIG.get("movimiento_minimo_punto_m", 3)
 # Maquina que solo paso por el borde: si todas sus pasadas en un cuartel
 # estan a menos de esta distancia del limite y son menos de
 # MAXIMO_PASADAS_SOLO_BORDE, no cuentan (ej. SBS 13 en Don Cristobal Larrain).
+# En cuarteles chicos o angostos todo queda cerca del limite: ahi la distancia
+# es como maximo esta fraccion de la profundidad del cuartel (distancia de su
+# centro al limite).
 DISTANCIA_SOLO_BORDE_M = CONFIG.get("distancia_solo_borde_m", 15)
+FRACCION_PROFUNDIDAD_SOLO_BORDE = CONFIG.get("fraccion_profundidad_solo_borde", 1 / 3)
 MAXIMO_PASADAS_SOLO_BORDE = CONFIG.get("maximo_pasadas_solo_borde", 10)
 # Patron del campo: en cuarteles del mismo campo (misma raiz del nombre) y la
 # misma labor el patron suele ser parecido. Con menos de
@@ -194,9 +198,6 @@ ENTREHILERA_MINIMA_M = CONFIG.get("entrehilera_minima_m", 4)
 ENTREHILERA_MAXIMA_M = CONFIG.get("entrehilera_maxima_m", 10)
 SEPARACION_PATRON_ANCHO_M = CONFIG.get("separacion_patron_ancho_m", 7)
 HUECO_MAXIMO_PATRON_ANCHO_M = CONFIG.get("hueco_maximo_patron_ancho_m", 75)
-# En un patron ancho, junto al limite cuenta hasta esta fraccion de la
-# separacion del patron (solo donde el trabajo llega hasta ella).
-FRACCION_BORDE_PATRON_ANCHO = CONFIG.get("fraccion_borde_patron_ancho", 0.5)
 # Pasadas por el contorno (a menos de esta distancia del limite y paralelas a
 # el) nunca cuentan.
 DISTANCIA_CONTORNO_M = CONFIG.get("distancia_contorno_m", 2)
@@ -1236,6 +1237,8 @@ def solo_paso_por_el_borde(geo, referencia, alineadas):
         return False
     grilla = grilla_geocerca(geo)
     distancia = grilla["distancia_borde"]
+    profundidad = float(distancia[grilla["mascara"]].max()) if grilla["mascara"].any() else 0.0
+    umbral = min(DISTANCIA_SOLO_BORDE_M, profundidad * FRACCION_PROFUNDIDAD_SOLO_BORDE)
     for h in alineadas:
         a, b = extremos_en_grilla(h, referencia, geo)
         medio = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)
@@ -1243,7 +1246,7 @@ def solo_paso_por_el_borde(geo, referencia, alineadas):
         j = int(math.floor(medio[1] / grilla["lado"])) - grilla["j0"]
         if not (0 <= i < distancia.shape[0] and 0 <= j < distancia.shape[1]):
             continue
-        if distancia[i, j] > DISTANCIA_SOLO_BORDE_M:
+        if distancia[i, j] > umbral:
             return False
     return True
 
@@ -1269,13 +1272,37 @@ def marcar_trabajo_maquina(geo, referencia, hileras, labor=None, separacion_veci
     if labor in LABORES_CON_PATRON:
         separacion = rellenar_patron(geo, referencia, alineadas, marcadas, separacion_vecinas, labor, nombre_maquina)
         if separacion is not None and separacion >= SEPARACION_PATRON_ANCHO_M:
-            # Patron ancho: cada pasada atiende las hileras saltadas a su
-            # alrededor; junto al limite, la franja llega hasta una separacion
-            # del patron (solo donde el trabajo llega hasta ella).
-            ancho = min(separacion, HUECO_MAXIMO_PATRON_ANCHO_M) * FRACCION_BORDE_PATRON_ANCHO
-            alcance = dilatar_cuadrado(marcadas, int(round(ancho / grilla["lado"])))
-            marcadas |= alcance & grilla["mascara"] & (grilla["distancia_borde"] <= ancho)
+            # Patron ancho: la franja entre la ultima pasada y el limite cuenta
+            # solo si ahi no cabe otra pasada del patron (mas angosta que la
+            # separacion, medida desde el centro de la pasada).
+            marcadas |= franja_sin_espacio_para_otra_pasada(
+                grilla, marcadas, min(separacion, HUECO_MAXIMO_PATRON_ANCHO_M) - espaciado / 2)
     return marcadas & grilla["mascara"], espaciado
+
+
+def franja_sin_espacio_para_otra_pasada(grilla, marcadas, ancho_maximo_m):
+    """Celdas entre el trabajo marcado y el limite de la geocerca donde la
+    distancia al trabajo mas la distancia al limite es menor que
+    `ancho_maximo_m`: la franja que queda es mas angosta que una pasada mas."""
+    lado = grilla["lado"]
+    resultado = np.zeros_like(marcadas)
+    if ancho_maximo_m <= 0 or not marcadas.any():
+        return resultado
+    libres = grilla["mascara"] & ~marcadas
+    alcance = marcadas.copy()
+    for paso in range(1, int(math.ceil(ancho_maximo_m / lado)) + 1):
+        # Cuadrado y cruz alternados: distancia octogonal (aprox. euclidiana).
+        if paso % 2:
+            alcance = dilatar_cuadrado(alcance, 1)
+        else:
+            cruz = alcance.copy()
+            cruz[1:, :] |= alcance[:-1, :]
+            cruz[:-1, :] |= alcance[1:, :]
+            cruz[:, 1:] |= alcance[:, :-1]
+            cruz[:, :-1] |= alcance[:, 1:]
+            alcance = cruz
+        resultado |= alcance & libres & (paso * lado + grilla["distancia_borde"] < ancho_maximo_m)
+    return resultado
 
 
 def dilatar_cuadrado(arreglo, radio):

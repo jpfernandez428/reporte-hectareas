@@ -88,9 +88,15 @@ cambiarlas sin preguntar.
     huecos entre la primera y la última pasada cuentan como trabajados,
     aunque la separación varíe o siga una secuencia (saltar 2, luego 4,
     luego 2...). Límite de seguridad: huecos de hasta 75 m
-    (`hueco_maximo_patron_ancho_m`). Junto al límite de la geocerca cuenta
-    hasta media separación del patrón (`fraccion_borde_patron_ancho`), solo
-    donde el trabajo llega hasta ella.
+    (`hueco_maximo_patron_ancho_m`).
+- **Borde con patrón** (regla del usuario, 1-oct-2026): la franja entre la
+  última pasada del patrón y el límite de la geocerca cuenta como trabajada
+  solo si es más angosta que la separación del patrón, o sea si ahí no cabe
+  otra pasada (`franja_sin_espacio_para_otra_pasada`: distancia de la celda
+  al trabajo + media franja de la pasada + distancia al límite < separación).
+  Si cabe otra pasada y no se hizo, sigue pendiente: así no se inflan
+  cuarteles que quedaron a medias. Reemplaza la regla anterior de media
+  separación.
 - El operador no cambia de patrón en el cuartel, y la máquina puede ir y
   volver entre geocercas vecinas: si en una geocerca hay pocas pasadas, se
   usa la separación típica de esa máquina ese día en todas las geocercas que
@@ -129,11 +135,24 @@ cambiarlas sin preguntar.
   SBS 12 manda un punto cada 3 s y se detiene en cada árbol: el "baile" del
   GPS detenido cortaba sus pasadas en pedazos.
 - **Solo pasó por el borde**: una máquina con menos de 10 pasadas en un
-  cuartel, todas con su punto medio a menos de 15 m del límite, no trabajó
-  ahí y no cuenta (`maximo_pasadas_solo_borde`, `distancia_solo_borde_m`).
-  Ej. Shacker SBS 13 en Don Cristóbal Larraín, 25–26 de febrero. La regla
-  del contorno (2 m y paralela) no lo descartaba porque sus pasadas no iban
-  pegadas al límite (a más de 2 m).
+  cuartel, todas con su punto medio cerca del límite, no trabajó ahí y no
+  cuenta (`maximo_pasadas_solo_borde`). "Cerca" es a menos de 15 m
+  (`distancia_solo_borde_m`) **y** a menos de un tercio de la profundidad
+  del cuartel (distancia de su centro al límite,
+  `fraccion_profundidad_solo_borde`): en cuarteles chicos o angostos todas
+  las pasadas quedan naturalmente a menos de 15 m del límite.
+  - Revisión (1-oct-2026, memorias guardadas): con solo los 15 m se
+    descartaban 85 máquina+cuartel, entre ellas trabajo real en cuarteles
+    chicos. Con el tercio de la profundidad se recuperan 22 en 18 cuarteles,
+    ej. Gonzalo Sánchez 8 (0,14 ha) Picado 0 → 74,8 %, Gonzalo Sánchez 9
+    Remecido 0 → 85,8 %, Santa Ana 2.6 Recolección 0 → 94,2 % y Remecido
+    0 → 97,3 %, EL PRINCIPIO 14 Cosecha 0 → 96,4 %, Viconto 3 Recolección
+    0 → 91,1 %, El Volcán 14 Cosecha 55,2 → 99,2 %. Los 63 que siguen
+    descartados son pasadas sueltas con poca cobertura.
+  - Don Cristóbal Larraín: el Shacker SBS 13 (25–26-02) tiene 2 de sus 4
+    pasadas a 29 y 38 m del límite, así que esta regla no lo descarta; lo
+    que tapa (0,31 ha) ya lo había cubierto el SBS 11 y en el reporte no se
+    le acredita nada (0 ha). El cuartel da 99,1 % con o sin el SBS 13.
 - **GPS que reporta poco**: cada hilera guarda la distancia típica entre sus
   puntos (`paso_gps`). El extremo de una hilera se alarga hasta la cabecera
   si queda a menos de 20 m del borde, o a menos de esa distancia si es
@@ -172,18 +191,19 @@ cambiarlas sin preguntar.
 | Aurora 1 – Poda, datos hasta el 29-09 (Tractor 13 terminó el 24–25) | ≥ 95 % | 100 % ✓ |
 | Solfrut 8 – Picado (Tractor 16, 17 y 18-08) | ≥ 95 % | 100 % ✓ |
 | Solfrut 10 – Picado (Tractor 16, 17 y 18-08) | ≥ 95 % | 100 % ✓ |
-| Longaví 8 – Poda (Tractor 11, 27-06) | ~2,4 ha | 2,60 ha ✓ (+8 %) |
+| Longaví 8 – Poda (Tractor 11, 27-06) | ~2,4 ha | 2,61 ha ✓ (+9 %) |
 | Longaví 5 – Poda (Tractor 11, 27-06) | 0 ha (solo pasó) | 0 ha ✓ |
 | Barredora 1, 23-09, Bernardo Lira Chiñihue N3 | ~8,05 ha (dos partes) | 8,80 ha ✓ (+9 %) |
 | Juan Valenzuela_Cuartel 4 | Barrido 0 %, Cosecha con recibidor ~46 % | 0 % y 50,3 % ✓ |
-| Longaví 15 y 16 – Poda (Tractor 11, 2 al 14-07) | completos (≥ 95 %) | 100 % y 99,6 % ✓ (patrón ancho de ~8–10 m) |
+| Longaví 15 y 16 – Poda (Tractor 11, 2 al 14-07) | completos (≥ 95 %) | 100 % y 99,5 % ✓ (patrón ancho de ~8–10 m) |
 | Viconto – Barrido (Barredoras 6 y 5497, 7 al 9-04) | 4,7 ha en 3 partes (1,5 + 1,8 + 1,4); la franja central sin barrer es correcta | 5,15 ha ✓ (+10 %) |
 | Viconto 4 – Barrido (Barredoras 6 y 5497, 8 y 9-04) | ~9,3 ha en 3 partes | 9,27 ha ✓ |
 | Agrícola Aeropuerto 7 – Cosecha con recibidor (Shacker SBS 9 y SBS 12, 7 al 17-04) | completo (≥ 95 %) | 95,0 % ✓ (justo en el umbral) |
 | Agrícola Aeropuerto 8 – Cosecha con recibidor (Shacker SBS 9 y SBS 12, 7 al 17-04) | completo (≥ 95 %) | 99,2 % ✓ |
-| Don Cristóbal Larraín – Cosecha con recibidor (febrero) | completo (≥ 95 %); solo trabajó el Shacker SBS 11; el SBS 13 solo pasó por el borde (25–26-02) y no debe contar | 99,1 % ✓ (igual con y sin el SBS 13) |
-| El Volcán 14 – Cosecha | completa | ✓ |
-| El Volcán 14 – Picado (Tractor 7, 7-07) | completo (≥ 95 %) | 92,8 % ✗ (ver pendientes) |
+| Don Cristóbal Larraín – Cosecha con recibidor (febrero) | completo (≥ 95 %); solo trabajó el Shacker SBS 11; el SBS 13 solo pasó por el borde (25–26-02) y no debe contar | 99,1 % ✓ (igual con y sin el SBS 13; al SBS 13 se le acreditan 0 ha) |
+| El Volcán 14 – Cosecha con recibidor | completa | 99,2 % ✓ (con la regla del borde solo por 15 m daba 55,2 %) |
+| El Volcán 14 – Picado (Tractor 7, 7-07) | completo (≥ 95 %); el lóbulo sur-oeste no se pasó | 92,6 % ✗ (ver pendientes) |
+| Cuarteles chicos (< 0,5 ha), ej. Gonzalo Sánchez 8 – Picado (Tractor 14) | el trabajo real no se descarta como "solo pasó por el borde" | 74,8 % ✓ (antes 0 %) |
 
 Viconto: las dos barredoras trabajaron dentro de "Viconto" solo el 7 de
 abril (el 8 en Viconto 4, el 9 en Viconto 4 y 4.1). El GPS de la Barredora
@@ -305,11 +325,11 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
 
 ## Pendientes
 
-- El Volcán 14 – Picado queda en 92,8 %: el 5,4 % del cuartel es el lóbulo
-  del extremo sur-oeste, donde el GPS del Tractor 7 no tiene ningún punto el
-  7 de julio (un punto por minuto; el recorrido lo bordea). Sin ese lóbulo
-  el máximo posible es ~94,6 %. Consultado al usuario (¿se trabajó otro
-  día, con otra máquina, o la geocerca incluye un área sin plantar?).
+- El Volcán 14 – Picado queda en 92,6 % con la regla de borde con patrón:
+  el lóbulo sur-oeste (5,4 % del cuartel) no tiene ningún punto del Tractor
+  7 y, medido, entre el trabajo y el límite quedan ~15–21 m (con la
+  separación del patrón, 7,5 m, caben 2 pasadas más), así que la regla lo
+  deja pendiente. Consultado al usuario.
 - Las memorias guardadas (`memoria_hileras`) se calcularon sin el filtro de
   puntos detenidos ni `paso_gps`: se corrigen al relanzar el año.
 - Relanzar el año completo con la fórmula actual (lo lanza el usuario).
