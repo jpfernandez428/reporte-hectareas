@@ -5,6 +5,7 @@ cambiarlas sin preguntar.
 
 ## Reglas generales
 
+- **Responder siempre en español** (pedido del usuario, 1-oct-2026).
 - **Wialon es solo de lectura.** Nunca escribir, modificar ni borrar nada en
   Wialon. Solo se usa para descargar geocercas y tracks GPS. El token de
   Wialon vive en el secret `WIALON_TOKEN` de GitHub (en `config.json` solo hay
@@ -202,7 +203,7 @@ cambiarlas sin preguntar.
 | Agrícola Aeropuerto 8 – Cosecha con recibidor (Shacker SBS 9 y SBS 12, 7 al 17-04) | completo (≥ 95 %) | 99,2 % ✓ |
 | Don Cristóbal Larraín – Cosecha con recibidor (febrero) | completo (≥ 95 %); solo trabajó el Shacker SBS 11; el SBS 13 solo pasó por el borde (25–26-02) y no debe contar | 99,1 % ✓ (igual con y sin el SBS 13; al SBS 13 se le acreditan 0 ha) |
 | El Volcán 14 – Cosecha con recibidor | completa | 99,2 % ✓ (con la regla del borde solo por 15 m daba 55,2 %) |
-| El Volcán 14 – Picado (Tractor 7, 7-07) | completo (≥ 95 %); el lóbulo sur-oeste no se pasó | 92,6 % ✗ (ver pendientes) |
+| El Volcán 14 – Picado (Tractor 7, 7-07) | completo en terreno; el lóbulo sur-oeste no se pasó. **Caso conocido: el usuario acepta 92,6 %** | 92,6 % ✓ (aceptado) |
 | Cuarteles chicos (< 0,5 ha), ej. Gonzalo Sánchez 8 – Picado (Tractor 14) | el trabajo real no se descarta como "solo pasó por el borde" | 74,8 % ✓ (antes 0 %) |
 
 Viconto: las dos barredoras trabajaron dentro de "Viconto" solo el 7 de
@@ -213,6 +214,14 @@ abril (el 8 en Viconto 4, el 9 en Viconto 4 y 4.1). El GPS de la Barredora
 Aurora 1 al 22-09 daba 95,9 % mientras se rellenaba el patrón también en
 hileras pegadas: tapaba el 58 % de las hileras que el Tractor 13 completó el
 24–25. Por eso con hileras pegadas no se rellena.
+
+**Caso conocido – El Volcán 14, Picado (aceptado por el usuario, 1-oct-2026):**
+queda en 92,6 % aunque en terreno está completo. El lóbulo sur-oeste (5,4 %
+del cuartel) no tiene ningún punto del Tractor 7; entre el trabajo y el
+límite quedan ~15–21 m, y con la separación del patrón (7,5 m) caben 2
+pasadas más, así que la regla de borde con patrón lo deja pendiente. El
+usuario prefiere aceptar la diferencia antes que una regla especial que pueda
+inflar otros cuarteles. No crear reglas para cerrarlo.
 
 ## Geocercas
 
@@ -325,11 +334,6 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
 
 ## Pendientes
 
-- El Volcán 14 – Picado queda en 92,6 % con la regla de borde con patrón:
-  el lóbulo sur-oeste (5,4 % del cuartel) no tiene ningún punto del Tractor
-  7 y, medido, entre el trabajo y el límite quedan ~15–21 m (con la
-  separación del patrón, 7,5 m, caben 2 pasadas más), así que la regla lo
-  deja pendiente. Consultado al usuario.
 - Las memorias guardadas (`memoria_hileras`) se calcularon sin el filtro de
   puntos detenidos ni `paso_gps`: se corrigen al relanzar el año.
 - Relanzar el año completo con la fórmula actual (lo lanza el usuario).
