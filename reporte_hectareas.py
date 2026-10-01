@@ -106,6 +106,22 @@ LABOR_POR_MAQUINA = {u["nombre"]: u.get("labor") or "Sin labor" for u in UNIDADE
 def labor_de(unidad):
     return unidad.get("labor") or "Sin labor"
 
+
+# Trabajo que el usuario confirmo en terreno que no fue trabajo (ej. vueltas de
+# cabecera y esquinas cortadas al trabajar la geocerca vecina): esos dias, esas
+# maquinas no cuentan en esas geocercas. Con GPS de un punto cada 30-60 s no se
+# puede separar automaticamente en cuarteles chicos.
+TRABAJO_DESCARTADO = CONFIG.get("trabajo_descartado", [])
+
+
+def trabajo_descartado(nombre_maquina, fecha_str, nombre_geocerca):
+    normalizar = lambda t: unicodedata.normalize("NFKD", t).encode("ascii", "ignore").decode().lower().strip()
+    maquina, geocerca = normalizar(nombre_maquina), normalizar(nombre_geocerca)
+    return any(regla.get("fecha") == fecha_str
+               and any(maquina.startswith(normalizar(m)) for m in regla.get("maquinas", []))
+               and any(geocerca == normalizar(g) for g in regla.get("geocercas", []))
+               for regla in TRABAJO_DESCARTADO)
+
 if MODO_NUBE:
     fecha_manual_inicio = os.environ.get("FECHA_INICIO_MANUAL", "").strip()
     fecha_manual_fin = os.environ.get("FECHA_FIN_MANUAL", "").strip()
@@ -2009,6 +2025,9 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                                    and punto_en_poligono(p["punto"], patio["contorno"])}
                     extra["alertas"] += detectar_trabajo_fuera(unidad, fecha_str, puntos, dentro)
             for nombre_geo, puntos_geo in por_geocerca.items():
+                if trabajo_descartado(unidad["nombre"], fecha_str, nombre_geo):
+                    print(f"  [descartado en config] {fecha_str} - {unidad['nombre']} - {nombre_geo}")
+                    continue
                 diagnostico[nombre_geo] += len(puntos_geo)
                 if len(puntos_geo) >= MINIMO_PUNTOS_EN_GEOCERCA:
                     hora_entrada = min((p["t"] for p in puntos_geo if p["t"] is not None), default=0)

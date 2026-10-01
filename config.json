@@ -418,5 +418,13 @@
   "patrones_geocercas_excluidas": [
     "\\bcompleto\\b",
     "\\btotal\\b"
+  ],
+  "trabajo_descartado": [
+    {
+      "fecha": "2026-03-20",
+      "maquinas": ["Tractor 14", "Barredora 7"],
+      "geocercas": ["Gonzalo Sanchez 2", "Gonzalo Sanchez 7", "Gonzalo Sanchez 8", "Gonzalo Sanchez 9"],
+      "motivo": "Confirmado en terreno: solo giros y esquinas cortadas al trabajar la geocerca vecina"
+    }
   ]
 }

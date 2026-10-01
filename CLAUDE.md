@@ -221,7 +221,8 @@ Resultados al 1-oct-2026, con GPS crudo (salvo donde se indica):
 | El Volcán 14 – Cosecha con recibidor | completa | 99,2 % ✓ (memoria; con la regla del borde solo por 15 m daba 55,2 %) |
 | El Volcán 14 – Picado (Tractor 7, 7-07) | completo en terreno; el lóbulo sur-oeste no se pasó. **Caso conocido: el usuario acepta ~92,6 %** | 93,4 % ✓ (aceptado) |
 | Cuarteles chicos (< 0,5 ha), ej. Gonzalo Sánchez 8 – Picado (Tractor 14) | el trabajo real no se descarta como "solo pasó por el borde" | 100 % ✓ (antes 0 %) |
-| Gonzalo Sánchez 2 – Barrido (Barredora 7) | completo el 27-02 y después repasado | 100 % + línea "repaso" 87,2 % (04-03 + 20-03) ✓ |
+| Gonzalo Sánchez 2 – Barrido (Barredora 7) | completo el 27-02 y después repasado | 100 % + línea "repaso" 46,7 % (04-03) ✓ |
+| Gonzalo Sánchez 2, 7, 8 y 9 – 20-03 (Tractor 14 y Barredora 7) | no hubo trabajo (solo giros y esquinas de la geocerca vecina) | no cuenta ✓ (`trabajo_descartado`); GS 8 repaso 61,4 % (04-03), GS 9 sin repaso |
 | Gonzalo Sánchez 2 – Picado (Tractor 14, todo el 28-02) | ≥ 95 % | 90,5 % ✗ (ver Gonzalo Sánchez abajo) |
 | Gonzalo Sánchez 2 – Remecido de suelo (Shacker de Suelo 8, todo el cuartel) | ≥ 95 % | 93,0 % ✗ (ver Gonzalo Sánchez abajo) |
 | Gonzalo Sánchez 7 – Barrido (Barredora 7, 03-03, 2 pasadas, probando) | 0 % | 0 % ✓ |
@@ -256,11 +257,18 @@ hileras pegadas: tapaba el 58 % de las hileras que el Tractor 13 completó el
   que cortan una esquina. En GS 9 el Tractor 14 entró al campo cruzándolo a
   lo largo (09:15–09:23) y giró adentro (10:26–10:31); la Barredora 7 hizo
   ~8 pasadas a lo largo de GS 9 (07:56–08:45), que parece barrido real.
-  Ningún indicador simple (pasadas, metros recorridos, cobertura del día)
-  separa bien esas vueltas del trabajo real en cuarteles tan chicos: ej. el
-  Shacker de Suelo 8 en GS 2 el 26-02 (trabajo real) recorrió adentro lo
-  mismo que la Barredora 7 el 20-03 (razón recorrido/necesario 0,48 vs
-  0,46). Regla para el 20-03: pendiente, consultada al usuario.
+  **Confirmado por el usuario (1-oct-2026): el 20-03 no hubo trabajo en
+  ningún GS (2, 7, 8, 9), tampoco la Barredora 7 en GS 9; solo giros y
+  esquinas cortadas al trabajar la geocerca vecina.** Se descarta con la
+  lista `trabajo_descartado` de `config.json`.
+  Se probaron 4 criterios automáticos y ninguno separa esas vueltas del
+  trabajo real con GPS de un punto cada 30–60 s en cuarteles tan chicos:
+  cantidad de pasadas, metros recorridos adentro vs necesarios (Shacker de
+  Suelo 8 en GS 2 el 26-02, real: 0,48; Barredora 7 el 20-03: 0,46),
+  pasadas que cruzan de borde a borde por un tramo largo (Barredora 7 el
+  20-03: 6; Shacker el 26-02, real: 4) y "fila dueña" (a qué geocerca
+  pertenece cada fila completa del día: Tractor 14 en GS 8 el 03-03, real:
+  28 % propio; en GS 2 el 20-03: 63 %).
 
 **Caso conocido – El Volcán 14, Picado (aceptado por el usuario, 1-oct-2026):**
 queda en 92,6 % aunque en terreno está completo. El lóbulo sur-oeste (5,4 %
@@ -281,6 +289,45 @@ Regla: **siempre el cuartel más detallado, nunca agregados.**
 - Dejar: las canchas, "Matias Cardoen C7 prueba", las "Nueva geocerca" y las
   geocercas chicas (< 0,5 ha).
 - Geocercas con nombre repetido en Wialon se distinguen agregando su id.
+
+### Geocercas superpuestas (regla del usuario, 1-oct-2026; FALTA APLICAR)
+
+Cuando una geocerca grande contiene geocercas chicas:
+- Si las chicas juntas cubren el **95 % o más** del área de la grande, se
+  usan las chicas y la grande no se calcula.
+- Si cubren **menos del 95 %**, se usa solo la grande y las chicas no se
+  calculan.
+
+El usuario pidió ver la lista antes de aplicarla. Inventario del 1-oct-2026
+(1.086 polígonos en Wialon; una chica se considera "contenida" si al menos
+el 75 % de su área queda dentro de la grande, porque varias chicas quedan
+84–88 % adentro por diferencias de dibujo: GS 2 y GS 8 en MP1, GS 9 en MP2):
+55 geocercas contienen a otras. Con anidamiento (se decide de la más grande
+a la más chica; si se usa la grande, todas las de adentro quedan fuera).
+
+Cambios respecto de las decisiones anteriores (consultados al usuario):
+- **Kankura**: Kankura Completo → chicas (99,4 %), pero KANKURA Lado a
+  (93,0 %), Kankura Lado B (93,4 %) y Kankura C (91,8 %) quedarían en uso y
+  los 14 EL PRINCIPIO dejarían de calcularse (hoy es al revés).
+- **"Completo"/"Total" con chicas < 95 %** pasarían a usarse en vez de sus
+  cuarteles: Matias Cardoen Completo (93,6 %, 10 chicas), Ochagavia San
+  Gregorio Completo (88,9 %, 8), Andraca Anania Total (81,4 %, 4), Los Tilos
+  Talagante Completo (56,6 %, 3).
+- **Carrizalillo** tiene dos juegos de geocercas (Carizalillo 1–15 y zonas
+  como "Huerto Antiguo 66%NP", "La Cruz", "Los Hornos 50%NP", "Guara ..."):
+  la regla mezcla ambos (ej. Huerto Antiguo 89,6 % deja fuera Carizalillo,
+  1, 2 y 4).
+- MP1 (95,6 %), MP2 (98,6 %), MP3 (99,6 %) y MP4 (99,6 %) dejan de
+  calcularse y se usan los Gonzalo Sánchez.
+- Otras grandes que hoy se calculan y dejarían de calcularse porque sus
+  chicas cubren ≥ 95 %: Maria Ignacia Eyzaguirre Campo 1/2/3 2024, Matias
+  Campos 1–5 (Trinidad), Juan Valenzuela_Cuertel 5–10 (Juan V Nogales),
+  Pirque Ciruelos 1, Ochagavia Manantiales 7, "ochagavia 2025 pa borrar",
+  Carizalillo 14 y 15, Ochagavia San Gregorio C1 y C3, Santa Ana 2.17 (id
+  …-355), varias de Ag. El Carmen San Gregorio.
+- Grandes en uso con chicas < 95 % (las chicas dejarían de calcularse):
+  Carrizalillo La Cruz, Carrizalillo Los Hornos 50%NP, Carizalillo 3, 8 y 12,
+  San Gregorio Agricola El Carmen C4 (94,5 %).
 
 ## Labores
 
@@ -387,8 +434,13 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
 
 ## Pendientes
 
-- **Propuesta (falta aprobar): pasadas sueltas pendientes** (regla del
-  usuario, 1-oct-2026). Cómo se haría con "el avance nunca baja":
+- **Pasadas sueltas pendientes** (regla aprobada por el usuario el
+  1-oct-2026, **falta implementar**): solo se rescatan cuando la misma
+  labor vuelve a TRABAJAR de verdad el cuartel, no cuando solo pasa, gira o
+  corta una esquina (ej. GS 9: las pasadas de barrido del 04-03 no se
+  rescatan con el 20-03). Bloqueo: no hay un criterio automático confiable
+  de "trabajo de verdad" en cuarteles chicos con GPS de 30–60 s (ver
+  Gonzalo Sánchez); falta acordarlo con el usuario. Diseño:
   1. Cada día, por máquina + cuartel + labor, las pasadas de ese día se
      clasifican: "trabajo" o "sueltas" (las que hoy se descartan). Las
      sueltas se guardan en la memoria marcadas como pendientes, con su
@@ -401,9 +453,7 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
      anterior). Los días pasados del historial no se reescriben.
   4. Barrido: las rescatadas se suman a la pasada en curso del día del
      rescate (el repaso), nunca a una pasada ya cerrada.
-  - Efecto a revisar: en GS 9 las pasadas de barrido del 04-03 se contarían
-    desde el 20-03 (la Barredora 7 volvió ese día); en GS 7 las del 03-03
-    siguen pendientes mientras no vuelva el barrido.
+  - Los días de `trabajo_descartado` nunca rescatan pendientes.
 - Las memorias guardadas (`memoria_hileras`) se calcularon sin el filtro de
   puntos detenidos ni `paso_gps`: se corrigen al relanzar el año.
 - Relanzar el año completo con la fórmula actual (lo lanza el usuario).
