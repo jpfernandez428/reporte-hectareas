@@ -2339,6 +2339,14 @@ def prueba_casos(sid):
     cuyo nombre contiene el texto (sin tildes ni mayusculas) o por donde paso.
     """
     normalizar = lambda t: unicodedata.normalize("NFKD", t).encode("ascii", "ignore").decode().lower()
+    if os.environ["PRUEBA_CASOS"].strip().lower() == "geocercas":
+        # Todas las geocercas de Wialon, sin filtrar, marcando las excluidas hoy.
+        todas = obtener_geocercas(sid, filtrar=False)
+        print(f"DIAG geocercas: {len(todas)} poligonos, {sum(geocerca_excluida(g['nombre']) for g in todas)} excluidos")
+        with open("casos_diagnostico.json", "w", encoding="utf-8") as f:
+            json.dump([{**{k: g[k] for k in ("nombre", "contorno", "area_ha", "bbox", "id_wialon")},
+                        "excluida": geocerca_excluida(g["nombre"])} for g in todas], f, ensure_ascii=False)
+        return
     geocercas = obtener_geocercas(sid)
     indice = indice_geocercas(geocercas)
     salida = []
