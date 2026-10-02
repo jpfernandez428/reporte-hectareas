@@ -47032,5 +47032,689 @@
     "n_hileras": 16,
     "area_total_ha": 2.33,
     "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-09-16",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N2",
+    "labor": "Barrido",
+    "n_hileras": 353,
+    "area_total_ha": 12.69,
+    "area_trabajada_ha": 4.16
+  },
+  {
+    "fecha": "2026-09-16",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 12",
+    "labor": "Poda",
+    "n_hileras": 36,
+    "area_total_ha": 3.49,
+    "area_trabajada_ha": 0.66
+  },
+  {
+    "fecha": "2026-09-16",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 12",
+    "labor": "Poda",
+    "n_hileras": 44,
+    "area_total_ha": 3.49,
+    "area_trabajada_ha": 0.85
+  },
+  {
+    "fecha": "2026-09-16",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 10",
+    "labor": "Poda",
+    "n_hileras": 37,
+    "area_total_ha": 2.33,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-09-16",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 1",
+    "labor": "Barrido",
+    "n_hileras": 14,
+    "area_total_ha": 7.87,
+    "area_trabajada_ha": 0.66
+  },
+  {
+    "fecha": "2026-09-16",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 2",
+    "labor": "Barrido",
+    "n_hileras": 13,
+    "area_total_ha": 5.68,
+    "area_trabajada_ha": 0.83
+  },
+  {
+    "fecha": "2026-09-16",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 3",
+    "labor": "Barrido",
+    "n_hileras": 13,
+    "area_total_ha": 4.66,
+    "area_trabajada_ha": 0.83
+  },
+  {
+    "fecha": "2026-09-16",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 4",
+    "labor": "Barrido",
+    "n_hileras": 11,
+    "area_total_ha": 4.08,
+    "area_trabajada_ha": 0.76
+  },
+  {
+    "fecha": "2026-09-16",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 5",
+    "labor": "Barrido",
+    "n_hileras": 13,
+    "area_total_ha": 2.99,
+    "area_trabajada_ha": 0.79
+  },
+  {
+    "fecha": "2026-09-16",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 6",
+    "labor": "Barrido",
+    "n_hileras": 15,
+    "area_total_ha": 1.46,
+    "area_trabajada_ha": 0.78
+  },
+  {
+    "fecha": "2026-09-17",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 12",
+    "labor": "Poda",
+    "n_hileras": 65,
+    "area_total_ha": 3.49,
+    "area_trabajada_ha": 0.73
+  },
+  {
+    "fecha": "2026-09-17",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 1",
+    "labor": "Barrido",
+    "n_hileras": 32,
+    "area_total_ha": 7.87,
+    "area_trabajada_ha": 1.25
+  },
+  {
+    "fecha": "2026-09-17",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 2",
+    "labor": "Barrido",
+    "n_hileras": 32,
+    "area_total_ha": 5.68,
+    "area_trabajada_ha": 1.15
+  },
+  {
+    "fecha": "2026-09-17",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 3",
+    "labor": "Barrido",
+    "n_hileras": 31,
+    "area_total_ha": 4.66,
+    "area_trabajada_ha": 0.98
+  },
+  {
+    "fecha": "2026-09-17",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 4",
+    "labor": "Barrido",
+    "n_hileras": 28,
+    "area_total_ha": 4.08,
+    "area_trabajada_ha": 1.03
+  },
+  {
+    "fecha": "2026-09-17",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 5",
+    "labor": "Barrido",
+    "n_hileras": 31,
+    "area_total_ha": 2.99,
+    "area_trabajada_ha": 1.01
+  },
+  {
+    "fecha": "2026-09-17",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 6",
+    "labor": "Barrido",
+    "n_hileras": 26,
+    "area_total_ha": 1.46,
+    "area_trabajada_ha": 0.58
+  },
+  {
+    "fecha": "2026-09-21",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A10",
+    "labor": "Barrido",
+    "n_hileras": 237,
+    "area_total_ha": 22.53,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-09-21",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 12",
+    "labor": "Poda",
+    "n_hileras": 95,
+    "area_total_ha": 3.49,
+    "area_trabajada_ha": 0.8
+  },
+  {
+    "fecha": "2026-09-21",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 12",
+    "labor": "Poda",
+    "n_hileras": 60,
+    "area_total_ha": 3.49,
+    "area_trabajada_ha": 0.45
+  },
+  {
+    "fecha": "2026-09-22",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A10",
+    "labor": "Barrido",
+    "n_hileras": 238,
+    "area_total_ha": 22.53,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-09-22",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N2",
+    "labor": "Barrido",
+    "n_hileras": 368,
+    "area_total_ha": 12.69,
+    "area_trabajada_ha": 2.31
+  },
+  {
+    "fecha": "2026-09-22",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "labor": "Barrido",
+    "n_hileras": 773,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-09-22",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 11",
+    "labor": "Poda",
+    "n_hileras": 45,
+    "area_total_ha": 7.84,
+    "area_trabajada_ha": 2.59
+  },
+  {
+    "fecha": "2026-09-22",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 11",
+    "labor": "Poda",
+    "n_hileras": 18,
+    "area_total_ha": 7.84,
+    "area_trabajada_ha": 0.97
+  },
+  {
+    "fecha": "2026-09-22",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Huertos de Nogal",
+    "labor": "Picado",
+    "n_hileras": 9,
+    "area_total_ha": 39.82,
+    "area_trabajada_ha": 2.11
+  },
+  {
+    "fecha": "2026-09-23",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A10",
+    "labor": "Barrido",
+    "n_hileras": 239,
+    "area_total_ha": 22.53,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-09-23",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N2",
+    "labor": "Barrido",
+    "n_hileras": 382,
+    "area_total_ha": 12.69,
+    "area_trabajada_ha": 1.49
+  },
+  {
+    "fecha": "2026-09-23",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "labor": "Barrido",
+    "n_hileras": 818,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 0.32
+  },
+  {
+    "fecha": "2026-09-23",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N5",
+    "labor": "Barrido",
+    "n_hileras": 13,
+    "area_total_ha": 2.73,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-09-23",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 11",
+    "labor": "Poda",
+    "n_hileras": 92,
+    "area_total_ha": 7.84,
+    "area_trabajada_ha": 1.87
+  },
+  {
+    "fecha": "2026-09-23",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Huertos de Nogal",
+    "labor": "Picado",
+    "n_hileras": 26,
+    "area_total_ha": 39.82,
+    "area_trabajada_ha": 10.55
+  },
+  {
+    "fecha": "2026-09-24",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "labor": "Barrido",
+    "n_hileras": 841,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 0.43
+  },
+  {
+    "fecha": "2026-09-24",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 11",
+    "labor": "Poda",
+    "n_hileras": 41,
+    "area_total_ha": 7.84,
+    "area_trabajada_ha": 1.12
+  },
+  {
+    "fecha": "2026-09-24",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 11",
+    "labor": "Poda",
+    "n_hileras": 176,
+    "area_total_ha": 7.84,
+    "area_trabajada_ha": 1.28
+  },
+  {
+    "fecha": "2026-09-24",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Huertos de Nogal",
+    "labor": "Picado",
+    "n_hileras": 49,
+    "area_total_ha": 39.82,
+    "area_trabajada_ha": 15.32
+  },
+  {
+    "fecha": "2026-09-24",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 1",
+    "labor": "Poda",
+    "n_hileras": 35,
+    "area_total_ha": 4.23,
+    "area_trabajada_ha": 0.31
+  },
+  {
+    "fecha": "2026-09-24",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 2",
+    "labor": "Poda",
+    "n_hileras": 201,
+    "area_total_ha": 7.12,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-09-25",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Huertos de Nogal",
+    "labor": "Picado",
+    "n_hileras": 69,
+    "area_total_ha": 39.82,
+    "area_trabajada_ha": 11.39
+  },
+  {
+    "fecha": "2026-09-25",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 2",
+    "labor": "Poda",
+    "n_hileras": 211,
+    "area_total_ha": 7.12,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-09-25",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 17",
+    "labor": "Poda",
+    "n_hileras": 7,
+    "area_total_ha": 5.34,
+    "area_trabajada_ha": 0.64
+  },
+  {
+    "fecha": "2026-09-25",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 17",
+    "labor": "Poda",
+    "n_hileras": 12,
+    "area_total_ha": 5.34,
+    "area_trabajada_ha": 0.99
+  },
+  {
+    "fecha": "2026-09-25",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 18",
+    "labor": "Poda",
+    "n_hileras": 12,
+    "area_total_ha": 2.08,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-09-25",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 18",
+    "labor": "Poda",
+    "n_hileras": 6,
+    "area_total_ha": 2.08,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-09-25",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 1",
+    "labor": "Barrido",
+    "n_hileras": 50,
+    "area_total_ha": 21.34,
+    "area_trabajada_ha": 1.63
+  },
+  {
+    "fecha": "2026-09-26",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 17",
+    "labor": "Poda",
+    "n_hileras": 31,
+    "area_total_ha": 5.34,
+    "area_trabajada_ha": 1.75
+  },
+  {
+    "fecha": "2026-09-26",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 18",
+    "labor": "Poda",
+    "n_hileras": 53,
+    "area_total_ha": 2.08,
+    "area_trabajada_ha": 1.78
+  },
+  {
+    "fecha": "2026-09-28",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 1",
+    "labor": "Barrido",
+    "n_hileras": 49,
+    "area_total_ha": 7.87,
+    "area_trabajada_ha": 0.92
+  },
+  {
+    "fecha": "2026-09-28",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 2",
+    "labor": "Barrido",
+    "n_hileras": 43,
+    "area_total_ha": 5.68,
+    "area_trabajada_ha": 0.75
+  },
+  {
+    "fecha": "2026-09-28",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 3",
+    "labor": "Barrido",
+    "n_hileras": 43,
+    "area_total_ha": 4.66,
+    "area_trabajada_ha": 0.88
+  },
+  {
+    "fecha": "2026-09-28",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 4",
+    "labor": "Barrido",
+    "n_hileras": 39,
+    "area_total_ha": 4.08,
+    "area_trabajada_ha": 0.86
+  },
+  {
+    "fecha": "2026-09-28",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 5",
+    "labor": "Barrido",
+    "n_hileras": 49,
+    "area_total_ha": 2.99,
+    "area_trabajada_ha": 0.9
+  },
+  {
+    "fecha": "2026-09-28",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 1",
+    "labor": "Barrido",
+    "n_hileras": 120,
+    "area_total_ha": 21.34,
+    "area_trabajada_ha": 1.31
+  },
+  {
+    "fecha": "2026-09-29",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "torretagle 5",
+    "labor": "Picado",
+    "n_hileras": 5,
+    "area_total_ha": 3.88,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-09-29",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 1",
+    "labor": "Barrido",
+    "n_hileras": 91,
+    "area_total_ha": 7.87,
+    "area_trabajada_ha": 2.53
+  },
+  {
+    "fecha": "2026-09-29",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 2",
+    "labor": "Barrido",
+    "n_hileras": 85,
+    "area_total_ha": 5.68,
+    "area_trabajada_ha": 2.31
+  },
+  {
+    "fecha": "2026-09-29",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 3",
+    "labor": "Barrido",
+    "n_hileras": 80,
+    "area_total_ha": 4.66,
+    "area_trabajada_ha": 1.97
+  },
+  {
+    "fecha": "2026-09-29",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 4",
+    "labor": "Barrido",
+    "n_hileras": 73,
+    "area_total_ha": 4.08,
+    "area_trabajada_ha": 1.43
+  },
+  {
+    "fecha": "2026-09-29",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 5",
+    "labor": "Barrido",
+    "n_hileras": 64,
+    "area_total_ha": 2.99,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-09-29",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 14",
+    "labor": "Poda",
+    "n_hileras": 23,
+    "area_total_ha": 3.03,
+    "area_trabajada_ha": 1.12
+  },
+  {
+    "fecha": "2026-09-29",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 14",
+    "labor": "Poda",
+    "n_hileras": 42,
+    "area_total_ha": 3.03,
+    "area_trabajada_ha": 1.9
+  },
+  {
+    "fecha": "2026-09-29",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 17",
+    "labor": "Poda",
+    "n_hileras": 48,
+    "area_total_ha": 5.34,
+    "area_trabajada_ha": 1.74
+  },
+  {
+    "fecha": "2026-09-29",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 17",
+    "labor": "Poda",
+    "n_hileras": 20,
+    "area_total_ha": 5.34,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-09-29",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 1",
+    "labor": "Barrido",
+    "n_hileras": 141,
+    "area_total_ha": 21.34,
+    "area_trabajada_ha": 2.1
+  },
+  {
+    "fecha": "2026-09-29",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 3",
+    "labor": "Barrido",
+    "n_hileras": 8,
+    "area_total_ha": 6.1,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-09-29",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 4",
+    "labor": "Barrido",
+    "n_hileras": 47,
+    "area_total_ha": 5.92,
+    "area_trabajada_ha": 0.49
+  },
+  {
+    "fecha": "2026-09-30",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 1",
+    "labor": "Barrido",
+    "n_hileras": 135,
+    "area_total_ha": 7.87,
+    "area_trabajada_ha": 1.93
+  },
+  {
+    "fecha": "2026-09-30",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan V Nogales 2",
+    "labor": "Barrido",
+    "n_hileras": 104,
+    "area_total_ha": 5.68,
+    "area_trabajada_ha": 0.64
+  },
+  {
+    "fecha": "2026-09-30",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 13",
+    "labor": "Poda",
+    "n_hileras": 35,
+    "area_total_ha": 2.79,
+    "area_trabajada_ha": 1.62
+  },
+  {
+    "fecha": "2026-09-30",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 13",
+    "labor": "Poda",
+    "n_hileras": 14,
+    "area_total_ha": 2.79,
+    "area_trabajada_ha": 1.07
+  },
+  {
+    "fecha": "2026-09-30",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 15",
+    "labor": "Poda",
+    "n_hileras": 23,
+    "area_total_ha": 1.51,
+    "area_trabajada_ha": 0.72
+  },
+  {
+    "fecha": "2026-09-30",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 15",
+    "labor": "Poda",
+    "n_hileras": 10,
+    "area_total_ha": 1.51,
+    "area_trabajada_ha": 0.79
+  },
+  {
+    "fecha": "2026-09-30",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 16",
+    "labor": "Poda",
+    "n_hileras": 16,
+    "area_total_ha": 3.87,
+    "area_trabajada_ha": 0.77
+  },
+  {
+    "fecha": "2026-09-30",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 1",
+    "labor": "Barrido",
+    "n_hileras": 183,
+    "area_total_ha": 21.34,
+    "area_trabajada_ha": 9.0
+  },
+  {
+    "fecha": "2026-09-30",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 2",
+    "labor": "Barrido",
+    "n_hileras": 32,
+    "area_total_ha": 6.43,
+    "area_trabajada_ha": 0.62
+  },
+  {
+    "fecha": "2026-09-30",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 3",
+    "labor": "Barrido",
+    "n_hileras": 27,
+    "area_total_ha": 6.1,
+    "area_trabajada_ha": 0.44
   }
 ]
