@@ -652,7 +652,8 @@ def recorrido_en_poligono(puntos, lon, lat, cerca, poligono, bbox):
             break
         t0, t1 = p.get("t"), puntos[k + 1].get("t")
         for f in cruces.get(k, ()):
-            cruce = {"punto": (lon[k] + f * (lon[k + 1] - lon[k]), lat[k] + f * (lat[k + 1] - lat[k])),
+            f = float(f)
+            cruce = {"punto": (float(lon[k] + f * (lon[k + 1] - lon[k])), float(lat[k] + f * (lat[k + 1] - lat[k]))),
                      "t": None if t0 is None or t1 is None else t0 + f * (t1 - t0), "borde": True}
             agregar(cruce, not adentro)
             adentro = not adentro
@@ -1788,7 +1789,7 @@ def avance_total_por_geocerca(unidades_procesadas, geocercas, estado_avance):
             info.update({
                 "trabajado_ha": round(fraccion * geo["area_ha"], 4),
                 "porcentaje": round(fraccion * 100, 1),
-                "completo": fraccion >= UMBRAL_CIERRE_PORCENTAJE,
+                "completo": bool(fraccion >= UMBRAL_CIERRE_PORCENTAJE),
             })
         entrada = avance.setdefault(nombre_geo, {"area_total_ha": round(geo["area_ha"], 4), "labores": {}})
         entrada["labores"][labor] = info
@@ -2754,13 +2755,13 @@ def main():
                 filas.append({
                     "id": h.id, "p1": [lon1, lat1], "p2": [lon2, lat2],
                     "fechas": sorted(h.fechas),
-                    "completa": bool(contorno_m) and hilera_llega_a_los_bordes(h, contorno_m),
-                    "cuenta": h.id not in ids_cruzadas,
+                    "completa": bool(contorno_m) and bool(hilera_llega_a_los_bordes(h, contorno_m)),
+                    "cuenta": bool(h.id not in ids_cruzadas),
                 })
             if filas:
                 cuarteles_json[nombre_geo] = {
                     "labor": labor,
-                    "completo": completo,
+                    "completo": bool(completo),
                     "contorno": geo["contorno"] if geo else [],
                     "hileras": filas,
                 }
