@@ -1,4 +1,28 @@
 {
-"por_campo": {},
-"por_dia": {}
+"por_campo": {
+"gonzalo sanchez||Picado||Gonzalo Sanchez 11||Tractor 14 Deutz Fahr 115": 5.7,
+"gonzalo sanchez||Picado||Gonzalo Sanchez 12||Tractor 14 Deutz Fahr 115": 6.2,
+"gonzalo sanchez||Picado||Gonzalo Sanchez 13||Tractor 14 Deutz Fahr 115": 6.3,
+"gonzalo sanchez||Picado||Gonzalo Sanchez 14||Tractor 14 Deutz Fahr 115": 7.2,
+"gonzalo sanchez||Picado||Gonzalo Sanchez 15||Tractor 14 Deutz Fahr 115": 6.4,
+"gonzalo sanchez||Picado||Gonzalo Sanchez 16||Tractor 14 Deutz Fahr 115": 6.2,
+"gonzalo sanchez||Picado||Gonzalo Sanchez 17||Tractor 14 Deutz Fahr 115": 6.4,
+"gonzalo sanchez||Picado||Gonzalo Sanchez 18||Tractor 14 Deutz Fahr 115": 6.0,
+"gonzalo sanchez||Picado||Gonzalo Sanchez 19||Tractor 14 Deutz Fahr 115": 6.0,
+"gonzalo sanchez||Picado||Gonzalo Sanchez 20||Tractor 14 Deutz Fahr 115": 6.6,
+"gonzalo sanchez||Picado||Gonzalo Sanchez 21||Tractor 14 Deutz Fahr 115": 5.1,
+"gonzalo sanchez||Picado||Gonzalo Sanchez 22||Tractor 14 Deutz Fahr 115": 6.4,
+"gonzalo sanchez||Picado||Gonzalo Sanchez 25||Tractor 14 Deutz Fahr 115": 3.9,
+"gonzalo sanchez||Picado||Gonzalo Sanchez 26||Tractor 14 Deutz Fahr 115": 4.0,
+"gonzalo sanchez||Picado||Gonzalo Sanchez 3||Tractor 14 Deutz Fahr 115": 7.0
+},
+"por_dia": {
+"Tractor 14 Deutz Fahr 115||2026-02-20": 7.1,
+"Tractor 14 Deutz Fahr 115||2026-02-23": 6.9,
+"Tractor 14 Deutz Fahr 115||2026-02-24": 7.3,
+"Tractor 14 Deutz Fahr 115||2026-02-25": 7.4,
+"Tractor 14 Deutz Fahr 115||2026-02-26": 6.2,
+"Tractor 14 Deutz Fahr 115||2026-02-27": 6.6,
+"Tractor 14 Deutz Fahr 115||2026-02-28": 6.7
+}
 }
