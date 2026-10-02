@@ -97,5 +97,2165 @@
     "n_hileras": 82,
     "area_total_ha": 44.15,
     "area_trabajada_ha": 2.63
+  },
+  {
+    "fecha": "2026-02-01",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 219,
+    "area_total_ha": 11.42,
+    "area_trabajada_ha": 0.81
+  },
+  {
+    "fecha": "2026-02-02",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 148,
+    "area_total_ha": 35.83,
+    "area_trabajada_ha": 3.21
+  },
+  {
+    "fecha": "2026-02-02",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 282,
+    "area_total_ha": 11.42,
+    "area_trabajada_ha": 1.56
+  },
+  {
+    "fecha": "2026-02-02",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 113,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 3.41
+  },
+  {
+    "fecha": "2026-02-03",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 184,
+    "area_total_ha": 35.83,
+    "area_trabajada_ha": 2.48
+  },
+  {
+    "fecha": "2026-02-03",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 23",
+    "labor": "Remecido de suelo",
+    "n_hileras": 19,
+    "area_total_ha": 11.43,
+    "area_trabajada_ha": 2.12
+  },
+  {
+    "fecha": "2026-02-03",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 294,
+    "area_total_ha": 11.42,
+    "area_trabajada_ha": 0.37
+  },
+  {
+    "fecha": "2026-02-03",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 154,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 4.43
+  },
+  {
+    "fecha": "2026-02-03",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C8 prueba",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 32,
+    "area_total_ha": 1.72,
+    "area_trabajada_ha": 0.39
+  },
+  {
+    "fecha": "2026-02-04",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 218,
+    "area_total_ha": 35.83,
+    "area_trabajada_ha": 3.46
+  },
+  {
+    "fecha": "2026-02-04",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 5,
+    "area_total_ha": 4.53,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-02-04",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 22,
+    "area_total_ha": 2.73,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-02-04",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 23",
+    "labor": "Remecido de suelo",
+    "n_hileras": 73,
+    "area_total_ha": 11.43,
+    "area_trabajada_ha": 3.91
+  },
+  {
+    "fecha": "2026-02-04",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 171,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 2.47
+  },
+  {
+    "fecha": "2026-02-04",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C8 prueba",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 67,
+    "area_total_ha": 1.72,
+    "area_trabajada_ha": 0.98
+  },
+  {
+    "fecha": "2026-02-05",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 232,
+    "area_total_ha": 35.83,
+    "area_trabajada_ha": 2.02
+  },
+  {
+    "fecha": "2026-02-05",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 15,
+    "area_total_ha": 20.89,
+    "area_trabajada_ha": 1.14
+  },
+  {
+    "fecha": "2026-02-05",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "MGH Cuartel 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 35,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 1.44
+  },
+  {
+    "fecha": "2026-02-05",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 42,
+    "area_total_ha": 4.53,
+    "area_trabajada_ha": 0.89
+  },
+  {
+    "fecha": "2026-02-05",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 40,
+    "area_total_ha": 2.73,
+    "area_trabajada_ha": 0.49
+  },
+  {
+    "fecha": "2026-02-05",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 22",
+    "labor": "Remecido de suelo",
+    "n_hileras": 29,
+    "area_total_ha": 4.5,
+    "area_trabajada_ha": 3.75
+  },
+  {
+    "fecha": "2026-02-05",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 195,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 2.75
+  },
+  {
+    "fecha": "2026-02-05",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C8 prueba",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 80,
+    "area_total_ha": 1.72,
+    "area_trabajada_ha": 0.35
+  },
+  {
+    "fecha": "2026-02-05",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "San Gregorio Agricola El Carmen C3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 22,
+    "area_total_ha": 3.76,
+    "area_trabajada_ha": 2.1
+  },
+  {
+    "fecha": "2026-02-05",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 23,
+    "area_total_ha": 2.6,
+    "area_trabajada_ha": 0.77
+  },
+  {
+    "fecha": "2026-02-06",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "El Roble (Palena) 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 10,
+    "area_total_ha": 11.97,
+    "area_trabajada_ha": 1.82
+  },
+  {
+    "fecha": "2026-02-06",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 40,
+    "area_total_ha": 20.89,
+    "area_trabajada_ha": 2.72
+  },
+  {
+    "fecha": "2026-02-06",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "MGH Cuartel 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 50,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 0.56
+  },
+  {
+    "fecha": "2026-02-06",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "Camilo Del Real 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 21,
+    "area_total_ha": 8.99,
+    "area_trabajada_ha": 2.06
+  },
+  {
+    "fecha": "2026-02-06",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 69,
+    "area_total_ha": 4.53,
+    "area_trabajada_ha": 1.13
+  },
+  {
+    "fecha": "2026-02-06",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 52,
+    "area_total_ha": 2.73,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-02-06",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 21",
+    "labor": "Remecido de suelo",
+    "n_hileras": 31,
+    "area_total_ha": 6.41,
+    "area_trabajada_ha": 3.05
+  },
+  {
+    "fecha": "2026-02-06",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 22",
+    "labor": "Remecido de suelo",
+    "n_hileras": 37,
+    "area_total_ha": 4.5,
+    "area_trabajada_ha": 0.61
+  },
+  {
+    "fecha": "2026-02-06",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 207,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 4.0
+  },
+  {
+    "fecha": "2026-02-06",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "San Gregorio Agricola El Carmen C3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 39,
+    "area_total_ha": 3.76,
+    "area_trabajada_ha": 1.61
+  },
+  {
+    "fecha": "2026-02-06",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 52,
+    "area_total_ha": 2.6,
+    "area_trabajada_ha": 1.46
+  },
+  {
+    "fecha": "2026-02-06",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 7",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 14,
+    "area_total_ha": 1.73,
+    "area_trabajada_ha": 0.42
+  },
+  {
+    "fecha": "2026-02-07",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "El Roble (Palena) 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 19,
+    "area_total_ha": 11.97,
+    "area_trabajada_ha": 0.53
+  },
+  {
+    "fecha": "2026-02-07",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 67,
+    "area_total_ha": 20.89,
+    "area_trabajada_ha": 2.91
+  },
+  {
+    "fecha": "2026-02-07",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "Ag_El_Carmen_San Gregorio_ Cuartel 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 16,
+    "area_total_ha": 2.36,
+    "area_trabajada_ha": 2.0
+  },
+  {
+    "fecha": "2026-02-07",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "MGH Cuartel 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 91,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 1.33
+  },
+  {
+    "fecha": "2026-02-07",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "Camilo Del Real 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 58,
+    "area_total_ha": 8.99,
+    "area_trabajada_ha": 3.88
+  },
+  {
+    "fecha": "2026-02-07",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 111,
+    "area_total_ha": 4.53,
+    "area_trabajada_ha": 1.34
+  },
+  {
+    "fecha": "2026-02-07",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 21",
+    "labor": "Remecido de suelo",
+    "n_hileras": 48,
+    "area_total_ha": 6.41,
+    "area_trabajada_ha": 0.86
+  },
+  {
+    "fecha": "2026-02-07",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 226,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 2.54
+  },
+  {
+    "fecha": "2026-02-07",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 42,
+    "area_total_ha": 1.97,
+    "area_trabajada_ha": 1.21
+  },
+  {
+    "fecha": "2026-02-07",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 16,
+    "area_total_ha": 2.38,
+    "area_trabajada_ha": 0.64
+  },
+  {
+    "fecha": "2026-02-07",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 24,
+    "area_total_ha": 3.22,
+    "area_trabajada_ha": 0.77
+  },
+  {
+    "fecha": "2026-02-07",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 19,
+    "area_total_ha": 4.9,
+    "area_trabajada_ha": 1.48
+  },
+  {
+    "fecha": "2026-02-07",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 7",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 61,
+    "area_total_ha": 1.73,
+    "area_trabajada_ha": 1.31
+  },
+  {
+    "fecha": "2026-02-08",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 79,
+    "area_total_ha": 20.89,
+    "area_trabajada_ha": 1.36
+  },
+  {
+    "fecha": "2026-02-08",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "Ag_El_Carmen_San Gregorio_ Cuartel 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 21,
+    "area_total_ha": 2.36,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-02-08",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "Camilo Del Real 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 72,
+    "area_total_ha": 8.99,
+    "area_trabajada_ha": 1.19
+  },
+  {
+    "fecha": "2026-02-08",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 150,
+    "area_total_ha": 4.53,
+    "area_trabajada_ha": 1.0
+  },
+  {
+    "fecha": "2026-02-08",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 69,
+    "area_total_ha": 1.97,
+    "area_trabajada_ha": 0.76
+  },
+  {
+    "fecha": "2026-02-08",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 26,
+    "area_total_ha": 2.38,
+    "area_trabajada_ha": 1.06
+  },
+  {
+    "fecha": "2026-02-08",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 43,
+    "area_total_ha": 3.22,
+    "area_trabajada_ha": 1.21
+  },
+  {
+    "fecha": "2026-02-08",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 39,
+    "area_total_ha": 4.9,
+    "area_trabajada_ha": 1.13
+  },
+  {
+    "fecha": "2026-02-08",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 16,
+    "area_total_ha": 1.6,
+    "area_trabajada_ha": 0.72
+  },
+  {
+    "fecha": "2026-02-08",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "San Gregorio Agricola El Carmen C4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 15,
+    "area_total_ha": 2.4,
+    "area_trabajada_ha": 1.08
+  },
+  {
+    "fecha": "2026-02-08",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 10",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 29,
+    "area_total_ha": 3.64,
+    "area_trabajada_ha": 1.33
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "El Roble (Palena) 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 27,
+    "area_total_ha": 11.97,
+    "area_trabajada_ha": 1.52
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 113,
+    "area_total_ha": 20.89,
+    "area_trabajada_ha": 2.44
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "Ag_El_Carmen_San Gregorio_ Cuartel 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 22,
+    "area_total_ha": 2.36,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "Ag El Carmen San Gregorio Cuartel 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 5,
+    "area_total_ha": 3.11,
+    "area_trabajada_ha": 1.07
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "MGH Cuartel 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 133,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 1.66
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "Camilo Del Real 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 23,
+    "area_total_ha": 6.51,
+    "area_trabajada_ha": 1.29
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "Camilo Del Real 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 101,
+    "area_total_ha": 8.99,
+    "area_trabajada_ha": 1.52
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 19",
+    "labor": "Remecido de suelo",
+    "n_hileras": 11,
+    "area_total_ha": 4.58,
+    "area_trabajada_ha": 0.98
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 20",
+    "labor": "Remecido de suelo",
+    "n_hileras": 14,
+    "area_total_ha": 0.85,
+    "area_trabajada_ha": 0.85
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 21",
+    "labor": "Remecido de suelo",
+    "n_hileras": 69,
+    "area_total_ha": 6.41,
+    "area_trabajada_ha": 1.59
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C6",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 63,
+    "area_total_ha": 1.57,
+    "area_trabajada_ha": 1.57
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A4",
+    "labor": "Remecido de suelo",
+    "n_hileras": 41,
+    "area_total_ha": 9.24,
+    "area_trabajada_ha": 5.1
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 237,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 2.65
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "El Roble (Palena)",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 13,
+    "area_total_ha": 2.08,
+    "area_trabajada_ha": 1.26
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 2",
+    "cuartel": "Ochagavia (San Gregorio)",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 27,
+    "area_total_ha": 5.5,
+    "area_trabajada_ha": 1.4
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 40,
+    "area_total_ha": 2.38,
+    "area_trabajada_ha": 0.56
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 57,
+    "area_total_ha": 3.22,
+    "area_trabajada_ha": 0.68
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 56,
+    "area_total_ha": 4.9,
+    "area_trabajada_ha": 1.14
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 34,
+    "area_total_ha": 1.6,
+    "area_trabajada_ha": 0.61
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "San Gregorio Agricola El Carmen C4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 27,
+    "area_total_ha": 2.4,
+    "area_trabajada_ha": 1.01
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 10",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 69,
+    "area_total_ha": 3.64,
+    "area_trabajada_ha": 1.27
+  },
+  {
+    "fecha": "2026-02-09",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C10",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 22,
+    "area_total_ha": 10.16,
+    "area_trabajada_ha": 0.85
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "El Roble (Palena) 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 51,
+    "area_total_ha": 11.97,
+    "area_trabajada_ha": 2.9
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 42,
+    "area_total_ha": 26.67,
+    "area_trabajada_ha": 3.46
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "Ag El Carmen San Gregorio Cuartel 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 24,
+    "area_total_ha": 3.11,
+    "area_trabajada_ha": 1.74
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "Ag El Carmen San Gregorio Cuartel 5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 6,
+    "area_total_ha": 7.82,
+    "area_trabajada_ha": 0.43
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "MGH Cuartel 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 149,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 0.64
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "Camilo Del Real 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 70,
+    "area_total_ha": 6.51,
+    "area_trabajada_ha": 3.68
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 32,
+    "area_total_ha": 5.85,
+    "area_trabajada_ha": 1.29
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 22,
+    "area_total_ha": 9.04,
+    "area_trabajada_ha": 1.22
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 27,
+    "area_total_ha": 7.42,
+    "area_trabajada_ha": 1.25
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 19",
+    "labor": "Remecido de suelo",
+    "n_hileras": 41,
+    "area_total_ha": 4.58,
+    "area_trabajada_ha": 3.4
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A2",
+    "labor": "Remecido de suelo",
+    "n_hileras": 3,
+    "area_total_ha": 32.15,
+    "area_trabajada_ha": 0.31
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A4",
+    "labor": "Remecido de suelo",
+    "n_hileras": 53,
+    "area_total_ha": 9.24,
+    "area_trabajada_ha": 2.94
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A6C",
+    "labor": "Remecido de suelo",
+    "n_hileras": 1,
+    "area_total_ha": 7.43,
+    "area_trabajada_ha": 0.24
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 256,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 3.04
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "El Roble (Palena)",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 20,
+    "area_total_ha": 2.08,
+    "area_trabajada_ha": 0.65
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 2",
+    "cuartel": "Ochagavia (San Gregorio)",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 34,
+    "area_total_ha": 5.5,
+    "area_trabajada_ha": 0.25
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 2",
+    "cuartel": "Ochagavia (San Gregorio) 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 17,
+    "area_total_ha": 7.17,
+    "area_trabajada_ha": 1.48
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 68,
+    "area_total_ha": 3.22,
+    "area_trabajada_ha": 0.31
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 86,
+    "area_total_ha": 4.9,
+    "area_trabajada_ha": 1.15
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 44,
+    "area_total_ha": 1.6,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 11,
+    "area_total_ha": 4.24,
+    "area_trabajada_ha": 0.66
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A15",
+    "labor": "Remecido de suelo",
+    "n_hileras": 26,
+    "area_total_ha": 9.06,
+    "area_trabajada_ha": 3.47
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 9",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 35,
+    "area_total_ha": 3.54,
+    "area_trabajada_ha": 1.52
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 10",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 102,
+    "area_total_ha": 3.64,
+    "area_trabajada_ha": 0.85
+  },
+  {
+    "fecha": "2026-02-10",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C10",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 83,
+    "area_total_ha": 10.16,
+    "area_trabajada_ha": 1.98
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "El Roble (Palena) 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 63,
+    "area_total_ha": 11.97,
+    "area_trabajada_ha": 2.19
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 71,
+    "area_total_ha": 26.67,
+    "area_trabajada_ha": 2.5
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "Ag El Carmen San Gregorio Cuartel 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 31,
+    "area_total_ha": 3.11,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "Ag El Carmen San Gregorio Cuartel 5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 22,
+    "area_total_ha": 7.82,
+    "area_trabajada_ha": 2.35
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "MGH Cuartel 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 41,
+    "area_total_ha": 7.65,
+    "area_trabajada_ha": 2.09
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "Camilo Del Real 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 107,
+    "area_total_ha": 6.51,
+    "area_trabajada_ha": 1.51
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "Camilo Del Real 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 32,
+    "area_total_ha": 1.39,
+    "area_trabajada_ha": 1.15
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 12,
+    "area_total_ha": 3.12,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 58,
+    "area_total_ha": 5.85,
+    "area_trabajada_ha": 1.2
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 37,
+    "area_total_ha": 9.04,
+    "area_trabajada_ha": 1.16
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 48,
+    "area_total_ha": 7.42,
+    "area_trabajada_ha": 1.13
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 13",
+    "labor": "Remecido de suelo",
+    "n_hileras": 6,
+    "area_total_ha": 0.41,
+    "area_trabajada_ha": 0.38
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 17",
+    "labor": "Remecido de suelo",
+    "n_hileras": 26,
+    "area_total_ha": 4.62,
+    "area_trabajada_ha": 2.08
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 18",
+    "labor": "Remecido de suelo",
+    "n_hileras": 51,
+    "area_total_ha": 3.22,
+    "area_trabajada_ha": 3.08
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A6C",
+    "labor": "Remecido de suelo",
+    "n_hileras": 5,
+    "area_total_ha": 7.43,
+    "area_trabajada_ha": 0.42
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A7Ac",
+    "labor": "Remecido de suelo",
+    "n_hileras": 10,
+    "area_total_ha": 12.8,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 280,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 3.55
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker SBS 2",
+    "cuartel": "Ochagavia (San Gregorio) 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 43,
+    "area_total_ha": 7.17,
+    "area_trabajada_ha": 1.15
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A10C",
+    "labor": "Remecido de suelo",
+    "n_hileras": 47,
+    "area_total_ha": 5.96,
+    "area_trabajada_ha": 4.2
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A11Ac",
+    "labor": "Remecido de suelo",
+    "n_hileras": 4,
+    "area_total_ha": 11.87,
+    "area_trabajada_ha": 0.68
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A15",
+    "labor": "Remecido de suelo",
+    "n_hileras": 46,
+    "area_total_ha": 9.06,
+    "area_trabajada_ha": 2.53
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 9",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 85,
+    "area_total_ha": 3.54,
+    "area_trabajada_ha": 1.95
+  },
+  {
+    "fecha": "2026-02-11",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C10",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 120,
+    "area_total_ha": 10.16,
+    "area_trabajada_ha": 1.51
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "El Roble (Palena) 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 97,
+    "area_total_ha": 11.97,
+    "area_trabajada_ha": 2.59
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 97,
+    "area_total_ha": 26.67,
+    "area_trabajada_ha": 4.19
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "Ag El Carmen San Gregorio Cuartel 5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 39,
+    "area_total_ha": 7.82,
+    "area_trabajada_ha": 2.13
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "MGH Cuartel 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 81,
+    "area_total_ha": 7.65,
+    "area_trabajada_ha": 1.75
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "Camilo Del Real 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 34,
+    "area_total_ha": 1.39,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 76,
+    "area_total_ha": 2.73,
+    "area_trabajada_ha": 0.83
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 87,
+    "area_total_ha": 5.85,
+    "area_trabajada_ha": 1.11
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 67,
+    "area_total_ha": 9.04,
+    "area_trabajada_ha": 1.49
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 77,
+    "area_total_ha": 7.42,
+    "area_trabajada_ha": 1.44
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 5",
+    "labor": "Remecido de suelo",
+    "n_hileras": 13,
+    "area_total_ha": 2.73,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 16",
+    "labor": "Remecido de suelo",
+    "n_hileras": 18,
+    "area_total_ha": 8.91,
+    "area_trabajada_ha": 1.18
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 17",
+    "labor": "Remecido de suelo",
+    "n_hileras": 51,
+    "area_total_ha": 4.62,
+    "area_trabajada_ha": 1.89
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 23",
+    "labor": "Remecido de suelo",
+    "n_hileras": 77,
+    "area_total_ha": 11.43,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Barredora 16",
+    "cuartel": "Bruno Raggi 23",
+    "labor": "Barrido",
+    "n_hileras": 4,
+    "area_total_ha": 11.43,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 294,
+    "area_total_ha": 11.42,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "Camilo del Real 7",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 21,
+    "area_total_ha": 10.44,
+    "area_trabajada_ha": 1.76
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "Camilo del Real 8",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 1,
+    "area_total_ha": 0.53,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 305,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 2.13
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 40,
+    "area_total_ha": 3.24,
+    "area_trabajada_ha": 1.64
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 2",
+    "cuartel": "Ochagavia (San Gregorio) 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 63,
+    "area_total_ha": 7.17,
+    "area_trabajada_ha": 3.23
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A10B",
+    "labor": "Remecido de suelo",
+    "n_hileras": 6,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Barredora 12",
+    "cuartel": "A10B",
+    "labor": "Barrido",
+    "n_hileras": 25,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 1.03
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Barredora 11",
+    "cuartel": "A10B",
+    "labor": "Barrido",
+    "n_hileras": 23,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 1.64
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 12",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 18,
+    "area_total_ha": 4.83,
+    "area_trabajada_ha": 1.68
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C7 prueba",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 38,
+    "area_total_ha": 3.69,
+    "area_trabajada_ha": 0.82
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A11Ac",
+    "labor": "Remecido de suelo",
+    "n_hileras": 39,
+    "area_total_ha": 11.87,
+    "area_trabajada_ha": 5.73
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A11Ab",
+    "labor": "Remecido de suelo",
+    "n_hileras": 8,
+    "area_total_ha": 9.89,
+    "area_trabajada_ha": 0.57
+  },
+  {
+    "fecha": "2026-02-12",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 8",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 57,
+    "area_total_ha": 1.86,
+    "area_trabajada_ha": 1.68
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 139,
+    "area_total_ha": 26.67,
+    "area_trabajada_ha": 3.79
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 8,
+    "area_total_ha": 18.73,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "Ag El Carmen San Gregorio Cuartel 5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 58,
+    "area_total_ha": 7.82,
+    "area_trabajada_ha": 1.99
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "MGH Cuartel 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 117,
+    "area_total_ha": 7.65,
+    "area_trabajada_ha": 1.72
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 99,
+    "area_total_ha": 5.85,
+    "area_trabajada_ha": 0.58
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 92,
+    "area_total_ha": 9.04,
+    "area_trabajada_ha": 1.49
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 99,
+    "area_total_ha": 7.42,
+    "area_trabajada_ha": 0.9
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 14",
+    "labor": "Remecido de suelo",
+    "n_hileras": 53,
+    "area_total_ha": 10.07,
+    "area_trabajada_ha": 3.83
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Barredora 16",
+    "cuartel": "Bruno Raggi 23",
+    "labor": "Barrido",
+    "n_hileras": 97,
+    "area_total_ha": 11.43,
+    "area_trabajada_ha": 6.12
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 299,
+    "area_total_ha": 11.42,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A7Ab",
+    "labor": "Remecido de suelo",
+    "n_hileras": 37,
+    "area_total_ha": 6.79,
+    "area_trabajada_ha": 2.77
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "Camilo del Real 7",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 27,
+    "area_total_ha": 10.44,
+    "area_trabajada_ha": 0.78
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 338,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 4.08
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 73,
+    "area_total_ha": 3.24,
+    "area_trabajada_ha": 1.3
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 2",
+    "cuartel": "Ochagavia (San Gregorio) 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 74,
+    "area_total_ha": 7.17,
+    "area_trabajada_ha": 0.98
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A7Ba",
+    "labor": "Remecido de suelo",
+    "n_hileras": 35,
+    "area_total_ha": 6.07,
+    "area_trabajada_ha": 1.94
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Barredora 11",
+    "cuartel": "A10B",
+    "labor": "Barrido",
+    "n_hileras": 39,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 0.99
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Barredora 13",
+    "cuartel": "A10B",
+    "labor": "Barrido",
+    "n_hileras": 18,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 0.93
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Barredora 10",
+    "cuartel": "A10B",
+    "labor": "Barrido",
+    "n_hileras": 19,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 1.17
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Barredora 10",
+    "cuartel": "A10A",
+    "labor": "Barrido",
+    "n_hileras": 57,
+    "area_total_ha": 10.14,
+    "area_trabajada_ha": 2.36
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Barredora 11",
+    "cuartel": "A10A",
+    "labor": "Barrido",
+    "n_hileras": 65,
+    "area_total_ha": 10.14,
+    "area_trabajada_ha": 2.59
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Barredora 13",
+    "cuartel": "A10A",
+    "labor": "Barrido",
+    "n_hileras": 60,
+    "area_total_ha": 10.14,
+    "area_trabajada_ha": 2.55
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 6",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 11,
+    "area_total_ha": 3.52,
+    "area_trabajada_ha": 0.81
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 7",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 17,
+    "area_total_ha": 4.21,
+    "area_trabajada_ha": 0.91
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 8",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 25,
+    "area_total_ha": 6.0,
+    "area_trabajada_ha": 2.34
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 12",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 21,
+    "area_total_ha": 4.83,
+    "area_trabajada_ha": 0.43
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "MERCOFRUT 14",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 13,
+    "area_total_ha": 7.99,
+    "area_trabajada_ha": 1.07
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "MERCOFRUT 17",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 8,
+    "area_total_ha": 7.65,
+    "area_trabajada_ha": 0.71
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C7 prueba",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 112,
+    "area_total_ha": 3.69,
+    "area_trabajada_ha": 1.59
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 2",
+    "cuartel": "Ochagavia San Gregorio 0 prueba",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 10,
+    "area_total_ha": 8.21,
+    "area_trabajada_ha": 0.94
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Palena Villaseca",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 3,
+    "area_total_ha": 22.62,
+    "area_trabajada_ha": 0.79
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A11Ab",
+    "labor": "Remecido de suelo",
+    "n_hileras": 14,
+    "area_total_ha": 9.89,
+    "area_trabajada_ha": 1.02
+  },
+  {
+    "fecha": "2026-02-13",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 30,
+    "area_total_ha": 5.27,
+    "area_trabajada_ha": 1.38
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "Nancagua_SBS Campo",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 13,
+    "area_total_ha": 5.66,
+    "area_trabajada_ha": 0.32
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 177,
+    "area_total_ha": 26.67,
+    "area_trabajada_ha": 3.29
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "Ag El Carmen San Gregorio Cuartel 5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 73,
+    "area_total_ha": 7.82,
+    "area_trabajada_ha": 0.91
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "MGH Cuartel 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 126,
+    "area_total_ha": 7.65,
+    "area_trabajada_ha": 0.56
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Hernan Mascaro",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 4,
+    "area_total_ha": 24.73,
+    "area_trabajada_ha": 0.56
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 113,
+    "area_total_ha": 5.85,
+    "area_trabajada_ha": 0.57
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 112,
+    "area_total_ha": 9.04,
+    "area_trabajada_ha": 0.92
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 119,
+    "area_total_ha": 7.42,
+    "area_trabajada_ha": 0.77
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker de Suelo 2",
+    "cuartel": "Bruno Raggi 14",
+    "labor": "Remecido de suelo",
+    "n_hileras": 74,
+    "area_total_ha": 10.07,
+    "area_trabajada_ha": 2.37
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A2",
+    "labor": "Remecido de suelo",
+    "n_hileras": 4,
+    "area_total_ha": 32.15,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Barredora 10",
+    "cuartel": "A4",
+    "labor": "Barrido",
+    "n_hileras": 14,
+    "area_total_ha": 9.24,
+    "area_trabajada_ha": 1.58
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Barredora 11",
+    "cuartel": "A4",
+    "labor": "Barrido",
+    "n_hileras": 1,
+    "area_total_ha": 9.24,
+    "area_trabajada_ha": 0.66
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Barredora 13",
+    "cuartel": "A4",
+    "labor": "Barrido",
+    "n_hileras": 11,
+    "area_total_ha": 9.24,
+    "area_trabajada_ha": 2.34
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Barredora 12",
+    "cuartel": "A4",
+    "labor": "Barrido",
+    "n_hileras": 6,
+    "area_total_ha": 9.24,
+    "area_trabajada_ha": 1.06
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A7Ab",
+    "labor": "Remecido de suelo",
+    "n_hileras": 57,
+    "area_total_ha": 6.79,
+    "area_trabajada_ha": 1.27
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "Camilo del Real 7",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 49,
+    "area_total_ha": 10.44,
+    "area_trabajada_ha": 1.79
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "Camilo del Real 8",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 10,
+    "area_total_ha": 0.53,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 352,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 1.2
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker de Suelo 5",
+    "cuartel": "A7Ba",
+    "labor": "Remecido de suelo",
+    "n_hileras": 54,
+    "area_total_ha": 6.07,
+    "area_trabajada_ha": 1.28
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 6",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 24,
+    "area_total_ha": 3.52,
+    "area_trabajada_ha": 0.87
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 7",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 32,
+    "area_total_ha": 4.21,
+    "area_trabajada_ha": 1.35
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 8",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 41,
+    "area_total_ha": 6.0,
+    "area_trabajada_ha": 1.36
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "MERCOFRUT 14",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 36,
+    "area_total_ha": 7.99,
+    "area_trabajada_ha": 1.8
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "MERCOFRUT 17",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 22,
+    "area_total_ha": 7.65,
+    "area_trabajada_ha": 1.17
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 2",
+    "cuartel": "Ochagavia San Gregorio 0 prueba",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 33,
+    "area_total_ha": 8.21,
+    "area_trabajada_ha": 1.51
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Palena Villaseca",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 8,
+    "area_total_ha": 22.62,
+    "area_trabajada_ha": 1.03
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 4",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 37,
+    "area_total_ha": 5.27,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-02-14",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 6",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 37,
+    "area_total_ha": 3.48,
+    "area_trabajada_ha": 1.77
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "Nancagua_SBS Campo",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 16,
+    "area_total_ha": 5.66,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS Campo",
+    "cuartel": "MGH Cuartel 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 142,
+    "area_total_ha": 7.65,
+    "area_trabajada_ha": 1.51
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "Pedro Silva 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 6,
+    "area_total_ha": 7.07,
+    "area_trabajada_ha": 1.3
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Hernan Mascaro",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 26,
+    "area_total_ha": 24.73,
+    "area_trabajada_ha": 3.4
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 123,
+    "area_total_ha": 5.85,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 2",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 135,
+    "area_total_ha": 9.04,
+    "area_trabajada_ha": 0.88
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 13",
+    "cuartel": "Bunster El Huique 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 136,
+    "area_total_ha": 7.42,
+    "area_trabajada_ha": 0.62
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 14",
+    "cuartel": "Pedro Silva 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 12,
+    "area_total_ha": 0.85,
+    "area_trabajada_ha": 0.84
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "Camilo del Real 7",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 62,
+    "area_total_ha": 10.44,
+    "area_trabajada_ha": 1.09
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 6",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 29,
+    "area_total_ha": 3.52,
+    "area_trabajada_ha": 0.34
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 7",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 37,
+    "area_total_ha": 4.21,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "EL PRINCIPIO 8",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 43,
+    "area_total_ha": 6.0,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "MERCOFRUT 13",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 10,
+    "area_total_ha": 10.14,
+    "area_trabajada_ha": 0.76
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "MERCOFRUT 14",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 38,
+    "area_total_ha": 7.99,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "MERCOFRUT 15",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 10,
+    "area_total_ha": 4.51,
+    "area_trabajada_ha": 1.02
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "MERCOFRUT 17",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 47,
+    "area_total_ha": 7.65,
+    "area_trabajada_ha": 1.75
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "MERCOFRUT 18",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 4,
+    "area_total_ha": 9.32,
+    "area_trabajada_ha": 0.82
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 2",
+    "cuartel": "Ochagavia San Gregorio 0 prueba",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 41,
+    "area_total_ha": 8.21,
+    "area_trabajada_ha": 1.74
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Palena Villaseca",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 12,
+    "area_total_ha": 22.62,
+    "area_trabajada_ha": 0.87
+  },
+  {
+    "fecha": "2026-02-15",
+    "maquina": "Shacker SBS 11",
+    "cuartel": "Maria Ignacia Eyzaguirre 6",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 85,
+    "area_total_ha": 3.48,
+    "area_trabajada_ha": 1.58
   }
 ]

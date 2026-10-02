@@ -1,8 +1,662 @@
 {
   "umbral_cierre": 0.95,
   "cuarteles": {
-    "Bruno Raggi 2": {
-      "area_total_ha": 9.253,
+    "A1": {
+      "area_total_ha": 37.1086,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 10",
+            "Barredora 11"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "A10A": {
+      "area_total_ha": 10.1438,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 10",
+            "Barredora 11",
+            "Barredora 13"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 73.9,
+          "trabajado_ha": 7.497,
+          "porcentaje": 73.9,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "A10B": {
+      "area_total_ha": 5.7727,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 10",
+            "Barredora 11",
+            "Barredora 12",
+            "Barredora 13"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 5.7727,
+          "porcentaje": 100.0,
+          "completo": true
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.1314,
+          "porcentaje": 2.3,
+          "completo": false
+        }
+      }
+    },
+    "A10C": {
+      "area_total_ha": 5.9631,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 4.1974,
+          "porcentaje": 70.4,
+          "completo": false
+        }
+      }
+    },
+    "A11Ab": {
+      "area_total_ha": 9.888,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 11"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 1.5978,
+          "porcentaje": 16.2,
+          "completo": false
+        }
+      }
+    },
+    "A11Ac": {
+      "area_total_ha": 11.8687,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 6.4142,
+          "porcentaje": 54.0,
+          "completo": false
+        }
+      }
+    },
+    "A12": {
+      "area_total_ha": 4.0485,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "A15": {
+      "area_total_ha": 9.06,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 5.993,
+          "porcentaje": 66.1,
+          "completo": false
+        }
+      }
+    },
+    "A2": {
+      "area_total_ha": 32.154,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 10",
+            "Barredora 13"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.3793,
+          "porcentaje": 1.2,
+          "completo": false
+        }
+      }
+    },
+    "A3": {
+      "area_total_ha": 19.5511,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 12",
+            "Barredora 13"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "A4": {
+      "area_total_ha": 9.2359,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 10",
+            "Barredora 11",
+            "Barredora 12",
+            "Barredora 13"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 61.1,
+          "trabajado_ha": 5.6409,
+          "porcentaje": 61.1,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 8.0371,
+          "porcentaje": 87.0,
+          "completo": false
+        }
+      }
+    },
+    "A5": {
+      "area_total_ha": 27.3647,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "A6B": {
+      "area_total_ha": 30.2624,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 10",
+            "Barredora 11"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "A6C": {
+      "area_total_ha": 7.4312,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 10",
+            "Barredora 11"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.6624,
+          "porcentaje": 8.9,
+          "completo": false
+        }
+      }
+    },
+    "A7Aa": {
+      "area_total_ha": 12.2233,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 11",
+            "Barredora 12",
+            "Barredora 13"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "A7Ab": {
+      "area_total_ha": 6.7886,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 4.0444,
+          "porcentaje": 59.6,
+          "completo": false
+        }
+      }
+    },
+    "A7Ac": {
+      "area_total_ha": 12.802,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 11"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.2801,
+          "porcentaje": 2.2,
+          "completo": false
+        }
+      }
+    },
+    "A7Ba": {
+      "area_total_ha": 6.0735,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 10",
+            "Barredora 11",
+            "Barredora 13"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 3.2214,
+          "porcentaje": 53.0,
+          "completo": false
+        }
+      }
+    },
+    "A7Bb": {
+      "area_total_ha": 6.6654,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 11"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "A7Bd": {
+      "area_total_ha": 9.6392,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Ag El Carmen San Gregorio Cuartel 4": {
+      "area_total_ha": 3.1066,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 14"
+          ],
+          "trabajado_ha": 2.9143,
+          "porcentaje": 93.8,
+          "completo": false
+        }
+      }
+    },
+    "Ag El Carmen San Gregorio Cuartel 5": {
+      "area_total_ha": 7.8161,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 14"
+          ],
+          "trabajado_ha": 7.8158,
+          "porcentaje": 100.0,
+          "completo": true
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 15 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Ag. El Carmen-San Gregorio_ Cuartel 1": {
+      "area_total_ha": 2.3149,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 14"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Ag_El_Carmen_San Gregorio_ Cuartel 3": {
+      "area_total_ha": 2.3628,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 14"
+          ],
+          "trabajado_ha": 2.3358,
+          "porcentaje": 98.9,
+          "completo": true
+        }
+      }
+    },
+    "Agr San Francisco Cuartel 1": {
+      "area_total_ha": 1.6009,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 2"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "BALLERINA_N10_JP": {
+      "area_total_ha": 46.8414,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 11",
+            "Barredora 12",
+            "Barredora 13"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "BALLERINA_N14_JP": {
+      "area_total_ha": 25.0659,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 10",
+            "Barredora 13"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "BALLERINA_N15B_JP": {
+      "area_total_ha": 5.6553,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "BALLERINA_N15_JP": {
+      "area_total_ha": 20.8247,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 10"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "BALLERINA_N19_JP": {
+      "area_total_ha": 36.4344,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 10",
+            "Barredora 11",
+            "Barredora 12",
+            "Barredora 13"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "BALLERINA_N5_JP": {
+      "area_total_ha": 19.1459,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 10",
+            "Barredora 12"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "BALLERINA_N9_JP": {
+      "area_total_ha": 58.8413,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 11",
+            "Barredora 12",
+            "Barredora 13"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi": {
+      "area_total_ha": 0.4778,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 1": {
+      "area_total_ha": 1.9684,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 11": {
+      "area_total_ha": 11.463,
       "labores": {
         "Remecido de suelo": {
           "maquinas": [
@@ -14,6 +668,476 @@
         }
       }
     },
+    "Bruno Raggi 12": {
+      "area_total_ha": 9.776,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 13": {
+      "area_total_ha": 0.4118,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 0.38,
+          "porcentaje": 92.3,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 14": {
+      "area_total_ha": 10.0702,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 6.1968,
+          "porcentaje": 61.5,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 15": {
+      "area_total_ha": 6.4368,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 16": {
+      "area_total_ha": 8.9056,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 1.1794,
+          "porcentaje": 13.2,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 17": {
+      "area_total_ha": 4.6186,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 3.9738,
+          "porcentaje": 86.0,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 18": {
+      "area_total_ha": 3.215,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 3.082,
+          "porcentaje": 95.9,
+          "completo": true
+        }
+      }
+    },
+    "Bruno Raggi 19": {
+      "area_total_ha": 4.5829,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 4.3723,
+          "porcentaje": 95.4,
+          "completo": true
+        }
+      }
+    },
+    "Bruno Raggi 2": {
+      "area_total_ha": 9.253,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 20": {
+      "area_total_ha": 0.8521,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 0.8484,
+          "porcentaje": 99.6,
+          "completo": true
+        }
+      }
+    },
+    "Bruno Raggi 21": {
+      "area_total_ha": 6.4063,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 5.5049,
+          "porcentaje": 85.9,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 22": {
+      "area_total_ha": 4.4965,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 4.3524,
+          "porcentaje": 96.8,
+          "completo": true
+        }
+      }
+    },
+    "Bruno Raggi 23": {
+      "area_total_ha": 11.4315,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 55.0,
+          "trabajado_ha": 6.2848,
+          "porcentaje": 55.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 6.0393,
+          "porcentaje": 52.8,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 4": {
+      "area_total_ha": 12.7256,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 5": {
+      "area_total_ha": 2.7275,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 0.2749,
+          "porcentaje": 10.1,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 6": {
+      "area_total_ha": 7.5674,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 7": {
+      "area_total_ha": 2.2251,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 8": {
+      "area_total_ha": 8.1601,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Bruno Raggi 9": {
+      "area_total_ha": 2.8638,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 2"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Bunster El Huique 1": {
+      "area_total_ha": 5.8526,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 13"
+          ],
+          "trabajado_ha": 5.0997,
+          "porcentaje": 87.1,
+          "completo": false
+        }
+      }
+    },
+    "Bunster El Huique 2": {
+      "area_total_ha": 9.0424,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 13"
+          ],
+          "trabajado_ha": 7.1588,
+          "porcentaje": 79.2,
+          "completo": false
+        }
+      }
+    },
+    "Bunster El Huique 3": {
+      "area_total_ha": 7.4217,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 13"
+          ],
+          "trabajado_ha": 6.1147,
+          "porcentaje": 82.4,
+          "completo": false
+        }
+      }
+    },
+    "CK2 0.1": {
+      "area_total_ha": 1.1687,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 15 OMC"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Camilo Del Real 1": {
+      "area_total_ha": 11.5898,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 10"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Camilo Del Real 2": {
+      "area_total_ha": 6.5056,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 10"
+          ],
+          "trabajado_ha": 6.4801,
+          "porcentaje": 99.6,
+          "completo": true
+        }
+      }
+    },
+    "Camilo Del Real 3": {
+      "area_total_ha": 1.3949,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 10"
+          ],
+          "trabajado_ha": 1.1731,
+          "porcentaje": 84.1,
+          "completo": false
+        }
+      }
+    },
+    "Camilo Del Real 4": {
+      "area_total_ha": 8.994,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 10"
+          ],
+          "trabajado_ha": 8.6463,
+          "porcentaje": 96.1,
+          "completo": true
+        }
+      }
+    },
+    "Camilo del Real 5": {
+      "area_total_ha": 2.198,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 10"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Camilo del Real 7": {
+      "area_total_ha": 10.4444,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 10"
+          ],
+          "trabajado_ha": 5.418,
+          "porcentaje": 51.9,
+          "completo": false
+        }
+      }
+    },
+    "Camilo del Real 8": {
+      "area_total_ha": 0.5288,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 10"
+          ],
+          "trabajado_ha": 0.3404,
+          "porcentaje": 64.4,
+          "completo": false
+        }
+      }
+    },
     "Catalina Gonzalez": {
       "area_total_ha": 44.1546,
       "labores": {
@@ -21,8 +1145,242 @@
           "maquinas": [
             "Shacker SBS 6"
           ],
-          "trabajado_ha": 7.5092,
-          "porcentaje": 17.0,
+          "trabajado_ha": 43.7738,
+          "porcentaje": 99.1,
+          "completo": true
+        }
+      }
+    },
+    "EL PRINCIPIO 1": {
+      "area_total_ha": 2.3778,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 7"
+          ],
+          "trabajado_ha": 2.2603,
+          "porcentaje": 95.1,
+          "completo": true
+        }
+      }
+    },
+    "EL PRINCIPIO 10": {
+      "area_total_ha": 1.4534,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 7"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "EL PRINCIPIO 11": {
+      "area_total_ha": 1.8133,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 7"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "EL PRINCIPIO 12": {
+      "area_total_ha": 4.8292,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 7"
+          ],
+          "trabajado_ha": 2.1091,
+          "porcentaje": 43.7,
+          "completo": false
+        }
+      }
+    },
+    "EL PRINCIPIO 13": {
+      "area_total_ha": 2.5738,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 7"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "EL PRINCIPIO 14": {
+      "area_total_ha": 0.1705,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 7"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "EL PRINCIPIO 2": {
+      "area_total_ha": 3.2249,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 7"
+          ],
+          "trabajado_ha": 2.9651,
+          "porcentaje": 91.9,
+          "completo": false
+        }
+      }
+    },
+    "EL PRINCIPIO 3": {
+      "area_total_ha": 4.8981,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 7"
+          ],
+          "trabajado_ha": 4.8944,
+          "porcentaje": 99.9,
+          "completo": true
+        }
+      }
+    },
+    "EL PRINCIPIO 4": {
+      "area_total_ha": 1.6029,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 7"
+          ],
+          "trabajado_ha": 1.6029,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "EL PRINCIPIO 5": {
+      "area_total_ha": 4.243,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 7"
+          ],
+          "trabajado_ha": 0.6629,
+          "porcentaje": 15.6,
+          "completo": false
+        }
+      }
+    },
+    "EL PRINCIPIO 6": {
+      "area_total_ha": 3.5159,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 7"
+          ],
+          "trabajado_ha": 2.0245,
+          "porcentaje": 57.6,
+          "completo": false
+        }
+      }
+    },
+    "EL PRINCIPIO 7": {
+      "area_total_ha": 4.2096,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 7"
+          ],
+          "trabajado_ha": 2.6629,
+          "porcentaje": 63.3,
+          "completo": false
+        }
+      }
+    },
+    "EL PRINCIPIO 8": {
+      "area_total_ha": 5.9983,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 7"
+          ],
+          "trabajado_ha": 4.1004,
+          "porcentaje": 68.4,
+          "completo": false
+        }
+      }
+    },
+    "EL PRINCIPIO 9": {
+      "area_total_ha": 1.0525,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 7"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "El Roble (Palena)": {
+      "area_total_ha": 2.0775,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 9"
+          ],
+          "trabajado_ha": 1.9102,
+          "porcentaje": 91.9,
+          "completo": false
+        }
+      }
+    },
+    "El Roble (Palena) 2": {
+      "area_total_ha": 11.9735,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 9"
+          ],
+          "trabajado_ha": 11.5355,
+          "porcentaje": 96.3,
+          "completo": true
+        }
+      }
+    },
+    "Geofrut Almendras": {
+      "area_total_ha": 30.2799,
+      "labores": {
+        "Remecido de suelo": {
+          "maquinas": [
+            "Shacker de Suelo 1"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Hernan Mascaro": {
+      "area_total_ha": 24.7296,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 6"
+          ],
+          "trabajado_ha": 3.9613,
+          "porcentaje": 16.0,
           "completo": false
         }
       }
@@ -34,8 +1392,21 @@
           "maquinas": [
             "Shacker SBS 12"
           ],
-          "trabajado_ha": 9.0435,
-          "porcentaje": 25.2,
+          "trabajado_ha": 20.219,
+          "porcentaje": 56.4,
+          "completo": false
+        }
+      }
+    },
+    "Juan Valenzuela_Cuartel 2": {
+      "area_total_ha": 26.6704,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 12"
+          ],
+          "trabajado_ha": 17.2309,
+          "porcentaje": 64.6,
           "completo": false
         }
       }
@@ -47,8 +1418,138 @@
           "maquinas": [
             "Shacker SBS 12"
           ],
-          "trabajado_ha": 0.5446,
-          "porcentaje": 2.9,
+          "trabajado_ha": 0.6402,
+          "porcentaje": 3.4,
+          "completo": false
+        }
+      }
+    },
+    "Juan Valenzuela_Cuartel 4": {
+      "area_total_ha": 20.8915,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 12"
+          ],
+          "trabajado_ha": 10.5719,
+          "porcentaje": 50.6,
+          "completo": false
+        }
+      }
+    },
+    "MERCOFRUT 11": {
+      "area_total_ha": 6.6506,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 8"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "MERCOFRUT 12": {
+      "area_total_ha": 6.6602,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 8"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "MERCOFRUT 13": {
+      "area_total_ha": 10.1443,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 8"
+          ],
+          "trabajado_ha": 0.7572,
+          "porcentaje": 7.5,
+          "completo": false
+        }
+      }
+    },
+    "MERCOFRUT 14": {
+      "area_total_ha": 7.9888,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 8"
+          ],
+          "trabajado_ha": 2.881,
+          "porcentaje": 36.1,
+          "completo": false
+        }
+      }
+    },
+    "MERCOFRUT 15": {
+      "area_total_ha": 4.5136,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 8"
+          ],
+          "trabajado_ha": 1.0164,
+          "porcentaje": 22.5,
+          "completo": false
+        }
+      }
+    },
+    "MERCOFRUT 16": {
+      "area_total_ha": 1.7031,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 8"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "MERCOFRUT 17": {
+      "area_total_ha": 7.6496,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 8"
+          ],
+          "trabajado_ha": 3.6335,
+          "porcentaje": 47.5,
+          "completo": false
+        }
+      }
+    },
+    "MERCOFRUT 18": {
+      "area_total_ha": 9.3197,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 8"
+          ],
+          "trabajado_ha": 0.8179,
+          "porcentaje": 8.8,
+          "completo": false
+        }
+      }
+    },
+    "MERCOFRUT 19": {
+      "area_total_ha": 4.4351,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 8"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
           "completo": false
         }
       }
@@ -56,6 +1557,14 @@
     "MGH Cuartel 3": {
       "area_total_ha": 7.6491,
       "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS Campo"
+          ],
+          "trabajado_ha": 7.6206,
+          "porcentaje": 99.6,
+          "completo": true
+        },
         "Poda": {
           "maquinas": [
             "Tractor 9 Deutz Fahr 115"
@@ -69,6 +1578,14 @@
     "MGH Cuartel 4": {
       "area_total_ha": 5.7736,
       "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS Campo"
+          ],
+          "trabajado_ha": 5.6318,
+          "porcentaje": 97.5,
+          "completo": true
+        },
         "Poda": {
           "maquinas": [
             "Tractor 9 Deutz Fahr 115"
@@ -79,6 +1596,136 @@
         }
       }
     },
+    "Maria Ignacia Eyzaguirre": {
+      "area_total_ha": 1.9676,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 11"
+          ],
+          "trabajado_ha": 1.9676,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Maria Ignacia Eyzaguirre 10": {
+      "area_total_ha": 3.637,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 11"
+          ],
+          "trabajado_ha": 3.4587,
+          "porcentaje": 95.1,
+          "completo": true
+        }
+      }
+    },
+    "Maria Ignacia Eyzaguirre 2": {
+      "area_total_ha": 1.2981,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 11"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Maria Ignacia Eyzaguirre 3": {
+      "area_total_ha": 3.2403,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 11"
+          ],
+          "trabajado_ha": 2.9392,
+          "porcentaje": 90.7,
+          "completo": false
+        }
+      }
+    },
+    "Maria Ignacia Eyzaguirre 4": {
+      "area_total_ha": 5.2734,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 11"
+          ],
+          "trabajado_ha": 1.5968,
+          "porcentaje": 30.3,
+          "completo": false
+        }
+      }
+    },
+    "Maria Ignacia Eyzaguirre 5": {
+      "area_total_ha": 2.5976,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 11"
+          ],
+          "trabajado_ha": 2.2283,
+          "porcentaje": 85.8,
+          "completo": false
+        }
+      }
+    },
+    "Maria Ignacia Eyzaguirre 6": {
+      "area_total_ha": 3.4822,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 11"
+          ],
+          "trabajado_ha": 3.3532,
+          "porcentaje": 96.3,
+          "completo": true
+        }
+      }
+    },
+    "Maria Ignacia Eyzaguirre 7": {
+      "area_total_ha": 1.7295,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 11"
+          ],
+          "trabajado_ha": 1.7295,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Maria Ignacia Eyzaguirre 8": {
+      "area_total_ha": 1.8645,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 11"
+          ],
+          "trabajado_ha": 1.6778,
+          "porcentaje": 90.0,
+          "completo": false
+        }
+      }
+    },
+    "Maria Ignacia Eyzaguirre 9": {
+      "area_total_ha": 3.5448,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 11"
+          ],
+          "trabajado_ha": 3.4726,
+          "porcentaje": 98.0,
+          "completo": true
+        }
+      }
+    },
     "Matias Cardoen C1": {
       "area_total_ha": 3.1217,
       "labores": {
@@ -86,8 +1733,21 @@
           "maquinas": [
             "Shacker SBS 1"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 0.2656,
+          "porcentaje": 8.5,
+          "completo": false
+        }
+      }
+    },
+    "Matias Cardoen C10": {
+      "area_total_ha": 10.1626,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 1"
+          ],
+          "trabajado_ha": 4.3327,
+          "porcentaje": 42.6,
           "completo": false
         }
       }
@@ -105,6 +1765,19 @@
         }
       }
     },
+    "Matias Cardoen C3": {
+      "area_total_ha": 4.534,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 1"
+          ],
+          "trabajado_ha": 4.51,
+          "porcentaje": 99.5,
+          "completo": true
+        }
+      }
+    },
     "Matias Cardoen C4": {
       "area_total_ha": 2.7342,
       "labores": {
@@ -112,8 +1785,8 @@
           "maquinas": [
             "Shacker SBS 1"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 1.6696,
+          "porcentaje": 61.1,
           "completo": false
         }
       }
@@ -125,9 +1798,22 @@
           "maquinas": [
             "Shacker SBS 1"
           ],
-          "trabajado_ha": 4.9641,
-          "porcentaje": 43.5,
+          "trabajado_ha": 7.793,
+          "porcentaje": 68.2,
           "completo": false
+        }
+      }
+    },
+    "Matias Cardoen C6": {
+      "area_total_ha": 1.5729,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 1"
+          ],
+          "trabajado_ha": 1.5729,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
@@ -138,6 +1824,32 @@
           "maquinas": [
             "Shacker SBS 1"
           ],
+          "trabajado_ha": 2.4108,
+          "porcentaje": 65.3,
+          "completo": false
+        }
+      }
+    },
+    "Matias Cardoen C8 prueba": {
+      "area_total_ha": 1.717,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 1"
+          ],
+          "trabajado_ha": 1.7168,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Nancagua MGH Cuartel 2": {
+      "area_total_ha": 0.7834,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS Campo"
+          ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
           "completo": false
@@ -147,12 +1859,164 @@
     "Nancagua_SBS Campo": {
       "area_total_ha": 5.6649,
       "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS Campo"
+          ],
+          "trabajado_ha": 0.506,
+          "porcentaje": 8.9,
+          "completo": false
+        },
         "Poda": {
           "maquinas": [
             "Tractor 9 Deutz Fahr 115"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Ochagavia (San Gregorio)": {
+      "area_total_ha": 5.4987,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 2"
+          ],
+          "trabajado_ha": 1.6549,
+          "porcentaje": 30.1,
+          "completo": false
+        }
+      }
+    },
+    "Ochagavia (San Gregorio) 2": {
+      "area_total_ha": 7.1741,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 2"
+          ],
+          "trabajado_ha": 6.8407,
+          "porcentaje": 95.4,
+          "completo": true
+        }
+      }
+    },
+    "Ochagavia San Gregorio 0 prueba": {
+      "area_total_ha": 8.2066,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 2"
+          ],
+          "trabajado_ha": 4.1872,
+          "porcentaje": 51.0,
+          "completo": false
+        }
+      }
+    },
+    "Ochagavia San Gregorio C2": {
+      "area_total_ha": 5.3799,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 2"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Ochagavía San Gregorio": {
+      "area_total_ha": 9.9308,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 14",
+            "Shacker SBS 2"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Ochagavía San Gregorio prueba 2": {
+      "area_total_ha": 1.0323,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 2"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Palena Villaseca": {
+      "area_total_ha": 22.6236,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 9"
+          ],
+          "trabajado_ha": 2.6861,
+          "porcentaje": 11.9,
+          "completo": false
+        }
+      }
+    },
+    "Pedro Silva 1": {
+      "area_total_ha": 7.0744,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 14"
+          ],
+          "trabajado_ha": 1.3026,
+          "porcentaje": 18.4,
+          "completo": false
+        }
+      }
+    },
+    "Pedro Silva 3": {
+      "area_total_ha": 0.8516,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 14"
+          ],
+          "trabajado_ha": 0.8429,
+          "porcentaje": 99.0,
+          "completo": true
+        }
+      }
+    },
+    "San Gregorio Agricola El Carmen C3": {
+      "area_total_ha": 3.7615,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 14"
+          ],
+          "trabajado_ha": 3.7108,
+          "porcentaje": 98.7,
+          "completo": true
+        }
+      }
+    },
+    "San Gregorio Agricola El Carmen C4": {
+      "area_total_ha": 2.4008,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 14"
+          ],
+          "trabajado_ha": 2.0896,
+          "porcentaje": 87.0,
           "completo": false
         }
       }
