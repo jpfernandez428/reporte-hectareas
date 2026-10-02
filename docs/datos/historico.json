@@ -45313,5 +45313,806 @@
     "n_hileras": 32,
     "area_total_ha": 17.94,
     "area_trabajada_ha": 9.93
+  },
+  {
+    "fecha": "2026-08-01",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "Campo Lolol C4",
+    "labor": "Picado",
+    "n_hileras": 10,
+    "area_total_ha": 5.48,
+    "area_trabajada_ha": 2.16
+  },
+  {
+    "fecha": "2026-08-01",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Poda",
+    "n_hileras": 11,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 2.45
+  },
+  {
+    "fecha": "2026-08-01",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "Campo Lolol C5",
+    "labor": "Picado",
+    "n_hileras": 11,
+    "area_total_ha": 5.26,
+    "area_trabajada_ha": 0.51
+  },
+  {
+    "fecha": "2026-08-01",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut",
+    "labor": "Picado",
+    "n_hileras": 44,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 1.43
+  },
+  {
+    "fecha": "2026-08-01",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 2",
+    "labor": "Picado",
+    "n_hileras": 41,
+    "area_total_ha": 18.38,
+    "area_trabajada_ha": 1.69
+  },
+  {
+    "fecha": "2026-08-01",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 3",
+    "labor": "Picado",
+    "n_hileras": 48,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 1.49
+  },
+  {
+    "fecha": "2026-08-01",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 4",
+    "labor": "Picado",
+    "n_hileras": 49,
+    "area_total_ha": 17.05,
+    "area_trabajada_ha": 1.73
+  },
+  {
+    "fecha": "2026-08-01",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "volcan 10",
+    "labor": "Poda",
+    "n_hileras": 16,
+    "area_total_ha": 6.8,
+    "area_trabajada_ha": 6.62
+  },
+  {
+    "fecha": "2026-08-02",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue A9",
+    "labor": "Poda",
+    "n_hileras": 5,
+    "area_total_ha": 8.75,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-08-02",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Poda",
+    "n_hileras": 33,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 4.59
+  },
+  {
+    "fecha": "2026-08-03",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "Campo Lolol AEC",
+    "labor": "Picado",
+    "n_hileras": 39,
+    "area_total_ha": 4.28,
+    "area_trabajada_ha": 3.53
+  },
+  {
+    "fecha": "2026-08-03",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "Campo Lolol C4",
+    "labor": "Picado",
+    "n_hileras": 14,
+    "area_total_ha": 5.48,
+    "area_trabajada_ha": 0.51
+  },
+  {
+    "fecha": "2026-08-03",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Poda",
+    "n_hileras": 43,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 2.71
+  },
+  {
+    "fecha": "2026-08-03",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut",
+    "labor": "Picado",
+    "n_hileras": 52,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 1.83
+  },
+  {
+    "fecha": "2026-08-03",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 2",
+    "labor": "Picado",
+    "n_hileras": 48,
+    "area_total_ha": 18.38,
+    "area_trabajada_ha": 1.98
+  },
+  {
+    "fecha": "2026-08-03",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 3",
+    "labor": "Picado",
+    "n_hileras": 57,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 1.99
+  },
+  {
+    "fecha": "2026-08-03",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 4",
+    "labor": "Picado",
+    "n_hileras": 57,
+    "area_total_ha": 17.05,
+    "area_trabajada_ha": 1.78
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Poda",
+    "n_hileras": 70,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 4.91
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut",
+    "labor": "Picado",
+    "n_hileras": 61,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 2.43
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 2",
+    "labor": "Picado",
+    "n_hileras": 59,
+    "area_total_ha": 18.38,
+    "area_trabajada_ha": 2.87
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 3",
+    "labor": "Picado",
+    "n_hileras": 66,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 2.81
+  },
+  {
+    "fecha": "2026-08-04",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 4",
+    "labor": "Picado",
+    "n_hileras": 69,
+    "area_total_ha": 17.05,
+    "area_trabajada_ha": 2.79
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "Campo Lolol C4",
+    "labor": "Picado",
+    "n_hileras": 34,
+    "area_total_ha": 5.48,
+    "area_trabajada_ha": 2.81
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Poda",
+    "n_hileras": 97,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 5.67
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "Campo Lolol C5",
+    "labor": "Picado",
+    "n_hileras": 18,
+    "area_total_ha": 5.26,
+    "area_trabajada_ha": 1.73
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut",
+    "labor": "Picado",
+    "n_hileras": 72,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 2.42
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 2",
+    "labor": "Picado",
+    "n_hileras": 68,
+    "area_total_ha": 18.38,
+    "area_trabajada_ha": 3.04
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 3",
+    "labor": "Picado",
+    "n_hileras": 76,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 2.91
+  },
+  {
+    "fecha": "2026-08-05",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 4",
+    "labor": "Picado",
+    "n_hileras": 82,
+    "area_total_ha": 17.05,
+    "area_trabajada_ha": 2.92
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "Campo Lolol AEC C1",
+    "labor": "Picado",
+    "n_hileras": 62,
+    "area_total_ha": 5.5,
+    "area_trabajada_ha": 2.46
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Poda",
+    "n_hileras": 131,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 4.26
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N2",
+    "labor": "Poda",
+    "n_hileras": 0,
+    "area_total_ha": 12.69,
+    "area_trabajada_ha": 0.42
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "Campo Lolol C5",
+    "labor": "Picado",
+    "n_hileras": 28,
+    "area_total_ha": 5.26,
+    "area_trabajada_ha": 1.58
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut",
+    "labor": "Picado",
+    "n_hileras": 75,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 0.85
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 2",
+    "labor": "Picado",
+    "n_hileras": 72,
+    "area_total_ha": 18.38,
+    "area_trabajada_ha": 1.09
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 3",
+    "labor": "Picado",
+    "n_hileras": 84,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 2.17
+  },
+  {
+    "fecha": "2026-08-06",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 4",
+    "labor": "Picado",
+    "n_hileras": 91,
+    "area_total_ha": 17.05,
+    "area_trabajada_ha": 1.37
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "MGH Cuartel 4",
+    "labor": "Picado",
+    "n_hileras": 41,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 1.22
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue A9",
+    "labor": "Poda",
+    "n_hileras": 14,
+    "area_total_ha": 8.75,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N2",
+    "labor": "Poda",
+    "n_hileras": 26,
+    "area_total_ha": 12.69,
+    "area_trabajada_ha": 3.56
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "labor": "Poda",
+    "n_hileras": 21,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 3.21
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut",
+    "labor": "Picado",
+    "n_hileras": 81,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 0.69
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 2",
+    "labor": "Picado",
+    "n_hileras": 78,
+    "area_total_ha": 18.38,
+    "area_trabajada_ha": 1.1
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 3",
+    "labor": "Picado",
+    "n_hileras": 88,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-08-07",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 4",
+    "labor": "Picado",
+    "n_hileras": 94,
+    "area_total_ha": 17.05,
+    "area_trabajada_ha": 0.44
+  },
+  {
+    "fecha": "2026-08-08",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "MGH Cuartel 4",
+    "labor": "Picado",
+    "n_hileras": 57,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 1.51
+  },
+  {
+    "fecha": "2026-08-08",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N2",
+    "labor": "Poda",
+    "n_hileras": 37,
+    "area_total_ha": 12.69,
+    "area_trabajada_ha": 1.94
+  },
+  {
+    "fecha": "2026-08-08",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "labor": "Poda",
+    "n_hileras": 28,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 1.31
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "MGH Cuartel 3",
+    "labor": "Picado",
+    "n_hileras": 12,
+    "area_total_ha": 7.65,
+    "area_trabajada_ha": 2.3
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "MGH Cuartel 4",
+    "labor": "Picado",
+    "n_hileras": 62,
+    "area_total_ha": 5.77,
+    "area_trabajada_ha": 0.35
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue A9",
+    "labor": "Poda",
+    "n_hileras": 18,
+    "area_total_ha": 8.75,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N2",
+    "labor": "Poda",
+    "n_hileras": 67,
+    "area_total_ha": 12.69,
+    "area_trabajada_ha": 3.51
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "labor": "Poda",
+    "n_hileras": 50,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 2.12
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña",
+    "labor": "Barrido",
+    "n_hileras": 188,
+    "area_total_ha": 19.57,
+    "area_trabajada_ha": 3.57
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Rincon de Abra 3",
+    "labor": "Poda",
+    "n_hileras": 13,
+    "area_total_ha": 12.75,
+    "area_trabajada_ha": 2.75
+  },
+  {
+    "fecha": "2026-08-10",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Rincon de Abra 4",
+    "labor": "Poda",
+    "n_hileras": 13,
+    "area_total_ha": 10.65,
+    "area_trabajada_ha": 2.48
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "MGH Cuartel 3",
+    "labor": "Picado",
+    "n_hileras": 30,
+    "area_total_ha": 7.65,
+    "area_trabajada_ha": 3.17
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N2",
+    "labor": "Poda",
+    "n_hileras": 89,
+    "area_total_ha": 12.69,
+    "area_trabajada_ha": 1.63
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "labor": "Poda",
+    "n_hileras": 87,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 2.52
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña",
+    "labor": "Barrido",
+    "n_hileras": 279,
+    "area_total_ha": 19.57,
+    "area_trabajada_ha": 5.2
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 5",
+    "labor": "Picado",
+    "n_hileras": 53,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 1.63
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 6",
+    "labor": "Picado",
+    "n_hileras": 46,
+    "area_total_ha": 10.31,
+    "area_trabajada_ha": 1.18
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 7",
+    "labor": "Picado",
+    "n_hileras": 41,
+    "area_total_ha": 11.89,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Rincon de Abra 4",
+    "labor": "Poda",
+    "n_hileras": 19,
+    "area_total_ha": 10.65,
+    "area_trabajada_ha": 0.85
+  },
+  {
+    "fecha": "2026-08-11",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 14",
+    "labor": "Picado",
+    "n_hileras": 9,
+    "area_total_ha": 12.87,
+    "area_trabajada_ha": 0.76
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "Nancagua_SBS Campo",
+    "labor": "Picado",
+    "n_hileras": 13,
+    "area_total_ha": 5.66,
+    "area_trabajada_ha": 1.29
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "MGH Cuartel 3",
+    "labor": "Picado",
+    "n_hileras": 41,
+    "area_total_ha": 7.65,
+    "area_trabajada_ha": 1.93
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N2",
+    "labor": "Poda",
+    "n_hileras": 117,
+    "area_total_ha": 12.69,
+    "area_trabajada_ha": 1.64
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "labor": "Poda",
+    "n_hileras": 118,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 4.73
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña",
+    "labor": "Barrido",
+    "n_hileras": 362,
+    "area_total_ha": 19.57,
+    "area_trabajada_ha": 3.91
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 3",
+    "labor": "Barrido",
+    "n_hileras": 273,
+    "area_total_ha": 15.2,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Rincon de Abra 3",
+    "labor": "Poda",
+    "n_hileras": 37,
+    "area_total_ha": 12.75,
+    "area_trabajada_ha": 4.13
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Rincon de Abra 4",
+    "labor": "Poda",
+    "n_hileras": 38,
+    "area_total_ha": 10.65,
+    "area_trabajada_ha": 3.22
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 5",
+    "labor": "Barrido",
+    "n_hileras": 11,
+    "area_total_ha": 4.36,
+    "area_trabajada_ha": 0.81
+  },
+  {
+    "fecha": "2026-08-12",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 14",
+    "labor": "Picado",
+    "n_hileras": 29,
+    "area_total_ha": 12.87,
+    "area_trabajada_ha": 1.29
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "Nancagua_SBS Campo",
+    "labor": "Picado",
+    "n_hileras": 38,
+    "area_total_ha": 5.66,
+    "area_trabajada_ha": 2.84
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "labor": "Poda",
+    "n_hileras": 130,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 1.07
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 11",
+    "labor": "Picado",
+    "n_hileras": 14,
+    "area_total_ha": 5.73,
+    "area_trabajada_ha": 2.9
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Rincon de Abra 3",
+    "labor": "Poda",
+    "n_hileras": 45,
+    "area_total_ha": 12.75,
+    "area_trabajada_ha": 1.37
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Rincon de Abra 4",
+    "labor": "Poda",
+    "n_hileras": 48,
+    "area_total_ha": 10.65,
+    "area_trabajada_ha": 1.21
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 12",
+    "labor": "Picado",
+    "n_hileras": 15,
+    "area_total_ha": 7.32,
+    "area_trabajada_ha": 4.43
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Solfrut 13",
+    "labor": "Picado",
+    "n_hileras": 14,
+    "area_total_ha": 8.54,
+    "area_trabajada_ha": 4.3
+  },
+  {
+    "fecha": "2026-08-13",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 5",
+    "labor": "Barrido",
+    "n_hileras": 53,
+    "area_total_ha": 4.36,
+    "area_trabajada_ha": 3.55
+  },
+  {
+    "fecha": "2026-08-14",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "Nancagua_SBS Campo",
+    "labor": "Picado",
+    "n_hileras": 53,
+    "area_total_ha": 5.66,
+    "area_trabajada_ha": 0.93
+  },
+  {
+    "fecha": "2026-08-14",
+    "maquina": "Tractor 17 Kubota 108",
+    "cuartel": "Nancagua MGH Cuartel 2",
+    "labor": "Picado",
+    "n_hileras": 12,
+    "area_total_ha": 0.78,
+    "area_trabajada_ha": 0.71
+  },
+  {
+    "fecha": "2026-08-14",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Rincon de Abra 3",
+    "labor": "Poda",
+    "n_hileras": 67,
+    "area_total_ha": 12.75,
+    "area_trabajada_ha": 3.7
+  },
+  {
+    "fecha": "2026-08-14",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Rincon de Abra 4",
+    "labor": "Poda",
+    "n_hileras": 74,
+    "area_total_ha": 10.65,
+    "area_trabajada_ha": 2.66
+  },
+  {
+    "fecha": "2026-08-15",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue A9",
+    "labor": "Poda",
+    "n_hileras": 25,
+    "area_total_ha": 8.75,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-08-15",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "labor": "Poda",
+    "n_hileras": 191,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 4.1
   }
 ]
