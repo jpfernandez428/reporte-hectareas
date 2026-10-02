@@ -1,0 +1,34 @@
+{
+  "referencia": [
+    -70.87868240456116,
+    -33.37169584843262
+  ],
+  "labor": "Cosecha con recibidor",
+  "hileras": [
+    {
+      "id": 1,
+      "origen": [
+        0.0,
+        0.0
+      ],
+      "direccion": [
+        -0.8487473399334384,
+        -0.5287985939428284
+      ],
+      "min_proy": 0,
+      "max_proy": 233.45533409308928,
+      "intervalos": [
+        [
+          -0.0,
+          233.5
+        ]
+      ],
+      "fechas": [
+        "2026-04-15"
+      ],
+      "primera_vez": 1776283964.93558,
+      "paso_gps": 6.6
+    }
+  ],
+  "area_acumulada_ha": 0.0
+}
