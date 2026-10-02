@@ -1,0 +1,116 @@
+{
+ "huella": "b0ea6aaaf26a8a15a10b46935b811b2c",
+ "fuera": {
+  "Carizalillo 9": "dentro de Carrizalillo La Cruz (chicas 68.7%)",
+  "Carizalillo 10": "dentro de Carrizalillo La Cruz (chicas 68.7%)",
+  "Carizalillo 11": "dentro de Carrizalillo La Cruz (chicas 68.7%)",
+  "Carizalillo 7": "dentro de Carrizalillo Los Hornos 50%NP (chicas 47.0%)",
+  "Ochagavia San Gregorio C3": "sus chicas cubren 97.9%",
+  "Carizalillo 15": "sus chicas cubren 97.9%",
+  "ochagavia 2025 pa borrar": "sus chicas cubren 97.9%",
+  "MP4": "sus chicas cubren 99.6%",
+  "Carrizalillo Guara Hornos": "dentro de Carizalillo 8 (chicas 25.0%)",
+  "Matias Campos 4": "sus chicas cubren 98.4%",
+  "Carrizalillo Guara La Loma": "dentro de Carizalillo 3 (chicas 31.0%)",
+  "Maria Ignacia Eyzaguirre Campo 2 2024": "sus chicas cubren 98.3%",
+  "Carrizalillo Guara La Cruz": "dentro de Carizalillo 12 (chicas 30.4%)",
+  "MP1": "sus chicas cubren 95.6%",
+  "Sas Gregorio Agricola el Carmen C1": "sus chicas cubren 99.1%",
+  "Maria Ignacia Eyzaguirre Campo 3 2024": "sus chicas cubren 99.2%",
+  "Pirque Ciruelos 1": "sus chicas cubren 96.9%",
+  "Carizalillo 14": "sus chicas cubren 96.4%",
+  "Carrizalillo Guara Hornos Flores": "sus chicas cubren 99.0%",
+  "Juan Valenzuela_Cuertel 5": "sus chicas cubren 97.4%",
+  "MP2": "sus chicas cubren 98.6%",
+  "Ochagavia San Gregorio C1": "sus chicas cubren 95.4%",
+  "Matias Campos 5": "sus chicas cubren 97.6%",
+  "Matias Campos": "sus chicas cubren 98.3%",
+  "Juan Valenzuela_Cuertel 6": "sus chicas cubren 96.6%",
+  "Ochagavia Manantiales 7": "sus chicas cubren 98.1%",
+  "Juan Valenzuela_Cuertel 7": "sus chicas cubren 96.9%",
+  "Juan Valenzuela_Cuertel 8": "sus chicas cubren 96.5%",
+  "Maria Ignacia Eyzaguirre Campo 1 2024": "sus chicas cubren 99.0%",
+  "Ag_El_Carmen_San_Gregorio_Cuartel_2": "sus chicas cubren 96.6%",
+  "Santa Ana 2.17 (id 400262141-355)": "sus chicas cubren 98.1%",
+  "Juan Valenzuela_Cuertel 9": "sus chicas cubren 96.2%",
+  "MP3": "sus chicas cubren 99.6%",
+  "San Gregorio Agricola el Carmen C2": "sus chicas cubren 96.0%",
+  "Matias Campos 3": "sus chicas cubren 95.8%",
+  "Juan Valenzuela_Cuertel 10": "sus chicas cubren 95.6%",
+  "Matias Campos 2": "sus chicas cubren 96.7%"
+ },
+ "conflictos": [
+  [
+   "Ag. El Carmen-San Gregorio_ Cuartel 1",
+   "San Gregorio Agricola El Carmen C4"
+  ],
+  [
+   "Carizalillo",
+   "Carrizalillo Huerto Antiguo 66%NP"
+  ],
+  [
+   "Carizalillo 1",
+   "Carrizalillo Huerto Antiguo 66%NP"
+  ],
+  [
+   "Carizalillo 12",
+   "Carrizalillo La Cruz"
+  ],
+  [
+   "Carizalillo 2",
+   "Carrizalillo Huerto Antiguo 66%NP"
+  ],
+  [
+   "Carizalillo 4",
+   "Carrizalillo Huerto Antiguo 66%NP"
+  ],
+  [
+   "Carizalillo 8",
+   "Carrizalillo Los Hornos 50%NP"
+  ],
+  [
+   "Ochagavia (San Gregorio)",
+   "Ochagavia San Gregorio C2"
+  ]
+ ],
+ "informe": [
+  "Carrizalillo Huerto Antiguo 66%NP (43.76 ha): 4 chicas cubren 89.6% -> duda: se decide dia a dia segun el recorrido",
+  "Carrizalillo La Cruz (25.39 ha): 3 chicas cubren 68.7% -> se usa la grande",
+  "Carrizalillo Los Hornos 50%NP (20.92 ha): 1 chicas cubren 47.0% -> se usa la grande",
+  "Ochagavia San Gregorio C3 (18.27 ha): 2 chicas cubren 97.9% -> se usan las chicas",
+  "Carizalillo 15 (17.51 ha): 1 chicas cubren 97.9% -> se usan las chicas",
+  "ochagavia 2025 pa borrar (17.32 ha): 5 chicas cubren 97.9% -> se usan las chicas",
+  "MP4 (16.38 ha): 7 chicas cubren 99.6% -> se usan las chicas",
+  "Carizalillo 8 (15.09 ha): 1 chicas cubren 25.0% -> se usa la grande",
+  "Matias Campos 4 (14.92 ha): 1 chicas cubren 98.4% -> se usan las chicas",
+  "Carizalillo 3 (14.13 ha): 1 chicas cubren 31.0% -> se usa la grande",
+  "Maria Ignacia Eyzaguirre Campo 2 2024 (13.27 ha): 5 chicas cubren 98.3% -> se usan las chicas",
+  "Carizalillo 12 (12.14 ha): 1 chicas cubren 30.4% -> se usa la grande",
+  "MP1 (10.87 ha): 9 chicas cubren 95.6% -> se usan las chicas",
+  "Sas Gregorio Agricola el Carmen C1 (10.85 ha): 2 chicas cubren 99.1% -> se usan las chicas",
+  "Maria Ignacia Eyzaguirre Campo 3 2024 (10.55 ha): 3 chicas cubren 99.2% -> se usan las chicas",
+  "Pirque Ciruelos 1 (10.20 ha): 3 chicas cubren 96.9% -> se usan las chicas",
+  "Carizalillo 14 (9.43 ha): 1 chicas cubren 96.4% -> se usan las chicas",
+  "Carrizalillo Guara Hornos Flores (9.22 ha): 2 chicas cubren 99.0% -> se usan las chicas",
+  "Juan Valenzuela_Cuertel 5 (7.92 ha): 1 chicas cubren 97.4% -> se usan las chicas",
+  "MP2 (7.34 ha): 7 chicas cubren 98.6% -> se usan las chicas",
+  "Ochagavia San Gregorio C1 (7.23 ha): 1 chicas cubren 95.4% -> se usan las chicas",
+  "Matias Campos 5 (7.02 ha): 1 chicas cubren 97.6% -> se usan las chicas",
+  "Matias Campos (6.39 ha): 1 chicas cubren 98.3% -> se usan las chicas",
+  "Juan Valenzuela_Cuertel 6 (5.73 ha): 1 chicas cubren 96.6% -> se usan las chicas",
+  "Ochagavia (San Gregorio) (5.50 ha): 1 chicas cubren 94.4% -> duda: se decide dia a dia segun el recorrido",
+  "Ochagavia Manantiales 7 (5.25 ha): 2 chicas cubren 98.1% -> se usan las chicas",
+  "Juan Valenzuela_Cuertel 7 (4.76 ha): 1 chicas cubren 96.9% -> se usan las chicas",
+  "Juan Valenzuela_Cuertel 8 (4.19 ha): 1 chicas cubren 96.5% -> se usan las chicas",
+  "Maria Ignacia Eyzaguirre Campo 1 2024 (4.17 ha): 2 chicas cubren 99.0% -> se usan las chicas",
+  "Ag_El_Carmen_San_Gregorio_Cuartel_2 (3.82 ha): 1 chicas cubren 96.6% -> se usan las chicas",
+  "Santa Ana 2.17 (id 400262141-355) (3.45 ha): 1 chicas cubren 98.1% -> se usan las chicas",
+  "Juan Valenzuela_Cuertel 9 (3.06 ha): 1 chicas cubren 96.2% -> se usan las chicas",
+  "MP3 (2.95 ha): 2 chicas cubren 99.6% -> se usan las chicas",
+  "San Gregorio Agricola el Carmen C2 (2.43 ha): 1 chicas cubren 96.0% -> se usan las chicas",
+  "San Gregorio Agricola El Carmen C4 (2.40 ha): 1 chicas cubren 94.5% -> duda: se decide dia a dia segun el recorrido",
+  "Matias Campos 3 (1.70 ha): 1 chicas cubren 95.8% -> se usan las chicas",
+  "Juan Valenzuela_Cuertel 10 (1.52 ha): 1 chicas cubren 95.6% -> se usan las chicas",
+  "Matias Campos 2 (1.35 ha): 1 chicas cubren 96.7% -> se usan las chicas"
+ ]
+}
