@@ -266,14 +266,14 @@
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 88.2,
+          "porcentaje_en_curso": 86.9,
           "trabajado_ha": 11.8687,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 10.4719,
-            "porcentaje": 88.2
+            "trabajado_ha": 10.3191,
+            "porcentaje": 86.9
           }
         },
         "Cosecha con recibidor": {
@@ -2460,6 +2460,145 @@
         }
       }
     },
+    "Aurora 1": {
+      "area_total_ha": 4.2294,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 3.9161,
+          "porcentaje": 92.6,
+          "completo": false
+        }
+      }
+    },
+    "Aurora 10": {
+      "area_total_ha": 2.3305,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 2.2289,
+          "porcentaje": 95.6,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 2": {
+      "area_total_ha": 7.1152,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 6.5499,
+          "porcentaje": 92.1,
+          "completo": false
+        }
+      }
+    },
+    "Aurora 3": {
+      "area_total_ha": 3.6763,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 3.6763,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 4": {
+      "area_total_ha": 7.1814,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 4.8312,
+          "porcentaje": 67.3,
+          "completo": false
+        }
+      }
+    },
+    "Aurora 5": {
+      "area_total_ha": 1.603,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 1.603,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 6": {
+      "area_total_ha": 0.4951,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.4922,
+          "porcentaje": 99.4,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 7": {
+      "area_total_ha": 2.4543,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 2.4465,
+          "porcentaje": 99.7,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 8": {
+      "area_total_ha": 2.8025,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 2.8025,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 9": {
+      "area_total_ha": 6.1052,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 6.1052,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
     "BALLERINA_N10_JP": {
       "area_total_ha": 46.8414,
       "labores": {
@@ -2721,6 +2860,14 @@
           "porcentaje": 93.0,
           "completo": false
         },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 8.7737,
+          "porcentaje": 63.3,
+          "completo": false
+        },
         "Poda": {
           "maquinas": [
             "Podadora 1"
@@ -2769,8 +2916,8 @@
           "maquinas": [
             "Tractor 16 Kubota 108"
           ],
-          "trabajado_ha": 9.6399,
-          "porcentaje": 24.7,
+          "trabajado_ha": 20.9176,
+          "porcentaje": 53.5,
           "completo": false
         },
         "Poda": {
@@ -2821,8 +2968,8 @@
           "maquinas": [
             "Tractor 16 Kubota 108"
           ],
-          "trabajado_ha": 10.1387,
-          "porcentaje": 48.9,
+          "trabajado_ha": 10.5503,
+          "porcentaje": 50.9,
           "completo": false
         },
         "Poda": {
@@ -2884,8 +3031,8 @@
           "maquinas": [
             "Tractor 16 Kubota 108"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 2.3666,
+          "porcentaje": 6.5,
           "completo": false
         },
         "Poda": {
@@ -2980,8 +3127,8 @@
           "maquinas": [
             "Tractor 16 Kubota 108"
           ],
-          "trabajado_ha": 19.8582,
-          "porcentaje": 96.2,
+          "trabajado_ha": 20.1967,
+          "porcentaje": 97.8,
           "completo": true
         },
         "Recolección": {
@@ -3078,8 +3225,8 @@
           "maquinas": [
             "Tractor 16 Kubota 108"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 13.0047,
+          "porcentaje": 67.9,
           "completo": false
         },
         "Recolección": {
@@ -3117,6 +3264,14 @@
           "porcentaje_en_curso": 88.0,
           "trabajado_ha": 13.1681,
           "porcentaje": 88.0,
+          "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
           "completo": false
         },
         "Poda": {
@@ -3166,8 +3321,8 @@
           "maquinas": [
             "Tractor 16 Kubota 108"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 0.236,
+          "porcentaje": 2.6,
           "completo": false
         },
         "Poda": {
@@ -3212,6 +3367,14 @@
           "porcentaje_en_curso": 77.9,
           "trabajado_ha": 4.8798,
           "porcentaje": 77.9,
+          "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 3.745,
+          "porcentaje": 59.8,
           "completo": false
         },
         "Poda": {
@@ -3331,6 +3494,14 @@
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
+          "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 6.2588,
+          "porcentaje": 11.2,
           "completo": false
         },
         "Poda": {
@@ -4225,15 +4396,15 @@
             "Barredora 1",
             "Barredora 15"
           ],
-          "pasadas_completas": 1,
-          "porcentaje_en_curso": 18.0,
+          "pasadas_completas": 2,
+          "porcentaje_en_curso": 0.0,
           "trabajado_ha": 24.6414,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
-            "repasos_completos": 0,
-            "trabajado_ha": 4.4322,
-            "porcentaje": 18.0
+            "repasos_completos": 1,
+            "trabajado_ha": 0.0,
+            "porcentaje": 0.0
           }
         },
         "Poda": {
@@ -4311,14 +4482,14 @@
             "Barredora 15"
           ],
           "pasadas_completas": 2,
-          "porcentaje_en_curso": 8.9,
+          "porcentaje_en_curso": 37.2,
           "trabajado_ha": 12.6888,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 1,
-            "trabajado_ha": 1.1301,
-            "porcentaje": 8.9
+            "trabajado_ha": 4.7251,
+            "porcentaje": 37.2
           }
         },
         "Poda": {
@@ -4358,9 +4529,9 @@
             "Barredora 15"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 83.0,
-          "trabajado_ha": 28.2247,
-          "porcentaje": 83.0,
+          "porcentaje_en_curso": 84.2,
+          "trabajado_ha": 28.6075,
+          "porcentaje": 84.2,
           "completo": false
         },
         "Poda": {
@@ -4387,6 +4558,21 @@
           "trabajado_ha": 33.6686,
           "porcentaje": 99.1,
           "completo": true
+        }
+      }
+    },
+    "Bernardo Lira Chiñihue N4": {
+      "area_total_ha": 0.1403,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 1"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
         }
       }
     },
