@@ -73,6 +73,9 @@ RUTA_ESTADO_AVANCE = os.path.join(CARPETA_MEMORIA, "_avance_por_labor.json")
 # Geocercas ya conocidas (por id de Wialon): las nuevas se calculan con los
 # ultimos DIAS_GEOCERCA_NUEVA dias.
 RUTA_GEOCERCAS_CONOCIDAS = os.path.join(CARPETA_MEMORIA, "_geocercas_conocidas.json")
+# Resultado de la regla de geocercas superpuestas (se recalcula solo si cambian
+# las geocercas de Wialon).
+RUTA_SUPERPOSICIONES = os.path.join(CARPETA_MEMORIA, "_superposiciones.json")
 # Separacion tipica de cada maquina cada dia, medida en todas las geocercas que
 # recorrio (el tractor puede ir y volver entre geocercas vecinas).
 RUTA_ESTILOS = os.path.join(CARPETA_MEMORIA, "_estilo_maquinas.json")
@@ -195,6 +198,10 @@ LABORES_CON_PATRON = CONFIG.get("labores_con_patron", ["Poda", "Picado"])
 # entrehilera por donde paso el recibidor: un hueco de una sola entrehilera
 # entre pasadas de shaker cuenta como trabajado; huecos mas grandes no.
 LABOR_CON_RECIBIDOR = CONFIG.get("labor_con_recibidor", "Cosecha con recibidor")
+# Labores con la regla del hueco de una entrehilera: cosecha con recibidor, y
+# remecido de suelo (el shaker puede trabajar junto con otra maquina y saltarse
+# la entrehilera que hace la otra).
+LABORES_HUECO_ENTREHILERA = CONFIG.get("labores_hueco_entrehilera", [LABOR_CON_RECIBIDOR, "Remecido de suelo"])
 # GPS que mandan puntos muy seguido (ej. cada 3 s) con la maquina detenida
 # (el shaker para en cada arbol): el "baile" del GPS parece giros y parte el
 # recorrido. Un punto nuevo solo cuenta si la maquina se movio al menos esto.
@@ -217,6 +224,13 @@ ENTREHILERA_MINIMA_M = CONFIG.get("entrehilera_minima_m", 4)
 ENTREHILERA_MAXIMA_M = CONFIG.get("entrehilera_maxima_m", 10)
 SEPARACION_PATRON_ANCHO_M = CONFIG.get("separacion_patron_ancho_m", 7)
 HUECO_MAXIMO_PATRON_ANCHO_M = CONFIG.get("hueco_maximo_patron_ancho_m", 75)
+# Hileras pegadas con GPS espaciado (la maquina deja al menos PASO_GPS_ESPACIADO_M
+# entre puntos, ej. un punto por minuto): un hueco de hasta HILERAS_HUECO_GPS_ESPACIADO
+# hileras entre dos pasadas vecinas cuenta como trabajado (regla del usuario,
+# 2-oct-2026: el GPS no alcanza a mostrar todas las pasadas en un cuartel chico).
+PASO_GPS_ESPACIADO_M = CONFIG.get("paso_gps_espaciado_m", 20)
+HILERAS_HUECO_GPS_ESPACIADO = CONFIG.get("hileras_hueco_gps_espaciado", 3)
+MINIMO_LINEAS_PATRON_REGULAR = CONFIG.get("minimo_lineas_patron_regular", 5)
 # Pasadas por el contorno (a menos de esta distancia del limite y paralelas a
 # el) nunca cuentan.
 DISTANCIA_CONTORNO_M = CONFIG.get("distancia_contorno_m", 2)
@@ -404,7 +418,142 @@ def obtener_geocercas(sid, filtrar=True):
     for geo in geocercas:
         if cuenta_nombres[geo["nombre"].strip().lower()] > 1:
             geo["nombre"] = f"{geo['nombre']} (id {geo['id_wialon']})"
+    if filtrar:
+        geocercas = resolver_superposiciones(geocercas)
     return geocercas
+
+
+# ---------------------------------------------------------------------------
+# Geocercas superpuestas (regla del usuario, 1 y 2-oct-2026)
+# ---------------------------------------------------------------------------
+# Despues de las exclusiones explicitas de config.json, cuando una geocerca
+# grande contiene geocercas chicas: si las chicas juntas cubren al menos
+# COBERTURA_CHICAS de la grande se usan las chicas; si cubren menos de
+# COBERTURA_DUDOSA se usa solo la grande. Entre ambas (duda) y en las
+# superposiciones parciales quedan las dos, y cada dia el tramo comun se le
+# da solo a la que mejor calza con el recorrido de la maquina (nunca a dos).
+FRACCION_CONTENIDA = CONFIG.get("fraccion_contenida", 0.75)
+COBERTURA_CHICAS = CONFIG.get("cobertura_chicas", 0.95)
+COBERTURA_DUDOSA = CONFIG.get("cobertura_dudosa", 0.85)
+FRACCION_SUPERPOSICION_PARCIAL = CONFIG.get("fraccion_superposicion_parcial", 0.30)
+MAXIMO_CELDAS_SUPERPOSICION = 200000
+CONFLICTOS_GEOCERCAS = []  # [(nombre_a, nombre_b)] que se resuelven dia a dia
+INFORME_SUPERPOSICIONES = []  # para el registro de la corrida
+
+
+def analizar_superposiciones(geocercas):
+    """Para cada geocerca, las mas chicas que contiene (>= FRACCION_CONTENIDA
+    de su area adentro), las que se superponen en parte, y que % de la grande
+    cubren las chicas que contiene (sobre una grilla)."""
+    solapan = lambda a, b: not (a[2] < b[0] or b[2] < a[0] or a[3] < b[1] or b[3] < a[1])
+    resultado = {}
+    for grande in sorted(geocercas, key=lambda g: -g["area_ha"]):
+        candidatas = [g for g in geocercas if g is not grande and g["area_ha"] < grande["area_ha"]
+                      and solapan(g["bbox"], grande["bbox"])]
+        if not candidatas:
+            continue
+        ref = grande["contorno"][0]
+        cm = [punto_a_metros(p, ref) for p in grande["contorno"]]
+        xs, ys = [p[0] for p in cm], [p[1] for p in cm]
+        lado = max(1.0, math.sqrt((max(xs) - min(xs)) * (max(ys) - min(ys)) / MAXIMO_CELDAS_SUPERPOSICION))
+        gx = np.arange(min(xs), max(xs), lado) + lado / 2
+        gy = np.arange(min(ys), max(ys), lado) + lado / 2
+        x, y = np.meshgrid(gx, gy, indexing="ij")
+        mascara = dentro_poligono_np(x, y, cm)
+        if not mascara.any():
+            continue
+        contenidas, parciales = {}, []
+        for chica in candidatas:
+            mc = dentro_poligono_np(x, y, [punto_a_metros(p, ref) for p in chica["contorno"]]) & mascara
+            fraccion = mc.sum() * lado * lado / (chica["area_ha"] * 10000)
+            if fraccion >= FRACCION_CONTENIDA:
+                contenidas[chica["nombre"]] = mc
+            elif fraccion >= FRACCION_SUPERPOSICION_PARCIAL:
+                parciales.append(chica["nombre"])
+        if contenidas or parciales:
+            resultado[grande["nombre"]] = {"mascara": mascara, "contenidas": contenidas, "parciales": parciales}
+    return resultado
+
+
+def resolver_superposiciones(geocercas):
+    """Aplica la regla de geocercas superpuestas. Devuelve las geocercas que
+    se calculan y deja en CONFLICTOS_GEOCERCAS los pares que se resuelven dia a
+    dia segun el recorrido."""
+    huella = hashlib.md5(json.dumps(sorted((g["id_wialon"], g["nombre"], [[round(c, 6) for c in p] for p in g["contorno"]])
+                                           for g in geocercas)).encode()).hexdigest()
+    guardado = None
+    if os.path.exists(RUTA_SUPERPOSICIONES):
+        with open(RUTA_SUPERPOSICIONES, "r", encoding="utf-8") as f:
+            guardado = json.load(f)
+    if not guardado or guardado.get("huella") != huella:
+        analisis = analizar_superposiciones(geocercas)
+        area = {g["nombre"]: g["area_ha"] for g in geocercas}
+        fuera, conflictos, informe = {}, set(), []
+        for nombre in sorted(analisis, key=lambda n: -area[n]):
+            if nombre in fuera:
+                continue
+            datos = analisis[nombre]
+            chicas = {n: m for n, m in datos["contenidas"].items() if n not in fuera}
+            for otra in datos["parciales"]:
+                if otra not in fuera:
+                    conflictos.add(tuple(sorted((nombre, otra))))
+            if not chicas:
+                continue
+            union = np.zeros_like(datos["mascara"])
+            for m in chicas.values():
+                union |= m
+            cubren = union.sum() / datos["mascara"].sum()
+            if cubren >= COBERTURA_CHICAS:
+                fuera[nombre] = f"sus chicas cubren {cubren * 100:.1f}%"
+                decision = "se usan las chicas"
+            elif cubren >= COBERTURA_DUDOSA:
+                conflictos.update(tuple(sorted((nombre, n))) for n in chicas)
+                decision = "duda: se decide dia a dia segun el recorrido"
+            else:
+                for n in chicas:
+                    fuera.setdefault(n, f"dentro de {nombre} (chicas {cubren * 100:.1f}%)")
+                decision = "se usa la grande"
+            informe.append(f"{nombre} ({area[nombre]:.2f} ha): {len(chicas)} chicas cubren {cubren * 100:.1f}% -> {decision}")
+        conflictos = sorted(c for c in conflictos if c[0] not in fuera and c[1] not in fuera)
+        guardado = {"huella": huella, "fuera": fuera, "conflictos": conflictos, "informe": informe}
+        os.makedirs(CARPETA_MEMORIA, exist_ok=True)
+        with open(RUTA_SUPERPOSICIONES, "w", encoding="utf-8") as f:
+            json.dump(guardado, f, ensure_ascii=False, indent=1)
+    CONFLICTOS_GEOCERCAS[:] = [tuple(c) for c in guardado["conflictos"]]
+    INFORME_SUPERPOSICIONES[:] = guardado["informe"] + [f"no se calcula {n}: {m}" for n, m in sorted(guardado["fuera"].items())]
+    return [g for g in geocercas if g["nombre"] not in guardado["fuera"]]
+
+
+def largo_recorrido_m(puntos):
+    """Metros recorridos (sin unir una visita con la siguiente)."""
+    return sum(math.hypot(*punto_a_metros(b["punto"], a["punto"]))
+               for a, b in zip(puntos, puntos[1:]) if not b.get("corte"))
+
+
+def resolver_conflictos_del_dia(por_geocerca, geocercas_por_nombre):
+    """En los pares de CONFLICTOS_GEOCERCAS recorridos el mismo dia por la
+    misma maquina, el tramo comun queda solo en la geocerca donde la maquina
+    recorrio mas (la que mejor calza con el recorrido); a la otra se le quitan
+    los puntos que caen dentro de la ganadora."""
+    for a, b in CONFLICTOS_GEOCERCAS:
+        if a not in por_geocerca or b not in por_geocerca:
+            continue
+        ganadora, perdedora = (a, b) if largo_recorrido_m(por_geocerca[a]) >= largo_recorrido_m(por_geocerca[b]) else (b, a)
+        poligono = geocercas_por_nombre[ganadora]["contorno"]
+        quedan, cortar = [], True
+        for p in por_geocerca[perdedora]:
+            if punto_en_poligono(p["punto"], poligono):
+                cortar = True
+                continue
+            if cortar and not p.get("corte"):
+                p = {**p, "corte": True, "origen": p.get("origen", id(p))}
+            cortar = False
+            quedan.append(p)
+        if len(quedan) >= MINIMO_PUNTOS_EN_GEOCERCA:
+            por_geocerca[perdedora] = quedan
+        else:
+            del por_geocerca[perdedora]
+    return por_geocerca
 
 
 GRADOS_CUBETA_INDICE = 0.005  # ~500 m
@@ -1232,7 +1381,14 @@ def rellenar_patron(geo, referencia, alineadas, marcadas, separacion_vecinas=Non
         referencia_campo = separacion_campo(geo["nombre"], labor) if labor else None
         separacion = referencia_campo or separacion_vecinas or separacion
     if separacion is None or separacion < SEPARACION_PATRON_ANCHO_M:
-        return separacion  # hileras pegadas: un hueco es trabajo pendiente
+        # Hileras pegadas: un hueco es trabajo pendiente, salvo que el GPS sea
+        # espaciado y el patron regular (hasta HILERAS_HUECO_GPS_ESPACIADO hileras).
+        if (len(lineas) >= MINIMO_LINEAS_PATRON_REGULAR
+                and statistics.median(h.paso_gps for h in alineadas) >= PASO_GPS_ESPACIADO_M):
+            hueco = (HILERAS_HUECO_GPS_ESPACIADO + 1) * espaciado_real_m(alineadas)
+            rellenar_por_tramos(geo, tramos_a_lo_largo(geo, referencia, alineadas, direccion),
+                                hueco, direccion, marcadas)
+        return separacion
     punto = lambda largo, lat: (largo * ux - lat * uy, largo * uy + lat * ux)
     for (lat1, d1, h1), (lat2, d2, h2) in zip(lineas, lineas[1:]):
         if lat2 - lat1 > HUECO_MAXIMO_PATRON_ANCHO_M or min(h1, h2) <= max(d1, d2):
@@ -1539,7 +1695,7 @@ def celdas_trabajadas(geo, trabajos, labor=None):
         marcar_trabajo_maquina(geo, t[0], t[1], labor, separacion_vecinas_de(t[2], t[1]) if len(t) > 2 else None,
                                t[2] if len(t) > 2 else None)
         for t in trabajos])
-    if labor == LABOR_CON_RECIBIDOR:
+    if labor in LABORES_HUECO_ENTREHILERA:
         celdas |= relleno_recibidor(geo, trabajos)
     return celdas
 
@@ -1980,12 +2136,13 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                                                            separacion_vecinas_de(u["nombre"], hileras), u["nombre"])
                 lista.append(marcas[clave])
             cobertura[clave_cobertura] = unir_trabajos(geo, lista)
-            if labor == LABOR_CON_RECIBIDOR:
+            if labor in LABORES_HUECO_ENTREHILERA:
                 cobertura[clave_cobertura] |= relleno_recibidor(geo, [
                     estado_de(u, geo)[:2] for u in UNIDADES if labor_de(u) == labor])
         return cobertura[clave_cobertura]
 
     indice = indice_geocercas(geocercas)
+    geocercas_por_nombre = {g["nombre"]: g for g in geocercas}
     indice_referencia = indice if geocercas_referencia is geocercas else indice_geocercas(geocercas_referencia)
     # Solo trabajo reciente: en un recalculo del año no se detecta en dias viejos.
     desde_alertas = (datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
@@ -2004,7 +2161,7 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
             ]
             if len(puntos) < 3:
                 continue
-            por_geocerca = repartir_puntos_por_geocerca(puntos, indice)
+            por_geocerca = resolver_conflictos_del_dia(repartir_puntos_por_geocerca(puntos, indice), geocercas_por_nombre)
             if labor_de(unidad) in LABORES_CON_PATRON and por_geocerca:
                 estilo = separacion_del_dia(list(por_geocerca.values()))
                 if estilo is not None:
@@ -2467,6 +2624,11 @@ def main():
     print(f"Se encontraron {len(geocercas)} geocercas de tipo poligono que califican como cuartel.")
     for geo in geocercas:
         print(f"  - {geo['nombre']}: {geo['area_ha']:.2f} ha, {len(geo['contorno'])} puntos de contorno")
+    print("Geocercas superpuestas (regla del 95 %):")
+    for linea in INFORME_SUPERPOSICIONES:
+        print(f"  - {linea}")
+    for a, b in CONFLICTOS_GEOCERCAS:
+        print(f"  - se decide dia a dia segun el recorrido: {a} / {b}")
     if not geocercas:
         print("ADVERTENCIA: no hay geocercas creadas en Wialon todavia (o ninguna calza con "
               "'cuarteles_incluidos' en config.json). Revisa el nombre exacto.")

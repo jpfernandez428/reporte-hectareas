@@ -84,6 +84,14 @@ cambiarlas sin preguntar.
   - **Hileras pegadas** (menos de 7 m, `separacion_patron_ancho_m`; ej.
     Aurora, 3–5 m): se pasa por todas las hileras. Un hueco de una o más
     hileras es trabajo pendiente y no se rellena.
+    - **Excepción GPS espaciado** (regla del usuario, 2-oct-2026): si el GPS
+      de la máquina deja al menos 20 m entre puntos (`paso_gps_espaciado_m`;
+      ej. un punto por minuto) y el patrón es regular (al menos 5 líneas,
+      `minimo_lineas_patron_regular`), un hueco de hasta 3 hileras entre dos
+      pasadas vecinas cuenta como trabajado (`hileras_hueco_gps_espaciado`;
+      hueco máximo = 4 × espaciado). Gonzalo Sánchez 2 – Picado: 90,5 →
+      100 %. Aurora (Tractores 10 y 13 también con un punto por minuto) se
+      mantiene: Aurora 1 al 22-09 sigue en 92,6 %.
   - **Patrón ancho** (7 m o más: saltándose una o varias hileras; ej.
     Solfrut 27–53 m, Longaví 8 ~35 m, Longaví 15 y 16 ~8–10 m): todos los
     huecos entre la primera y la última pasada cuentan como trabajados,
@@ -180,6 +188,10 @@ cambiarlas sin preguntar.
   shaker se la salta: eso se ve como un hueco.
 - Regla: un hueco de una sola entrehilera entre pasadas de shaker cuenta
   como trabajado; huecos más grandes no.
+- **También en remecido de suelo** (regla del usuario, 2-oct-2026): el
+  shaker de suelo puede trabajar junto con otra máquina y saltarse una
+  entrehilera (`labores_hueco_entrehilera`). Gonzalo Sánchez 2 – Remecido:
+  93,0 → 99,3 %.
 - Implementación (`relleno_recibidor`): con todos los shakers de la labor
   juntos (se reparten las hileras), el ancho de una entrehilera es la
   mediana de las separaciones entre pasadas largas vecinas que caen entre 4
@@ -197,13 +209,13 @@ cambiarlas sin preguntar.
 
 | Caso | Esperado (terreno) | Resultado actual |
 |---|---|---|
-Resultados al 1-oct-2026, con GPS crudo (salvo donde se indica):
+Resultados al 2-oct-2026, con GPS crudo (salvo donde se indica), antes de relanzar el año:
 
 | Caso | Esperado (terreno) | Resultado actual |
 |---|---|---|
-| Aurora 3, 5, 6, 7, 8, 9 – Poda (al 22-09) | ≥ 95 % | 100 / 100 / 99,4 / 99,7 / 99,8 / 97,9 % ✓ |
+| Aurora 3, 5, 6, 7, 8, 9 – Poda (al 22-09) | ≥ 95 % | 100 / 100 / 99,4 / 99,7 / 100 / 100 % ✓ |
 | Aurora 4 – Poda (al 22-09) | ~4,8 ha | 4,83 ha ✓ |
-| Aurora 2 – Poda (al 22-09) | casi terminado | 90,3 % ✓ |
+| Aurora 2 – Poda (al 22-09) | casi terminado | 92,1 % ✓ |
 | Aurora 1 – Poda, datos hasta el 22-09 | < 95 % | 92,6 % ✓ |
 | Aurora 1 – Poda, datos hasta el 29-09 (Tractor 13 terminó el 24–25) | ≥ 95 % | 100 % ✓ |
 | Solfrut 8 – Picado (Tractor 16, 17 y 18-08) | ≥ 95 % | 100 % ✓ |
@@ -223,8 +235,8 @@ Resultados al 1-oct-2026, con GPS crudo (salvo donde se indica):
 | Cuarteles chicos (< 0,5 ha), ej. Gonzalo Sánchez 8 – Picado (Tractor 14) | el trabajo real no se descarta como "solo pasó por el borde" | 100 % ✓ (antes 0 %) |
 | Gonzalo Sánchez 2 – Barrido (Barredora 7) | completo el 27-02 y después repasado | 100 % + línea "repaso" 46,7 % (04-03) ✓ |
 | Gonzalo Sánchez 2, 7, 8 y 9 – 20-03 (Tractor 14 y Barredora 7) | no hubo trabajo (solo giros y esquinas de la geocerca vecina) | no cuenta ✓ (`trabajo_descartado`); GS 8 repaso 61,4 % (04-03), GS 9 sin repaso |
-| Gonzalo Sánchez 2 – Picado (Tractor 14, todo el 28-02) | ≥ 95 % | 90,5 % ✗ (ver Gonzalo Sánchez abajo) |
-| Gonzalo Sánchez 2 – Remecido de suelo (Shacker de Suelo 8, todo el cuartel) | ≥ 95 % | 93,0 % ✗ (ver Gonzalo Sánchez abajo) |
+| Gonzalo Sánchez 2 – Picado (Tractor 14, todo el 28-02; la franja sin pasadas es por el GPS de un punto por minuto) | ≥ 95 % | 100 % ✓ (regla de GPS espaciado) |
+| Gonzalo Sánchez 2 – Remecido de suelo (Shacker de Suelo 8, todo el cuartel) | ≥ 95 % | 99,3 % ✓ (hueco de una entrehilera) |
 | Gonzalo Sánchez 7 – Barrido (Barredora 7, 03-03, 2 pasadas, probando) | 0 % | 0 % ✓ |
 | Gonzalo Sánchez 9 – Barrido, pasadas del 04-03 | no cuentan (pasó y no siguió) | no cuentan ✓ |
 
@@ -245,11 +257,12 @@ hileras pegadas: tapaba el 58 % de las hileras que el Tractor 13 completó el
 - Picado 28-02 (Tractor 14): las pasadas dentro de GS 2 quedan en los
   laterales 5, 9, 16, 23, 31, 35, 40, 44, 58, 68 y 72 m; entre 44 y 58 m
   (~12–15 m) el GPS no muestra ninguna pasada. El patrón de picado del campo
-  es de hileras pegadas (4–5 m), así que ese hueco no se rellena → 90,5 %.
+  es de hileras pegadas (4–5 m), así que ese hueco no se rellenaba (90,5 %).
+  El usuario confirmó que se picó entero: resuelto con la regla de GPS
+  espaciado (100 %).
 - Remecido (Shacker de Suelo 8): queda una franja de ~8 m sin pasada entre
-  dos pasadas, más la punta sur → 93,0 %. Consultado al usuario si en
-  remecido una entrehilera sin pasada es normal (como en cosecha con
-  recibidor).
+  dos pasadas, más la punta sur → 93,0 %. Resuelto con la regla del hueco
+  de una entrehilera en remecido (99,3 %).
 - 20-03 (Tractor 14 y Barredora 7 en GS 2, 7, 8 y 9): no fue traslado puro.
   Ambas máquinas trabajaban los bloques vecinos (MP1, GS 6, GS 1) con
   hileras largas NO–SE; lo que cae dentro de GS 2, 7 y 8 son vueltas de
@@ -290,15 +303,43 @@ Regla: **siempre el cuartel más detallado, nunca agregados.**
   geocercas chicas (< 0,5 ha).
 - Geocercas con nombre repetido en Wialon se distinguen agregando su id.
 
-### Geocercas superpuestas (regla del usuario, 1-oct-2026; FALTA APLICAR)
+### Geocercas superpuestas (regla del usuario, aplicada el 2-oct-2026)
 
-Cuando una geocerca grande contiene geocercas chicas:
+Orden: **primero las decisiones explícitas** de `config.json` (Kankura con
+EL PRINCIPIO, sacar "Completo" y "Total", patio), **después la regla del
+95 %** entre las geocercas que quedan (`resolver_superposiciones`, resultado
+en `memoria_hileras/_superposiciones.json`; se recalcula solo si cambian las
+geocercas de Wialon, ~3 min):
+- Una chica está "contenida" si al menos el 75 % de su área queda dentro de
+  la grande (`fraccion_contenida`).
 - Si las chicas juntas cubren el **95 % o más** del área de la grande, se
   usan las chicas y la grande no se calcula.
-- Si cubren **menos del 95 %**, se usa solo la grande y las chicas no se
+- Si cubren **menos del 85 %**, se usa solo la grande y las chicas no se
   calculan.
+- **Duda** (entre 85 y 95 %) y **superposiciones parciales** (30–75 % de la
+  chica adentro) entre geocercas que quedan en uso: se calculan las dos, y
+  cada día, por máquina, el tramo común se le da solo a la que mejor calza
+  con el recorrido (donde la máquina recorrió más metros ese día, o sea la
+  que capta más trabajo); nunca se cuenta en dos a la vez
+  (`resolver_conflictos_del_dia`). Así se resuelven también las geocercas
+  duplicadas o con errores (regla del usuario: usar la geocerca donde se
+  trabajó, la que mejor calce con el recorrido).
+- Resultado con las geocercas del 2-oct-2026: 1.068 → 1.031 en uso. No se
+  calculan: MP1–MP4 (se usan los Gonzalo Sánchez), Matias Campos 1–5 (se
+  usan los Trinidad), Juan Valenzuela_Cuertel 5–10 (se usan los Juan V
+  Nogales), Maria Ignacia Eyzaguirre Campo 1/2/3 2024, Pirque Ciruelos 1,
+  "ochagavia 2025 pa borrar", Ochagavia Manantiales 7, Ochagavia San
+  Gregorio C1 y C3, Santa Ana 2.17 (id …-355), Sas Gregorio Ag. el Carmen
+  C1, San Gregorio Ag. el Carmen C2, Ag_El_Carmen…Cuartel_2, Carizalillo 14
+  y 15, Carrizalillo Guara Hornos Flores; y como chicas de una grande con
+  menos de 85 %: Carizalillo 7, 9, 10, 11 y las Carrizalillo Guara Hornos,
+  Guara La Cruz y Guara La Loma. Se deciden día a día: Carrizalillo Huerto
+  Antiguo 66%NP con Carizalillo, 1, 2 y 4 (89,6 %); Carrizalillo La Cruz
+  con Carizalillo 12; Carrizalillo Los Hornos 50%NP con Carizalillo 8;
+  Ochagavia (San Gregorio) con su C2 (94,4 %); San Gregorio Ag. El Carmen
+  C4 con Ag. El Carmen Cuartel 1 (94,5 %).
 
-El usuario pidió ver la lista antes de aplicarla. Inventario del 1-oct-2026
+Inventario previo (antes de aplicar las exclusiones explícitas primero), 1-oct-2026
 (1.086 polígonos en Wialon; una chica se considera "contenida" si al menos
 el 75 % de su área queda dentro de la grande, porque varias chicas quedan
 84–88 % adentro por diferencias de dibujo: GS 2 y GS 8 en MP1, GS 9 en MP2):
@@ -454,6 +495,9 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
   4. Barrido: las rescatadas se suman a la pasada en curso del día del
      rescate (el repaso), nunca a una pasada ya cerrada.
   - Los días de `trabajo_descartado` nunca rescatan pendientes.
-- Las memorias guardadas (`memoria_hileras`) se calcularon sin el filtro de
-  puntos detenidos ni `paso_gps`: se corrigen al relanzar el año.
-- Relanzar el año completo con la fórmula actual (lo lanza el usuario).
+- **Relanzamiento del año (pedido por el usuario el 2-oct-2026)**: lo lanza
+  Claude esa noche, del 2026-01-01 al 2026-10-01, en quincenas en orden
+  cronológico, una a la vez, con la corrida diaria pausada y el Mac
+  despierto (`caffeinate`). Antes se verificaron los casos de calibración
+  (todos ✓) y se limpiaron solo los resultados calculados (ver "Registro
+  del relanzamiento").
