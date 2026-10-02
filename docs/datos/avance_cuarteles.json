@@ -1620,6 +1620,14 @@
           "trabajado_ha": 2.3358,
           "porcentaje": 98.9,
           "completo": true
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 1.5689,
+          "porcentaje": 66.4,
+          "completo": false
         }
       }
     },
@@ -2002,6 +2010,16 @@
     "Agricola Flor Oriente": {
       "area_total_ha": 9.6946,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 27.7,
+          "trabajado_ha": 2.6869,
+          "porcentaje": 27.7,
+          "completo": false
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 6"
@@ -2014,8 +2032,8 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus"
           ],
-          "trabajado_ha": 9.5281,
-          "porcentaje": 98.3,
+          "trabajado_ha": 9.6946,
+          "porcentaje": 100.0,
           "completo": true
         },
         "Poda": {
@@ -2031,6 +2049,16 @@
     "Agricola Flor Oriente 2": {
       "area_total_ha": 9.8101,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 25.7,
+          "trabajado_ha": 2.5206,
+          "porcentaje": 25.7,
+          "completo": false
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 6"
@@ -2043,9 +2071,9 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus"
           ],
-          "trabajado_ha": 9.048,
-          "porcentaje": 92.2,
-          "completo": false
+          "trabajado_ha": 9.7867,
+          "porcentaje": 99.8,
+          "completo": true
         },
         "Poda": {
           "maquinas": [
@@ -2060,6 +2088,16 @@
     "Agricola Flor Oriente 3": {
       "area_total_ha": 9.9028,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 7.5,
+          "trabajado_ha": 0.7459,
+          "porcentaje": 7.5,
+          "completo": false
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 6"
@@ -2072,7 +2110,7 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus"
           ],
-          "trabajado_ha": 9.0182,
+          "trabajado_ha": 9.021,
           "porcentaje": 91.1,
           "completo": false
         },
@@ -2113,6 +2151,14 @@
           "porcentaje": 95.6,
           "completo": true
         },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus"
+          ],
+          "trabajado_ha": 2.4052,
+          "porcentaje": 55.2,
+          "completo": false
+        },
         "Poda": {
           "maquinas": [
             "Tractor 10 Deutz Fahr 115"
@@ -2148,6 +2194,14 @@
           ],
           "trabajado_ha": 11.4878,
           "porcentaje": 89.5,
+          "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus"
+          ],
+          "trabajado_ha": 5.0077,
+          "porcentaje": 39.0,
           "completo": false
         },
         "Poda": {
@@ -6889,6 +6943,14 @@
           "trabajado_ha": 5.803,
           "porcentaje": 52.9,
           "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 7 Kubota 95"
+          ],
+          "trabajado_ha": 10.8821,
+          "porcentaje": 99.1,
+          "completo": true
         }
       }
     },
@@ -6920,6 +6982,14 @@
           "trabajado_ha": 7.0833,
           "porcentaje": 64.9,
           "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 7 Kubota 95"
+          ],
+          "trabajado_ha": 10.767,
+          "porcentaje": 98.6,
+          "completo": true
         }
       }
     },
@@ -6951,6 +7021,14 @@
           ],
           "trabajado_ha": 6.6382,
           "porcentaje": 55.8,
+          "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 7 Kubota 95"
+          ],
+          "trabajado_ha": 8.5335,
+          "porcentaje": 71.7,
           "completo": false
         }
       }
@@ -7167,6 +7245,14 @@
           "trabajado_ha": 27.5031,
           "porcentaje": 94.9,
           "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 7 Kubota 95"
+          ],
+          "trabajado_ha": 2.0305,
+          "porcentaje": 7.0,
+          "completo": false
         }
       }
     },
@@ -7274,6 +7360,14 @@
           "trabajado_ha": 1.7373,
           "porcentaje": 72.4,
           "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 7 Kubota 95"
+          ],
+          "trabajado_ha": 2.3983,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
@@ -7304,6 +7398,14 @@
           ],
           "trabajado_ha": 22.2244,
           "porcentaje": 92.9,
+          "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 7 Kubota 95"
+          ],
+          "trabajado_ha": 12.3074,
+          "porcentaje": 51.4,
           "completo": false
         }
       }
@@ -8503,6 +8605,14 @@
           "porcentaje": 93.4,
           "completo": false
         },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus"
+          ],
+          "trabajado_ha": 1.1373,
+          "porcentaje": 11.2,
+          "completo": false
+        },
         "Poda": {
           "maquinas": [
             "Tractor 10 Deutz Fahr 115"
@@ -8565,8 +8675,73 @@
         }
       }
     },
+    "Longavi": {
+      "area_total_ha": 7.6891,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 11 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 7.6271,
+          "porcentaje": 99.2,
+          "completo": true
+        }
+      }
+    },
+    "Longavi 1": {
+      "area_total_ha": 1.8384,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 11 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 1.8384,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
     "Longavi 10": {
       "area_total_ha": 8.9045,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 11 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Longavi 11": {
+      "area_total_ha": 10.6183,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 11 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Longavi 12": {
+      "area_total_ha": 9.9468,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 11 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Longavi 13": {
+      "area_total_ha": 8.9533,
       "labores": {
         "Poda": {
           "maquinas": [
@@ -8637,9 +8812,48 @@
           "maquinas": [
             "Tractor 11 Deutz Fahr 115"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
-          "completo": false
+          "trabajado_ha": 7.396,
+          "porcentaje": 99.0,
+          "completo": true
+        }
+      }
+    },
+    "Longavi 7": {
+      "area_total_ha": 8.4036,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 11 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 8.3962,
+          "porcentaje": 99.9,
+          "completo": true
+        }
+      }
+    },
+    "Longavi 8": {
+      "area_total_ha": 8.7675,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 11 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 8.6644,
+          "porcentaje": 98.8,
+          "completo": true
+        }
+      }
+    },
+    "Longavi 9": {
+      "area_total_ha": 1.5574,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 11 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 1.5442,
+          "porcentaje": 99.2,
+          "completo": true
         }
       }
     },
@@ -9523,6 +9737,14 @@
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
           "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
         }
       }
     },
@@ -9549,6 +9771,7 @@
         "Poda": {
           "maquinas": [
             "Tractor 11 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115",
             "Tractor 9 Deutz Fahr 115"
           ],
           "trabajado_ha": 0.0,
@@ -9692,6 +9915,14 @@
           "trabajado_ha": 9.8048,
           "porcentaje": 98.7,
           "completo": true
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
         }
       }
     },
@@ -9889,14 +10120,20 @@
       "labores": {
         "Barrido": {
           "maquinas": [
+            "Barredora 1",
             "Barredora 21 Weiss s/cab",
             "Barredora 5"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 12.3,
           "trabajado_ha": 12.782,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 1.5658,
+            "porcentaje": 12.3
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -9953,18 +10190,19 @@
       "labores": {
         "Barrido": {
           "maquinas": [
+            "Barredora 1",
             "Barredora 21 Weiss s/cab",
             "Barredora 5"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 2.5,
+          "porcentaje_en_curso": 10.7,
           "trabajado_ha": 15.1977,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 0.3803,
-            "porcentaje": 2.5
+            "trabajado_ha": 1.6252,
+            "porcentaje": 10.7
           }
         },
         "Recolección": {
@@ -9990,14 +10228,20 @@
       "labores": {
         "Barrido": {
           "maquinas": [
+            "Barredora 1",
             "Barredora 21 Weiss s/cab",
             "Barredora 5"
           ],
-          "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "pasadas_completas": 2,
+          "porcentaje_en_curso": 45.5,
           "trabajado_ha": 29.7989,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 1,
+            "trabajado_ha": 13.5654,
+            "porcentaje": 45.5
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -11501,11 +11745,11 @@
           "maquinas": [
             "Barredora 1"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 94.8,
-          "trabajado_ha": 41.0164,
-          "porcentaje": 94.8,
-          "completo": false
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 43.2493,
+          "porcentaje": 100.0,
+          "completo": true
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -11730,9 +11974,9 @@
           "maquinas": [
             "Tractor 10 Deutz Fahr 115"
           ],
-          "trabajado_ha": 7.108,
-          "porcentaje": 73.3,
-          "completo": false
+          "trabajado_ha": 9.681,
+          "porcentaje": 99.9,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -11777,9 +12021,9 @@
           "maquinas": [
             "Tractor 10 Deutz Fahr 115"
           ],
-          "trabajado_ha": 9.1974,
-          "porcentaje": 89.2,
-          "completo": false
+          "trabajado_ha": 10.3021,
+          "porcentaje": 99.9,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -11824,8 +12068,8 @@
           "maquinas": [
             "Tractor 10 Deutz Fahr 115"
           ],
-          "trabajado_ha": 11.5113,
-          "porcentaje": 96.9,
+          "trabajado_ha": 11.8015,
+          "porcentaje": 99.3,
           "completo": true
         },
         "Recolección": {
@@ -12415,6 +12659,19 @@
         }
       }
     },
+    "Volcan Talca 2": {
+      "area_total_ha": 15.1086,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 14.3233,
+          "porcentaje": 94.8,
+          "completo": false
+        }
+      }
+    },
     "Volcan Talca 3": {
       "area_total_ha": 17.5795,
       "labores": {
@@ -12424,6 +12681,14 @@
           ],
           "trabajado_ha": 1.7727,
           "porcentaje": 10.1,
+          "completo": false
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 15.5463,
+          "porcentaje": 88.4,
           "completo": false
         }
       }
@@ -12643,6 +12908,19 @@
         }
       }
     },
+    "volcan talca 1": {
+      "area_total_ha": 1.6188,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 1.5245,
+          "porcentaje": 94.2,
+          "completo": false
+        }
+      }
+    },
     "volcan talca 4": {
       "area_total_ha": 18.833,
       "labores": {
@@ -12653,6 +12931,14 @@
           "trabajado_ha": 2.9666,
           "porcentaje": 15.8,
           "completo": false
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 18.5403,
+          "porcentaje": 98.4,
+          "completo": true
         }
       }
     }

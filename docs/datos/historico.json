@@ -42928,5 +42928,815 @@
     "n_hileras": 422,
     "area_total_ha": 43.25,
     "area_trabajada_ha": 2.38
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Picado",
+    "n_hileras": 145,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Picado",
+    "n_hileras": 117,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.74
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 5",
+    "labor": "Poda",
+    "n_hileras": 106,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan Nueces 2022 01",
+    "labor": "Picado",
+    "n_hileras": 11,
+    "area_total_ha": 23.92,
+    "area_trabajada_ha": 1.71
+  },
+  {
+    "fecha": "2026-06-16",
+    "maquina": "Barredora 1",
+    "cuartel": "Santa Isabel 2",
+    "labor": "Barrido",
+    "n_hileras": 455,
+    "area_total_ha": 43.25,
+    "area_trabajada_ha": 2.23
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 11",
+    "labor": "Picado",
+    "n_hileras": 3,
+    "area_total_ha": 10.92,
+    "area_trabajada_ha": 0.5
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 12",
+    "labor": "Picado",
+    "n_hileras": 5,
+    "area_total_ha": 11.9,
+    "area_trabajada_ha": 1.26
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 3",
+    "labor": "Barrido",
+    "n_hileras": 3,
+    "area_total_ha": 15.2,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 4",
+    "labor": "Barrido",
+    "n_hileras": 77,
+    "area_total_ha": 29.8,
+    "area_trabajada_ha": 4.14
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 5",
+    "labor": "Poda",
+    "n_hileras": 115,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.64
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 6",
+    "labor": "Poda",
+    "n_hileras": 100,
+    "area_total_ha": 10.31,
+    "area_trabajada_ha": 0.97
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 7",
+    "labor": "Poda",
+    "n_hileras": 109,
+    "area_total_ha": 11.89,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-06-17",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan Nueces 2022 01",
+    "labor": "Picado",
+    "n_hileras": 31,
+    "area_total_ha": 23.92,
+    "area_trabajada_ha": 3.18
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 4",
+    "labor": "Picado",
+    "n_hileras": 21,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 1.97
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 5",
+    "labor": "Picado",
+    "n_hileras": 27,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 3.12
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 4",
+    "labor": "Barrido",
+    "n_hileras": 109,
+    "area_total_ha": 29.8,
+    "area_trabajada_ha": 2.48
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 5",
+    "labor": "Poda",
+    "n_hileras": 150,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 1.93
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Solfrut 6",
+    "labor": "Poda",
+    "n_hileras": 111,
+    "area_total_ha": 10.31,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-06-18",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan Nueces 2022 01",
+    "labor": "Picado",
+    "n_hileras": 53,
+    "area_total_ha": 23.92,
+    "area_trabajada_ha": 2.05
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 4",
+    "labor": "Picado",
+    "n_hileras": 26,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 0.44
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 5",
+    "labor": "Picado",
+    "n_hileras": 42,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 1.89
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi",
+    "labor": "Poda",
+    "n_hileras": 20,
+    "area_total_ha": 7.69,
+    "area_trabajada_ha": 3.2
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 3",
+    "labor": "Barrido",
+    "n_hileras": 7,
+    "area_total_ha": 15.2,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 4",
+    "labor": "Barrido",
+    "n_hileras": 145,
+    "area_total_ha": 29.8,
+    "area_trabajada_ha": 4.48
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Juan Hiribarren",
+    "labor": "Picado",
+    "n_hileras": 13,
+    "area_total_ha": 10.16,
+    "area_trabajada_ha": 1.14
+  },
+  {
+    "fecha": "2026-06-19",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan Nueces 2022 01",
+    "labor": "Picado",
+    "n_hileras": 64,
+    "area_total_ha": 23.92,
+    "area_trabajada_ha": 2.05
+  },
+  {
+    "fecha": "2026-06-20",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi",
+    "labor": "Poda",
+    "n_hileras": 42,
+    "area_total_ha": 7.69,
+    "area_trabajada_ha": 4.43
+  },
+  {
+    "fecha": "2026-06-20",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 1",
+    "labor": "Poda",
+    "n_hileras": 7,
+    "area_total_ha": 1.84,
+    "area_trabajada_ha": 0.47
+  },
+  {
+    "fecha": "2026-06-20",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Volcan Talca 3",
+    "labor": "Poda",
+    "n_hileras": 1,
+    "area_total_ha": 17.58,
+    "area_trabajada_ha": 1.13
+  },
+  {
+    "fecha": "2026-06-22",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 1",
+    "labor": "Poda",
+    "n_hileras": 29,
+    "area_total_ha": 1.84,
+    "area_trabajada_ha": 1.37
+  },
+  {
+    "fecha": "2026-06-22",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 4",
+    "labor": "Barrido",
+    "n_hileras": 175,
+    "area_total_ha": 29.8,
+    "area_trabajada_ha": 4.04
+  },
+  {
+    "fecha": "2026-06-22",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan Nueces 2022 01",
+    "labor": "Picado",
+    "n_hileras": 90,
+    "area_total_ha": 23.92,
+    "area_trabajada_ha": 2.87
+  },
+  {
+    "fecha": "2026-06-22",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Volcan Talca 3",
+    "labor": "Poda",
+    "n_hileras": 36,
+    "area_total_ha": 17.58,
+    "area_trabajada_ha": 1.0
+  },
+  {
+    "fecha": "2026-06-22",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "volcan talca 4",
+    "labor": "Poda",
+    "n_hileras": 50,
+    "area_total_ha": 18.83,
+    "area_trabajada_ha": 5.95
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 6",
+    "labor": "Poda",
+    "n_hileras": 21,
+    "area_total_ha": 7.47,
+    "area_trabajada_ha": 3.18
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 7",
+    "labor": "Poda",
+    "n_hileras": 10,
+    "area_total_ha": 8.4,
+    "area_trabajada_ha": 1.29
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 8",
+    "labor": "Poda",
+    "n_hileras": 12,
+    "area_total_ha": 8.77,
+    "area_trabajada_ha": 1.31
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 9",
+    "labor": "Poda",
+    "n_hileras": 11,
+    "area_total_ha": 1.56,
+    "area_trabajada_ha": 0.63
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 9",
+    "labor": "Picado",
+    "n_hileras": 20,
+    "area_total_ha": 2.4,
+    "area_trabajada_ha": 1.36
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 10",
+    "labor": "Picado",
+    "n_hileras": 27,
+    "area_total_ha": 10.98,
+    "area_trabajada_ha": 6.18
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 4",
+    "labor": "Barrido",
+    "n_hileras": 245,
+    "area_total_ha": 29.8,
+    "area_trabajada_ha": 4.5
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan Nueces 2022 01",
+    "labor": "Picado",
+    "n_hileras": 93,
+    "area_total_ha": 23.92,
+    "area_trabajada_ha": 0.45
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Volcan Talca 3",
+    "labor": "Poda",
+    "n_hileras": 89,
+    "area_total_ha": 17.58,
+    "area_trabajada_ha": 3.74
+  },
+  {
+    "fecha": "2026-06-23",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "volcan talca 4",
+    "labor": "Poda",
+    "n_hileras": 83,
+    "area_total_ha": 18.83,
+    "area_trabajada_ha": 4.1
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Barrido",
+    "n_hileras": 10,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.98
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Barrido",
+    "n_hileras": 4,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 1.26
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 3",
+    "labor": "Barrido",
+    "n_hileras": 3,
+    "area_total_ha": 9.9,
+    "area_trabajada_ha": 0.75
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 7",
+    "labor": "Poda",
+    "n_hileras": 12,
+    "area_total_ha": 8.4,
+    "area_trabajada_ha": 0.24
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 8",
+    "labor": "Poda",
+    "n_hileras": 18,
+    "area_total_ha": 8.77,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 9",
+    "labor": "Poda",
+    "n_hileras": 13,
+    "area_total_ha": 1.56,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 9",
+    "labor": "Picado",
+    "n_hileras": 30,
+    "area_total_ha": 2.4,
+    "area_trabajada_ha": 1.04
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 10",
+    "labor": "Picado",
+    "n_hileras": 42,
+    "area_total_ha": 10.98,
+    "area_trabajada_ha": 4.7
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 11",
+    "labor": "Picado",
+    "n_hileras": 15,
+    "area_total_ha": 10.92,
+    "area_trabajada_ha": 2.01
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 12",
+    "labor": "Picado",
+    "n_hileras": 18,
+    "area_total_ha": 11.9,
+    "area_trabajada_ha": 0.95
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 4",
+    "labor": "Barrido",
+    "n_hileras": 315,
+    "area_total_ha": 29.8,
+    "area_trabajada_ha": 5.82
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Volcan Talca 3",
+    "labor": "Poda",
+    "n_hileras": 124,
+    "area_total_ha": 17.58,
+    "area_trabajada_ha": 3.73
+  },
+  {
+    "fecha": "2026-06-24",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "volcan talca 4",
+    "labor": "Poda",
+    "n_hileras": 122,
+    "area_total_ha": 18.83,
+    "area_trabajada_ha": 3.96
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Barrido",
+    "n_hileras": 15,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.92
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Barrido",
+    "n_hileras": 8,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.37
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 6",
+    "labor": "Poda",
+    "n_hileras": 43,
+    "area_total_ha": 7.47,
+    "area_trabajada_ha": 3.32
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 7",
+    "labor": "Poda",
+    "n_hileras": 23,
+    "area_total_ha": 8.4,
+    "area_trabajada_ha": 4.86
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 8",
+    "labor": "Poda",
+    "n_hileras": 30,
+    "area_total_ha": 8.77,
+    "area_trabajada_ha": 4.6
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 9",
+    "labor": "Poda",
+    "n_hileras": 18,
+    "area_total_ha": 1.56,
+    "area_trabajada_ha": 0.83
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 11",
+    "labor": "Picado",
+    "n_hileras": 28,
+    "area_total_ha": 10.92,
+    "area_trabajada_ha": 0.62
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 12",
+    "labor": "Picado",
+    "n_hileras": 30,
+    "area_total_ha": 11.9,
+    "area_trabajada_ha": 1.67
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 4",
+    "labor": "Barrido",
+    "n_hileras": 372,
+    "area_total_ha": 29.8,
+    "area_trabajada_ha": 2.19
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Volcan Talca 3",
+    "labor": "Poda",
+    "n_hileras": 162,
+    "area_total_ha": 17.58,
+    "area_trabajada_ha": 4.6
+  },
+  {
+    "fecha": "2026-06-25",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "volcan talca 4",
+    "labor": "Poda",
+    "n_hileras": 158,
+    "area_total_ha": 18.83,
+    "area_trabajada_ha": 3.5
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 6",
+    "labor": "Poda",
+    "n_hileras": 50,
+    "area_total_ha": 7.47,
+    "area_trabajada_ha": 0.89
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 7",
+    "labor": "Poda",
+    "n_hileras": 33,
+    "area_total_ha": 8.4,
+    "area_trabajada_ha": 2.01
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 8",
+    "labor": "Poda",
+    "n_hileras": 39,
+    "area_total_ha": 8.77,
+    "area_trabajada_ha": 2.4
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 11",
+    "labor": "Picado",
+    "n_hileras": 39,
+    "area_total_ha": 10.92,
+    "area_trabajada_ha": 1.96
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 12",
+    "labor": "Picado",
+    "n_hileras": 41,
+    "area_total_ha": 11.9,
+    "area_trabajada_ha": 4.65
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 3",
+    "labor": "Barrido",
+    "n_hileras": 28,
+    "area_total_ha": 15.2,
+    "area_trabajada_ha": 1.19
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 1",
+    "labor": "Barrido",
+    "n_hileras": 18,
+    "area_total_ha": 12.78,
+    "area_trabajada_ha": 1.57
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 4",
+    "labor": "Barrido",
+    "n_hileras": 433,
+    "area_total_ha": 29.8,
+    "area_trabajada_ha": 2.14
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Volcan Talca 2",
+    "labor": "Poda",
+    "n_hileras": 17,
+    "area_total_ha": 15.11,
+    "area_trabajada_ha": 4.18
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Volcan Talca 3",
+    "labor": "Poda",
+    "n_hileras": 188,
+    "area_total_ha": 17.58,
+    "area_trabajada_ha": 1.34
+  },
+  {
+    "fecha": "2026-06-26",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "volcan talca 4",
+    "labor": "Poda",
+    "n_hileras": 171,
+    "area_total_ha": 18.83,
+    "area_trabajada_ha": 1.03
+  },
+  {
+    "fecha": "2026-06-27",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Barrido",
+    "n_hileras": 16,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.38
+  },
+  {
+    "fecha": "2026-06-27",
+    "maquina": "Tractor 11 Deutz Fahr 115",
+    "cuartel": "Longavi 8",
+    "labor": "Poda",
+    "n_hileras": 48,
+    "area_total_ha": 8.77,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-06-27",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Volcan Talca 2",
+    "labor": "Poda",
+    "n_hileras": 32,
+    "area_total_ha": 15.11,
+    "area_trabajada_ha": 3.45
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "Ag_El_Carmen_San Gregorio_ Cuartel 3",
+    "labor": "Picado",
+    "n_hileras": 11,
+    "area_total_ha": 2.36,
+    "area_trabajada_ha": 1.57
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Barrido",
+    "n_hileras": 21,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Barrido",
+    "n_hileras": 15,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.95
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 11",
+    "labor": "Picado",
+    "n_hileras": 53,
+    "area_total_ha": 10.92,
+    "area_trabajada_ha": 5.68
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Barredora 1",
+    "cuartel": "Rafael Peña 4",
+    "labor": "Barrido",
+    "n_hileras": 486,
+    "area_total_ha": 29.8,
+    "area_trabajada_ha": 13.57
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor 7 Kubota 95",
+    "cuartel": "El Volcan 2022 3",
+    "labor": "Picado",
+    "n_hileras": 4,
+    "area_total_ha": 28.97,
+    "area_trabajada_ha": 2.03
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "volcan talca 1",
+    "labor": "Poda",
+    "n_hileras": 23,
+    "area_total_ha": 1.62,
+    "area_trabajada_ha": 1.52
+  },
+  {
+    "fecha": "2026-06-30",
+    "maquina": "Tractor 9 Deutz Fahr 115",
+    "cuartel": "Volcan Talca 2",
+    "labor": "Poda",
+    "n_hileras": 56,
+    "area_total_ha": 15.11,
+    "area_trabajada_ha": 6.69
   }
 ]
