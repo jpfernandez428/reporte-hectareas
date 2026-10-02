@@ -495,9 +495,56 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
   4. Barrido: las rescatadas se suman a la pasada en curso del día del
      rescate (el repaso), nunca a una pasada ya cerrada.
   - Los días de `trabajo_descartado` nunca rescatan pendientes.
-- **Relanzamiento del año (pedido por el usuario el 2-oct-2026)**: lo lanza
-  Claude esa noche, del 2026-01-01 al 2026-10-01, en quincenas en orden
-  cronológico, una a la vez, con la corrida diaria pausada y el Mac
-  despierto (`caffeinate`). Antes se verificaron los casos de calibración
-  (todos ✓) y se limpiaron solo los resultados calculados (ver "Registro
-  del relanzamiento").
+- **Revisar con el usuario (encontrado en el relanzamiento del 2-oct-2026)**:
+  1. Solfrut 10 – Picado quedó en 92,3 % (en la prueba 100 %): con menos de
+     15 líneas usó el patrón del campo "solfrut" (12,45 m, mezcla cuarteles
+     de 4 a 15 m) en vez del propio (27,3 m, igual al del Tractor 16 ese
+     día, 28,4 m). Propuesta: si el patrón propio coincide (±25 %) con el de
+     la máquina ese día, es claro y se usa el propio; si no, el del campo
+     (El Volcán 14 sigue igual: propio 6,5 m vs día 9,1 m → campo).
+  2. Gonzalo Sánchez 2 – Picado quedó en 92,6 % (en la prueba 100 %): en el
+     año completo el Tractor 14 suma tramos cortados en el borde (filas de
+     cuarteles vecinos) y la distancia típica entre puntos bajó a 19,7 m,
+     justo bajo el umbral de 20 m de "GPS espaciado". Propuesta: medir el GPS
+     espaciado por tiempo (intervalo mediano de la máquina ese día ≥ 30 s).
+  3. Bernardo Lira Chiñihue N3 – Barrido: en abril las barredoras cubrieron
+     86 % y la pasada nunca llegó al 95 %, así que quedó abierta; el barrido
+     del 23-09 (~8 ha, caso de calibración) se sumó a esa misma pasada y solo
+     se acreditaron 0,32 ha nuevas. Propuesta: una pasada abierta se cierra
+     como incompleta si pasan más de N días (ej. 30) sin barrer el cuartel, y
+     lo siguiente es una pasada nueva.
+  4. Gonzalo Sánchez 9 – Barrido: aparece un repaso de 31,1 % del 19-03
+     (Barredora 7), día que no se revisó con GPS crudo.
+  5. Longaví 8 y 5: los casos de calibración eran del día 27-06 solo; en el
+     año completo el Tractor 11 ya había trabajado esos cuarteles antes (el
+     27-06 se acreditan 0,08 y 0 ha nuevas), así que no son comparables.
+     Con solo el 27-06 (prueba) siguen bien (2,55 ha y 0 ha).
+- Pasadas sueltas pendientes: aprobada, falta implementar (ver arriba).
+
+## Registro del relanzamiento (2-oct-2026)
+
+- Pedido por el usuario; lo lanzó Claude con el token del Llavero. Antes:
+  casos de calibración verificados (todos ✓ con GPS crudo) y limpieza solo
+  de resultados calculados (commit 821f645: memoria_hileras/*.json,
+  docs/datos/geometria, docs/datos/kml, hileras_detectadas.kml,
+  avance_cuarteles.json, historico.json vacío).
+- 19 quincenas del 2026-01-01 al 2026-10-01, una a la vez, de 7 a 26 min
+  cada una (lejos del límite de 6 h). Corrida diaria pausada mientras duró
+  y reactivada al terminar (commit 9f32280). Mac despierto con caffeinate.
+- Incidente: el tramo 2026-01-16 a 2026-01-31 falló al guardar la geometría
+  de la web (los puntos de cruce del límite tenían números de numpy y un
+  valor sí/no de numpy no se puede escribir en JSON). No alcanzó a subir
+  nada. Se arregló (commit 724c983), se probó localmente con datos reales y
+  se reanudó desde ese tramo; el resto terminó sin errores.
+- Resultado: 1.031 geocercas en uso, 505 cuarteles con avance, 1.199 líneas
+  cuartel + labor, 143 líneas de repaso de barrido. Panel al 2026-10-01: 9
+  máquinas en CYH, 47 máquinas/lugares trabajando sin geocerca (30 días).
+- Calibración con los datos del relanzamiento: Aurora 1/2/4 al 22-09 92,4 %
+  / 92,1 % / 4,83 ha ✓; Aurora 3, 5–9 ≥ 99,4 % ✓; Solfrut 8 100 % ✓;
+  Solfrut 10 92,3 % ✗; Longaví 15 y 16 100 % ✓; JV4 Barrido 0 % y Cosecha
+  50,9 % ✓; Viconto 7–9 abr 5,28 ha ✓ (+12 %); Viconto 4 8–9 abr 8,72 ha ✓
+  (−6 %); AA7 99,9 %, AA8 99,6 %, Don Cristóbal 99,3 % ✓; El Volcán 14
+  Cosecha 98,6 % ✓ y Picado 93,5 % (aceptado) ✓; GS 2 Barrido 100 % +
+  repaso 46,7 % ✓, Remecido 99,4 % ✓, Picado 92,6 % ✗; GS 7 Barrido 0 % ✓;
+  GS 8 Barrido 100 % + repaso 61,4 %, Picado y Remecido 100 % ✓; N3
+  Barrido del 23-09 0,32 ha ✗ (ver pendientes); Longaví 8/5 no comparables.
