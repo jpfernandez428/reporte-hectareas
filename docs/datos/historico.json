@@ -47716,5 +47716,59 @@
     "n_hileras": 27,
     "area_total_ha": 6.1,
     "area_trabajada_ha": 0.44
+  },
+  {
+    "fecha": "2026-10-01",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "torretagle 5",
+    "labor": "Picado",
+    "n_hileras": 5,
+    "area_total_ha": 3.88,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-10-01",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 16",
+    "labor": "Poda",
+    "n_hileras": 50,
+    "area_total_ha": 3.87,
+    "area_trabajada_ha": 1.78
+  },
+  {
+    "fecha": "2026-10-01",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 16",
+    "labor": "Poda",
+    "n_hileras": 26,
+    "area_total_ha": 3.87,
+    "area_trabajada_ha": 1.31
+  },
+  {
+    "fecha": "2026-10-01",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 1",
+    "labor": "Barrido",
+    "n_hileras": 218,
+    "area_total_ha": 21.34,
+    "area_trabajada_ha": 10.25
+  },
+  {
+    "fecha": "2026-10-01",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 2",
+    "labor": "Barrido",
+    "n_hileras": 47,
+    "area_total_ha": 6.43,
+    "area_trabajada_ha": 1.86
+  },
+  {
+    "fecha": "2026-10-01",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 3",
+    "labor": "Barrido",
+    "n_hileras": 45,
+    "area_total_ha": 6.1,
+    "area_trabajada_ha": 1.81
   }
 ]

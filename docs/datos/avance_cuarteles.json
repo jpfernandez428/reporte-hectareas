@@ -2566,9 +2566,9 @@
             "Tractor 10 Deutz Fahr 115",
             "Tractor 13 Deutz Fahr 115"
           ],
-          "trabajado_ha": 0.7726,
-          "porcentaje": 20.0,
-          "completo": false
+          "trabajado_ha": 3.8652,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
@@ -7214,15 +7214,15 @@
             "Barredora 23",
             "Barredora 24 Weiss c/cab"
           ],
-          "pasadas_completas": 1,
-          "porcentaje_en_curso": 52.0,
+          "pasadas_completas": 2,
+          "porcentaje_en_curso": 0.0,
           "trabajado_ha": 21.342,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
-            "repasos_completos": 0,
-            "trabajado_ha": 11.0968,
-            "porcentaje": 52.0
+            "repasos_completos": 1,
+            "trabajado_ha": 0.0,
+            "porcentaje": 0.0
           }
         },
         "Picado": {
@@ -7262,10 +7262,15 @@
             "Barredora 24 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 29.0,
           "trabajado_ha": 6.4262,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 1.8647,
+            "porcentaje": 29.0
+          }
         },
         "Picado": {
           "maquinas": [
@@ -7304,10 +7309,15 @@
             "Barredora 24 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 29.7,
           "trabajado_ha": 6.0951,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 1.8093,
+            "porcentaje": 29.7
+          }
         },
         "Picado": {
           "maquinas": [
@@ -14113,6 +14123,19 @@
         }
       }
     },
+    "torretagle 4": {
+      "area_total_ha": 5.223,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
     "torretagle 5": {
       "area_total_ha": 3.8805,
       "labores": {
@@ -14120,8 +14143,8 @@
           "maquinas": [
             "Tractor 16 Kubota 108"
           ],
-          "trabajado_ha": 0.106,
-          "porcentaje": 2.7,
+          "trabajado_ha": 0.1798,
+          "porcentaje": 4.6,
           "completo": false
         }
       }
