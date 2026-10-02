@@ -1,0 +1,34 @@
+{
+  "referencia": [
+    -71.16165525839351,
+    -33.47102319464504
+  ],
+  "labor": "Remecido de suelo",
+  "hileras": [
+    {
+      "id": 1,
+      "origen": [
+        0.0,
+        0.0
+      ],
+      "direccion": [
+        -0.1949493524889996,
+        -0.9808133104541963
+      ],
+      "min_proy": 0,
+      "max_proy": 5.026893760124612,
+      "intervalos": [
+        [
+          -0.0,
+          5.0
+        ]
+      ],
+      "fechas": [
+        "2026-03-27"
+      ],
+      "primera_vez": 1774610864.9583936,
+      "paso_gps": 2.5
+    }
+  ],
+  "area_acumulada_ha": 0.0
+}
