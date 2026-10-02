@@ -1,25 +1,34 @@
 {
- "fecha": "2026-01-15",
+ "fecha": "2026-01-31",
  "patio": "C&H Maquinaria",
  "en_patio": [
-  "Barredora 10",
   "Barredora 11",
   "Barredora 12",
   "Barredora 18",
-  "Recogedora 1",
-  "Recogedora 2",
-  "Recogedora 6",
+  "Barredora 21 Weiss s/cab",
+  "Barredora 3",
+  "Recogedora 4",
+  "Recogedora 5",
+  "Shacker SBS 11",
+  "Shacker SBS 13",
+  "Shacker SBS 15 OMC",
   "Shacker SBS 3",
-  "Shacker SBS 8",
+  "Shacker SBS 7",
+  "Shacker SBS 9",
   "Shacker SBS Campo",
-  "Tractor 1 Deutz-Fahr Agroplus",
+  "Shacker de Suelo 1",
+  "Shacker de Suelo 5",
+  "Shacker de Suelo 6",
+  "Shacker de Suelo 9",
   "Tractor 14 Deutz Fahr 115",
   "Tractor 15 Deutz Fahr 115",
   "Tractor 2 Same Explorer 95",
   "Tractor 3 Same Frutetto 100",
-  "Tractor 4 Same Frutetto 100"
+  "Tractor 4 Same Frutetto 100",
+  "Tractor 8 Kubota 108",
+  "Tractor 9 Deutz Fahr 115"
  ],
- "maquinas_con_datos": 19,
+ "maquinas_con_datos": 31,
  "sin_geocerca": [
   {
    "maquina": "Podadora 1",
@@ -32,7 +41,7 @@
    "dias_trabajados": 5,
    "horas": 20.8,
    "ha_aprox": 30.9,
-   "hace_dias": -228
+   "hace_dias": -212
   },
   {
    "maquina": "Tractor 10 Deutz Fahr 115",
@@ -45,7 +54,7 @@
    "dias_trabajados": 1,
    "horas": 4.3,
    "ha_aprox": 5.9,
-   "hace_dias": -228
+   "hace_dias": -212
   },
   {
    "maquina": "Tractor 11 Deutz Fahr 115",
@@ -58,7 +67,7 @@
    "dias_trabajados": 4,
    "horas": 12.3,
    "ha_aprox": 14.8,
-   "hace_dias": -228
+   "hace_dias": -212
   },
   {
    "maquina": "Tractor 14 Deutz Fahr 115",
@@ -71,7 +80,7 @@
    "dias_trabajados": 1,
    "horas": 3.2,
    "ha_aprox": 2.1,
-   "hace_dias": -228
+   "hace_dias": -212
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -84,7 +93,7 @@
    "dias_trabajados": 1,
    "horas": 2.7,
    "ha_aprox": 2.8,
-   "hace_dias": -228
+   "hace_dias": -212
   },
   {
    "maquina": "Tractor 3 Same Frutetto 100",
@@ -97,7 +106,7 @@
    "dias_trabajados": 2,
    "horas": 4.2,
    "ha_aprox": 5.5,
-   "hace_dias": -228
+   "hace_dias": -212
   },
   {
    "maquina": "Tractor 4 Same Frutetto 100",
@@ -110,7 +119,7 @@
    "dias_trabajados": 1,
    "horas": 1.3,
    "ha_aprox": 1.3,
-   "hace_dias": -228
+   "hace_dias": -212
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -123,7 +132,7 @@
    "dias_trabajados": 8,
    "horas": 27.7,
    "ha_aprox": 26.7,
-   "hace_dias": -228
+   "hace_dias": -212
   },
   {
    "maquina": "Tractor 9 Deutz Fahr 115",
@@ -136,7 +145,7 @@
    "dias_trabajados": 1,
    "horas": 1.1,
    "ha_aprox": 1.9,
-   "hace_dias": -228
+   "hace_dias": -212
   },
   {
    "maquina": "Tractor 13 Deutz Fahr 115",
@@ -149,7 +158,7 @@
    "dias_trabajados": 3,
    "horas": 13.9,
    "ha_aprox": 16.3,
-   "hace_dias": -229
+   "hace_dias": -213
   },
   {
    "maquina": "Tractor 14 Deutz Fahr 115",
@@ -162,7 +171,7 @@
    "dias_trabajados": 5,
    "horas": 10.6,
    "ha_aprox": 8.0,
-   "hace_dias": -229
+   "hace_dias": -213
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -175,7 +184,7 @@
    "dias_trabajados": 2,
    "horas": 5.7,
    "ha_aprox": 7.6,
-   "hace_dias": -229
+   "hace_dias": -213
   },
   {
    "maquina": "Tractor 4 Same Frutetto 100",
@@ -188,7 +197,7 @@
    "dias_trabajados": 5,
    "horas": 8.5,
    "ha_aprox": 8.4,
-   "hace_dias": -229
+   "hace_dias": -213
   },
   {
    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
@@ -201,7 +210,7 @@
    "dias_trabajados": 4,
    "horas": 7.8,
    "ha_aprox": 5.9,
-   "hace_dias": -230
+   "hace_dias": -214
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -214,7 +223,7 @@
    "dias_trabajados": 3,
    "horas": 6.4,
    "ha_aprox": 4.6,
-   "hace_dias": -230
+   "hace_dias": -214
   },
   {
    "maquina": "Tractor 3 Same Frutetto 100",
@@ -227,7 +236,7 @@
    "dias_trabajados": 1,
    "horas": 3.2,
    "ha_aprox": 4.4,
-   "hace_dias": -230
+   "hace_dias": -214
   },
   {
    "maquina": "Tractor 3 Same Frutetto 100",
@@ -240,7 +249,7 @@
    "dias_trabajados": 3,
    "horas": 6.0,
    "ha_aprox": 5.0,
-   "hace_dias": -230
+   "hace_dias": -214
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -253,7 +262,7 @@
    "dias_trabajados": 1,
    "horas": 2.4,
    "ha_aprox": 1.7,
-   "hace_dias": -231
+   "hace_dias": -215
   },
   {
    "maquina": "Tractor 3 Same Frutetto 100",
@@ -266,7 +275,7 @@
    "dias_trabajados": 1,
    "horas": 1.3,
    "ha_aprox": 1.0,
-   "hace_dias": -231
+   "hace_dias": -215
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -279,7 +288,7 @@
    "dias_trabajados": 2,
    "horas": 6.8,
    "ha_aprox": 5.8,
-   "hace_dias": -231
+   "hace_dias": -215
   },
   {
    "maquina": "Podadora 1",
@@ -292,7 +301,7 @@
    "dias_trabajados": 3,
    "horas": 8.4,
    "ha_aprox": 18.3,
-   "hace_dias": -232
+   "hace_dias": -216
   },
   {
    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
@@ -305,7 +314,7 @@
    "dias_trabajados": 1,
    "horas": 1.2,
    "ha_aprox": 1.1,
-   "hace_dias": -232
+   "hace_dias": -216
   },
   {
    "maquina": "Tractor 14 Deutz Fahr 115",
@@ -318,7 +327,7 @@
    "dias_trabajados": 2,
    "horas": 4.1,
    "ha_aprox": 3.2,
-   "hace_dias": -232
+   "hace_dias": -216
   },
   {
    "maquina": "Tractor 4 Same Frutetto 100",
@@ -331,7 +340,7 @@
    "dias_trabajados": 1,
    "horas": 1.2,
    "ha_aprox": 1.1,
-   "hace_dias": -232
+   "hace_dias": -216
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -344,7 +353,7 @@
    "dias_trabajados": 5,
    "horas": 15.8,
    "ha_aprox": 15.1,
-   "hace_dias": -232
+   "hace_dias": -216
   },
   {
    "maquina": "Tractor 14 Deutz Fahr 115",
@@ -357,7 +366,7 @@
    "dias_trabajados": 1,
    "horas": 2.6,
    "ha_aprox": 1.7,
-   "hace_dias": -235
+   "hace_dias": -219
   },
   {
    "maquina": "Tractor 3 Same Frutetto 100",
@@ -370,7 +379,7 @@
    "dias_trabajados": 5,
    "horas": 16.1,
    "ha_aprox": 15.6,
-   "hace_dias": -235
+   "hace_dias": -219
   },
   {
    "maquina": "Tractor 4 Same Frutetto 100",
@@ -383,7 +392,7 @@
    "dias_trabajados": 1,
    "horas": 2.2,
    "ha_aprox": 1.6,
-   "hace_dias": -235
+   "hace_dias": -219
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -396,7 +405,7 @@
    "dias_trabajados": 2,
    "horas": 6.9,
    "ha_aprox": 5.9,
-   "hace_dias": -235
+   "hace_dias": -219
   },
   {
    "maquina": "Podadora 1",
@@ -409,7 +418,7 @@
    "dias_trabajados": 3,
    "horas": 12.5,
    "ha_aprox": 15.7,
-   "hace_dias": -236
+   "hace_dias": -220
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -422,7 +431,7 @@
    "dias_trabajados": 4,
    "horas": 5.9,
    "ha_aprox": 6.5,
-   "hace_dias": -236
+   "hace_dias": -220
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -435,7 +444,7 @@
    "dias_trabajados": 4,
    "horas": 9.7,
    "ha_aprox": 9.6,
-   "hace_dias": -237
+   "hace_dias": -221
   },
   {
    "maquina": "Tractor 14 Deutz Fahr 115",
@@ -448,7 +457,7 @@
    "dias_trabajados": 9,
    "horas": 20.9,
    "ha_aprox": 17.9,
-   "hace_dias": -242
+   "hace_dias": -226
   },
   {
    "maquina": "Tractor 16 Kubota 108",
@@ -461,7 +470,7 @@
    "dias_trabajados": 2,
    "horas": 11.4,
    "ha_aprox": 8.7,
-   "hace_dias": -242
+   "hace_dias": -226
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -474,7 +483,7 @@
    "dias_trabajados": 2,
    "horas": 5.6,
    "ha_aprox": 5.4,
-   "hace_dias": -242
+   "hace_dias": -226
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -487,7 +496,7 @@
    "dias_trabajados": 1,
    "horas": 4.3,
    "ha_aprox": 4.0,
-   "hace_dias": -242
+   "hace_dias": -226
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -500,7 +509,7 @@
    "dias_trabajados": 1,
    "horas": 3.8,
    "ha_aprox": 3.0,
-   "hace_dias": -242
+   "hace_dias": -226
   },
   {
    "maquina": "Tractor 16 Kubota 108",
@@ -513,7 +522,7 @@
    "dias_trabajados": 3,
    "horas": 16.4,
    "ha_aprox": 14.2,
-   "hace_dias": -244
+   "hace_dias": -228
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -526,7 +535,7 @@
    "dias_trabajados": 2,
    "horas": 7.2,
    "ha_aprox": 5.7,
-   "hace_dias": -244
+   "hace_dias": -228
   },
   {
    "maquina": "Tractor 3 Same Frutetto 100",
@@ -539,7 +548,7 @@
    "dias_trabajados": 1,
    "horas": 1.9,
    "ha_aprox": 2.2,
-   "hace_dias": -244
+   "hace_dias": -228
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -552,7 +561,7 @@
    "dias_trabajados": 1,
    "horas": 4.1,
    "ha_aprox": 4.2,
-   "hace_dias": -244
+   "hace_dias": -228
   },
   {
    "maquina": "Tractor 4 Same Frutetto 100",
@@ -565,7 +574,7 @@
    "dias_trabajados": 5,
    "horas": 8.8,
    "ha_aprox": 8.9,
-   "hace_dias": -245
+   "hace_dias": -229
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -578,7 +587,7 @@
    "dias_trabajados": 2,
    "horas": 8.1,
    "ha_aprox": 13.1,
-   "hace_dias": -245
+   "hace_dias": -229
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -591,7 +600,7 @@
    "dias_trabajados": 4,
    "horas": 9.2,
    "ha_aprox": 9.0,
-   "hace_dias": -249
+   "hace_dias": -233
   },
   {
    "maquina": "Tractor 4 Same Frutetto 100",
@@ -604,7 +613,7 @@
    "dias_trabajados": 1,
    "horas": 2.4,
    "ha_aprox": 2.7,
-   "hace_dias": -249
+   "hace_dias": -233
   },
   {
    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
@@ -617,7 +626,7 @@
    "dias_trabajados": 6,
    "horas": 14.3,
    "ha_aprox": 11.9,
-   "hace_dias": -250
+   "hace_dias": -234
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -630,7 +639,7 @@
    "dias_trabajados": 1,
    "horas": 1.5,
    "ha_aprox": 2.5,
-   "hace_dias": -251
+   "hace_dias": -235
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -643,7 +652,7 @@
    "dias_trabajados": 2,
    "horas": 9.7,
    "ha_aprox": 13.5,
-   "hace_dias": -251
+   "hace_dias": -235
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -656,7 +665,7 @@
    "dias_trabajados": 3,
    "horas": 13.0,
    "ha_aprox": 13.2,
-   "hace_dias": -251
+   "hace_dias": -235
   },
   {
    "maquina": "Tractor 14 Deutz Fahr 115",
@@ -669,7 +678,7 @@
    "dias_trabajados": 2,
    "horas": 7.3,
    "ha_aprox": 6.0,
-   "hace_dias": -252
+   "hace_dias": -236
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -682,7 +691,7 @@
    "dias_trabajados": 2,
    "horas": 11.2,
    "ha_aprox": 9.0,
-   "hace_dias": -252
+   "hace_dias": -236
   },
   {
    "maquina": "Tractor 16 Kubota 108",
@@ -695,7 +704,7 @@
    "dias_trabajados": 2,
    "horas": 3.3,
    "ha_aprox": 2.9,
-   "hace_dias": -253
+   "hace_dias": -237
   },
   {
    "maquina": "Tractor 4 Same Frutetto 100",
@@ -708,7 +717,7 @@
    "dias_trabajados": 2,
    "horas": 4.5,
    "ha_aprox": 4.6,
-   "hace_dias": -253
+   "hace_dias": -237
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -721,7 +730,7 @@
    "dias_trabajados": 1,
    "horas": 2.2,
    "ha_aprox": 2.5,
-   "hace_dias": -253
+   "hace_dias": -237
   },
   {
    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
@@ -734,7 +743,7 @@
    "dias_trabajados": 1,
    "horas": 1.3,
    "ha_aprox": 0.9,
-   "hace_dias": -254
+   "hace_dias": -238
   },
   {
    "maquina": "Tractor 10 Deutz Fahr 115",
@@ -747,7 +756,7 @@
    "dias_trabajados": 1,
    "horas": 6.2,
    "ha_aprox": 4.1,
-   "hace_dias": -254
+   "hace_dias": -238
   },
   {
    "maquina": "Tractor 16 Kubota 108",
@@ -760,7 +769,7 @@
    "dias_trabajados": 2,
    "horas": 8.8,
    "ha_aprox": 6.8,
-   "hace_dias": -256
+   "hace_dias": -240
   }
  ],
  "alertas": [
