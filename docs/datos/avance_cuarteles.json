@@ -2014,17 +2014,17 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 7.57,
+          "porcentaje": 78.1,
           "completo": false
         },
         "Poda": {
           "maquinas": [
             "Tractor 10 Deutz Fahr 115"
           ],
-          "trabajado_ha": 0.6966,
-          "porcentaje": 7.2,
-          "completo": false
+          "trabajado_ha": 9.6946,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
@@ -2043,8 +2043,8 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus"
           ],
-          "trabajado_ha": 0.6667,
-          "porcentaje": 6.8,
+          "trabajado_ha": 8.974,
+          "porcentaje": 91.5,
           "completo": false
         },
         "Poda": {
@@ -2068,19 +2068,42 @@
           "porcentaje": 72.3,
           "completo": false
         },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus"
+          ],
+          "trabajado_ha": 1.3868,
+          "porcentaje": 14.0,
+          "completo": false
+        },
         "Poda": {
           "maquinas": [
             "Tractor 10 Deutz Fahr 115"
           ],
-          "trabajado_ha": 3.8733,
-          "porcentaje": 39.1,
-          "completo": false
+          "trabajado_ha": 9.9028,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
     "Agricola Flor Oriente 4": {
       "area_total_ha": 4.3549,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 3.6,
+          "trabajado_ha": 4.3549,
+          "porcentaje": 100.0,
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 0.1578,
+            "porcentaje": 3.6
+          }
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 10",
@@ -2095,6 +2118,21 @@
     "Agricola Flor Oriente 5": {
       "area_total_ha": 12.8297,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 2.0,
+          "trabajado_ha": 12.8297,
+          "porcentaje": 100.0,
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 0.2532,
+            "porcentaje": 2.0
+          }
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 10",
@@ -8430,6 +8468,16 @@
     "Juan Hiribarren": {
       "area_total_ha": 10.1606,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 7.2,
+          "trabajado_ha": 0.7365,
+          "porcentaje": 7.2,
+          "completo": false
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 10",
@@ -12367,6 +12415,21 @@
           "porcentaje_en_curso": 0.0,
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "santa Isabel": {
+      "area_total_ha": 12.169,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 1"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 48.0,
+          "trabajado_ha": 5.8415,
+          "porcentaje": 48.0,
           "completo": false
         }
       }

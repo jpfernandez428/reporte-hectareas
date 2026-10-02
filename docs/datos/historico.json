@@ -41722,5 +41722,338 @@
     "n_hileras": 51,
     "area_total_ha": 9.9,
     "area_trabajada_ha": 2.41
+  },
+  {
+    "fecha": "2026-05-16",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Poda",
+    "n_hileras": 11,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-05-16",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente 3",
+    "labor": "Poda",
+    "n_hileras": 62,
+    "area_total_ha": 9.9,
+    "area_trabajada_ha": 1.32
+  },
+  {
+    "fecha": "2026-05-18",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Picado",
+    "n_hileras": 23,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 1.53
+  },
+  {
+    "fecha": "2026-05-18",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente 3",
+    "labor": "Poda",
+    "n_hileras": 85,
+    "area_total_ha": 9.9,
+    "area_trabajada_ha": 2.4
+  },
+  {
+    "fecha": "2026-05-19",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Picado",
+    "n_hileras": 30,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.96
+  },
+  {
+    "fecha": "2026-05-19",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente 3",
+    "labor": "Poda",
+    "n_hileras": 105,
+    "area_total_ha": 9.9,
+    "area_trabajada_ha": 2.31
+  },
+  {
+    "fecha": "2026-05-19",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 4",
+    "labor": "Barrido",
+    "n_hileras": 33,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 1.8
+  },
+  {
+    "fecha": "2026-05-19",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "labor": "Barrido",
+    "n_hileras": 22,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 2.53
+  },
+  {
+    "fecha": "2026-05-20",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Poda",
+    "n_hileras": 41,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 2.18
+  },
+  {
+    "fecha": "2026-05-20",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Picado",
+    "n_hileras": 44,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 1.47
+  },
+  {
+    "fecha": "2026-05-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "labor": "Barrido",
+    "n_hileras": 68,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 3.57
+  },
+  {
+    "fecha": "2026-05-21",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Poda",
+    "n_hileras": 70,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 1.51
+  },
+  {
+    "fecha": "2026-05-21",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Picado",
+    "n_hileras": 28,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 3.27
+  },
+  {
+    "fecha": "2026-05-21",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Picado",
+    "n_hileras": 47,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-05-21",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 4",
+    "labor": "Barrido",
+    "n_hileras": 51,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 0.41
+  },
+  {
+    "fecha": "2026-05-21",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "labor": "Barrido",
+    "n_hileras": 88,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 2.27
+  },
+  {
+    "fecha": "2026-05-22",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Poda",
+    "n_hileras": 98,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 2.08
+  },
+  {
+    "fecha": "2026-05-22",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Picado",
+    "n_hileras": 51,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 1.87
+  },
+  {
+    "fecha": "2026-05-25",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Poda",
+    "n_hileras": 137,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 3.22
+  },
+  {
+    "fecha": "2026-05-25",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Picado",
+    "n_hileras": 65,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 1.46
+  },
+  {
+    "fecha": "2026-05-25",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Picado",
+    "n_hileras": 63,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 1.08
+  },
+  {
+    "fecha": "2026-05-26",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Picado",
+    "n_hileras": 75,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.9
+  },
+  {
+    "fecha": "2026-05-26",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Picado",
+    "n_hileras": 77,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.98
+  },
+  {
+    "fecha": "2026-05-27",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 4",
+    "labor": "Barrido",
+    "n_hileras": 54,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-05-27",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "labor": "Barrido",
+    "n_hileras": 92,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 0.56
+  },
+  {
+    "fecha": "2026-05-28",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 4",
+    "labor": "Barrido",
+    "n_hileras": 83,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 1.93
+  },
+  {
+    "fecha": "2026-05-28",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "labor": "Barrido",
+    "n_hileras": 127,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 3.9
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Picado",
+    "n_hileras": 78,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Picado",
+    "n_hileras": 91,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 2.1
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 3",
+    "labor": "Picado",
+    "n_hileras": 3,
+    "area_total_ha": 9.9,
+    "area_trabajada_ha": 0.55
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 4",
+    "labor": "Barrido",
+    "n_hileras": 86,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "labor": "Barrido",
+    "n_hileras": 131,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 0.25
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan Hiribarren",
+    "labor": "Barrido",
+    "n_hileras": 27,
+    "area_total_ha": 10.16,
+    "area_trabajada_ha": 0.74
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Barredora 1",
+    "cuartel": "santa Isabel",
+    "labor": "Barrido",
+    "n_hileras": 56,
+    "area_total_ha": 12.17,
+    "area_trabajada_ha": 5.84
+  },
+  {
+    "fecha": "2026-05-30",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Picado",
+    "n_hileras": 79,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-05-30",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Picado",
+    "n_hileras": 93,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-05-30",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 3",
+    "labor": "Picado",
+    "n_hileras": 17,
+    "area_total_ha": 9.9,
+    "area_trabajada_ha": 0.83
   }
 ]
