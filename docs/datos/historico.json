@@ -47770,5 +47770,32 @@
     "n_hileras": 45,
     "area_total_ha": 6.1,
     "area_trabajada_ha": 1.81
+  },
+  {
+    "fecha": "2026-10-02",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "torretagle 5",
+    "labor": "Picado",
+    "n_hileras": 5,
+    "area_total_ha": 3.88,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-10-02",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 2",
+    "labor": "Barrido",
+    "n_hileras": 63,
+    "area_total_ha": 6.43,
+    "area_trabajada_ha": 0.91
+  },
+  {
+    "fecha": "2026-10-02",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 3",
+    "labor": "Barrido",
+    "n_hileras": 59,
+    "area_total_ha": 6.1,
+    "area_trabajada_ha": 1.19
   }
 ]
