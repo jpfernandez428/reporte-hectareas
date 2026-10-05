@@ -27151,5 +27151,3047 @@
     "n_hileras": 44,
     "area_total_ha": 1.68,
     "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A9",
+    "labor": "Barrido",
+    "n_hileras": 109,
+    "area_total_ha": 8.75,
+    "area_trabajada_ha": 0.44
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A9",
+    "labor": "Barrido",
+    "n_hileras": 149,
+    "area_total_ha": 8.75,
+    "area_trabajada_ha": 0.57
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A10",
+    "labor": "Barrido",
+    "n_hileras": 109,
+    "area_total_ha": 22.53,
+    "area_trabajada_ha": 3.34
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A10",
+    "labor": "Barrido",
+    "n_hileras": 188,
+    "area_total_ha": 22.53,
+    "area_trabajada_ha": 2.93
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 2",
+    "cuartel": "Achurra 3",
+    "labor": "Barrido",
+    "n_hileras": 109,
+    "area_total_ha": 9.17,
+    "area_trabajada_ha": 1.91
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 3",
+    "labor": "Barrido",
+    "n_hileras": 115,
+    "area_total_ha": 9.17,
+    "area_trabajada_ha": 2.58
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 4",
+    "labor": "Barrido",
+    "n_hileras": 97,
+    "area_total_ha": 8.42,
+    "area_trabajada_ha": 1.42
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 2",
+    "cuartel": "Achurra 4",
+    "labor": "Barrido",
+    "n_hileras": 49,
+    "area_total_ha": 8.42,
+    "area_trabajada_ha": 1.5
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 6",
+    "labor": "Barrido",
+    "n_hileras": 215,
+    "area_total_ha": 6.58,
+    "area_trabajada_ha": 0.37
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 2",
+    "cuartel": "Achurra 6",
+    "labor": "Barrido",
+    "n_hileras": 6,
+    "area_total_ha": 6.58,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 7",
+    "labor": "Barrido",
+    "n_hileras": 247,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 0.51
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 2",
+    "cuartel": "Achurra 7",
+    "labor": "Barrido",
+    "n_hileras": 3,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 2",
+    "labor": "Barrido",
+    "n_hileras": 82,
+    "area_total_ha": 1.93,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 2",
+    "labor": "Barrido",
+    "n_hileras": 75,
+    "area_total_ha": 1.93,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 8",
+    "labor": "Barrido",
+    "n_hileras": 75,
+    "area_total_ha": 2.96,
+    "area_trabajada_ha": 1.3
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 8",
+    "labor": "Barrido",
+    "n_hileras": 76,
+    "area_total_ha": 2.96,
+    "area_trabajada_ha": 1.29
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N14_JP",
+    "labor": "Barrido",
+    "n_hileras": 3,
+    "area_total_ha": 25.07,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N14_JP",
+    "labor": "Barrido",
+    "n_hileras": 21,
+    "area_total_ha": 25.07,
+    "area_trabajada_ha": 4.77
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.12",
+    "labor": "Barrido",
+    "n_hileras": 105,
+    "area_total_ha": 3.97,
+    "area_trabajada_ha": 1.59
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 3",
+    "cuartel": "Santa Ana 2.21",
+    "labor": "Barrido",
+    "n_hileras": 122,
+    "area_total_ha": 5.17,
+    "area_trabajada_ha": 2.47
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.21",
+    "labor": "Barrido",
+    "n_hileras": 6,
+    "area_total_ha": 5.17,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 3",
+    "cuartel": "Santa Ana 2.24",
+    "labor": "Barrido",
+    "n_hileras": 26,
+    "area_total_ha": 0.36,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 10",
+    "cuartel": "A6B",
+    "labor": "Barrido",
+    "n_hileras": 112,
+    "area_total_ha": 30.26,
+    "area_trabajada_ha": 0.58
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 11",
+    "cuartel": "A6B",
+    "labor": "Barrido",
+    "n_hileras": 82,
+    "area_total_ha": 30.26,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 10",
+    "cuartel": "A6C",
+    "labor": "Barrido",
+    "n_hileras": 56,
+    "area_total_ha": 7.43,
+    "area_trabajada_ha": 1.36
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 11",
+    "cuartel": "A6C",
+    "labor": "Barrido",
+    "n_hileras": 45,
+    "area_total_ha": 7.43,
+    "area_trabajada_ha": 1.44
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 11",
+    "cuartel": "A6A",
+    "labor": "Barrido",
+    "n_hileras": 97,
+    "area_total_ha": 41.14,
+    "area_trabajada_ha": 5.63
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 10",
+    "cuartel": "A6A",
+    "labor": "Barrido",
+    "n_hileras": 112,
+    "area_total_ha": 41.14,
+    "area_trabajada_ha": 5.44
+  },
+  {
+    "fecha": "2026-03-16",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.25",
+    "labor": "Barrido",
+    "n_hileras": 70,
+    "area_total_ha": 1.66,
+    "area_trabajada_ha": 1.66
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A9",
+    "labor": "Barrido",
+    "n_hileras": 112,
+    "area_total_ha": 8.75,
+    "area_trabajada_ha": 0.72
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A9",
+    "labor": "Barrido",
+    "n_hileras": 151,
+    "area_total_ha": 8.75,
+    "area_trabajada_ha": 0.51
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A10",
+    "labor": "Barrido",
+    "n_hileras": 149,
+    "area_total_ha": 22.53,
+    "area_trabajada_ha": 3.06
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A10",
+    "labor": "Barrido",
+    "n_hileras": 228,
+    "area_total_ha": 22.53,
+    "area_trabajada_ha": 2.87
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 2",
+    "cuartel": "Achurra 4",
+    "labor": "Barrido",
+    "n_hileras": 88,
+    "area_total_ha": 8.42,
+    "area_trabajada_ha": 1.91
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 4",
+    "labor": "Barrido",
+    "n_hileras": 138,
+    "area_total_ha": 8.42,
+    "area_trabajada_ha": 1.96
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 6",
+    "labor": "Barrido",
+    "n_hileras": 216,
+    "area_total_ha": 6.58,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 7",
+    "labor": "Barrido",
+    "n_hileras": 67,
+    "area_total_ha": 3.31,
+    "area_trabajada_ha": 1.54
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 8",
+    "labor": "Barrido",
+    "n_hileras": 113,
+    "area_total_ha": 2.96,
+    "area_trabajada_ha": 0.37
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N13_JP",
+    "labor": "Barrido",
+    "n_hileras": 21,
+    "area_total_ha": 10.03,
+    "area_trabajada_ha": 5.77
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N13_JP",
+    "labor": "Barrido",
+    "n_hileras": 0,
+    "area_total_ha": 10.03,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 11",
+    "cuartel": "BALLERINA_N13_JP",
+    "labor": "Barrido",
+    "n_hileras": 32,
+    "area_total_ha": 10.03,
+    "area_trabajada_ha": 0.25
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 10",
+    "cuartel": "A2",
+    "labor": "Barrido",
+    "n_hileras": 160,
+    "area_total_ha": 32.15,
+    "area_trabajada_ha": 0.65
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 11",
+    "cuartel": "A2",
+    "labor": "Barrido",
+    "n_hileras": 94,
+    "area_total_ha": 32.15,
+    "area_trabajada_ha": 0.65
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 10",
+    "cuartel": "A5",
+    "labor": "Barrido",
+    "n_hileras": 115,
+    "area_total_ha": 27.36,
+    "area_trabajada_ha": 6.05
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 11",
+    "cuartel": "A5",
+    "labor": "Barrido",
+    "n_hileras": 95,
+    "area_total_ha": 27.36,
+    "area_trabajada_ha": 4.68
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 10",
+    "cuartel": "A6A",
+    "labor": "Barrido",
+    "n_hileras": 114,
+    "area_total_ha": 41.14,
+    "area_trabajada_ha": 0.59
+  },
+  {
+    "fecha": "2026-03-17",
+    "maquina": "Barredora 11",
+    "cuartel": "A6A",
+    "labor": "Barrido",
+    "n_hileras": 100,
+    "area_total_ha": 41.14,
+    "area_trabajada_ha": 1.1
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A13",
+    "labor": "Barrido",
+    "n_hileras": 58,
+    "area_total_ha": 2.99,
+    "area_trabajada_ha": 1.89
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A13",
+    "labor": "Barrido",
+    "n_hileras": 49,
+    "area_total_ha": 2.99,
+    "area_trabajada_ha": 1.1
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 7",
+    "cuartel": "Bernardo Lira Pomaire 7",
+    "labor": "Barrido",
+    "n_hileras": 77,
+    "area_total_ha": 3.31,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 7",
+    "labor": "Barrido",
+    "n_hileras": 80,
+    "area_total_ha": 3.31,
+    "area_trabajada_ha": 1.51
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A14",
+    "labor": "Barrido",
+    "n_hileras": 59,
+    "area_total_ha": 3.34,
+    "area_trabajada_ha": 1.62
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A14",
+    "labor": "Barrido",
+    "n_hileras": 53,
+    "area_total_ha": 3.34,
+    "area_trabajada_ha": 1.71
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 16",
+    "labor": "Barrido",
+    "n_hileras": 170,
+    "area_total_ha": 1.71,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 17",
+    "labor": "Barrido",
+    "n_hileras": 173,
+    "area_total_ha": 3.69,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 18",
+    "labor": "Barrido",
+    "n_hileras": 171,
+    "area_total_ha": 3.26,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 19",
+    "labor": "Barrido",
+    "n_hileras": 153,
+    "area_total_ha": 2.95,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 20",
+    "labor": "Barrido",
+    "n_hileras": 103,
+    "area_total_ha": 2.27,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 21",
+    "labor": "Barrido",
+    "n_hileras": 94,
+    "area_total_ha": 1.9,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N13_JP",
+    "labor": "Barrido",
+    "n_hileras": 37,
+    "area_total_ha": 10.03,
+    "area_trabajada_ha": 3.74
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N14_JP",
+    "labor": "Barrido",
+    "n_hileras": 3,
+    "area_total_ha": 25.07,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 11",
+    "cuartel": "BALLERINA_N14_JP",
+    "labor": "Barrido",
+    "n_hileras": 47,
+    "area_total_ha": 25.07,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N14_JP",
+    "labor": "Barrido",
+    "n_hileras": 44,
+    "area_total_ha": 25.07,
+    "area_trabajada_ha": 4.57
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 10",
+    "cuartel": "A2",
+    "labor": "Barrido",
+    "n_hileras": 170,
+    "area_total_ha": 32.15,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 11",
+    "cuartel": "A2",
+    "labor": "Barrido",
+    "n_hileras": 102,
+    "area_total_ha": 32.15,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 10",
+    "cuartel": "A5",
+    "labor": "Barrido",
+    "n_hileras": 144,
+    "area_total_ha": 27.36,
+    "area_trabajada_ha": 5.06
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 11",
+    "cuartel": "A5",
+    "labor": "Barrido",
+    "n_hileras": 118,
+    "area_total_ha": 27.36,
+    "area_trabajada_ha": 4.32
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 11",
+    "cuartel": "A6A",
+    "labor": "Barrido",
+    "n_hileras": 107,
+    "area_total_ha": 41.14,
+    "area_trabajada_ha": 3.42
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 10",
+    "cuartel": "A6A",
+    "labor": "Barrido",
+    "n_hileras": 126,
+    "area_total_ha": 41.14,
+    "area_trabajada_ha": 3.76
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 23",
+    "labor": "Barrido",
+    "n_hileras": 46,
+    "area_total_ha": 0.43,
+    "area_trabajada_ha": 0.43
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N15_JP",
+    "labor": "Barrido",
+    "n_hileras": 11,
+    "area_total_ha": 20.82,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-18",
+    "maquina": "Barredora 11",
+    "cuartel": "BALLERINA_N15_JP",
+    "labor": "Barrido",
+    "n_hileras": 7,
+    "area_total_ha": 20.82,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A7",
+    "labor": "Barrido",
+    "n_hileras": 11,
+    "area_total_ha": 9.42,
+    "area_trabajada_ha": 0.48
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A7",
+    "labor": "Barrido",
+    "n_hileras": 11,
+    "area_total_ha": 9.42,
+    "area_trabajada_ha": 0.88
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A6",
+    "labor": "Barrido",
+    "n_hileras": 11,
+    "area_total_ha": 8.76,
+    "area_trabajada_ha": 0.34
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A6",
+    "labor": "Barrido",
+    "n_hileras": 9,
+    "area_total_ha": 8.76,
+    "area_trabajada_ha": 0.5
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A13",
+    "labor": "Barrido",
+    "n_hileras": 62,
+    "area_total_ha": 2.99,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 6",
+    "labor": "Barrido",
+    "n_hileras": 109,
+    "area_total_ha": 3.22,
+    "area_trabajada_ha": 2.38
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 7",
+    "labor": "Barrido",
+    "n_hileras": 93,
+    "area_total_ha": 3.31,
+    "area_trabajada_ha": 0.69
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A14",
+    "labor": "Barrido",
+    "n_hileras": 55,
+    "area_total_ha": 3.34,
+    "area_trabajada_ha": 0.24
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 16",
+    "labor": "Barrido",
+    "n_hileras": 187,
+    "area_total_ha": 1.71,
+    "area_trabajada_ha": 0.45
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "Gonzalo Sanchez 17",
+    "labor": "Picado",
+    "n_hileras": 96,
+    "area_total_ha": 3.69,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 17",
+    "labor": "Barrido",
+    "n_hileras": 197,
+    "area_total_ha": 3.69,
+    "area_trabajada_ha": 1.23
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 18",
+    "labor": "Barrido",
+    "n_hileras": 190,
+    "area_total_ha": 3.26,
+    "area_trabajada_ha": 1.04
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 19",
+    "labor": "Barrido",
+    "n_hileras": 177,
+    "area_total_ha": 2.95,
+    "area_trabajada_ha": 0.83
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "Gonzalo Sanchez 20",
+    "labor": "Picado",
+    "n_hileras": 47,
+    "area_total_ha": 2.27,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 20",
+    "labor": "Barrido",
+    "n_hileras": 113,
+    "area_total_ha": 2.27,
+    "area_trabajada_ha": 0.5
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 21",
+    "labor": "Barrido",
+    "n_hileras": 106,
+    "area_total_ha": 1.9,
+    "area_trabajada_ha": 0.5
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "Gonzalo Sanchez 22",
+    "labor": "Picado",
+    "n_hileras": 42,
+    "area_total_ha": 1.62,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 22",
+    "labor": "Barrido",
+    "n_hileras": 103,
+    "area_total_ha": 1.62,
+    "area_trabajada_ha": 0.88
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N14_JP",
+    "labor": "Barrido",
+    "n_hileras": 3,
+    "area_total_ha": 25.07,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 11",
+    "cuartel": "BALLERINA_N14_JP",
+    "labor": "Barrido",
+    "n_hileras": 47,
+    "area_total_ha": 25.07,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N14_JP",
+    "labor": "Barrido",
+    "n_hileras": 69,
+    "area_total_ha": 25.07,
+    "area_trabajada_ha": 8.65
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 10",
+    "cuartel": "A2",
+    "labor": "Barrido",
+    "n_hileras": 173,
+    "area_total_ha": 32.15,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 11",
+    "cuartel": "A2",
+    "labor": "Barrido",
+    "n_hileras": 105,
+    "area_total_ha": 32.15,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 10",
+    "cuartel": "A5",
+    "labor": "Barrido",
+    "n_hileras": 145,
+    "area_total_ha": 27.36,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 11",
+    "cuartel": "A5",
+    "labor": "Barrido",
+    "n_hileras": 118,
+    "area_total_ha": 27.36,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 10",
+    "cuartel": "A6A",
+    "labor": "Barrido",
+    "n_hileras": 146,
+    "area_total_ha": 41.14,
+    "area_trabajada_ha": 5.09
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 11",
+    "cuartel": "A6A",
+    "labor": "Barrido",
+    "n_hileras": 133,
+    "area_total_ha": 41.14,
+    "area_trabajada_ha": 5.42
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Barrido",
+    "n_hileras": 14,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Barrido",
+    "n_hileras": 14,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-19",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 25",
+    "labor": "Barrido",
+    "n_hileras": 39,
+    "area_total_ha": 0.43,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 1",
+    "labor": "Barrido",
+    "n_hileras": 203,
+    "area_total_ha": 3.41,
+    "area_trabajada_ha": 1.02
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 49,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 5.23
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 25,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 2.71
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 5",
+    "labor": "Barrido",
+    "n_hileras": 25,
+    "area_total_ha": 2.66,
+    "area_trabajada_ha": 0.53
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 6",
+    "labor": "Barrido",
+    "n_hileras": 163,
+    "area_total_ha": 3.22,
+    "area_trabajada_ha": 0.84
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 5",
+    "cuartel": "Bernardo Lira Pomaire 7",
+    "labor": "Barrido",
+    "n_hileras": 93,
+    "area_total_ha": 3.31,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 3",
+    "labor": "Barrido",
+    "n_hileras": 75,
+    "area_total_ha": 0.74,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 4",
+    "labor": "Barrido",
+    "n_hileras": 174,
+    "area_total_ha": 3.01,
+    "area_trabajada_ha": 1.01
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 5",
+    "labor": "Barrido",
+    "n_hileras": 83,
+    "area_total_ha": 1.07,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 6",
+    "labor": "Barrido",
+    "n_hileras": 114,
+    "area_total_ha": 1.44,
+    "area_trabajada_ha": 0.48
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 10",
+    "labor": "Barrido",
+    "n_hileras": 52,
+    "area_total_ha": 0.7,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 11",
+    "labor": "Barrido",
+    "n_hileras": 65,
+    "area_total_ha": 0.96,
+    "area_trabajada_ha": 0.31
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 12",
+    "labor": "Barrido",
+    "n_hileras": 72,
+    "area_total_ha": 1.29,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 13",
+    "labor": "Barrido",
+    "n_hileras": 102,
+    "area_total_ha": 1.41,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 14",
+    "labor": "Barrido",
+    "n_hileras": 112,
+    "area_total_ha": 1.7,
+    "area_trabajada_ha": 0.57
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 15",
+    "labor": "Barrido",
+    "n_hileras": 116,
+    "area_total_ha": 1.42,
+    "area_trabajada_ha": 0.41
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 10",
+    "cuartel": "A2",
+    "labor": "Barrido",
+    "n_hileras": 174,
+    "area_total_ha": 32.15,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 25",
+    "labor": "Barrido",
+    "n_hileras": 44,
+    "area_total_ha": 0.43,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 11",
+    "cuartel": "A11Aa",
+    "labor": "Barrido",
+    "n_hileras": 49,
+    "area_total_ha": 5.89,
+    "area_trabajada_ha": 1.81
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "A11Aa",
+    "labor": "Barrido",
+    "n_hileras": 33,
+    "area_total_ha": 5.89,
+    "area_trabajada_ha": 1.29
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 10",
+    "cuartel": "A11Aa",
+    "labor": "Barrido",
+    "n_hileras": 33,
+    "area_total_ha": 5.89,
+    "area_trabajada_ha": 0.79
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 11",
+    "cuartel": "A11B",
+    "labor": "Barrido",
+    "n_hileras": 48,
+    "area_total_ha": 3.26,
+    "area_trabajada_ha": 0.98
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "A11B",
+    "labor": "Barrido",
+    "n_hileras": 26,
+    "area_total_ha": 3.26,
+    "area_trabajada_ha": 0.64
+  },
+  {
+    "fecha": "2026-03-20",
+    "maquina": "Barredora 10",
+    "cuartel": "A11B",
+    "labor": "Barrido",
+    "n_hileras": 48,
+    "area_total_ha": 3.26,
+    "area_trabajada_ha": 0.68
+  },
+  {
+    "fecha": "2026-03-21",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 56,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 3.71
+  },
+  {
+    "fecha": "2026-03-21",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 86,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 3.62
+  },
+  {
+    "fecha": "2026-03-22",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 128,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 2.8
+  },
+  {
+    "fecha": "2026-03-22",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 96,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 2.92
+  },
+  {
+    "fecha": "2026-03-23",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "BALLERINA_N9_JP",
+    "labor": "Barrido",
+    "n_hileras": 1,
+    "area_total_ha": 58.84,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-03-23",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N9_JP",
+    "labor": "Barrido",
+    "n_hileras": 1,
+    "area_total_ha": 58.84,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-03-23",
+    "maquina": "Barredora 11",
+    "cuartel": "BALLERINA_N9_JP",
+    "labor": "Barrido",
+    "n_hileras": 8,
+    "area_total_ha": 58.84,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-03-23",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N9_JP",
+    "labor": "Barrido",
+    "n_hileras": 8,
+    "area_total_ha": 58.84,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-03-23",
+    "maquina": "Barredora 8",
+    "cuartel": "BALLERINA_N9_JP",
+    "labor": "Barrido",
+    "n_hileras": 0,
+    "area_total_ha": 58.84,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-03-23",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "BALLERINA_N10_JP",
+    "labor": "Barrido",
+    "n_hileras": 83,
+    "area_total_ha": 46.84,
+    "area_trabajada_ha": 4.63
+  },
+  {
+    "fecha": "2026-03-23",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N10_JP",
+    "labor": "Barrido",
+    "n_hileras": 21,
+    "area_total_ha": 46.84,
+    "area_trabajada_ha": 3.37
+  },
+  {
+    "fecha": "2026-03-23",
+    "maquina": "Barredora 11",
+    "cuartel": "BALLERINA_N10_JP",
+    "labor": "Barrido",
+    "n_hileras": 16,
+    "area_total_ha": 46.84,
+    "area_trabajada_ha": 1.46
+  },
+  {
+    "fecha": "2026-03-23",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N10_JP",
+    "labor": "Barrido",
+    "n_hileras": 17,
+    "area_total_ha": 46.84,
+    "area_trabajada_ha": 3.3
+  },
+  {
+    "fecha": "2026-03-23",
+    "maquina": "Barredora 8",
+    "cuartel": "BALLERINA_N10_JP",
+    "labor": "Barrido",
+    "n_hileras": 9,
+    "area_total_ha": 46.84,
+    "area_trabajada_ha": 2.68
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A7",
+    "labor": "Barrido",
+    "n_hileras": 13,
+    "area_total_ha": 9.42,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A7",
+    "labor": "Barrido",
+    "n_hileras": 16,
+    "area_total_ha": 9.42,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 1 C2",
+    "labor": "Barrido",
+    "n_hileras": 437,
+    "area_total_ha": 64.4,
+    "area_trabajada_ha": 0.17
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 8",
+    "cuartel": "BALLERINA_N9_JP",
+    "labor": "Barrido",
+    "n_hileras": 4,
+    "area_total_ha": 58.84,
+    "area_trabajada_ha": 0.39
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "BALLERINA_N9_JP",
+    "labor": "Barrido",
+    "n_hileras": 5,
+    "area_total_ha": 58.84,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N9_JP",
+    "labor": "Barrido",
+    "n_hileras": 4,
+    "area_total_ha": 58.84,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N9_JP",
+    "labor": "Barrido",
+    "n_hileras": 9,
+    "area_total_ha": 58.84,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N10_JP",
+    "labor": "Barrido",
+    "n_hileras": 28,
+    "area_total_ha": 46.84,
+    "area_trabajada_ha": 3.12
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "BALLERINA_N10_JP",
+    "labor": "Barrido",
+    "n_hileras": 171,
+    "area_total_ha": 46.84,
+    "area_trabajada_ha": 4.88
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 8",
+    "cuartel": "BALLERINA_N10_JP",
+    "labor": "Barrido",
+    "n_hileras": 28,
+    "area_total_ha": 46.84,
+    "area_trabajada_ha": 4.2
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N10_JP",
+    "labor": "Barrido",
+    "n_hileras": 39,
+    "area_total_ha": 46.84,
+    "area_trabajada_ha": 4.36
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 11",
+    "cuartel": "BALLERINA_N10_JP",
+    "labor": "Barrido",
+    "n_hileras": 26,
+    "area_total_ha": 46.84,
+    "area_trabajada_ha": 2.19
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 10",
+    "cuartel": "A6B",
+    "labor": "Barrido",
+    "n_hileras": 113,
+    "area_total_ha": 30.26,
+    "area_trabajada_ha": 0.28
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 11",
+    "cuartel": "A6B",
+    "labor": "Barrido",
+    "n_hileras": 83,
+    "area_total_ha": 30.26,
+    "area_trabajada_ha": 0.44
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 11",
+    "cuartel": "A7Aa",
+    "labor": "Barrido",
+    "n_hileras": 29,
+    "area_total_ha": 12.22,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Barrido",
+    "n_hileras": 5,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 8",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Barrido",
+    "n_hileras": 9,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Barrido",
+    "n_hileras": 15,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 11",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Barrido",
+    "n_hileras": 11,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 10",
+    "cuartel": "A11Ac",
+    "labor": "Barrido",
+    "n_hileras": 84,
+    "area_total_ha": 11.87,
+    "area_trabajada_ha": 3.47
+  },
+  {
+    "fecha": "2026-03-24",
+    "maquina": "Barredora 11",
+    "cuartel": "A11Ac",
+    "labor": "Barrido",
+    "n_hileras": 59,
+    "area_total_ha": 11.87,
+    "area_trabajada_ha": 3.52
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A7",
+    "labor": "Barrido",
+    "n_hileras": 55,
+    "area_total_ha": 9.42,
+    "area_trabajada_ha": 2.8
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A7",
+    "labor": "Barrido",
+    "n_hileras": 39,
+    "area_total_ha": 9.42,
+    "area_trabajada_ha": 1.52
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A6",
+    "labor": "Barrido",
+    "n_hileras": 52,
+    "area_total_ha": 8.76,
+    "area_trabajada_ha": 2.2
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A6",
+    "labor": "Barrido",
+    "n_hileras": 43,
+    "area_total_ha": 8.76,
+    "area_trabajada_ha": 1.07
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 99,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 129,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 1 C2",
+    "labor": "Barrido",
+    "n_hileras": 533,
+    "area_total_ha": 64.4,
+    "area_trabajada_ha": 0.74
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "BALLERINA_N9_JP",
+    "labor": "Barrido",
+    "n_hileras": 7,
+    "area_total_ha": 58.84,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 8",
+    "cuartel": "BALLERINA_N9_JP",
+    "labor": "Barrido",
+    "n_hileras": 4,
+    "area_total_ha": 58.84,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N9_JP",
+    "labor": "Barrido",
+    "n_hileras": 8,
+    "area_total_ha": 58.84,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "BALLERINA_N10_JP",
+    "labor": "Barrido",
+    "n_hileras": 197,
+    "area_total_ha": 46.84,
+    "area_trabajada_ha": 1.0
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 8",
+    "cuartel": "BALLERINA_N10_JP",
+    "labor": "Barrido",
+    "n_hileras": 59,
+    "area_total_ha": 46.84,
+    "area_trabajada_ha": 2.75
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N10_JP",
+    "labor": "Barrido",
+    "n_hileras": 57,
+    "area_total_ha": 46.84,
+    "area_trabajada_ha": 2.79
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 9",
+    "labor": "Barrido",
+    "n_hileras": 293,
+    "area_total_ha": 9.98,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "A1",
+    "labor": "Barrido",
+    "n_hileras": 0,
+    "area_total_ha": 37.11,
+    "area_trabajada_ha": 0.5
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 10",
+    "cuartel": "A1",
+    "labor": "Barrido",
+    "n_hileras": 68,
+    "area_total_ha": 37.11,
+    "area_trabajada_ha": 2.68
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 11",
+    "cuartel": "A1",
+    "labor": "Barrido",
+    "n_hileras": 50,
+    "area_total_ha": 37.11,
+    "area_trabajada_ha": 1.46
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 10",
+    "cuartel": "A6B",
+    "labor": "Barrido",
+    "n_hileras": 115,
+    "area_total_ha": 30.26,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "A6B",
+    "labor": "Barrido",
+    "n_hileras": 0,
+    "area_total_ha": 30.26,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 11",
+    "cuartel": "A6B",
+    "labor": "Barrido",
+    "n_hileras": 86,
+    "area_total_ha": 30.26,
+    "area_trabajada_ha": 0.39
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 10",
+    "cuartel": "A7Aa",
+    "labor": "Barrido",
+    "n_hileras": 73,
+    "area_total_ha": 12.22,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "A7Aa",
+    "labor": "Barrido",
+    "n_hileras": 0,
+    "area_total_ha": 12.22,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 11",
+    "cuartel": "A7Aa",
+    "labor": "Barrido",
+    "n_hileras": 30,
+    "area_total_ha": 12.22,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "A7Ab",
+    "labor": "Barrido",
+    "n_hileras": 0,
+    "area_total_ha": 6.79,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Barrido",
+    "n_hileras": 15,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Barrido",
+    "n_hileras": 15,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 11",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Barrido",
+    "n_hileras": 12,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "A7Ba",
+    "labor": "Barrido",
+    "n_hileras": 0,
+    "area_total_ha": 6.07,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "A10A",
+    "labor": "Barrido",
+    "n_hileras": 19,
+    "area_total_ha": 10.14,
+    "area_trabajada_ha": 0.86
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 10",
+    "cuartel": "A10A",
+    "labor": "Barrido",
+    "n_hileras": 85,
+    "area_total_ha": 10.14,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 11",
+    "cuartel": "A10A",
+    "labor": "Barrido",
+    "n_hileras": 83,
+    "area_total_ha": 10.14,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 10",
+    "cuartel": "A11Ac",
+    "labor": "Barrido",
+    "n_hileras": 99,
+    "area_total_ha": 11.87,
+    "area_trabajada_ha": 0.67
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 11",
+    "cuartel": "A11Ac",
+    "labor": "Barrido",
+    "n_hileras": 59,
+    "area_total_ha": 11.87,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "A11Ac",
+    "labor": "Barrido",
+    "n_hileras": 0,
+    "area_total_ha": 11.87,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 10",
+    "cuartel": "A11Ab",
+    "labor": "Barrido",
+    "n_hileras": 80,
+    "area_total_ha": 9.89,
+    "area_trabajada_ha": 3.46
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "A11Ab",
+    "labor": "Barrido",
+    "n_hileras": 36,
+    "area_total_ha": 9.89,
+    "area_trabajada_ha": 1.35
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 11",
+    "cuartel": "A11Ab",
+    "labor": "Barrido",
+    "n_hileras": 67,
+    "area_total_ha": 9.89,
+    "area_trabajada_ha": 1.7
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 10",
+    "labor": "Barrido",
+    "n_hileras": 102,
+    "area_total_ha": 5.35,
+    "area_trabajada_ha": 3.7
+  },
+  {
+    "fecha": "2026-03-25",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 11",
+    "labor": "Barrido",
+    "n_hileras": 56,
+    "area_total_ha": 2.13,
+    "area_trabajada_ha": 1.17
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A7",
+    "labor": "Barrido",
+    "n_hileras": 65,
+    "area_total_ha": 9.42,
+    "area_trabajada_ha": 1.14
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A7",
+    "labor": "Barrido",
+    "n_hileras": 74,
+    "area_total_ha": 9.42,
+    "area_trabajada_ha": 1.25
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A6",
+    "labor": "Barrido",
+    "n_hileras": 61,
+    "area_total_ha": 8.76,
+    "area_trabajada_ha": 1.12
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A6",
+    "labor": "Barrido",
+    "n_hileras": 72,
+    "area_total_ha": 8.76,
+    "area_trabajada_ha": 1.15
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A3",
+    "labor": "Barrido",
+    "n_hileras": 25,
+    "area_total_ha": 1.58,
+    "area_trabajada_ha": 0.89
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A3",
+    "labor": "Barrido",
+    "n_hileras": 17,
+    "area_total_ha": 1.58,
+    "area_trabajada_ha": 0.69
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 105,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 136,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 7",
+    "labor": "Barrido",
+    "n_hileras": 250,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 0.44
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 1 C2",
+    "labor": "Barrido",
+    "n_hileras": 553,
+    "area_total_ha": 64.4,
+    "area_trabajada_ha": 0.33
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 8",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 16,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 2.22
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 68,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 5.6
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 23,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 2.79
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 11",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 4,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 0.69
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 6,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 0.91
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N10_JP",
+    "labor": "Barrido",
+    "n_hileras": 64,
+    "area_total_ha": 46.84,
+    "area_trabajada_ha": 0.35
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut",
+    "labor": "Barrido",
+    "n_hileras": 35,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 3.18
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 2",
+    "labor": "Barrido",
+    "n_hileras": 34,
+    "area_total_ha": 18.38,
+    "area_trabajada_ha": 3.71
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 3",
+    "labor": "Barrido",
+    "n_hileras": 32,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 3.68
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 4",
+    "labor": "Barrido",
+    "n_hileras": 32,
+    "area_total_ha": 17.05,
+    "area_trabajada_ha": 3.26
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 11",
+    "cuartel": "A1",
+    "labor": "Barrido",
+    "n_hileras": 63,
+    "area_total_ha": 37.11,
+    "area_trabajada_ha": 5.49
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 10",
+    "cuartel": "A1",
+    "labor": "Barrido",
+    "n_hileras": 94,
+    "area_total_ha": 37.11,
+    "area_trabajada_ha": 6.62
+  },
+  {
+    "fecha": "2026-03-26",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 1",
+    "labor": "Barrido",
+    "n_hileras": 139,
+    "area_total_ha": 2.57,
+    "area_trabajada_ha": 1.2
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 182,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 152,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 3",
+    "labor": "Barrido",
+    "n_hileras": 138,
+    "area_total_ha": 9.17,
+    "area_trabajada_ha": 3.6
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 4",
+    "labor": "Barrido",
+    "n_hileras": 167,
+    "area_total_ha": 8.42,
+    "area_trabajada_ha": 4.15
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 5",
+    "labor": "Barrido",
+    "n_hileras": 99,
+    "area_total_ha": 5.53,
+    "area_trabajada_ha": 3.41
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 6",
+    "labor": "Barrido",
+    "n_hileras": 218,
+    "area_total_ha": 6.58,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 7",
+    "labor": "Barrido",
+    "n_hileras": 251,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 111,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 5.93
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 8",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 47,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 2.65
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 57,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 3.22
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 41,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 4.86
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.20",
+    "labor": "Barrido",
+    "n_hileras": 44,
+    "area_total_ha": 1.75,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut",
+    "labor": "Barrido",
+    "n_hileras": 60,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 2.0
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 2",
+    "labor": "Barrido",
+    "n_hileras": 56,
+    "area_total_ha": 18.38,
+    "area_trabajada_ha": 2.39
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 3",
+    "labor": "Barrido",
+    "n_hileras": 56,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 2.52
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 4",
+    "labor": "Barrido",
+    "n_hileras": 60,
+    "area_total_ha": 17.05,
+    "area_trabajada_ha": 2.46
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 11",
+    "cuartel": "A1",
+    "labor": "Barrido",
+    "n_hileras": 114,
+    "area_total_ha": 37.11,
+    "area_trabajada_ha": 10.03
+  },
+  {
+    "fecha": "2026-03-27",
+    "maquina": "Barredora 7",
+    "cuartel": "Gonzalo Sanchez 25",
+    "labor": "Barrido",
+    "n_hileras": 47,
+    "area_total_ha": 0.43,
+    "area_trabajada_ha": 0.21
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 226,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 175,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 3",
+    "labor": "Barrido",
+    "n_hileras": 149,
+    "area_total_ha": 9.17,
+    "area_trabajada_ha": 1.84
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 4",
+    "labor": "Barrido",
+    "n_hileras": 178,
+    "area_total_ha": 8.42,
+    "area_trabajada_ha": 0.9
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 5",
+    "labor": "Barrido",
+    "n_hileras": 100,
+    "area_total_ha": 5.53,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 4",
+    "cuartel": "Achurra 7",
+    "labor": "Barrido",
+    "n_hileras": 252,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 77,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 2.62
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 142,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 4.31
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 55,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 2.31
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 13",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 3,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut",
+    "labor": "Barrido",
+    "n_hileras": 97,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 2.48
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 2",
+    "labor": "Barrido",
+    "n_hileras": 83,
+    "area_total_ha": 18.38,
+    "area_trabajada_ha": 2.87
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 3",
+    "labor": "Barrido",
+    "n_hileras": 83,
+    "area_total_ha": 18.44,
+    "area_trabajada_ha": 2.9
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 4",
+    "labor": "Barrido",
+    "n_hileras": 90,
+    "area_total_ha": 17.05,
+    "area_trabajada_ha": 2.59
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 11",
+    "cuartel": "A1",
+    "labor": "Barrido",
+    "n_hileras": 139,
+    "area_total_ha": 37.11,
+    "area_trabajada_ha": 3.84
+  },
+  {
+    "fecha": "2026-03-28",
+    "maquina": "Barredora 10",
+    "cuartel": "A1",
+    "labor": "Barrido",
+    "n_hileras": 105,
+    "area_total_ha": 37.11,
+    "area_trabajada_ha": 1.92
+  },
+  {
+    "fecha": "2026-03-29",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 5",
+    "labor": "Barrido",
+    "n_hileras": 7,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.34
+  },
+  {
+    "fecha": "2026-03-29",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 6",
+    "labor": "Barrido",
+    "n_hileras": 6,
+    "area_total_ha": 10.31,
+    "area_trabajada_ha": 0.45
+  },
+  {
+    "fecha": "2026-03-29",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 7",
+    "labor": "Barrido",
+    "n_hileras": 5,
+    "area_total_ha": 11.89,
+    "area_trabajada_ha": 0.75
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A8",
+    "labor": "Barrido",
+    "n_hileras": 72,
+    "area_total_ha": 10.77,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A8",
+    "labor": "Barrido",
+    "n_hileras": 60,
+    "area_total_ha": 10.77,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "labor": "Barrido",
+    "n_hileras": 60,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 2.87
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "labor": "Barrido",
+    "n_hileras": 126,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 3.07
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N10",
+    "labor": "Barrido",
+    "n_hileras": 5,
+    "area_total_ha": 0.9,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 7",
+    "cuartel": "Agricola Aeropuerto 3",
+    "labor": "Barrido",
+    "n_hileras": 76,
+    "area_total_ha": 47.53,
+    "area_trabajada_ha": 2.29
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 7",
+    "cuartel": "Agricola Aeropuerto 4",
+    "labor": "Barrido",
+    "n_hileras": 61,
+    "area_total_ha": 21.26,
+    "area_trabajada_ha": 1.74
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 13",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 6,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 0.38
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 113,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 4.98
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 204,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 9.87
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 11",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 15,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 2.2
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.2",
+    "labor": "Barrido",
+    "n_hileras": 35,
+    "area_total_ha": 2.74,
+    "area_trabajada_ha": 1.19
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.3",
+    "labor": "Barrido",
+    "n_hileras": 27,
+    "area_total_ha": 3.03,
+    "area_trabajada_ha": 1.45
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.4",
+    "labor": "Barrido",
+    "n_hileras": 24,
+    "area_total_ha": 2.81,
+    "area_trabajada_ha": 1.03
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.5",
+    "labor": "Barrido",
+    "n_hileras": 10,
+    "area_total_ha": 0.9,
+    "area_trabajada_ha": 0.51
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.6",
+    "labor": "Barrido",
+    "n_hileras": 6,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.7",
+    "labor": "Barrido",
+    "n_hileras": 45,
+    "area_total_ha": 3.59,
+    "area_trabajada_ha": 1.77
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.8",
+    "labor": "Barrido",
+    "n_hileras": 43,
+    "area_total_ha": 4.1,
+    "area_trabajada_ha": 1.93
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.9",
+    "labor": "Barrido",
+    "n_hileras": 10,
+    "area_total_ha": 0.34,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.15",
+    "labor": "Barrido",
+    "n_hileras": 0,
+    "area_total_ha": 2.71,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 5",
+    "labor": "Barrido",
+    "n_hileras": 40,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 1.89
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 6",
+    "labor": "Barrido",
+    "n_hileras": 33,
+    "area_total_ha": 10.31,
+    "area_trabajada_ha": 2.41
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 7",
+    "labor": "Barrido",
+    "n_hileras": 32,
+    "area_total_ha": 11.89,
+    "area_trabajada_ha": 3.34
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 17",
+    "cuartel": "Rincon de Abra 5",
+    "labor": "Barrido",
+    "n_hileras": 40,
+    "area_total_ha": 5.43,
+    "area_trabajada_ha": 2.75
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 11",
+    "cuartel": "A1",
+    "labor": "Barrido",
+    "n_hileras": 152,
+    "area_total_ha": 37.11,
+    "area_trabajada_ha": 2.34
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 10",
+    "cuartel": "A1",
+    "labor": "Barrido",
+    "n_hileras": 120,
+    "area_total_ha": 37.11,
+    "area_trabajada_ha": 2.22
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 11",
+    "cuartel": "A2",
+    "labor": "Barrido",
+    "n_hileras": 108,
+    "area_total_ha": 32.15,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 10",
+    "cuartel": "A2",
+    "labor": "Barrido",
+    "n_hileras": 182,
+    "area_total_ha": 32.15,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 10",
+    "cuartel": "A3",
+    "labor": "Barrido",
+    "n_hileras": 51,
+    "area_total_ha": 19.55,
+    "area_trabajada_ha": 6.73
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 14",
+    "cuartel": "A3",
+    "labor": "Barrido",
+    "n_hileras": 18,
+    "area_total_ha": 19.55,
+    "area_trabajada_ha": 3.9
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 11",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Barrido",
+    "n_hileras": 17,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 14",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Barrido",
+    "n_hileras": 0,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 5",
+    "cuartel": "Viconto 4.3",
+    "labor": "Barrido",
+    "n_hileras": 49,
+    "area_total_ha": 5.39,
+    "area_trabajada_ha": 3.33
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": "Achurra 10",
+    "labor": "Barrido",
+    "n_hileras": 17,
+    "area_total_ha": 5.35,
+    "area_trabajada_ha": 0.48
+  },
+  {
+    "fecha": "2026-03-30",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": "Achurra 11",
+    "labor": "Barrido",
+    "n_hileras": 14,
+    "area_total_ha": 2.13,
+    "area_trabajada_ha": 0.29
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue A9",
+    "labor": "Barrido",
+    "n_hileras": 151,
+    "area_total_ha": 8.75,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue A9",
+    "labor": "Barrido",
+    "n_hileras": 113,
+    "area_total_ha": 8.75,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 18",
+    "cuartel": "Bernardo Lira Pomaire 4",
+    "labor": "Barrido",
+    "n_hileras": 36,
+    "area_total_ha": 2.56,
+    "area_trabajada_ha": 0.97
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 18",
+    "cuartel": "Bernardo Lira Pomaire 7",
+    "labor": "Barrido",
+    "n_hileras": 1,
+    "area_total_ha": 3.31,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "labor": "Barrido",
+    "n_hileras": 217,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 4.12
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 15",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "labor": "Barrido",
+    "n_hileras": 114,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 1.68
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 7",
+    "cuartel": "Agricola Aeropuerto 3",
+    "labor": "Barrido",
+    "n_hileras": 168,
+    "area_total_ha": 47.53,
+    "area_trabajada_ha": 2.33
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 20 Weiss s/cab",
+    "cuartel": "Agricola Aeropuerto 3",
+    "labor": "Barrido",
+    "n_hileras": 8,
+    "area_total_ha": 47.53,
+    "area_trabajada_ha": 0.65
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 7",
+    "cuartel": "Agricola Aeropuerto 4",
+    "labor": "Barrido",
+    "n_hileras": 123,
+    "area_total_ha": 21.26,
+    "area_trabajada_ha": 1.51
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 20 Weiss s/cab",
+    "cuartel": "Agricola Aeropuerto 4",
+    "labor": "Barrido",
+    "n_hileras": 10,
+    "area_total_ha": 21.26,
+    "area_trabajada_ha": 0.6
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 219,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 2.82
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 11",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Barrido",
+    "n_hileras": 23,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 1.13
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N5_JP",
+    "labor": "Barrido",
+    "n_hileras": 8,
+    "area_total_ha": 19.15,
+    "area_trabajada_ha": 0.37
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 14",
+    "cuartel": "BALLERINA_N5_JP",
+    "labor": "Barrido",
+    "n_hileras": 1,
+    "area_total_ha": 19.15,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 11",
+    "cuartel": "BALLERINA_N5_JP",
+    "labor": "Barrido",
+    "n_hileras": 37,
+    "area_total_ha": 19.15,
+    "area_trabajada_ha": 3.57
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "BALLERINA_N5_JP",
+    "labor": "Barrido",
+    "n_hileras": 50,
+    "area_total_ha": 19.15,
+    "area_trabajada_ha": 4.76
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N5_JP",
+    "labor": "Barrido",
+    "n_hileras": 33,
+    "area_total_ha": 19.15,
+    "area_trabajada_ha": 2.74
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.13",
+    "labor": "Barrido",
+    "n_hileras": 133,
+    "area_total_ha": 5.68,
+    "area_trabajada_ha": 2.54
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.14",
+    "labor": "Barrido",
+    "n_hileras": 146,
+    "area_total_ha": 3.86,
+    "area_trabajada_ha": 2.81
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.15",
+    "labor": "Barrido",
+    "n_hileras": 34,
+    "area_total_ha": 2.71,
+    "area_trabajada_ha": 1.0
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.16",
+    "labor": "Barrido",
+    "n_hileras": 28,
+    "area_total_ha": 3.35,
+    "area_trabajada_ha": 1.27
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.18",
+    "labor": "Barrido",
+    "n_hileras": 18,
+    "area_total_ha": 0.53,
+    "area_trabajada_ha": 0.33
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.19",
+    "labor": "Barrido",
+    "n_hileras": 71,
+    "area_total_ha": 3.6,
+    "area_trabajada_ha": 1.67
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.20",
+    "labor": "Barrido",
+    "n_hileras": 71,
+    "area_total_ha": 1.75,
+    "area_trabajada_ha": 0.79
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut",
+    "labor": "Barrido",
+    "n_hileras": 104,
+    "area_total_ha": 15.77,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 4",
+    "labor": "Barrido",
+    "n_hileras": 102,
+    "area_total_ha": 17.05,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 2",
+    "cuartel": "Solfrut 5",
+    "labor": "Barrido",
+    "n_hileras": 39,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 17",
+    "cuartel": "Rincon de Abra 5",
+    "labor": "Barrido",
+    "n_hileras": 83,
+    "area_total_ha": 5.43,
+    "area_trabajada_ha": 1.45
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 10",
+    "cuartel": "A2",
+    "labor": "Barrido",
+    "n_hileras": 227,
+    "area_total_ha": 32.15,
+    "area_trabajada_ha": 2.13
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 14",
+    "cuartel": "A2",
+    "labor": "Barrido",
+    "n_hileras": 0,
+    "area_total_ha": 32.15,
+    "area_trabajada_ha": 0.33
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 10",
+    "cuartel": "A3",
+    "labor": "Barrido",
+    "n_hileras": 71,
+    "area_total_ha": 19.55,
+    "area_trabajada_ha": 3.5
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 14",
+    "cuartel": "A3",
+    "labor": "Barrido",
+    "n_hileras": 48,
+    "area_total_ha": 19.55,
+    "area_trabajada_ha": 2.66
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 9 Weiss c/cab",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Barrido",
+    "n_hileras": 6,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.04
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 10",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Barrido",
+    "n_hileras": 17,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 14",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Barrido",
+    "n_hileras": 0,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 12",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Barrido",
+    "n_hileras": 18,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 5",
+    "cuartel": "Viconto 4.2",
+    "labor": "Barrido",
+    "n_hileras": 56,
+    "area_total_ha": 12.64,
+    "area_trabajada_ha": 3.78
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 6",
+    "cuartel": "Viconto 4.2",
+    "labor": "Barrido",
+    "n_hileras": 17,
+    "area_total_ha": 12.64,
+    "area_trabajada_ha": 1.59
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 16",
+    "cuartel": "Santa Ana 2.17 (id 400262141-1079)",
+    "labor": "Barrido",
+    "n_hileras": 38,
+    "area_total_ha": 3.38,
+    "area_trabajada_ha": 1.42
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Achurra 10",
+    "labor": "Picado",
+    "n_hileras": 1,
+    "area_total_ha": 5.35,
+    "area_trabajada_ha": 0.35
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": "Achurra 10",
+    "labor": "Barrido",
+    "n_hileras": 50,
+    "area_total_ha": 5.35,
+    "area_trabajada_ha": 0.7
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Achurra 11",
+    "labor": "Picado",
+    "n_hileras": 9,
+    "area_total_ha": 2.13,
+    "area_trabajada_ha": 0.93
+  },
+  {
+    "fecha": "2026-03-31",
+    "maquina": "Barredora 21 Weiss s/cab",
+    "cuartel": "Achurra 11",
+    "labor": "Barrido",
+    "n_hileras": 25,
+    "area_total_ha": 2.13,
+    "area_trabajada_ha": 0.25
   }
 ]
