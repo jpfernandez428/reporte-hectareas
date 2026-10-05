@@ -84,9 +84,11 @@ cambiarlas sin preguntar.
   - **Hileras pegadas** (menos de 7 m, `separacion_patron_ancho_m`; ej.
     Aurora, 3–5 m): se pasa por todas las hileras. Un hueco de una o más
     hileras es trabajo pendiente y no se rellena.
-    - **Excepción GPS espaciado** (regla del usuario, 2-oct-2026): si el GPS
-      de la máquina deja al menos 20 m entre puntos (`paso_gps_espaciado_m`;
-      ej. un punto por minuto) y el patrón es regular (al menos 5 líneas,
+    - **Excepción GPS espaciado** (regla del usuario, 2-oct-2026; desde el
+      5-oct-2026 se mide por tiempo): si el GPS de la máquina manda un punto
+      cada 30 s o más (`intervalo_gps_espaciado_s`; mediana del día de cada
+      máquina, guardada en `_estilo_maquinas.json` → `intervalo_gps`; sin ese
+      dato se usa la distancia entre puntos ≥ 20 m) y el patrón es regular (al menos 5 líneas,
       `minimo_lineas_patron_regular`), un hueco de hasta 3 hileras entre dos
       pasadas vecinas cuenta como trabajado (`hileras_hueco_gps_espaciado`;
       hueco máximo = 4 × espaciado). Gonzalo Sánchez 2 – Picado: 90,5 →
@@ -130,6 +132,13 @@ cambiarlas sin preguntar.
     (`ESTILOS_CAMPO_REFERENCIA`): el resultado no depende del orden en que
     se calculan los cuarteles ese día (Gonzalo Sánchez 2 – Picado daba
     90,5 % o 100 % según el orden).
+  - **Patrón propio claro** (regla del usuario, 5-oct-2026): con menos de 15
+    líneas, si la separación propia del cuartel calza (±25 %,
+    `coincidencia_patron_dia`) con la de la máquina ese mismo día en las
+    geocercas vecinas, se usa la propia; si no, la del campo. Solfrut 10 –
+    Picado: propia 27,3 m vs día 28,4 m → propia (el campo "solfrut"
+    mezcla cuarteles de 4 a 15 m) → 100 %. El Volcán 14: propia 6,5 m vs
+    día 9,1 m → campo.
 - Pasada extra (repasar una hilera saltada) no suma ni rompe el patrón. Dos
   pasadas a menos de 1,5 m son la misma línea (también una pasada cortada
   por un salto del GPS).
@@ -415,6 +424,24 @@ editable por el usuario.
   hubo repasos completos: "N repasos completos + X %"). Solo aparece cuando
   la regla de pasadas abrió una pasada nueva (otro día, o el mismo día con
   ≥ 50 % del cuartel después del cierre).
+- **Una pasada (y un repaso) solo empieza con un día de TRABAJO** (regla del
+  usuario, 5-oct-2026): lo barrido ese día, por sí solo y con los filtros de
+  siempre (pasadas en serie), cubre al menos el 1 % del cuartel
+  (`fraccion_minima_dia_trabajo`). Pasar, girar o cortar una esquina nunca
+  crea una pasada ni un repaso: esos tramos quedan pendientes y se suman a la
+  pasada si dentro de 30 días hay un día de trabajo (si no, se descartan).
+  Ej. Gonzalo Sánchez 9: la Barredora 7 solo pasó el 19-03 (y el 04-03) →
+  sin repaso. En el relanzamiento del 2-oct había ~25 repasos armados solo
+  con días así (A2, A7Bb, A14, A15, Bruno Raggi 13/14/17/21/22, Bernardo
+  Lira Chiñihue A4/A5/A12/A21/A22, Achurra 3 y 5, Ballerina N7D, El Volcán
+  9, El Volcán 2022 3, Los Migueles, Rafael Peña 1/2/3, Candelaria 4,
+  Gonzalo Sánchez 9).
+- **Pasada vencida** (regla del usuario, 5-oct-2026): si pasan más de 30
+  días sin barrer el cuartel (`dias_vence_pasada`), la pasada abierta se
+  cierra como incompleta (queda en `incompletas` del estado) y el próximo
+  día de trabajo empieza una pasada nueva. Ej. Bernardo Lira Chiñihue N3:
+  la pasada de abril quedó en 83 %; el barrido del 23-09 es una pasada nueva
+  y se acreditan 8,5 ha (terreno ~8,05 ha).
 - Las hectáreas de barrido del historial suman todas las pasadas (pueden
   superar el área del cuartel); las del día se reparten entre las barredoras
   según los metros que barrió cada una.
@@ -495,31 +522,24 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
   4. Barrido: las rescatadas se suman a la pasada en curso del día del
      rescate (el repaso), nunca a una pasada ya cerrada.
   - Los días de `trabajo_descartado` nunca rescatan pendientes.
-- **Revisar con el usuario (encontrado en el relanzamiento del 2-oct-2026)**:
-  1. Solfrut 10 – Picado quedó en 92,3 % (en la prueba 100 %): con menos de
-     15 líneas usó el patrón del campo "solfrut" (12,45 m, mezcla cuarteles
-     de 4 a 15 m) en vez del propio (27,3 m, igual al del Tractor 16 ese
-     día, 28,4 m). Propuesta: si el patrón propio coincide (±25 %) con el de
-     la máquina ese día, es claro y se usa el propio; si no, el del campo
-     (El Volcán 14 sigue igual: propio 6,5 m vs día 9,1 m → campo).
-  2. Gonzalo Sánchez 2 – Picado quedó en 92,6 % (en la prueba 100 %): en el
-     año completo el Tractor 14 suma tramos cortados en el borde (filas de
-     cuarteles vecinos) y la distancia típica entre puntos bajó a 19,7 m,
-     justo bajo el umbral de 20 m de "GPS espaciado". Propuesta: medir el GPS
-     espaciado por tiempo (intervalo mediano de la máquina ese día ≥ 30 s).
-  3. Bernardo Lira Chiñihue N3 – Barrido: en abril las barredoras cubrieron
-     86 % y la pasada nunca llegó al 95 %, así que quedó abierta; el barrido
-     del 23-09 (~8 ha, caso de calibración) se sumó a esa misma pasada y solo
-     se acreditaron 0,32 ha nuevas. Propuesta: una pasada abierta se cierra
-     como incompleta si pasan más de N días (ej. 30) sin barrer el cuartel, y
-     lo siguiente es una pasada nueva.
-  4. Gonzalo Sánchez 9 – Barrido: aparece un repaso de 31,1 % del 19-03
-     (Barredora 7), día que no se revisó con GPS crudo.
-  5. Longaví 8 y 5: los casos de calibración eran del día 27-06 solo; en el
-     año completo el Tractor 11 ya había trabajado esos cuarteles antes (el
-     27-06 se acreditan 0,08 y 0 ha nuevas), así que no son comparables.
-     Con solo el 27-06 (prueba) siguen bien (2,55 ha y 0 ha).
-- Pasadas sueltas pendientes: aprobada, falta implementar (ver arriba).
+- Longaví 8 y 5: los casos de calibración son del día 27-06 solo; en el año
+  completo el Tractor 11 ya había trabajado esos cuarteles antes, así que se
+  verifican solo con la prueba de ese día (2,55 ha y 0 ha).
+- Pasadas sueltas pendientes en poda, picado y las demás labores: aprobada,
+  falta implementar (en barrido ya se aplica, ver "Barredoras").
+
+## Recálculo por labores
+
+- Entrada `labores` del workflow (ej. `Poda,Picado,Barrido`, variable
+  `LABORES_RECALCULO`): solo se bajan y procesan las máquinas de esas
+  labores; el avance, el historial, los mapas y la web se arman con la
+  memoria de todas. No se toca el panel de máquinas ni se calculan geocercas
+  nuevas. Antes se limpian solo los resultados de esas labores (memoria de
+  sus máquinas, sus entradas en `_avance_por_labor.json`, `_estilo_maquinas`
+  e historial, y la geometría de sus máquinas).
+- 5-oct-2026: recálculo de Poda, Picado y Barrido del 2026-01-01 a ayer, por
+  quincenas, con la corrida diaria pausada (pedido por el usuario tras las
+  correcciones 1–4).
 
 ## Registro del relanzamiento (2-oct-2026)
 

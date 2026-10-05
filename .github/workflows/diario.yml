@@ -1,8 +1,10 @@
 name: Reporte diario de hectareas
 
 on:
-  schedule:
-    - cron: '0 9 * * *'   # 09:00 UTC = ~06:00 Chile (horario de invierno)
+  # Corrida diaria automatica PAUSADA durante el recalculo por labores.
+  # Para reactivarla, descomentar estas dos lineas:
+  # schedule:
+  #   - cron: '0 9 * * *'   # 09:00 UTC = ~06:00 Chile (horario de invierno)
   workflow_dispatch:
     inputs:
       fecha_inicio:
@@ -37,6 +39,10 @@ on:
         description: 'Con diagnostico=1: nombre de una maquina para ver su ficha en Wialon (id, IMEI, equipo).'
         required: false
         default: ''
+      labores:
+        description: 'Recalcular solo estas labores (ej. Poda,Picado,Barrido). Vacio = todas.'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -69,6 +75,7 @@ jobs:
           PRUEBA_GEOCERCA_NUEVA: ${{ inputs.prueba_geocerca_nueva }}
           PRUEBA_CASOS: ${{ inputs.prueba_casos }}
           PRUEBA_INFO_UNIDAD: ${{ inputs.prueba_info_unidad }}
+          LABORES_RECALCULO: ${{ inputs.labores }}
         run: python3 reporte_hectareas.py
 
       - name: Guardar los datos de las pruebas (solo diagnostico)

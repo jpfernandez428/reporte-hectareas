@@ -80,6 +80,7 @@ RUTA_SUPERPOSICIONES = os.path.join(CARPETA_MEMORIA, "_superposiciones.json")
 # recorrio (el tractor puede ir y volver entre geocercas vecinas).
 RUTA_ESTILOS = os.path.join(CARPETA_MEMORIA, "_estilo_maquinas.json")
 ESTILOS = {}  # "maquina||AAAA-MM-DD" -> separacion tipica (m)
+INTERVALOS_GPS = {}  # "maquina||AAAA-MM-DD" -> segundos entre puntos GPS (mediana del dia)
 ESTILOS_CAMPO = {}  # "raiz||labor||geocerca||maquina" -> separacion tipica con patron claro (m)
 # Copia de ESTILOS_CAMPO tomada al empezar cada dia: el patron del campo que usa
 # un cuartel no depende del orden en que se calculan los cuarteles ese dia.
@@ -104,6 +105,11 @@ LABOR_NO_INCLUIR = "No incluir"
 LABOR_CON_PASADAS = CONFIG.get("labor_con_pasadas", "Barrido")
 UNIDADES = [u for u in CONFIG["unidades"] if u.get("labor") != LABOR_NO_INCLUIR]
 LABOR_POR_MAQUINA = {u["nombre"]: u.get("labor") or "Sin labor" for u in UNIDADES}
+# Recalculo de solo algunas labores (ej. "Poda,Picado,Barrido"): solo se bajan y
+# procesan esas maquinas; el avance, los mapas y la web se arman con la memoria
+# de todas. No se toca el panel de maquinas ni se calculan geocercas nuevas.
+LABORES_RECALCULO = [l.strip() for l in os.environ.get("LABORES_RECALCULO", "").split(",") if l.strip()]
+UNIDADES_A_CALCULAR = [u for u in UNIDADES if not LABORES_RECALCULO or (u.get("labor") or "Sin labor") in LABORES_RECALCULO]
 
 
 def labor_de(unidad):
@@ -228,7 +234,11 @@ HUECO_MAXIMO_PATRON_ANCHO_M = CONFIG.get("hueco_maximo_patron_ancho_m", 75)
 # entre puntos, ej. un punto por minuto): un hueco de hasta HILERAS_HUECO_GPS_ESPACIADO
 # hileras entre dos pasadas vecinas cuenta como trabajado (regla del usuario,
 # 2-oct-2026: el GPS no alcanza a mostrar todas las pasadas en un cuartel chico).
-PASO_GPS_ESPACIADO_M = CONFIG.get("paso_gps_espaciado_m", 20)
+PASO_GPS_ESPACIADO_M = CONFIG.get("paso_gps_espaciado_m", 20)  # solo si no se conoce el intervalo
+INTERVALO_GPS_ESPACIADO_S = CONFIG.get("intervalo_gps_espaciado_s", 30)
+# Con pocas pasadas, la separacion propia se usa si calza con la de la maquina
+# ese dia (+-25 %); si no, la del campo (regla del usuario, 5-oct-2026).
+COINCIDENCIA_PATRON_DIA = CONFIG.get("coincidencia_patron_dia", 0.25)
 HILERAS_HUECO_GPS_ESPACIADO = CONFIG.get("hileras_hueco_gps_espaciado", 3)
 MINIMO_LINEAS_PATRON_REGULAR = CONFIG.get("minimo_lineas_patron_regular", 5)
 # Pasadas por el contorno (a menos de esta distancia del limite y paralelas a
@@ -269,6 +279,14 @@ except Exception:
 # como pasada nueva (repaso) solo si por si solo cubre al menos esta fraccion
 # del cuartel; si no, es terminar la pasada (el 5 % restante).
 FRACCION_REPASO_MISMO_DIA = CONFIG.get("fraccion_repaso_mismo_dia", 0.5)
+# Mas de DIAS_VENCE_PASADA dias sin barrer: la pasada abierta se cierra como
+# incompleta y el proximo barrido empieza una nueva (regla del usuario, 5-oct-2026).
+DIAS_VENCE_PASADA = CONFIG.get("dias_vence_pasada", 30)
+# Una pasada (tambien un repaso) solo empieza con un dia de TRABAJO: lo barrido
+# ese dia, por si solo, cubre al menos esta fraccion del cuartel. Pasar, girar o
+# cortar una esquina no crea pasadas; esos tramos quedan pendientes y se suman
+# si dentro de DIAS_VENCE_PASADA dias hay un dia de trabajo.
+FRACCION_MINIMA_DIA_TRABAJO = CONFIG.get("fraccion_minima_dia_trabajo", 0.01)
 
 
 def dia_local(hora_unix):
@@ -1378,14 +1396,18 @@ def rellenar_patron(geo, referencia, alineadas, marcadas, separacion_vecinas=Non
         if labor and nombre_maquina:
             ESTILOS_CAMPO[f"{raiz_campo(geo['nombre'])}||{labor}||{geo['nombre']}||{nombre_maquina}"] = round(separacion, 1)
     else:
-        # Pocas pasadas: patron del campo, o el de ese dia en geocercas vecinas.
-        referencia_campo = separacion_campo(geo["nombre"], labor) if labor else None
-        separacion = referencia_campo or separacion_vecinas or separacion
+        # Pocas pasadas: si la separacion propia calza (+-COINCIDENCIA_PATRON_DIA)
+        # con la de la maquina ese dia en las geocercas vecinas, el patron es
+        # claro y se usa el propio; si no, el del campo, o el de ese dia.
+        calza = (separacion is not None and separacion_vecinas
+                 and abs(separacion - separacion_vecinas) <= COINCIDENCIA_PATRON_DIA * separacion_vecinas)
+        if not calza:
+            referencia_campo = separacion_campo(geo["nombre"], labor) if labor else None
+            separacion = referencia_campo or separacion_vecinas or separacion
     if separacion is None or separacion < SEPARACION_PATRON_ANCHO_M:
         # Hileras pegadas: un hueco es trabajo pendiente, salvo que el GPS sea
         # espaciado y el patron regular (hasta HILERAS_HUECO_GPS_ESPACIADO hileras).
-        if (len(lineas) >= MINIMO_LINEAS_PATRON_REGULAR
-                and statistics.median(h.paso_gps for h in alineadas) >= PASO_GPS_ESPACIADO_M):
+        if len(lineas) >= MINIMO_LINEAS_PATRON_REGULAR and gps_espaciado(nombre_maquina, alineadas):
             hueco = (HILERAS_HUECO_GPS_ESPACIADO + 1) * espaciado_real_m(alineadas)
             rellenar_por_tramos(geo, tramos_a_lo_largo(geo, referencia, alineadas, direccion),
                                 hueco, direccion, marcadas)
@@ -1461,6 +1483,17 @@ def separacion_del_dia(puntos_por_geocerca):
                 distintas.append(x)
         separaciones += [b - a for a, b in zip(distintas, distintas[1:])]
     return float(statistics.median(separaciones)) if separaciones else None
+
+
+def gps_espaciado(nombre_maquina, hileras):
+    """True si el GPS de la maquina reporta cada INTERVALO_GPS_ESPACIADO_S
+    segundos o mas (mediana de los dias de esas hileras). Sin ese dato, por la
+    distancia tipica entre puntos."""
+    valores = [INTERVALOS_GPS[f"{nombre_maquina}||{f}"] for f in sorted({f for h in hileras for f in h.fechas})
+               if f"{nombre_maquina}||{f}" in INTERVALOS_GPS]
+    if valores:
+        return statistics.median(valores) >= INTERVALO_GPS_ESPACIADO_S
+    return statistics.median(h.paso_gps for h in hileras) >= PASO_GPS_ESPACIADO_M
 
 
 def raiz_campo(nombre_geocerca):
@@ -1945,18 +1978,21 @@ def guardar_estado_avance(estado):
 def cargar_estilos():
     ESTILOS.clear()
     ESTILOS_CAMPO.clear()
+    INTERVALOS_GPS.clear()
     if os.path.exists(RUTA_ESTILOS):
         with open(RUTA_ESTILOS, "r", encoding="utf-8") as f:
             data = json.load(f)
         ESTILOS.update(data.get("por_dia", {}))
         ESTILOS_CAMPO.update(data.get("por_campo", {}))
+        INTERVALOS_GPS.update(data.get("intervalo_gps", {}))
     ESTILOS_CAMPO_REFERENCIA.clear()
     ESTILOS_CAMPO_REFERENCIA.update(ESTILOS_CAMPO)
 
 
 def guardar_estilos():
     with open(RUTA_ESTILOS, "w", encoding="utf-8") as f:
-        json.dump({"por_dia": ESTILOS, "por_campo": ESTILOS_CAMPO}, f, ensure_ascii=False, indent=0, sort_keys=True)
+        json.dump({"por_dia": ESTILOS, "por_campo": ESTILOS_CAMPO, "intervalo_gps": INTERVALOS_GPS},
+                  f, ensure_ascii=False, indent=0, sort_keys=True)
 
 
 def cargar_geocercas_conocidas():
@@ -2154,7 +2190,7 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
         ESTILOS_CAMPO_REFERENCIA.clear()
         ESTILOS_CAMPO_REFERENCIA.update(ESTILOS_CAMPO)
         entradas = {geo["nombre"]: [] for geo in geocercas}  # geo -> [(hora_entrada, unidad, puntos)]
-        for unidad in UNIDADES:
+        for unidad in UNIDADES_A_CALCULAR:
             mensajes = obtener_mensajes(sid, unidad["id"], dia)
             puntos = [
                 {"punto": (m["pos"]["x"], m["pos"]["y"]), "t": m.get("t")}
@@ -2163,6 +2199,9 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
             if len(puntos) < 3:
                 continue
             por_geocerca = resolver_conflictos_del_dia(repartir_puntos_por_geocerca(puntos, indice), geocercas_por_nombre)
+            intervalos = [b["t"] - a["t"] for a, b in zip(puntos, puntos[1:]) if a["t"] and b["t"] and b["t"] > a["t"]]
+            if intervalos:
+                INTERVALOS_GPS[f"{unidad['nombre']}||{fecha_str}"] = round(statistics.median(intervalos), 1)
             if labor_de(unidad) in LABORES_CON_PATRON and por_geocerca:
                 estilo = separacion_del_dia(list(por_geocerca.values()))
                 if estilo is not None:
@@ -2372,8 +2411,13 @@ def avanzar_pasadas(geo, estado, nuevos_tramos):
       - La pasada nueva empieza cuando vuelven otro dia.
       - Excepcion: si el mismo dia, ya cerrada la pasada, vuelven a barrer
         el cuartel (lo barrido despues del cierre cubre por si solo al menos
-        FRACCION_REPASO_MISMO_DIA del cuartel), eso es una pasada nueva. Cuando la pasada en curso cubre el umbral de
-    cierre (95 %) se cuenta como completa y la siguiente empieza desde cero.
+        FRACCION_REPASO_MISMO_DIA del cuartel), eso es una pasada nueva.
+      - Una pasada (tambien un repaso) solo empieza con un dia de trabajo
+        (FRACCION_MINIMA_DIA_TRABAJO); los tramos sueltos quedan pendientes.
+      - Mas de DIAS_VENCE_PASADA dias sin barrer: la pasada abierta se cierra
+        como incompleta y el proximo dia de trabajo empieza una nueva.
+    Cuando la pasada en curso cubre el umbral de cierre (95 %) se cuenta como
+    completa y la siguiente empieza desde cero.
     Devuelve las hectareas barridas nuevas (una pasada completa cuenta el
     area entera).
     """
@@ -2381,6 +2425,24 @@ def avanzar_pasadas(geo, estado, nuevos_tramos):
     fraccion_antes = estado.get("fraccion_en_curso", 0.0)
     completadas = 0
     pendientes = sorted(nuevos_tramos, key=lambda t: t[0])
+    if pendientes:
+        dia_nuevo = dia_local(pendientes[0][0])
+        if estado["en_curso"] and (dia_nuevo - dia_local(max(t[0] for t in estado["en_curso"]))).days > DIAS_VENCE_PASADA:
+            # Mas de 30 dias sin barrer: la pasada abierta queda incompleta.
+            estado.setdefault("incompletas", []).append(
+                [estado["en_curso"][0][0], max(t[0] for t in estado["en_curso"]), round(fraccion_antes, 3)])
+            estado["en_curso"], estado["fraccion_en_curso"], fraccion_antes = [], 0.0, 0.0
+        sueltas = [t for t in estado.get("sueltas", []) if (dia_nuevo - dia_local(t[0])).days <= DIAS_VENCE_PASADA]
+        cierre_hoy = bool(estado["tramos_ultima"]) and dia_local(
+            estado.get("hora_cierre") or estado["pasadas"][-1][1]) == dia_nuevo
+        if not estado["en_curso"] and not cierre_hoy:
+            if fraccion_de_tramos(geo, pendientes) < FRACCION_MINIMA_DIA_TRABAJO:
+                # No es un dia de trabajo: no empieza una pasada (ni un repaso).
+                estado["sueltas"] = sueltas + pendientes
+                return 0.0
+            pendientes = sorted(sueltas + pendientes, key=lambda t: t[0])
+            sueltas = []
+        estado["sueltas"] = sueltas
     while pendientes:
         if not estado["en_curso"] and estado["tramos_ultima"]:
             dia_cierre = dia_local(estado.get("hora_cierre") or estado["pasadas"][-1][1])
@@ -2641,14 +2703,17 @@ def main():
     # con los ultimos DIAS_GEOCERCA_NUEVA dias de todas las maquinas. La
     # primera vez se registran todas como conocidas, sin recalcular.
     conocidas = cargar_geocercas_conocidas()
-    nuevas = [] if conocidas is None else [g for g in geocercas if g["id_wialon"] not in conocidas]
+    nuevas = [] if conocidas is None or LABORES_RECALCULO else [g for g in geocercas if g["id_wialon"] not in conocidas]
+    if LABORES_RECALCULO:
+        print(f"Recalculo solo de las labores: {', '.join(LABORES_RECALCULO)} ({len(UNIDADES_A_CALCULAR)} maquinas).")
     existentes = [g for g in geocercas if g not in nuevas]
 
     print(f"Procesando del {FECHA_INICIO.date()} al {FECHA_FIN.date()}...")
     estado_avance = cargar_estado_avance()
     cargar_estilos()
     df_resumen, df_detalle, resultado_por_unidad, diagnostico, extra = generar_reporte(
-        sid, existentes, estado_avance, FECHA_INICIO, FECHA_FIN, geocercas, patio)
+        sid, existentes, estado_avance, FECHA_INICIO, FECHA_FIN, geocercas, patio,
+        detectar_fuera=not LABORES_RECALCULO)
     if nuevas:
         desde_nuevas = FECHA_FIN - timedelta(days=DIAS_GEOCERCA_NUEVA - 1)
         print(f"Geocercas nuevas ({len(nuevas)}): {', '.join(g['nombre'] for g in nuevas)}. "
@@ -2664,10 +2729,13 @@ def main():
     guardar_geocercas_conocidas(geocercas)
     guardar_estilos()
 
-    estado_maquinas = actualizar_estado_maquinas(extra, FECHA_INICIO, FECHA_FIN, geocercas, patio)
-    print(f"\nEstado de maquinas al {estado_maquinas['fecha']}: {len(estado_maquinas['en_patio'])} en "
-          f"{GEOCERCA_PATIO}, {len(estado_maquinas['sin_geocerca'])} maquinas/lugares trabajando sin geocerca "
-          f"(ultimos {DIAS_ALERTAS} dias).")
+    if LABORES_RECALCULO:
+        print("Recalculo por labores: el panel de maquinas no se modifica.")
+    else:
+        estado_maquinas = actualizar_estado_maquinas(extra, FECHA_INICIO, FECHA_FIN, geocercas, patio)
+        print(f"\nEstado de maquinas al {estado_maquinas['fecha']}: {len(estado_maquinas['en_patio'])} en "
+              f"{GEOCERCA_PATIO}, {len(estado_maquinas['sin_geocerca'])} maquinas/lugares trabajando sin geocerca "
+              f"(ultimos {DIAS_ALERTAS} dias).")
 
     print("\nDiagnostico: puntos GPS (de cualquier maquina, sumados) encontrados dentro de cada geocerca:")
     for nombre, cantidad in diagnostico.items():
