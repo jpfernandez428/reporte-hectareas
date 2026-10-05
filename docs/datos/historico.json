@@ -45520,5 +45520,599 @@
     "n_hileras": 129,
     "area_total_ha": 39.09,
     "area_trabajada_ha": 0.32
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N17_JP",
+    "labor": "Picado",
+    "n_hileras": 143,
+    "area_total_ha": 39.09,
+    "area_trabajada_ha": 4.32
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N18_JP",
+    "labor": "Picado",
+    "n_hileras": 47,
+    "area_total_ha": 20.74,
+    "area_trabajada_ha": 0.41
+  },
+  {
+    "fecha": "2026-09-02",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 2",
+    "labor": "Poda",
+    "n_hileras": 4,
+    "area_total_ha": 7.12,
+    "area_trabajada_ha": 0.42
+  },
+  {
+    "fecha": "2026-09-03",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 2",
+    "labor": "Poda",
+    "n_hileras": 50,
+    "area_total_ha": 7.12,
+    "area_trabajada_ha": 2.32
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7C_JP",
+    "labor": "Picado",
+    "n_hileras": 3,
+    "area_total_ha": 6.26,
+    "area_trabajada_ha": 1.4
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7B_JP",
+    "labor": "Picado",
+    "n_hileras": 3,
+    "area_total_ha": 9.06,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N17_JP",
+    "labor": "Picado",
+    "n_hileras": 168,
+    "area_total_ha": 39.09,
+    "area_trabajada_ha": 3.69
+  },
+  {
+    "fecha": "2026-09-04",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 2",
+    "labor": "Poda",
+    "n_hileras": 106,
+    "area_total_ha": 7.12,
+    "area_trabajada_ha": 2.02
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7C_JP",
+    "labor": "Picado",
+    "n_hileras": 8,
+    "area_total_ha": 6.26,
+    "area_trabajada_ha": 1.77
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N17_JP",
+    "labor": "Picado",
+    "n_hileras": 184,
+    "area_total_ha": 39.09,
+    "area_trabajada_ha": 2.62
+  },
+  {
+    "fecha": "2026-09-05",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 2",
+    "labor": "Poda",
+    "n_hileras": 174,
+    "area_total_ha": 7.12,
+    "area_trabajada_ha": 1.19
+  },
+  {
+    "fecha": "2026-09-06",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7C_JP",
+    "labor": "Picado",
+    "n_hileras": 10,
+    "area_total_ha": 6.26,
+    "area_trabajada_ha": 0.33
+  },
+  {
+    "fecha": "2026-09-06",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7B_JP",
+    "labor": "Picado",
+    "n_hileras": 4,
+    "area_total_ha": 9.06,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-09-06",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N17_JP",
+    "labor": "Picado",
+    "n_hileras": 193,
+    "area_total_ha": 39.09,
+    "area_trabajada_ha": 4.19
+  },
+  {
+    "fecha": "2026-09-06",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 2",
+    "labor": "Poda",
+    "n_hileras": 196,
+    "area_total_ha": 7.12,
+    "area_trabajada_ha": 0.61
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N7C_JP",
+    "labor": "Picado",
+    "n_hileras": 10,
+    "area_total_ha": 6.26,
+    "area_trabajada_ha": 0.25
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N17_JP",
+    "labor": "Picado",
+    "n_hileras": 203,
+    "area_total_ha": 39.09,
+    "area_trabajada_ha": 5.12
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N16_JP",
+    "labor": "Picado",
+    "n_hileras": 28,
+    "area_total_ha": 13.86,
+    "area_trabajada_ha": 8.77
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 1",
+    "labor": "Poda",
+    "n_hileras": 25,
+    "area_total_ha": 4.23,
+    "area_trabajada_ha": 1.31
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 1",
+    "labor": "Poda",
+    "n_hileras": 8,
+    "area_total_ha": 4.23,
+    "area_trabajada_ha": 0.31
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 3",
+    "labor": "Poda",
+    "n_hileras": 22,
+    "area_total_ha": 3.68,
+    "area_trabajada_ha": 0.98
+  },
+  {
+    "fecha": "2026-09-07",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 3",
+    "labor": "Poda",
+    "n_hileras": 1,
+    "area_total_ha": 3.68,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N5_JP",
+    "labor": "Picado",
+    "n_hileras": 5,
+    "area_total_ha": 19.15,
+    "area_trabajada_ha": 1.4
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N19_JP",
+    "labor": "Picado",
+    "n_hileras": 15,
+    "area_total_ha": 36.43,
+    "area_trabajada_ha": 2.37
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 1",
+    "labor": "Poda",
+    "n_hileras": 33,
+    "area_total_ha": 4.23,
+    "area_trabajada_ha": 1.06
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 1",
+    "labor": "Poda",
+    "n_hileras": 50,
+    "area_total_ha": 4.23,
+    "area_trabajada_ha": 1.23
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 3",
+    "labor": "Poda",
+    "n_hileras": 45,
+    "area_total_ha": 3.68,
+    "area_trabajada_ha": 1.14
+  },
+  {
+    "fecha": "2026-09-08",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 3",
+    "labor": "Poda",
+    "n_hileras": 21,
+    "area_total_ha": 3.68,
+    "area_trabajada_ha": 0.93
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N20_JP",
+    "labor": "Picado",
+    "n_hileras": 25,
+    "area_total_ha": 20.64,
+    "area_trabajada_ha": 0.34
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N5_JP",
+    "labor": "Picado",
+    "n_hileras": 48,
+    "area_total_ha": 19.15,
+    "area_trabajada_ha": 8.82
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 3",
+    "labor": "Poda",
+    "n_hileras": 35,
+    "area_total_ha": 3.68,
+    "area_trabajada_ha": 0.48
+  },
+  {
+    "fecha": "2026-09-09",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 4",
+    "labor": "Poda",
+    "n_hileras": 35,
+    "area_total_ha": 7.18,
+    "area_trabajada_ha": 1.96
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N8_JP",
+    "labor": "Picado",
+    "n_hileras": 12,
+    "area_total_ha": 55.91,
+    "area_trabajada_ha": 6.26
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "BALLERINA_N5_JP",
+    "labor": "Picado",
+    "n_hileras": 63,
+    "area_total_ha": 19.15,
+    "area_trabajada_ha": 2.79
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 4",
+    "labor": "Poda",
+    "n_hileras": 59,
+    "area_total_ha": 7.18,
+    "area_trabajada_ha": 1.5
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 4",
+    "labor": "Poda",
+    "n_hileras": 22,
+    "area_total_ha": 7.18,
+    "area_trabajada_ha": 1.37
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 8",
+    "labor": "Poda",
+    "n_hileras": 4,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 0.21
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "labor": "Poda",
+    "n_hileras": 11,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 0.63
+  },
+  {
+    "fecha": "2026-09-10",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "labor": "Poda",
+    "n_hileras": 5,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 0.33
+  },
+  {
+    "fecha": "2026-09-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 8",
+    "labor": "Poda",
+    "n_hileras": 25,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 0.43
+  },
+  {
+    "fecha": "2026-09-11",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 8",
+    "labor": "Poda",
+    "n_hileras": 21,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 0.58
+  },
+  {
+    "fecha": "2026-09-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "labor": "Poda",
+    "n_hileras": 70,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 2.11
+  },
+  {
+    "fecha": "2026-09-11",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "labor": "Poda",
+    "n_hileras": 20,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 0.8
+  },
+  {
+    "fecha": "2026-09-12",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 8",
+    "labor": "Poda",
+    "n_hileras": 61,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 0.82
+  },
+  {
+    "fecha": "2026-09-12",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 8",
+    "labor": "Poda",
+    "n_hileras": 37,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 0.51
+  },
+  {
+    "fecha": "2026-09-12",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "labor": "Poda",
+    "n_hileras": 100,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 1.21
+  },
+  {
+    "fecha": "2026-09-12",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "labor": "Poda",
+    "n_hileras": 38,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 0.55
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 7",
+    "labor": "Poda",
+    "n_hileras": 22,
+    "area_total_ha": 2.45,
+    "area_trabajada_ha": 0.26
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 7",
+    "labor": "Poda",
+    "n_hileras": 14,
+    "area_total_ha": 2.45,
+    "area_trabajada_ha": 0.71
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 8",
+    "labor": "Poda",
+    "n_hileras": 66,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 8",
+    "labor": "Poda",
+    "n_hileras": 43,
+    "area_total_ha": 2.8,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "labor": "Poda",
+    "n_hileras": 105,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-09-13",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "labor": "Poda",
+    "n_hileras": 46,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 358,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 11.86
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 5",
+    "labor": "Poda",
+    "n_hileras": 26,
+    "area_total_ha": 1.6,
+    "area_trabajada_ha": 0.88
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 5",
+    "labor": "Poda",
+    "n_hileras": 18,
+    "area_total_ha": 1.6,
+    "area_trabajada_ha": 0.48
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 6",
+    "labor": "Poda",
+    "n_hileras": 28,
+    "area_total_ha": 0.5,
+    "area_trabajada_ha": 0.49
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 7",
+    "labor": "Poda",
+    "n_hileras": 47,
+    "area_total_ha": 2.45,
+    "area_trabajada_ha": 0.92
+  },
+  {
+    "fecha": "2026-09-14",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 7",
+    "labor": "Poda",
+    "n_hileras": 58,
+    "area_total_ha": 2.45,
+    "area_trabajada_ha": 0.55
+  },
+  {
+    "fecha": "2026-09-15",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N1",
+    "labor": "Barrido",
+    "n_hileras": 400,
+    "area_total_ha": 24.64,
+    "area_trabajada_ha": 10.23
+  },
+  {
+    "fecha": "2026-09-15",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N2",
+    "labor": "Barrido",
+    "n_hileras": 315,
+    "area_total_ha": 12.69,
+    "area_trabajada_ha": 3.85
+  },
+  {
+    "fecha": "2026-09-15",
+    "maquina": "Barredora 1",
+    "cuartel": "Bernardo Lira Chiñihue N3",
+    "labor": "Barrido",
+    "n_hileras": 650,
+    "area_total_ha": 33.99,
+    "area_trabajada_ha": 2.84
+  },
+  {
+    "fecha": "2026-09-15",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 5",
+    "labor": "Poda",
+    "n_hileras": 24,
+    "area_total_ha": 1.6,
+    "area_trabajada_ha": 0.25
+  },
+  {
+    "fecha": "2026-09-15",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 9",
+    "labor": "Poda",
+    "n_hileras": 54,
+    "area_total_ha": 6.11,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-09-15",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 10",
+    "labor": "Poda",
+    "n_hileras": 32,
+    "area_total_ha": 2.33,
+    "area_trabajada_ha": 1.93
+  },
+  {
+    "fecha": "2026-09-15",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 10",
+    "labor": "Poda",
+    "n_hileras": 16,
+    "area_total_ha": 2.33,
+    "area_trabajada_ha": 0.3
   }
 ]
