@@ -2578,6 +2578,29 @@ def prueba_casos(sid):
     cuyo nombre contiene el texto (sin tildes ni mayusculas) o por donde paso.
     """
     normalizar = lambda t: unicodedata.normalize("NFKD", t).encode("ascii", "ignore").decode().lower()
+    if os.environ["PRUEBA_CASOS"].strip().lower() == "flota":
+        # Ultimo mensaje GPS de cada maquina (solo lectura), con la geocerca donde esta.
+        params = json.dumps({
+            "spec": {"itemsType": "avl_unit", "propName": "sys_name", "propValueMask": "*", "sortType": "sys_name"},
+            "force": 1, "flags": 0x1 | 0x400, "from": 0, "to": 0,
+        })
+        items = requests.get(f"{WIALON_HOST}/wialon/ajax.html",
+                             params={"svc": "core/search_items", "params": params, "sid": sid}, timeout=60).json().get("items", [])
+        todas = obtener_geocercas(sid, filtrar=False)
+        salida = []
+        for item in items:
+            pos = item.get("pos") or {}
+            ultimo = (item.get("lmsg") or {}).get("t")
+            punto = (pos.get("x"), pos.get("y")) if pos.get("x") is not None else None
+            dentro = [g["nombre"] for g in todas if punto and g["bbox"][0] <= punto[0] <= g["bbox"][2]
+                      and g["bbox"][1] <= punto[1] <= g["bbox"][3] and punto_en_poligono(punto, g["contorno"])]
+            salida.append({"id": item["id"], "nombre": item.get("nm", ""), "ultimo_mensaje": ultimo,
+                           "lon": punto[0] if punto else None, "lat": punto[1] if punto else None,
+                           "velocidad": pos.get("s"), "geocercas": dentro})
+        print(f"DIAG flota: {len(salida)} unidades")
+        with open("casos_diagnostico.json", "w", encoding="utf-8") as f:
+            json.dump(salida, f, ensure_ascii=False)
+        return
     if os.environ["PRUEBA_CASOS"].strip().lower() == "geocercas":
         # Todas las geocercas de Wialon, sin filtrar, marcando las excluidas hoy.
         todas = obtener_geocercas(sid, filtrar=False)
