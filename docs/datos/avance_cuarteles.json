@@ -1999,6 +1999,22 @@
           "trabajado_ha": 9.2569,
           "porcentaje": 95.5,
           "completo": true
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.6966,
+          "porcentaje": 7.2,
+          "completo": false
         }
       }
     },
@@ -2012,6 +2028,22 @@
           "trabajado_ha": 9.2127,
           "porcentaje": 93.9,
           "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus"
+          ],
+          "trabajado_ha": 0.7651,
+          "porcentaje": 7.8,
+          "completo": false
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 9.81,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
@@ -2024,6 +2056,14 @@
           ],
           "trabajado_ha": 7.1594,
           "porcentaje": 72.3,
+          "completo": false
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 3.8733,
+          "porcentaje": 39.1,
           "completo": false
         }
       }
@@ -3073,17 +3113,18 @@
         "Barrido": {
           "maquinas": [
             "Barredora 1",
-            "Barredora 15"
+            "Barredora 15",
+            "Barredora 23"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 75.9,
+          "porcentaje_en_curso": 79.5,
           "trabajado_ha": 9.4692,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 7.1873,
-            "porcentaje": 75.9
+            "trabajado_ha": 7.5306,
+            "porcentaje": 79.5
           }
         },
         "Recolección": {
@@ -3687,6 +3728,7 @@
           "maquinas": [
             "Barredora 1",
             "Barredora 15",
+            "Barredora 23",
             "Barredora 5"
           ],
           "pasadas_completas": 1,
@@ -9330,6 +9372,7 @@
         },
         "Poda": {
           "maquinas": [
+            "Tractor 11 Deutz Fahr 115",
             "Tractor 9 Deutz Fahr 115"
           ],
           "trabajado_ha": 0.0,

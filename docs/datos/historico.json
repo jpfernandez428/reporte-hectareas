@@ -40786,5 +40786,104 @@
     "n_hileras": 158,
     "area_total_ha": 19.96,
     "area_trabajada_ha": 0.81
+  },
+  {
+    "fecha": "2026-05-04",
+    "maquina": "Barredora 23",
+    "cuartel": "Bernardo Lira Chiñihue A11",
+    "labor": "Barrido",
+    "n_hileras": 0,
+    "area_total_ha": 9.47,
+    "area_trabajada_ha": 0.34
+  },
+  {
+    "fecha": "2026-05-08",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Poda",
+    "n_hileras": 39,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 2.02
+  },
+  {
+    "fecha": "2026-05-09",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Poda",
+    "n_hileras": 55,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 1.39
+  },
+  {
+    "fecha": "2026-05-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Poda",
+    "n_hileras": 9,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.47
+  },
+  {
+    "fecha": "2026-05-11",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Poda",
+    "n_hileras": 74,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 2.14
+  },
+  {
+    "fecha": "2026-05-12",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Poda",
+    "n_hileras": 99,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 2.67
+  },
+  {
+    "fecha": "2026-05-13",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Poda",
+    "n_hileras": 10,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-05-13",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Poda",
+    "n_hileras": 114,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 1.6
+  },
+  {
+    "fecha": "2026-05-14",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente 3",
+    "labor": "Poda",
+    "n_hileras": 23,
+    "area_total_ha": 9.9,
+    "area_trabajada_ha": 1.46
+  },
+  {
+    "fecha": "2026-05-15",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Picado",
+    "n_hileras": 8,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.77
+  },
+  {
+    "fecha": "2026-05-15",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente 3",
+    "labor": "Poda",
+    "n_hileras": 51,
+    "area_total_ha": 9.9,
+    "area_trabajada_ha": 2.41
   }
 ]
