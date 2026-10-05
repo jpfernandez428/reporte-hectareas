@@ -10,15 +10,16 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
-          "pasadas_completas": 2,
+          "pasadas_completas": 3,
           "porcentaje_en_curso": 0.0,
           "trabajado_ha": 37.1086,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
-            "repasos_completos": 1,
+            "repasos_completos": 2,
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
           }
@@ -55,14 +56,14 @@
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 14.6,
+          "porcentaje_en_curso": 17.0,
           "trabajado_ha": 10.1438,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 1.4796,
-            "porcentaje": 14.6
+            "trabajado_ha": 1.7228,
+            "porcentaje": 17.0
           }
         },
         "Cosecha con recibidor": {
@@ -94,17 +95,18 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 3.4,
+          "porcentaje_en_curso": 8.4,
           "trabajado_ha": 5.7727,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 0.1967,
-            "porcentaje": 3.4
+            "trabajado_ha": 0.4851,
+            "porcentaje": 8.4
           }
         },
         "Cosecha con recibidor": {
@@ -134,12 +136,13 @@
             "Barredora 10",
             "Barredora 11",
             "Barredora 12",
-            "Barredora 13"
+            "Barredora 13",
+            "Barredora 2"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 94.4,
-          "trabajado_ha": 5.6319,
-          "porcentaje": 94.4,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
           "completo": false
         },
         "Cosecha con recibidor": {
@@ -172,14 +175,14 @@
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 66.0,
+          "porcentaje_en_curso": 68.7,
           "trabajado_ha": 5.8869,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 3.8866,
-            "porcentaje": 66.0
+            "trabajado_ha": 4.0414,
+            "porcentaje": 68.7
           }
         },
         "Cosecha con recibidor": {
@@ -209,17 +212,18 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 65.9,
+          "porcentaje_en_curso": 85.5,
           "trabajado_ha": 9.888,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 6.516,
-            "porcentaje": 65.9
+            "trabajado_ha": 8.4499,
+            "porcentaje": 85.5
           }
         },
         "Cosecha con recibidor": {
@@ -250,17 +254,18 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 65.4,
+          "porcentaje_en_curso": 88.2,
           "trabajado_ha": 11.8687,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 7.7599,
-            "porcentaje": 65.4
+            "trabajado_ha": 10.4719,
+            "porcentaje": 88.2
           }
         },
         "Cosecha con recibidor": {
@@ -293,14 +298,14 @@
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 70.5,
+          "porcentaje_en_curso": 46.0,
           "trabajado_ha": 3.2606,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 2.2986,
-            "porcentaje": 70.5
+            "trabajado_ha": 1.4993,
+            "porcentaje": 46.0
           }
         },
         "Cosecha con recibidor": {
@@ -330,6 +335,7 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 8",
             "Barredora 9 Weiss c/cab"
           ],
@@ -421,6 +427,7 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
@@ -455,7 +462,8 @@
             "Barredora 10",
             "Barredora 11",
             "Barredora 12",
-            "Barredora 13"
+            "Barredora 13",
+            "Barredora 2"
           ],
           "pasadas_completas": 1,
           "porcentaje_en_curso": 0.0,
@@ -493,15 +501,15 @@
             "Barredora 14",
             "Barredora 9 Weiss c/cab"
           ],
-          "pasadas_completas": 1,
-          "porcentaje_en_curso": 62.7,
+          "pasadas_completas": 2,
+          "porcentaje_en_curso": 0.0,
           "trabajado_ha": 32.154,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
-            "repasos_completos": 0,
-            "trabajado_ha": 20.173,
-            "porcentaje": 62.7
+            "repasos_completos": 1,
+            "trabajado_ha": 0.0,
+            "porcentaje": 0.0
           }
         },
         "Cosecha con recibidor": {
@@ -532,18 +540,19 @@
             "Barredora 12",
             "Barredora 13",
             "Barredora 14",
+            "Barredora 2",
             "Barredora 8",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 85.9,
+          "porcentaje_en_curso": 85.7,
           "trabajado_ha": 19.5511,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 16.7945,
-            "porcentaje": 85.9
+            "trabajado_ha": 16.7539,
+            "porcentaje": 85.7
           }
         },
         "Cosecha con recibidor": {
@@ -575,6 +584,7 @@
             "Barredora 12",
             "Barredora 13",
             "Barredora 14",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
@@ -616,6 +626,7 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
@@ -625,7 +636,7 @@
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 24.2939,
+            "trabajado_ha": 24.31,
             "porcentaje": 88.8
           }
         },
@@ -651,14 +662,14 @@
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 93.7,
+          "porcentaje_en_curso": 94.0,
           "trabajado_ha": 41.144,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 38.5445,
-            "porcentaje": 93.7
+            "trabajado_ha": 38.6716,
+            "porcentaje": 94.0
           }
         },
         "Remecido de suelo": {
@@ -680,17 +691,18 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 70.8,
+          "porcentaje_en_curso": 70.9,
           "trabajado_ha": 30.2624,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 21.4329,
-            "porcentaje": 70.8
+            "trabajado_ha": 21.4431,
+            "porcentaje": 70.9
           }
         },
         "Cosecha con recibidor": {
@@ -721,17 +733,18 @@
             "Barredora 10",
             "Barredora 11",
             "Barredora 12",
-            "Barredora 13"
+            "Barredora 13",
+            "Barredora 2"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 88.4,
+          "porcentaje_en_curso": 85.1,
           "trabajado_ha": 7.4312,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 6.5716,
-            "porcentaje": 88.4
+            "trabajado_ha": 6.3243,
+            "porcentaje": 85.1
           }
         },
         "Cosecha con recibidor": {
@@ -763,17 +776,18 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 49.1,
+          "porcentaje_en_curso": 82.3,
           "trabajado_ha": 12.2233,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 6.0043,
-            "porcentaje": 49.1
+            "trabajado_ha": 10.0583,
+            "porcentaje": 82.3
           }
         },
         "Cosecha con recibidor": {
@@ -804,17 +818,18 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 70.3,
+          "porcentaje_en_curso": 72.5,
           "trabajado_ha": 6.7886,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 4.7725,
-            "porcentaje": 70.3
+            "trabajado_ha": 4.9193,
+            "porcentaje": 72.5
           }
         },
         "Cosecha con recibidor": {
@@ -844,13 +859,19 @@
             "Barredora 10",
             "Barredora 11",
             "Barredora 12",
-            "Barredora 13"
+            "Barredora 13",
+            "Barredora 2"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 61.7,
           "trabajado_ha": 12.802,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 7.893,
+            "porcentaje": 61.7
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -879,17 +900,18 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 80.3,
+          "porcentaje_en_curso": 80.8,
           "trabajado_ha": 6.0735,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 4.8773,
-            "porcentaje": 80.3
+            "trabajado_ha": 4.9054,
+            "porcentaje": 80.8
           }
         },
         "Cosecha con recibidor": {
@@ -920,13 +942,14 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 93.1,
-          "trabajado_ha": 6.2026,
-          "porcentaje": 93.1,
-          "completo": false
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 6.6654,
+          "porcentaje": 100.0,
+          "completo": true
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -954,13 +977,19 @@
             "Barredora 10",
             "Barredora 11",
             "Barredora 12",
-            "Barredora 13"
+            "Barredora 13",
+            "Barredora 2"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 78.5,
           "trabajado_ha": 1.5035,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 1.1808,
+            "porcentaje": 78.5
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -988,17 +1017,18 @@
             "Barredora 10",
             "Barredora 11",
             "Barredora 12",
-            "Barredora 13"
+            "Barredora 13",
+            "Barredora 2"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 46.8,
+          "porcentaje_en_curso": 63.2,
           "trabajado_ha": 9.6392,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 4.5068,
-            "porcentaje": 46.8
+            "trabajado_ha": 6.0874,
+            "porcentaje": 63.2
           }
         },
         "Cosecha con recibidor": {
@@ -1604,12 +1634,13 @@
             "Barredora 18",
             "Barredora 20 Weiss s/cab",
             "Barredora 6",
-            "Barredora 7"
+            "Barredora 7",
+            "Barredora 8"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 20.8,
-          "trabajado_ha": 6.714,
-          "porcentaje": 20.8,
+          "porcentaje_en_curso": 71.6,
+          "trabajado_ha": 23.1223,
+          "porcentaje": 71.6,
           "completo": false
         },
         "Cosecha con recibidor": {
@@ -1621,12 +1652,20 @@
           "porcentaje": 32.1,
           "completo": false
         },
+        "Picado": {
+          "maquinas": [
+            "Tractor 7 Kubota 95"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
         "Poda": {
           "maquinas": [
             "Tractor 15 Deutz Fahr 115"
           ],
-          "trabajado_ha": 5.5079,
-          "porcentaje": 17.0,
+          "trabajado_ha": 17.2854,
+          "porcentaje": 53.5,
           "completo": false
         },
         "Recolección": {
@@ -1654,12 +1693,13 @@
           "maquinas": [
             "Barredora 18",
             "Barredora 20 Weiss s/cab",
-            "Barredora 7"
+            "Barredora 7",
+            "Barredora 8"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 25.1,
-          "trabajado_ha": 12.6483,
-          "porcentaje": 25.1,
+          "porcentaje_en_curso": 73.3,
+          "trabajado_ha": 36.8868,
+          "porcentaje": 73.3,
           "completo": false
         },
         "Cosecha con recibidor": {
@@ -1671,12 +1711,20 @@
           "porcentaje": 25.4,
           "completo": false
         },
+        "Picado": {
+          "maquinas": [
+            "Tractor 7 Kubota 95"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
         "Poda": {
           "maquinas": [
             "Tractor 15 Deutz Fahr 115"
           ],
-          "trabajado_ha": 10.1156,
-          "porcentaje": 20.1,
+          "trabajado_ha": 26.0294,
+          "porcentaje": 51.8,
           "completo": false
         },
         "Recolección": {
@@ -1704,12 +1752,13 @@
           "maquinas": [
             "Barredora 18",
             "Barredora 20 Weiss s/cab",
-            "Barredora 7"
+            "Barredora 7",
+            "Barredora 8"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 64.1,
-          "trabajado_ha": 30.4808,
-          "porcentaje": 64.1,
+          "porcentaje_en_curso": 74.1,
+          "trabajado_ha": 35.2351,
+          "porcentaje": 74.1,
           "completo": false
         },
         "Cosecha con recibidor": {
@@ -1723,7 +1772,8 @@
         },
         "Picado": {
           "maquinas": [
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 7 Kubota 95"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -1733,8 +1783,8 @@
           "maquinas": [
             "Tractor 15 Deutz Fahr 115"
           ],
-          "trabajado_ha": 1.0048,
-          "porcentaje": 2.1,
+          "trabajado_ha": 10.027,
+          "porcentaje": 21.1,
           "completo": false
         },
         "Recolección": {
@@ -1762,12 +1812,13 @@
           "maquinas": [
             "Barredora 18",
             "Barredora 20 Weiss s/cab",
-            "Barredora 7"
+            "Barredora 7",
+            "Barredora 8"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 62.6,
-          "trabajado_ha": 13.3169,
-          "porcentaje": 62.6,
+          "porcentaje_en_curso": 67.2,
+          "trabajado_ha": 14.2796,
+          "porcentaje": 67.2,
           "completo": false
         },
         "Cosecha con recibidor": {
@@ -1781,7 +1832,8 @@
         },
         "Picado": {
           "maquinas": [
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 7 Kubota 95"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -1791,8 +1843,8 @@
           "maquinas": [
             "Tractor 15 Deutz Fahr 115"
           ],
-          "trabajado_ha": 0.6286,
-          "porcentaje": 3.0,
+          "trabajado_ha": 2.6434,
+          "porcentaje": 12.4,
           "completo": false
         },
         "Recolección": {
@@ -2162,14 +2214,20 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 8",
             "Barredora 9 Weiss c/cab"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 87.8,
-          "trabajado_ha": 41.1119,
-          "porcentaje": 87.8,
-          "completo": false
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 42.4,
+          "trabajado_ha": 46.8414,
+          "porcentaje": 100.0,
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 19.8747,
+            "porcentaje": 42.4
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -2208,18 +2266,19 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 8",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 2,
-          "porcentaje_en_curso": 18.8,
+          "porcentaje_en_curso": 19.2,
           "trabajado_ha": 10.0294,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 1,
-            "trabajado_ha": 1.8807,
-            "porcentaje": 18.8
+            "trabajado_ha": 1.9285,
+            "porcentaje": 19.2
           }
         },
         "Recolección": {
@@ -2250,18 +2309,19 @@
             "Barredora 12",
             "Barredora 13",
             "Barredora 14",
+            "Barredora 2",
             "Barredora 8",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 78.5,
+          "porcentaje_en_curso": 83.2,
           "trabajado_ha": 25.0659,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 19.6756,
-            "porcentaje": 78.5
+            "trabajado_ha": 20.8618,
+            "porcentaje": 83.2
           }
         },
         "Cosecha con recibidor": {
@@ -2300,12 +2360,13 @@
             "Barredora 10",
             "Barredora 11",
             "Barredora 12",
-            "Barredora 13"
+            "Barredora 13",
+            "Barredora 2"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 3.9,
-          "trabajado_ha": 0.221,
-          "porcentaje": 3.9,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
           "completo": false
         },
         "Cosecha con recibidor": {
@@ -2335,13 +2396,14 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 8",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 3.0,
-          "trabajado_ha": 0.6172,
-          "porcentaje": 3.0,
+          "porcentaje_en_curso": 51.1,
+          "trabajado_ha": 10.6439,
+          "porcentaje": 51.1,
           "completo": false
         },
         "Cosecha con recibidor": {
@@ -2374,6 +2436,20 @@
     "BALLERINA_N16_JP": {
       "area_total_ha": 13.8575,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 10",
+            "Barredora 11",
+            "Barredora 12",
+            "Barredora 2",
+            "Barredora 9 Weiss c/cab"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 93.0,
+          "trabajado_ha": 12.8873,
+          "porcentaje": 93.0,
+          "completo": false
+        },
         "Recolección": {
           "maquinas": [
             "Recogedora 3"
@@ -2400,13 +2476,14 @@
             "Barredora 10",
             "Barredora 11",
             "Barredora 12",
+            "Barredora 2",
             "Barredora 8",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 44.0,
-          "trabajado_ha": 17.2094,
-          "porcentaje": 44.0,
+          "porcentaje_en_curso": 78.7,
+          "trabajado_ha": 30.7762,
+          "porcentaje": 78.7,
           "completo": false
         },
         "Recolección": {
@@ -2435,6 +2512,7 @@
             "Barredora 10",
             "Barredora 11",
             "Barredora 12",
+            "Barredora 2",
             "Barredora 8",
             "Barredora 9 Weiss c/cab"
           ],
@@ -2472,13 +2550,14 @@
             "Barredora 12",
             "Barredora 13",
             "Barredora 14",
+            "Barredora 2",
             "Barredora 8",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 11.4,
-          "trabajado_ha": 4.1623,
-          "porcentaje": 11.4,
+          "porcentaje_en_curso": 81.7,
+          "trabajado_ha": 29.7768,
+          "porcentaje": 81.7,
           "completo": false
         },
         "Cosecha con recibidor": {
@@ -2517,6 +2596,7 @@
             "Barredora 10",
             "Barredora 11",
             "Barredora 12",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 0,
@@ -2588,12 +2668,13 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 81.4,
-          "trabajado_ha": 21.5107,
-          "porcentaje": 81.4,
+          "porcentaje_en_curso": 85.7,
+          "trabajado_ha": 22.6566,
+          "porcentaje": 85.7,
           "completo": false
         },
         "Recolección": {
@@ -2624,13 +2705,14 @@
             "Barredora 12",
             "Barredora 13",
             "Barredora 14",
+            "Barredora 2",
             "Barredora 8",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 81.0,
-          "trabajado_ha": 15.5104,
-          "porcentaje": 81.0,
+          "porcentaje_en_curso": 81.1,
+          "trabajado_ha": 15.5298,
+          "porcentaje": 81.1,
           "completo": false
         },
         "Cosecha con recibidor": {
@@ -2668,12 +2750,13 @@
             "Barredora 10",
             "Barredora 11",
             "Barredora 12",
+            "Barredora 2",
             "Barredora 8",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 0,
           "porcentaje_en_curso": 88.0,
-          "trabajado_ha": 13.1682,
+          "trabajado_ha": 13.1647,
           "porcentaje": 88.0,
           "completo": false
         },
@@ -2703,11 +2786,12 @@
             "Barredora 10",
             "Barredora 11",
             "Barredora 12",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 0,
           "porcentaje_en_curso": 82.4,
-          "trabajado_ha": 7.4618,
+          "trabajado_ha": 7.4617,
           "porcentaje": 82.4,
           "completo": false
         },
@@ -2738,6 +2822,7 @@
             "Barredora 10",
             "Barredora 11",
             "Barredora 12",
+            "Barredora 2",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 0,
@@ -2773,14 +2858,15 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 8",
             "Barredora 9 Weiss c/cab"
           ],
-          "pasadas_completas": 0,
+          "pasadas_completas": 1,
           "porcentaje_en_curso": 0.0,
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
-          "completo": false
+          "trabajado_ha": 9.6817,
+          "porcentaje": 100.0,
+          "completo": true
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -2817,18 +2903,19 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 8",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 7.1,
+          "porcentaje_en_curso": 7.9,
           "trabajado_ha": 55.9127,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 3.9441,
-            "porcentaje": 7.1
+            "trabajado_ha": 4.4117,
+            "porcentaje": 7.9
           }
         },
         "Cosecha con recibidor": {
@@ -2867,12 +2954,13 @@
             "Barredora 11",
             "Barredora 12",
             "Barredora 13",
+            "Barredora 2",
             "Barredora 8",
             "Barredora 9 Weiss c/cab"
           ],
           "pasadas_completas": 0,
           "porcentaje_en_curso": 81.3,
-          "trabajado_ha": 47.822,
+          "trabajado_ha": 47.8466,
           "porcentaje": 81.3,
           "completo": false
         },
@@ -2954,7 +3042,7 @@
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 2.0696,
+            "trabajado_ha": 2.0774,
             "porcentaje": 9.2
           }
         },
@@ -3642,14 +3730,14 @@
             "Barredora 15"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 30.7,
+          "porcentaje_en_curso": 3.3,
           "trabajado_ha": 8.7468,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 2.6847,
-            "porcentaje": 30.7
+            "trabajado_ha": 0.2905,
+            "porcentaje": 3.3
           }
         },
         "Recolección": {
@@ -3681,14 +3769,14 @@
             "Barredora 15"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 3.9,
+          "porcentaje_en_curso": 18.0,
           "trabajado_ha": 24.6414,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 0.9583,
-            "porcentaje": 3.9
+            "trabajado_ha": 4.4322,
+            "porcentaje": 18.0
           }
         },
         "Recolección": {
@@ -3749,11 +3837,16 @@
             "Barredora 1",
             "Barredora 15"
           ],
-          "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "pasadas_completas": 2,
+          "porcentaje_en_curso": 8.9,
           "trabajado_ha": 12.6888,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 1,
+            "trabajado_ha": 1.1301,
+            "porcentaje": 8.9
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -3784,9 +3877,9 @@
             "Barredora 15"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 82.6,
-          "trabajado_ha": 28.0579,
-          "porcentaje": 82.6,
+          "porcentaje_en_curso": 83.0,
+          "trabajado_ha": 28.2247,
+          "porcentaje": 83.0,
           "completo": false
         },
         "Recolección": {
@@ -3924,19 +4017,21 @@
       "labores": {
         "Barrido": {
           "maquinas": [
+            "Barredora 1",
+            "Barredora 23",
             "Barredora 3",
             "Barredora 5",
             "Barredora 7"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 47.2,
+          "porcentaje_en_curso": 93.1,
           "trabajado_ha": 1.9088,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 0.9015,
-            "porcentaje": 47.2
+            "trabajado_ha": 1.7768,
+            "porcentaje": 93.1
           }
         },
         "Cosecha con recibidor": {
@@ -3945,6 +4040,14 @@
           ],
           "trabajado_ha": 0.2765,
           "porcentaje": 14.5,
+          "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus"
+          ],
+          "trabajado_ha": 0.7415,
+          "porcentaje": 38.8,
           "completo": false
         },
         "Recolección": {
@@ -3972,14 +4075,20 @@
         "Barrido": {
           "maquinas": [
             "Barredora 16",
+            "Barredora 23",
             "Barredora 3",
             "Barredora 7"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 67.2,
           "trabajado_ha": 0.5479,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 0.3684,
+            "porcentaje": 67.2
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -3987,6 +4096,15 @@
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
+          "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.5021,
+          "porcentaje": 91.6,
           "completo": false
         },
         "Recolección": {
@@ -4014,16 +4132,23 @@
       "labores": {
         "Barrido": {
           "maquinas": [
+            "Barredora 1",
             "Barredora 16",
+            "Barredora 23",
             "Barredora 3",
             "Barredora 5",
             "Barredora 7"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 93.6,
-          "trabajado_ha": 0.7018,
-          "porcentaje": 93.6,
-          "completo": false
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 88.6,
+          "trabajado_ha": 0.7496,
+          "porcentaje": 100.0,
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 0.6639,
+            "porcentaje": 88.6
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -4032,6 +4157,15 @@
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
           "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.7493,
+          "porcentaje": 100.0,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -4061,15 +4195,21 @@
             "Barredora 1",
             "Barredora 16",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 3",
             "Barredora 5",
             "Barredora 7"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 82.2,
           "trabajado_ha": 3.4213,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 2.8123,
+            "porcentaje": 82.2
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -4077,6 +4217,15 @@
           ],
           "trabajado_ha": 0.5453,
           "porcentaje": 15.9,
+          "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.8592,
+          "porcentaje": 25.1,
           "completo": false
         },
         "Recolección": {
@@ -4107,19 +4256,20 @@
             "Barredora 1",
             "Barredora 16",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 3",
             "Barredora 5",
             "Barredora 7"
           ],
           "pasadas_completas": 2,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 90.0,
           "trabajado_ha": 1.6672,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 1,
-            "trabajado_ha": 0.0,
-            "porcentaje": 0.0
+            "trabajado_ha": 1.5006,
+            "porcentaje": 90.0
           }
         },
         "Cosecha con recibidor": {
@@ -4132,11 +4282,12 @@
         },
         "Picado": {
           "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
-          "completo": false
+          "trabajado_ha": 1.6645,
+          "porcentaje": 99.8,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -4166,19 +4317,20 @@
             "Barredora 1",
             "Barredora 16",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 3",
             "Barredora 5",
             "Barredora 7"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 62.7,
+          "porcentaje_en_curso": 90.4,
           "trabajado_ha": 1.7384,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 1.0898,
-            "porcentaje": 62.7
+            "trabajado_ha": 1.5717,
+            "porcentaje": 90.4
           }
         },
         "Cosecha con recibidor": {
@@ -4191,11 +4343,12 @@
         },
         "Picado": {
           "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.5327,
-          "porcentaje": 30.6,
-          "completo": false
+          "trabajado_ha": 1.7384,
+          "porcentaje": 100.0,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -4224,19 +4377,20 @@
           "maquinas": [
             "Barredora 16",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 3",
             "Barredora 5",
             "Barredora 7"
           ],
           "pasadas_completas": 2,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 82.5,
           "trabajado_ha": 1.8618,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 1,
-            "trabajado_ha": 0.0,
-            "porcentaje": 0.0
+            "trabajado_ha": 1.5358,
+            "porcentaje": 82.5
           }
         },
         "Cosecha con recibidor": {
@@ -4249,11 +4403,12 @@
         },
         "Picado": {
           "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.9961,
-          "porcentaje": 53.5,
-          "completo": false
+          "trabajado_ha": 1.8463,
+          "porcentaje": 99.2,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -4283,15 +4438,21 @@
           "maquinas": [
             "Barredora 16",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 3",
             "Barredora 5",
             "Barredora 7"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 87.1,
           "trabajado_ha": 2.0242,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 1.7637,
+            "porcentaje": 87.1
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -4303,11 +4464,12 @@
         },
         "Picado": {
           "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 1.045,
-          "porcentaje": 51.6,
-          "completo": false
+          "trabajado_ha": 2.0242,
+          "porcentaje": 100.0,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -4337,14 +4499,20 @@
           "maquinas": [
             "Barredora 1",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 5",
             "Barredora 7"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 83.2,
           "trabajado_ha": 3.5073,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 2.9176,
+            "porcentaje": 83.2
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -4352,6 +4520,15 @@
           ],
           "trabajado_ha": 0.9866,
           "porcentaje": 28.1,
+          "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
           "completo": false
         },
         "Recolección": {
@@ -4381,19 +4558,20 @@
             "Barredora 1",
             "Barredora 16",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 3",
             "Barredora 5",
             "Barredora 7"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 48.0,
+          "porcentaje_en_curso": 89.4,
           "trabajado_ha": 1.4975,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 0.7195,
-            "porcentaje": 48.0
+            "trabajado_ha": 1.3394,
+            "porcentaje": 89.4
           }
         },
         "Cosecha con recibidor": {
@@ -4402,6 +4580,15 @@
           ],
           "trabajado_ha": 0.3369,
           "porcentaje": 22.5,
+          "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 1.3323,
+          "porcentaje": 89.0,
           "completo": false
         },
         "Recolección": {
@@ -4432,15 +4619,21 @@
             "Barredora 1",
             "Barredora 16",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 3",
             "Barredora 5",
             "Barredora 7"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 94.1,
-          "trabajado_ha": 1.3028,
-          "porcentaje": 94.1,
-          "completo": false
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 76.7,
+          "trabajado_ha": 1.3847,
+          "porcentaje": 100.0,
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 1.0621,
+            "porcentaje": 76.7
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -4449,6 +4642,15 @@
           "trabajado_ha": 0.1644,
           "porcentaje": 11.9,
           "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 1.3799,
+          "porcentaje": 99.7,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -4477,19 +4679,20 @@
           "maquinas": [
             "Barredora 1",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 3",
             "Barredora 5",
             "Barredora 7"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 42.5,
+          "porcentaje_en_curso": 89.4,
           "trabajado_ha": 1.9274,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 0.8201,
-            "porcentaje": 42.5
+            "trabajado_ha": 1.7225,
+            "porcentaje": 89.4
           }
         },
         "Cosecha con recibidor": {
@@ -4502,10 +4705,11 @@
         },
         "Picado": {
           "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 0.5777,
+          "porcentaje": 30.0,
           "completo": false
         },
         "Recolección": {
@@ -4534,12 +4738,22 @@
           "maquinas": [
             "Barredora 16",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 3"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 11.2,
-          "trabajado_ha": 0.2165,
-          "porcentaje": 11.2,
+          "porcentaje_en_curso": 11.1,
+          "trabajado_ha": 0.2149,
+          "porcentaje": 11.1,
+          "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
           "completo": false
         },
         "Recolección": {
@@ -4567,17 +4781,19 @@
       "labores": {
         "Barrido": {
           "maquinas": [
-            "Barredora 16"
+            "Barredora 1",
+            "Barredora 16",
+            "Barredora 23"
           ],
-          "pasadas_completas": 1,
-          "porcentaje_en_curso": 53.5,
+          "pasadas_completas": 2,
+          "porcentaje_en_curso": 76.6,
           "trabajado_ha": 0.1757,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
-            "repasos_completos": 0,
-            "trabajado_ha": 0.094,
-            "porcentaje": 53.5
+            "repasos_completos": 1,
+            "trabajado_ha": 0.1345,
+            "porcentaje": 76.6
           }
         },
         "Recolección": {
@@ -4604,14 +4820,30 @@
       "labores": {
         "Barrido": {
           "maquinas": [
+            "Barredora 1",
             "Barredora 16",
+            "Barredora 23",
             "Barredora 3"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 87.4,
           "trabajado_ha": 3.9713,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 3.4721,
+            "porcentaje": 87.4
+          }
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 3.5045,
+          "porcentaje": 88.2,
+          "completo": false
         },
         "Recolección": {
           "maquinas": [
@@ -4637,14 +4869,30 @@
       "labores": {
         "Barrido": {
           "maquinas": [
+            "Barredora 1",
             "Barredora 16",
+            "Barredora 23",
             "Barredora 3"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 93.1,
           "trabajado_ha": 3.1445,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 2.9267,
+            "porcentaje": 93.1
+          }
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 1.7474,
+          "porcentaje": 55.6,
+          "completo": false
         },
         "Recolección": {
           "maquinas": [
@@ -4670,13 +4918,27 @@
       "labores": {
         "Barrido": {
           "maquinas": [
+            "Barredora 23",
             "Barredora 3"
           ],
-          "pasadas_completas": 1,
+          "pasadas_completas": 2,
           "porcentaje_en_curso": 0.0,
           "trabajado_ha": 0.6745,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 1,
+            "trabajado_ha": 0.0,
+            "porcentaje": 0.0
+          }
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.1202,
+          "porcentaje": 17.8,
+          "completo": false
         },
         "Recolección": {
           "maquinas": [
@@ -4706,18 +4968,19 @@
             "Barredora 16",
             "Barredora 18",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 5",
             "Barredora 7"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 36.3,
+          "porcentaje_en_curso": 92.8,
           "trabajado_ha": 2.3234,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 0.8439,
-            "porcentaje": 36.3
+            "trabajado_ha": 2.156,
+            "porcentaje": 92.8
           }
         },
         "Cosecha con recibidor": {
@@ -4730,11 +4993,12 @@
         },
         "Picado": {
           "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 1.4342,
-          "porcentaje": 61.7,
-          "completo": false
+          "trabajado_ha": 2.2769,
+          "porcentaje": 98.0,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -4765,14 +5029,20 @@
             "Barredora 16",
             "Barredora 18",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 5",
             "Barredora 7"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 81.5,
           "trabajado_ha": 2.5641,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 2.0907,
+            "porcentaje": 81.5
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -4784,11 +5054,12 @@
         },
         "Picado": {
           "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 2.1488,
-          "porcentaje": 83.8,
-          "completo": false
+          "trabajado_ha": 2.5557,
+          "porcentaje": 99.7,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -4819,13 +5090,19 @@
             "Barredora 16",
             "Barredora 18",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 5"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 84.6,
           "trabajado_ha": 2.6594,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 2.2493,
+            "porcentaje": 84.6
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -4837,11 +5114,12 @@
         },
         "Picado": {
           "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 1.9814,
-          "porcentaje": 74.5,
-          "completo": false
+          "trabajado_ha": 2.6207,
+          "porcentaje": 98.5,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -4872,19 +5150,20 @@
             "Barredora 16",
             "Barredora 18",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 3",
             "Barredora 5",
             "Barredora 7"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 62.3,
+          "porcentaje_en_curso": 92.6,
           "trabajado_ha": 3.22,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 2.007,
-            "porcentaje": 62.3
+            "trabajado_ha": 2.9821,
+            "porcentaje": 92.6
           }
         },
         "Cosecha con recibidor": {
@@ -4897,11 +5176,12 @@
         },
         "Picado": {
           "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 1.8368,
-          "porcentaje": 57.0,
-          "completo": false
+          "trabajado_ha": 3.1296,
+          "porcentaje": 97.2,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -4933,19 +5213,20 @@
             "Barredora 16",
             "Barredora 18",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 3",
             "Barredora 5",
             "Barredora 7"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 60.2,
+          "porcentaje_en_curso": 89.9,
           "trabajado_ha": 3.3116,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 1.9923,
-            "porcentaje": 60.2
+            "trabajado_ha": 2.9779,
+            "porcentaje": 89.9
           }
         },
         "Cosecha con recibidor": {
@@ -4958,11 +5239,12 @@
         },
         "Picado": {
           "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
-          "completo": false
+          "trabajado_ha": 3.2703,
+          "porcentaje": 98.8,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -4990,22 +5272,24 @@
       "labores": {
         "Barrido": {
           "maquinas": [
+            "Barredora 1",
             "Barredora 16",
             "Barredora 18",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 3",
             "Barredora 5",
             "Barredora 7"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 44.9,
+          "porcentaje_en_curso": 85.0,
           "trabajado_ha": 2.9625,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 1.3314,
-            "porcentaje": 44.9
+            "trabajado_ha": 2.5187,
+            "porcentaje": 85.0
           }
         },
         "Cosecha con recibidor": {
@@ -5018,11 +5302,12 @@
         },
         "Picado": {
           "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
-          "completo": false
+          "trabajado_ha": 2.9625,
+          "porcentaje": 100.0,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -5054,19 +5339,20 @@
             "Barredora 16",
             "Barredora 18",
             "Barredora 19",
+            "Barredora 23",
             "Barredora 3",
             "Barredora 5",
             "Barredora 7"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 6.8,
+          "porcentaje_en_curso": 72.9,
           "trabajado_ha": 2.1871,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 0.1477,
-            "porcentaje": 6.8
+            "trabajado_ha": 1.5947,
+            "porcentaje": 72.9
           }
         },
         "Cosecha con recibidor": {
@@ -5079,11 +5365,12 @@
         },
         "Picado": {
           "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
-          "completo": false
+          "trabajado_ha": 2.1245,
+          "porcentaje": 97.1,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -6078,9 +6365,9 @@
             "Barredora 24 Weiss c/cab"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 85.6,
-          "trabajado_ha": 18.2717,
-          "porcentaje": 85.6,
+          "porcentaje_en_curso": 86.2,
+          "trabajado_ha": 18.4063,
+          "porcentaje": 86.2,
           "completo": false
         },
         "Picado": {
@@ -6201,9 +6488,9 @@
             "Barredora 24 Weiss c/cab"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 91.7,
-          "trabajado_ha": 5.4269,
-          "porcentaje": 91.7,
+          "porcentaje_en_curso": 91.8,
+          "trabajado_ha": 5.4331,
+          "porcentaje": 91.8,
           "completo": false
         },
         "Picado": {
@@ -6477,10 +6764,15 @@
             "Barredora 19"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 5.1,
           "trabajado_ha": 10.977,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 0.5545,
+            "porcentaje": 5.1
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -6503,10 +6795,15 @@
             "Barredora 19"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 4.4,
           "trabajado_ha": 10.9161,
           "porcentaje": 100.0,
-          "completo": true
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 0.4827,
+            "porcentaje": 4.4
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -6526,17 +6823,18 @@
         "Barrido": {
           "maquinas": [
             "Barredora 16",
-            "Barredora 19"
+            "Barredora 19",
+            "Barredora 4"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 4.1,
+          "porcentaje_en_curso": 10.1,
           "trabajado_ha": 11.8957,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 0.4894,
-            "porcentaje": 4.1
+            "trabajado_ha": 1.2039,
+            "porcentaje": 10.1
           }
         },
         "Cosecha con recibidor": {
@@ -6554,6 +6852,23 @@
     "El Volcan 13": {
       "area_total_ha": 2.3011,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16",
+            "Barredora 19",
+            "Barredora 4"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 78.4,
+          "trabajado_ha": 2.3011,
+          "porcentaje": 100.0,
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 1.8035,
+            "porcentaje": 78.4
+          }
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 1",
@@ -6568,6 +6883,18 @@
     "El Volcan 14": {
       "area_total_ha": 1.7493,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16",
+            "Barredora 19",
+            "Barredora 4"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 1",
@@ -6582,6 +6909,18 @@
     "El Volcan 15": {
       "area_total_ha": 0.513,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16",
+            "Barredora 19",
+            "Barredora 4"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.513,
+          "porcentaje": 100.0,
+          "completo": true
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 1",
@@ -6596,6 +6935,18 @@
     "El Volcan 16": {
       "area_total_ha": 8.6649,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16",
+            "Barredora 19",
+            "Barredora 4"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 8.6649,
+          "porcentaje": 100.0,
+          "completo": true
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 1",
@@ -6610,6 +6961,17 @@
     "El Volcan 17": {
       "area_total_ha": 7.9149,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16",
+            "Barredora 19"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 7.9149,
+          "porcentaje": 100.0,
+          "completo": true
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 1",
@@ -6624,6 +6986,17 @@
     "El Volcan 18": {
       "area_total_ha": 0.8282,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16",
+            "Barredora 19"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.8282,
+          "porcentaje": 100.0,
+          "completo": true
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 1"
@@ -6637,6 +7010,17 @@
     "El Volcan 19": {
       "area_total_ha": 5.8539,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16",
+            "Barredora 19"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 5.8539,
+          "porcentaje": 100.0,
+          "completo": true
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 1",
@@ -6654,13 +7038,14 @@
         "Barrido": {
           "maquinas": [
             "Barredora 16",
-            "Barredora 19"
+            "Barredora 19",
+            "Barredora 4"
           ],
-          "pasadas_completas": 0,
+          "pasadas_completas": 1,
           "porcentaje_en_curso": 0.0,
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
-          "completo": false
+          "trabajado_ha": 28.9716,
+          "porcentaje": 100.0,
+          "completo": true
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -6677,6 +7062,17 @@
     "El Volcan 6": {
       "area_total_ha": 1.5521,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16",
+            "Barredora 4"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 1.5521,
+          "porcentaje": 100.0,
+          "completo": true
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 10",
@@ -6691,6 +7087,17 @@
     "El Volcan 7": {
       "area_total_ha": 2.6833,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16",
+            "Barredora 4"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 2.6833,
+          "porcentaje": 100.0,
+          "completo": true
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 10",
@@ -6705,6 +7112,17 @@
     "El Volcan 8": {
       "area_total_ha": 1.7758,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 16",
+            "Barredora 4"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 1.7758,
+          "porcentaje": 100.0,
+          "completo": true
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 10",
@@ -6722,7 +7140,8 @@
         "Barrido": {
           "maquinas": [
             "Barredora 16",
-            "Barredora 19"
+            "Barredora 19",
+            "Barredora 4"
           ],
           "pasadas_completas": 1,
           "porcentaje_en_curso": 0.0,
@@ -6750,11 +7169,16 @@
             "Barredora 16",
             "Barredora 19"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 55.7,
-          "trabajado_ha": 13.3216,
-          "porcentaje": 55.7,
-          "completo": false
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 34.6,
+          "trabajado_ha": 23.9247,
+          "porcentaje": 100.0,
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 8.2892,
+            "porcentaje": 34.6
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -8073,9 +8497,9 @@
             "Barredora 4"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 65.2,
-          "trabajado_ha": 23.2318,
-          "porcentaje": 65.2,
+          "porcentaje_en_curso": 74.4,
+          "trabajado_ha": 26.5114,
+          "porcentaje": 74.4,
           "completo": false
         },
         "Cosecha con recibidor": {
@@ -8090,8 +8514,8 @@
           "maquinas": [
             "Tractor 14 Deutz Fahr 115"
           ],
-          "trabajado_ha": 21.2645,
-          "porcentaje": 59.7,
+          "trabajado_ha": 28.5131,
+          "porcentaje": 80.0,
           "completo": false
         },
         "Remecido de suelo": {
@@ -8151,9 +8575,9 @@
             "Barredora 4"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 3.1,
-          "trabajado_ha": 0.4811,
-          "porcentaje": 3.1,
+          "porcentaje_en_curso": 58.1,
+          "trabajado_ha": 9.0275,
+          "porcentaje": 58.1,
           "completo": false
         },
         "Cosecha con recibidor": {
@@ -8162,6 +8586,14 @@
           ],
           "trabajado_ha": 6.4122,
           "porcentaje": 41.2,
+          "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 14 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 8.7799,
+          "porcentaje": 56.5,
           "completo": false
         }
       }
@@ -8689,6 +9121,115 @@
         }
       }
     },
+    "Matias Rencore 11": {
+      "area_total_ha": 5.0698,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 22"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Matias Rencore 13": {
+      "area_total_ha": 8.5787,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 22"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Matias Rencore 2": {
+      "area_total_ha": 6.0538,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 22",
+            "Barredora 3"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Matias Rencore 3": {
+      "area_total_ha": 6.1136,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 22",
+            "Barredora 3"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 90.2,
+          "trabajado_ha": 5.5155,
+          "porcentaje": 90.2,
+          "completo": false
+        }
+      }
+    },
+    "Matias Rencore 4": {
+      "area_total_ha": 6.1558,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 3"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Matias Rencore 6": {
+      "area_total_ha": 11.3791,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 22",
+            "Barredora 3"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Matias Rencore 9": {
+      "area_total_ha": 0.9744,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 22",
+            "Barredora 3"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
     "Mayol C 5": {
       "area_total_ha": 4.7692,
       "labores": {
@@ -8779,6 +9320,14 @@
           "porcentaje": 92.5,
           "completo": false
         },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
         "Poda": {
           "maquinas": [
             "Tractor 9 Deutz Fahr 115"
@@ -8798,9 +9347,9 @@
             "Barredora 3"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 16.5,
-          "trabajado_ha": 2.6087,
-          "porcentaje": 16.5,
+          "porcentaje_en_curso": 45.4,
+          "trabajado_ha": 7.1864,
+          "porcentaje": 45.4,
           "completo": false
         },
         "Cosecha con recibidor": {
@@ -8832,6 +9381,17 @@
     "Nueva geocerca cholqui 2": {
       "area_total_ha": 10.1005,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 22",
+            "Barredora 3"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 45.4,
+          "trabajado_ha": 4.5815,
+          "porcentaje": 45.4,
+          "completo": false
+        },
         "Recolección": {
           "maquinas": [
             "Recogedora 1"
@@ -9113,11 +9673,11 @@
             "Barredora 21 Weiss s/cab",
             "Barredora 5"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 82.8,
-          "trabajado_ha": 10.5853,
-          "porcentaje": 82.8,
-          "completo": false
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 12.782,
+          "porcentaje": 100.0,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -9142,6 +9702,7 @@
       "labores": {
         "Barrido": {
           "maquinas": [
+            "Barredora 21 Weiss s/cab",
             "Barredora 5"
           ],
           "pasadas_completas": 1,
@@ -9176,11 +9737,11 @@
             "Barredora 21 Weiss s/cab",
             "Barredora 5"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 86.1,
-          "trabajado_ha": 13.0844,
-          "porcentaje": 86.1,
-          "completo": false
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 15.1977,
+          "porcentaje": 100.0,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -9203,6 +9764,17 @@
     "Rafael Peña 4": {
       "area_total_ha": 29.7989,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 21 Weiss s/cab",
+            "Barredora 5"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 29.7989,
+          "porcentaje": 100.0,
+          "completo": true
+        },
         "Recolección": {
           "maquinas": [
             "Recogedora 2"
@@ -9226,13 +9798,14 @@
       "labores": {
         "Barrido": {
           "maquinas": [
+            "Barredora 21 Weiss s/cab",
             "Barredora 5"
           ],
-          "pasadas_completas": 0,
+          "pasadas_completas": 1,
           "porcentaje_en_curso": 0.0,
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
-          "completo": false
+          "trabajado_ha": 4.3586,
+          "porcentaje": 100.0,
+          "completo": true
         },
         "Recolección": {
           "maquinas": [
@@ -9255,6 +9828,17 @@
     "Rafael Peña 6": {
       "area_total_ha": 6.4292,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 21 Weiss s/cab",
+            "Barredora 5"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 6.4292,
+          "porcentaje": 100.0,
+          "completo": true
+        },
         "Recolección": {
           "maquinas": [
             "Recogedora 2",
@@ -9277,6 +9861,22 @@
     "Rafael Peña 7": {
       "area_total_ha": 19.9638,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 21 Weiss s/cab",
+            "Barredora 5"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 7.5,
+          "trabajado_ha": 19.9638,
+          "porcentaje": 100.0,
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 1.4947,
+            "porcentaje": 7.5
+          }
+        },
         "Recolección": {
           "maquinas": [
             "Recogedora 2",
@@ -10992,6 +11592,17 @@
     "Viconto 10": {
       "area_total_ha": 18.599,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 5497",
+            "Barredora 6"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 65.0,
+          "trabajado_ha": 12.0933,
+          "porcentaje": 65.0,
+          "completo": false
+        },
         "Recolección": {
           "maquinas": [
             "Recogedora 4",
@@ -11015,6 +11626,17 @@
     "Viconto 11": {
       "area_total_ha": 7.4974,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 5497",
+            "Barredora 6"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 59.3,
+          "trabajado_ha": 4.4464,
+          "porcentaje": 59.3,
+          "completo": false
+        },
         "Recolección": {
           "maquinas": [
             "Recogedora 4",
@@ -11044,9 +11666,9 @@
             "Barredora 6"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 0.0,
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "porcentaje_en_curso": 57.6,
+          "trabajado_ha": 8.3878,
+          "porcentaje": 57.6,
           "completo": false
         },
         "Recolección": {
@@ -11072,6 +11694,17 @@
     "Viconto 13": {
       "area_total_ha": 24.7919,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 5497",
+            "Barredora 6"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 64.2,
+          "trabajado_ha": 15.9151,
+          "porcentaje": 64.2,
+          "completo": false
+        },
         "Recolección": {
           "maquinas": [
             "Recogedora 4",
@@ -11095,6 +11728,17 @@
     "Viconto 14": {
       "area_total_ha": 21.541,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 5497",
+            "Barredora 6"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 66.9,
+          "trabajado_ha": 14.4086,
+          "porcentaje": 66.9,
+          "completo": false
+        },
         "Recolección": {
           "maquinas": [
             "Recogedora 4",
@@ -11355,7 +11999,7 @@
           ],
           "pasadas_completas": 0,
           "porcentaje_en_curso": 61.5,
-          "trabajado_ha": 11.6377,
+          "trabajado_ha": 11.6431,
           "porcentaje": 61.5,
           "completo": false
         },
@@ -11388,9 +12032,9 @@
             "Barredora 6"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 0.0,
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "porcentaje_en_curso": 65.5,
+          "trabajado_ha": 8.5246,
+          "porcentaje": 65.5,
           "completo": false
         },
         "Recolección": {
@@ -11418,12 +12062,13 @@
       "labores": {
         "Barrido": {
           "maquinas": [
-            "Barredora 5497"
+            "Barredora 5497",
+            "Barredora 6"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 0.0,
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "porcentaje_en_curso": 58.7,
+          "trabajado_ha": 2.6876,
+          "porcentaje": 58.7,
           "completo": false
         },
         "Recolección": {
@@ -11449,6 +12094,17 @@
     "Viconto 9": {
       "area_total_ha": 8.8416,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 5497",
+            "Barredora 6"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 63.6,
+          "trabajado_ha": 5.6219,
+          "porcentaje": 63.6,
+          "completo": false
+        },
         "Recolección": {
           "maquinas": [
             "Recogedora 4",
@@ -11519,6 +12175,16 @@
     "cholqui 4": {
       "area_total_ha": 3.9335,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 3"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 10.0,
+          "trabajado_ha": 0.3948,
+          "porcentaje": 10.0,
+          "completo": false
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 14"
@@ -11554,9 +12220,9 @@
             "Barredora 3"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 0.0,
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "porcentaje_en_curso": 43.5,
+          "trabajado_ha": 5.1738,
+          "porcentaje": 43.5,
           "completo": false
         },
         "Cosecha con recibidor": {
