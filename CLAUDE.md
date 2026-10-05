@@ -496,8 +496,10 @@ hectáreas. Reemplaza el panel lateral anterior. Datos en
   ubicación. Desaparece sola cuando vuelve a enviar datos. Con 24 h al
   5-oct-2026 salían 12 alertas: 11 máquinas guardadas en CYH (su GPS deja de
   mandar datos al guardarlas) y el Tractor 7 (fuera de geocercas, sin señal
-  desde el 28-09). `alerta_sin_senal_en_cyh` (hoy `true`) permite excluir
-  las guardadas en CYH si el usuario lo decide.
+  desde el 28-09). **Decisión del usuario (5-oct-2026):
+  `alerta_sin_senal_en_cyh: false`**: si la última ubicación conocida está
+  dentro de CYH no hay alerta (el GPS se apaga al guardarla); fuera de CYH y
+  con más de 24 h sin señal, sí. Los colores del tablero no cambian.
 - **"Ver máquinas sin geocerca de los últimos 30 días"** (desplegable, en
   rojo, debajo del listado): todas las que trabajaron sin geocerca en ese
   plazo (también las de más de 7 días): máquina, fechas, días trabajados,

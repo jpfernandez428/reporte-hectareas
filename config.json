@@ -419,6 +419,7 @@
     "\\bcompleto\\b",
     "\\btotal\\b"
   ],
+  "alerta_sin_senal_en_cyh": false,
   "trabajo_descartado": [
     {
       "fecha": "2026-03-20",
