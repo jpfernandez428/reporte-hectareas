@@ -5289,6 +5289,14 @@
           "trabajado_ha": 7.6206,
           "porcentaje": 99.6,
           "completo": true
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
         }
       }
     },
@@ -5302,6 +5310,14 @@
           "trabajado_ha": 5.6318,
           "porcentaje": 97.5,
           "completo": true
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
         }
       }
     },
@@ -5640,6 +5656,14 @@
           ],
           "trabajado_ha": 5.2395,
           "porcentaje": 92.5,
+          "completo": false
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
           "completo": false
         }
       }
