@@ -2551,9 +2551,9 @@
             "Tractor 10 Deutz Fahr 115",
             "Tractor 13 Deutz Fahr 115"
           ],
-          "trabajado_ha": 0.7726,
-          "porcentaje": 20.0,
-          "completo": false
+          "trabajado_ha": 3.8652,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
@@ -2585,6 +2585,20 @@
         }
       }
     },
+    "Aurora 19": {
+      "area_total_ha": 2.6707,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 2.5995,
+          "porcentaje": 97.3,
+          "completo": true
+        }
+      }
+    },
     "Aurora 2": {
       "area_total_ha": 7.1152,
       "labores": {
@@ -2596,6 +2610,47 @@
           "trabajado_ha": 7.1152,
           "porcentaje": 100.0,
           "completo": true
+        }
+      }
+    },
+    "Aurora 20": {
+      "area_total_ha": 2.4925,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 2.4917,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 21": {
+      "area_total_ha": 1.4037,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 1.4037,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 22": {
+      "area_total_ha": 2.7819,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 1.8051,
+          "porcentaje": 64.9,
+          "completo": false
         }
       }
     },
@@ -7185,14 +7240,14 @@
             "Barredora 24 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 43.1,
+          "porcentaje_en_curso": 89.7,
           "trabajado_ha": 21.342,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 9.2052,
-            "porcentaje": 43.1
+            "trabajado_ha": 19.1391,
+            "porcentaje": 89.7
           }
         },
         "Picado": {
@@ -7231,11 +7286,11 @@
             "Barredora 23",
             "Barredora 24 Weiss c/cab"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 52.4,
-          "trabajado_ha": 3.3694,
-          "porcentaje": 52.4,
-          "completo": false
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 6.4262,
+          "porcentaje": 100.0,
+          "completo": true
         },
         "Picado": {
           "maquinas": [
@@ -7273,11 +7328,11 @@
             "Barredora 23",
             "Barredora 24 Weiss c/cab"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 50.0,
-          "trabajado_ha": 3.0469,
-          "porcentaje": 50.0,
-          "completo": false
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 6.0951,
+          "porcentaje": 100.0,
+          "completo": true
         },
         "Picado": {
           "maquinas": [
@@ -14068,6 +14123,19 @@
         }
       }
     },
+    "torretagle 4": {
+      "area_total_ha": 5.223,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
     "torretagle 5": {
       "area_total_ha": 3.8805,
       "labores": {
@@ -14075,8 +14143,8 @@
           "maquinas": [
             "Tractor 16 Kubota 108"
           ],
-          "trabajado_ha": 0.1073,
-          "porcentaje": 2.8,
+          "trabajado_ha": 0.366,
+          "porcentaje": 9.4,
           "completo": false
         }
       }

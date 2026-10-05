@@ -46780,5 +46780,194 @@
     "n_hileras": 27,
     "area_total_ha": 6.1,
     "area_trabajada_ha": 1.83
+  },
+  {
+    "fecha": "2026-10-01",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "torretagle 5",
+    "labor": "Picado",
+    "n_hileras": 5,
+    "area_total_ha": 3.88,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-10-01",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 16",
+    "labor": "Poda",
+    "n_hileras": 50,
+    "area_total_ha": 3.87,
+    "area_trabajada_ha": 1.78
+  },
+  {
+    "fecha": "2026-10-01",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 16",
+    "labor": "Poda",
+    "n_hileras": 26,
+    "area_total_ha": 3.87,
+    "area_trabajada_ha": 1.31
+  },
+  {
+    "fecha": "2026-10-01",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 1",
+    "labor": "Barrido",
+    "n_hileras": 218,
+    "area_total_ha": 21.34,
+    "area_trabajada_ha": 9.93
+  },
+  {
+    "fecha": "2026-10-01",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 2",
+    "labor": "Barrido",
+    "n_hileras": 47,
+    "area_total_ha": 6.43,
+    "area_trabajada_ha": 1.96
+  },
+  {
+    "fecha": "2026-10-01",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 3",
+    "labor": "Barrido",
+    "n_hileras": 45,
+    "area_total_ha": 6.1,
+    "area_trabajada_ha": 1.78
+  },
+  {
+    "fecha": "2026-10-01",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 20",
+    "labor": "Poda",
+    "n_hileras": 3,
+    "area_total_ha": 2.49,
+    "area_trabajada_ha": 0.3
+  },
+  {
+    "fecha": "2026-10-01",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 20",
+    "labor": "Poda",
+    "n_hileras": 18,
+    "area_total_ha": 2.49,
+    "area_trabajada_ha": 0.62
+  },
+  {
+    "fecha": "2026-10-02",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "torretagle 5",
+    "labor": "Picado",
+    "n_hileras": 5,
+    "area_total_ha": 3.88,
+    "area_trabajada_ha": 0.19
+  },
+  {
+    "fecha": "2026-10-02",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 2",
+    "labor": "Barrido",
+    "n_hileras": 63,
+    "area_total_ha": 6.43,
+    "area_trabajada_ha": 1.09
+  },
+  {
+    "fecha": "2026-10-02",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 3",
+    "labor": "Barrido",
+    "n_hileras": 59,
+    "area_total_ha": 6.1,
+    "area_trabajada_ha": 1.27
+  },
+  {
+    "fecha": "2026-10-02",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 19",
+    "labor": "Poda",
+    "n_hileras": 16,
+    "area_total_ha": 2.67,
+    "area_trabajada_ha": 1.16
+  },
+  {
+    "fecha": "2026-10-02",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 19",
+    "labor": "Poda",
+    "n_hileras": 18,
+    "area_total_ha": 2.67,
+    "area_trabajada_ha": 1.29
+  },
+  {
+    "fecha": "2026-10-02",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 20",
+    "labor": "Poda",
+    "n_hileras": 15,
+    "area_total_ha": 2.49,
+    "area_trabajada_ha": 0.73
+  },
+  {
+    "fecha": "2026-10-02",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 20",
+    "labor": "Poda",
+    "n_hileras": 31,
+    "area_total_ha": 2.49,
+    "area_trabajada_ha": 0.8
+  },
+  {
+    "fecha": "2026-10-02",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 21",
+    "labor": "Poda",
+    "n_hileras": 3,
+    "area_total_ha": 1.4,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-10-03",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 19",
+    "labor": "Poda",
+    "n_hileras": 18,
+    "area_total_ha": 2.67,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-10-03",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 20",
+    "labor": "Poda",
+    "n_hileras": 18,
+    "area_total_ha": 2.49,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-10-03",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 21",
+    "labor": "Poda",
+    "n_hileras": 34,
+    "area_total_ha": 1.4,
+    "area_trabajada_ha": 1.17
+  },
+  {
+    "fecha": "2026-10-03",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Aurora 22",
+    "labor": "Poda",
+    "n_hileras": 20,
+    "area_total_ha": 2.78,
+    "area_trabajada_ha": 1.39
+  },
+  {
+    "fecha": "2026-10-03",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 22",
+    "labor": "Poda",
+    "n_hileras": 6,
+    "area_total_ha": 2.78,
+    "area_trabajada_ha": 0.42
   }
 ]
