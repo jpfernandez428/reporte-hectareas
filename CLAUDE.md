@@ -23,7 +23,7 @@ cambiarlas sin preguntar.
   encontro actividad" y no tiene errores; cualquier otra falla detiene todo.
   Ningún tramo debe acercarse a las 6 h de GitHub Actions. Mantener el Mac
   despierto con `caffeinate` mientras dure.
-- La corrida diaria automática (`.github/workflows/diario.yml`, 09:00 UTC) se
+- La corrida diaria automática (`.github/workflows/diario.yml`, 05:00 UTC desde el 5-oct-2026) se
   pausa durante los recálculos y se reactiva recién cuando termina el último
   tramo.
 
@@ -247,6 +247,7 @@ Resultados al 2-oct-2026, con GPS crudo (salvo donde se indica), antes de relanz
 | Gonzalo Sánchez 2 – Picado (Tractor 14, todo el 28-02; la franja sin pasadas es por el GPS de un punto por minuto) | ≥ 95 % | 100 % ✓ (regla de GPS espaciado) |
 | Gonzalo Sánchez 2 – Remecido de suelo (Shacker de Suelo 8, todo el cuartel) | ≥ 95 % | 99,3 % ✓ (hueco de una entrehilera) |
 | Gonzalo Sánchez 7 – Barrido (Barredora 7, 03-03, 2 pasadas, probando) | 0 % | 0 % ✓ |
+| Gonzalo Sánchez 7 – Picado (Tractor 14, 04-03) | no se picó completo; 78 % es correcto (confirmado por el usuario, 5-oct-2026) | 78,4 % ✓ |
 | Gonzalo Sánchez 9 – Barrido, pasadas del 04-03 | no cuentan (pasó y no siguió) | no cuentan ✓ |
 
 Viconto: las dos barredoras trabajaron dentro de "Viconto" solo el 7 de
@@ -486,7 +487,7 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
   desaparece (las alertas se revisan en cada corrida contra las geocercas
   actuales).
 
-## Geocercas nuevas (en prueba)
+## Geocercas nuevas (activa en la corrida diaria)
 
 - Se guarda la lista de geocercas conocidas por id de Wialon
   (`memoria_hileras/_geocercas_conocidas.json`). La primera vez se registran
@@ -537,9 +538,17 @@ Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
   nuevas. Antes se limpian solo los resultados de esas labores (memoria de
   sus máquinas, sus entradas en `_avance_por_labor.json`, `_estilo_maquinas`
   e historial, y la geometría de sus máquinas).
-- 5-oct-2026: recálculo de Poda, Picado y Barrido del 2026-01-01 a ayer, por
-  quincenas, con la corrida diaria pausada (pedido por el usuario tras las
-  correcciones 1–4).
+- En este modo **no se registran geocercas como conocidas**: una geocerca
+  creada mientras corre el recálculo queda como nueva y la corrida diaria
+  recupera sus 30 días en todas las labores.
+- 5-oct-2026: recálculo de Poda, Picado y Barrido del 2026-01-01 al
+  2026-10-04, por quincenas (19 tramos de 7 a 17 min, sin errores), con la
+  corrida diaria pausada (pedido por el usuario tras las correcciones 1–4).
+  Un tramo registró como conocidas Aurora 19–22 (creadas ese día) sin
+  recuperar las otras labores: se sacaron de la lista y se limpiaron sus
+  resultados (memoria, avance e historial) para que la corrida diaria las
+  calcule con sus 30 días en todas las labores. Corrida diaria reactivada a
+  las 05:00 UTC.
 
 ## Registro del relanzamiento (2-oct-2026)
 

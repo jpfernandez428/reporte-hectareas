@@ -2726,7 +2726,10 @@ def main():
         for (_, hpg, desc), (_, hpg_n, desc_n) in zip(resultado_por_unidad, res_n):
             hpg.update(hpg_n)
             desc.extend(desc_n)
-    guardar_geocercas_conocidas(geocercas)
+    if not LABORES_RECALCULO:
+        # En el recalculo por labores no se registran: una geocerca nueva debe
+        # recuperar sus 30 dias en todas las labores en la corrida diaria.
+        guardar_geocercas_conocidas(geocercas)
     guardar_estilos()
 
     if LABORES_RECALCULO:
