@@ -2453,9 +2453,9 @@
             "Tractor 10 Deutz Fahr 115",
             "Tractor 13 Deutz Fahr 115"
           ],
-          "trabajado_ha": 3.9161,
-          "porcentaje": 92.6,
-          "completo": false
+          "trabajado_ha": 4.2294,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
@@ -2467,8 +2467,120 @@
             "Tractor 10 Deutz Fahr 115",
             "Tractor 13 Deutz Fahr 115"
           ],
-          "trabajado_ha": 2.2289,
-          "porcentaje": 95.6,
+          "trabajado_ha": 2.3305,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 11": {
+      "area_total_ha": 7.8352,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 7.8352,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 12": {
+      "area_total_ha": 3.4923,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 3.4923,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 13": {
+      "area_total_ha": 2.7857,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 2.6855,
+          "porcentaje": 96.4,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 14": {
+      "area_total_ha": 3.0301,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 3.0252,
+          "porcentaje": 99.8,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 15": {
+      "area_total_ha": 1.5123,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 1.5052,
+          "porcentaje": 99.5,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 16": {
+      "area_total_ha": 3.8661,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.7726,
+          "porcentaje": 20.0,
+          "completo": false
+        }
+      }
+    },
+    "Aurora 17": {
+      "area_total_ha": 5.3406,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 5.3406,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 18": {
+      "area_total_ha": 2.0844,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 2.0758,
+          "porcentaje": 99.6,
           "completo": true
         }
       }
@@ -2478,11 +2590,12 @@
       "labores": {
         "Poda": {
           "maquinas": [
-            "Tractor 10 Deutz Fahr 115"
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
           ],
-          "trabajado_ha": 6.5499,
-          "porcentaje": 92.1,
-          "completo": false
+          "trabajado_ha": 7.1152,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
@@ -4412,9 +4525,9 @@
             "Barredora 1"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 9.3,
-          "trabajado_ha": 0.0829,
-          "porcentaje": 9.3,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
           "completo": false
         },
         "Poda": {
@@ -4451,15 +4564,15 @@
             "Barredora 1",
             "Barredora 15"
           ],
-          "pasadas_completas": 2,
-          "porcentaje_en_curso": 30.3,
+          "pasadas_completas": 3,
+          "porcentaje_en_curso": 0.0,
           "trabajado_ha": 12.6888,
           "porcentaje": 100.0,
           "completo": true,
           "repaso": {
-            "repasos_completos": 1,
-            "trabajado_ha": 3.8479,
-            "porcentaje": 30.3
+            "repasos_completos": 2,
+            "trabajado_ha": 0.0,
+            "porcentaje": 0.0
           }
         },
         "Poda": {
@@ -4499,9 +4612,9 @@
             "Barredora 15"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 8.4,
-          "trabajado_ha": 2.8419,
-          "porcentaje": 8.4,
+          "porcentaje_en_curso": 81.1,
+          "trabajado_ha": 27.5733,
+          "porcentaje": 81.1,
           "completo": false
         },
         "Poda": {
@@ -7067,14 +7180,20 @@
       "labores": {
         "Barrido": {
           "maquinas": [
+            "Barredora 1",
             "Barredora 23",
             "Barredora 24 Weiss c/cab"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 86.2,
-          "trabajado_ha": 18.4063,
-          "porcentaje": 86.2,
-          "completo": false
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 43.1,
+          "trabajado_ha": 21.342,
+          "porcentaje": 100.0,
+          "completo": true,
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 9.2052,
+            "porcentaje": 43.1
+          }
         },
         "Picado": {
           "maquinas": [
@@ -7108,13 +7227,14 @@
       "labores": {
         "Barrido": {
           "maquinas": [
+            "Barredora 1",
             "Barredora 23",
             "Barredora 24 Weiss c/cab"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 90.4,
-          "trabajado_ha": 5.8061,
-          "porcentaje": 90.4,
+          "porcentaje_en_curso": 52.4,
+          "trabajado_ha": 3.3694,
+          "porcentaje": 52.4,
           "completo": false
         },
         "Picado": {
@@ -7149,13 +7269,14 @@
       "labores": {
         "Barrido": {
           "maquinas": [
+            "Barredora 1",
             "Barredora 23",
             "Barredora 24 Weiss c/cab"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 90.7,
-          "trabajado_ha": 5.5297,
-          "porcentaje": 90.7,
+          "porcentaje_en_curso": 50.0,
+          "trabajado_ha": 3.0469,
+          "porcentaje": 50.0,
           "completo": false
         },
         "Picado": {
@@ -7190,14 +7311,15 @@
       "labores": {
         "Barrido": {
           "maquinas": [
+            "Barredora 1",
             "Barredora 23",
             "Barredora 24 Weiss c/cab"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 91.8,
-          "trabajado_ha": 5.4331,
-          "porcentaje": 91.8,
-          "completo": false
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 5.9205,
+          "porcentaje": 100.0,
+          "completo": true
         },
         "Picado": {
           "maquinas": [
@@ -9191,6 +9313,14 @@
           "trabajado_ha": 34.8713,
           "porcentaje": 87.6,
           "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 39.3673,
+          "porcentaje": 98.9,
+          "completo": true
         }
       }
     },
@@ -9247,6 +9377,96 @@
         }
       }
     },
+    "Juan V Nogales 1": {
+      "area_total_ha": 7.8688,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 92.7,
+          "trabajado_ha": 7.2913,
+          "porcentaje": 92.7,
+          "completo": false
+        }
+      }
+    },
+    "Juan V Nogales 2": {
+      "area_total_ha": 5.6816,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 5.6816,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Juan V Nogales 3": {
+      "area_total_ha": 4.6644,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 4.6644,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Juan V Nogales 4": {
+      "area_total_ha": 4.0786,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 4.0786,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Juan V Nogales 5": {
+      "area_total_ha": 2.9905,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 2.9905,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Juan V Nogales 6": {
+      "area_total_ha": 1.4597,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 93.6,
+          "trabajado_ha": 1.3659,
+          "porcentaje": 93.6,
+          "completo": false
+        }
+      }
+    },
     "Juan Valenzuela_Cuartel 1": {
       "area_total_ha": 35.8288,
       "labores": {
@@ -9263,6 +9483,16 @@
     "Juan Valenzuela_Cuartel 2": {
       "area_total_ha": 26.6704,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 12"
@@ -9276,6 +9506,16 @@
     "Juan Valenzuela_Cuartel 3": {
       "area_total_ha": 18.7307,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 12"
@@ -9289,6 +9529,16 @@
     "Juan Valenzuela_Cuartel 4": {
       "area_total_ha": 20.8915,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 12"
@@ -13815,6 +14065,46 @@
           "trabajado_ha": 12.169,
           "porcentaje": 100.0,
           "completo": true
+        }
+      }
+    },
+    "torretagle 5": {
+      "area_total_ha": 3.8805,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.1073,
+          "porcentaje": 2.8,
+          "completo": false
+        }
+      }
+    },
+    "torretagle 7": {
+      "area_total_ha": 5.1454,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "torretagle 9": {
+      "area_total_ha": 3.0503,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108",
+            "Tractor 3 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
         }
       }
     },
