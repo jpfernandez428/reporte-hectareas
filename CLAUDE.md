@@ -23,7 +23,7 @@ cambiarlas sin preguntar.
   encontro actividad" y no tiene errores; cualquier otra falla detiene todo.
   Ningún tramo debe acercarse a las 6 h de GitHub Actions. Mantener el Mac
   despierto con `caffeinate` mientras dure.
-- La corrida diaria automática (`.github/workflows/diario.yml`, 05:00 UTC desde el 5-oct-2026) se
+- La corrida diaria automática (`.github/workflows/diario.yml`, 05:00 UTC desde el 5-oct-2026; el tablero de la flota corre aparte cada 4 horas) se
   pausa durante los recálculos y se reactiva recién cuando termina el último
   tramo.
 
@@ -454,38 +454,71 @@ editable por el usuario.
 - El KML generado debe ser XML válido (escapar `&`, `<`, `>` y comillas en
   nombres).
 
-## Panel de estado de máquinas (en prueba)
+## Tablero de la flota (aprobado por el usuario el 5-oct-2026)
 
-Panel a la derecha de la web (`docs/datos/estado_maquinas.json`), según el
-último día procesado:
+Pestaña **"Flota"** abajo en la web (botones "Hectáreas | Flota"; enlace
+directo `#flota`): abre el tablero a ancho completo, separado del reporte de
+hectáreas. Reemplaza el panel lateral anterior. Datos en
+`docs/datos/flota.json`, armado por `construir_flota`.
 
-- **Máquinas en CYH:** las que terminan el día dentro de la geocerca "C&H
-  Maquinaria" (`geocerca_patio` en `config.json`).
-- **⚠ Máquinas trabajando sin geocerca:** solo trabajo reciente, de los
-  **últimos 30 días** (el mismo plazo de la recuperación de geocercas nuevas).
-  Nunca alertas viejas del historial del año.
-- **Formato:** una sola línea por máquina y lugar, no una por día:
-  "Tractor 7 Kubota 95 – trabajando hace 5 días sin geocerca – [mapa]".
-  "Hace N días" = días desde la primera vez que trabajó en ese lugar sin
-  geocerca, dentro de los 30 días. Si la misma máquina trabajó en dos
-  lugares distintos (a más de 600 m), una línea por lugar. Orden: de más días
-  a menos.
-- **Qué es trabajo:** mismo criterio de las hileras (tramos rectos a
-  velocidad de trabajo, alineados y en serie; al menos 6 pasadas por zona).
-  Además, para no confundir caminos de acceso con trabajo aunque la máquina
-  vaya lento: la zona debe tener al menos 4 líneas distintas (a más de 1,5 m
-  entre sí) que cubran al menos 12 m de ancho (un camino, aunque se recorra
-  lento o varias veces, son 1–3 líneas en pocos metros).
-- **Horas:** solo cuenta el tiempo en movimiento (≥ 1 km/h entre puntos GPS,
-  intervalos de hasta 10 min porque algunos GPS mandan puntos espaciados),
-  más los giros de cabecera. Un rato detenido no suma horas.
-- **Mínimo por día (aprobado):** 1 hora de trabajo en esa zona
-  (`horas_minimas_alerta`). Con datos reales
-  (26-ago a 24-sep): 30 min → 58 líneas en el panel, 1 h → 55, 2 h → 45
-  (2 h ya pierde trabajo claro, ej. 1,5–1,9 h con 2–2,7 ha).
-- **Al crear la geocerca** en Wialon, la alerta de esa máquina en ese lugar
-  desaparece (las alertas se revisan en cada corrida contra las geocercas
-  actuales).
+- **Cuándo se actualiza:** corrida liviana cada 4 horas
+  (`.github/workflows/flota.yml`, `MODO_FLOTA=1`, 00/04/08/12/16/20 UTC: solo
+  el tablero, sin hectáreas; sube `flota.json`) y al final de la corrida
+  completa diaria (05:00 UTC). Ambas en el mismo grupo de concurrencia (una
+  a la vez). Costo: el repositorio es público → minutos de GitHub Actions sin
+  costo. La página nunca se conecta a Wialon (es pública y expondría el
+  token): solo lee los archivos publicados.
+- **Listado:** todas las máquinas configuradas (sin "No incluir"), siempre en
+  el mismo orden: Barredoras, Shacker SBS, Tractores y luego el resto
+  (Shacker de Suelo, Shaker Orchard Rite, Recogedoras, Podadora, otras); dentro
+  de cada tipo por número real (Barredora 2 antes que Barredora 10); los
+  números no correlativos (> 100, ej. Barredora 5497) al final del grupo. El
+  orden no cambia con el color.
+- **Columnas:** nombre, labor, estado (color + texto), ubicación (geocerca,
+  "CYH" o "Fuera de geocercas", con enlace a Google Maps del último punto) y
+  última conexión (fecha y hora del último dato GPS, de Wialon).
+- **Estados (en este orden de prioridad):**
+  1. **Rojo:** trabajó sin geocerca en los últimos 7 días (alerta visible: ≥ 1
+     h por día) y la geocerca sigue sin crearse, aunque hoy esté en CYH o en
+     otra geocerca. "Sin geocerca desde hace N días".
+  2. **Gris (sin señal hace más de 30 días):** "Sin señal desde el …", en su
+     lugar del orden fijo, aunque su última posición sea CYH.
+  3. **Amarillo:** su último punto está en CYH ("C&H Maquinaria"). "En CYH
+     desde el …" (llegada a CYH, siguiendo los fines de día en CYH; los días
+     sin datos GPS con la máquina guardada no cortan la estadía).
+  4. **Verde:** hoy o ayer trabajó (≥ 1 h en movimiento) dentro de una o más
+     geocercas. "En <geocercas> desde el …" (días seguidos trabajando ahí).
+  5. **Gris:** lo demás: "Sin señal desde el …" (más de 24 h sin datos) o
+     "Detenida en/fuera de geocercas desde el …" (último movimiento).
+- **Alerta "GPS sin señal"** (destacada arriba del tablero): máquina que lleva
+  más de 24 horas sin enviar datos (`horas_sin_senal`), solo si la perdió en
+  los últimos 30 días; muestra la fecha y hora de la última señal y la última
+  ubicación. Desaparece sola cuando vuelve a enviar datos. Con 24 h al
+  5-oct-2026 salían 12 alertas: 11 máquinas guardadas en CYH (su GPS deja de
+  mandar datos al guardarlas) y el Tractor 7 (fuera de geocercas, sin señal
+  desde el 28-09). `alerta_sin_senal_en_cyh` (hoy `true`) permite excluir
+  las guardadas en CYH si el usuario lo decide.
+- **"Ver máquinas sin geocerca de los últimos 30 días"** (desplegable, en
+  rojo, debajo del listado): todas las que trabajaron sin geocerca en ese
+  plazo (también las de más de 7 días): máquina, fechas, días trabajados,
+  horas, hectáreas aproximadas y mapa. Una línea por máquina y lugar.
+- **Detalle por máquina** (al apretarla): sus últimos 30 días, por día: en qué
+  geocercas trabajó (horas en movimiento dentro de cada una y hectáreas del
+  historial) o si fue sin geocerca (horas, hectáreas aproximadas y mapa),
+  labor, horas, hectáreas y dónde quedó al final del día (lugar, hora y
+  mapa). Los días completos se guardan y se reutilizan; la primera corrida
+  baja los 30 días (~880 días-máquina), después solo lo que falta y hoy.
+- **Qué es trabajo sin geocerca** (las alertas, sin cambios): mismo criterio
+  de las hileras (tramos rectos a velocidad de trabajo, alineados y en serie;
+  al menos 6 pasadas por zona), al menos 4 líneas distintas que cubran 12 m
+  de ancho (no caminos), horas solo en movimiento (≥ 1 km/h, intervalos de
+  hasta 10 min, más giros de cabecera), **mínimo 1 hora por día**
+  (`horas_minimas_alerta`). Plazo de **30 días** (el mismo de la
+  recuperación de geocercas nuevas).
+- **Al crear la geocerca** en Wialon la alerta desaparece: cuenta como
+  resuelta si la mayoría de sus pasadas caen dentro de geocercas (desde el
+  5-oct-2026 también si quedan repartidas en varias vecinas, ej. Aurora 19 y
+  22).
 
 ## Geocercas nuevas (activa en la corrida diaria)
 

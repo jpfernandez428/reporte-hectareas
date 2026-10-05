@@ -1,0 +1,46 @@
+name: Tablero de la flota (cada 4 horas)
+
+on:
+  schedule:
+    - cron: '0 */4 * * *'   # 00, 04, 08, 12, 16 y 20 UTC: corrida liviana, solo el tablero
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Una sola corrida a la vez que escriba en el repositorio (con la diaria).
+concurrency:
+  group: datos-del-repositorio
+  cancel-in-progress: false
+
+jobs:
+  flota:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar librerias
+        run: pip install -r requirements.txt
+
+      - name: Actualizar el tablero de la flota
+        env:
+          WIALON_TOKEN: ${{ secrets.WIALON_TOKEN }}
+          MODO_FLOTA: '1'
+        run: python3 reporte_hectareas.py
+
+      - name: Guardar el tablero en el repositorio
+        run: |
+          git config user.name "Reporte automatico"
+          git config user.email "actions@users.noreply.github.com"
+          git add docs/datos/flota.json memoria_hileras/_superposiciones.json
+          if ! git diff --staged --quiet; then
+            git commit -m "Tablero de la flota $(date -u +%F' '%H:%M) UTC"
+            git pull --rebase origin main
+            git push
+          fi

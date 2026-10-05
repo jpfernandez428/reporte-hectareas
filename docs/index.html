@@ -31,23 +31,59 @@
   .chip { display: inline-flex; align-items: center; gap: 6px; background: #e8f0e9; border: 1px solid #cfe0d1;
           border-radius: 16px; padding: 5px 10px 5px 12px; margin: 0 8px 8px 0; font-size: 13px; }
   .chip button { background: none; color: #666; border: none; cursor: pointer; font-size: 14px; padding: 0 2px; }
-  .layout { display: flex; gap: 24px; align-items: flex-start; }
-  .principal { flex: 1; min-width: 0; }
-  .panel { width: 340px; flex-shrink: 0; position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow-y: auto; }
-  .tarjeta { background: white; border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-  .tarjeta h3 { font-size: 15px; margin: 0 0 8px 0; }
-  .tarjeta .nota { font-size: 12px; color: #666; margin-bottom: 8px; }
-  .lista-patio { font-size: 13px; line-height: 1.6; columns: 2; column-gap: 12px; }
-  .alerta { background: #fdecea; border: 2px solid #d93025; }
-  .alerta h3 { color: #b3261e; }
-  .item-alerta { border-top: 1px solid #f3c1bd; padding: 8px 0; font-size: 13px; }
-  .item-alerta:first-of-type { border-top: none; }
-  .item-alerta .maq { font-weight: 700; }
-  .item-alerta a { color: #1a5fb4; font-weight: 600; }
-  @media (max-width: 900px) {
-    .layout { flex-direction: column; }
-    .panel { width: 100%; position: static; max-height: none; }
-  }
+  .vista[hidden] { display: none !important; }
+  .pestanas { position: sticky; bottom: 0; z-index: 5; display: flex; gap: 8px; justify-content: center;
+              padding: 10px 0 calc(10px + env(safe-area-inset-bottom, 0px)); margin-top: 32px;
+              background: linear-gradient(to top, #f5f6f7 70%, rgba(245,246,247,0)); }
+  .pestanas button { background: #e3e8e4; color: #1a1a1a; font-weight: 600; padding: 10px 22px; }
+  .pestanas button:hover { background: #d4dbd6; }
+  .pestanas button.activa { background: #2f6f3e; color: white; }
+  /* Tablero de la flota */
+  .flota { --am: #8a6a00; --am-f: #fff4cc; --am-b: #e8c547; --ve: #1f6b34; --ve-f: #e3f2e6; --ve-b: #6fbf83;
+           --ro: #b3261e; --ro-f: #fdecea; --ro-b: #e57368; --gr: #5d6660; --gr-f: #eceeed; --gr-b: #b9c0bb;
+           display: flex; flex-direction: column; gap: 16px; }
+  .flota .resumen-flota { display: flex; flex-wrap: wrap; gap: 10px; }
+  .flota .cuenta { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; font-weight: 600; border: 1px solid; }
+  .flota .cuenta b { font-size: 16px; font-variant-numeric: tabular-nums; }
+  .flota .amarillo { color: var(--am); background: var(--am-f); border-color: var(--am-b); }
+  .flota .verde { color: var(--ve); background: var(--ve-f); border-color: var(--ve-b); }
+  .flota .rojo { color: var(--ro); background: var(--ro-f); border-color: var(--ro-b); }
+  .flota .gris { color: var(--gr); background: var(--gr-f); border-color: var(--gr-b); }
+  .flota .marco { overflow-x: auto; background: white; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .flota table { box-shadow: none; border-radius: 0; }
+  .flota td, .flota th { vertical-align: top; }
+  .flota thead th { font-size: 12px; color: #555; letter-spacing: .03em; text-transform: uppercase; }
+  .flota tr.grupo td { background: #eef1ee; font-weight: 700; font-size: 13px; color: #4a524c; }
+  .flota tr.maquina { cursor: pointer; }
+  .flota tr.maquina td:first-child { border-left: 5px solid transparent; }
+  .flota tr.maquina.amarillo td:first-child { border-left-color: var(--am-b); }
+  .flota tr.maquina.verde td:first-child { border-left-color: var(--ve-b); }
+  .flota tr.maquina.rojo td:first-child { border-left-color: var(--ro-b); }
+  .flota tr.maquina.gris td:first-child { border-left-color: var(--gr-b); }
+  .flota tr.maquina, .flota tr.maquina td { color: #1a1a1a; background: transparent; }
+  .flota tr.maquina:hover td { background: #f6f8f6; }
+  .flota .nombre { background: none; color: inherit; border: 0; padding: 0; font: inherit; font-weight: 600; cursor: pointer; text-align: left; }
+  .flota .nombre:hover { background: none; }
+  .flota .nombre:focus-visible { outline: 2px solid #2f6f3e; outline-offset: 2px; }
+  .flota .flecha { display: inline-block; width: 1em; color: #777; transition: transform .15s; }
+  .flota tr.abierta .flecha { transform: rotate(90deg); }
+  .flota .estado { display: inline-block; padding: 3px 10px; border-radius: 999px; border: 1px solid; font-size: 13px; white-space: nowrap; }
+  .flota .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .flota a { color: #1a5fb4; font-weight: 600; text-decoration: none; }
+  .flota a:hover { text-decoration: underline; }
+  .flota .chica { color: #666; font-size: 12px; }
+  .flota tr.detalle > td { background: #f5f6f7; padding: 12px 16px 16px 22px; }
+  .flota .detalle h4 { margin: 0 0 8px; font-size: 13px; }
+  .flota .detalle th, .flota .detalle td { font-size: 13px; padding: 7px 10px; }
+  .flota .sin { color: var(--ro); font-weight: 600; }
+  .flota .gps { background: #fff3e0; border: 2px solid #e8892b; border-radius: 10px; padding: 12px 16px; }
+  .flota .gps h3 { margin: 0 0 6px; font-size: 15px; color: #8a4500; }
+  .flota .gps .item { padding: 6px 0; border-top: 1px solid #f3cf9f; font-size: 13px; }
+  .flota .gps .item:first-of-type { border-top: none; }
+  .flota details.alertas { background: var(--ro-f); border: 2px solid var(--ro-b); border-radius: 10px; }
+  .flota details.alertas summary { cursor: pointer; padding: 12px 16px; color: var(--ro); font-weight: 700; font-size: 15px; }
+  .flota details.alertas .marco { margin: 0 12px 12px; }
+  @media (prefers-reduced-motion: reduce) { .flota .flecha { transition: none; } }
 </style>
 </head>
 <body>
@@ -55,7 +91,7 @@
 <h1>Reporte de Hectáreas Trabajadas</h1>
 <div class="sub">C&amp;H Maquinaria — datos actualizados automáticamente desde Wialon</div>
 
-<div class="layout">
+<div class="vista" id="vistaReporte">
 <main class="principal">
 
 <div class="filtros">
@@ -114,21 +150,39 @@
 <div id="contenedorAvanceCuartel"></div>
 
 </main>
-
-<aside class="panel">
-  <div class="tarjeta">
-    <h3>Máquinas en CYH</h3>
-    <div class="nota" id="notaPatio">Cargando…</div>
-    <div class="lista-patio" id="listaPatio"></div>
-  </div>
-  <div class="tarjeta alerta">
-    <h3>⚠ Máquinas trabajando sin geocerca</h3>
-    <div class="nota">Trabajo en hileras (no traslados) fuera de toda geocerca, últimos 30 días.
-      Al crear la geocerca en Wialon, ese trabajo se recupera y la alerta desaparece.</div>
-    <div id="listaAlertas"></div>
-  </div>
-</aside>
 </div>
+
+<div class="vista" id="vistaFlota" hidden>
+  <div class="flota">
+    <div>
+      <h2 style="margin:0 0 4px; font-size:20px;">Estado de la flota</h2>
+      <div class="sub" id="flotaSub" style="margin:0;">Cargando…</div>
+    </div>
+    <div class="gps" id="flotaGps" hidden></div>
+    <div class="resumen-flota" id="flotaResumen"></div>
+    <div class="marco">
+      <table>
+        <thead><tr><th>Máquina</th><th>Labor</th><th>Estado</th><th>Ubicación</th><th>Última conexión</th></tr></thead>
+        <tbody id="flotaLista"></tbody>
+      </table>
+    </div>
+    <details class="alertas" id="flotaAlertas">
+      <summary id="flotaAlertasTitulo">Ver máquinas sin geocerca de los últimos 30 días</summary>
+      <div style="margin:0 16px 8px; font-size:12px; color:#7a2a24;">Trabajo en hileras (no traslados), mínimo 1 hora por día. Al crear la geocerca en Wialon, ese trabajo se recupera y la alerta desaparece.</div>
+      <div class="marco">
+        <table>
+          <thead><tr><th>Máquina</th><th>Labor</th><th>Fechas</th><th>Días</th><th>Horas</th><th>Hectáreas aprox.</th><th>Mapa</th></tr></thead>
+          <tbody id="flotaAlertasLista"></tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+</div>
+
+<nav class="pestanas" aria-label="Vistas">
+  <button id="tabReporte" class="activa" onclick="mostrarVista('reporte')">Hectáreas</button>
+  <button id="tabFlota" onclick="mostrarVista('flota')">Flota</button>
+</nav>
 
 <script>
 let datos = [];
@@ -149,7 +203,6 @@ async function cargarDatos() {
   } catch (e) {
     avanceCuarteles = null;
   }
-  cargarEstadoMaquinas();
   poblarFiltroMaquinas();
   filtrados = datos;
   renderTabla();
@@ -485,38 +538,104 @@ function normalizarSlug(texto) {
     .replace(/^_+|_+$/g, '') || 'unidad';
 }
 
-async function cargarEstadoMaquinas() {
-  const nota = document.getElementById('notaPatio');
-  const listaPatio = document.getElementById('listaPatio');
-  const listaAlertas = document.getElementById('listaAlertas');
-  let estado = null;
+// ---- Tablero de la flota (datos/flota.json, se actualiza cada 4 horas) ----
+const ETIQUETA_FLOTA = { amarillo: 'En CYH', verde: 'En geocerca', rojo: 'Sin geocerca (7 días)', gris: 'Detenida / sin señal' };
+let flota = null;
+
+function mostrarVista(vista) {
+  const enFlota = vista === 'flota';
+  document.getElementById('vistaReporte').hidden = enFlota;
+  document.getElementById('vistaFlota').hidden = !enFlota;
+  document.getElementById('tabReporte').classList.toggle('activa', !enFlota);
+  document.getElementById('tabFlota').classList.toggle('activa', enFlota);
+  try { history.replaceState(null, '', enFlota ? '#flota' : location.pathname); } catch (e) {}
+  if (enFlota && !flota) cargarFlota();
+  window.scrollTo(0, 0);
+}
+
+const fechaCorta = iso => { const [a, m, d] = iso.split('-'); return `${d}-${m}`; };
+const ha2 = v => Number(v).toLocaleString('es-CL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const horaDe = t => t ? new Date(t * 1000).toLocaleString('es-CL', { timeZone: 'America/Santiago', hour: '2-digit', minute: '2-digit' }) : '';
+const mapaDe = (lat, lon) => `https://www.google.com/maps?q=${lat},${lon}`;
+
+async function cargarFlota() {
   try {
-    const r = await fetch('datos/estado_maquinas.json?_=' + Date.now());
-    estado = r.ok ? await r.json() : null;
-  } catch (e) {
-    estado = null;
-  }
-  if (!estado) {
-    nota.textContent = 'Todavía no hay datos del estado de las máquinas.';
-    listaAlertas.innerHTML = '<div class="nota">Sin datos.</div>';
+    const r = await fetch('datos/flota.json?_=' + Date.now());
+    flota = r.ok ? await r.json() : null;
+  } catch (e) { flota = null; }
+  if (!flota) {
+    document.getElementById('flotaSub').textContent = 'Todavía no hay datos de la flota: aparecen después de la próxima corrida.';
     return;
   }
-  nota.textContent = `Último día procesado: ${estado.fecha} — ${estado.en_patio.length} máquina(s) terminaron el día en el patio.`;
-  listaPatio.innerHTML = estado.en_patio.map(m => `<div>${escaparXml(m)}</div>`).join('') || '<div>Ninguna</div>';
-  const lineas = estado.sin_geocerca || [];
-  if (lineas.length === 0) {
-    listaAlertas.innerHTML = '<div class="nota">No hay máquinas trabajando fuera de geocercas en los últimos 30 días.</div>';
-    return;
+  document.getElementById('flotaSub').textContent =
+    `${flota.maquinas.length} máquinas · actualizado el ${flota.actualizado} (cada 4 horas). Aprieta una máquina para ver sus últimos 30 días.`;
+
+  const gps = document.getElementById('flotaGps');
+  if (flota.alertas_sin_senal.length) {
+    gps.hidden = false;
+    gps.innerHTML = `<h3>⚠ GPS sin señal (más de ${flota.horas_sin_senal} horas): revisar el equipo</h3>` +
+      flota.alertas_sin_senal.map(a => `<div class="item"><b>${escaparXml(a.maquina)}</b> · última señal ${escaparXml(a.ultima_conexion)} · ` +
+        (a.mapa ? `<a href="${a.mapa}" target="_blank" rel="noopener">${escaparXml(a.ubicacion || 'última ubicación')}</a>` : 'sin ubicación') +
+        `</div>`).join('');
+  } else {
+    gps.hidden = true;
   }
-  // Una linea por maquina y lugar, de mas dias a menos.
-  listaAlertas.innerHTML = lineas.map(g => {
-    const hace = g.hace_dias === 0 ? 'trabajando desde hoy' :
-      `trabajando hace ${g.hace_dias} día${g.hace_dias === 1 ? '' : 's'}`;
-    return `<div class="item-alerta"><div><span class="maq">${escaparXml(g.maquina)}</span> – ${hace} sin geocerca – ` +
-      `<a href="${g.mapa}" target="_blank" rel="noopener">mapa</a></div>` +
-      `<div class="nota" style="margin:2px 0 0 0;">${escaparXml(g.labor)} · ${g.dias_trabajados} día(s) con trabajo · ` +
-      `${g.horas.toFixed(1)} h · ~${g.ha_aprox.toFixed(1)} ha · desde ${escaparXml(g.primera_fecha)}</div></div>`;
+
+  const cuentas = { amarillo: 0, verde: 0, rojo: 0, gris: 0 };
+  flota.maquinas.forEach(m => cuentas[m.estado]++);
+  document.getElementById('flotaResumen').innerHTML = ['amarillo', 'verde', 'rojo', 'gris']
+    .map(e => `<span class="cuenta ${e}"><b>${cuentas[e]}</b> ${ETIQUETA_FLOTA[e]}</span>`).join('');
+
+  const cuerpo = document.getElementById('flotaLista');
+  let grupo = null, html = '';
+  flota.maquinas.forEach((m, i) => {
+    if (m.grupo !== grupo) { grupo = m.grupo; html += `<tr class="grupo"><td colspan="5">${escaparXml(grupo)}</td></tr>`; }
+    const ubic = m.mapa ? `<a href="${m.mapa}" target="_blank" rel="noopener">${escaparXml(m.ubicacion)}</a>` : '—';
+    html += `<tr class="maquina ${m.estado}" data-i="${i}"><td><button class="nombre" aria-expanded="false"><span class="flecha">▸</span>${escaparXml(m.nombre)}</button></td>` +
+      `<td>${escaparXml(m.labor)}</td><td><span class="estado ${m.estado}">${escaparXml(m.texto)}</span></td><td>${ubic}</td>` +
+      `<td class="num">${escaparXml(m.ultima_conexion || '—')}</td></tr>`;
+  });
+  cuerpo.innerHTML = html;
+  cuerpo.onclick = ev => {
+    if (ev.target.closest('a')) return;
+    const fila = ev.target.closest('tr.maquina');
+    if (!fila) return;
+    const abierta = fila.classList.toggle('abierta');
+    fila.querySelector('.nombre').setAttribute('aria-expanded', abierta);
+    const sig = fila.nextElementSibling;
+    if (sig && sig.classList.contains('detalle')) { sig.remove(); return; }
+    fila.insertAdjacentHTML('afterend', `<tr class="detalle"><td colspan="5"><div class="detalle">${detalleFlota(flota.maquinas[fila.dataset.i])}</div></td></tr>`);
+  };
+
+  const sin = flota.sin_geocerca_30_dias || [];
+  document.getElementById('flotaAlertasTitulo').textContent = `Ver máquinas sin geocerca de los últimos 30 días (${sin.length})`;
+  document.getElementById('flotaAlertasLista').innerHTML = sin.map(a =>
+    `<tr><td><b>${escaparXml(a.maquina)}</b></td><td>${escaparXml(a.labor)}</td><td class="num">${fechaCorta(a.primera_fecha)} a ${fechaCorta(a.ultima_fecha)}</td>` +
+    `<td class="num">${a.dias_trabajados}</td><td class="num">${a.horas.toFixed(1)} h</td><td class="num">${a.ha_aprox.toFixed(1)} ha</td>` +
+    `<td><a href="${a.mapa}" target="_blank" rel="noopener">mapa</a></td></tr>`).join('') ||
+    '<tr><td colspan="7">No hay máquinas trabajando fuera de geocercas en los últimos 30 días.</td></tr>';
+}
+
+function detalleFlota(m) {
+  const dias = m.dias.filter(d => !d.sin_datos).slice().reverse();
+  if (!dias.length) return `<h4>${escaparXml(m.nombre)} · últimos 30 días</h4><p class="chica">Sin datos GPS en los últimos 30 días.</p>`;
+  const filas = dias.map(d => {
+    const horasGeo = d.horas_geocercas || {}, haGeo = d.ha || {}, sin = d.sin_geocerca || [];
+    const geos = [...new Set([...Object.keys(horasGeo), ...Object.keys(haGeo)])].sort();
+    const lugares = geos.map(g => {
+      const h = horasGeo[g], v = haGeo[g];
+      return `${escaparXml(g)} <span class="chica">${h ? h.toFixed(1) + ' h' : ''}${h && v ? ' · ' : ''}${v ? ha2(v) + ' ha' : ''}</span>`;
+    });
+    sin.forEach(x => lugares.push(`<span class="sin">Sin geocerca</span> <span class="chica">${x.horas.toFixed(1)} h · ${x.ha.toFixed(1)} ha</span> · <a href="${x.mapa}" target="_blank" rel="noopener">mapa</a>`));
+    const horas = Object.values(horasGeo).reduce((t, h) => t + h, 0) + sin.reduce((t, x) => t + x.horas, 0);
+    const hect = Object.values(haGeo).reduce((t, v) => t + v, 0) + sin.reduce((t, x) => t + x.ha, 0);
+    const quedo = d.fin ? `<a href="${mapaDe(d.fin.lat, d.fin.lon)}" target="_blank" rel="noopener">${escaparXml(d.fin.lugar || 'Fuera de geocercas')}</a> <span class="chica">${horaDe(d.fin.t)}</span>` : '—';
+    return `<tr><td class="num">${fechaCorta(d.fecha)}</td><td>${lugares.join('<br>') || '<span class="chica">Sin trabajo en geocercas</span>'}</td>` +
+      `<td>${escaparXml(m.labor)}</td><td class="num">${horas ? horas.toFixed(1) + ' h' : '—'}</td><td class="num">${hect ? ha2(hect) + ' ha' : '—'}</td><td>${quedo}</td></tr>`;
   }).join('');
+  return `<h4>${escaparXml(m.nombre)} · últimos 30 días</h4><div class="marco"><table>` +
+    `<thead><tr><th>Día</th><th>Dónde trabajó</th><th>Labor</th><th>Horas</th><th>Hectáreas</th><th>Dónde quedó</th></tr></thead>` +
+    `<tbody>${filas}</tbody></table></div>`;
 }
 
 // Escapa texto para que el KML sea XML valido (ej. "C&H Maquinaria").
@@ -671,6 +790,7 @@ async function descargarKML() {
 }
 
 cargarDatos();
+if (location.hash === '#flota') mostrarVista('flota');
 </script>
 
 </body>

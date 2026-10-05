@@ -50,8 +50,9 @@ import math
 import os
 import re
 import statistics
+import time
 import unicodedata
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 
 import numpy as np
 import requests
@@ -87,6 +88,9 @@ ESTILOS_CAMPO = {}  # "raiz||labor||geocerca||maquina" -> separacion tipica con 
 ESTILOS_CAMPO_REFERENCIA = {}
 # Panel de la web: maquinas en el patio y trabajo fuera de geocercas.
 RUTA_ESTADO_MAQUINAS = os.path.join(CARPETA_DATOS, "estado_maquinas.json")
+# Tablero de la flota (pestana "Flota" de la web): estado, ultima conexion,
+# ubicacion y lo que hizo cada maquina en los ultimos 30 dias.
+RUTA_FLOTA = os.path.join(CARPETA_DATOS, "flota.json")
 
 with open(RUTA_CONFIG, "r", encoding="utf-8") as f:
     CONFIG = json.load(f)
@@ -1029,15 +1033,12 @@ def detectar_trabajo_fuera(unidad, fecha_str, puntos, dentro_ids):
 
 
 def alerta_resuelta(alerta, geocercas):
-    """True si la mayoria de las pasadas de la alerta caen dentro de alguna
-    geocerca (por ejemplo, una creada despues)."""
-    for geo in geocercas:
-        x1, y1, x2, y2 = geo["bbox"]
-        dentro = sum(1 for lon, lat in alerta["muestras"]
-                     if x1 <= lon <= x2 and y1 <= lat <= y2 and punto_en_poligono((lon, lat), geo["contorno"]))
-        if dentro >= 0.5 * len(alerta["muestras"]):
-            return True
-    return False
+    """True si la mayoria de las pasadas de la alerta caen dentro de
+    geocercas (por ejemplo, creadas despues), aunque sean varias vecinas."""
+    dentro = sum(1 for lon, lat in alerta["muestras"]
+                 if any(g["bbox"][0] <= lon <= g["bbox"][2] and g["bbox"][1] <= lat <= g["bbox"][3]
+                        and punto_en_poligono((lon, lat), g["contorno"]) for g in geocercas))
+    return dentro >= 0.5 * len(alerta["muestras"])
 
 
 def contar_pasadas_max(intervalos):
@@ -2680,6 +2681,246 @@ def prueba_estado_y_geocerca_nueva(sid):
               f"despues de crearla quedan: {sum(1 for a in quedan if not alerta_resuelta(a, todas))}")
 
 
+# ---------------------------------------------------------------------------
+# Tablero de la flota (corrida liviana cada 4 horas y al final de la diaria)
+# ---------------------------------------------------------------------------
+
+DIAS_FLOTA = CONFIG.get("dias_flota", 30)
+DIAS_ROJO_FLOTA = CONFIG.get("dias_rojo_flota", 7)
+HORAS_SIN_SENAL = CONFIG.get("horas_sin_senal", 24)
+# Si es False, las maquinas guardadas en CYH no generan alerta de GPS sin senal.
+ALERTA_SIN_SENAL_EN_CYH = CONFIG.get("alerta_sin_senal_en_cyh", True)
+GRUPOS_FLOTA = ["Barredora", "Shacker SBS", "Tractor", "Shacker de Suelo", "Shaker", "Recogedora", "Podadora"]
+NOMBRES_GRUPOS_FLOTA = ["Barredoras", "Shacker SBS", "Tractores", "Shacker de Suelo", "Shaker Orchard Rite",
+                        "Recogedoras", "Podadora", "Otras"]
+
+
+def orden_flota(nombre):
+    """Orden fijo: por tipo y dentro del tipo por numero real; los numeros que
+    no son correlativos (ej. Barredora 5497) van al final de su grupo."""
+    grupo = next((k for k, p in enumerate(GRUPOS_FLOTA) if nombre.startswith(p)), len(GRUPOS_FLOTA))
+    m = re.search(r"\b(\d+)\b", nombre)
+    numero = int(m.group(1)) if m else None
+    return (grupo, 0 if numero is not None and numero <= 100 else 1, numero or 0, nombre)
+
+
+def ultimos_mensajes(sid):
+    """{id: (hora_unix, lon, lat)} del ultimo mensaje GPS de cada unidad (solo lectura)."""
+    params = json.dumps({
+        "spec": {"itemsType": "avl_unit", "propName": "sys_name", "propValueMask": "*", "sortType": "sys_name"},
+        "force": 1, "flags": 0x1 | 0x400, "from": 0, "to": 0,
+    })
+    r = requests.get(f"{WIALON_HOST}/wialon/ajax.html",
+                     params={"svc": "core/search_items", "params": params, "sid": sid}, timeout=60)
+    salida = {}
+    for item in r.json().get("items", []):
+        pos = item.get("pos") or {}
+        t = (item.get("lmsg") or {}).get("t") or pos.get("t")
+        salida[item["id"]] = (t, pos.get("x"), pos.get("y"))
+    return salida
+
+
+def mensajes_entre(sid, unit_id, desde_unix, hasta_unix):
+    params = json.dumps({"itemId": unit_id, "timeFrom": int(desde_unix), "timeTo": int(hasta_unix),
+                         "flags": 0, "flagsMask": 0, "loadCount": 0xFFFFFFFF})
+    r = requests.get(f"{WIALON_HOST}/wialon/ajax.html",
+                     params={"svc": "messages/load_interval", "params": params, "sid": sid}, timeout=60)
+    return [{"punto": (m["pos"]["x"], m["pos"]["y"]), "t": m.get("t")}
+            for m in r.json().get("messages", []) if m.get("pos")]
+
+
+def horas_en_movimiento(puntos):
+    """Horas en movimiento (>= VELOCIDAD_MINIMA_MOVIMIENTO_KMH entre puntos,
+    intervalos de hasta 10 min), sin unir una visita con la siguiente."""
+    segundos = 0.0
+    for a, b in zip(puntos, puntos[1:]):
+        if b.get("corte"):
+            continue
+        dt = (b["t"] or 0) - (a["t"] or 0)
+        if 0 < dt <= 600 and math.hypot(*punto_a_metros(b["punto"], a["punto"])) / dt * 3.6 >= VELOCIDAD_MINIMA_MOVIMIENTO_KMH:
+            segundos += dt
+    return segundos / 3600
+
+
+def lugar_de(punto, geocercas, patio):
+    if patio and punto_en_poligono(punto, patio["contorno"]):
+        return "CYH"
+    for g in geocercas:
+        x1, y1, x2, y2 = g["bbox"]
+        if x1 <= punto[0] <= x2 and y1 <= punto[1] <= y2 and punto_en_poligono(punto, g["contorno"]):
+            return g["nombre"]
+    return None
+
+
+def resumen_dia_flota(puntos, indice, geocercas, patio):
+    """Lo que hizo una maquina en un dia: horas en movimiento dentro de cada
+    geocerca, donde quedo al final del dia y desde que hora estaba ahi."""
+    por_geocerca = repartir_puntos_por_geocerca(puntos, indice)
+    horas = {n: round(horas_en_movimiento(p), 2) for n, p in por_geocerca.items()}
+    horas = {n: h for n, h in horas.items() if h >= 0.1}
+    fin = puntos[-1]
+    lugar = lugar_de(fin["punto"], geocercas, patio)
+    entrada = fin["t"]
+    for p in reversed(puntos):
+        if lugar_de(p["punto"], geocercas, patio) != lugar:
+            break
+        entrada = p["t"]
+    movimiento = None
+    for a, b in zip(puntos, puntos[1:]):
+        dt = (b["t"] or 0) - (a["t"] or 0)
+        if dt > 0 and math.hypot(*punto_a_metros(b["punto"], a["punto"])) / dt * 3.6 >= VELOCIDAD_MINIMA_MOVIMIENTO_KMH:
+            movimiento = b["t"]
+    return {"horas_geocercas": horas, "fin": {"lon": round(fin["punto"][0], 6), "lat": round(fin["punto"][1], 6),
+                                              "t": fin["t"], "lugar": lugar},
+            "entrada_lugar": entrada, "ultimo_movimiento": movimiento}
+
+
+def construir_flota(sid, geocercas, patio):
+    """Arma docs/datos/flota.json. Los dias completos ya calculados se
+    reutilizan; se bajan solo los dias que faltan (la primera vez, 30 dias) y
+    el dia de hoy. Las hectareas salen del historial y el trabajo sin geocerca
+    de las alertas de la corrida diaria."""
+    ahora = time.time()
+    hoy = datetime.fromtimestamp(ahora, ZONA_HORARIA).date()
+    dias = [hoy - timedelta(days=k) for k in range(DIAS_FLOTA - 1, -1, -1)]
+    anterior = {}
+    if os.path.exists(RUTA_FLOTA):
+        with open(RUTA_FLOTA, "r", encoding="utf-8") as f:
+            anterior = {m["nombre"]: m for m in json.load(f).get("maquinas", [])}
+    ultimos = ultimos_mensajes(sid)
+    indice = indice_geocercas(geocercas)
+    referencia_alertas = geocercas + ([patio] if patio else [])
+
+    historico = cargar_historico()
+    ha_por = {}
+    for r in historico:
+        if r["fecha"] >= dias[0].isoformat():
+            clave = (r["maquina"], r["fecha"])
+            ha_por.setdefault(clave, {})
+            ha_por[clave][r["cuartel"]] = ha_por[clave].get(r["cuartel"], 0) + r["area_trabajada_ha"]
+    alertas = []
+    if os.path.exists(RUTA_ESTADO_MAQUINAS):
+        with open(RUTA_ESTADO_MAQUINAS, "r", encoding="utf-8") as f:
+            alertas = json.load(f).get("alertas", [])
+    alertas = [a for a in alertas if a["fecha"] >= dias[0].isoformat() and alerta_visible(a)
+               and not alerta_resuelta(a, referencia_alertas)]
+    sin_por = {}
+    for a in alertas:
+        sin_por.setdefault((a["maquina"], a["fecha"]), []).append(
+            {"horas": round(a["horas"], 1), "ha": round(a["ha_aprox"], 1), "mapa": a["mapa"]})
+
+    maquinas = []
+    descargas = 0
+    for unidad in sorted(UNIDADES, key=lambda u: orden_flota(u["nombre"])):
+        nombre = unidad["nombre"]
+        t_ultimo, lon, lat = ultimos.get(unidad["id"], (None, None, None))
+        guardados = {d["fecha"]: d for d in anterior.get(nombre, {}).get("dias", []) if d.get("completo")}
+        registros = []
+        for dia in dias:
+            fecha = dia.isoformat()
+            inicio = datetime(dia.year, dia.month, dia.day, tzinfo=ZONA_HORARIA).timestamp()
+            fin_dia = inicio + 86400
+            registro = None
+            if fecha in guardados:
+                registro = dict(guardados[fecha])
+            elif t_ultimo and t_ultimo >= inicio:
+                puntos = mensajes_entre(sid, unidad["id"], inicio, min(fin_dia, ahora))
+                descargas += 1
+                if puntos:
+                    registro = {"fecha": fecha, **resumen_dia_flota(puntos, indice, geocercas, patio)}
+                elif fin_dia <= ahora and (nombre, fecha) not in ha_por and (nombre, fecha) not in sin_por:
+                    # Dia completo sin puntos: se guarda para no volver a bajarlo.
+                    registros.append({"fecha": fecha, "sin_datos": True, "completo": True})
+                    continue
+            if registro is not None and registro.get("sin_datos"):
+                registros.append(registro)
+                continue
+            if registro is None:
+                if (nombre, fecha) not in ha_por and (nombre, fecha) not in sin_por:
+                    continue  # sin datos ese dia (GPS apagado o sin senal)
+                registro = {"fecha": fecha, "horas_geocercas": {}, "fin": None,
+                            "entrada_lugar": None, "ultimo_movimiento": None}
+            registro["completo"] = fin_dia <= ahora and registro.get("fin") is not None
+            registro["ha"] = {g: round(v, 2) for g, v in ha_por.get((nombre, fecha), {}).items()}
+            registro["sin_geocerca"] = sin_por.get((nombre, fecha), [])
+            registros.append(registro)
+
+        # Estado (en este orden): rojo, amarillo, verde, gris.
+        lugar_actual = lugar_de((lon, lat), geocercas, patio) if lon is not None else None
+        sin_senal = t_ultimo is None or ahora - t_ultimo > HORAS_SIN_SENAL * 3600
+        recientes = sorted(d["fecha"] for d in registros if d.get("sin_geocerca")
+                           and (hoy - date.fromisoformat(d["fecha"])).days < DIAS_ROJO_FLOTA)
+        trabajo = [d for d in registros if any(h >= HORAS_MINIMAS_ALERTA for h in d.get("horas_geocercas", {}).values())]
+        fmt = lambda t: datetime.fromtimestamp(t, ZONA_HORARIA).strftime("%d-%m-%Y %H:%M")
+        if recientes:
+            estado = "rojo"
+            n = (hoy - date.fromisoformat(recientes[0])).days
+            texto = "Sin geocerca desde hoy" if n == 0 else f"Sin geocerca desde hace {n} día{'s' if n != 1 else ''}"
+        elif t_ultimo and ahora - t_ultimo > DIAS_FLOTA * 86400:
+            estado = "gris"
+            texto = f"Sin señal desde el {fmt(t_ultimo)}"
+        elif lugar_actual == "CYH":
+            estado = "amarillo"
+            desde = None
+            for d in reversed(registros):
+                if d.get("sin_datos"):
+                    continue  # GPS dormido en el patio: no corta la estadia
+                if (d.get("fin") or {}).get("lugar") != "CYH":
+                    break
+                desde = d["entrada_lugar"]  # llego a CYH ese dia (o ya estaba)
+                if d.get("horas_geocercas") or d.get("sin_geocerca"):
+                    break  # ese dia trabajo y volvio: la estadia empieza ahi
+            texto = f"En CYH desde el {fmt(desde)}" if desde else f"En CYH desde antes del {dias[0]:%d-%m}"
+        elif trabajo and (hoy - date.fromisoformat(trabajo[-1]["fecha"])).days <= 1:
+            estado = "verde"
+            actuales = {g for g, h in trabajo[-1]["horas_geocercas"].items() if h >= HORAS_MINIMAS_ALERTA}
+            desde = trabajo[-1]["fecha"]
+            for d in reversed(trabajo):
+                if not actuales & set(d["horas_geocercas"]):
+                    break
+                desde = d["fecha"]
+            texto = f"En {', '.join(sorted(actuales))} desde el {date.fromisoformat(desde):%d-%m}"
+        else:
+            estado = "gris"
+            if sin_senal:
+                texto = f"Sin señal desde el {fmt(t_ultimo)}" if t_ultimo else "Sin datos GPS"
+            else:
+                mov = next((d["ultimo_movimiento"] for d in reversed(registros) if d.get("ultimo_movimiento")), None)
+                donde = f"en {lugar_actual}" if lugar_actual else "fuera de geocercas"
+                texto = f"Detenida {donde} desde el {fmt(mov)}" if mov else f"Detenida {donde}"
+        maquinas.append({
+            "nombre": nombre, "labor": labor_de(unidad), "grupo": NOMBRES_GRUPOS_FLOTA[orden_flota(nombre)[0]],
+            "estado": estado, "texto": texto,
+            "ultima_conexion": datetime.fromtimestamp(t_ultimo, ZONA_HORARIA).strftime("%d-%m-%Y %H:%M") if t_ultimo else None,
+            "ubicacion": lugar_actual or ("Fuera de geocercas" if lon is not None else None),
+            "mapa": f"https://www.google.com/maps?q={lat:.6f},{lon:.6f}" if lon is not None else None,
+            "sin_senal": sin_senal, "dias": registros,
+        })
+
+    sin_senal = []
+    for m, unidad in zip(maquinas, sorted(UNIDADES, key=lambda u: orden_flota(u["nombre"]))):
+        t_ultimo = ultimos.get(unidad["id"], (None,))[0]
+        if not t_ultimo or not (HORAS_SIN_SENAL * 3600 < ahora - t_ultimo <= DIAS_FLOTA * 86400):
+            continue
+        if m["ubicacion"] == "CYH" and not ALERTA_SIN_SENAL_EN_CYH:
+            continue
+        sin_senal.append({"maquina": m["nombre"], "labor": m["labor"], "ultima_conexion": m["ultima_conexion"],
+                          "ubicacion": m["ubicacion"], "mapa": m["mapa"],
+                          "horas": round((ahora - t_ultimo) / 3600)})
+    flota = {
+        "actualizado": datetime.fromtimestamp(ahora, ZONA_HORARIA).strftime("%d-%m-%Y %H:%M"),
+        "horas_sin_senal": HORAS_SIN_SENAL,
+        "alertas_sin_senal": sorted(sin_senal, key=lambda a: -a["horas"]),
+        "sin_geocerca_30_dias": agrupar_alertas(alertas, hoy.isoformat()),
+        "maquinas": maquinas,
+    }
+    with open(RUTA_FLOTA, "w", encoding="utf-8") as f:
+        json.dump(flota, f, ensure_ascii=False)
+    print(f"Tablero de la flota: {len(maquinas)} maquinas, {descargas} dias descargados, "
+          f"{len(sin_senal)} alertas de GPS sin senal, {len(flota['sin_geocerca_30_dias'])} maquinas/lugares sin geocerca.")
+    return flota
+
+
 def main():
     print("Conectando con Wialon...")
     sid = wialon_login(TOKEN)
@@ -2703,6 +2944,14 @@ def main():
             u = configuradas.get(id_wialon)
             print(f"DIAG unidad wialon | {nombre} | id {id_wialon} | "
                   f"{'labor: ' + u.get('labor', 'SIN LABOR') if u else 'NO ESTA EN config.json'}")
+        return
+
+    if os.environ.get("MODO_FLOTA", "").strip() in ("1", "true", "si"):
+        # Corrida liviana (cada 4 horas): solo el tablero de la flota.
+        geocercas = obtener_geocercas(sid)
+        patio = next((g for g in obtener_geocercas(sid, filtrar=False)
+                      if g["nombre"].strip().lower() == GEOCERCA_PATIO.strip().lower()), None)
+        construir_flota(sid, geocercas, patio)
         return
 
     print("Descargando geocercas (cuarteles reales)...")
@@ -2864,6 +3113,9 @@ def main():
             with open(ruta_geo, "w", encoding="utf-8") as f:
                 json.dump(cuarteles_json, f, ensure_ascii=False)
     print(f"Geometria para filtrar por fecha generada en: {carpeta_geometria}")
+
+    if not LABORES_RECALCULO:
+        construir_flota(sid, geocercas, patio)
 
 
 if __name__ == "__main__":

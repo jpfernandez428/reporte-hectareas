@@ -45,6 +45,11 @@ on:
 permissions:
   contents: write
 
+# Una sola corrida a la vez que escriba en el repositorio (con la del tablero).
+concurrency:
+  group: datos-del-repositorio
+  cancel-in-progress: false
+
 jobs:
   reporte:
     runs-on: ubuntu-latest
