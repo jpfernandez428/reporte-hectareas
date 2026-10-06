@@ -41,6 +41,10 @@ on:
         description: 'Recalcular solo estas labores (ej. Poda,Picado,Barrido). Vacio = todas.'
         required: false
         default: ''
+      recuperar_geocercas:
+        description: 'Recuperar solo estas geocercas desde fecha_inicio, todas las labores (ej. Aurora, Avoamerica, Candelaria 5-12).'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -79,6 +83,7 @@ jobs:
           PRUEBA_CASOS: ${{ inputs.prueba_casos }}
           PRUEBA_INFO_UNIDAD: ${{ inputs.prueba_info_unidad }}
           LABORES_RECALCULO: ${{ inputs.labores }}
+          RECUPERAR_GEOCERCAS: ${{ inputs.recuperar_geocercas }}
         run: python3 reporte_hectareas.py
 
       - name: Guardar los datos de las pruebas (solo diagnostico)

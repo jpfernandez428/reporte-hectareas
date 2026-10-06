@@ -114,6 +114,10 @@ LABOR_POR_MAQUINA = {u["nombre"]: u.get("labor") or "Sin labor" for u in UNIDADE
 # de todas. No se toca el panel de maquinas ni se calculan geocercas nuevas.
 LABORES_RECALCULO = [l.strip() for l in os.environ.get("LABORES_RECALCULO", "").split(",") if l.strip()]
 UNIDADES_A_CALCULAR = [u for u in UNIDADES if not LABORES_RECALCULO or (u.get("labor") or "Sin labor") in LABORES_RECALCULO]
+# Recuperacion manual de geocercas (nuevas o con trabajo anterior a los 30 dias
+# automaticos): lista de nombres, campos ("Avoamerica") o rangos ("Candelaria
+# 5-12"); se calculan solo ellas, en todas las labores, desde fecha_inicio.
+RECUPERAR_GEOCERCAS = os.environ.get("RECUPERAR_GEOCERCAS", "").strip()
 
 
 def labor_de(unidad):
@@ -2921,6 +2925,96 @@ def construir_flota(sid, geocercas, patio):
     return flota
 
 
+def elegir_geocercas(geocercas, texto):
+    """Geocercas pedidas en `texto` (separadas por coma): nombre exacto, campo
+    (raiz del nombre: "Avoamerica" son todas las Avoamerica) o rango de numeros
+    ("Candelaria 5-12"). Sin tildes ni mayusculas."""
+    normalizar = lambda t: unicodedata.normalize("NFKD", t).encode("ascii", "ignore").decode().lower().strip()
+    elegidas = []
+    for entrada in [e.strip() for e in texto.split(",") if e.strip()]:
+        rango = re.match(r"^(.*?)\s+(\d+)\s*-\s*(\d+)$", entrada)
+        for g in geocercas:
+            nombre = normalizar(g["nombre"])
+            if rango:
+                base, desde, hasta = normalizar(rango.group(1)), int(rango.group(2)), int(rango.group(3))
+                numero = re.match(r"^(.*?)\s+(\d+)$", nombre)
+                elegida = bool(numero) and numero.group(1) == base and desde <= int(numero.group(2)) <= hasta
+            else:
+                elegida = nombre == normalizar(entrada) or raiz_campo(g["nombre"]) == normalizar(entrada)
+            if elegida and g not in elegidas:
+                elegidas.append(g)
+    return elegidas
+
+
+def limpiar_resultados_desde(seleccion, desde):
+    """Borra los resultados calculados de esas geocercas desde la fecha `desde`
+    (historial, pasadas de las hileras en la memoria y avance), para que el
+    recalculo los reemplace y nada se cuente dos veces. Lo anterior se mantiene."""
+    fecha = desde.strftime("%Y-%m-%d")
+    corte = datetime(desde.year, desde.month, desde.day, tzinfo=ZONA_HORARIA).timestamp()
+    nombres = {g["nombre"] for g in seleccion}
+    historico = cargar_historico()
+    quedan = [r for r in historico if not (r["cuartel"] in nombres and r["fecha"] >= fecha)]
+    guardar_historico(quedan)
+    estado_avance = cargar_estado_avance()
+    for geo in seleccion:
+        for labor in sorted({labor_de(u) for u in UNIDADES}):
+            trabajos = []
+            for u in UNIDADES:
+                if labor_de(u) != labor:
+                    continue
+                referencia, hileras, _ = cargar_estado(u["id"], geo["nombre"], labor)
+                if referencia is None:
+                    continue
+                hileras = [h for h in hileras if any(f < fecha for f in h.fechas)]
+                for h in hileras:
+                    h.fechas = {f for f in h.fechas if f < fecha}
+                if hileras:
+                    area = sum(r["area_trabajada_ha"] for r in quedan if r["cuartel"] == geo["nombre"]
+                               and r["maquina"] == u["nombre"] and r["labor"] == labor)
+                    guardar_estado(u["id"], geo["nombre"], labor, referencia, hileras, area)
+                    trabajos.append((referencia, hileras, u["nombre"]))
+                else:
+                    os.remove(ruta_memoria(u["id"], geo["nombre"], labor))
+            clave = clave_avance(geo["nombre"], labor)
+            if clave not in estado_avance:
+                continue
+            if labor == LABOR_CON_PASADAS:
+                e = estado_avance[clave]
+                e["pasadas"] = [p for p in e.get("pasadas", []) if p[1] < corte]
+                for k in ("en_curso", "tramos_ultima", "sueltas", "despues_cierre"):
+                    e[k] = [t for t in e.get(k, []) if t[0] < corte]
+                e["incompletas"] = [x for x in e.get("incompletas", []) if x[1] < corte]
+                if not e["pasadas"]:
+                    e["tramos_ultima"] = []
+                    e.pop("hora_cierre", None)
+                elif (e.get("hora_cierre") or 0) >= corte:
+                    e["hora_cierre"] = e["pasadas"][-1][1]
+                e["fraccion_en_curso"] = fraccion_de_tramos(geo, e["en_curso"])
+                if not (e["pasadas"] or e["en_curso"] or e["sueltas"]):
+                    del estado_avance[clave]
+            elif trabajos:
+                estado_avance[clave]["max_fraccion"] = fraccion_trabajada(geo, celdas_trabajadas(geo, trabajos, labor))
+            else:
+                del estado_avance[clave]
+    guardar_estado_avance(estado_avance)
+    print(f"Limpieza desde el {fecha}: {len(historico) - len(quedan)} registros del historial, "
+          f"memoria y avance de {len(seleccion)} geocercas.")
+
+
+def resultado_desde_memoria(geocercas):
+    """[(maquina, {geocerca: (referencia, hileras, area)}, [])] de la memoria."""
+    resultado = []
+    for unidad in UNIDADES:
+        por_geocerca = {}
+        for geo in geocercas:
+            referencia, hileras, area = cargar_estado(unidad["id"], geo["nombre"], labor_de(unidad))
+            if referencia is not None and hileras:
+                por_geocerca[geo["nombre"]] = (referencia, hileras, area)
+        resultado.append((unidad["nombre"], por_geocerca, []))
+    return resultado
+
+
 def main():
     print("Conectando con Wialon...")
     sid = wialon_login(TOKEN)
@@ -2975,17 +3069,35 @@ def main():
     # con los ultimos DIAS_GEOCERCA_NUEVA dias de todas las maquinas. La
     # primera vez se registran todas como conocidas, sin recalcular.
     conocidas = cargar_geocercas_conocidas()
-    nuevas = [] if conocidas is None or LABORES_RECALCULO else [g for g in geocercas if g["id_wialon"] not in conocidas]
+    if RECUPERAR_GEOCERCAS:
+        seleccion = elegir_geocercas(geocercas, RECUPERAR_GEOCERCAS)
+        print(f"Recuperacion manual del {FECHA_INICIO.date()} al {FECHA_FIN.date()}, todas las labores, "
+              f"{len(seleccion)} geocercas: {', '.join(g['nombre'] for g in seleccion)}")
+        cargar_estilos()
+        limpiar_resultados_desde(seleccion, FECHA_INICIO)
+        estado_avance = cargar_estado_avance()
+        df_resumen, df_detalle, _, diagnostico, extra = generar_reporte(
+            sid, seleccion, estado_avance, FECHA_INICIO, FECHA_FIN, geocercas, None, detectar_fuera=False)
+        resultado_por_unidad = resultado_desde_memoria(geocercas)
+        if conocidas is not None:
+            # Solo se registran las recuperadas; otras nuevas siguen esperando a la corrida diaria.
+            conocidas.update({g["id_wialon"]: g["nombre"] for g in seleccion})
+            with open(RUTA_GEOCERCAS_CONOCIDAS, "w", encoding="utf-8") as f:
+                json.dump(conocidas, f, ensure_ascii=False, indent=1)
+        guardar_estilos()
+        print("Recuperacion manual: el panel de maquinas no se modifica.")
+    nuevas = [] if conocidas is None or LABORES_RECALCULO or RECUPERAR_GEOCERCAS else [g for g in geocercas if g["id_wialon"] not in conocidas]
     if LABORES_RECALCULO:
         print(f"Recalculo solo de las labores: {', '.join(LABORES_RECALCULO)} ({len(UNIDADES_A_CALCULAR)} maquinas).")
     existentes = [g for g in geocercas if g not in nuevas]
 
-    print(f"Procesando del {FECHA_INICIO.date()} al {FECHA_FIN.date()}...")
-    estado_avance = cargar_estado_avance()
-    cargar_estilos()
-    df_resumen, df_detalle, resultado_por_unidad, diagnostico, extra = generar_reporte(
-        sid, existentes, estado_avance, FECHA_INICIO, FECHA_FIN, geocercas, patio,
-        detectar_fuera=not LABORES_RECALCULO)
+    if not RECUPERAR_GEOCERCAS:
+        print(f"Procesando del {FECHA_INICIO.date()} al {FECHA_FIN.date()}...")
+        estado_avance = cargar_estado_avance()
+        cargar_estilos()
+        df_resumen, df_detalle, resultado_por_unidad, diagnostico, extra = generar_reporte(
+            sid, existentes, estado_avance, FECHA_INICIO, FECHA_FIN, geocercas, patio,
+            detectar_fuera=not LABORES_RECALCULO)
     if nuevas:
         desde_nuevas = FECHA_FIN - timedelta(days=DIAS_GEOCERCA_NUEVA - 1)
         print(f"Geocercas nuevas ({len(nuevas)}): {', '.join(g['nombre'] for g in nuevas)}. "
@@ -2998,14 +3110,14 @@ def main():
         for (_, hpg, desc), (_, hpg_n, desc_n) in zip(resultado_por_unidad, res_n):
             hpg.update(hpg_n)
             desc.extend(desc_n)
-    if not LABORES_RECALCULO:
+    if not LABORES_RECALCULO and not RECUPERAR_GEOCERCAS:
         # En el recalculo por labores no se registran: una geocerca nueva debe
         # recuperar sus 30 dias en todas las labores en la corrida diaria.
         guardar_geocercas_conocidas(geocercas)
     guardar_estilos()
 
-    if LABORES_RECALCULO:
-        print("Recalculo por labores: el panel de maquinas no se modifica.")
+    if LABORES_RECALCULO or RECUPERAR_GEOCERCAS:
+        print("Recalculo parcial: el panel de maquinas no se modifica.")
     else:
         estado_maquinas = actualizar_estado_maquinas(extra, FECHA_INICIO, FECHA_FIN, geocercas, patio)
         print(f"\nEstado de maquinas al {estado_maquinas['fecha']}: {len(estado_maquinas['en_patio'])} en "

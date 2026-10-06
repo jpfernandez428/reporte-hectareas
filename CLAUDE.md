@@ -535,6 +535,37 @@ hectáreas. Reemplaza el panel lateral anterior. Datos en
   alerta desaparece.
 - Costo: bajar 30 días de todas las máquinas toma ~40 min (solo el día en
   que aparecen geocercas nuevas; varias nuevas se calculan juntas).
+- Límites: una geocerca creada durante el día espera a la corrida diaria
+  siguiente (el tablero de la flota quita sus alertas antes, en la corrida
+  de cada 4 horas), y el trabajo anterior a 30 días no se recupera solo: para
+  eso está la recuperación manual con fecha de inicio (ver abajo).
+
+## Recuperación manual de geocercas (con fecha de inicio)
+
+Para calcular geocercas creadas tarde (trabajo anterior a los 30 días de la
+recuperación automática) o volver a calcular algunas, sin tocar las demás.
+Se lanza a mano el workflow "Reporte diario de hectareas" (Actions → Run
+workflow) con:
+
+- `fecha_inicio`: desde cuándo (AAAA-MM-DD), ej. `2026-09-01`.
+- `fecha_fin`: hasta cuándo, normalmente ayer, ej. `2026-10-06`.
+- `recuperar_geocercas`: qué geocercas, separadas por coma. Cada una puede ser
+  un nombre exacto (`Aurora 23`), un campo completo (`Avoamerica` = todas las
+  Avoamerica; es la raíz del nombre, sin el número) o un rango de números
+  (`Candelaria 5-12`). Sin importar tildes ni mayúsculas.
+- Los demás campos vacíos.
+
+Ejemplo: `fecha_inicio` 2026-09-01, `fecha_fin` 2026-10-06,
+`recuperar_geocercas` "Aurora, Avoamerica, Candelaria 5-12, Puerto Lampa".
+
+Qué hace (`RECUPERAR_GEOCERCAS`): primero borra los resultados de esas
+geocercas desde `fecha_inicio` (historial, fechas de las hileras en la
+memoria —se borran las hileras que solo tienen fechas desde ese día—,
+avance y pasadas de barrido), y después las calcula en todas las labores y
+con todas las máquinas en ese período; así nada se cuenta dos veces y lo
+anterior a `fecha_inicio` se mantiene. Las registra como conocidas (otras
+geocercas nuevas siguen esperando la corrida diaria). No toca las demás
+geocercas ni el panel de máquinas. Costo: ~40 min por mes de GPS.
 
 ## Pendientes
 
