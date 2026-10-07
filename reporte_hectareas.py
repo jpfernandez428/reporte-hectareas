@@ -91,6 +91,8 @@ RUTA_ESTADO_MAQUINAS = os.path.join(CARPETA_DATOS, "estado_maquinas.json")
 # Tablero de la flota (pestana "Flota" de la web): estado, ultima conexion,
 # ubicacion y lo que hizo cada maquina en los ultimos 30 dias.
 RUTA_FLOTA = os.path.join(CARPETA_DATOS, "flota.json")
+# Contorno de todas las geocercas en uso (mapas del informe para el cliente).
+RUTA_GEOCERCAS_WEB = os.path.join(CARPETA_DATOS, "geocercas.json")
 
 with open(RUTA_CONFIG, "r", encoding="utf-8") as f:
     CONFIG = json.load(f)
@@ -1849,6 +1851,8 @@ def avance_total_por_geocerca(unidades_procesadas, geocercas, estado_avance):
                 "trabajado_ha": round(fraccion * geo["area_ha"], 4),
                 "porcentaje": round(fraccion * 100, 1),
                 "completo": completas > 0,
+                # Dia en que se cerro cada pasada completa (para el informe del cliente).
+                "cierres": [dia_local(p[1]).isoformat() for p in estado["pasadas"]],
             })
             if completas and (en_curso > 0 or completas > 1):
                 info["repaso"] = {
@@ -1859,6 +1863,8 @@ def avance_total_por_geocerca(unidades_procesadas, geocercas, estado_avance):
         else:
             fraccion = max(estado["max_fraccion"], fraccion_trabajada(
                 geo, celdas_trabajadas(geo, [(ref, hs, m) for m, ref, hs in lista], labor)))
+            if fraccion >= UMBRAL_CIERRE_PORCENTAJE:
+                fraccion = 1.0  # cuartel completo: area total
             estado["max_fraccion"] = fraccion
             info.update({
                 "trabajado_ha": round(fraccion * geo["area_ha"], 4),
@@ -2042,6 +2048,14 @@ def cargar_geocercas_conocidas():
         return None
     with open(RUTA_GEOCERCAS_CONOCIDAS, "r", encoding="utf-8") as f:
         return json.load(f)
+
+
+def guardar_geocercas_web(geocercas):
+    """Contorno y area de las geocercas en uso, para los mapas del informe."""
+    with open(RUTA_GEOCERCAS_WEB, "w", encoding="utf-8") as f:
+        json.dump({g["nombre"]: {"area_ha": round(g["area_ha"], 4),
+                                 "contorno": [[round(p[0], 6), round(p[1], 6)] for p in g["contorno"]]}
+                   for g in geocercas}, f, ensure_ascii=False, separators=(",", ":"))
 
 
 def guardar_geocercas_conocidas(geocercas):
@@ -2330,6 +2344,10 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                 # El avance nunca baja: solo se acredita lo que supera el maximo.
                 avance = estado_avance_de(estado_avance, geo["nombre"], labor)
                 fraccion = fraccion_trabajada(geo, cobertura_actual(geo, labor))
+                if fraccion >= UMBRAL_CIERRE_PORCENTAJE:
+                    # Cuartel completo: se cuenta su area total; la diferencia
+                    # se acredita el dia en que se completo (regla del usuario).
+                    fraccion = 1.0
                 area_trabajada_ha = max(0.0, fraccion - avance["max_fraccion"]) * geo["area_ha"]
                 avance["max_fraccion"] = max(avance["max_fraccion"], fraccion)
                 registrar(unidad, labor, hileras, ids_antes, len(puntos_geo), area_trabajada_ha,
@@ -3202,6 +3220,7 @@ def main():
     with open(RUTA_AVANCE_CUARTELES, "w", encoding="utf-8") as f:
         json.dump({"umbral_cierre": UMBRAL_CIERRE_PORCENTAJE, "cuarteles": avance_total},
                   f, ensure_ascii=False, indent=2)
+    guardar_geocercas_web(geocercas)
 
     # GitHub no acepta archivos de mas de 100 MB: si hay demasiadas hileras,
     # el mapa general lleva solo los contornos (cada maquina tiene el suyo).

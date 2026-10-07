@@ -5,6 +5,7 @@
 <title>Reporte de Hectáreas - C&amp;H Maquinaria</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="informe.js"></script>
 <style>
   body { font-family: -apple-system, Arial, sans-serif; margin: 0; padding: 24px; background: #f5f6f7; color: #1a1a1a; }
   h1 { font-size: 22px; margin-bottom: 4px; }
@@ -32,6 +33,14 @@
           border-radius: 16px; padding: 5px 10px 5px 12px; margin: 0 8px 8px 0; font-size: 13px; }
   .chip button { background: none; color: #666; border: none; cursor: pointer; font-size: 14px; padding: 0 2px; }
   .vista[hidden] { display: none !important; }
+  .panel-informe { background: white; border-radius: 10px; padding: 16px; margin-top: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 2px solid #2f6f3e; }
+  .panel-informe[hidden] { display: none !important; }
+  .panel-informe h3 { margin: 0 0 6px; font-size: 16px; color: #2f6f3e; }
+  .panel-informe .nota { font-size: 13px; color: #555; margin-bottom: 10px; }
+  .fila-informe { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
+  .lista-campos { max-height: 180px; overflow-y: auto; border: 1px solid #ccc; border-radius: 6px; padding: 8px; min-width: 240px; margin-top: 4px; }
+  .campo-informe { display: block; font-weight: normal; font-size: 13px; padding: 2px 0; }
+  .campo-informe[hidden] { display: none; }
   .pestanas { position: sticky; bottom: 0; z-index: 5; display: flex; gap: 8px; justify-content: center;
               padding: 10px 0 calc(10px + env(safe-area-inset-bottom, 0px)); margin-top: 32px;
               background: linear-gradient(to top, #f5f6f7 70%, rgba(245,246,247,0)); }
@@ -141,8 +150,33 @@
 <div id="contenedorTabla"></div>
 
 <div class="acciones">
-  <button onclick="descargarCSV()">Descargar reporte (Excel)</button>
+  <button onclick="abrirInforme()">Descargar informe</button>
+  <button class="secundario" onclick="descargarCSV()">Descargar datos (Excel)</button>
   <button class="secundario" onclick="descargarKML()">Descargar mapa (KML)</button>
+</div>
+
+<div class="panel-informe" id="panelInforme" hidden>
+  <h3>Informe para el cliente</h3>
+  <div class="nota">Elige uno o varios campos y el período. El informe incluye solo esos campos: resumen general (y uno por campo), trabajo por día, avance por cuartel, hectáreas por máquina, detalle y, en el PDF, un mapa de avance de cada campo.</div>
+  <div class="fila-informe">
+    <div class="campo">
+      <label for="buscarCampoInforme">Campos</label>
+      <input type="text" id="buscarCampoInforme" placeholder="Buscar campo" oninput="filtrarCamposInforme()">
+      <div id="informeCampos" class="lista-campos"></div>
+    </div>
+    <div class="campo">
+      <label for="informeDesde">Desde</label>
+      <input type="date" id="informeDesde">
+      <label for="informeHasta" style="margin-top:8px;">Hasta</label>
+      <input type="date" id="informeHasta">
+    </div>
+    <div class="campo">
+      <label>&nbsp;</label>
+      <button onclick="generarInforme('excel')">Descargar Excel</button>
+      <button onclick="generarInforme('pdf')" style="margin-top:8px;">Descargar PDF</button>
+    </div>
+  </div>
+  <div class="nota" id="informeAviso" role="status"></div>
 </div>
 
 <h2 style="margin-top:36px; font-size:18px;">Avance por cuartel</h2>

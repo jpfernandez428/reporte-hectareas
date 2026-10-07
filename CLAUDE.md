@@ -478,6 +478,19 @@ editable por el usuario.
   suma el día en que se completó (repartida entre las máquinas de ese día) y
   después ya no suma. En barrido, cada pasada completa ya suma el área total.
   No requiere recalcular el GPS: se ajusta el historial y el avance.
+- **Implementado (7-oct-2026)** en la página: botón "Descargar informe" →
+  elegir campos (lista con buscador) y fechas → "Descargar Excel" o
+  "Descargar PDF". Se arma en el navegador (`docs/informe.js`, con ExcelJS,
+  jsPDF y jspdf-autotable desde cdnjs) con `historico.json`,
+  `avance_cuarteles.json` (`cierres` = día en que se cerró cada pasada de
+  barrido) y `geocercas.json` (contornos de las geocercas en uso, lo publica
+  la corrida diaria). En el PDF, un mapa por grupo de cuarteles cercanos (a
+  menos de 400 m entre sí), ej. Aurora en 4 grupos.
+- **Regla del área total aplicada (7-oct-2026)**: en la corrida diaria
+  (`fraccion >= umbral` → 1,0 al acreditar y en el avance) y una vez sobre
+  los datos ya calculados: historial 5.403 → 5.328 registros, 8.201,08 →
+  8.227,79 ha (329 cuarteles + labor completos, cada uno suma exactamente su
+  área); 230 avances llevados a 100 %.
 - Ejemplo con datos reales (Aurora y Avoamerica, 1 al 30-sep-2026):
   123,04 ha (122,90 sin la regla del área total), 25 días, 5 máquinas, 45
   cuarteles trabajados (30 completos al 30-09).
