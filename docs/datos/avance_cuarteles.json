@@ -2687,8 +2687,8 @@
           "maquinas": [
             "Tractor 13 Deutz Fahr 115"
           ],
-          "trabajado_ha": 0.7365,
-          "porcentaje": 35.5,
+          "trabajado_ha": 0.7301,
+          "porcentaje": 35.2,
           "completo": false
         }
       }
@@ -3113,8 +3113,8 @@
             "Tractor 14 Deutz Fahr 115",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.2778,
-          "porcentaje": 4.5,
+          "trabajado_ha": 0.4738,
+          "porcentaje": 7.6,
           "completo": false
         }
       }
@@ -3158,9 +3158,9 @@
             "Tractor 14 Deutz Fahr 115",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
-          "completo": false
+          "trabajado_ha": 2.8426,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
@@ -3337,7 +3337,7 @@
             "Tractor 14 Deutz Fahr 115",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.1719,
+          "trabajado_ha": 0.1728,
           "porcentaje": 5.9,
           "completo": false
         }
@@ -3442,7 +3442,7 @@
             "Tractor 14 Deutz Fahr 115",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.6993,
+          "trabajado_ha": 0.7002,
           "porcentaje": 34.3,
           "completo": false
         }
