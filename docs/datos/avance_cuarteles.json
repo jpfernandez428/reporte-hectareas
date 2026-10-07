@@ -2654,6 +2654,45 @@
         }
       }
     },
+    "Aurora 23": {
+      "area_total_ha": 0.6426,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.6417,
+          "porcentaje": 99.9,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 24": {
+      "area_total_ha": 0.1612,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.1564,
+          "porcentaje": 97.0,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 25": {
+      "area_total_ha": 2.0769,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.7365,
+          "porcentaje": 35.5,
+          "completo": false
+        }
+      }
+    },
     "Aurora 3": {
       "area_total_ha": 3.6763,
       "labores": {
@@ -2749,6 +2788,663 @@
           "trabajado_ha": 6.1052,
           "porcentaje": 100.0,
           "completo": true
+        }
+      }
+    },
+    "Avoamerica 1": {
+      "area_total_ha": 0.7608,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.7608,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Avoamerica 10": {
+      "area_total_ha": 2.8782,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.7288,
+          "porcentaje": 25.3,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 11": {
+      "area_total_ha": 2.7485,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 2.7485,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Avoamerica 12": {
+      "area_total_ha": 2.0918,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 2.0918,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Avoamerica 13": {
+      "area_total_ha": 0.8924,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 14": {
+      "area_total_ha": 2.769,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 15": {
+      "area_total_ha": 2.7501,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 2.7501,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Avoamerica 16": {
+      "area_total_ha": 2.6816,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 2.6816,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Avoamerica 17": {
+      "area_total_ha": 10.7012,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 6.1799,
+          "porcentaje": 57.7,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 18": {
+      "area_total_ha": 12.2368,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 6.7453,
+          "porcentaje": 55.1,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 19": {
+      "area_total_ha": 9.6893,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 6.4598,
+          "porcentaje": 66.7,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 2": {
+      "area_total_ha": 2.2805,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 2.2767,
+          "porcentaje": 99.8,
+          "completo": true
+        }
+      }
+    },
+    "Avoamerica 20": {
+      "area_total_ha": 1.4248,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 1.4248,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Avoamerica 21": {
+      "area_total_ha": 9.2671,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 5.6713,
+          "porcentaje": 61.2,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 22": {
+      "area_total_ha": 1.9937,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 1.9937,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Avoamerica 23": {
+      "area_total_ha": 2.7993,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 2.7566,
+          "porcentaje": 98.5,
+          "completo": true
+        }
+      }
+    },
+    "Avoamerica 24": {
+      "area_total_ha": 8.538,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 2.3027,
+          "porcentaje": 27.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 25": {
+      "area_total_ha": 7.7643,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 2.0046,
+          "porcentaje": 25.8,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 26": {
+      "area_total_ha": 3.4069,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 2.7303,
+          "porcentaje": 80.1,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 27": {
+      "area_total_ha": 7.0533,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.3187,
+          "porcentaje": 4.5,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 28": {
+      "area_total_ha": 4.1281,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 29": {
+      "area_total_ha": 6.2071,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.2778,
+          "porcentaje": 4.5,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 3": {
+      "area_total_ha": 3.6756,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 3.3109,
+          "porcentaje": 90.1,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 30": {
+      "area_total_ha": 5.0578,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 31": {
+      "area_total_ha": 2.8426,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 32": {
+      "area_total_ha": 2.2922,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 33": {
+      "area_total_ha": 0.0975,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 34": {
+      "area_total_ha": 5.6595,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 35": {
+      "area_total_ha": 1.7256,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 36": {
+      "area_total_ha": 1.9441,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 37": {
+      "area_total_ha": 1.9628,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 38": {
+      "area_total_ha": 1.9437,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 39": {
+      "area_total_ha": 1.941,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 4": {
+      "area_total_ha": 2.8301,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 2.8301,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Avoamerica 40": {
+      "area_total_ha": 1.9647,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 41": {
+      "area_total_ha": 1.9461,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 43": {
+      "area_total_ha": 2.9127,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.1719,
+          "porcentaje": 5.9,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 44": {
+      "area_total_ha": 2.5179,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 45": {
+      "area_total_ha": 5.6359,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 5": {
+      "area_total_ha": 0.9624,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.9624,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Avoamerica 6": {
+      "area_total_ha": 1.1865,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 7": {
+      "area_total_ha": 2.8014,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 2.8014,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Avoamerica 8": {
+      "area_total_ha": 1.5885,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 1.5885,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Avoamerica 9": {
+      "area_total_ha": 2.0388,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100"
+          ],
+          "trabajado_ha": 0.6993,
+          "porcentaje": 34.3,
+          "completo": false
         }
       }
     },
@@ -7277,6 +7973,51 @@
         }
       }
     },
+    "Candelaria 10": {
+      "area_total_ha": 4.6162,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 20.5,
+          "trabajado_ha": 0.9486,
+          "porcentaje": 20.5,
+          "completo": false
+        }
+      }
+    },
+    "Candelaria 11": {
+      "area_total_ha": 4.1667,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 19.6,
+          "trabajado_ha": 0.817,
+          "porcentaje": 19.6,
+          "completo": false
+        }
+      }
+    },
+    "Candelaria 12": {
+      "area_total_ha": 4.9758,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 13.7,
+          "trabajado_ha": 0.6816,
+          "porcentaje": 13.7,
+          "completo": false
+        }
+      }
+    },
     "Candelaria 2": {
       "area_total_ha": 6.4262,
       "labores": {
@@ -7399,6 +8140,85 @@
           ],
           "trabajado_ha": 5.4197,
           "porcentaje": 91.5,
+          "completo": false
+        }
+      }
+    },
+    "Candelaria 5": {
+      "area_total_ha": 9.8098,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 1",
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 94.9,
+          "trabajado_ha": 9.3081,
+          "porcentaje": 94.9,
+          "completo": false
+        }
+      }
+    },
+    "Candelaria 6": {
+      "area_total_ha": 12.2031,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 1",
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 94.5,
+          "trabajado_ha": 11.535,
+          "porcentaje": 94.5,
+          "completo": false
+        }
+      }
+    },
+    "Candelaria 7": {
+      "area_total_ha": 13.4475,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 1",
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Candelaria 8": {
+      "area_total_ha": 7.5621,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 1"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 11.2,
+          "trabajado_ha": 0.8488,
+          "porcentaje": 11.2,
+          "completo": false
+        }
+      }
+    },
+    "Candelaria 9": {
+      "area_total_ha": 7.4241,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 1",
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 19.1,
+          "trabajado_ha": 1.4197,
+          "porcentaje": 19.1,
           "completo": false
         }
       }
@@ -11089,6 +11909,66 @@
           "trabajado_ha": 9.0422,
           "porcentaje": 97.9,
           "completo": true
+        }
+      }
+    },
+    "Puerto Lampa 1": {
+      "area_total_ha": 0.5576,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 6"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 0.5576,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Puerto Lampa 2": {
+      "area_total_ha": 11.4312,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 6"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 36.2,
+          "trabajado_ha": 4.1404,
+          "porcentaje": 36.2,
+          "completo": false
+        }
+      }
+    },
+    "Puerto Lampa 3": {
+      "area_total_ha": 14.6008,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 6"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 71.1,
+          "trabajado_ha": 10.3781,
+          "porcentaje": 71.1,
+          "completo": false
+        }
+      }
+    },
+    "Puerto Lampa 4": {
+      "area_total_ha": 12.1346,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 6"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 6.8,
+          "trabajado_ha": 0.8279,
+          "porcentaje": 6.8,
+          "completo": false
         }
       }
     },
