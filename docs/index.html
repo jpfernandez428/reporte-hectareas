@@ -275,13 +275,42 @@ function renderAvancePorCuartel() {
     porCuartel[clave].trabajado += d.area_trabajada_ha;
   }
 
+  // % = trabajo de las maquinas y fechas elegidas; "completo" = estado del
+  // cuartel a la fecha "hasta" del filtro (todas las maquinas de esa labor).
   // En barrido las hectareas pueden superar el area (varias pasadas).
+  const hasta = hastaDelFiltro();
+  const completos = completosAl(hasta, umbral / 100);
   const filas = Object.values(porCuartel).map(v => ({
     nombre: v.nombre, labor: v.labor, area_total: v.area_total,
-    trabajado: v.trabajado,
+    trabajado: Math.min(v.trabajado, v.labor === 'Barrido' ? Infinity : v.area_total),
     porcentaje: v.area_total > 0 ? Math.min(100, (v.trabajado / v.area_total) * 100) : 0,
+    completo: completos.has(v.nombre + '||' + v.labor),
   }));
-  cont.innerHTML = tablaAvance(filas, umbral);
+  cont.innerHTML = `<div class="sub" style="margin:-6px 0 10px;">Con filtro: el % es el trabajo de las máquinas y fechas elegidas; ✓ = cuartel completo al ${escaparXml(hasta)} (todas las máquinas de esa labor).</div>` +
+    tablaAvance(filas, umbral);
+}
+
+// Fecha "hasta" del filtro (la mas tardia si hay filtros combinados); sin
+// fecha, el ultimo dia con datos.
+function hastaDelFiltro() {
+  const ultimo = datos.map(d => d.fecha).sort().pop() || '';
+  if (gruposFiltro.length > 0) {
+    return gruposFiltro.map(g => g.hasta || ultimo).sort().pop();
+  }
+  return document.getElementById('filtroHasta').value || ultimo;
+}
+
+// Cuarteles + labor completos a una fecha: lo acreditado por todas las
+// maquinas de esa labor hasta ese dia llega al umbral (95 %).
+function completosAl(hasta, umbral) {
+  const suma = {}, area = {};
+  for (const d of datos) {
+    if (d.fecha > hasta) continue;
+    const clave = d.cuartel + '||' + (d.labor || '');
+    suma[clave] = (suma[clave] || 0) + d.area_trabajada_ha;
+    area[clave] = Math.max(area[clave] || 0, d.area_total_ha);
+  }
+  return new Set(Object.keys(suma).filter(k => area[k] > 0 && suma[k] >= umbral * area[k]));
 }
 
 function tablaAvance(filas, umbral) {
@@ -682,7 +711,12 @@ async function descargarKML() {
       }
     });
 
-    // verde = cuartel terminado; azul = hilera completa (cuartel en proceso); rojo = hilera parcial
+    // verde = cuartel terminado; azul = hilera completa (cuartel en proceso); rojo = hilera parcial.
+    // Todo se calcula a la fecha "hasta" de cada filtro, no al dia de hoy.
+    const ultimoDia = datos.map(d => d.fecha).sort().pop() || '';
+    const umbralCierre = ((avanceCuarteles && avanceCuarteles.umbral_cierre) || 0.95);
+    const completosPorHasta = {};
+    const completosHasta = h => completosPorHasta[h] || (completosPorHasta[h] = completosAl(h, umbralCierre));
     const colorVerde = 'ff00ff00';
     const colorAzul = 'ffff8000';
     const colorRojo = 'ff0000ff';
@@ -693,6 +727,8 @@ async function descargarKML() {
 
     for (const c of condiciones) {
       const maquinasCondicion = c.maquinas.length > 0 ? c.maquinas : todasLasMaquinas;
+      const hastaC = c.hasta || ultimoDia;
+      const completos = completosHasta(hastaC);
       for (const nombreMaquina of maquinasCondicion) {
         const cuarteles = geometriaPorMaquina[nombreMaquina];
         if (!cuarteles) continue;
@@ -700,25 +736,32 @@ async function descargarKML() {
         if (!contornosPorMaquina[nombreMaquina]) contornosPorMaquina[nombreMaquina] = {};
 
         for (const [nombreCuartel, datosCuartel] of Object.entries(cuarteles)) {
+          const completoAlHasta = completos.has(nombreCuartel + '||' + (datosCuartel.labor || ''));
           if (datosCuartel.contorno && datosCuartel.contorno.length >= 3) {
+            const previo = contornosPorMaquina[nombreMaquina][nombreCuartel];
             contornosPorMaquina[nombreMaquina][nombreCuartel] = {
-              contorno: datosCuartel.contorno, completo: datosCuartel.completo,
+              contorno: datosCuartel.contorno, completo: completoAlHasta || (previo ? previo.completo : false),
             };
           }
           for (const fila of datosCuartel.hileras) {
             // Tramos que no cuentan (cruzados) solo se dibujan si el cuartel esta terminado.
-            if (!fila.cuenta && !datosCuartel.completo) continue;
+            if (!fila.cuenta && !completoAlHasta) continue;
 
+            // Hilera completa a la fecha "hasta" (las geometrias antiguas solo traen el estado de hoy).
+            const completaAlHasta = fila.completa_desde !== undefined
+              ? (fila.completa_desde !== null && fila.completa_desde <= hastaC) : fila.completa;
             let color, etiqueta;
-            if (datosCuartel.completo) {
+            if (completoAlHasta) {
               color = colorVerde; etiqueta = ' (cuartel completo)';
-            } else if (fila.completa) {
+            } else if (completaAlHasta) {
               color = colorAzul; etiqueta = ' (hilera completa)';
             } else {
               color = colorRojo; etiqueta = ' (hilera parcial)';
             }
 
-            for (const fecha of fila.fechas) {
+            // Tramo recorrido cada dia (si se trabajo en un solo dia, la hilera entera).
+            const tramos = fila.tramos || fila.fechas.map(f => [f, fila.p1, fila.p2]);
+            for (const [fecha, p1, p2] of tramos) {
               if (c.desde && fecha < c.desde) continue;
               if (c.hasta && fecha > c.hasta) continue;
 
@@ -730,7 +773,7 @@ async function descargarKML() {
               cuartelDia.set(fila.id,
                 `<Placemark><name>Hilera ${fila.id}${escaparXml(etiqueta)}</name>` +
                 `<Style><LineStyle><color>${color}</color><width>3</width></LineStyle></Style>` +
-                `<LineString><coordinates>${fila.p1[0]},${fila.p1[1]},0 ${fila.p2[0]},${fila.p2[1]},0</coordinates></LineString></Placemark>`
+                `<LineString><coordinates>${p1[0]},${p1[1]},0 ${p2[0]},${p2[1]},0</coordinates></LineString></Placemark>`
               );
             }
           }

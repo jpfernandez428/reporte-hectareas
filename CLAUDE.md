@@ -449,6 +449,23 @@ editable por el usuario.
 
 ## Mapas
 
+- **Filtro por fechas (regla del usuario, 7-oct-2026):** con "desde" y
+  "hasta", la tabla y el mapa muestran solo lo hecho entre esas fechas y
+  como estaba a la fecha "hasta", no lo de hoy:
+  - Hectáreas y %: el trabajo de las máquinas y fechas elegidas (historial).
+  - Estado "completo" (✓ en la tabla, verde y "COMPLETA" en el mapa): el
+    cuartel + labor llegaba al 95 % a la fecha "hasta", sumando todas las
+    máquinas de esa labor (historial hasta ese día).
+  - Mapa: cada pasada se dibuja con el tramo recorrido ese día (las
+    pasadas guardan su fecha desde el 7-oct-2026: `intervalos` = [desde,
+    hasta, fecha]; la geometría trae `tramos` por fecha cuando la hilera se
+    trabajó en varios días); la hilera es "completa" (azul) si a la fecha
+    "hasta" ya llegaba de borde a borde (`completa_desde`).
+  - Lo calculado antes del 7-oct-2026 no tiene la fecha de cada pasada: en
+    las hileras trabajadas en un solo día (93 %) es exacto igual; en las de
+    varios días (7 %) el mapa dibuja el largo completo y la hilera cuenta
+    como completa recién el último día (`tramos_aprox`), hasta recalcular.
+
 - No guardar KML por máquina en el repositorio (hacía crecer mucho el
   historial de git). La web los genera desde `docs/datos/geometria/`.
 - El KML generado debe ser XML válido (escapar `&`, `<`, `>` y comillas en

@@ -825,7 +825,7 @@ class Hilera:
         self.direccion = direccion    # vector unitario (dx, dy)
         self.min_proy = min_proy
         self.max_proy = max_proy
-        self.intervalos = intervalos or []   # pasadas del periodo actual, sin fusionar
+        self.intervalos = intervalos or []   # pasadas [desde, hasta, fecha] (las antiguas sin fecha)
         self.fechas = set(fechas) if fechas else set()   # dias (AAAA-MM-DD) en que se toco
         self.primera_vez = primera_vez   # hora (unix, UTC) de la primera pasada
         self.paso_gps = paso_gps      # distancia tipica (m) entre puntos del GPS en sus pasadas
@@ -900,7 +900,7 @@ def actualizar_hilera(hilera, segmento_m, fecha_str, hora_unix=None):
     p_min, p_max = min(proyecciones), max(proyecciones)
     hilera.min_proy = min(hilera.min_proy, p_min)
     hilera.max_proy = max(hilera.max_proy, p_max)
-    hilera.intervalos.append([round(p_min, 1), round(p_max, 1)])
+    hilera.intervalos.append([round(p_min, 1), round(p_max, 1), fecha_str])
     pasos = [math.hypot(b[0] - a[0], b[1] - a[1]) for a, b in zip(segmento_m, segmento_m[1:])]
     if pasos:
         hilera.paso_gps = round(max(hilera.paso_gps, statistics.median(pasos)), 1)
@@ -1045,11 +1045,47 @@ def alerta_resuelta(alerta, geocercas):
     return dentro >= 0.5 * len(alerta["muestras"])
 
 
+def tramos_por_fecha(hilera):
+    """{fecha: (desde, hasta)} de lo recorrido en la hilera cada dia. Las
+    pasadas guardadas antes del 7-oct-2026 no tienen fecha: si la hilera se
+    trabajo un solo dia se sabe cual es; si fueron varios, None (se usa el
+    largo completo, aproximado, hasta que se recalcule)."""
+    tramos = {}
+    for intervalo in hilera.intervalos:
+        if len(intervalo) >= 3:
+            fecha = intervalo[2]
+        elif len(hilera.fechas) == 1:
+            fecha = next(iter(hilera.fechas))
+        else:
+            return None
+        ini, fin = tramos.get(fecha, (intervalo[0], intervalo[1]))
+        tramos[fecha] = (min(ini, intervalo[0]), max(fin, intervalo[1]))
+    return tramos or None
+
+
+def completa_desde(hilera, contorno_m):
+    """Primer dia en que la hilera, sumando lo recorrido hasta ese dia, llega
+    de borde a borde (None si no llega)."""
+    if not contorno_m or not hilera_llega_a_los_bordes(hilera, contorno_m):
+        return None
+    tramos = tramos_por_fecha(hilera)
+    if tramos is None:
+        return max(hilera.fechas)  # sin fecha por pasada: se toma el ultimo dia
+    ini, fin = float("inf"), float("-inf")
+    for fecha in sorted(tramos):
+        ini, fin = min(ini, tramos[fecha][0]), max(fin, tramos[fecha][1])
+        prueba = Hilera(hilera.id, hilera.origen, hilera.direccion, ini, fin)
+        if hilera_llega_a_los_bordes(prueba, contorno_m):
+            return fecha
+    return max(tramos)
+
+
 def contar_pasadas_max(intervalos):
     if not intervalos:
         return 0
     eventos = []
-    for ini, fin in intervalos:
+    for intervalo in intervalos:
+        ini, fin = intervalo[0], intervalo[1]
         eventos.append((ini, 1))
         eventos.append((fin, -1))
     eventos.sort()
@@ -3207,12 +3243,26 @@ def main():
                 lon2, lat2 = metros_a_punto(p2_m, referencia)
                 if not all(math.isfinite(v) for v in (lon1, lat1, lon2, lat2)):
                     continue
-                filas.append({
+                fila = {
                     "id": h.id, "p1": [lon1, lat1], "p2": [lon2, lat2],
                     "fechas": sorted(h.fechas),
                     "completa": bool(contorno_m) and bool(hilera_llega_a_los_bordes(h, contorno_m)),
                     "cuenta": bool(h.id not in ids_cruzadas),
-                })
+                }
+                # Para filtrar por fechas: dia en que quedo completa y, si se
+                # trabajo en varios dias, el tramo recorrido cada dia.
+                if fila["completa"]:
+                    fila["completa_desde"] = completa_desde(h, contorno_m)
+                tramos = tramos_por_fecha(h) if len(h.fechas) > 1 else None
+                if tramos:
+                    fila["tramos"] = []
+                    for fecha, (ini, fin) in sorted(tramos.items()):
+                        a = metros_a_punto((h.origen[0] + h.direccion[0] * ini, h.origen[1] + h.direccion[1] * ini), referencia)
+                        b = metros_a_punto((h.origen[0] + h.direccion[0] * fin, h.origen[1] + h.direccion[1] * fin), referencia)
+                        fila["tramos"].append([fecha, [round(a[0], 7), round(a[1], 7)], [round(b[0], 7), round(b[1], 7)]])
+                elif len(h.fechas) > 1:
+                    fila["tramos_aprox"] = True
+                filas.append(fila)
             if filas:
                 cuarteles_json[nombre_geo] = {
                     "labor": labor,
