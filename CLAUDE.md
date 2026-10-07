@@ -447,6 +447,41 @@ editable por el usuario.
   superar el área del cuartel); las del día se reparten entre las barredoras
   según los metros que barrió cada una.
 
+## Informe para el cliente (Excel y PDF) — reglas del usuario, 7-oct-2026
+
+- Una sola versión, filtrable por uno o varios campos (raíz del nombre:
+  "Aurora", "Avoamerica") y por período (desde – hasta). Solo los campos
+  filtrados; sin alertas ni trabajo fuera de geocerca.
+- Hoja "Resumen" (y si hay varios campos, además una hoja "Resumen <campo>"
+  por cada uno):
+  - Encabezado: C&H Maquinaria, campo(s), período, labores incluidas y fecha
+    de emisión.
+  - Indicadores: hectáreas trabajadas, cuarteles completos, cuarteles en
+    proceso, días trabajados, máquinas utilizadas.
+  - Trabajo por día: una fila por día con las hectáreas por labor y total
+    del día; total al final.
+  - Avance por cuartel (cuarteles trabajados en el período): labor, área de
+    la geocerca, hectáreas en el período, % de avance y estado al último día
+    del período (completo en verde, en proceso en amarillo), fecha en que se
+    completó; en barrido, pasadas completas en el período. Total al final.
+- Hoja "Por máquina": hectáreas por máquina y día, labor, cuarteles
+  trabajados, total por máquina.
+- Hoja "Detalle": por cuartel, día y máquina.
+- Hoja "Notas": cómo se calcula, en simple.
+- Formato: títulos claros, encabezados verdes, filas alternadas, miles y 2
+  decimales, % con 1 decimal, columnas ajustadas, encabezados fijos.
+- PDF: el resumen general y el de cada campo, más un mapa de cada campo con
+  los cuarteles coloreados (verde completo, amarillo en proceso con su %,
+  gris sin trabajo en el período).
+- **Cuartel completo = área total** (también en la página y el historial): al
+  llegar al 95 % se acredita el área total de la geocerca; la diferencia se
+  suma el día en que se completó (repartida entre las máquinas de ese día) y
+  después ya no suma. En barrido, cada pasada completa ya suma el área total.
+  No requiere recalcular el GPS: se ajusta el historial y el avance.
+- Ejemplo con datos reales (Aurora y Avoamerica, 1 al 30-sep-2026):
+  123,04 ha (122,90 sin la regla del área total), 25 días, 5 máquinas, 45
+  cuarteles trabajados (30 completos al 30-09).
+
 ## Mapas
 
 - **Filtro por fechas (regla del usuario, 7-oct-2026):** con "desde" y
