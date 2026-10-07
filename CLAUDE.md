@@ -567,6 +567,20 @@ anterior a `fecha_inicio` se mantiene. Las registra como conocidas (otras
 geocercas nuevas siguen esperando la corrida diaria). No toca las demás
 geocercas ni el panel de máquinas. Costo: ~40 min por mes de GPS.
 
+Registro:
+- 7-oct-2026: recuperación del 2026-09-01 al 2026-10-06 de Aurora 1–25,
+  Avoamerica 1–45, Candelaria 5–12 y Puerto Lampa 1–4 (82 geocercas, 35 min,
+  sin errores; la corrida diaria de esa noche ya las había detectado desde el
+  7-sep). Recuperado: Aurora – Poda 76,28 ha, Avoamerica – Picado 68,34 ha
+  (Avoamerica 31 se picó el 4-sep, antes de los 30 días automáticos),
+  Candelaria 5–12 – Barrido 25,56 ha, Puerto Lampa – Barrido 15,91 ha.
+  Calibración de Aurora sin cambios (Aurora 1/2/4 al 22-09: 92,4 % / 92,2 %
+  / 4,83 ha; Aurora 3, 5–9 ≥ 99,4 %).
+- Pendiente: el Tractor 13 trabajó en hileras el 2 y 3-sep (~12 ha de poda)
+  en -35.584, -71.477, sin geocerca (la más cercana, agrosocoin 1, está a
+  4,7 km). Cuando el usuario cree esa geocerca, recuperarla con
+  `fecha_inicio` 2026-09-01 y su nombre en `recuperar_geocercas`.
+
 ## Pendientes
 
 - **Pasadas sueltas pendientes** (regla aprobada por el usuario el
