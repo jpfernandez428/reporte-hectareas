@@ -47950,5 +47950,59 @@
     "n_hileras": 10,
     "area_total_ha": 2.08,
     "area_trabajada_ha": 0.73
+  },
+  {
+    "fecha": "2026-10-07",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 19",
+    "labor": "Picado",
+    "n_hileras": 11,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.8
+  },
+  {
+    "fecha": "2026-10-07",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 21",
+    "labor": "Picado",
+    "n_hileras": 10,
+    "area_total_ha": 9.27,
+    "area_trabajada_ha": 0.8
+  },
+  {
+    "fecha": "2026-10-07",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 24",
+    "labor": "Picado",
+    "n_hileras": 9,
+    "area_total_ha": 8.54,
+    "area_trabajada_ha": 0.73
+  },
+  {
+    "fecha": "2026-10-07",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 25",
+    "labor": "Picado",
+    "n_hileras": 5,
+    "area_total_ha": 7.76,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-10-07",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 26",
+    "labor": "Picado",
+    "n_hileras": 10,
+    "area_total_ha": 3.41,
+    "area_trabajada_ha": 0.68
+  },
+  {
+    "fecha": "2026-10-07",
+    "maquina": "Tractor 13 Deutz Fahr 115",
+    "cuartel": "Aurora 25",
+    "labor": "Poda",
+    "n_hileras": 35,
+    "area_total_ha": 2.08,
+    "area_trabajada_ha": 1.35
   }
 ]

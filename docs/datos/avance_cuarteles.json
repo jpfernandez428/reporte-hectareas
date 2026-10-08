@@ -18,16 +18,16 @@
           "trabajado_ha": 37.1086,
           "porcentaje": 100.0,
           "completo": true,
-          "repaso": {
-            "repasos_completos": 2,
-            "trabajado_ha": 0.0,
-            "porcentaje": 0.0
-          },
           "cierres": [
             "2026-03-06",
             "2026-03-30",
             "2026-04-27"
-          ]
+          ],
+          "repaso": {
+            "repasos_completos": 2,
+            "trabajado_ha": 0.0,
+            "porcentaje": 0.0
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -73,14 +73,14 @@
           "trabajado_ha": 10.1438,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-16"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.7228,
             "porcentaje": 17.0
-          },
-          "cierres": [
-            "2026-02-16"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -119,14 +119,14 @@
           "trabajado_ha": 5.7727,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-13"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.4851,
             "porcentaje": 8.4
-          },
-          "cierres": [
-            "2026-02-13"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -199,14 +199,14 @@
           "trabajado_ha": 5.8869,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-18"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 4.0414,
             "porcentaje": 68.7
-          },
-          "cierres": [
-            "2026-02-18"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -243,14 +243,14 @@
           "trabajado_ha": 9.888,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-19"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 8.4499,
             "porcentaje": 85.5
-          },
-          "cierres": [
-            "2026-02-19"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -326,14 +326,14 @@
           "trabajado_ha": 3.2606,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-17"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.4993,
             "porcentaje": 46.0
-          },
-          "cierres": [
-            "2026-02-17"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -371,14 +371,14 @@
           "trabajado_ha": 4.0485,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-09"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.5442,
             "porcentaje": 38.1
-          },
-          "cierres": [
-            "2026-03-09"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -432,14 +432,14 @@
           "trabajado_ha": 3.0211,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-10"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.3605,
             "porcentaje": 11.9
-          },
-          "cierres": [
-            "2026-03-10"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -561,15 +561,15 @@
           "trabajado_ha": 32.154,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-09",
+            "2026-04-23"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
-          },
-          "cierres": [
-            "2026-03-09",
-            "2026-04-23"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -608,14 +608,14 @@
           "trabajado_ha": 19.5511,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-04"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 16.7539,
             "porcentaje": 85.7
-          },
-          "cierres": [
-            "2026-03-04"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -654,14 +654,14 @@
           "trabajado_ha": 9.2359,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-04"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 8.7679,
             "porcentaje": 94.9
-          },
-          "cierres": [
-            "2026-03-04"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -699,14 +699,14 @@
           "trabajado_ha": 27.3647,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-03"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 24.31,
             "porcentaje": 88.8
-          },
-          "cierres": [
-            "2026-03-03"
-          ]
+          }
         },
         "Remecido de suelo": {
           "maquinas": [
@@ -734,14 +734,14 @@
           "trabajado_ha": 41.144,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-26"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 38.6716,
             "porcentaje": 94.0
-          },
-          "cierres": [
-            "2026-02-26"
-          ]
+          }
         },
         "Remecido de suelo": {
           "maquinas": [
@@ -770,14 +770,14 @@
           "trabajado_ha": 30.2624,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-27"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 21.4431,
             "porcentaje": 70.9
-          },
-          "cierres": [
-            "2026-02-27"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -823,14 +823,14 @@
           "trabajado_ha": 7.4312,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-24"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 6.3243,
             "porcentaje": 85.1
-          },
-          "cierres": [
-            "2026-02-24"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -877,14 +877,14 @@
           "trabajado_ha": 12.2233,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-21"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 10.0583,
             "porcentaje": 82.3
-          },
-          "cierres": [
-            "2026-02-21"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -922,14 +922,14 @@
           "trabajado_ha": 6.7886,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-20"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 4.9193,
             "porcentaje": 72.5
-          },
-          "cierres": [
-            "2026-02-20"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -966,14 +966,14 @@
           "trabajado_ha": 12.802,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-23"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 7.893,
             "porcentaje": 61.7
-          },
-          "cierres": [
-            "2026-02-23"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -1018,14 +1018,14 @@
           "trabajado_ha": 6.0735,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-20"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 4.9054,
             "porcentaje": 80.8
-          },
-          "cierres": [
-            "2026-02-20"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -1101,14 +1101,14 @@
           "trabajado_ha": 1.5035,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-12"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.1808,
             "porcentaje": 78.5
-          },
-          "cierres": [
-            "2026-03-12"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -1144,14 +1144,14 @@
           "trabajado_ha": 9.6392,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-23"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 6.0874,
             "porcentaje": 63.2
-          },
-          "cierres": [
-            "2026-02-23"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -1185,15 +1185,15 @@
           "trabajado_ha": 2.5666,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-09",
+            "2026-04-07"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
-          },
-          "cierres": [
-            "2026-03-09",
-            "2026-04-07"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -1237,15 +1237,15 @@
           "trabajado_ha": 5.3456,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-26",
+            "2026-04-01"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
-          },
-          "cierres": [
-            "2026-02-26",
-            "2026-04-01"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -1288,14 +1288,14 @@
           "trabajado_ha": 2.1279,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-25"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.7179,
             "porcentaje": 80.7
-          },
-          "cierres": [
-            "2026-02-25"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -1381,15 +1381,15 @@
           "trabajado_ha": 9.1669,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-16",
+            "2026-04-09"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
-          },
-          "cierres": [
-            "2026-03-16",
-            "2026-04-09"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -1433,21 +1433,21 @@
           "trabajado_ha": 8.4229,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-17",
+            "2026-04-10"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
-          },
-          "cierres": [
-            "2026-03-17",
-            "2026-04-10"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus"
           ],
-          "trabajado_ha": 8.4228,
+          "trabajado_ha": 8.4229,
           "porcentaje": 100.0,
           "completo": true
         },
@@ -1485,15 +1485,15 @@
           "trabajado_ha": 5.5329,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-11",
+            "2026-04-08"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
-          },
-          "cierres": [
-            "2026-03-11",
-            "2026-04-08"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -1537,14 +1537,14 @@
           "trabajado_ha": 6.5839,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-04"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.7667,
             "porcentaje": 42.0
-          },
-          "cierres": [
-            "2026-03-04"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -1588,14 +1588,14 @@
           "trabajado_ha": 12.8339,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-03"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.3644,
             "porcentaje": 10.6
-          },
-          "cierres": [
-            "2026-03-03"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -1675,14 +1675,14 @@
           "trabajado_ha": 9.9819,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-07"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.3976,
             "porcentaje": 4.0
-          },
-          "cierres": [
-            "2026-03-07"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -1740,7 +1740,7 @@
           "maquinas": [
             "Shacker SBS 14"
           ],
-          "trabajado_ha": 7.8158,
+          "trabajado_ha": 7.8161,
           "porcentaje": 100.0,
           "completo": true
         },
@@ -1749,7 +1749,7 @@
             "Tractor 16 Kubota 108",
             "Tractor 17 Kubota 108"
           ],
-          "trabajado_ha": 7.8155,
+          "trabajado_ha": 7.8161,
           "porcentaje": 100.0,
           "completo": true
         },
@@ -2199,14 +2199,14 @@
           "trabajado_ha": 9.6946,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-07-07"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.0321,
             "porcentaje": 21.0
-          },
-          "cierres": [
-            "2026-07-07"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -2246,14 +2246,14 @@
           "trabajado_ha": 9.8101,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-07-14"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.064,
             "porcentaje": 21.0
-          },
-          "cierres": [
-            "2026-07-14"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -2275,7 +2275,7 @@
           "maquinas": [
             "Tractor 10 Deutz Fahr 115"
           ],
-          "trabajado_ha": 9.81,
+          "trabajado_ha": 9.8101,
           "porcentaje": 100.0,
           "completo": true
         }
@@ -2335,14 +2335,14 @@
           "trabajado_ha": 4.3549,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-05-28"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.8004,
             "porcentaje": 18.4
-          },
-          "cierres": [
-            "2026-05-28"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -2383,14 +2383,14 @@
           "trabajado_ha": 12.8297,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-05-28"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.7228,
             "porcentaje": 13.4
-          },
-          "cierres": [
-            "2026-05-28"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -2687,7 +2687,7 @@
             "Tractor 10 Deutz Fahr 115",
             "Tractor 13 Deutz Fahr 115"
           ],
-          "trabajado_ha": 3.8652,
+          "trabajado_ha": 3.8661,
           "porcentaje": 100.0,
           "completo": true
         }
@@ -2757,7 +2757,7 @@
             "Tractor 10 Deutz Fahr 115",
             "Tractor 13 Deutz Fahr 115"
           ],
-          "trabajado_ha": 2.4917,
+          "trabajado_ha": 2.4925,
           "porcentaje": 100.0,
           "completo": true
         }
@@ -2823,9 +2823,9 @@
           "maquinas": [
             "Tractor 13 Deutz Fahr 115"
           ],
-          "trabajado_ha": 0.7301,
-          "porcentaje": 35.2,
-          "completo": false
+          "trabajado_ha": 2.0769,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
@@ -3067,7 +3067,8 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 6.7453,
           "porcentaje": 55.1,
@@ -3082,10 +3083,11 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 6.4598,
-          "porcentaje": 66.7,
+          "trabajado_ha": 7.2635,
+          "porcentaje": 75.0,
           "completo": false
         }
       }
@@ -3127,10 +3129,11 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 5.6713,
-          "porcentaje": 61.2,
+          "trabajado_ha": 6.4746,
+          "porcentaje": 69.9,
           "completo": false
         }
       }
@@ -3157,7 +3160,8 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 2.7993,
           "porcentaje": 100.0,
@@ -3172,10 +3176,11 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 2.3027,
-          "porcentaje": 27.0,
+          "trabajado_ha": 3.038,
+          "porcentaje": 35.6,
           "completo": false
         }
       }
@@ -3187,10 +3192,11 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 2.0046,
-          "porcentaje": 25.8,
+          "trabajado_ha": 2.1542,
+          "porcentaje": 27.7,
           "completo": false
         }
       }
@@ -3202,11 +3208,12 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 2.7303,
-          "porcentaje": 80.1,
-          "completo": false
+          "trabajado_ha": 3.4069,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
@@ -3219,7 +3226,7 @@
             "Tractor 14 Deutz Fahr 115",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.3187,
+          "trabajado_ha": 0.3204,
           "porcentaje": 4.5,
           "completo": false
         }
@@ -3232,7 +3239,8 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -3277,7 +3285,8 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -3307,7 +3316,8 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -3337,7 +3347,8 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -3602,14 +3613,14 @@
           "trabajado_ha": 46.8414,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-27"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 19.8747,
             "porcentaje": 42.4
-          },
-          "cierres": [
-            "2026-04-27"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -3665,15 +3676,15 @@
           "trabajado_ha": 10.0294,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-12",
+            "2026-03-18"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 1.9285,
             "porcentaje": 19.2
-          },
-          "cierres": [
-            "2026-03-12",
-            "2026-03-18"
-          ]
+          }
         },
         "Poda": {
           "maquinas": [
@@ -3720,14 +3731,14 @@
           "trabajado_ha": 25.0659,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-10"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 20.8618,
             "porcentaje": 83.2
-          },
-          "cierres": [
-            "2026-03-10"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -4493,14 +4504,14 @@
           "trabajado_ha": 55.9127,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-30"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 4.4117,
             "porcentaje": 7.9
-          },
-          "cierres": [
-            "2026-03-30"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -4633,7 +4644,7 @@
             "Shacker de Suelo 7",
             "Shacker de Suelo 8"
           ],
-          "trabajado_ha": 4.7319,
+          "trabajado_ha": 4.7321,
           "porcentaje": 100.0,
           "completo": true
         }
@@ -4699,14 +4710,14 @@
           "trabajado_ha": 9.4692,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-06"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 7.5306,
             "porcentaje": 79.5
-          },
-          "cierres": [
-            "2026-04-06"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -4778,14 +4789,14 @@
           "trabajado_ha": 2.9868,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-18"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.3771,
             "porcentaje": 79.6
-          },
-          "cierres": [
-            "2026-03-18"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -4819,14 +4830,14 @@
           "trabajado_ha": 3.3391,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-18"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.6766,
             "porcentaje": 80.2
-          },
-          "cierres": [
-            "2026-03-18"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -4894,15 +4905,15 @@
           "trabajado_ha": 3.1644,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-09",
+            "2026-03-10"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
-          },
-          "cierres": [
-            "2026-03-09",
-            "2026-03-10"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -4937,14 +4948,14 @@
           "trabajado_ha": 4.6663,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-08"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 3.2448,
             "porcentaje": 69.5
-          },
-          "cierres": [
-            "2026-03-08"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -5145,7 +5156,7 @@
             "Shacker de Suelo 6",
             "Shacker de Suelo 7"
           ],
-          "trabajado_ha": 3.1619,
+          "trabajado_ha": 3.1631,
           "porcentaje": 100.0,
           "completo": true
         }
@@ -5165,14 +5176,14 @@
           "trabajado_ha": 1.5774,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-26"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.3322,
             "porcentaje": 84.5
-          },
-          "cierres": [
-            "2026-03-26"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -5280,14 +5291,14 @@
           "trabajado_ha": 8.7551,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-09"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 5.2202,
             "porcentaje": 59.6
-          },
-          "cierres": [
-            "2026-04-09"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -5367,14 +5378,14 @@
           "trabajado_ha": 10.7711,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-02"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.6253,
             "porcentaje": 15.1
-          },
-          "cierres": [
-            "2026-03-02"
-          ]
+          }
         },
         "Poda": {
           "maquinas": [
@@ -5463,14 +5474,14 @@
           "trabajado_ha": 24.6414,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-01"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 22.0923,
             "porcentaje": 89.7
-          },
-          "cierres": [
-            "2026-04-01"
-          ]
+          }
         },
         "Poda": {
           "maquinas": [
@@ -5552,16 +5563,16 @@
           "trabajado_ha": 12.6888,
           "porcentaje": 100.0,
           "completo": true,
-          "repaso": {
-            "repasos_completos": 2,
-            "trabajado_ha": 0.0,
-            "porcentaje": 0.0
-          },
           "cierres": [
             "2026-04-08",
             "2026-04-21",
             "2026-09-23"
-          ]
+          ],
+          "repaso": {
+            "repasos_completos": 2,
+            "trabajado_ha": 0.0,
+            "porcentaje": 0.0
+          }
         },
         "Poda": {
           "maquinas": [
@@ -5796,14 +5807,14 @@
           "trabajado_ha": 1.9088,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-15"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.7768,
             "porcentaje": 93.1
-          },
-          "cierres": [
-            "2026-03-15"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -5855,14 +5866,14 @@
           "trabajado_ha": 0.5479,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-08"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.3684,
             "porcentaje": 67.2
-          },
-          "cierres": [
-            "2026-04-08"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -5918,14 +5929,14 @@
           "trabajado_ha": 0.7496,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-28"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.6639,
             "porcentaje": 88.6
-          },
-          "cierres": [
-            "2026-04-28"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -5940,7 +5951,7 @@
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.7493,
+          "trabajado_ha": 0.7496,
           "porcentaje": 100.0,
           "completo": true
         },
@@ -5982,14 +5993,14 @@
           "trabajado_ha": 3.4213,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-14"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.8123,
             "porcentaje": 82.2
-          },
-          "cierres": [
-            "2026-03-14"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -6046,15 +6057,15 @@
           "trabajado_ha": 1.6672,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-05",
+            "2026-04-06"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 1.5006,
             "porcentaje": 90.0
-          },
-          "cierres": [
-            "2026-04-05",
-            "2026-04-06"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -6111,14 +6122,14 @@
           "trabajado_ha": 1.7384,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-07"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.5717,
             "porcentaje": 90.4
-          },
-          "cierres": [
-            "2026-04-07"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -6174,15 +6185,15 @@
           "trabajado_ha": 1.8618,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-07",
+            "2026-04-07"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 1.5358,
             "porcentaje": 82.5
-          },
-          "cierres": [
-            "2026-04-07",
-            "2026-04-07"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -6239,14 +6250,14 @@
           "trabajado_ha": 2.0242,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-07"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.7637,
             "porcentaje": 87.1
-          },
-          "cierres": [
-            "2026-04-07"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -6302,14 +6313,14 @@
           "trabajado_ha": 3.5073,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-14"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.9176,
             "porcentaje": 83.2
-          },
-          "cierres": [
-            "2026-03-14"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -6365,14 +6376,14 @@
           "trabajado_ha": 1.4975,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-12"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.3394,
             "porcentaje": 89.4
-          },
-          "cierres": [
-            "2026-03-12"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -6429,14 +6440,14 @@
           "trabajado_ha": 1.3847,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-23"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.0621,
             "porcentaje": 76.7
-          },
-          "cierres": [
-            "2026-04-23"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -6492,14 +6503,14 @@
           "trabajado_ha": 1.9274,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-16"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.7225,
             "porcentaje": 89.4
-          },
-          "cierres": [
-            "2026-03-16"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -6597,15 +6608,15 @@
           "trabajado_ha": 0.1757,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-08",
+            "2026-04-23"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.1345,
             "porcentaje": 76.6
-          },
-          "cierres": [
-            "2026-04-08",
-            "2026-04-23"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -6641,14 +6652,14 @@
           "trabajado_ha": 3.9713,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-08"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 3.4721,
             "porcentaje": 87.4
-          },
-          "cierres": [
-            "2026-04-08"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -6693,14 +6704,14 @@
           "trabajado_ha": 3.1445,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-08"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.9267,
             "porcentaje": 93.1
-          },
-          "cierres": [
-            "2026-04-08"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -6743,15 +6754,15 @@
           "trabajado_ha": 0.6745,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-08",
+            "2026-04-29"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
-          },
-          "cierres": [
-            "2026-04-08",
-            "2026-04-29"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -6798,14 +6809,14 @@
           "trabajado_ha": 2.3234,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-05"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.156,
             "porcentaje": 92.8
-          },
-          "cierres": [
-            "2026-04-05"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -6862,14 +6873,14 @@
           "trabajado_ha": 2.5641,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-05"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.0907,
             "porcentaje": 81.5
-          },
-          "cierres": [
-            "2026-04-05"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -6925,14 +6936,14 @@
           "trabajado_ha": 2.6594,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-05"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.2493,
             "porcentaje": 84.6
-          },
-          "cierres": [
-            "2026-04-05"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -6990,14 +7001,14 @@
           "trabajado_ha": 3.22,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-20"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.9821,
             "porcentaje": 92.6
-          },
-          "cierres": [
-            "2026-03-20"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -7056,14 +7067,14 @@
           "trabajado_ha": 3.3116,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-18"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.9779,
             "porcentaje": 89.9
-          },
-          "cierres": [
-            "2026-03-18"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -7122,14 +7133,14 @@
           "trabajado_ha": 2.9625,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-17"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.5187,
             "porcentaje": 85.0
-          },
-          "cierres": [
-            "2026-03-17"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -7188,14 +7199,14 @@
           "trabajado_ha": 2.1871,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-07"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.5947,
             "porcentaje": 72.9
-          },
-          "cierres": [
-            "2026-04-07"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -7958,7 +7969,7 @@
           "maquinas": [
             "Shacker SBS 13"
           ],
-          "trabajado_ha": 0.855,
+          "trabajado_ha": 0.8551,
           "porcentaje": 100.0,
           "completo": true
         }
@@ -8166,7 +8177,7 @@
           "maquinas": [
             "Shacker SBS 10"
           ],
-          "trabajado_ha": 10.4428,
+          "trabajado_ha": 10.4444,
           "porcentaje": 100.0,
           "completo": true
         }
@@ -8242,7 +8253,7 @@
           "maquinas": [
             "Tractor 17 Kubota 108"
           ],
-          "trabajado_ha": 2.0839,
+          "trabajado_ha": 2.0842,
           "porcentaje": 100.0,
           "completo": true
         }
@@ -8296,14 +8307,14 @@
           "trabajado_ha": 21.342,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-09-29"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 19.1391,
             "porcentaje": 89.7
-          },
-          "cierres": [
-            "2026-09-29"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -8847,14 +8858,14 @@
           "trabajado_ha": 10.977,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-13"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.5545,
             "porcentaje": 5.1
-          },
-          "cierres": [
-            "2026-04-13"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -8889,14 +8900,14 @@
           "trabajado_ha": 10.9161,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-13"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.4827,
             "porcentaje": 4.4
-          },
-          "cierres": [
-            "2026-04-13"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -8912,7 +8923,7 @@
           "maquinas": [
             "Tractor 7 Kubota 95"
           ],
-          "trabajado_ha": 10.9143,
+          "trabajado_ha": 10.9161,
           "porcentaje": 100.0,
           "completo": true
         }
@@ -8932,14 +8943,14 @@
           "trabajado_ha": 11.8957,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-13"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.2039,
             "porcentaje": 10.1
-          },
-          "cierres": [
-            "2026-04-13"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -8975,14 +8986,14 @@
           "trabajado_ha": 2.3011,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-21"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.8035,
             "porcentaje": 78.4
-          },
-          "cierres": [
-            "2026-04-21"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -9429,14 +9440,14 @@
           "trabajado_ha": 23.9247,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-17"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 8.2892,
             "porcentaje": 34.6
-          },
-          "cierres": [
-            "2026-04-17"
-          ]
+          }
         },
         "Cosecha con recibidor": {
           "maquinas": [
@@ -9497,7 +9508,7 @@
             "Shacker SBS 5",
             "Shacker SBS 8"
           ],
-          "trabajado_ha": 5.7364,
+          "trabajado_ha": 5.737,
           "porcentaje": 100.0,
           "completo": true
         }
@@ -9528,7 +9539,7 @@
             "Shacker SBS 5",
             "Shacker SBS 8"
           ],
-          "trabajado_ha": 3.7017,
+          "trabajado_ha": 3.702,
           "porcentaje": 100.0,
           "completo": true
         }
@@ -9656,20 +9667,20 @@
           "trabajado_ha": 3.4081,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-03"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.7956,
             "porcentaje": 82.0
-          },
-          "cierres": [
-            "2026-03-03"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
             "Tractor 14 Deutz Fahr 115"
           ],
-          "trabajado_ha": 3.4078,
+          "trabajado_ha": 3.4081,
           "porcentaje": 100.0,
           "completo": true
         },
@@ -9695,14 +9706,14 @@
           "trabajado_ha": 0.696,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-26"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.5936,
             "porcentaje": 85.3
-          },
-          "cierres": [
-            "2026-02-26"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -9734,14 +9745,14 @@
           "trabajado_ha": 0.9583,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-26"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.878,
             "porcentaje": 91.6
-          },
-          "cierres": [
-            "2026-02-26"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -9773,14 +9784,14 @@
           "trabajado_ha": 1.2909,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-27"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.1155,
             "porcentaje": 86.4
-          },
-          "cierres": [
-            "2026-02-27"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -9812,14 +9823,14 @@
           "trabajado_ha": 1.4056,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-27"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.1988,
             "porcentaje": 85.3
-          },
-          "cierres": [
-            "2026-02-27"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -9851,14 +9862,14 @@
           "trabajado_ha": 1.702,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-27"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.4452,
             "porcentaje": 84.9
-          },
-          "cierres": [
-            "2026-02-27"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -9890,14 +9901,14 @@
           "trabajado_ha": 1.4217,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-27"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.2141,
             "porcentaje": 85.4
-          },
-          "cierres": [
-            "2026-02-27"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -9929,14 +9940,14 @@
           "trabajado_ha": 1.7075,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-24"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.3816,
             "porcentaje": 80.9
-          },
-          "cierres": [
-            "2026-02-24"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -9968,14 +9979,14 @@
           "trabajado_ha": 3.686,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-24"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.9683,
             "porcentaje": 80.5
-          },
-          "cierres": [
-            "2026-02-24"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -10007,14 +10018,14 @@
           "trabajado_ha": 3.2635,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-24"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.7282,
             "porcentaje": 83.6
-          },
-          "cierres": [
-            "2026-02-24"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -10046,20 +10057,20 @@
           "trabajado_ha": 2.9543,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-23"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.4325,
             "porcentaje": 82.3
-          },
-          "cierres": [
-            "2026-02-23"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
             "Tractor 14 Deutz Fahr 115"
           ],
-          "trabajado_ha": 2.9537,
+          "trabajado_ha": 2.9543,
           "porcentaje": 100.0,
           "completo": true
         },
@@ -10085,14 +10096,14 @@
           "trabajado_ha": 0.254,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-27"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.1186,
             "porcentaje": 46.7
-          },
-          "cierres": [
-            "2026-02-27"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -10124,14 +10135,14 @@
           "trabajado_ha": 2.2747,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-20"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.8844,
             "porcentaje": 82.8
-          },
-          "cierres": [
-            "2026-02-20"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -10163,14 +10174,14 @@
           "trabajado_ha": 1.9008,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-20"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.5541,
             "porcentaje": 81.8
-          },
-          "cierres": [
-            "2026-02-20"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -10202,14 +10213,14 @@
           "trabajado_ha": 1.6216,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-06"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.879,
             "porcentaje": 54.2
-          },
-          "cierres": [
-            "2026-03-06"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -10241,15 +10252,15 @@
           "trabajado_ha": 0.4316,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-06",
+            "2026-03-18"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
-          },
-          "cierres": [
-            "2026-03-06",
-            "2026-03-18"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -10281,14 +10292,14 @@
           "trabajado_ha": 0.5563,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-02"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.4746,
             "porcentaje": 85.3
-          },
-          "cierres": [
-            "2026-03-02"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -10320,15 +10331,15 @@
           "trabajado_ha": 0.4318,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-24",
+            "2026-03-20"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.2137,
             "porcentaje": 49.5
-          },
-          "cierres": [
-            "2026-02-24",
-            "2026-03-20"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -10424,14 +10435,14 @@
           "trabajado_ha": 0.7356,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-28"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.6271,
             "porcentaje": 85.2
-          },
-          "cierres": [
-            "2026-02-28"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -10463,14 +10474,14 @@
           "trabajado_ha": 3.0062,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-03"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.4837,
             "porcentaje": 82.6
-          },
-          "cierres": [
-            "2026-03-03"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -10502,14 +10513,14 @@
           "trabajado_ha": 1.0687,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-02"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.9632,
             "porcentaje": 90.1
-          },
-          "cierres": [
-            "2026-03-02"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -10541,14 +10552,14 @@
           "trabajado_ha": 1.4389,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-03"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.2088,
             "porcentaje": 84.0
-          },
-          "cierres": [
-            "2026-03-03"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -10604,14 +10615,14 @@
           "trabajado_ha": 0.145,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-03"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.089,
             "porcentaje": 61.4
-          },
-          "cierres": [
-            "2026-03-03"
-          ]
+          }
         },
         "Picado": {
           "maquinas": [
@@ -11120,7 +11131,7 @@
           "maquinas": [
             "Tractor 11 Deutz Fahr 115"
           ],
-          "trabajado_ha": 13.9405,
+          "trabajado_ha": 13.9455,
           "porcentaje": 100.0,
           "completo": true
         }
@@ -11892,7 +11903,7 @@
           "maquinas": [
             "Shacker SBS 1"
           ],
-          "trabajado_ha": 1.7168,
+          "trabajado_ha": 1.717,
           "porcentaje": 100.0,
           "completo": true
         }
@@ -12430,7 +12441,7 @@
             "Shacker SBS 12",
             "Shacker SBS 2"
           ],
-          "trabajado_ha": 8.5799,
+          "trabajado_ha": 8.5802,
           "porcentaje": 100.0,
           "completo": true
         }
@@ -12529,15 +12540,15 @@
           "trabajado_ha": 19.568,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-10",
+            "2026-08-12"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
-          },
-          "cierres": [
-            "2026-04-10",
-            "2026-08-12"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -12571,15 +12582,15 @@
           "trabajado_ha": 12.782,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-16",
+            "2026-07-09"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
-          },
-          "cierres": [
-            "2026-04-16",
-            "2026-07-09"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -12613,15 +12624,15 @@
           "trabajado_ha": 8.9694,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-11",
+            "2026-07-14"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
-          },
-          "cierres": [
-            "2026-04-11",
-            "2026-07-14"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -12655,15 +12666,15 @@
           "trabajado_ha": 15.1977,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-16",
+            "2026-07-09"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
-          },
-          "cierres": [
-            "2026-04-16",
-            "2026-07-09"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -12697,16 +12708,16 @@
           "trabajado_ha": 29.7989,
           "porcentaje": 100.0,
           "completo": true,
-          "repaso": {
-            "repasos_completos": 2,
-            "trabajado_ha": 0.0,
-            "porcentaje": 0.0
-          },
           "cierres": [
             "2026-04-24",
             "2026-06-26",
             "2026-07-01"
-          ]
+          ],
+          "repaso": {
+            "repasos_completos": 2,
+            "trabajado_ha": 0.0,
+            "porcentaje": 0.0
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -12740,15 +12751,15 @@
           "trabajado_ha": 4.3586,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-17",
+            "2026-08-13"
+          ],
           "repaso": {
             "repasos_completos": 1,
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
-          },
-          "cierres": [
-            "2026-04-17",
-            "2026-08-13"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -12817,14 +12828,14 @@
           "trabajado_ha": 19.9638,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-28"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.4947,
             "porcentaje": 7.5
-          },
-          "cierres": [
-            "2026-04-28"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13209,14 +13220,14 @@
           "trabajado_ha": 0.689,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-02"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.1798,
             "porcentaje": 26.1
-          },
-          "cierres": [
-            "2026-03-02"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13310,14 +13321,14 @@
           "trabajado_ha": 3.9727,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-16"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.311,
             "porcentaje": 58.2
-          },
-          "cierres": [
-            "2026-03-16"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13353,14 +13364,14 @@
           "trabajado_ha": 5.6785,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-14"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 4.1915,
             "porcentaje": 73.8
-          },
-          "cierres": [
-            "2026-03-14"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13396,14 +13407,14 @@
           "trabajado_ha": 3.8575,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-13"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.8609,
             "porcentaje": 74.2
-          },
-          "cierres": [
-            "2026-03-13"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13437,14 +13448,14 @@
           "trabajado_ha": 2.7063,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-10"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.389,
             "porcentaje": 51.3
-          },
-          "cierres": [
-            "2026-03-10"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13478,14 +13489,14 @@
           "trabajado_ha": 3.3527,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-10"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.7252,
             "porcentaje": 51.5
-          },
-          "cierres": [
-            "2026-03-10"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13521,14 +13532,14 @@
           "trabajado_ha": 3.3827,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-11"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.4245,
             "porcentaje": 42.1
-          },
-          "cierres": [
-            "2026-03-11"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13562,14 +13573,14 @@
           "trabajado_ha": 0.5269,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-11"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.3312,
             "porcentaje": 62.9
-          },
-          "cierres": [
-            "2026-03-11"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13604,14 +13615,14 @@
           "trabajado_ha": 3.6043,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-12"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.6991,
             "porcentaje": 47.1
-          },
-          "cierres": [
-            "2026-03-12"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13645,14 +13656,14 @@
           "trabajado_ha": 2.7431,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-03"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.4476,
             "porcentaje": 52.8
-          },
-          "cierres": [
-            "2026-03-03"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13689,14 +13700,14 @@
           "trabajado_ha": 1.7485,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-12"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.8955,
             "porcentaje": 51.2
-          },
-          "cierres": [
-            "2026-03-12"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13732,14 +13743,14 @@
           "trabajado_ha": 5.1692,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-16"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 2.6083,
             "porcentaje": 50.5
-          },
-          "cierres": [
-            "2026-03-16"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13775,14 +13786,14 @@
           "trabajado_ha": 0.5976,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-15"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.3424,
             "porcentaje": 57.3
-          },
-          "cierres": [
-            "2026-03-15"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13818,14 +13829,14 @@
           "trabajado_ha": 1.6798,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-15"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.945,
             "porcentaje": 56.3
-          },
-          "cierres": [
-            "2026-03-15"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13861,14 +13872,14 @@
           "trabajado_ha": 0.363,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-16"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.2222,
             "porcentaje": 61.2
-          },
-          "cierres": [
-            "2026-03-16"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13904,14 +13915,14 @@
           "trabajado_ha": 1.6592,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-16"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.344,
             "porcentaje": 81.0
-          },
-          "cierres": [
-            "2026-03-16"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13947,14 +13958,14 @@
           "trabajado_ha": 0.9906,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-13"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.7182,
             "porcentaje": 72.5
-          },
-          "cierres": [
-            "2026-03-13"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -13990,14 +14001,14 @@
           "trabajado_ha": 3.597,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-04-04"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.8812,
             "porcentaje": 52.3
-          },
-          "cierres": [
-            "2026-04-04"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -14066,14 +14077,14 @@
           "trabajado_ha": 3.0258,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-03"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.4508,
             "porcentaje": 47.9
-          },
-          "cierres": [
-            "2026-03-03"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -14108,14 +14119,14 @@
           "trabajado_ha": 2.8144,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-02"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.4852,
             "porcentaje": 52.8
-          },
-          "cierres": [
-            "2026-03-02"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -14150,14 +14161,14 @@
           "trabajado_ha": 0.9045,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-02-28"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.5065,
             "porcentaje": 56.0
-          },
-          "cierres": [
-            "2026-02-28"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -14173,7 +14184,7 @@
             "Shacker de Suelo 2",
             "Shacker de Suelo 6"
           ],
-          "trabajado_ha": 0.9043,
+          "trabajado_ha": 0.9045,
           "porcentaje": 100.0,
           "completo": true
         }
@@ -14192,16 +14203,16 @@
           "trabajado_ha": 0.1753,
           "porcentaje": 100.0,
           "completo": true,
-          "repaso": {
-            "repasos_completos": 2,
-            "trabajado_ha": 0.0,
-            "porcentaje": 0.0
-          },
           "cierres": [
             "2026-02-28",
             "2026-02-28",
             "2026-03-30"
-          ]
+          ],
+          "repaso": {
+            "repasos_completos": 2,
+            "trabajado_ha": 0.0,
+            "porcentaje": 0.0
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -14236,14 +14247,14 @@
           "trabajado_ha": 3.5865,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-05"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.7732,
             "porcentaje": 49.4
-          },
-          "cierres": [
-            "2026-03-05"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -14277,14 +14288,14 @@
           "trabajado_ha": 4.0976,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-05"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 1.9267,
             "porcentaje": 47.0
-          },
-          "cierres": [
-            "2026-03-05"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
@@ -14318,14 +14329,14 @@
           "trabajado_ha": 0.3361,
           "porcentaje": 100.0,
           "completo": true,
+          "cierres": [
+            "2026-03-05"
+          ],
           "repaso": {
             "repasos_completos": 0,
             "trabajado_ha": 0.191,
             "porcentaje": 56.8
-          },
-          "cierres": [
-            "2026-03-05"
-          ]
+          }
         },
         "Recolección": {
           "maquinas": [
