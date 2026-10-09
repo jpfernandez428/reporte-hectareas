@@ -3195,8 +3195,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 2.1542,
-          "porcentaje": 27.7,
+          "trabajado_ha": 2.1548,
+          "porcentaje": 27.8,
           "completo": false
         }
       }
@@ -3226,8 +3226,8 @@
             "Tractor 14 Deutz Fahr 115",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.3204,
-          "porcentaje": 4.5,
+          "trabajado_ha": 0.3224,
+          "porcentaje": 4.6,
           "completo": false
         }
       }
@@ -3482,10 +3482,11 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.1728,
-          "porcentaje": 5.9,
+          "trabajado_ha": 2.6845,
+          "porcentaje": 92.2,
           "completo": false
         }
       }
@@ -3497,10 +3498,11 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 0.195,
+          "porcentaje": 7.7,
           "completo": false
         }
       }
@@ -3589,8 +3591,8 @@
             "Tractor 14 Deutz Fahr 115",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.7002,
-          "porcentaje": 34.3,
+          "trabajado_ha": 0.7014,
+          "porcentaje": 34.4,
           "completo": false
         }
       }
@@ -10779,6 +10781,14 @@
           "porcentaje": 92.7,
           "completo": false,
           "cierres": []
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
         }
       }
     },

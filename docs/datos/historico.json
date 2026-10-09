@@ -48004,5 +48004,41 @@
     "n_hileras": 35,
     "area_total_ha": 2.08,
     "area_trabajada_ha": 1.35
+  },
+  {
+    "fecha": "2026-10-08",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 43",
+    "labor": "Picado",
+    "n_hileras": 24,
+    "area_total_ha": 2.91,
+    "area_trabajada_ha": 2.49
+  },
+  {
+    "fecha": "2026-10-08",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": "Avoamerica 43",
+    "labor": "Picado",
+    "n_hileras": 34,
+    "area_total_ha": 2.91,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-10-08",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "Avoamerica 44",
+    "labor": "Picado",
+    "n_hileras": 0,
+    "area_total_ha": 2.52,
+    "area_trabajada_ha": 0.18
+  },
+  {
+    "fecha": "2026-10-08",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": "Avoamerica 44",
+    "labor": "Picado",
+    "n_hileras": 8,
+    "area_total_ha": 2.52,
+    "area_trabajada_ha": 0.01
   }
 ]
