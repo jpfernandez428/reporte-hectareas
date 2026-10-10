@@ -48040,5 +48040,131 @@
     "n_hileras": 8,
     "area_total_ha": 2.52,
     "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-10-09",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "torretagle 5",
+    "labor": "Picado",
+    "n_hileras": 7,
+    "area_total_ha": 3.88,
+    "area_trabajada_ha": 0.14
+  },
+  {
+    "fecha": "2026-10-09",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": "Avoamerica 10",
+    "labor": "Picado",
+    "n_hileras": 10,
+    "area_total_ha": 2.88,
+    "area_trabajada_ha": 0.92
+  },
+  {
+    "fecha": "2026-10-09",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 14",
+    "labor": "Picado",
+    "n_hileras": 3,
+    "area_total_ha": 2.77,
+    "area_trabajada_ha": 0.35
+  },
+  {
+    "fecha": "2026-10-09",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": "Avoamerica 14",
+    "labor": "Picado",
+    "n_hileras": 5,
+    "area_total_ha": 2.77,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-10-09",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": "Avoamerica 17",
+    "labor": "Picado",
+    "n_hileras": 47,
+    "area_total_ha": 10.7,
+    "area_trabajada_ha": 0.53
+  },
+  {
+    "fecha": "2026-10-09",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "Avoamerica 18",
+    "labor": "Picado",
+    "n_hileras": 80,
+    "area_total_ha": 12.24,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-10-09",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 18",
+    "labor": "Picado",
+    "n_hileras": 3,
+    "area_total_ha": 12.24,
+    "area_trabajada_ha": 0.06
+  },
+  {
+    "fecha": "2026-10-09",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": "Avoamerica 18",
+    "labor": "Picado",
+    "n_hileras": 57,
+    "area_total_ha": 12.24,
+    "area_trabajada_ha": 0.09
+  },
+  {
+    "fecha": "2026-10-09",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": "Avoamerica 19",
+    "labor": "Picado",
+    "n_hileras": 72,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-10-09",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": "Avoamerica 21",
+    "labor": "Picado",
+    "n_hileras": 75,
+    "area_total_ha": 9.27,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-10-09",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": "Avoamerica 24",
+    "labor": "Picado",
+    "n_hileras": 34,
+    "area_total_ha": 8.54,
+    "area_trabajada_ha": 0.03
+  },
+  {
+    "fecha": "2026-10-09",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "Avoamerica 25",
+    "labor": "Picado",
+    "n_hileras": 13,
+    "area_total_ha": 7.76,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-10-09",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": "Avoamerica 25",
+    "labor": "Picado",
+    "n_hileras": 18,
+    "area_total_ha": 7.76,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-10-09",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": "Avoamerica 44",
+    "labor": "Picado",
+    "n_hileras": 9,
+    "area_total_ha": 2.52,
+    "area_trabajada_ha": 0.04
   }
 ]

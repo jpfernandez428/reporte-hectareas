@@ -2948,10 +2948,11 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.7288,
-          "porcentaje": 25.3,
+          "trabajado_ha": 1.6534,
+          "porcentaje": 57.4,
           "completo": false
         }
       }
@@ -3007,10 +3008,11 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 0.4742,
+          "porcentaje": 17.1,
           "completo": false
         }
       }
@@ -3052,10 +3054,11 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 6.1799,
-          "porcentaje": 57.7,
+          "trabajado_ha": 6.7061,
+          "porcentaje": 62.7,
           "completo": false
         }
       }
@@ -3070,8 +3073,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 6.7453,
-          "porcentaje": 55.1,
+          "trabajado_ha": 6.9861,
+          "porcentaje": 57.1,
           "completo": false
         }
       }
@@ -3086,8 +3089,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 7.2635,
-          "porcentaje": 75.0,
+          "trabajado_ha": 7.2893,
+          "porcentaje": 75.2,
           "completo": false
         }
       }
@@ -3132,8 +3135,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 6.4746,
-          "porcentaje": 69.9,
+          "trabajado_ha": 6.4996,
+          "porcentaje": 70.1,
           "completo": false
         }
       }
@@ -3179,8 +3182,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 3.038,
-          "porcentaje": 35.6,
+          "trabajado_ha": 3.0632,
+          "porcentaje": 35.9,
           "completo": false
         }
       }
@@ -3195,8 +3198,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 2.1548,
-          "porcentaje": 27.8,
+          "trabajado_ha": 2.2888,
+          "porcentaje": 29.5,
           "completo": false
         }
       }
@@ -3226,8 +3229,8 @@
             "Tractor 14 Deutz Fahr 115",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.3224,
-          "porcentaje": 4.6,
+          "trabajado_ha": 0.33,
+          "porcentaje": 4.7,
           "completo": false
         }
       }
@@ -3255,7 +3258,8 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.4738,
           "porcentaje": 7.6,
@@ -3485,8 +3489,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 2.6845,
-          "porcentaje": 92.2,
+          "trabajado_ha": 2.6872,
+          "porcentaje": 92.3,
           "completo": false
         }
       }
@@ -3501,8 +3505,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.195,
-          "porcentaje": 7.7,
+          "trabajado_ha": 0.2399,
+          "porcentaje": 9.5,
           "completo": false
         }
       }
@@ -15745,8 +15749,8 @@
           "maquinas": [
             "Tractor 16 Kubota 108"
           ],
-          "trabajado_ha": 0.366,
-          "porcentaje": 9.4,
+          "trabajado_ha": 0.5017,
+          "porcentaje": 12.9,
           "completo": false
         }
       }
