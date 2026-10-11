@@ -15768,6 +15768,19 @@
         }
       }
     },
+    "torretagle 8": {
+      "area_total_ha": 3.7896,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
     "torretagle 9": {
       "area_total_ha": 3.0503,
       "labores": {
