@@ -1,5 +1,5 @@
 {
- "fecha": "2026-10-10",
+ "fecha": "2026-10-11",
  "patio": "C&H Maquinaria",
  "en_patio": [
   "Barredora 12",
@@ -17,58 +17,6 @@
  "maquinas_con_datos": 23,
  "sin_geocerca": [
   {
-   "maquina": "Tractor 17 Kubota 108",
-   "labor": "Picado",
-   "lat": -33.679641,
-   "lon": -70.571841,
-   "mapa": "https://www.google.com/maps?q=-33.679641,-70.571841",
-   "primera_fecha": "2026-09-11",
-   "ultima_fecha": "2026-09-11",
-   "dias_trabajados": 1,
-   "horas": 1.4,
-   "ha_aprox": 1.9,
-   "hace_dias": 29
-  },
-  {
-   "maquina": "Tractor 7 Kubota 95",
-   "labor": "Picado",
-   "lat": -35.662609,
-   "lon": -71.300853,
-   "mapa": "https://www.google.com/maps?q=-35.662609,-71.300853",
-   "primera_fecha": "2026-09-11",
-   "ultima_fecha": "2026-09-17",
-   "dias_trabajados": 3,
-   "horas": 6.7,
-   "ha_aprox": 6.6,
-   "hace_dias": 29
-  },
-  {
-   "maquina": "Tractor 7 Kubota 95",
-   "labor": "Picado",
-   "lat": -35.649864,
-   "lon": -71.309295,
-   "mapa": "https://www.google.com/maps?q=-35.649864,-71.309295",
-   "primera_fecha": "2026-09-11",
-   "ultima_fecha": "2026-09-14",
-   "dias_trabajados": 2,
-   "horas": 5.8,
-   "ha_aprox": 6.1,
-   "hace_dias": 29
-  },
-  {
-   "maquina": "Tractor 8 Kubota 108",
-   "labor": "Picado",
-   "lat": -33.679529,
-   "lon": -70.571816,
-   "mapa": "https://www.google.com/maps?q=-33.679529,-70.571816",
-   "primera_fecha": "2026-09-11",
-   "ultima_fecha": "2026-09-21",
-   "dias_trabajados": 6,
-   "horas": 19.3,
-   "ha_aprox": 18.7,
-   "hace_dias": 29
-  },
-  {
    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
    "labor": "Picado",
    "lat": -33.683854,
@@ -79,7 +27,7 @@
    "dias_trabajados": 3,
    "horas": 8.7,
    "ha_aprox": 7.7,
-   "hace_dias": 26
+   "hace_dias": 27
   },
   {
    "maquina": "Tractor 14 Deutz Fahr 115",
@@ -92,7 +40,7 @@
    "dias_trabajados": 5,
    "horas": 11.0,
    "ha_aprox": 9.7,
-   "hace_dias": 26
+   "hace_dias": 27
   },
   {
    "maquina": "Tractor 16 Kubota 108",
@@ -105,7 +53,7 @@
    "dias_trabajados": 2,
    "horas": 11.0,
    "ha_aprox": 8.9,
-   "hace_dias": 26
+   "hace_dias": 27
   },
   {
    "maquina": "Tractor 3 Same Frutetto 100",
@@ -118,7 +66,7 @@
    "dias_trabajados": 2,
    "horas": 11.4,
    "ha_aprox": 9.9,
-   "hace_dias": 26
+   "hace_dias": 27
   },
   {
    "maquina": "Tractor 4 Same Frutetto 100",
@@ -131,7 +79,33 @@
    "dias_trabajados": 4,
    "horas": 7.4,
    "ha_aprox": 7.7,
-   "hace_dias": 26
+   "hace_dias": 27
+  },
+  {
+   "maquina": "Tractor 7 Kubota 95",
+   "labor": "Picado",
+   "lat": -35.646968,
+   "lon": -71.309278,
+   "mapa": "https://www.google.com/maps?q=-35.646968,-71.309278",
+   "primera_fecha": "2026-09-14",
+   "ultima_fecha": "2026-09-14",
+   "dias_trabajados": 1,
+   "horas": 4.4,
+   "ha_aprox": 4.4,
+   "hace_dias": 27
+  },
+  {
+   "maquina": "Tractor 8 Kubota 108",
+   "labor": "Picado",
+   "lat": -33.681637,
+   "lon": -70.567825,
+   "mapa": "https://www.google.com/maps?q=-33.681637,-70.567825",
+   "primera_fecha": "2026-09-14",
+   "ultima_fecha": "2026-09-15",
+   "dias_trabajados": 2,
+   "horas": 8.4,
+   "ha_aprox": 7.9,
+   "hace_dias": 27
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -144,7 +118,7 @@
    "dias_trabajados": 1,
    "horas": 3.8,
    "ha_aprox": 5.1,
-   "hace_dias": 25
+   "hace_dias": 26
   },
   {
    "maquina": "Tractor 16 Kubota 108",
@@ -157,7 +131,7 @@
    "dias_trabajados": 3,
    "horas": 16.5,
    "ha_aprox": 14.9,
-   "hace_dias": 24
+   "hace_dias": 25
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -170,7 +144,7 @@
    "dias_trabajados": 2,
    "horas": 6.9,
    "ha_aprox": 5.7,
-   "hace_dias": 24
+   "hace_dias": 25
   },
   {
    "maquina": "Tractor 3 Same Frutetto 100",
@@ -183,7 +157,7 @@
    "dias_trabajados": 1,
    "horas": 2.0,
    "ha_aprox": 2.3,
-   "hace_dias": 24
+   "hace_dias": 25
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -196,7 +170,33 @@
    "dias_trabajados": 1,
    "horas": 4.0,
    "ha_aprox": 4.3,
-   "hace_dias": 24
+   "hace_dias": 25
+  },
+  {
+   "maquina": "Tractor 7 Kubota 95",
+   "labor": "Picado",
+   "lat": -35.662566,
+   "lon": -71.299512,
+   "mapa": "https://www.google.com/maps?q=-35.662566,-71.299512",
+   "primera_fecha": "2026-09-16",
+   "ultima_fecha": "2026-09-17",
+   "dias_trabajados": 2,
+   "horas": 3.2,
+   "ha_aprox": 2.3,
+   "hace_dias": 25
+  },
+  {
+   "maquina": "Tractor 8 Kubota 108",
+   "labor": "Picado",
+   "lat": -33.67518,
+   "lon": -70.572714,
+   "mapa": "https://www.google.com/maps?q=-33.675180,-70.572714",
+   "primera_fecha": "2026-09-16",
+   "ultima_fecha": "2026-09-21",
+   "dias_trabajados": 3,
+   "horas": 9.3,
+   "ha_aprox": 8.9,
+   "hace_dias": 25
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -209,7 +209,7 @@
    "dias_trabajados": 2,
    "horas": 7.9,
    "ha_aprox": 13.2,
-   "hace_dias": 23
+   "hace_dias": 24
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -222,7 +222,7 @@
    "dias_trabajados": 4,
    "horas": 8.4,
    "ha_aprox": 9.1,
-   "hace_dias": 19
+   "hace_dias": 20
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -235,7 +235,7 @@
    "dias_trabajados": 4,
    "horas": 18.2,
    "ha_aprox": 19.5,
-   "hace_dias": 18
+   "hace_dias": 19
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -248,7 +248,7 @@
    "dias_trabajados": 1,
    "horas": 1.5,
    "ha_aprox": 2.5,
-   "hace_dias": 17
+   "hace_dias": 18
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -261,7 +261,7 @@
    "dias_trabajados": 2,
    "horas": 9.6,
    "ha_aprox": 13.5,
-   "hace_dias": 17
+   "hace_dias": 18
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -274,7 +274,7 @@
    "dias_trabajados": 2,
    "horas": 11.1,
    "ha_aprox": 9.1,
-   "hace_dias": 16
+   "hace_dias": 17
   },
   {
    "maquina": "Tractor 16 Kubota 108",
@@ -287,7 +287,7 @@
    "dias_trabajados": 2,
    "horas": 3.4,
    "ha_aprox": 2.9,
-   "hace_dias": 15
+   "hace_dias": 16
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -300,7 +300,7 @@
    "dias_trabajados": 1,
    "horas": 2.1,
    "ha_aprox": 2.5,
-   "hace_dias": 15
+   "hace_dias": 16
   },
   {
    "maquina": "Tractor 16 Kubota 108",
@@ -313,7 +313,7 @@
    "dias_trabajados": 5,
    "horas": 19.9,
    "ha_aprox": 15.7,
-   "hace_dias": 12
+   "hace_dias": 13
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -326,7 +326,7 @@
    "dias_trabajados": 1,
    "horas": 2.0,
    "ha_aprox": 2.1,
-   "hace_dias": 10
+   "hace_dias": 11
   },
   {
    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
@@ -339,7 +339,7 @@
    "dias_trabajados": 1,
    "horas": 1.5,
    "ha_aprox": 1.2,
-   "hace_dias": 8
+   "hace_dias": 9
   },
   {
    "maquina": "Tractor 14 Deutz Fahr 115",
@@ -352,7 +352,7 @@
    "dias_trabajados": 2,
    "horas": 4.0,
    "ha_aprox": 3.0,
-   "hace_dias": 8
+   "hace_dias": 9
   },
   {
    "maquina": "Tractor 4 Same Frutetto 100",
@@ -365,7 +365,7 @@
    "dias_trabajados": 2,
    "horas": 3.4,
    "ha_aprox": 3.4,
-   "hace_dias": 8
+   "hace_dias": 9
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -378,7 +378,7 @@
    "dias_trabajados": 2,
    "horas": 2.6,
    "ha_aprox": 2.3,
-   "hace_dias": 7
+   "hace_dias": 8
   },
   {
    "maquina": "Tractor 16 Kubota 108",
@@ -387,11 +387,11 @@
    "lon": -71.423203,
    "mapa": "https://www.google.com/maps?q=-34.310610,-71.423203",
    "primera_fecha": "2026-10-05",
-   "ultima_fecha": "2026-10-10",
-   "dias_trabajados": 4,
-   "horas": 10.9,
-   "ha_aprox": 10.7,
-   "hace_dias": 5
+   "ultima_fecha": "2026-10-11",
+   "dias_trabajados": 5,
+   "horas": 13.2,
+   "ha_aprox": 12.4,
+   "hace_dias": 6
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -404,7 +404,7 @@
    "dias_trabajados": 1,
    "horas": 1.9,
    "ha_aprox": 1.4,
-   "hace_dias": 3
+   "hace_dias": 4
   },
   {
    "maquina": "Tractor 10 Deutz Fahr 115",
@@ -417,7 +417,7 @@
    "dias_trabajados": 1,
    "horas": 5.7,
    "ha_aprox": 3.7,
-   "hace_dias": 2
+   "hace_dias": 3
   },
   {
    "maquina": "Tractor 13 Deutz Fahr 115",
@@ -430,7 +430,7 @@
    "dias_trabajados": 1,
    "horas": 4.3,
    "ha_aprox": 3.3,
-   "hace_dias": 2
+   "hace_dias": 3
   },
   {
    "maquina": "Tractor 9 Deutz Fahr 115",
@@ -443,7 +443,7 @@
    "dias_trabajados": 2,
    "horas": 9.3,
    "ha_aprox": 9.8,
-   "hace_dias": 2
+   "hace_dias": 3
   },
   {
    "maquina": "Tractor 10 Deutz Fahr 115",
@@ -456,7 +456,7 @@
    "dias_trabajados": 2,
    "horas": 11.4,
    "ha_aprox": 8.6,
-   "hace_dias": 1
+   "hace_dias": 2
   },
   {
    "maquina": "Tractor 13 Deutz Fahr 115",
@@ -469,7 +469,7 @@
    "dias_trabajados": 2,
    "horas": 7.6,
    "ha_aprox": 5.9,
-   "hace_dias": 1
+   "hace_dias": 2
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -482,10 +482,138 @@
    "dias_trabajados": 1,
    "horas": 2.5,
    "ha_aprox": 2.3,
-   "hace_dias": 1
+   "hace_dias": 2
   }
  ],
  "alertas": [
+  {
+   "fecha": "2026-10-11",
+   "maquina": "Tractor 16 Kubota 108",
+   "labor": "Picado",
+   "horas": 0.24,
+   "pasadas": 12,
+   "lineas": 7,
+   "ancho_m": 37.0,
+   "km_h": 2.5,
+   "ha_aprox": 0.31,
+   "lat": -34.31491,
+   "lon": -71.418436,
+   "mapa": "https://www.google.com/maps?q=-34.314910,-71.418436",
+   "muestras": [
+    [
+     -71.418792,
+     -34.315583
+    ],
+    [
+     -71.418802,
+     -34.315462
+    ],
+    [
+     -71.418835,
+     -34.31575
+    ],
+    [
+     -71.418513,
+     -34.315307
+    ],
+    [
+     -71.417938,
+     -34.31385
+    ],
+    [
+     -71.418362,
+     -34.31454
+    ],
+    [
+     -71.418465,
+     -34.314538
+    ],
+    [
+     -71.418508,
+     -34.314637
+    ],
+    [
+     -71.418548,
+     -34.315102
+    ],
+    [
+     -71.418747,
+     -34.315622
+    ],
+    [
+     -71.418485,
+     -34.315358
+    ],
+    [
+     -71.418508,
+     -34.315402
+    ]
+   ]
+  },
+  {
+   "fecha": "2026-10-11",
+   "maquina": "Tractor 16 Kubota 108",
+   "labor": "Picado",
+   "horas": 2.29,
+   "pasadas": 12,
+   "lineas": 9,
+   "ancho_m": 63.4,
+   "km_h": 1.5,
+   "ha_aprox": 1.77,
+   "lat": -34.306643,
+   "lon": -71.422066,
+   "mapa": "https://www.google.com/maps?q=-34.306643,-71.422066",
+   "muestras": [
+    [
+     -71.420588,
+     -34.307025
+    ],
+    [
+     -71.422308,
+     -34.306898
+    ],
+    [
+     -71.423708,
+     -34.306797
+    ],
+    [
+     -71.424402,
+     -34.306335
+    ],
+    [
+     -71.421892,
+     -34.306678
+    ],
+    [
+     -71.421958,
+     -34.306862
+    ],
+    [
+     -71.422035,
+     -34.306627
+    ],
+    [
+     -71.422338,
+     -34.306822
+    ],
+    [
+     -71.421873,
+     -34.306535
+    ],
+    [
+     -71.421815,
+     -34.306713
+    ],
+    [
+     -71.422272,
+     -34.306335
+    ],
+    [
+     -71.422085,
+     -34.306487
+    ]
+   ]
+  },
   {
    "fecha": "2026-10-10",
    "maquina": "Tractor 9 Deutz Fahr 115",
@@ -17299,598 +17427,6 @@
     [
      -71.105527,
      -33.654097
-    ]
-   ]
-  },
-  {
-   "fecha": "2026-09-11",
-   "maquina": "Tractor 8 Kubota 108",
-   "labor": "Picado",
-   "horas": 1.69,
-   "pasadas": 12,
-   "lineas": 11,
-   "ancho_m": 188.3,
-   "km_h": 2.3,
-   "ha_aprox": 1.9,
-   "lat": -33.679529,
-   "lon": -70.571816,
-   "mapa": "https://www.google.com/maps?q=-33.679529,-70.571816",
-   "muestras": [
-    [
-     -70.571947,
-     -33.679148
-    ],
-    [
-     -70.571168,
-     -33.679195
-    ],
-    [
-     -70.570882,
-     -33.679512
-    ],
-    [
-     -70.571232,
-     -33.68098
-    ],
-    [
-     -70.571748,
-     -33.679625
-    ],
-    [
-     -70.572248,
-     -33.679535
-    ],
-    [
-     -70.57241,
-     -33.679673
-    ],
-    [
-     -70.572758,
-     -33.680092
-    ],
-    [
-     -70.572293,
-     -33.680617
-    ],
-    [
-     -70.572675,
-     -33.679622
-    ],
-    [
-     -70.572973,
-     -33.68018
-    ],
-    [
-     -70.571282,
-     -33.67911
-    ]
-   ]
-  },
-  {
-   "fecha": "2026-09-11",
-   "maquina": "Tractor 7 Kubota 95",
-   "labor": "Picado",
-   "horas": 3.56,
-   "pasadas": 22,
-   "lineas": 19,
-   "ancho_m": 185.9,
-   "km_h": 2.4,
-   "ha_aprox": 4.31,
-   "lat": -35.662609,
-   "lon": -71.300853,
-   "mapa": "https://www.google.com/maps?q=-35.662609,-71.300853",
-   "muestras": [
-    [
-     -71.301835,
-     -35.661952
-    ],
-    [
-     -71.301648,
-     -35.662123
-    ],
-    [
-     -71.301482,
-     -35.662503
-    ],
-    [
-     -71.301322,
-     -35.662348
-    ],
-    [
-     -71.3012,
-     -35.663023
-    ],
-    [
-     -71.30104,
-     -35.664038
-    ],
-    [
-     -71.300957,
-     -35.661493
-    ],
-    [
-     -71.300865,
-     -35.662023
-    ],
-    [
-     -71.30093,
-     -35.66472
-    ],
-    [
-     -71.300722,
-     -35.662362
-    ],
-    [
-     -71.300567,
-     -35.661615
-    ],
-    [
-     -71.30073,
-     -35.663883
-    ],
-    [
-     -71.30061,
-     -35.664457
-    ],
-    [
-     -71.30077,
-     -35.664475
-    ],
-    [
-     -71.300425,
-     -35.662573
-    ],
-    [
-     -71.300263,
-     -35.662283
-    ],
-    [
-     -71.300152,
-     -35.66357
-    ],
-    [
-     -71.300097,
-     -35.661962
-    ],
-    [
-     -71.30011,
-     -35.661638
-    ],
-    [
-     -71.300002,
-     -35.66294
-    ],
-    [
-     -71.300197,
-     -35.665112
-    ],
-    [
-     -71.299783,
-     -35.662627
-    ]
-   ]
-  },
-  {
-   "fecha": "2026-09-11",
-   "maquina": "Tractor 7 Kubota 95",
-   "labor": "Picado",
-   "horas": 1.37,
-   "pasadas": 26,
-   "lineas": 20,
-   "ancho_m": 194.2,
-   "km_h": 2.4,
-   "ha_aprox": 1.67,
-   "lat": -35.649864,
-   "lon": -71.309295,
-   "mapa": "https://www.google.com/maps?q=-35.649864,-71.309295",
-   "muestras": [
-    [
-     -71.308248,
-     -35.650535
-    ],
-    [
-     -71.308317,
-     -35.64926
-    ],
-    [
-     -71.308338,
-     -35.648742
-    ],
-    [
-     -71.308227,
-     -35.649088
-    ],
-    [
-     -71.308533,
-     -35.649425
-    ],
-    [
-     -71.308442,
-     -35.650163
-    ],
-    [
-     -71.308552,
-     -35.650462
-    ],
-    [
-     -71.308722,
-     -35.650563
-    ],
-    [
-     -71.308917,
-     -35.650327
-    ],
-    [
-     -71.308987,
-     -35.650983
-    ],
-    [
-     -71.30915,
-     -35.651108
-    ],
-    [
-     -71.309177,
-     -35.650685
-    ],
-    [
-     -71.309128,
-     -35.650325
-    ],
-    [
-     -71.309322,
-     -35.650607
-    ],
-    [
-     -71.309512,
-     -35.650323
-    ],
-    [
-     -71.308382,
-     -35.648372
-    ],
-    [
-     -71.30953,
-     -35.649432
-    ],
-    [
-     -71.309497,
-     -35.649727
-    ],
-    [
-     -71.3097,
-     -35.650473
-    ],
-    [
-     -71.309902,
-     -35.649192
-    ],
-    [
-     -71.31003,
-     -35.650035
-    ],
-    [
-     -71.310178,
-     -35.649453
-    ],
-    [
-     -71.310433,
-     -35.648538
-    ],
-    [
-     -71.310358,
-     -35.648752
-    ],
-    [
-     -71.310432,
-     -35.64842
-    ],
-    [
-     -71.309917,
-     -35.648548
-    ]
-   ]
-  },
-  {
-   "fecha": "2026-09-11",
-   "maquina": "Tractor 17 Kubota 108",
-   "labor": "Picado",
-   "horas": 1.38,
-   "pasadas": 15,
-   "lineas": 14,
-   "ancho_m": 252.1,
-   "km_h": 2.8,
-   "ha_aprox": 1.91,
-   "lat": -33.679641,
-   "lon": -70.571841,
-   "mapa": "https://www.google.com/maps?q=-33.679641,-70.571841",
-   "muestras": [
-    [
-     -70.570563,
-     -33.679732
-    ],
-    [
-     -70.570758,
-     -33.679637
-    ],
-    [
-     -70.57199,
-     -33.679562
-    ],
-    [
-     -70.572097,
-     -33.679398
-    ],
-    [
-     -70.572702,
-     -33.677832
-    ],
-    [
-     -70.572312,
-     -33.679558
-    ],
-    [
-     -70.572482,
-     -33.679788
-    ],
-    [
-     -70.57265,
-     -33.679903
-    ],
-    [
-     -70.572805,
-     -33.680163
-    ],
-    [
-     -70.57305,
-     -33.680158
-    ],
-    [
-     -70.573133,
-     -33.680505
-    ],
-    [
-     -70.573002,
-     -33.680677
-    ],
-    [
-     -70.573165,
-     -33.68031
-    ],
-    [
-     -70.5728,
-     -33.68065
-    ],
-    [
-     -70.57149,
-     -33.679048
-    ]
-   ]
-  },
-  {
-   "fecha": "2026-09-11",
-   "maquina": "Tractor 16 Kubota 108",
-   "labor": "Picado",
-   "horas": 0.39,
-   "pasadas": 15,
-   "lineas": 10,
-   "ancho_m": 121.3,
-   "km_h": 1.3,
-   "ha_aprox": 0.26,
-   "lat": -34.073949,
-   "lon": -71.280179,
-   "mapa": "https://www.google.com/maps?q=-34.073949,-71.280179",
-   "muestras": [
-    [
-     -71.279877,
-     -34.074483
-    ],
-    [
-     -71.27974,
-     -34.07412
-    ],
-    [
-     -71.28073,
-     -34.07347
-    ],
-    [
-     -71.280538,
-     -34.073607
-    ],
-    [
-     -71.280493,
-     -34.073538
-    ],
-    [
-     -71.280527,
-     -34.073543
-    ],
-    [
-     -71.280575,
-     -34.073643
-    ],
-    [
-     -71.280495,
-     -34.073523
-    ],
-    [
-     -71.280527,
-     -34.073593
-    ],
-    [
-     -71.280542,
-     -34.073512
-    ],
-    [
-     -71.280622,
-     -34.073585
-    ],
-    [
-     -71.279818,
-     -34.0744
-    ],
-    [
-     -71.279842,
-     -34.074408
-    ],
-    [
-     -71.279862,
-     -34.074318
-    ],
-    [
-     -71.279723,
-     -34.074085
-    ]
-   ]
-  },
-  {
-   "fecha": "2026-09-11",
-   "maquina": "Podadora 1",
-   "labor": "Poda",
-   "horas": 0.1,
-   "pasadas": 7,
-   "lineas": 5,
-   "ancho_m": 68.8,
-   "km_h": 3.6,
-   "ha_aprox": 0.14,
-   "lat": -35.642265,
-   "lon": -71.282552,
-   "mapa": "https://www.google.com/maps?q=-35.642265,-71.282552",
-   "muestras": [
-    [
-     -71.282612,
-     -35.642347
-    ],
-    [
-     -71.282547,
-     -35.642562
-    ],
-    [
-     -71.282735,
-     -35.642143
-    ],
-    [
-     -71.282208,
-     -35.641862
-    ],
-    [
-     -71.282375,
-     -35.64172
-    ],
-    [
-     -71.28259,
-     -35.64254
-    ],
-    [
-     -71.282687,
-     -35.64263
-    ]
-   ]
-  },
-  {
-   "fecha": "2026-09-11",
-   "maquina": "Barredora 5497",
-   "labor": "Barrido",
-   "horas": 0.44,
-   "pasadas": 23,
-   "lineas": 13,
-   "ancho_m": 102.9,
-   "km_h": 1.7,
-   "ha_aprox": 0.35,
-   "lat": -33.86291,
-   "lon": -70.630728,
-   "mapa": "https://www.google.com/maps?q=-33.862910,-70.630728",
-   "muestras": [
-    [
-     -70.630073,
-     -33.86256
-    ],
-    [
-     -70.630497,
-     -33.862628
-    ],
-    [
-     -70.630403,
-     -33.862842
-    ],
-    [
-     -70.630333,
-     -33.86315
-    ],
-    [
-     -70.631163,
-     -33.862755
-    ],
-    [
-     -70.631015,
-     -33.862572
-    ],
-    [
-     -70.631008,
-     -33.862793
-    ],
-    [
-     -70.63099,
-     -33.862738
-    ],
-    [
-     -70.63087,
-     -33.8628
-    ],
-    [
-     -70.630945,
-     -33.86253
-    ],
-    [
-     -70.63099,
-     -33.862728
-    ],
-    [
-     -70.631083,
-     -33.863018
-    ],
-    [
-     -70.630987,
-     -33.863048
-    ],
-    [
-     -70.630963,
-     -33.863175
-    ],
-    [
-     -70.631185,
-     -33.863025
-    ],
-    [
-     -70.631165,
-     -33.862945
-    ],
-    [
-     -70.63044,
-     -33.862865
-    ],
-    [
-     -70.630393,
-     -33.862758
-    ],
-    [
-     -70.630137,
-     -33.862767
-    ],
-    [
-     -70.63029,
-     -33.86306
-    ],
-    [
-     -70.630507,
-     -33.863813
-    ],
-    [
-     -70.630343,
-     -33.863337
-    ],
-    [
-     -70.630402,
-     -33.862567
     ]
    ]
   }
