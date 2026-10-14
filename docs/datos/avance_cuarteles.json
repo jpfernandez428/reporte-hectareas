@@ -2829,6 +2829,62 @@
         }
       }
     },
+    "Aurora 26": {
+      "area_total_ha": 2.4542,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 2.4542,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 27": {
+      "area_total_ha": 1.2769,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 1.2769,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 28": {
+      "area_total_ha": 5.6631,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 5.6631,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Aurora 29": {
+      "area_total_ha": 6.9615,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115",
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 6.9615,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
     "Aurora 3": {
       "area_total_ha": 3.6763,
       "labores": {
@@ -2951,9 +3007,9 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 1.6534,
-          "porcentaje": 57.4,
-          "completo": false
+          "trabajado_ha": 2.8782,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
@@ -2993,7 +3049,9 @@
         "Picado": {
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -3011,9 +3069,9 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.4742,
-          "porcentaje": 17.1,
-          "completo": false
+          "trabajado_ha": 2.769,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
@@ -3057,8 +3115,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 6.7061,
-          "porcentaje": 62.7,
+          "trabajado_ha": 9.0059,
+          "porcentaje": 84.2,
           "completo": false
         }
       }
@@ -3073,8 +3131,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 6.9861,
-          "porcentaje": 57.1,
+          "trabajado_ha": 9.3261,
+          "porcentaje": 76.2,
           "completo": false
         }
       }
@@ -3182,8 +3240,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 3.0632,
-          "porcentaje": 35.9,
+          "trabajado_ha": 3.0726,
+          "porcentaje": 36.0,
           "completo": false
         }
       }
@@ -3198,8 +3256,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 2.2888,
-          "porcentaje": 29.5,
+          "trabajado_ha": 2.2951,
+          "porcentaje": 29.6,
           "completo": false
         }
       }
@@ -3261,8 +3319,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.4738,
-          "porcentaje": 7.6,
+          "trabajado_ha": 0.4867,
+          "porcentaje": 7.8,
           "completo": false
         }
       }
@@ -3305,7 +3363,8 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 2.8426,
           "porcentaje": 100.0,
@@ -3367,7 +3426,8 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -3382,7 +3442,8 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -3397,7 +3458,8 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -3471,7 +3533,8 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -3550,8 +3613,8 @@
             "Tractor 14 Deutz Fahr 115",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 0.4051,
+          "porcentaje": 34.1,
           "completo": false
         }
       }
@@ -3593,10 +3656,11 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.7014,
-          "porcentaje": 34.4,
+          "trabajado_ha": 1.6018,
+          "porcentaje": 78.6,
           "completo": false
         }
       }
@@ -10969,6 +11033,71 @@
         }
       }
     },
+    "Juan Valenzuela_Cuertel 11": {
+      "area_total_ha": 5.2565,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Juan Valenzuela_Cuertel 12": {
+      "area_total_ha": 4.4939,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 4.1648,
+          "porcentaje": 92.7,
+          "completo": false
+        }
+      }
+    },
+    "Juan Valenzuela_Cuertel 13": {
+      "area_total_ha": 3.6123,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 3.6123,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Juan Valenzuela_Cuertel 14": {
+      "area_total_ha": 2.6216,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 1.5138,
+          "porcentaje": 57.7,
+          "completo": false
+        }
+      }
+    },
+    "Juan Valenzuela_Cuertel 15": {
+      "area_total_ha": 1.7469,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
     "Longavi": {
       "area_total_ha": 7.6891,
       "labores": {
@@ -12132,6 +12261,7 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
+            "Shacker SBS 7",
             "Shacker SBS Campo"
           ],
           "trabajado_ha": 5.2395,
@@ -12501,9 +12631,9 @@
             "Barredora 6"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 36.2,
-          "trabajado_ha": 4.1404,
-          "porcentaje": 36.2,
+          "porcentaje_en_curso": 58.9,
+          "trabajado_ha": 6.7286,
+          "porcentaje": 58.9,
           "completo": false,
           "cierres": []
         }
@@ -12517,9 +12647,9 @@
             "Barredora 6"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 71.1,
-          "trabajado_ha": 10.3781,
-          "porcentaje": 71.1,
+          "porcentaje_en_curso": 81.3,
+          "trabajado_ha": 11.8708,
+          "porcentaje": 81.3,
           "completo": false,
           "cierres": []
         }
