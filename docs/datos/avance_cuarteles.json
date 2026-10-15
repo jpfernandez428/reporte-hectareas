@@ -3240,8 +3240,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 3.0726,
-          "porcentaje": 36.0,
+          "trabajado_ha": 5.1487,
+          "porcentaje": 60.3,
           "completo": false
         }
       }
@@ -3256,8 +3256,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 2.2951,
-          "porcentaje": 29.6,
+          "trabajado_ha": 4.3217,
+          "porcentaje": 55.7,
           "completo": false
         }
       }
@@ -3285,10 +3285,11 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.33,
-          "porcentaje": 4.7,
+          "trabajado_ha": 2.3858,
+          "porcentaje": 33.8,
           "completo": false
         }
       }
@@ -3319,8 +3320,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.4867,
-          "porcentaje": 7.8,
+          "trabajado_ha": 1.2307,
+          "porcentaje": 19.8,
           "completo": false
         }
       }
@@ -3581,7 +3582,8 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -3613,8 +3615,8 @@
             "Tractor 14 Deutz Fahr 115",
             "Tractor 4 Same Frutetto 100"
           ],
-          "trabajado_ha": 0.4051,
-          "porcentaje": 34.1,
+          "trabajado_ha": 0.4065,
+          "porcentaje": 34.3,
           "completo": false
         }
       }
@@ -8421,9 +8423,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 20.5,
-          "trabajado_ha": 0.9486,
-          "porcentaje": 20.5,
+          "porcentaje_en_curso": 45.0,
+          "trabajado_ha": 2.0755,
+          "porcentaje": 45.0,
           "completo": false,
           "cierres": []
         }
@@ -8437,9 +8439,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 19.6,
-          "trabajado_ha": 0.817,
-          "porcentaje": 19.6,
+          "porcentaje_en_curso": 44.8,
+          "trabajado_ha": 1.8653,
+          "porcentaje": 44.8,
           "completo": false,
           "cierres": []
         }
@@ -8453,9 +8455,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 13.7,
-          "trabajado_ha": 0.6816,
-          "porcentaje": 13.7,
+          "porcentaje_en_curso": 32.2,
+          "trabajado_ha": 1.6003,
+          "porcentaje": 32.2,
           "completo": false,
           "cierres": []
         }
@@ -8622,9 +8624,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 94.5,
-          "trabajado_ha": 11.535,
-          "porcentaje": 94.5,
+          "porcentaje_en_curso": 94.6,
+          "trabajado_ha": 11.5462,
+          "porcentaje": 94.6,
           "completo": false,
           "cierres": []
         }
@@ -8655,9 +8657,9 @@
             "Barredora 1"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 11.2,
-          "trabajado_ha": 0.8488,
-          "porcentaje": 11.2,
+          "porcentaje_en_curso": 75.2,
+          "trabajado_ha": 5.688,
+          "porcentaje": 75.2,
           "completo": false,
           "cierres": []
         }
@@ -8672,9 +8674,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 19.1,
-          "trabajado_ha": 1.4197,
-          "porcentaje": 19.1,
+          "porcentaje_en_curso": 46.3,
+          "trabajado_ha": 3.4345,
+          "porcentaje": 46.3,
           "completo": false,
           "cierres": []
         }
@@ -11752,6 +11754,7 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
+            "Shacker SBS 7",
             "Shacker SBS Campo"
           ],
           "trabajado_ha": 7.6491,
@@ -12631,9 +12634,9 @@
             "Barredora 6"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 58.9,
-          "trabajado_ha": 6.7286,
-          "porcentaje": 58.9,
+          "porcentaje_en_curso": 92.2,
+          "trabajado_ha": 10.5411,
+          "porcentaje": 92.2,
           "completo": false,
           "cierres": []
         }
@@ -14357,6 +14360,14 @@
             "trabajado_ha": 0.0,
             "porcentaje": 0.0
           }
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
         },
         "Recolección": {
           "maquinas": [

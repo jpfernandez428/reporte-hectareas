@@ -48526,5 +48526,131 @@
     "n_hileras": 33,
     "area_total_ha": 6.96,
     "area_trabajada_ha": 0.76
+  },
+  {
+    "fecha": "2026-10-14",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 6",
+    "labor": "Barrido",
+    "n_hileras": 79,
+    "area_total_ha": 12.2,
+    "area_trabajada_ha": 0.01
+  },
+  {
+    "fecha": "2026-10-14",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 8",
+    "labor": "Barrido",
+    "n_hileras": 69,
+    "area_total_ha": 7.56,
+    "area_trabajada_ha": 4.84
+  },
+  {
+    "fecha": "2026-10-14",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 9",
+    "labor": "Barrido",
+    "n_hileras": 49,
+    "area_total_ha": 7.42,
+    "area_trabajada_ha": 2.01
+  },
+  {
+    "fecha": "2026-10-14",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 10",
+    "labor": "Barrido",
+    "n_hileras": 43,
+    "area_total_ha": 4.62,
+    "area_trabajada_ha": 1.13
+  },
+  {
+    "fecha": "2026-10-14",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 11",
+    "labor": "Barrido",
+    "n_hileras": 42,
+    "area_total_ha": 4.17,
+    "area_trabajada_ha": 1.05
+  },
+  {
+    "fecha": "2026-10-14",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 12",
+    "labor": "Barrido",
+    "n_hileras": 33,
+    "area_total_ha": 4.98,
+    "area_trabajada_ha": 0.92
+  },
+  {
+    "fecha": "2026-10-14",
+    "maquina": "Barredora 6",
+    "cuartel": "Puerto Lampa 2",
+    "labor": "Barrido",
+    "n_hileras": 208,
+    "area_total_ha": 11.43,
+    "area_trabajada_ha": 3.81
+  },
+  {
+    "fecha": "2026-10-14",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "Avoamerica 24",
+    "labor": "Picado",
+    "n_hileras": 37,
+    "area_total_ha": 8.54,
+    "area_trabajada_ha": 2.08
+  },
+  {
+    "fecha": "2026-10-14",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "Avoamerica 25",
+    "labor": "Picado",
+    "n_hileras": 29,
+    "area_total_ha": 7.76,
+    "area_trabajada_ha": 2.02
+  },
+  {
+    "fecha": "2026-10-14",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "Avoamerica 27",
+    "labor": "Picado",
+    "n_hileras": 21,
+    "area_total_ha": 7.05,
+    "area_trabajada_ha": 2.04
+  },
+  {
+    "fecha": "2026-10-14",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": "Avoamerica 27",
+    "labor": "Picado",
+    "n_hileras": 24,
+    "area_total_ha": 7.05,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-10-14",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "Avoamerica 29",
+    "labor": "Picado",
+    "n_hileras": 6,
+    "area_total_ha": 6.21,
+    "area_trabajada_ha": 0.61
+  },
+  {
+    "fecha": "2026-10-14",
+    "maquina": "Tractor 4 Same Frutetto 100",
+    "cuartel": "Avoamerica 29",
+    "labor": "Picado",
+    "n_hileras": 11,
+    "area_total_ha": 6.21,
+    "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-10-14",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 29",
+    "labor": "Picado",
+    "n_hileras": 7,
+    "area_total_ha": 6.21,
+    "area_trabajada_ha": 0.07
   }
 ]
