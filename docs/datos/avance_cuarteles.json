@@ -1716,7 +1716,8 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
-            "Shacker SBS 14"
+            "Shacker SBS 14",
+            "Shacker SBS 7"
           ],
           "trabajado_ha": 2.9143,
           "porcentaje": 93.8,
@@ -1738,7 +1739,8 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
-            "Shacker SBS 14"
+            "Shacker SBS 14",
+            "Shacker SBS 7"
           ],
           "trabajado_ha": 7.8161,
           "porcentaje": 100.0,
@@ -1768,7 +1770,8 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
-            "Shacker SBS 14"
+            "Shacker SBS 14",
+            "Shacker SBS 7"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -1789,7 +1792,8 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
-            "Shacker SBS 14"
+            "Shacker SBS 14",
+            "Shacker SBS 7"
           ],
           "trabajado_ha": 2.3628,
           "porcentaje": 100.0,
@@ -3462,8 +3466,8 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 0.147,
+          "porcentaje": 7.5,
           "completo": false
         }
       }
@@ -3475,10 +3479,11 @@
           "maquinas": [
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 14 Deutz Fahr 115",
-            "Tractor 4 Same Frutetto 100"
+            "Tractor 4 Same Frutetto 100",
+            "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 0.1134,
+          "porcentaje": 5.8,
           "completo": false
         }
       }
@@ -8422,12 +8427,14 @@
           "maquinas": [
             "Barredora 23"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 45.0,
-          "trabajado_ha": 2.0755,
-          "porcentaje": 45.0,
-          "completo": false,
-          "cierres": []
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 4.6162,
+          "porcentaje": 100.0,
+          "completo": true,
+          "cierres": [
+            "2026-10-15"
+          ]
         }
       }
     },
@@ -8439,9 +8446,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 44.8,
-          "trabajado_ha": 1.8653,
-          "porcentaje": 44.8,
+          "porcentaje_en_curso": 91.0,
+          "trabajado_ha": 3.7918,
+          "porcentaje": 91.0,
           "completo": false,
           "cierres": []
         }
@@ -8455,9 +8462,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 32.2,
-          "trabajado_ha": 1.6003,
-          "porcentaje": 32.2,
+          "porcentaje_en_curso": 57.5,
+          "trabajado_ha": 2.8635,
+          "porcentaje": 57.5,
           "completo": false,
           "cierres": []
         }
@@ -8608,7 +8615,7 @@
           ],
           "pasadas_completas": 0,
           "porcentaje_en_curso": 94.9,
-          "trabajado_ha": 9.3081,
+          "trabajado_ha": 9.3126,
           "porcentaje": 94.9,
           "completo": false,
           "cierres": []
@@ -8624,9 +8631,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 94.6,
-          "trabajado_ha": 11.5462,
-          "porcentaje": 94.6,
+          "porcentaje_en_curso": 94.4,
+          "trabajado_ha": 11.5169,
+          "porcentaje": 94.4,
           "completo": false,
           "cierres": []
         }
@@ -8657,9 +8664,9 @@
             "Barredora 1"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 75.2,
-          "trabajado_ha": 5.688,
-          "porcentaje": 75.2,
+          "porcentaje_en_curso": 94.9,
+          "trabajado_ha": 7.1776,
+          "porcentaje": 94.9,
           "completo": false,
           "cierres": []
         }
@@ -8674,9 +8681,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 46.3,
-          "trabajado_ha": 3.4345,
-          "porcentaje": 46.3,
+          "porcentaje_en_curso": 90.0,
+          "trabajado_ha": 6.6805,
+          "porcentaje": 90.0,
           "completo": false,
           "cierres": []
         }
@@ -12634,9 +12641,9 @@
             "Barredora 6"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 92.2,
-          "trabajado_ha": 10.5411,
-          "porcentaje": 92.2,
+          "porcentaje_en_curso": 93.4,
+          "trabajado_ha": 10.6741,
+          "porcentaje": 93.4,
           "completo": false,
           "cierres": []
         }
@@ -12666,9 +12673,9 @@
             "Barredora 6"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 6.8,
-          "trabajado_ha": 0.8279,
-          "porcentaje": 6.8,
+          "porcentaje_en_curso": 25.3,
+          "trabajado_ha": 3.0708,
+          "porcentaje": 25.3,
           "completo": false,
           "cierres": []
         }
@@ -13288,7 +13295,8 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
-            "Shacker SBS 14"
+            "Shacker SBS 14",
+            "Shacker SBS 7"
           ],
           "trabajado_ha": 3.7615,
           "porcentaje": 100.0,
@@ -15867,6 +15875,32 @@
           "cierres": [
             "2026-06-01"
           ]
+        }
+      }
+    },
+    "torretagle 10": {
+      "area_total_ha": 1.9421,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "torretagle 11": {
+      "area_total_ha": 3.4762,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
         }
       }
     },

@@ -48652,5 +48652,86 @@
     "n_hileras": 7,
     "area_total_ha": 6.21,
     "area_trabajada_ha": 0.07
+  },
+  {
+    "fecha": "2026-10-15",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 8",
+    "labor": "Barrido",
+    "n_hileras": 87,
+    "area_total_ha": 7.56,
+    "area_trabajada_ha": 1.49
+  },
+  {
+    "fecha": "2026-10-15",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 9",
+    "labor": "Barrido",
+    "n_hileras": 102,
+    "area_total_ha": 7.42,
+    "area_trabajada_ha": 3.25
+  },
+  {
+    "fecha": "2026-10-15",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 10",
+    "labor": "Barrido",
+    "n_hileras": 78,
+    "area_total_ha": 4.62,
+    "area_trabajada_ha": 2.54
+  },
+  {
+    "fecha": "2026-10-15",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 11",
+    "labor": "Barrido",
+    "n_hileras": 79,
+    "area_total_ha": 4.17,
+    "area_trabajada_ha": 1.93
+  },
+  {
+    "fecha": "2026-10-15",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 12",
+    "labor": "Barrido",
+    "n_hileras": 73,
+    "area_total_ha": 4.98,
+    "area_trabajada_ha": 1.26
+  },
+  {
+    "fecha": "2026-10-15",
+    "maquina": "Barredora 6",
+    "cuartel": "Puerto Lampa 2",
+    "labor": "Barrido",
+    "n_hileras": 210,
+    "area_total_ha": 11.43,
+    "area_trabajada_ha": 0.13
+  },
+  {
+    "fecha": "2026-10-15",
+    "maquina": "Barredora 6",
+    "cuartel": "Puerto Lampa 4",
+    "labor": "Barrido",
+    "n_hileras": 71,
+    "area_total_ha": 12.13,
+    "area_trabajada_ha": 2.24
+  },
+  {
+    "fecha": "2026-10-15",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 37",
+    "labor": "Picado",
+    "n_hileras": 3,
+    "area_total_ha": 1.96,
+    "area_trabajada_ha": 0.15
+  },
+  {
+    "fecha": "2026-10-15",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 38",
+    "labor": "Picado",
+    "n_hileras": 0,
+    "area_total_ha": 1.94,
+    "area_trabajada_ha": 0.11
   }
 ]
