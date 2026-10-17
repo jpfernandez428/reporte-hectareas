@@ -8480,13 +8480,18 @@
             "Barredora 24 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 78.2,
           "trabajado_ha": 6.4262,
           "porcentaje": 100.0,
           "completo": true,
           "cierres": [
             "2026-10-02"
-          ]
+          ],
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 5.0269,
+            "porcentaje": 78.2
+          }
         },
         "Picado": {
           "maquinas": [
@@ -8525,13 +8530,18 @@
             "Barredora 24 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 80.3,
           "trabajado_ha": 6.0951,
           "porcentaje": 100.0,
           "completo": true,
           "cierres": [
             "2026-10-02"
-          ]
+          ],
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 4.8961,
+            "porcentaje": 80.3
+          }
         },
         "Picado": {
           "maquinas": [
@@ -8570,13 +8580,18 @@
             "Barredora 24 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 80.7,
           "trabajado_ha": 5.9205,
           "porcentaje": 100.0,
           "completo": true,
           "cierres": [
             "2026-09-29"
-          ]
+          ],
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 4.7776,
+            "porcentaje": 80.7
+          }
         },
         "Picado": {
           "maquinas": [
@@ -8613,12 +8628,14 @@
             "Barredora 1",
             "Barredora 23"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 94.9,
-          "trabajado_ha": 9.3126,
-          "porcentaje": 94.9,
-          "completo": false,
-          "cierres": []
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 9.8098,
+          "porcentaje": 100.0,
+          "completo": true,
+          "cierres": [
+            "2026-10-16"
+          ]
         }
       }
     },
@@ -8630,12 +8647,14 @@
             "Barredora 1",
             "Barredora 23"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 94.4,
-          "trabajado_ha": 11.5169,
-          "porcentaje": 94.4,
-          "completo": false,
-          "cierres": []
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 12.2031,
+          "porcentaje": 100.0,
+          "completo": true,
+          "cierres": [
+            "2026-10-16"
+          ]
         }
       }
     },
@@ -8648,9 +8667,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 0.0,
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "porcentaje_en_curso": 14.9,
+          "trabajado_ha": 2.0018,
+          "porcentaje": 14.9,
           "completo": false,
           "cierres": []
         }
@@ -8664,9 +8683,9 @@
             "Barredora 1"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 94.9,
-          "trabajado_ha": 7.1776,
-          "porcentaje": 94.9,
+          "porcentaje_en_curso": 94.1,
+          "trabajado_ha": 7.1134,
+          "porcentaje": 94.1,
           "completo": false,
           "cierres": []
         }
@@ -8760,6 +8779,7 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
+            "Shacker SBS 10",
             "Shacker SBS 7"
           ],
           "trabajado_ha": 2.1091,
@@ -8773,6 +8793,7 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
+            "Shacker SBS 10",
             "Shacker SBS 7"
           ],
           "trabajado_ha": 0.0,
@@ -11791,6 +11812,7 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
+            "Shacker SBS 7",
             "Shacker SBS Campo"
           ],
           "trabajado_ha": 5.7736,
@@ -12492,6 +12514,19 @@
           ],
           "trabajado_ha": 5.9935,
           "porcentaje": 86.5,
+          "completo": false
+        }
+      }
+    },
+    "Patricio Schlak": {
+      "area_total_ha": 3.9352,
+      "labores": {
+        "Cosecha con recibidor": {
+          "maquinas": [
+            "Shacker SBS 8"
+          ],
+          "trabajado_ha": 2.2986,
+          "porcentaje": 58.4,
           "completo": false
         }
       }
