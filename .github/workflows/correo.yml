@@ -1,0 +1,56 @@
+name: Reporte diario de flota por correo
+
+# Por ahora solo a mano (vista previa o prueba). El envio diario a las 07:45
+# se activa cuando el usuario apruebe el correo de prueba (ver CLAUDE.md).
+on:
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: 'vista_previa (no envia, deja el reporte como archivo por 1 dia) o prueba (envia solo a CORREO_PRUEBA)'
+        required: true
+        default: 'vista_previa'
+      fecha:
+        description: 'Dia a reportar (AAAA-MM-DD). Vacio = ayer en hora de Chile.'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: correo-flota
+  cancel-in-progress: false
+
+jobs:
+  correo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar librerias
+        run: pip install -r requirements.txt
+
+      - name: Armar el reporte
+        env:
+          WIALON_TOKEN: ${{ secrets.WIALON_TOKEN }}
+          MODO_CORREO: ${{ inputs.modo }}
+          FECHA_REPORTE: ${{ inputs.fecha }}
+          CORREO_USUARIO: ${{ secrets.CORREO_USUARIO }}
+          CORREO_CLAVE: ${{ secrets.CORREO_CLAVE }}
+          CORREO_PRUEBA: ${{ secrets.CORREO_PRUEBA }}
+        run: python3 reporte_correo.py
+
+      - name: Guardar la vista previa (1 dia)
+        if: ${{ inputs.modo == 'vista_previa' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: vista-previa-correo
+          path: salida_correo/
+          retention-days: 1

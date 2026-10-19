@@ -427,5 +427,19 @@
       "geocercas": ["Gonzalo Sanchez 2", "Gonzalo Sanchez 7", "Gonzalo Sanchez 8", "Gonzalo Sanchez 9"],
       "motivo": "Confirmado en terreno: solo giros y esquinas cortadas al trabajar la geocerca vecina"
     }
+  ],
+  "vehiculos": [
+    {"id": 400262283, "nombre": "FZYB36 L200 ROJA"},
+    {"id": 400262248, "nombre": "KFHF20 FORD RANGER"},
+    {"id": 400262287, "nombre": "KWFJ69 CAMION"},
+    {"id": 402310944, "nombre": "L200 Dakar VYHZ83"},
+    {"id": 402340360, "nombre": "L200 Katana VYHD57"},
+    {"id": 402340505, "nombre": "L200 Katana VYHF54"},
+    {"id": 402340500, "nombre": "L200 Katana VYHF64"},
+    {"id": 402340386, "nombre": "L200 Katana VYHG48"},
+    {"id": 402340506, "nombre": "L200 Katana VYJB82"},
+    {"id": 401976258, "nombre": "LZYC98 Citroen Berlingo"},
+    {"id": 400801786, "nombre": "SDFD14 MAXUS GRIS"},
+    {"id": 401976268, "nombre": "SKTY32 MAXUS T90"}
   ]
 }
