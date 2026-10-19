@@ -136,12 +136,12 @@ def direccion(usuario, lon, lat, cache={}):
 
 
 def localidad(texto):
-    """De "Calle 123, Rancagua, Region de O'Higgins, Chile" deja la localidad."""
-    partes = [p.strip() for p in (texto or "").split(",") if p.strip()]
-    partes = [p for p in partes if p.lower() not in ("chile",) and not p.lower().startswith("region")
-              and not p.lower().startswith("región")]
-    sin_calle = [p for p in partes if not re.search(r"\d", p)]
-    return (sin_calle or partes or [None])[-1] if len(partes) > 1 else (partes[0] if partes else None)
+    """De "Ruta I-540, Paredones, Libertador General Bernardo O'Higgins, Chile"
+    deja la comuna o localidad ("Paredones"): la parte antes de la region."""
+    partes = [p.strip() for p in (texto or "").split(",") if p.strip() and p.strip().lower() != "chile"]
+    if not partes:
+        return None
+    return partes[-2] if len(partes) >= 2 else partes[0]
 
 
 # ---------------------------------------------------------------------------
@@ -187,7 +187,8 @@ def km_recorridos(puntos, vmax):
     for a, b in zip(limpios, limpios[1:]):
         if velocidad_kmh(a, b) <= vmax:
             total += distancia_m(a["punto"], b["punto"])
-    return total / 1000
+    # Menos de medio km en el dia es el GPS detenido, no un recorrido.
+    return total / 1000 if total >= KM_MINIMO_SE_MOVIO * 1000 else 0.0
 
 
 def tramos_en_movimiento(puntos):
