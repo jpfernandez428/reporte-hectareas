@@ -646,6 +646,51 @@ Registro:
   4,7 km). Cuando el usuario cree esa geocerca, recuperarla con
   `fecha_inicio` 2026-09-01 y su nombre en `recuperar_geocercas`.
 
+## Reporte diario por correo (en construcción, pedido del usuario 19-oct-2026)
+
+- `reporte_correo.py` + `.github/workflows/correo.yml` (a mano: `modo`
+  `vista_previa` = no envía, deja HTML+PDF como archivo de 1 día que se borra
+  apenas se descarga; `prueba` = envía solo a `CORREO_PRUEBA`). Tarda ~7–8 min
+  (baja 7 días de GPS de 76 máquinas + 12 vehículos). **El envío diario aún
+  no está activo**: falta que el usuario apruebe el correo de prueba.
+- Contenido (en este orden): encabezado; resumen de ayer; alertas (GPS sin
+  señal de `flota.json`, sin las guardadas en CYH, y trabajo sin geocerca de
+  ayer); máquinas ayer (orden fijo del panel Flota, agrupadas por tipo,
+  sin geocerca destacada en rojo con mapa) y conteo de las que no trabajaron
+  (en CYH / detenidas fuera / sin señal > 30 días); camionetas y camión ayer;
+  últimos 7 días (totales, día por día con barrita, por máquina y vehículo,
+  avance por campo); botón a la página.
+- Cálculos: hectáreas del historial; labores, geocercas y horas del tablero
+  de la flota (horas en movimiento dentro de geocercas + horas sin geocerca).
+  "Trabajó" = ha > 0, ≥ 1 h en alguna geocerca o trabajo sin geocerca.
+  Km = recorrido GPS del día (hora de Chile) sin puntos detenidos (< 3 m,
+  `adelgazar_puntos`) ni saltos (punto al que se va y del que se vuelve a más
+  de 60 km/h en máquinas o 160 km/h en vehículos); menos de 0,5 km = 0.
+  Cuarteles terminados en 7 días: fecha en que llegó al 95 % (como el
+  informe) y cierres de pasadas de barrido.
+- **Vehículos** (`config.json` → `vehiculos`, 12 confirmados por el usuario el
+  19-oct-2026, se muestran con su nombre de Wialon): no entran al cálculo de
+  hectáreas ni al panel Flota. Todos tienen sensor "Ignición" (`io_239`):
+  horas = motor encendido (si faltara, tiempo en movimiento, marcado con *).
+  Salida–llegada = primer y último movimiento del día. Dónde estuvo:
+  geocercas con ≥ 5 min adentro, CYH, y la comuna (buscador de direcciones de
+  Wialon, solo lectura) de cada parada de ≥ 15 min fuera de geocercas; si no
+  hay dirección, coordenadas con mapa.
+- Los datos de las camionetas no se guardan en el repositorio (es público).
+- Gmail con contraseña de aplicación; secretos `CORREO_USUARIO`,
+  `CORREO_CLAVE`, `CORREO_PRUEBA`, `CORREO_DESTINATARIOS` (los carga el
+  usuario; nunca en el código).
+- **Atraso de la corrida de la noche (revisado 19-oct-2026)**: no es nuestro.
+  GitHub crea la corrida tarde (hora de creación = hora de inicio, 0 min en
+  cola, ninguna cancelada) y desde el 15-oct además se salta corridas del
+  tablero de cada 4 h. Inicio de la de 05:00 UTC: 16-oct 09:34, 17-oct
+  09:05, 18-oct 09:23, 19-oct 10:36 UTC.
+- Datos GPS que llegan tarde (7 días, 168.038 mensajes): 26 llegaron después
+  de las 04:23 UTC del día siguiente y los mismos 26 después de las 05:00 (23
+  de la camioneta FZYB36, 3 de máquinas). Adelantar la corrida no agrega
+  pérdida. No volver a procesar un día ya calculado: el historial reemplaza
+  el registro y el avance ya está en su máximo, así que quedaría en ~0 ha.
+
 ## Pendientes
 
 - **Pasadas sueltas pendientes** (regla aprobada por el usuario el
