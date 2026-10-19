@@ -132,13 +132,20 @@ def direccion(usuario, lon, lat, cache={}):
     return texto
 
 
+REGIONES = ("region", "región", "metropolitana", "libertador", "maule", "valparaiso", "valparaíso", "biobio",
+            "biobío", "nuble", "ñuble", "araucania", "araucanía", "coquimbo", "los lagos", "los rios", "los ríos")
+
+
 def localidad(texto):
-    """De "Ruta I-540, Paredones, Libertador General Bernardo O'Higgins, Chile"
-    deja la comuna o localidad ("Paredones"): la parte antes de la region."""
+    """Comuna o localidad de una direccion de Wialon: sin el pais, la region
+    ni la calle ("Ruta I-540, Paredones, Libertador ..., Chile" -> "Paredones").
+    Si la direccion no trae comuna, None (se muestran las coordenadas)."""
     partes = [p.strip() for p in (texto or "").split(",") if p.strip() and p.strip().lower() != "chile"]
-    if not partes:
-        return None
-    return partes[-2] if len(partes) >= 2 else partes[0]
+    partes = [p for p in partes if not p.lower().startswith(REGIONES)]
+    if len(partes) >= 2:
+        partes = partes[1:]  # la primera es la calle o la ruta
+    sin_numero = [p for p in partes if not re.search(r"\d", p)]
+    return sin_numero[-1] if sin_numero else None
 
 
 # ---------------------------------------------------------------------------
@@ -502,6 +509,15 @@ def lugares_html(lugares, separador=" · "):
                           for l in lugares)
 
 
+def sin_repetir(lugares):
+    vistos, salida = set(), []
+    for l in lugares:
+        if l["nombre"] not in vistos:
+            vistos.add(l["nombre"])
+            salida.append(l)
+    return salida
+
+
 def mas_visitados(vehiculo, cuantos=3):
     """Lugares en mas dias de la semana (sin CYH, que es la base): "Candelaria (4 d)"."""
     dias_por_lugar = {}
@@ -616,7 +632,7 @@ def armar_html(datos):
         d = v["dias"][fa]
         filas.append([escape(v["nombre"]), f'<b style="font-size:14px;color:{VERDE};">{num(d["km"])}</b>',
                       f'{hora(d["salida"])} – {hora(d["llegada"])}' if d["se_movio"] else "–",
-                      (lugares_html(d["lugares"]) or "camino") if d["se_movio"] else no_se_movio(d)])
+                      (lugares_html(sin_repetir(d["lugares"])) or "camino") if d["se_movio"] else no_se_movio(d)])
     filas_html.append(tabla(["Camioneta", "Km", "Salida – llegada", "Dónde estuvo"], filas, ["l", "r", "l", "l"],
                             ["Total", f'<b style="font-size:14px;">{num(km(camionetas, fa))}</b>', "", ""]))
 
@@ -793,6 +809,10 @@ def main():
         print(f"Vehiculo | {v['nombre']} | {d['km']:.1f} km | "
               + (" -> ".join(l["nombre"] for l in d["lugares"]) if d["se_movio"]
                  else f"no se movio, en {d['donde_quedo'][0]} (posicion: {d['fuente_posicion']})"))
+
+    if modo == "vista_previa":
+        for (lon, lat), texto in sorted(direccion.__defaults__[0].items()):
+            print(f"Direccion | {lat:.3f}, {lon:.3f} | {texto} -> {localidad(texto)}")
 
     os.makedirs(CARPETA_SALIDA, exist_ok=True)
     html = armar_html(datos)
