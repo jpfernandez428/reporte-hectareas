@@ -697,17 +697,17 @@ def armar_html(datos):
     filas_html.append(tabla(["Máquina", "Dónde estuvo", "Días", "Ha", "Horas"], filas,
                             ["l", "l", "r", "r", "r"], None, estilos))
 
-    def tabla_vehiculos(lista, total):
+    def tabla_vehiculos(lista, total, encabezado):
         filas = [[escape(v["nombre"]), str(sum(1 for x in v["dias"].values() if x["se_movio"])),
                   num(sum(x["km"] for x in v["dias"].values())), mas_visitados(v)] for v in lista]
         pie = ["Total", "", num(sum(x["km"] for v in lista for x in v["dias"].values())), ""] if total else None
-        return tabla(["Vehículo", "Días con movimiento", "Km", "Lugares más visitados"], filas,
+        return tabla([encabezado, "Días con movimiento", "Km", "Lugares más visitados"], filas,
                      ["l", "r", "r", "l"], pie)
     filas_html.append(subtitulo("Camionetas"))
-    filas_html.append(tabla_vehiculos(camionetas, True))
+    filas_html.append(tabla_vehiculos(camionetas, True, "Camioneta"))
     if camiones:
         filas_html.append(subtitulo("Camión"))
-        filas_html.append(tabla_vehiculos(camiones, False))
+        filas_html.append(tabla_vehiculos(camiones, False, "Camión"))
 
     filas_html.append(subtitulo("Avance por campo"))
     filas = []
