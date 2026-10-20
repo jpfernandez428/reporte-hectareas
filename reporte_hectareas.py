@@ -2770,8 +2770,12 @@ def ultimos_mensajes(sid):
     })
     r = requests.get(f"{WIALON_HOST}/wialon/ajax.html",
                      params={"svc": "core/search_items", "params": params, "sid": sid}, timeout=60)
+    data = r.json()
+    if isinstance(data, dict) and data.get("error"):
+        # Ej. sesion vencida: mejor fallar que publicar el tablero sin datos.
+        raise RuntimeError(f"Wialon respondio con error {data['error']} al pedir los ultimos mensajes")
     salida = {}
-    for item in r.json().get("items", []):
+    for item in data.get("items", []):
         pos = item.get("pos") or {}
         t = (item.get("lmsg") or {}).get("t") or pos.get("t")
         salida[item["id"]] = (t, pos.get("x"), pos.get("y"))
@@ -3296,7 +3300,9 @@ def main():
     print(f"Geometria para filtrar por fecha generada en: {carpeta_geometria}")
 
     if not LABORES_RECALCULO:
-        construir_flota(sid, geocercas, patio)
+        # La sesion de Wialon vence tras 5 min sin uso, y armar avance, mapas y
+        # geometria puede tardar mas: se vuelve a conectar antes del tablero.
+        construir_flota(wialon_login(TOKEN), geocercas, patio)
 
 
 if __name__ == "__main__":
