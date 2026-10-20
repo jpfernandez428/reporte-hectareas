@@ -1,1 +1,101 @@
-[]
+[
+  {
+    "fecha": "2026-01-28",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 25,
+    "area_total_ha": 35.83,
+    "area_trabajada_ha": 1.74
+  },
+  {
+    "fecha": "2026-01-29",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 59,
+    "area_total_ha": 35.83,
+    "area_trabajada_ha": 3.31
+  },
+  {
+    "fecha": "2026-01-29",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 3",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 5,
+    "area_total_ha": 18.73,
+    "area_trabajada_ha": 0.54
+  },
+  {
+    "fecha": "2026-01-29",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 50,
+    "area_total_ha": 11.42,
+    "area_trabajada_ha": 1.18
+  },
+  {
+    "fecha": "2026-01-29",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 17,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 1.51
+  },
+  {
+    "fecha": "2026-01-30",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 83,
+    "area_total_ha": 35.83,
+    "area_trabajada_ha": 1.92
+  },
+  {
+    "fecha": "2026-01-30",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 116,
+    "area_total_ha": 11.42,
+    "area_trabajada_ha": 1.98
+  },
+  {
+    "fecha": "2026-01-30",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 59,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 3.36
+  },
+  {
+    "fecha": "2026-01-31",
+    "maquina": "Shacker SBS 12",
+    "cuartel": "Juan Valenzuela_Cuartel 1",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 111,
+    "area_total_ha": 35.83,
+    "area_trabajada_ha": 2.07
+  },
+  {
+    "fecha": "2026-01-31",
+    "maquina": "Shacker SBS 1",
+    "cuartel": "Matias Cardoen C5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 180,
+    "area_total_ha": 11.42,
+    "area_trabajada_ha": 1.81
+  },
+  {
+    "fecha": "2026-01-31",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Catalina Gonzalez",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 82,
+    "area_total_ha": 44.15,
+    "area_trabajada_ha": 2.63
+  }
+]
