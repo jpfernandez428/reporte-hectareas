@@ -779,6 +779,21 @@ Registro:
 
 ## Pendientes
 
+- **Temporadas (tema pendiente, el usuario lo decide después; 20-oct-2026, no
+  cambiar nada todavía)**: el avance de una labor no debería acumularse de una
+  temporada a otra. Hoy el avance de cada geocerca + labor se acumula todo el
+  año y nunca baja. Ej. EL PRINCIPIO 12 – Cosecha con recibidor: 92,4 %
+  publicado = 2,11 ha del Shacker SBS 7 (12 y 13-feb) + 2,35 ha del Shacker
+  SBS 10 (19-oct, confirmado en terreno junto con EP 13); lo de octubre solo
+  es ~49 %. EP 13 al 19-oct: 2,37 de 2,57 ha (92,2 %, en proceso).
+- **Correo de prueba enviado el 20-oct-2026** (datos del 19-oct, a
+  `CORREO_PRUEBA`). Los intentos anteriores fallaban con "Connection
+  unexpectedly closed" al iniciar sesión en Gmail: el usuario confirmó el
+  acceso en los avisos de seguridad de la cuenta y volvió a cargar
+  `CORREO_USUARIO` y `CORREO_CLAVE`. Falta que apruebe la prueba y cargue
+  `CORREO_DESTINATARIOS` para activar el envío diario, y que configure
+  Cloudflare.
+
 - **Pasadas sueltas pendientes** (regla aprobada por el usuario el
   1-oct-2026, **falta implementar**): solo se rescatan cuando la misma
   labor vuelve a TRABAJAR de verdad el cuartel, no cuando solo pasa, gira o
