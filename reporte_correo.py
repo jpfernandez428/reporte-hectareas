@@ -854,9 +854,28 @@ def enviar(asunto, html, texto, destinatarios, adjunto=None):
     if adjunto:
         with open(adjunto, "rb") as f:
             msg.add_attachment(f.read(), maintype="application", subtype="pdf", filename=os.path.basename(adjunto))
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=60) as s:
-        s.login(usuario, clave)
-        s.send_message(msg, to_addrs=destinatarios)
+    # Diagnostico sin mostrar los valores: solo su forma.
+    print(f"Envio: usuario de {len(usuario)} caracteres, termina en @gmail.com: {usuario.lower().endswith('@gmail.com')}; "
+          f"clave de {len(clave)} caracteres, solo letras minusculas: {clave.isalpha() and clave.islower()}; "
+          f"{len(destinatarios)} destinatario(s)")
+    ultimo_error = None
+    for intento in range(3):
+        try:
+            if intento % 2 == 0:
+                with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=60) as s:
+                    s.login(usuario, clave)
+                    s.send_message(msg, to_addrs=destinatarios)
+            else:
+                with smtplib.SMTP("smtp.gmail.com", 587, timeout=60) as s:
+                    s.starttls()
+                    s.login(usuario, clave)
+                    s.send_message(msg, to_addrs=destinatarios)
+            return
+        except (smtplib.SMTPServerDisconnected, smtplib.SMTPConnectError, OSError) as e:
+            ultimo_error = e
+            print(f"Envio: intento {intento + 1} fallo ({type(e).__name__}: {e}); se reintenta.")
+            time.sleep(10)
+    raise ultimo_error
 
 
 def destinatarios_de(variable):
