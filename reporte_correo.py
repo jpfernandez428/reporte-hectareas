@@ -33,7 +33,8 @@ import requests
 import reporte_hectareas as rh
 
 ZONA = rh.ZONA_HORARIA
-VEHICULOS = rh.CONFIG.get("vehiculos", [])
+# Vehiculos con "activo": false quedan en config.json pero no salen en el correo.
+VEHICULOS = [v for v in rh.CONFIG.get("vehiculos", []) if v.get("activo", True)]
 CAMIONETAS = [v for v in VEHICULOS if v.get("tipo", "camioneta") != "camion"]
 CAMIONES = [v for v in VEHICULOS if v.get("tipo") == "camion"]
 CARPETA_SALIDA = os.path.join(rh.CARPETA_BASE, "salida_correo")
@@ -314,6 +315,48 @@ def fechas_completado(historico):
 
 
 
+def campo_cercano(lon, lat, geocercas, maximo_m=5000):
+    """(campo, distancia en m) de la geocerca mas cercana a menos de maximo_m."""
+    mejor = None
+    for g in geocercas:
+        x1, y1, x2, y2 = g["bbox"]
+        if lon < x1 - 0.06 or lon > x2 + 0.06 or lat < y1 - 0.05 or lat > y2 + 0.05:
+            continue  # a mas de ~5 km
+        d = min(distancia_m((lon, lat), p) for p in g["contorno"])
+        if d <= maximo_m and (mejor is None or d < mejor[1]):
+            mejor = (nombre_campo(g["nombre"]), d)
+    return mejor
+
+
+def trabajo_sin_geocerca(maquinas, fechas, geocercas, usuario):
+    """Trabajo sin geocerca de los 7 dias (alertas del tablero), un lugar por
+    fila: se juntan los dias y maquinas que trabajaron a menos de
+    DISTANCIA_MISMO_LUGAR_M (el mismo criterio de lugar del panel)."""
+    lugares = []
+    for m in maquinas:
+        for f in fechas:
+            for s in m["dias"][f]["sin_geocerca"]:
+                q = re.search(r"q=([-\d.]+),([-\d.]+)", s.get("mapa") or "")
+                if not q:
+                    continue
+                lat, lon = float(q.group(1)), float(q.group(2))
+                g = next((g for g in lugares
+                          if distancia_m((g["lon"], g["lat"]), (lon, lat)) <= rh.DISTANCIA_MISMO_LUGAR_M), None)
+                if g is None:
+                    g = {"lat": lat, "lon": lon, "mapa": s["mapa"], "maquinas": [], "dias": set(),
+                         "horas": 0.0, "ha": 0.0}
+                    lugares.append(g)
+                if m["nombre"] not in g["maquinas"]:
+                    g["maquinas"].append(m["nombre"])
+                g["dias"].add(f)
+                g["horas"] += s["horas"]
+                g["ha"] += s["ha"]
+    for g in lugares:
+        g["nombre"] = localidad(direccion(usuario, g["lon"], g["lat"])) if usuario else None
+        g["cerca"] = campo_cercano(g["lon"], g["lat"], geocercas)
+    return sorted(lugares, key=lambda g: -g["horas"])
+
+
 def datos_reporte(sid, usuario, ayer):
     dias = [ayer - timedelta(days=k) for k in range(DIAS_RESUMEN - 1, -1, -1)]
     fechas = [d.isoformat() for d in dias]
@@ -400,7 +443,9 @@ def datos_reporte(sid, usuario, ayer):
         if any(f in fechas for f in cierres) and nombre_campo(cuartel) in campos:
             campos[nombre_campo(cuartel)]["terminados"].add((cuartel, rh.LABOR_CON_PASADAS))
 
-    return {"ayer": ayer, "dias": dias, "flota": flota, "maquinas": maquinas,
+    sin_geocerca = trabajo_sin_geocerca(maquinas, fechas, geocercas, usuario)
+
+    return {"ayer": ayer, "dias": dias, "flota": flota, "maquinas": maquinas, "sin_geocerca": sin_geocerca,
             "camionetas": [v for v in vehiculos if v["tipo"] != "camion"],
             "camiones": [v for v in vehiculos if v["tipo"] == "camion"], "campos": campos}
 
@@ -692,10 +737,33 @@ def armar_html(datos):
         if horas_sin:
             horas_txt += f'<br><span style="color:{ROJO};font-size:11px;">{num(horas_sin)} h sin geocerca</span>'
             estilos[len(filas)] = ROJO_CLARO
-        filas.append([escape(m["nombre"]), escape(donde) or "–", str(sum(1 for x in ds if x["trabajo"])),
+        filas.append([escape(m["nombre"]), escape(donde) or "–", str(sum(1 for x in ds if x["trabajo"] or x["horas"] > 0)),
                       num(sum(x["ha"] for x in ds), 2), horas_txt])
     filas_html.append(tabla(["Máquina", "Dónde estuvo", "Días", "Ha", "Horas"], filas,
                             ["l", "l", "r", "r", "r"], None, estilos))
+
+    filas_html.append(subtitulo("Trabajo sin geocerca · últimos 7 días"))
+    if datos["sin_geocerca"]:
+        filas = []
+        for g in datos["sin_geocerca"]:
+            lugar = escape(g["nombre"] or f'{g["lat"]:.5f}, {g["lon"]:.5f}')
+            if g["cerca"]:
+                lugar += (f'<br><span style="color:{TEXTO_SUAVE};font-size:11px;">cerca de {escape(g["cerca"][0])} '
+                          f'({num(g["cerca"][1] / 1000)} km)</span>')
+            dias_g = sorted(g["dias"])
+            rango = (f'{date.fromisoformat(dias_g[0]):%d-%m}' + (f' a {date.fromisoformat(dias_g[-1]):%d-%m}'
+                                                                 if len(dias_g) > 1 else ""))
+            filas.append([lugar, escape(", ".join(g["maquinas"])),
+                          f'{len(dias_g)}<br><span style="color:{TEXTO_SUAVE};font-size:11px;">{rango}</span>',
+                          num(g["horas"]), num(g["ha"]), enlace("mapa", g["mapa"], ROJO)])
+        filas_html.append(tabla(["Lugar", "Máquinas", "Días", "Horas", "Ha aprox.", "Mapa"], filas,
+                                ["l", "l", "r", "r", "r", "l"],
+                                ["Total", "", "", num(sum(g["horas"] for g in datos["sin_geocerca"])),
+                                 num(sum(g["ha"] for g in datos["sin_geocerca"])), ""]))
+        filas_html.append(parrafo("Trabajo real en campos sin geocerca en Wialon: crear la geocerca hace que "
+                                  "esas hectáreas se recuperen y el lugar salga de esta lista.", tam=11))
+    else:
+        filas_html.append(parrafo("Sin trabajo fuera de geocercas en los últimos 7 días."))
 
     def tabla_vehiculos(lista, total, encabezado):
         filas = [[escape(v["nombre"]), str(sum(1 for x in v["dias"].values() if x["se_movio"])),
@@ -777,7 +845,8 @@ def enviar(asunto, html, texto, destinatarios, adjunto=None):
     msg = EmailMessage()
     msg["Subject"] = asunto
     msg["From"] = f"Reporte flota C&H <{usuario}>"
-    msg["To"] = usuario
+    # Con un solo destinatario va a la vista; con varios, en copia oculta (nadie ve la lista).
+    msg["To"] = destinatarios[0] if len(destinatarios) == 1 else usuario
     msg.set_content(texto)
     msg.add_alternative(html, subtype="html")
     if adjunto:
@@ -824,6 +893,8 @@ def main():
     print(f"Reporte generado: {ruta_html} y {ruta_pdf}")
 
     if modo == "prueba":
+        if not destinatarios_de("CORREO_PRUEBA"):
+            raise RuntimeError("Falta el secreto CORREO_PRUEBA")
         asunto = f"Reporte diario de flota – {ayer:%d-%m-%Y} (PRUEBA)"
         enviar(asunto, html, f"Reporte diario de flota del {ayer:%d-%m-%Y}. Ver el PDF adjunto.",
                destinatarios_de("CORREO_PRUEBA"), ruta_pdf)
