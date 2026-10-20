@@ -884,8 +884,50 @@ def destinatarios_de(variable):
 
 
 
+def medir_atraso(dias=14):
+    """Solo lectura: cuanto GPS llega atrasado respecto del fin del dia en hora
+    de Chile (00:00 del dia siguiente), para elegir la hora de la corrida de
+    la noche. Usa la hora de llegada al servidor ("rt") de cada mensaje."""
+    sid, _ = login()
+    hoy = datetime.now(ZONA).date()
+    cortes = [0, 15, 30, 60, 90, 120, 180, 240, 300, 360, 480]  # minutos despues de las 00:00
+    tarde = {c: 0 for c in cortes}
+    total = sin_rt = 0
+    por_unidad = {}
+    peores = []
+    unidades = [(u["id"], u["nombre"], "maquina") for u in rh.UNIDADES] + \
+               [(v["id"], v["nombre"], "vehiculo") for v in rh.CONFIG.get("vehiculos", [])]
+    for uid, nombre, tipo in unidades:
+        for k in range(dias, 0, -1):
+            dia = hoy - timedelta(days=k)
+            fin_dia = datetime(dia.year, dia.month, dia.day, tzinfo=ZONA).timestamp() + 86400
+            for m in mensajes_dia(sid, uid, dia):
+                total += 1
+                if not m.get("rt"):
+                    sin_rt += 1
+                    continue
+                atraso_min = (m["rt"] - fin_dia) / 60
+                for c in cortes:
+                    if atraso_min > c:
+                        tarde[c] += 1
+                if atraso_min > 0:
+                    clave = (nombre, tipo)
+                    por_unidad[clave] = por_unidad.get(clave, 0) + 1
+                    peores.append((atraso_min, nombre, dia.isoformat()))
+    print(f"ATRASO | {total} mensajes de {len(unidades)} unidades en {dias} dias ({sin_rt} sin hora de llegada)")
+    for c in cortes:
+        print(f"ATRASO | llegaron mas de {c:>3} min despues de las 00:00 de Chile del dia siguiente: {tarde[c]} "
+              f"({tarde[c] / max(total, 1) * 100:.3f} %)")
+    for (nombre, tipo), n in sorted(por_unidad.items(), key=lambda x: -x[1])[:15]:
+        print(f"ATRASO | unidad {nombre} ({tipo}): {n} mensajes llegados despues de medianoche")
+    for a, nombre, dia in sorted(peores, reverse=True)[:10]:
+        print(f"ATRASO | peor: {nombre} dia {dia}: llego {a / 60:.1f} h despues de medianoche")
+
+
 def main():
     modo = os.environ.get("MODO_CORREO", "vista_previa").strip()
+    if modo == "atraso":
+        return medir_atraso()
     hoy = datetime.now(ZONA).date()
     ayer = (date.fromisoformat(os.environ["FECHA_REPORTE"].strip()) if os.environ.get("FECHA_REPORTE", "").strip()
             else hoy - timedelta(days=1))
