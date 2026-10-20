@@ -151,9 +151,10 @@ if MODO_NUBE:
         FECHA_INICIO = datetime.strptime(fecha_manual_inicio, "%Y-%m-%d")
         FECHA_FIN = datetime.strptime(fecha_manual_fin, "%Y-%m-%d")
     else:
-        FECHA_INICIO = FECHA_FIN = datetime.utcnow() - timedelta(days=1)
-        FECHA_INICIO = FECHA_INICIO.replace(hour=0, minute=0, second=0, microsecond=0)
-        FECHA_FIN = FECHA_FIN.replace(hour=0, minute=0, second=0, microsecond=0)
+        # Ayer en hora de Chile (el dia va de 00:00 a 24:00 de Chile).
+        from zoneinfo import ZoneInfo
+        ayer_chile = datetime.now(ZoneInfo(CONFIG.get("zona_horaria", "America/Santiago"))).date() - timedelta(days=1)
+        FECHA_INICIO = FECHA_FIN = datetime(ayer_chile.year, ayer_chile.month, ayer_chile.day)
 else:
     FECHA_INICIO = datetime.strptime(CONFIG["fecha_inicio"], "%Y-%m-%d")
     FECHA_FIN = datetime.strptime(CONFIG["fecha_fin"], "%Y-%m-%d")
@@ -329,14 +330,19 @@ def wialon_login(token):
     return data["eid"]
 
 
+def inicio_dia_chile(dia):
+    """00:00 de Chile de ese dia, en hora unix (con el cambio de horario)."""
+    return datetime(dia.year, dia.month, dia.day, tzinfo=ZONA_HORARIA).timestamp()
+
+
 def obtener_mensajes(sid, unit_id, dia):
-    """Descarga los mensajes GPS de una unidad para un dia completo (UTC)."""
-    desde = dia
-    hasta = dia + timedelta(days=1)
+    """Descarga los mensajes GPS de una unidad para un dia completo en hora de
+    Chile: de 00:00 a 24:00 (el dia del cambio de horario dura 23 o 25 h)."""
+    siguiente = dia + timedelta(days=1)
     params = json.dumps({
         "itemId": unit_id,
-        "timeFrom": int(desde.replace(tzinfo=timezone.utc).timestamp()),
-        "timeTo": int(hasta.replace(tzinfo=timezone.utc).timestamp()),
+        "timeFrom": int(inicio_dia_chile(dia)),
+        "timeTo": int(inicio_dia_chile(siguiente)) - 1,
         "flags": 0,
         "flagsMask": 0,
         "loadCount": 0xFFFFFFFF,
@@ -2240,8 +2246,8 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
     geocercas_por_nombre = {g["nombre"]: g for g in geocercas}
     indice_referencia = indice if geocercas_referencia is geocercas else indice_geocercas(geocercas_referencia)
     # Solo trabajo reciente: en un recalculo del año no se detecta en dias viejos.
-    desde_alertas = (datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
-                     - timedelta(days=DIAS_ALERTAS))
+    hoy_chile = datetime.now(ZONA_HORARIA).date()
+    desde_alertas = datetime(hoy_chile.year, hoy_chile.month, hoy_chile.day) - timedelta(days=DIAS_ALERTAS)
     dia = fecha_inicio
     while dia <= fecha_fin:
         fecha_str = dia.strftime("%Y-%m-%d")
