@@ -362,6 +362,8 @@ def datos_reporte(sid, usuario, ayer):
     fechas = [d.isoformat() for d in dias]
     with open(rh.RUTA_FLOTA, "r", encoding="utf-8") as f:
         flota = json.load(f)
+    if not any(m.get("ultima_conexion") for m in flota.get("maquinas", [])):
+        raise RuntimeError("El tablero de la flota (flota.json) no trae la ultima conexion de ninguna maquina")
     historico = rh.cargar_historico()
     with open(rh.RUTA_AVANCE_CUARTELES, "r", encoding="utf-8") as f:
         avance = json.load(f).get("cuarteles", {})
