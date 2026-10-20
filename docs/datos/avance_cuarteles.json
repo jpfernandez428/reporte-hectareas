@@ -2120,6 +2120,22 @@
           "trabajado_ha": 9.6946,
           "porcentaje": 100.0,
           "completo": true
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.6966,
+          "porcentaje": 7.2,
+          "completo": false
         }
       }
     },
@@ -2133,6 +2149,22 @@
           "trabajado_ha": 9.2127,
           "porcentaje": 93.9,
           "completo": false
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus"
+          ],
+          "trabajado_ha": 0.7651,
+          "porcentaje": 7.8,
+          "completo": false
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 9.8101,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
@@ -2145,6 +2177,14 @@
           ],
           "trabajado_ha": 7.1594,
           "porcentaje": 72.3,
+          "completo": false
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 10 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 3.8733,
+          "porcentaje": 39.1,
           "completo": false
         }
       }
@@ -2326,12 +2366,130 @@
         }
       }
     },
+    "Avoamerica 10": {
+      "area_total_ha": 2.8782,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 8 Kubota 108"
+          ],
+          "trabajado_ha": 0.1195,
+          "porcentaje": 4.2,
+          "completo": false
+        }
+      }
+    },
     "Avoamerica 13": {
       "area_total_ha": 0.8924,
       "labores": {
         "Picado": {
           "maquinas": [
-            "Tractor 14 Deutz Fahr 115"
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 8 Kubota 108"
+          ],
+          "trabajado_ha": 0.8924,
+          "porcentaje": 100.0,
+          "completo": true
+        }
+      }
+    },
+    "Avoamerica 17": {
+      "area_total_ha": 10.7012,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 8 Kubota 108"
+          ],
+          "trabajado_ha": 0.4128,
+          "porcentaje": 3.9,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 18": {
+      "area_total_ha": 12.2368,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 8 Kubota 108"
+          ],
+          "trabajado_ha": 0.4121,
+          "porcentaje": 3.4,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 19": {
+      "area_total_ha": 9.6893,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 8 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 21": {
+      "area_total_ha": 9.2671,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 8 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 24": {
+      "area_total_ha": 8.538,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 8 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 25": {
+      "area_total_ha": 7.7643,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 8 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 27": {
+      "area_total_ha": 7.0533,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 8 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 29": {
+      "area_total_ha": 6.2071,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -2352,15 +2510,29 @@
         }
       }
     },
+    "Avoamerica 31": {
+      "area_total_ha": 2.8426,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 8 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
     "Avoamerica 35": {
       "area_total_ha": 1.7256,
       "labores": {
         "Picado": {
           "maquinas": [
-            "Tractor 14 Deutz Fahr 115"
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 0.1104,
+          "porcentaje": 6.4,
           "completo": false
         }
       }
@@ -2370,7 +2542,8 @@
       "labores": {
         "Picado": {
           "maquinas": [
-            "Tractor 14 Deutz Fahr 115"
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -2383,7 +2556,8 @@
       "labores": {
         "Picado": {
           "maquinas": [
-            "Tractor 14 Deutz Fahr 115"
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -2396,7 +2570,8 @@
       "labores": {
         "Picado": {
           "maquinas": [
-            "Tractor 14 Deutz Fahr 115"
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -2409,7 +2584,8 @@
       "labores": {
         "Picado": {
           "maquinas": [
-            "Tractor 14 Deutz Fahr 115"
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -2422,7 +2598,8 @@
       "labores": {
         "Picado": {
           "maquinas": [
-            "Tractor 14 Deutz Fahr 115"
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -2435,7 +2612,34 @@
       "labores": {
         "Picado": {
           "maquinas": [
-            "Tractor 14 Deutz Fahr 115"
+            "Tractor 14 Deutz Fahr 115",
+            "Tractor 8 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 42": {
+      "area_total_ha": 1.6426,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 8 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false
+        }
+      }
+    },
+    "Avoamerica 43": {
+      "area_total_ha": 2.9127,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -3335,6 +3539,7 @@
         },
         "Recolección": {
           "maquinas": [
+            "Recogedora 3",
             "Recogedora 6"
           ],
           "trabajado_ha": 19.4234,
@@ -3359,10 +3564,11 @@
         "Barrido": {
           "maquinas": [
             "Barredora 1",
-            "Barredora 15"
+            "Barredora 15",
+            "Barredora 23"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 75.9,
+          "porcentaje_en_curso": 79.5,
           "trabajado_ha": 9.4692,
           "porcentaje": 100.0,
           "completo": true,
@@ -3371,12 +3577,13 @@
           ],
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 7.1873,
-            "porcentaje": 75.9
+            "trabajado_ha": 7.5306,
+            "porcentaje": 79.5
           }
         },
         "Recolección": {
           "maquinas": [
+            "Recogedora 3",
             "Recogedora 6"
           ],
           "trabajado_ha": 9.4692,
@@ -4022,6 +4229,7 @@
           "maquinas": [
             "Barredora 1",
             "Barredora 15",
+            "Barredora 23",
             "Barredora 5"
           ],
           "pasadas_completas": 1,
@@ -4040,6 +4248,7 @@
         },
         "Recolección": {
           "maquinas": [
+            "Recogedora 3",
             "Recogedora 6"
           ],
           "trabajado_ha": 9.2379,
@@ -4663,8 +4872,8 @@
             "Recogedora 3",
             "Recogedora 5"
           ],
-          "trabajado_ha": 0.3722,
-          "porcentaje": 22.3,
+          "trabajado_ha": 1.3002,
+          "porcentaje": 78.0,
           "completo": false
         },
         "Remecido de suelo": {
@@ -4727,8 +4936,8 @@
             "Recogedora 3",
             "Recogedora 5"
           ],
-          "trabajado_ha": 0.755,
-          "porcentaje": 43.4,
+          "trabajado_ha": 1.3306,
+          "porcentaje": 76.5,
           "completo": false
         },
         "Remecido de suelo": {
@@ -4791,8 +5000,8 @@
             "Recogedora 3",
             "Recogedora 5"
           ],
-          "trabajado_ha": 0.6889,
-          "porcentaje": 37.0,
+          "trabajado_ha": 1.2877,
+          "porcentaje": 69.2,
           "completo": false
         },
         "Remecido de suelo": {
@@ -4855,8 +5064,8 @@
             "Recogedora 3",
             "Recogedora 5"
           ],
-          "trabajado_ha": 0.8723,
-          "porcentaje": 43.1,
+          "trabajado_ha": 1.471,
+          "porcentaje": 72.7,
           "completo": false
         },
         "Remecido de suelo": {
@@ -5414,8 +5623,8 @@
             "Recogedora 3",
             "Recogedora 5"
           ],
-          "trabajado_ha": 1.1595,
-          "porcentaje": 49.9,
+          "trabajado_ha": 1.6508,
+          "porcentaje": 71.1,
           "completo": false
         },
         "Remecido de suelo": {
@@ -5478,8 +5687,8 @@
             "Recogedora 3",
             "Recogedora 5"
           ],
-          "trabajado_ha": 1.1628,
-          "porcentaje": 45.4,
+          "trabajado_ha": 1.8242,
+          "porcentaje": 71.1,
           "completo": false
         },
         "Remecido de suelo": {
@@ -5541,8 +5750,8 @@
             "Recogedora 3",
             "Recogedora 5"
           ],
-          "trabajado_ha": 1.081,
-          "porcentaje": 40.6,
+          "trabajado_ha": 1.8475,
+          "porcentaje": 69.5,
           "completo": false
         },
         "Remecido de suelo": {
@@ -5606,8 +5815,8 @@
             "Recogedora 3",
             "Recogedora 5"
           ],
-          "trabajado_ha": 2.1112,
-          "porcentaje": 65.6,
+          "trabajado_ha": 2.7087,
+          "porcentaje": 84.1,
           "completo": false
         },
         "Remecido de suelo": {
@@ -5804,8 +6013,8 @@
             "Recogedora 3",
             "Recogedora 5"
           ],
-          "trabajado_ha": 0.8714,
-          "porcentaje": 39.8,
+          "trabajado_ha": 1.4844,
+          "porcentaje": 67.9,
           "completo": false
         },
         "Remecido de suelo": {
@@ -10279,6 +10488,7 @@
         },
         "Poda": {
           "maquinas": [
+            "Tractor 11 Deutz Fahr 115",
             "Tractor 9 Deutz Fahr 115"
           ],
           "trabajado_ha": 0.0,
