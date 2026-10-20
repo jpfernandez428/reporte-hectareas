@@ -8429,13 +8429,18 @@
             "Barredora 23"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 10.4,
           "trabajado_ha": 4.6162,
           "porcentaje": 100.0,
           "completo": true,
           "cierres": [
             "2026-10-15"
-          ]
+          ],
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 0.4788,
+            "porcentaje": 10.4
+          }
         }
       }
     },
@@ -8447,9 +8452,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 91.0,
-          "trabajado_ha": 3.7918,
-          "porcentaje": 91.0,
+          "porcentaje_en_curso": 91.5,
+          "trabajado_ha": 3.8111,
+          "porcentaje": 91.5,
           "completo": false,
           "cierres": []
         }
@@ -8463,9 +8468,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 57.5,
-          "trabajado_ha": 2.8635,
-          "porcentaje": 57.5,
+          "porcentaje_en_curso": 57.9,
+          "trabajado_ha": 2.8808,
+          "porcentaje": 57.9,
           "completo": false,
           "cierres": []
         }
@@ -8630,18 +8635,19 @@
             "Barredora 1",
             "Barredora 23"
           ],
-          "pasadas_completas": 1,
-          "porcentaje_en_curso": 27.4,
+          "pasadas_completas": 2,
+          "porcentaje_en_curso": 0.0,
           "trabajado_ha": 9.8098,
           "porcentaje": 100.0,
           "completo": true,
           "cierres": [
-            "2026-10-16"
+            "2026-10-16",
+            "2026-10-19"
           ],
           "repaso": {
-            "repasos_completos": 0,
-            "trabajado_ha": 2.6839,
-            "porcentaje": 27.4
+            "repasos_completos": 1,
+            "trabajado_ha": 0.0,
+            "porcentaje": 0.0
           }
         }
       }
@@ -8655,13 +8661,18 @@
             "Barredora 23"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 0.0,
+          "porcentaje_en_curso": 10.6,
           "trabajado_ha": 12.2031,
           "porcentaje": 100.0,
           "completo": true,
           "cierres": [
             "2026-10-16"
-          ]
+          ],
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 1.2985,
+            "porcentaje": 10.6
+          }
         }
       }
     },
@@ -8674,9 +8685,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 32.4,
-          "trabajado_ha": 4.3536,
-          "porcentaje": 32.4,
+          "porcentaje_en_curso": 54.4,
+          "trabajado_ha": 7.3123,
+          "porcentaje": 54.4,
           "completo": false,
           "cierres": []
         }
@@ -8707,9 +8718,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 90.0,
-          "trabajado_ha": 6.6805,
-          "porcentaje": 90.0,
+          "porcentaje_en_curso": 90.6,
+          "trabajado_ha": 6.7291,
+          "porcentaje": 90.6,
           "completo": false,
           "cierres": []
         }
@@ -8789,8 +8800,8 @@
             "Shacker SBS 10",
             "Shacker SBS 7"
           ],
-          "trabajado_ha": 2.1091,
-          "porcentaje": 43.7,
+          "trabajado_ha": 4.4617,
+          "porcentaje": 92.4,
           "completo": false
         }
       }
@@ -8803,8 +8814,8 @@
             "Shacker SBS 10",
             "Shacker SBS 7"
           ],
-          "trabajado_ha": 1.7094,
-          "porcentaje": 66.4,
+          "trabajado_ha": 2.3647,
+          "porcentaje": 91.9,
           "completo": false
         }
       }
@@ -13311,7 +13322,8 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
-            "Shacker SBS 13"
+            "Shacker SBS 13",
+            "Shacker SBS 6"
           ],
           "trabajado_ha": 4.5105,
           "porcentaje": 100.0,
@@ -13324,7 +13336,8 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
-            "Shacker SBS 13"
+            "Shacker SBS 13",
+            "Shacker SBS 6"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -13337,7 +13350,8 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
-            "Shacker SBS 13"
+            "Shacker SBS 13",
+            "Shacker SBS 6"
           ],
           "trabajado_ha": 4.964,
           "porcentaje": 100.0,
