@@ -1,8 +1,10 @@
 name: Reporte diario de hectareas
+# El correo diario reconoce la corrida de la noche por este nombre.
+run-name: ${{ (inputs.fecha_inicio == '' && inputs.fecha_fin == '' && inputs.diagnostico == '' && inputs.labores == '' && inputs.recuperar_geocercas == '') && 'Corrida de la noche' || 'Corrida manual' }}
 
 on:
   schedule:
-    - cron: '0 5 * * *'   # 05:00 UTC = ~02:00 Chile: corrida completa de hectareas
+    - cron: '0 5 * * *'   # 05:00 UTC = ~02:00 Chile. Respaldo: la lanza a la hora el Worker de Cloudflare (CLAUDE.md)
   workflow_dispatch:
     inputs:
       fecha_inicio:
@@ -60,6 +62,11 @@ jobs:
     steps:
       - name: Descargar el repositorio
         uses: actions/checkout@v4
+
+      - name: Traer lo ultimo de GitHub
+        # Si la corrida espero su turno, trae lo que subio la anterior (ej. el
+        # dia ya procesado, para no repetirlo).
+        run: git pull --ff-only origin main
 
       - name: Preparar Python
         uses: actions/setup-python@v5

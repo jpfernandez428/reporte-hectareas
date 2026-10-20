@@ -93,6 +93,9 @@ RUTA_ESTADO_MAQUINAS = os.path.join(CARPETA_DATOS, "estado_maquinas.json")
 RUTA_FLOTA = os.path.join(CARPETA_DATOS, "flota.json")
 # Contorno de todas las geocercas en uso (mapas del informe para el cliente).
 RUTA_GEOCERCAS_WEB = os.path.join(CARPETA_DATOS, "geocercas.json")
+# Ultimo dia que proceso la corrida de la noche (lo lee el correo diario y
+# evita procesar dos veces el mismo dia si la lanzan Cloudflare y GitHub).
+RUTA_ULTIMA_CORRIDA = os.path.join(CARPETA_DATOS, "ultima_corrida.json")
 
 with open(RUTA_CONFIG, "r", encoding="utf-8") as f:
     CONFIG = json.load(f)
@@ -3073,7 +3076,22 @@ def resultado_desde_memoria(geocercas):
     return resultado
 
 
+def es_corrida_de_la_noche():
+    """Corrida diaria normal: sin fechas manuales, diagnostico, recalculo,
+    recuperacion ni modo flota."""
+    return MODO_NUBE and not any(os.environ.get(v, "").strip() for v in (
+        "FECHA_INICIO_MANUAL", "FECHA_FIN_MANUAL", "MODO_DIAGNOSTICO", "LABORES_RECALCULO",
+        "RECUPERAR_GEOCERCAS", "MODO_FLOTA"))
+
+
 def main():
+    if es_corrida_de_la_noche() and os.path.exists(RUTA_ULTIMA_CORRIDA):
+        with open(RUTA_ULTIMA_CORRIDA, "r", encoding="utf-8") as f:
+            ultima = json.load(f)
+        if ultima.get("dia_procesado") == FECHA_FIN.strftime("%Y-%m-%d"):
+            # Volver a procesar un dia lo dejaria en ~0 ha (el avance ya esta en su maximo).
+            print(f"El dia {ultima['dia_procesado']} ya lo proceso la corrida de las {ultima.get('termino')}: no se repite.")
+            return
     print("Conectando con Wialon...")
     sid = wialon_login(TOKEN)
     print("Conectado.")
@@ -3303,6 +3321,10 @@ def main():
         # La sesion de Wialon vence tras 5 min sin uso, y armar avance, mapas y
         # geometria puede tardar mas: se vuelve a conectar antes del tablero.
         construir_flota(wialon_login(TOKEN), geocercas, patio)
+    if es_corrida_de_la_noche():
+        with open(RUTA_ULTIMA_CORRIDA, "w", encoding="utf-8") as f:
+            json.dump({"dia_procesado": FECHA_FIN.strftime("%Y-%m-%d"),
+                       "termino": datetime.now(ZONA_HORARIA).strftime("%Y-%m-%d %H:%M")}, f)
 
 
 if __name__ == "__main__":

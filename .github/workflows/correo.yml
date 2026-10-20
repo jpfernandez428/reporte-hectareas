@@ -1,21 +1,31 @@
 name: Reporte diario de flota por correo
 
-# Por ahora solo a mano (vista previa o prueba). El envio diario a las 07:45
-# se activa cuando el usuario apruebe el correo de prueba (ver CLAUDE.md).
+# Envio diario (modo "diario"): lo lanza el Worker de Cloudflare a las 07:30 y
+# 09:00 de Chile; los horarios de GitHub de abajo son el respaldo si el Worker
+# falla, y "workflow_run" lo lanza al terminar la corrida de la noche. Todos
+# usan la misma marca del dia (docs/datos/correo_enviado.json): el correo sale
+# una sola vez. Sin el secreto CORREO_DESTINATARIOS no envia nada.
 on:
+  schedule:
+    - cron: '40 10,11 * * *'   # 07:40 de Chile (verano u invierno), respaldo
+    - cron: '10 12,13 * * *'   # 09:10 de Chile, respaldo del aviso de atraso
+  workflow_run:
+    workflows: ['Reporte diario de hectareas']
+    types: [completed]
   workflow_dispatch:
     inputs:
       modo:
-        description: 'vista_previa (no envia, deja el reporte como archivo por 1 dia) o prueba (envia solo a CORREO_PRUEBA)'
+        description: 'diario (el envio normal), vista_previa (no envia; archivo por 1 dia), prueba (solo a CORREO_PRUEBA) o atraso (medicion de GPS tardio, solo lectura)'
         required: true
         default: 'vista_previa'
       fecha:
-        description: 'Dia a reportar (AAAA-MM-DD). Vacio = ayer en hora de Chile.'
+        description: 'Dia a reportar en vista_previa o prueba (AAAA-MM-DD). Vacio = ayer en hora de Chile.'
         required: false
         default: ''
 
 permissions:
-  contents: read
+  contents: write   # marca del dia
+  actions: read     # estado y motivo de falla de la corrida de la noche
 
 concurrency:
   group: correo-flota
@@ -29,6 +39,9 @@ jobs:
       - name: Descargar el repositorio
         uses: actions/checkout@v4
 
+      - name: Traer lo ultimo de GitHub
+        run: git pull --ff-only origin main
+
       - name: Preparar Python
         uses: actions/setup-python@v5
         with:
@@ -37,15 +50,20 @@ jobs:
       - name: Instalar librerias
         run: pip install -r requirements.txt
 
-      - name: Armar el reporte
+      - name: Armar y enviar el reporte
         env:
           WIALON_TOKEN: ${{ secrets.WIALON_TOKEN }}
-          MODO_CORREO: ${{ inputs.modo }}
+          MODO_CORREO: ${{ inputs.modo || 'diario' }}
           FECHA_REPORTE: ${{ inputs.fecha }}
           CORREO_USUARIO: ${{ secrets.CORREO_USUARIO }}
           CORREO_CLAVE: ${{ secrets.CORREO_CLAVE }}
           CORREO_PRUEBA: ${{ secrets.CORREO_PRUEBA }}
-        run: python3 reporte_correo.py
+          CORREO_DESTINATARIOS: ${{ secrets.CORREO_DESTINATARIOS }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "Reporte automatico"
+          git config user.email "actions@users.noreply.github.com"
+          python3 reporte_correo.py
 
       - name: Guardar la vista previa (1 dia)
         if: ${{ inputs.modo == 'vista_previa' }}

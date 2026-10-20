@@ -51,6 +51,16 @@ MINUTOS_PARADA_FUERA = rh.CONFIG.get("minutos_parada_fuera", 15)
 MINUTOS_EN_GEOCERCA = rh.CONFIG.get("minutos_en_geocerca_vehiculo", 5)
 KM_MINIMO_SE_MOVIO = 0.5
 
+# Envio diario (CLAUDE.md, "Reporte diario por correo").
+HORA_ENVIO = rh.CONFIG.get("hora_envio_correo", "07:45")
+HORA_PREPARAR = rh.CONFIG.get("hora_preparar_correo", "07:30")
+HORA_AVISO_ATRASO = rh.CONFIG.get("hora_aviso_atraso_correo", "09:00")
+RUTA_ESTADO_CORREO = os.path.join(rh.CARPETA_DATOS, "correo_enviado.json")
+REPO = os.environ.get("GITHUB_REPOSITORY", "jpfernandez428/reporte-hectareas")
+# Token con que el Worker de Cloudflare lanza los workflows: vence en un ano.
+VENCE_TOKEN = rh.CONFIG.get("vencimiento_token_github")
+DIAS_AVISO_TOKEN = 30
+
 VERDE = "#2F6F3E"
 VERDE_CLARO = "#EAF3EC"
 GRIS_FILA = "#F6F8F7"
@@ -605,8 +615,11 @@ def armar_html(datos):
         cajas.append((f"{num(c['dias'][fa]['km'], 0)} km", "camión"))
     filas_html.append(indicadores(cajas))
 
-    # 3. Alertas
+    # 3. Alertas (primero el aviso del token, si esta por vencer)
     alertas = []
+    aviso = aviso_token(ayer + timedelta(days=1))
+    if aviso:
+        alertas.append(aviso)
     for a in flota.get("alertas_sin_senal", []):
         alertas.append(f'<b>GPS sin señal</b>: {escape(a["maquina"])} – última señal {escape(a["ultima_conexion"] or "")} '
                        f'({a["horas"]} h), {escape(a["ubicacion"] or "ubicación desconocida")}'
@@ -826,6 +839,23 @@ def armar_html(datos):
 # PDF y envio
 # ---------------------------------------------------------------------------
 
+def aviso_token(hoy):
+    """Aviso desde DIAS_AVISO_TOKEN dias antes de que venza el token de GitHub
+    que usa el Worker de Cloudflare."""
+    if not VENCE_TOKEN:
+        return None
+    vence = date.fromisoformat(VENCE_TOKEN)
+    faltan = (vence - hoy).days
+    if faltan > DIAS_AVISO_TOKEN:
+        return None
+    cuando = f"venció el {vence:%d-%m-%Y}" if faltan < 0 else f"vence el {vence:%d-%m-%Y} (en {faltan} días)"
+    return (f"<b>Renovar token de GitHub</b>: el token que usa Cloudflare para lanzar este reporte {cuando}. "
+            "Crear uno nuevo en GitHub (Settings → Developer settings → Personal access tokens → Fine-grained, solo "
+            "el repositorio reporte-hectareas, permiso Actions: Read and write), cargarlo en Cloudflare (Workers → "
+            "disparador-reporte → Settings → Variables and Secrets → GITHUB_TOKEN) y actualizar "
+            "\"vencimiento_token_github\" en config.json.")
+
+
 def generar_pdf(ruta_html, ruta_pdf):
     """Imprime el mismo HTML a PDF con Chrome sin ventana."""
     for chrome in ("google-chrome", "chromium", "chromium-browser",
@@ -878,6 +908,166 @@ def enviar(asunto, html, texto, destinatarios, adjunto=None):
     raise ultimo_error
 
 
+def html_corto(titulo_txt, cuerpo):
+    return ('<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"></head><body style="margin:0;padding:16px;'
+            f'background:#F1F4F2;font-family:{FUENTE};"><table role="presentation" width="100%" style="max-width:640px;'
+            f'background:#fff;border-collapse:collapse;"><tr><td style="padding:16px;background:{VERDE};color:#fff;'
+            f'font-size:18px;font-weight:bold;">{titulo_txt}</td></tr><tr><td style="padding:16px;font-size:14px;'
+            f'color:{TEXTO};line-height:1.5;">{cuerpo}</td></tr></table></body></html>')
+
+
+def github(ruta):
+    r = requests.get(f"https://api.github.com/repos/{REPO}{ruta}", timeout=60, headers={
+        "Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}", "Accept": "application/vnd.github+json"})
+    r.raise_for_status()
+    return r
+
+
+def corrida_de_la_noche(hoy):
+    """La corrida de la noche lanzada hoy (hora de Chile): la ultima "Corrida de
+    la noche" de diario.yml creada desde las 00:00. None si todavia no parte."""
+    desde = datetime(hoy.year, hoy.month, hoy.day, tzinfo=ZONA)
+    for run in github("/actions/workflows/diario.yml/runs?per_page=30").json()["workflow_runs"]:
+        creada = datetime.fromisoformat(run["created_at"].replace("Z", "+00:00"))
+        if creada >= desde and run.get("display_title") == "Corrida de la noche":
+            return run
+    return None
+
+
+def motivo_falla(run):
+    """Paso que fallo y ultimas lineas de error del registro."""
+    pasos, lineas = [], []
+    for job in github(f"/actions/runs/{run['id']}/jobs").json()["jobs"]:
+        pasos += [st["name"] for st in job.get("steps", []) if st.get("conclusion") == "failure"]
+        try:
+            registro = github(f"/actions/jobs/{job['id']}/logs").text.splitlines()
+            lineas += [l[29:] for l in registro if "Error" in l or "error" in l][-3:]
+        except requests.RequestException:
+            pass
+    return (", ".join(pasos) or "desconocido"), lineas[-3:]
+
+
+def leer_estado(hoy):
+    try:
+        with open(RUTA_ESTADO_CORREO, "r", encoding="utf-8") as f:
+            estado = json.load(f)
+    except (OSError, ValueError):
+        estado = {}
+    return estado if estado.get("fecha") == hoy.isoformat() else {"fecha": hoy.isoformat()}
+
+
+def guardar_estado(estado):
+    """Marca del dia (que ya se envio) en el repositorio: evita duplicados
+    entre el Worker de Cloudflare, los horarios de respaldo de GitHub y el
+    aviso al terminar la corrida. Solo fecha y horas, sin direcciones."""
+    with open(RUTA_ESTADO_CORREO, "w", encoding="utf-8") as f:
+        json.dump(estado, f, ensure_ascii=False)
+    for intento in range(5):
+        subprocess.run(["git", "add", RUTA_ESTADO_CORREO], check=True)
+        if subprocess.run(["git", "diff", "--staged", "--quiet"]).returncode == 0:
+            return
+        subprocess.run(["git", "commit", "-q", "-m", f"Correo diario {estado['fecha']}"], check=True)
+        subprocess.run(["git", "pull", "-q", "--rebase", "origin", "main"], check=False)
+        if subprocess.run(["git", "push", "-q"]).returncode == 0:
+            return
+        time.sleep(10)
+    raise RuntimeError("No se pudo guardar la marca del correo enviado")
+
+
+def esperar_hasta(hhmm):
+    hoy = datetime.now(ZONA)
+    h, m = map(int, hhmm.split(":"))
+    objetivo = hoy.replace(hour=h, minute=m, second=0, microsecond=0)
+    if hoy < objetivo:
+        print(f"Esperando hasta las {hhmm} de Chile ({(objetivo - hoy).total_seconds() / 60:.0f} min).")
+        time.sleep((objetivo - hoy).total_seconds())
+
+
+def envio_diario():
+    """Decide que mandar hoy (lo lanzan el Worker de Cloudflare a las 07:30 y
+    09:00, los horarios de respaldo de GitHub y el fin de la corrida de la
+    noche; todos usan la misma marca del dia):
+      - la corrida de la noche termino bien -> reporte a las 07:45 (o apenas
+        este, si termina despues);
+      - fallo -> correo corto con el motivo;
+      - sigue sin terminar a las 09:00 -> aviso de atraso (una vez) y despues
+        el reporte cuando termine."""
+    destinatarios = destinatarios_de("CORREO_DESTINATARIOS")
+    if not destinatarios:
+        print("Envio diario inactivo: falta el secreto CORREO_DESTINATARIOS (se activa cuando el usuario lo cargue).")
+        return
+    ahora = datetime.now(ZONA)
+    hoy, ayer = ahora.date(), ahora.date() - timedelta(days=1)
+    estado = leer_estado(hoy)
+    if estado.get("reporte"):
+        print(f"El reporte de hoy ya se envio a las {estado['reporte']}.")
+        return
+    if ahora.strftime("%H:%M") < HORA_PREPARAR:
+        print(f"Todavia no son las {HORA_PREPARAR}: el envio lo hace la corrida de las {HORA_PREPARAR}.")
+        return
+    try:
+        with open(rh.RUTA_ULTIMA_CORRIDA, "r", encoding="utf-8") as f:
+            lista = json.load(f).get("dia_procesado") == ayer.isoformat()
+    except (OSError, ValueError):
+        lista = False
+
+    if lista:
+        try:
+            sid, usuario = login()
+            datos = datos_reporte(sid, usuario, ayer)
+            html = armar_html(datos)
+            os.makedirs(CARPETA_SALIDA, exist_ok=True)
+            ruta_html = os.path.join(CARPETA_SALIDA, f"reporte_flota_{ayer}.html")
+            ruta_pdf = os.path.join(CARPETA_SALIDA, f"Reporte_flota_{ayer}.pdf")
+            with open(ruta_html, "w", encoding="utf-8") as f:
+                f.write(html)
+            generar_pdf(ruta_html, ruta_pdf)
+        except Exception as e:  # el reporte no se pudo armar: aviso corto
+            if not estado.get("falla"):
+                enviar(f"Reporte diario de flota – {ayer:%d-%m-%Y}: no se generó",
+                       html_corto("El reporte diario de flota no se generó",
+                                  f"La corrida de la noche terminó bien, pero el reporte falló al armarse: "
+                                  f"<b>{escape(type(e).__name__)}: {escape(str(e))}</b>. Se puede volver a lanzar a "
+                                  "mano en GitHub (Actions → Reporte diario de flota por correo)."),
+                       f"El reporte diario de flota no se generó: {e}", destinatarios)
+                estado["falla"] = datetime.now(ZONA).strftime("%H:%M")
+                guardar_estado(estado)
+            raise
+        esperar_hasta(HORA_ENVIO)
+        enviar(f"Reporte diario de flota – {ayer:%d-%m-%Y}", html,
+               f"Reporte diario de flota del {ayer:%d-%m-%Y}. Ver el PDF adjunto.", destinatarios, ruta_pdf)
+        estado["reporte"] = datetime.now(ZONA).strftime("%H:%M")
+        guardar_estado(estado)
+        print(f"Reporte enviado a {len(destinatarios)} destinatarios a las {estado['reporte']}.")
+        return
+
+    run = corrida_de_la_noche(hoy)
+    if run and run["status"] == "completed" and run["conclusion"] != "success" and not estado.get("falla"):
+        paso, lineas = motivo_falla(run)
+        detalle = "<br>".join(escape(l) for l in lineas) or "sin detalle en el registro"
+        enviar(f"Reporte diario de flota – {ayer:%d-%m-%Y}: no se generó",
+               html_corto("El reporte diario de flota no se generó",
+                          f"La corrida de la noche falló (paso: <b>{escape(paso)}</b>).<br><br>"
+                          f'<span style="font-family:monospace;font-size:12px;">{detalle}</span><br><br>'
+                          f'{enlace("Ver la corrida en GitHub", run["html_url"])}. Cuando se vuelva a correr y '
+                          "termine bien, el reporte sale solo."),
+               f"El reporte diario de flota no se genero: fallo la corrida de la noche ({paso}).", destinatarios)
+        estado["falla"] = datetime.now(ZONA).strftime("%H:%M")
+        guardar_estado(estado)
+        print(f"Aviso de falla enviado (paso: {paso}).")
+    elif ahora.strftime("%H:%M") >= HORA_AVISO_ATRASO and not estado.get("atraso") and not estado.get("falla"):
+        situacion = ("todavía está corriendo" if run else "todavía no parte (GitHub la largó tarde)")
+        enviar(f"Reporte diario de flota – {ayer:%d-%m-%Y}: viene atrasado",
+               html_corto("El reporte diario de flota viene atrasado",
+                          f"La corrida de la noche {situacion}. El reporte sale solo apenas termine."),
+               f"El reporte diario de flota viene atrasado: la corrida de la noche {situacion}.", destinatarios)
+        estado["atraso"] = datetime.now(ZONA).strftime("%H:%M")
+        guardar_estado(estado)
+        print("Aviso de atraso enviado.")
+    else:
+        print("La corrida de la noche no ha terminado: el reporte sale cuando termine.")
+
+
 def destinatarios_de(variable):
     return [d.strip() for d in re.split(r"[,;\s]+", os.environ.get(variable, "")) if d.strip()]
 
@@ -928,6 +1118,8 @@ def main():
     modo = os.environ.get("MODO_CORREO", "vista_previa").strip()
     if modo == "atraso":
         return medir_atraso()
+    if modo == "diario":
+        return envio_diario()
     hoy = datetime.now(ZONA).date()
     ayer = (date.fromisoformat(os.environ["FECHA_REPORTE"].strip()) if os.environ.get("FECHA_REPORTE", "").strip()
             else hoy - timedelta(days=1))
