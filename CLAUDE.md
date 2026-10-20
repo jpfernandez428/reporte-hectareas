@@ -648,11 +648,44 @@ Registro:
 
 ## Reporte diario por correo (en construcción, pedido del usuario 19-oct-2026)
 
-- `reporte_correo.py` + `.github/workflows/correo.yml` (a mano: `modo`
-  `vista_previa` = no envía, deja HTML+PDF como archivo de 1 día que se borra
-  apenas se descarga; `prueba` = envía solo a `CORREO_PRUEBA`). Tarda ~2–3 min
-  (baja 7 días de GPS solo de los 12 vehículos). **El envío diario aún
-  no está activo**: falta que el usuario apruebe el correo de prueba.
+- `reporte_correo.py` + `.github/workflows/correo.yml`. Modos (`modo`):
+  `vista_previa` (no envía; HTML+PDF como archivo de 1 día que se borra apenas
+  se descarga), `prueba` (solo a `CORREO_PRUEBA`), `diario` (el envío normal)
+  y `atraso` (medición de GPS tardío, solo lectura). Tarda ~2–3 min.
+- **Envío diario (modo `diario`)**: inactivo mientras no exista el secreto
+  `CORREO_DESTINATARIOS` (no envía a nadie y no da error; regla del usuario
+  20-oct-2026). El usuario lo carga cuando apruebe la prueba. Lógica:
+  - Lo lanzan: el Worker de Cloudflare a las 07:30 y 09:00 de Chile; los
+    horarios de GitHub de `correo.yml` como respaldo (07:40 y 09:10); y
+    `workflow_run` al terminar la corrida de la noche. Todos usan la marca del
+    día `docs/datos/correo_enviado.json` (fecha y horas, sin direcciones):
+    el correo sale una sola vez.
+  - Antes de las 07:30 no hace nada. Si la corrida de la noche ya procesó
+    ayer (`docs/datos/ultima_corrida.json`), arma el reporte, espera hasta
+    las 07:45:00 y lo envía (si termina después, sale apenas esté).
+  - Si la "Corrida de la noche" (nombre de la corrida en `diario.yml`) falló:
+    correo corto con el paso que falló, las últimas líneas de error y el
+    enlace. Si se vuelve a correr y termina bien, el reporte sale solo.
+  - A las 09:00 sin terminar: aviso de atraso (una vez) y después el reporte.
+  - Si el reporte no se puede armar: correo corto con el error.
+  - Con varios destinatarios van en copia oculta.
+- **Corrida de la noche**: guarda `docs/datos/ultima_corrida.json` (día
+  procesado) y no repite un día ya procesado (si la lanzan Cloudflare y el
+  horario de respaldo de GitHub). Antes de correr trae lo último de GitHub.
+- **Cloudflare** (`cloudflare/worker.js`, Worker `disparador-reporte`): Cron
+  Triggers `0 6,7 * * *` (03:00 de Chile: corrida de la noche), `30 10,11 * * *`
+  (07:30: correo) y `0 12,13 * * *` (09:00: aviso de atraso). Cada horario va
+  dos veces (verano UTC-3 / invierno UTC-4) y el Worker lanza solo el que
+  calza con la hora de Chile. Secreto del Worker: `GITHUB_TOKEN` (token
+  fine-grained solo de este repositorio, Actions: Read and write; lo carga el
+  usuario en Cloudflare, nunca en el chat ni en el repositorio). Los horarios
+  de GitHub siguen activos como respaldo (regla del usuario 20-oct-2026).
+- **Vencimiento del token**: `config.json` → `vencimiento_token_github`
+  (AAAA-MM-DD, no es secreto). Desde 30 días antes, el correo muestra arriba
+  de las alertas qué renovar y dónde: nuevo token en GitHub (Settings →
+  Developer settings → Personal access tokens → Fine-grained), cargarlo en
+  Cloudflare (Workers → disparador-reporte → Settings → Variables and Secrets
+  → GITHUB_TOKEN) y actualizar la fecha en `config.json`.
 - Contenido (en este orden; cambios del usuario del 19-oct-2026):
   1. Encabezado (día reportado y rango de 7 días).
   2. Resumen de ayer: máquinas que trabajaron (de cuántas), hectáreas, horas
@@ -694,7 +727,16 @@ Registro:
   el último anterior).
 - **Vehículos** (`config.json` → `vehiculos`, 12 confirmados por el usuario el
   19-oct-2026, con su nombre de Wialon; el camión lleva `"tipo": "camion"`):
-  no entran al cálculo de hectáreas ni al panel Flota.
+  no entran al cálculo de hectáreas ni al panel Flota. KFHF20 FORD RANGER y
+  SKTY32 MAXUS T90 están con `"activo": false` (fuera del correo, pedido del
+  usuario 20-oct-2026; no borrarlas): quedan 9 camionetas y el camión.
+- Por máquina (7 días): un día cuenta si la máquina trabajó o tuvo horas.
+- **Trabajo sin geocerca · últimos 7 días** (pedido del usuario 20-oct-2026,
+  para saber dónde crear geocercas): las alertas del tablero de esos días,
+  un lugar por fila (se juntan días y máquinas a menos de 600 m,
+  `distancia_mismo_lugar_m`). Lugar = comuna (direcciones de Wialon) y
+  "cerca de <campo>" si hay una geocerca a menos de 5 km. Columnas: Lugar |
+  Máquinas | Días | Horas | Ha aprox. | Mapa.
 - Los datos de las camionetas no se guardan en el repositorio (es público).
 - Gmail con contraseña de aplicación; secretos `CORREO_USUARIO`,
   `CORREO_CLAVE`, `CORREO_PRUEBA`, `CORREO_DESTINATARIOS` (los carga el
@@ -704,6 +746,13 @@ Registro:
   cola, ninguna cancelada) y desde el 15-oct además se salta corridas del
   tablero de cada 4 h. Inicio de la de 05:00 UTC: 16-oct 09:34, 17-oct
   09:05, 18-oct 09:23, 19-oct 10:36 UTC.
+- **Medición del 20-oct-2026 respecto de la medianoche de Chile** (14 días,
+  298.421 mensajes de 88 unidades): 82 llegaron después de las 00:00 del día
+  siguiente, 58 después de 00:15, 57 después de 00:30–01:30, 55 después de
+  02:00–05:00 y 53 después de 08:00 (casi todos de las camionetas FZYB36 y
+  SDFD14; de máquinas ~21 en 14 días, algunos con 4 días de atraso). El GPS
+  atrasado llega en minutos o recién días después: partir a las 03:00 de
+  Chile pierde lo mismo que a las 08:00. Hora elegida: 03:00 de Chile.
 - Datos GPS que llegan tarde (7 días, 168.038 mensajes): 26 llegaron después
   de las 04:23 UTC del día siguiente y los mismos 26 después de las 05:00 (23
   de la camioneta FZYB36, 3 de máquinas). Adelantar la corrida no agrega
@@ -714,7 +763,19 @@ Registro:
   (historial, página, panel Flota, correo). Hoy la corrida de hectáreas baja
   el GPS por día UTC (`obtener_mensajes`, `FECHA_INICIO/FIN` con
   `utcnow`, `desde_alertas`), mientras el tablero y los cierres de barrido
-  ya usan hora de Chile. No recalcular sin el OK del usuario.
+  ya usan hora de Chile. Plan aprobado por el usuario el 20-oct-2026: código
+  en la rama `dia-chile` (`obtener_mensajes` de 00:00 a 24:00 de Chile,
+  ayer y plazo de alertas en hora de Chile; `diario.yml` corre en otra rama
+  con su propio grupo y sube a esa rama). Recalcular el año en la rama por
+  quincenas, comparar los casos de calibración y los cuarteles que cambien
+  más de 2 puntos, y **no reemplazar el historial de main sin el OK del
+  usuario**. Falta su OK a la lista de lo que se limpia en la rama.
+- **Arreglo 20-oct-2026**: la corrida de esa noche armó el tablero de la flota
+  sin la última conexión de ninguna máquina (63 "Sin datos GPS"): la sesión
+  de Wialon vence tras 5 min sin uso y entre la última descarga y el tablero
+  pasaron más. Ahora se vuelve a conectar antes del tablero y, si Wialon
+  responde error, la corrida falla en vez de publicar un tablero vacío. El
+  correo tampoco se arma si `flota.json` viene sin conexiones.
 
 ## Pendientes
 
