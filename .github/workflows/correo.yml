@@ -12,6 +12,7 @@ on:
   workflow_run:
     workflows: ['Reporte diario de hectareas']
     types: [completed]
+    branches: [main]   # un recalculo en otra rama nunca dispara el correo
   workflow_dispatch:
     inputs:
       modo:
