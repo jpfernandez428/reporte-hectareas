@@ -474,6 +474,17 @@ function claveGrupo(f) {
 
 let expandido = new Set();
 
+// Area total sin repetir: cada cuartel + labor cuenta una sola vez aunque se
+// haya trabajado varios dias (las hectareas trabajadas si se suman todas).
+function areaUnica(filas) {
+  const area = {};
+  for (const f of filas) {
+    const k = f.cuartel + '||' + (f.labor || '');
+    area[k] = Math.max(area[k] || 0, f.area_total_ha);
+  }
+  return { area: Object.values(area).reduce((t, a) => t + a, 0), cuarteles: Object.keys(area).length };
+}
+
 function agruparFiltrados() {
   const grupos = {};
   for (const f of filtrados) {
@@ -506,10 +517,9 @@ function renderTabla() {
     '<th>Área total (ha)</th><th>Hectáreas trabajadas</th>' +
     '</tr></thead><tbody>';
 
-  let sumaAreaTotal = 0, sumaTrabajada = 0;
+  let sumaTrabajada = 0;
 
   for (const g of filasGrupo) {
-    sumaAreaTotal += g.area_total;
     sumaTrabajada += g.area_trabajada;
 
     html += `<tr class="fila-grupo" ondblclick="toggleDetalle('${g.clave.replace(/'/g, "\\'")}')" title="Doble clic para ver el detalle por cuartel">` +
@@ -529,8 +539,9 @@ function renderTabla() {
     }
   }
   html += '</tbody>';
-  html += `<tfoot><tr><td colspan="3">TOTAL (${filasGrupo.length} registros)</td>` +
-    `<td>${sumaAreaTotal.toFixed(2)}</td><td>${sumaTrabajada.toFixed(2)}</td></tr></tfoot>`;
+  const unica = areaUnica(filtrados);
+  html += `<tfoot><tr><td colspan="2">TOTAL (${filasGrupo.length} registros)</td><td>${unica.cuarteles}</td>` +
+    `<td>${unica.area.toFixed(2)}</td><td>${sumaTrabajada.toFixed(2)}</td></tr></tfoot>`;
   html += '</table>';
   cont.innerHTML = html;
 
@@ -569,13 +580,13 @@ function descargarCSV() {
   const datosResumen = [
     ['Fecha', 'Maquina', 'N Cuarteles', 'Area total (ha)', 'Hectareas trabajadas'],
     ...filasGrupo.map(g => [g.fecha, g.maquina, g.cuarteles.length, Number(g.area_total.toFixed(2)), Number(g.area_trabajada.toFixed(2))]),
-    ['TOTAL', '', filasGrupo.length, Number(sumaResumen.area_total.toFixed(2)), Number(sumaResumen.area_trabajada.toFixed(2))],
+    ['TOTAL', '', areaUnica(filtrados).cuarteles, Number(areaUnica(filtrados).area.toFixed(2)), Number(sumaResumen.area_trabajada.toFixed(2))],
   ];
 
   const datosDetalle = [
     ['Fecha', 'Maquina', 'Cuartel', 'N Hileras', 'Area total cuartel (ha)', 'Hectareas trabajadas'],
     ...filasDetalle.map(f => [f.fecha, f.maquina, f.cuartel, f.n_hileras, f.area_total_ha, f.area_trabajada_ha]),
-    ['TOTAL', '', '', '', Number(sumaDetalle.area_total.toFixed(2)), Number(sumaDetalle.area_trabajada.toFixed(2))],
+    ['TOTAL', '', `${areaUnica(filtrados).cuarteles} cuarteles`, '', Number(areaUnica(filtrados).area.toFixed(2)), Number(sumaDetalle.area_trabajada.toFixed(2))],
   ];
 
   const wb = XLSX.utils.book_new();
