@@ -880,7 +880,7 @@ Registro:
   Antes, el 21-oct, el tramo 1 falló por un corte de conexión con Wialon
   (sin commit): se agregaron reintentos a la descarga del GPS (rama y main).
 - **Campos unidos** (`config.json` → `campos_unidos`, revisados por el usuario el
-  21-oct-2026; 152 → 137 campos): nombres distintos del mismo campo, para las
+  21-oct-2026; 200 nombres de campo → 147 campos): nombres distintos del mismo campo, para las
   horas por campo. Incluye El Volcán Nueces en El Volcán, A1–A15 en
   Ballerina, Campo Lolol AEC en Campo Lolol, Ochagavía Manantiales en
   Ochagavía, y Agrícola El Carmen junto con Ochagavía (San Gregorio). Mismo
