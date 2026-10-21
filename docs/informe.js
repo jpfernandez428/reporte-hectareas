@@ -40,8 +40,24 @@ function nombreCampo(nombreCuartel) {
   }
   return palabras.join(' ') || nombreCuartel;
 }
+// Campo de un cuartel, con los nombres distintos del mismo campo unidos
+// (docs/datos/campos.json = campos_unidos de config.json; ej. "El Volcan
+// Nueces" es El Volcan, A1-A15 son Ballerina). Las "Nueva geocerca (id ...)"
+// estan a mas de 20 km entre si: cada una es un campo. {id, nombre}
+let CAMPO_DE_RAIZ = {};   // raiz -> nombre del campo unido
+let RAICES_DE_CAMPO = {}; // nombre del campo unido -> [raices]
+function cargarCamposUnidos(datosCampos) {
+  CAMPO_DE_RAIZ = {}; RAICES_DE_CAMPO = (datosCampos && datosCampos.campos_unidos) || {};
+  for (const [campo, raices] of Object.entries(RAICES_DE_CAMPO)) for (const r of raices) CAMPO_DE_RAIZ[r] = campo;
+}
+function campoDe(nombreCuartel) {
+  const raiz = raizCampo(nombreCuartel);
+  if (raiz.startsWith('nueva geocerca')) return { id: 'g:' + nombreCuartel.toLowerCase(), nombre: nombreCuartel };
+  if (CAMPO_DE_RAIZ[raiz]) return { id: 'u:' + CAMPO_DE_RAIZ[raiz], nombre: CAMPO_DE_RAIZ[raiz] };
+  return { id: raiz, nombre: nombreCampo(nombreCuartel) };
+}
 const numeroCuartel = n => { const m = n.match(/(\d+)\s*$/); return m ? parseInt(m[1], 10) : 0; };
-const ordenCuartel = (a, b) => raizCampo(a).localeCompare(raizCampo(b)) || numeroCuartel(a) - numeroCuartel(b) || a.localeCompare(b);
+const ordenCuartel = (a, b) => campoDe(a).id.localeCompare(campoDe(b).id) || numeroCuartel(a) - numeroCuartel(b) || a.localeCompare(b);
 const fechaCl = iso => iso ? iso.split('-').reverse().join('-') : '';
 const hoyIso = () => new Date().toLocaleDateString('en-CA', { timeZone: 'America/Santiago' });
 const n2 = v => Number(v).toLocaleString('es-CL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -51,8 +67,8 @@ const p1 = v => (v * 100).toLocaleString('es-CL', { minimumFractionDigits: 1, ma
 function camposDisponibles() {
   const campos = {};
   for (const d of datos) {
-    const raiz = raizCampo(d.cuartel);
-    if (!campos[raiz]) campos[raiz] = nombreCampo(d.cuartel);
+    const raiz = campoDe(d.cuartel).id;
+    if (!campos[raiz]) campos[raiz] = campoDe(d.cuartel).nombre;
   }
   return Object.entries(campos).sort((a, b) => a[1].localeCompare(b[1], 'es')).map(([raiz, nombre]) => ({ raiz, nombre }));
 }
@@ -60,7 +76,7 @@ function camposDisponibles() {
 // Datos del informe: filas del periodo y avance por cuartel (estado al "hasta").
 function datosInforme(raices, desde, hasta) {
   const pedidos = new Set(raices);
-  const filas = datos.filter(d => pedidos.has(raizCampo(d.cuartel)) && d.fecha >= desde && d.fecha <= hasta && d.area_trabajada_ha > 0);
+  const filas = datos.filter(d => pedidos.has(campoDe(d.cuartel).id) && d.fecha >= desde && d.fecha <= hasta && d.area_trabajada_ha > 0);
   const area = {};
   for (const d of datos) area[d.cuartel] = Math.max(area[d.cuartel] || 0, d.area_total_ha);
   // Fecha en que cada cuartel + labor llego al 95 % (todas las maquinas).
@@ -82,7 +98,7 @@ function datosInforme(raices, desde, hasta) {
     const ha = filas.filter(d => mismo(d, cuartel, laborBase, temporada, repaso)).reduce((t, d) => t + d.area_trabajada_ha, 0);
     const hastaFecha = del.filter(d => d.fecha <= hasta).reduce((t, d) => t + d.area_trabajada_ha, 0);
     const labor = laborBase + (repaso !== '0' ? ` – REPASO ${repaso}` : '');
-    const c = { campo: nombreCampo(cuartel), raiz: raizCampo(cuartel), cuartel, labor, laborBase, area: area[cuartel], ha };
+    const c = { campo: campoDe(cuartel).nombre, raiz: campoDe(cuartel).id, cuartel, labor, laborBase, area: area[cuartel], ha };
     if (laborBase === 'Barrido') {
       const info = avanceCuarteles && avanceCuarteles.cuarteles[cuartel] && avanceCuarteles.cuarteles[cuartel].labores.Barrido;
       const cierres = ((info && info.cierres) || []).filter(f => f <= hasta);
@@ -211,7 +227,7 @@ async function informeExcel(campos, desde, hasta) {
   hojaResumen('Resumen', camposTxt, filas, cuarteles, campos.length > 1);
   if (campos.length > 1) {
     for (const c of campos) {
-      hojaResumen(('Resumen ' + c.nombre).slice(0, 31), c.nombre, filas.filter(d => raizCampo(d.cuartel) === c.raiz),
+      hojaResumen(('Resumen ' + c.nombre).slice(0, 31), c.nombre, filas.filter(d => campoDe(d.cuartel).id === c.raiz),
                   cuarteles.filter(x => x.raiz === c.raiz), false);
     }
   }
@@ -260,7 +276,7 @@ async function informeExcel(campos, desde, hasta) {
   ws.getCell('A2').value = `${camposTxt} · ${fechaCl(desde)} al ${fechaCl(hasta)}`; ws.getCell('A2').font = { color: { argb: 'FF555555' } };
   const det = [...filas].sort((a, b) => ordenCuartel(a.cuartel, b.cuartel) || a.fecha.localeCompare(b.fecha) || a.maquina.localeCompare(b.maquina));
   r = tabla(ws, 4, ['Campo', 'Cuartel', 'Fecha', 'Labor', 'Máquina', 'Hectáreas'],
-    det.map(d => [nombreCampo(d.cuartel), d.cuartel, aFecha(d.fecha), d.labor, d.maquina, d.area_trabajada_ha]),
+    det.map(d => [campoDe(d.cuartel).nombre, d.cuartel, aFecha(d.fecha), d.labor, d.maquina, d.area_trabajada_ha]),
     [null, null, FEC, null, null, NUM], ['Total', null, null, null, null, det.reduce((t, d) => t + d.area_trabajada_ha, 0)]);
   ws.autoFilter = { from: 'A4', to: `F${4 + det.length}` };
   [14, 16, 12, 12, 32, 12].forEach((w, j) => { ws.getColumn(j + 1).width = w; });
@@ -425,7 +441,7 @@ async function informePdf(campos, desde, hasta) {
   }
 
   function mapas(campo, cs) {
-    const contornos = Object.fromEntries(Object.entries(geocercasInforme).filter(([n]) => raizCampo(n) === campo.raiz).map(([n, g]) => [n, g.contorno]));
+    const contornos = Object.fromEntries(Object.entries(geocercasInforme).filter(([n]) => campoDe(n).id === campo.raiz).map(([n, g]) => [n, g.contorno]));
     if (!Object.keys(contornos).length) return;
     const estado = Object.fromEntries(cs.map(c => [c.cuartel, c]));
     const grupos = gruposDeCuarteles(contornos);
@@ -447,7 +463,7 @@ async function informePdf(campos, desde, hasta) {
     for (const c of campos) {
       doc.addPage();
       const cs = cuarteles.filter(x => x.raiz === c.raiz);
-      bloque(`Campo ${c.nombre}`, c.nombre, filas.filter(d => raizCampo(d.cuartel) === c.raiz), cs, false);
+      bloque(`Campo ${c.nombre}`, c.nombre, filas.filter(d => campoDe(d.cuartel).id === c.raiz), cs, false);
       mapas(c, cs);
     }
   }
@@ -472,6 +488,14 @@ function abrirInforme() {
       `<label class="campo-informe" data-nombre="${escaparXml(c.nombre.toLowerCase())}"><input type="checkbox" id="campoInf${i}" value="${escaparXml(c.raiz)}" data-nombre="${escaparXml(c.nombre)}"> ${escaparXml(c.nombre)}</label>`).join('');
   }
   const ultimo = datos.map(d => d.fecha).sort().pop() || hoyIso();
+  // Respeta el filtro de la pagina: campos marcados y fechas Desde/Hasta.
+  const marcados = typeof camposSeleccionados === 'function' ? camposSeleccionados() : [];
+  if (marcados.length) {
+    document.querySelectorAll('#informeCampos input').forEach(i => { i.checked = marcados.includes(i.value); });
+  }
+  const fDesde = document.getElementById('filtroDesde'), fHasta = document.getElementById('filtroHasta');
+  if (fDesde && fDesde.value) document.getElementById('informeDesde').value = fDesde.value;
+  if (fHasta && fHasta.value) document.getElementById('informeHasta').value = fHasta.value;
   if (!document.getElementById('informeHasta').value) document.getElementById('informeHasta').value = ultimo;
   if (!document.getElementById('informeDesde').value) document.getElementById('informeDesde').value = ultimo.slice(0, 8) + '01';
 }

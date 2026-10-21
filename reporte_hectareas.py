@@ -2243,6 +2243,10 @@ def guardar_geocercas_web(geocercas):
         json.dump({g["nombre"]: {"area_ha": round(g["area_ha"], 4),
                                  "contorno": [[round(p[0], 6), round(p[1], 6)] for p in g["contorno"]]}
                    for g in geocercas}, f, ensure_ascii=False, separators=(",", ":"))
+    # Campos unidos (nombres distintos del mismo campo) para el filtro de campo
+    # de la pagina y el informe: se publican desde config.json.
+    with open(os.path.join(CARPETA_DATOS, "campos.json"), "w", encoding="utf-8") as f:
+        json.dump({"campos_unidos": CONFIG.get("campos_unidos", {})}, f, ensure_ascii=False, indent=1)
 
 
 def guardar_geocercas_conocidas(geocercas):

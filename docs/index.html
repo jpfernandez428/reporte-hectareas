@@ -33,6 +33,7 @@
           border-radius: 16px; padding: 5px 10px 5px 12px; margin: 0 8px 8px 0; font-size: 13px; }
   .chip button { background: none; color: #666; border: none; cursor: pointer; font-size: 14px; padding: 0 2px; }
   .vista[hidden] { display: none !important; }
+  #contenedorTabla, #contenedorAvance { overflow-x: auto; }
   /* Botones rapidos de periodo (solo cambian Desde y Hasta) */
   .periodo { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
   .periodo .grupo-rapido { display: inline-flex; gap: 4px; align-items: center; }
@@ -116,12 +117,12 @@
 
 <div class="filtros">
   <div class="campo">
-    <label>Máquina</label>
+    <label>Máquina o campo</label>
     <div style="margin-bottom:4px;">
       <a href="#" onclick="marcarTodas(true); return false;" style="font-size:12px;">Todas</a> ·
       <a href="#" onclick="marcarTodas(false); return false;" style="font-size:12px;">Ninguna</a>
     </div>
-    <input type="text" id="buscarMaquina" placeholder="Buscar (ej. 10)" oninput="filtrarListaMaquinas()"
+    <input type="text" id="buscarMaquina" placeholder="Buscar máquina o campo (ej. 10, Nueces)" oninput="filtrarListaMaquinas()"
            style="width:100%; box-sizing:border-box; margin-bottom:4px; padding:6px; border-radius:6px; border:1px solid #ccc;">
     <div id="filtroMaquinaBox" style="max-height:140px; overflow-y:auto; border:1px solid #ccc; border-radius:6px; padding:8px; min-width:240px; background:white;"></div>
   </div>
@@ -263,6 +264,12 @@ async function cargarDatos() {
   } catch (e) {
     avanceCuarteles = null;
   }
+  try {
+    const respCampos = await fetch('datos/campos.json?_=' + Date.now());
+    cargarCamposUnidos(respCampos.ok ? await respCampos.json() : null);
+  } catch (e) {
+    cargarCamposUnidos(null);
+  }
   poblarFiltroMaquinas();
   prepararPeriodoRapido();
   filtrados = datos;
@@ -271,7 +278,7 @@ async function cargarDatos() {
 
 function hayFiltrosActivos() {
   return gruposFiltro.length > 0 ||
-    maquinasSeleccionadas().length > 0 ||
+    maquinasSeleccionadas().length > 0 || camposSeleccionados().length > 0 ||
     !!document.getElementById('filtroDesde').value ||
     !!document.getElementById('filtroHasta').value;
 }
@@ -409,37 +416,68 @@ function tablaAvance(filas, umbral) {
   return html;
 }
 
+// Un solo buscador con dos grupos: "Maquinas" y "Campos" (campos unidos: se
+// encuentra por cualquiera de sus nombres o cuarteles, ej. "Nueces" -> El Volcan).
+const sinTildes = t => t.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
 function poblarFiltroMaquinas() {
   const box = document.getElementById('filtroMaquinaBox');
-  box.innerHTML = '';
   const maquinas = [...new Set(datos.map(d => d.maquina))]
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
-  for (const m of maquinas) {
-    const label = document.createElement('label');
-    label.style.display = 'block';
-    label.style.fontWeight = 'normal';
-    label.style.fontSize = '13px';
-    label.style.padding = '2px 0';
-    label.dataset.nombre = m.toLowerCase();
-    label.innerHTML = `<input type="checkbox" value="${m}" onchange="aplicarFiltros()"> ${m}`;
-    box.appendChild(label);
+  const campos = {};
+  for (const d of datos) {
+    const c = campoDe(d.cuartel);
+    if (!campos[c.id]) campos[c.id] = { nombre: c.nombre, busqueda: new Set([c.nombre]) };
+    campos[c.id].busqueda.add(d.cuartel);
   }
+  for (const [campo, raices] of Object.entries(RAICES_DE_CAMPO)) {
+    const c = campos['u:' + campo];
+    if (c) raices.forEach(r => c.busqueda.add(r));
+  }
+  const fila = (tipo, valor, texto, busqueda) =>
+    `<label class="opcion" data-tipo="${tipo}" data-busqueda="${escaparXml(sinTildes(busqueda))}" style="display:block;font-weight:normal;font-size:13px;padding:2px 0;">` +
+    `<input type="checkbox" data-tipo="${tipo}" value="${escaparXml(valor)}" onchange="aplicarFiltros()"> ${escaparXml(texto)}</label>`;
+  const titulo = (tipo, texto) => `<div class="titulo-lista" data-tipo="${tipo}" style="font-size:11px;font-weight:700;color:#2f6f3e;text-transform:uppercase;margin:6px 0 2px;">${texto}</div>`;
+  box.innerHTML = titulo('maquina', 'Máquinas') + maquinas.map(m => fila('maquina', m, m, m)).join('') +
+    titulo('campo', 'Campos') + Object.entries(campos).sort((a, b) => a[1].nombre.localeCompare(b[1].nombre, 'es'))
+      .map(([id, c]) => fila('campo', id, c.nombre, [...c.busqueda].join(' | '))).join('');
 }
 
 function filtrarListaMaquinas() {
-  const texto = document.getElementById('buscarMaquina').value.trim().toLowerCase();
-  document.querySelectorAll('#filtroMaquinaBox label').forEach(label => {
-    label.style.display = label.dataset.nombre.includes(texto) ? 'block' : 'none';
+  const texto = sinTildes(document.getElementById('buscarMaquina').value.trim());
+  document.querySelectorAll('#filtroMaquinaBox label.opcion').forEach(label => {
+    label.style.display = label.dataset.busqueda.includes(texto) ? 'block' : 'none';
+  });
+  // Un grupo sin coincidencias no muestra su titulo.
+  document.querySelectorAll('#filtroMaquinaBox .titulo-lista').forEach(t => {
+    const hay = [...document.querySelectorAll(`#filtroMaquinaBox label.opcion[data-tipo="${t.dataset.tipo}"]`)]
+      .some(l => l.style.display !== 'none');
+    t.style.display = hay ? 'block' : 'none';
   });
 }
 
 function marcarTodas(valor) {
-  document.querySelectorAll('#filtroMaquinaBox input[type=checkbox]').forEach(c => c.checked = valor);
+  // "Todas" marca las maquinas; "Ninguna" desmarca maquinas y campos.
+  document.querySelectorAll('#filtroMaquinaBox input[type=checkbox]').forEach(c => {
+    if (c.dataset.tipo === 'maquina' || !valor) c.checked = valor;
+  });
   aplicarFiltros();
 }
 
+function camposSeleccionados() {
+  return Array.from(document.querySelectorAll('#filtroMaquinaBox input[data-tipo=campo]:checked')).map(c => c.value);
+}
+
+// Maquinas y campos se combinan: marcando ambos, solo el trabajo de esas
+// maquinas en esos campos; solo campos, todas las maquinas que trabajaron ahi.
+function pasaFiltro(d, maquinas, campos, desde, hasta) {
+  return (!maquinas.length || maquinas.includes(d.maquina)) &&
+    (!campos.length || campos.includes(campoDe(d.cuartel).id)) &&
+    (!desde || d.fecha >= desde) && (!hasta || d.fecha <= hasta);
+}
+
 function maquinasSeleccionadas() {
-  return Array.from(document.querySelectorAll('#filtroMaquinaBox input[type=checkbox]:checked')).map(c => c.value);
+  return Array.from(document.querySelectorAll('#filtroMaquinaBox input[data-tipo=maquina]:checked')).map(c => c.value);
 }
 
 function aplicarFiltros() {
@@ -447,11 +485,8 @@ function aplicarFiltros() {
     // Con filtros combinados, las fechas Desde/Hasta (si hay) acotan ademas el periodo.
     const desdeG = document.getElementById('filtroDesde').value;
     const hastaG = document.getElementById('filtroHasta').value;
-    filtrados = datos.filter(d => gruposFiltro.some(g =>
-      (g.maquinas.length === 0 || g.maquinas.includes(d.maquina)) &&
-      (!g.desde || d.fecha >= g.desde) &&
-      (!g.hasta || d.fecha <= g.hasta)
-    ) && (!desdeG || d.fecha >= desdeG) && (!hastaG || d.fecha <= hastaG));
+    filtrados = datos.filter(d => gruposFiltro.some(g => pasaFiltro(d, g.maquinas, g.campos || [], g.desde, g.hasta))
+      && (!desdeG || d.fecha >= desdeG) && (!hastaG || d.fecha <= hastaG));
     renderTabla();
     return;
   }
@@ -460,12 +495,8 @@ function aplicarFiltros() {
   const desde = document.getElementById('filtroDesde').value;
   const hasta = document.getElementById('filtroHasta').value;
 
-  filtrados = datos.filter(d => {
-    if (seleccionadas.length > 0 && !seleccionadas.includes(d.maquina)) return false;
-    if (desde && d.fecha < desde) return false;
-    if (hasta && d.fecha > hasta) return false;
-    return true;
-  });
+  const campos = camposSeleccionados();
+  filtrados = datos.filter(d => pasaFiltro(d, seleccionadas, campos, desde, hasta));
   renderTabla();
 }
 
@@ -538,15 +569,16 @@ function prepararPeriodoRapido() {
 
 function agregarGrupoFiltro() {
   const maquinas = maquinasSeleccionadas();
+  const campos = camposSeleccionados();
   const desde = document.getElementById('filtroDesde').value;
   const hasta = document.getElementById('filtroHasta').value;
 
-  if (maquinas.length === 0 && !desde && !hasta) {
-    alert('Elige al menos una máquina o una fecha antes de agregar el filtro.');
+  if (maquinas.length === 0 && campos.length === 0 && !desde && !hasta) {
+    alert('Elige al menos una máquina, un campo o una fecha antes de agregar el filtro.');
     return;
   }
 
-  gruposFiltro.push({ maquinas, desde, hasta });
+  gruposFiltro.push({ maquinas, campos, desde, hasta });
   renderChipsGrupos();
   aplicarFiltros();
 }
@@ -567,6 +599,13 @@ function renderChipsGrupos() {
   gruposFiltro.forEach((g, i) => {
     const partesTexto = [];
     partesTexto.push(g.maquinas.length > 0 ? g.maquinas.join(', ') : 'Todas las máquinas');
+    if ((g.campos || []).length) {
+      const nombres = g.campos.map(id => {
+        const caja = document.querySelector(`#filtroMaquinaBox input[data-tipo=campo][value="${CSS.escape(id)}"]`);
+        return caja ? caja.parentElement.textContent.trim() : id;
+      });
+      partesTexto.push('en ' + nombres.join(', '));
+    }
     if (g.desde || g.hasta) partesTexto.push(`(${g.desde || '...'} a ${g.hasta || '...'})`);
     html += `<span class="chip">${partesTexto.join(' ')} <button onclick="quitarGrupoFiltro(${i})" title="Quitar">✕</button></span>`;
   });
@@ -830,9 +869,10 @@ function escaparXml(texto) {
 async function descargarKML() {
   // Si hay filtros combinados armados, se usan esos; si no, se usa el filtro simple actual.
   const condiciones = gruposFiltro.length > 0
-    ? gruposFiltro.map(g => ({ maquinas: g.maquinas, desde: g.desde, hasta: g.hasta }))
+    ? gruposFiltro.map(g => ({ maquinas: g.maquinas, campos: g.campos || [], desde: g.desde, hasta: g.hasta }))
     : [{
         maquinas: maquinasSeleccionadas(),
+        campos: camposSeleccionados(),
         desde: document.getElementById('filtroDesde').value,
         hasta: document.getElementById('filtroHasta').value,
       }];
@@ -889,6 +929,7 @@ async function descargarKML() {
         if (!contornosPorMaquina[nombreMaquina]) contornosPorMaquina[nombreMaquina] = {};
 
         for (const [nombreCuartel, datosCuartel] of Object.entries(cuarteles)) {
+          if (c.campos.length && !c.campos.includes(campoDe(nombreCuartel).id)) continue;  // filtro de campo
           const completoAlHasta = completos.has(nombreCuartel + '||' + (datosCuartel.labor || ''));
           if (datosCuartel.contorno && datosCuartel.contorno.length >= 3) {
             const previo = contornosPorMaquina[nombreMaquina][nombreCuartel];
