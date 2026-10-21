@@ -441,5 +441,22 @@
     {"id": 401976258, "nombre": "LZYC98 Citroen Berlingo"},
     {"id": 400801786, "nombre": "SDFD14 MAXUS GRIS"},
     {"id": 401976268, "nombre": "SKTY32 MAXUS T90", "activo": false}
-  ]
+  ],
+  "campos_unidos": {
+    "Agrícola El Carmen y Ochagavía (San Gregorio)": ["ag el carmen san gregorio cuartel", "ag. el carmen-san gregorio cuartel", "ochagavia (san gregorio)", "ochagavia san gregorio", "ochagavia san gregorio prueba", "san gregorio agricola el carmen"],
+    "Cerrito de Chada": ["cerrito de chada", "cerrito de chada cuartel"],
+    "Cholqui": ["cholqui", "nueva geocerca cholqui"],
+    "CK2": ["ck2 0.1", "ck2 0.2", "ck2 1", "ck2 2", "ck2 3", "ck2 4", "ck2 5", "ck2 6", "ck2 7"],
+    "Frutexa": ["frutexa", "frutexa cuartel"],
+    "Joaquín": ["joaquin", "joaquin v"],
+    "Juan Valenzuela": ["juan v nogales", "juan valenzuela cuartel", "juan valenzuela cuertel"],
+    "Mayol": ["mayol", "mayol c"],
+    "MGH Nancagua": ["mgh cuartel", "nancagua mgh cuartel"],
+    "Mar": ["mar", "mars"],
+    "Rocío Molina": ["quinahue agricola el caserio rocio molina", "rocio molina"],
+    "El Volcán": ["el volcan", "el volcan nueces", "volcan"],
+    "Campo Lolol": ["campo lolol", "campo lolol aec"],
+    "Ochagavía": ["ochagavia", "ochagavia manantiales"],
+    "Ballerina": ["a1", "a10a", "a10b", "a10c", "a11aa", "a11ab", "a11ac", "a11b", "a12", "a13", "a14", "a15", "a2", "a3", "a4", "a5", "a6a", "a6b", "a6c", "a7aa", "a7ab", "a7ac", "a7ba", "a7bb", "a7bc", "a7bd", "ballerina"]
+  }
 }
