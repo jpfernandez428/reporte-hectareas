@@ -1042,5 +1042,14 @@
   "tipo": "Repaso",
   "ha": 0.36,
   "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-10-03",
+  "maquina": "Tractor 13 Deutz Fahr 115",
+  "cuartel": "Aurora 20",
+  "labor": "Poda",
+  "tipo": "Repaso",
+  "ha": 0.14,
+  "temporada": "2026-27"
  }
 ]
