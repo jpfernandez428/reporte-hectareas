@@ -714,15 +714,28 @@ Registro:
   - **Privacidad (pendiente, 21-oct-2026)**: la página es pública (el usuario
     lo aceptó por ahora; muestra recorridos de las camionetas). Falta
     protegerla con clave (Cloudflare Access).
-- **Hectáreas estimadas sin geocerca** (pedido del usuario 21-oct-2026, en el
+- **Hectáreas estimadas sin geocerca** (reglas del usuario 21-oct-2026, en el
   correo y la página): horas sin geocerca × rendimiento real de la máquina =
-  ha acreditadas ÷ horas en geocercas en los días con ambas cosas de los
-  últimos 30 días (`rendimientos`); con menos de 10 h de referencia
-  (`horas_minimas_rendimiento`) el de su labor; sin referencia, el cálculo
-  del GPS. El cálculo del GPS (el del panel Flota, `ha_aprox`) suma el largo
+  ha acreditadas ÷ horas en geocercas, en los días de los últimos 30 con
+  ambas cosas y **sin los días en que se completó un cuartel** (ese día se
+  acredita el área total; en barrido, los días de cierre de una pasada).
+  Propio si tiene al menos 3 días y 10 h de esa labor (`dias_minimos_rendimiento`,
+  `horas_minimas_rendimiento`); si no, el promedio de la flota en su labor
+  (misma regla); sin referencia, el cálculo del GPS. El cálculo del GPS (el del panel Flota, `ha_aprox`) suma el largo
   de las pasadas × espaciado (2,5–5 m): cuenta dos veces lo que se repasa,
   por eso las barredoras daban 2–3,8 ha/h y su rendimiento real es ~1,1–1,8
   ha/h. El panel Flota sigue con el cálculo del GPS (no se cambió).
+- **Área total sin repetir** (regla del usuario 21-oct-2026): en totales, cada
+  cuartel + labor cuenta una sola vez (área total y N° de cuarteles); las
+  hectáreas trabajadas sí se suman todos los días. Corregido en la tabla
+  principal de la página y su descarga (`areaUnica`); el informe para el
+  cliente ya lo hacía. Ej. Shacker SBS 8 en Patricio Schlak, 16 y 17-oct:
+  área total 7,88 → 3,94 ha, 1 cuartel, 3,94 ha trabajadas.
+- **Horómetro** (21-oct-2026): todas las máquinas tienen sensor "Ignición"
+  (`io_239`) en Wialon; el horómetro es el contador de horas de motor de cada
+  unidad (`cneh`). Sale en el panel Flota (columna y detalle de cada
+  máquina), no en el correo. Revisión de solo lectura: `modo` `sensores` de
+  `correo.yml` (Excel "Horómetro según Wialon" en Descargas del usuario).
 - **Máquinas: sin km en ninguna parte del correo** (pedido del usuario). Solo
   hectáreas (historial), horas y geocercas (tablero de la flota: horas en
   movimiento dentro de geocercas + horas sin geocerca). "Trabajó" = ha > 0,
@@ -802,8 +815,14 @@ Registro:
 
 ## Pendientes
 
-- **Temporadas (tema pendiente, el usuario lo decide después; 20-oct-2026, no
-  cambiar nada todavía)**: el avance de una labor no debería acumularse de una
+- **Shacker SBS 6, Rodrigo Bunster C2 y C4, 19 y 20-oct (revisado 21-oct-2026,
+  solo lectura)**: el GPS muestra trabajo real (11–14 pasadas de 124–140 m por
+  geocerca y día, un punto cada ~50 s), pero se acreditan 0 ha porque esos
+  cuarteles quedaron al 100 % de "Cosecha con recibidor" en febrero (Shacker
+  SBS 13) y el avance nunca baja. Se corrige con las temporadas (raleo
+  separado de la cosecha): daría ~47 % de cada cuartel (2,13 + 2,34 ha).
+- **Temporadas (reglas del usuario 21-oct-2026; esperando que confirme la
+  tabla antes de recalcular en `dia-chile`)**: el avance de una labor no debería acumularse de una
   temporada a otra. Hoy el avance de cada geocerca + labor se acumula todo el
   año y nunca baja. Ej. EL PRINCIPIO 12 – Cosecha con recibidor: 92,4 %
   publicado = 2,11 ha del Shacker SBS 7 (12 y 13-feb) + 2,35 ha del Shacker
