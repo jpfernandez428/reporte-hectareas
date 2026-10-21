@@ -2262,10 +2262,17 @@
             "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 10 Deutz Fahr 115"
           ],
-          "trabajado_ha": 0.6856,
-          "porcentaje": 7.1,
-          "completo": false,
-          "temporada": "2026"
+          "trabajado_ha": 9.6946,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026",
+          "fecha_completo": "2026-05-25",
+          "repaso": {
+            "repasos_completos": 0,
+            "numero": 1,
+            "trabajado_ha": 1.1705,
+            "porcentaje": 12.1
+          }
         }
       }
     },
@@ -2293,8 +2300,8 @@
           "repaso": {
             "repasos_completos": 0,
             "numero": 1,
-            "trabajado_ha": 0.6667,
-            "porcentaje": 6.8
+            "trabajado_ha": 8.8493,
+            "porcentaje": 90.2
           }
         }
       }
@@ -2313,18 +2320,44 @@
         },
         "Recolección (tractor con recogedora)": {
           "maquinas": [
+            "Tractor 1 Deutz-Fahr Agroplus",
             "Tractor 10 Deutz Fahr 115"
           ],
-          "trabajado_ha": 3.8733,
-          "porcentaje": 39.1,
-          "completo": false,
-          "temporada": "2026"
+          "trabajado_ha": 9.9028,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026",
+          "fecha_completo": "2026-05-19",
+          "repaso": {
+            "repasos_completos": 0,
+            "numero": 1,
+            "trabajado_ha": 1.3902,
+            "porcentaje": 14.0
+          }
         }
       }
     },
     "Agricola Flor Oriente 4": {
       "area_total_ha": 4.3549,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 3.6,
+          "trabajado_ha": 4.3549,
+          "porcentaje": 100.0,
+          "completo": true,
+          "cierres": [
+            "2026-05-28"
+          ],
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 0.1578,
+            "porcentaje": 3.6
+          }
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 10",
@@ -2341,6 +2374,24 @@
     "Agricola Flor Oriente 5": {
       "area_total_ha": 12.8297,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 2.0,
+          "trabajado_ha": 12.8297,
+          "porcentaje": 100.0,
+          "completo": true,
+          "cierres": [
+            "2026-05-28"
+          ],
+          "repaso": {
+            "repasos_completos": 0,
+            "trabajado_ha": 0.2532,
+            "porcentaje": 2.0
+          }
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 10",
@@ -2552,8 +2603,8 @@
           "maquinas": [
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.4128,
-          "porcentaje": 3.9,
+          "trabajado_ha": 1.4924,
+          "porcentaje": 13.9,
           "completo": false,
           "temporada": "2026-27"
         }
@@ -2566,8 +2617,8 @@
           "maquinas": [
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.4121,
-          "porcentaje": 3.4,
+          "trabajado_ha": 1.5418,
+          "porcentaje": 12.6,
           "completo": false,
           "temporada": "2026-27"
         }
@@ -2580,8 +2631,8 @@
           "maquinas": [
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 1.2518,
+          "porcentaje": 12.9,
           "completo": false,
           "temporada": "2026-27"
         }
@@ -2594,8 +2645,8 @@
           "maquinas": [
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 1.5188,
+          "porcentaje": 16.4,
           "completo": false,
           "temporada": "2026-27"
         }
@@ -2608,8 +2659,8 @@
           "maquinas": [
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 2.8481,
+          "porcentaje": 33.4,
           "completo": false,
           "temporada": "2026-27"
         }
@@ -2620,10 +2671,11 @@
       "labores": {
         "Picado": {
           "maquinas": [
+            "Tractor 14 Deutz Fahr 115",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 2.8828,
+          "porcentaje": 37.1,
           "completo": false,
           "temporada": "2026-27"
         }
@@ -2634,10 +2686,11 @@
       "labores": {
         "Picado": {
           "maquinas": [
+            "Tractor 14 Deutz Fahr 115",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 0.5002,
+          "porcentaje": 7.1,
           "completo": false,
           "temporada": "2026-27"
         }
@@ -2648,10 +2701,11 @@
       "labores": {
         "Picado": {
           "maquinas": [
+            "Tractor 14 Deutz Fahr 115",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 0.4276,
+          "porcentaje": 6.9,
           "completo": false,
           "temporada": "2026-27"
         }
@@ -2676,6 +2730,21 @@
       "labores": {
         "Picado": {
           "maquinas": [
+            "Tractor 8 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026-27"
+        }
+      }
+    },
+    "Avoamerica 32": {
+      "area_total_ha": 2.2922,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 14 Deutz Fahr 115",
             "Tractor 8 Kubota 108"
           ],
           "trabajado_ha": 0.0,
@@ -2809,7 +2878,22 @@
       "labores": {
         "Picado": {
           "maquinas": [
+            "Tractor 14 Deutz Fahr 115",
             "Tractor 8 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026-27"
+        }
+      }
+    },
+    "Avoamerica 44": {
+      "area_total_ha": 2.5179,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 14 Deutz Fahr 115"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -10238,6 +10322,17 @@
     "Juan Hiribarren": {
       "area_total_ha": 10.1606,
       "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 23"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 7.2,
+          "trabajado_ha": 0.7365,
+          "porcentaje": 7.2,
+          "completo": false,
+          "cierres": []
+        },
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 10",
@@ -14830,6 +14925,22 @@
           "porcentaje_en_curso": 0.0,
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
+          "completo": false,
+          "cierres": []
+        }
+      }
+    },
+    "santa Isabel": {
+      "area_total_ha": 12.169,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 1"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 48.0,
+          "trabajado_ha": 5.8415,
+          "porcentaje": 48.0,
           "completo": false,
           "cierres": []
         }
