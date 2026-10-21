@@ -1,0 +1,75 @@
+name: Confirmar campo de trabajo sin geocerca
+
+# Lo lanza el Worker de Cloudflare (disparador-reporte) cuando alguien aprieta
+# un boton en la pagina: aceptar el campo probable, elegir otro, "no es de
+# ningun campo" o deshacer. Guarda la regla en config.json y el registro en
+# docs/datos/confirmaciones.json, y recalcula docs/datos/sin_geocerca.json.
+on:
+  workflow_dispatch:
+    inputs:
+      accion:
+        description: 'campo, ninguno o deshacer'
+        required: true
+      lat:
+        description: 'Latitud del lugar'
+        required: false
+        default: ''
+      lon:
+        description: 'Longitud del lugar'
+        required: false
+        default: ''
+      campo:
+        description: 'Campo elegido (accion campo)'
+        required: false
+        default: ''
+      id:
+        description: 'Regla a deshacer (accion deshacer)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+# Escribe en el repositorio: espera su turno con la corrida y el tablero.
+concurrency:
+  group: datos-del-repositorio
+  cancel-in-progress: false
+
+jobs:
+  confirmar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Traer lo ultimo de GitHub
+        run: git pull --ff-only origin main
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar librerias
+        run: pip install -r requirements.txt
+
+      - name: Guardar la confirmacion
+        env:
+          ACCION: ${{ inputs.accion }}
+          LAT: ${{ inputs.lat }}
+          LON: ${{ inputs.lon }}
+          CAMPO: ${{ inputs.campo }}
+          ID: ${{ inputs.id }}
+        run: python3 confirmar.py
+
+      - name: Subir
+        run: |
+          git config user.name "Reporte automatico"
+          git config user.email "actions@users.noreply.github.com"
+          git add config.json docs/datos/confirmaciones.json docs/datos/sin_geocerca.json
+          if ! git diff --staged --quiet; then
+            git commit -m "Confirmacion de campo (${{ inputs.accion }})"
+            git pull --rebase origin main
+            git push
+          fi

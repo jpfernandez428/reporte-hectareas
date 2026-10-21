@@ -33,6 +33,15 @@
           border-radius: 16px; padding: 5px 10px 5px 12px; margin: 0 8px 8px 0; font-size: 13px; }
   .chip button { background: none; color: #666; border: none; cursor: pointer; font-size: 14px; padding: 0 2px; }
   .vista[hidden] { display: none !important; }
+  /* Trabajo sin geocerca */
+  .sg-estado { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; border: 1px solid; white-space: nowrap; }
+  .sg-asignado, .sg-confirmado { color: #1f6b34; background: #e3f2e6; border-color: #6fbf83; }
+  .sg-probable { color: #8a6a00; background: #fff4cc; border-color: #e8c547; }
+  .sg-sin { color: #5d6660; background: #eceeed; border-color: #b9c0bb; }
+  .sg-botones { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+  .sg-botones button { padding: 4px 8px; font-size: 12px; }
+  details.sg { background: white; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin: 10px 0; padding: 4px 12px; }
+  details.sg summary { cursor: pointer; padding: 8px 0; font-weight: 600; }
   #contenedorTabla, #contenedorAvanceCuartel { overflow-x: auto; }
   /* Botones rapidos de periodo (solo cambian Desde y Hasta) */
   .periodo { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
@@ -172,7 +181,7 @@
 <div class="resumen">
   <div>
     <div class="num" id="totalHa">-</div>
-    <div class="etq">Hectáreas totales (según filtro)</div>
+    <div class="etq">Hectáreas totales (según filtro)<span id="totalSinGeo" style="color:#b3261e;"></span></div>
   </div>
   <div>
     <div class="num" id="totalFilas">-</div>
@@ -220,6 +229,10 @@
 <div class="sub" style="margin-bottom:12px;">Según el filtro de arriba (máquina y fechas).</div>
 <div id="contenedorAvanceCuartel"></div>
 
+<h2 style="margin-top:36px; font-size:18px;">Trabajo sin geocerca</h2>
+<div class="sub" style="margin-bottom:12px;">Estimado (horas × rendimiento real de la máquina), nunca sumado al total exacto. Con filtro de campo: el trabajo atribuido a ese campo.</div>
+<div id="contenedorSinGeocerca"></div>
+
 </main>
 </div>
 
@@ -257,6 +270,7 @@
 
 <script>
 let datos = [];
+let sinGeocerca = null;  // docs/datos/sin_geocerca.json (trabajo sin geocerca con su campo)
 let filtrados = [];
 let gruposFiltro = [];
 let avanceCuarteles = null;  // total por cuartel sin hileras repetidas entre maquinas
@@ -273,6 +287,12 @@ async function cargarDatos() {
     avanceCuarteles = respAvance.ok ? await respAvance.json() : null;
   } catch (e) {
     avanceCuarteles = null;
+  }
+  try {
+    const respSG = await fetch('datos/sin_geocerca.json?_=' + Date.now());
+    sinGeocerca = respSG.ok ? await respSG.json() : null;
+  } catch (e) {
+    sinGeocerca = null;
   }
   try {
     const respCampos = await fetch('datos/campos.json?_=' + Date.now());
@@ -669,6 +689,100 @@ function claveGrupo(f) {
 
 let expandido = new Set();
 
+// ---------------------------------------------------------------------------
+// Trabajo sin geocerca (docs/datos/sin_geocerca.json). Con filtro de campo se
+// muestra el atribuido a ese campo y su estimado junto al total exacto (nunca
+// sumado). "Probable" = asignado por cercania: botones para aceptar, elegir
+// otra opcion o "no es de ningun campo"; cada confirmacion queda como regla
+// del lugar (config.json) y se puede deshacer. Abierto, sin clave.
+// ---------------------------------------------------------------------------
+function trabajosSinGeocercaFiltrados() {
+  if (!sinGeocerca) return [];
+  const desde = document.getElementById('filtroDesde').value, hasta = document.getElementById('filtroHasta').value;
+  const maquinas = maquinasSeleccionadas(), campos = camposSeleccionados();
+  const nombres = new Set(campos.map(id => (listaCampos.find(o => o.valor === id) || {}).texto));
+  return sinGeocerca.trabajos.filter(t =>
+    (!desde || t.fecha >= desde) && (!hasta || t.fecha <= hasta) &&
+    (!maquinas.length || maquinas.includes(t.maquina)) &&
+    (!campos.length || nombres.has(t.campo) || (t.estado === 'probable' && !t.campo && (t.opciones || []).some(o => nombres.has(o)))));
+}
+
+function enviarConfirmacion(cuerpo, boton) {
+  const url = sinGeocerca && sinGeocerca.url_confirmar;
+  const aviso = boton.closest('td, li, div').querySelector('.sg-aviso') || boton.parentElement;
+  if (!url) { alert('Falta configurar la dirección del Worker de Cloudflare (url_confirmaciones en config.json).'); return; }
+  boton.disabled = true;
+  fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
+    .then(r => r.json().then(j => ({ ok: r.ok, j })))
+    .then(({ ok, j }) => {
+      const msg = ok ? 'Guardado: se verá al recargar en 2–3 minutos.' : 'No se pudo guardar (' + (j.error || 'error') + ').';
+      boton.parentElement.insertAdjacentHTML('afterend', `<div class="chica" style="color:${ok ? '#1f6b34' : '#b3261e'}">${msg}</div>`);
+      if (!ok) boton.disabled = false;
+    })
+    .catch(() => { boton.disabled = false; alert('No se pudo conectar con el Worker de Cloudflare.'); });
+}
+
+function botonesProbable(t) {
+  const opciones = t.opciones || [];
+  const cuerpo = (accion, campo) => escaparXml(JSON.stringify({ accion, lat: t.lat, lon: t.lon, campo }));
+  const btn = (texto, accion, campo, clase = '') =>
+    `<button type="button" class="${clase}" onclick='enviarConfirmacion(JSON.parse(this.dataset.c), this)' data-c="${cuerpo(accion, campo)}">${escaparXml(texto)}</button>`;
+  return `<div class="sg-botones">${opciones.map(o => btn(opciones.length === 1 ? `Aceptar ${o}` : `Es ${o}`, 'campo', o)).join('')}` +
+    btn('No es de ningún campo', 'ninguno', null, 'secundario') + '</div>';
+}
+
+function estadoSinGeocerca(t) {
+  if (t.estado === 'probable') {
+    const nombres = t.campo ? t.campo : (t.opciones || []).join(' o ');
+    return `<span class="sg-estado sg-probable">probable: ${escaparXml(nombres)}</span>${botonesProbable(t)}`;
+  }
+  if (t.estado === 'confirmado') return `<span class="sg-estado sg-confirmado">${escaparXml(t.campo)} (confirmado)</span>`;
+  if (t.estado === 'asignado') return `<span class="sg-estado sg-asignado">${escaparXml(t.campo)}</span>`;
+  if (t.estado === 'ninguno') return '<span class="sg-estado sg-sin">ningún campo (confirmado)</span>';
+  return `<span class="sg-estado sg-sin">sin campo</span>${(t.opciones || []).length ? botonesProbable(t) : ''}`;
+}
+
+function tablaSinGeocerca(lista) {
+  if (!lista.length) return '<div class="vacio">Sin trabajo fuera de geocercas para este filtro.</div>';
+  const filas = lista.slice().sort((a, b) => b.fecha.localeCompare(a.fecha) || a.maquina.localeCompare(b.maquina)).map(t =>
+    `<tr><td>${t.fecha}</td><td>${escaparXml(t.maquina)}</td><td>${escaparXml(t.comuna || '')}<br><a href="${t.mapa}" target="_blank" rel="noopener">mapa</a></td>` +
+    `<td>${t.horas.toFixed(1)} h</td><td>~${t.ha.toFixed(1)} ha</td><td>${estadoSinGeocerca(t)}</td></tr>`).join('');
+  return '<div style="overflow-x:auto"><table><thead><tr><th>Fecha</th><th>Máquina</th><th>Lugar</th><th>Horas</th><th>Ha estimadas</th><th>Campo</th></tr></thead>' +
+    `<tbody>${filas}</tbody></table></div>`;
+}
+
+function renderSinGeocerca() {
+  const cont = document.getElementById('contenedorSinGeocerca');
+  const totalSG = document.getElementById('totalSinGeo');
+  if (!cont) return;
+  if (!sinGeocerca) { cont.innerHTML = '<div class="vacio">Todavía no hay datos de trabajo sin geocerca.</div>'; totalSG.textContent = ''; return; }
+  const campos = camposSeleccionados();
+  const lista = trabajosSinGeocercaFiltrados();
+  const enCampo = lista.filter(t => t.campo || t.estado === 'probable');
+  const haSG = (campos.length ? enCampo : lista).reduce((s, t) => s + t.ha, 0);
+  totalSG.textContent = haSG > 0 ? ` + ~${haSG.toFixed(1)} ha estimadas sin geocerca` : '';
+  let html = '';
+  if (campos.length) {
+    html += tablaSinGeocerca(enCampo);
+  } else {
+    const porConfirmar = lista.filter(t => t.estado === 'probable');
+    const sinCampo = lista.filter(t => t.estado === 'sin campo' || t.estado === 'ninguno');
+    const conCampo = lista.filter(t => t.estado === 'asignado' || t.estado === 'confirmado');
+    html += `<details class="sg" ${porConfirmar.length ? 'open' : ''}><summary>Por confirmar (campo probable): ${porConfirmar.length}</summary>${tablaSinGeocerca(porConfirmar)}</details>`;
+    html += `<details class="sg"><summary>Asignados a un campo: ${conCampo.length}</summary>${tablaSinGeocerca(conCampo)}</details>`;
+    html += `<details class="sg"><summary>Sin campo: ${sinCampo.length}</summary>${tablaSinGeocerca(sinCampo)}</details>`;
+  }
+  // Lugares confirmados: lista de geocercas por crear en Wialon, con deshacer.
+  const reglas = (sinGeocerca.lugares_confirmados || []).slice().sort((a, b) => b.fecha.localeCompare(a.fecha));
+  html += `<details class="sg"><summary>Lugares confirmados · geocercas por crear en Wialon: ${reglas.filter(r => r.campo).length}</summary>` +
+    (reglas.length ? '<div style="overflow-x:auto"><table><thead><tr><th>Confirmado</th><th>Campo</th><th>Lugar</th><th></th></tr></thead><tbody>' +
+      reglas.map(r => `<tr><td>${escaparXml(r.fecha)}</td><td>${r.campo ? escaparXml(r.campo) : '<i>ningún campo</i>'}</td>` +
+        `<td><a href="https://www.google.com/maps?q=${r.lat},${r.lon}" target="_blank" rel="noopener">mapa</a></td>` +
+        `<td><div class="sg-botones"><button type="button" class="secundario" onclick='enviarConfirmacion({accion:"deshacer", id:"${r.id}"}, this)'>Deshacer</button></div></td></tr>`).join('') +
+      '</tbody></table></div>' : '<div class="vacio">Todavía no hay lugares confirmados.</div>') + '</details>';
+  cont.innerHTML = html;
+}
+
 // Area total sin repetir: cada cuartel + labor cuenta una sola vez aunque se
 // haya trabajado varios dias (las hectareas trabajadas si se suman todas).
 function areaUnica(filas) {
@@ -697,6 +811,7 @@ function agruparFiltrados() {
 function renderTabla() {
   const cont = document.getElementById('contenedorTabla');
   renderAvancePorCuartel();
+  renderSinGeocerca();
 
   if (filtrados.length === 0) {
     cont.innerHTML = '<div class="vacio">No hay datos para este filtro todavía.</div>';

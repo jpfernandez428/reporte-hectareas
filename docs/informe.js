@@ -132,6 +132,20 @@ function areaSinRepetir(cs) {
   return Object.values(area).reduce((t, a) => t + a, 0);
 }
 
+// Trabajo sin geocerca de esos campos y fechas (docs/datos/sin_geocerca.json,
+// lo carga la pagina): estimado, nunca sumado al total exacto. "Probable" =
+// asignado por cercania, sin confirmar.
+function sinGeocercaInforme(campos, desde, hasta) {
+  if (typeof sinGeocerca === 'undefined' || !sinGeocerca) return [];
+  const nombres = new Set(campos.map(c => c.nombre));
+  return sinGeocerca.trabajos.filter(t => t.fecha >= desde && t.fecha <= hasta &&
+    (nombres.has(t.campo) || (t.estado === 'probable' && !t.campo && (t.opciones || []).some(o => nombres.has(o)))))
+    .sort((a, b) => a.fecha.localeCompare(b.fecha) || a.maquina.localeCompare(b.maquina))
+    .map(t => ({ ...t, campoTxt: t.estado === 'probable'
+      ? (t.campo ? `${t.campo} (probable)` : `probable: ${(t.opciones || []).join(' o ')}`)
+      : `${t.campo}${t.estado === 'confirmado' ? ' (confirmado)' : ''}` }));
+}
+
 function resumenDe(filas, cuarteles) {
   const labores = [...new Set(filas.map(d => d.labor))].sort();
   const porDia = {};
@@ -199,8 +213,10 @@ async function informeExcel(campos, desde, hasta) {
     [['Campo(s)', camposTxt], ['Período', `${fechaCl(desde)} al ${fechaCl(hasta)}`], ['Labores', r.labores.join(', ')], ['Fecha de emisión', fechaCl(hoyIso())]]
       .forEach(([k, v], i) => { ws.getCell(2 + i, 1).value = k; ws.getCell(2 + i, 1).font = { bold: true, size: 10, color: { argb: 'FF555555' } }; ws.getCell(2 + i, 2).value = v; });
     ws.getCell(7, 1).value = 'Indicadores principales'; ws.getCell(7, 1).font = { size: 12, bold: true, color: { argb: 'FF' + INF_VERDE } };
+    const haSG = sinGeocercaInforme(campos.filter(c => conCampo || camposTxt.includes(c.nombre)), desde, hasta).reduce((t, x) => t + x.ha, 0);
     [['Hectáreas trabajadas', r.total, NUM], ['Cuarteles completos', r.completos, '0'], ['Cuarteles en proceso', cs.length - r.completos, '0'],
-     ['Días trabajados', r.dias, '0'], ['Máquinas utilizadas', r.maquinas, '0']].forEach(([k, v, f], j) => {
+     ['Días trabajados', r.dias, '0'], ['Máquinas utilizadas', r.maquinas, '0'],
+     ...(haSG > 0 ? [['Ha estimadas sin geocerca (no sumadas)', haSG, NUM]] : [])].forEach(([k, v, f], j) => {
       const a = ws.getCell(8, j + 1), b = ws.getCell(9, j + 1);
       a.value = k; a.font = { size: 9, bold: true, color: { argb: 'FF555555' } }; a.fill = relleno('EEF4EF'); a.alignment = { horizontal: 'center', wrapText: true };
       b.value = v; b.numFmt = f; b.font = { size: 16, bold: true, color: { argb: 'FF' + INF_VERDE } }; b.fill = relleno('EEF4EF'); b.alignment = { horizontal: 'center' };
@@ -282,6 +298,19 @@ async function informeExcel(campos, desde, hasta) {
     [null, null, FEC, null, null, NUM], ['Total', null, null, null, null, det.reduce((t, d) => t + d.area_trabajada_ha, 0)]);
   ws.autoFilter = { from: 'A4', to: `F${4 + det.length}` };
   [14, 16, 12, 12, 32, 12].forEach((w, j) => { ws.getColumn(j + 1).width = w; });
+  // Trabajo sin geocerca (estimado, aparte)
+  const sg = sinGeocercaInforme(campos, desde, hasta);
+  if (sg.length) {
+    ws = wb.addWorksheet('Sin geocerca (estimado)', { views: [{ state: 'frozen', ySplit: 4, showGridLines: false }],
+      pageSetup: { orientation: 'landscape', fitToPage: true, fitToWidth: 1, fitToHeight: 0 } });
+    ws.getCell('A1').value = 'Trabajo sin geocerca (estimado, no sumado al total)'; ws.getCell('A1').font = { size: 16, bold: true, color: { argb: 'FF' + INF_VERDE } };
+    ws.getCell('A2').value = `${camposTxt} · ${fechaCl(desde)} al ${fechaCl(hasta)} · ha = horas × rendimiento real de la máquina; "probable" = asignado por cercanía, sin confirmar`;
+    ws.getCell('A2').font = { color: { argb: 'FF555555' } };
+    r = tabla(ws, 4, ['Fecha', 'Máquina', 'Campo', 'Lugar', 'Horas', 'Ha estimadas', 'Mapa'],
+      sg.map(t => [aFecha(t.fecha), t.maquina, t.campoTxt, t.comuna || '', t.horas, t.ha, t.mapa]),
+      [FEC, null, null, null, NUM, NUM, null], ['Total', null, null, null, sg.reduce((a, t) => a + t.horas, 0), sg.reduce((a, t) => a + t.ha, 0), null]);
+    [12, 30, 28, 18, 10, 13, 44].forEach((w, j) => { ws.getColumn(j + 1).width = w; });
+  }
   // Notas
   ws = wb.addWorksheet('Notas', { views: [{ showGridLines: false }] });
   ws.getCell('A1').value = 'Cómo se calcula'; ws.getCell('A1').font = { size: 16, bold: true, color: { argb: 'FF' + INF_VERDE } };
@@ -468,6 +497,19 @@ async function informePdf(campos, desde, hasta) {
       bloque(`Campo ${c.nombre}`, c.nombre, filas.filter(d => campoDe(d.cuartel).id === c.raiz), cs, false);
       mapas(c, cs);
     }
+  }
+  const sg = sinGeocercaInforme(campos, desde, hasta);
+  if (sg.length) {
+    doc.addPage();
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(16); doc.setTextColor(...VERDE);
+    doc.text('Trabajo sin geocerca (estimado, no sumado al total)', 12, 15);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...GRIS);
+    doc.text(`Campo(s): ${campos.map(c => c.nombre).join(', ')}    Período: ${fechaCl(desde)} al ${fechaCl(hasta)}    ` +
+             `Total: ~${n2(sg.reduce((t, x) => t + x.ha, 0))} ha estimadas en ${n2(sg.reduce((t, x) => t + x.horas, 0))} h. "Probable" = por cercanía, sin confirmar.`, 12, 21);
+    doc.autoTable({ theme: 'grid', startY: 25, styles: { fontSize: 7.5, cellPadding: 1.2, lineColor: [208, 215, 209], lineWidth: 0.1 },
+      headStyles: { fillColor: VERDE, textColor: 255, fontStyle: 'bold' }, alternateRowStyles: { fillColor: [242, 245, 242] },
+      head: [['Fecha', 'Máquina', 'Campo', 'Lugar', 'Horas', 'Ha estimadas']],
+      body: sg.map(t => [fechaCl(t.fecha), t.maquina, t.campoTxt, t.comuna || '', n2(t.horas), '~' + n2(t.ha)]) });
   }
   const paginas = doc.getNumberOfPages();
   for (let i = 1; i <= paginas; i++) {
