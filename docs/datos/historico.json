@@ -56538,5 +56538,403 @@
     "n_hileras": 56,
     "area_total_ha": 10.19,
     "area_trabajada_ha": 2.83
+  },
+  {
+    "fecha": "2026-10-16",
+    "maquina": "Shacker SBS 7",
+    "cuartel": "MGH Cuartel 3",
+    "labor": "Raleo",
+    "n_hileras": 3,
+    "area_total_ha": 7.65,
+    "area_trabajada_ha": 0.26,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-10-16",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "Patricio Schlak",
+    "labor": "Raleo",
+    "n_hileras": 30,
+    "area_total_ha": 3.94,
+    "area_trabajada_ha": 2.3,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-10-16",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 2",
+    "labor": "Barrido",
+    "n_hileras": 191,
+    "area_total_ha": 6.43,
+    "area_trabajada_ha": 5.03
+  },
+  {
+    "fecha": "2026-10-16",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 3",
+    "labor": "Barrido",
+    "n_hileras": 192,
+    "area_total_ha": 6.1,
+    "area_trabajada_ha": 4.9
+  },
+  {
+    "fecha": "2026-10-16",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 4",
+    "labor": "Barrido",
+    "n_hileras": 206,
+    "area_total_ha": 5.92,
+    "area_trabajada_ha": 4.78
+  },
+  {
+    "fecha": "2026-10-16",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 5",
+    "labor": "Barrido",
+    "n_hileras": 291,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.08
+  },
+  {
+    "fecha": "2026-10-16",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 5",
+    "labor": "Barrido",
+    "n_hileras": 49,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.42
+  },
+  {
+    "fecha": "2026-10-16",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 6",
+    "labor": "Barrido",
+    "n_hileras": 59,
+    "area_total_ha": 12.2,
+    "area_trabajada_ha": 0.69
+  },
+  {
+    "fecha": "2026-10-16",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 7",
+    "labor": "Barrido",
+    "n_hileras": 15,
+    "area_total_ha": 13.45,
+    "area_trabajada_ha": 2.0
+  },
+  {
+    "fecha": "2026-10-17",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "Patricio Schlak",
+    "labor": "Raleo",
+    "n_hileras": 50,
+    "area_total_ha": 3.94,
+    "area_trabajada_ha": 1.64,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-10-17",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "EL PRINCIPIO 13",
+    "labor": "Raleo",
+    "n_hileras": 33,
+    "area_total_ha": 2.57,
+    "area_trabajada_ha": 1.71,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-10-17",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 1",
+    "labor": "Barrido",
+    "n_hileras": 439,
+    "area_total_ha": 21.34,
+    "area_trabajada_ha": 2.2
+  },
+  {
+    "fecha": "2026-10-17",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 2",
+    "labor": "Barrido",
+    "n_hileras": 199,
+    "area_total_ha": 6.43,
+    "area_trabajada_ha": 0.69
+  },
+  {
+    "fecha": "2026-10-17",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 3",
+    "labor": "Barrido",
+    "n_hileras": 204,
+    "area_total_ha": 6.1,
+    "area_trabajada_ha": 1.2
+  },
+  {
+    "fecha": "2026-10-17",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 4",
+    "labor": "Barrido",
+    "n_hileras": 214,
+    "area_total_ha": 5.92,
+    "area_trabajada_ha": 0.77
+  },
+  {
+    "fecha": "2026-10-17",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 5",
+    "labor": "Barrido",
+    "n_hileras": 51,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.2
+  },
+  {
+    "fecha": "2026-10-17",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 5",
+    "labor": "Barrido",
+    "n_hileras": 301,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 2.48
+  },
+  {
+    "fecha": "2026-10-17",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 7",
+    "labor": "Barrido",
+    "n_hileras": 37,
+    "area_total_ha": 13.45,
+    "area_trabajada_ha": 2.35
+  },
+  {
+    "fecha": "2026-10-19",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Rodrigo Bunster C2",
+    "labor": "Raleo",
+    "n_hileras": 11,
+    "area_total_ha": 4.51,
+    "area_trabajada_ha": 0.88,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-10-19",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Rodrigo Bunster C4",
+    "labor": "Raleo",
+    "n_hileras": 16,
+    "area_total_ha": 4.96,
+    "area_trabajada_ha": 1.1,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-10-19",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "EL PRINCIPIO 12",
+    "labor": "Raleo",
+    "n_hileras": 31,
+    "area_total_ha": 4.83,
+    "area_trabajada_ha": 2.44,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-10-19",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "EL PRINCIPIO 13",
+    "labor": "Raleo",
+    "n_hileras": 46,
+    "area_total_ha": 2.57,
+    "area_trabajada_ha": 0.66,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-10-19",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 5",
+    "labor": "Barrido",
+    "n_hileras": 57,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.4
+  },
+  {
+    "fecha": "2026-10-19",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 5",
+    "labor": "Barrido",
+    "n_hileras": 374,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 6.73
+  },
+  {
+    "fecha": "2026-10-19",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 6",
+    "labor": "Barrido",
+    "n_hileras": 67,
+    "area_total_ha": 12.2,
+    "area_trabajada_ha": 1.18
+  },
+  {
+    "fecha": "2026-10-19",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 6",
+    "labor": "Barrido",
+    "n_hileras": 325,
+    "area_total_ha": 12.2,
+    "area_trabajada_ha": 0.12
+  },
+  {
+    "fecha": "2026-10-19",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 7",
+    "labor": "Barrido",
+    "n_hileras": 63,
+    "area_total_ha": 13.45,
+    "area_trabajada_ha": 2.96
+  },
+  {
+    "fecha": "2026-10-19",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 9",
+    "labor": "Barrido",
+    "n_hileras": 273,
+    "area_total_ha": 7.42,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-10-19",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 10",
+    "labor": "Barrido",
+    "n_hileras": 182,
+    "area_total_ha": 4.62,
+    "area_trabajada_ha": 0.48
+  },
+  {
+    "fecha": "2026-10-19",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 11",
+    "labor": "Barrido",
+    "n_hileras": 194,
+    "area_total_ha": 4.17,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-10-19",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 12",
+    "labor": "Barrido",
+    "n_hileras": 182,
+    "area_total_ha": 4.98,
+    "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Rodrigo Bunster C2",
+    "labor": "Raleo",
+    "n_hileras": 25,
+    "area_total_ha": 4.51,
+    "area_trabajada_ha": 1.25,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Shacker SBS 6",
+    "cuartel": "Rodrigo Bunster C4",
+    "labor": "Raleo",
+    "n_hileras": 33,
+    "area_total_ha": 4.96,
+    "area_trabajada_ha": 1.24,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "EL PRINCIPIO 12",
+    "labor": "Raleo",
+    "n_hileras": 56,
+    "area_total_ha": 4.83,
+    "area_trabajada_ha": 1.86,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 4",
+    "labor": "Barrido",
+    "n_hileras": 218,
+    "area_total_ha": 5.92,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 6",
+    "labor": "Barrido",
+    "n_hileras": 68,
+    "area_total_ha": 12.2,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 6",
+    "labor": "Barrido",
+    "n_hileras": 325,
+    "area_total_ha": 12.2,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 7",
+    "labor": "Barrido",
+    "n_hileras": 82,
+    "area_total_ha": 13.45,
+    "area_trabajada_ha": 2.72
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 7",
+    "labor": "Barrido",
+    "n_hileras": 278,
+    "area_total_ha": 13.45,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 9",
+    "labor": "Barrido",
+    "n_hileras": 301,
+    "area_total_ha": 7.42,
+    "area_trabajada_ha": 0.69
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 10",
+    "labor": "Barrido",
+    "n_hileras": 201,
+    "area_total_ha": 4.62,
+    "area_trabajada_ha": 1.7
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 11",
+    "labor": "Barrido",
+    "n_hileras": 215,
+    "area_total_ha": 4.17,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 12",
+    "labor": "Barrido",
+    "n_hileras": 202,
+    "area_total_ha": 4.98,
+    "area_trabajada_ha": 0.19
   }
 ]
