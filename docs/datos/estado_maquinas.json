@@ -1,33 +1,40 @@
 {
- "fecha": "2026-05-31",
+ "fecha": "2026-06-15",
  "patio": "C&H Maquinaria",
  "en_patio": [
   "Barredora 10",
   "Barredora 11",
+  "Barredora 12",
+  "Barredora 15",
   "Barredora 16",
+  "Barredora 2",
   "Barredora 20 Weiss s/cab",
   "Barredora 21 Weiss s/cab",
+  "Barredora 23",
   "Barredora 24 Weiss c/cab",
-  "Barredora 3",
   "Barredora 8",
+  "Barredora 9 Weiss c/cab",
   "Recogedora 4",
+  "Recogedora 6",
   "Recogedora 7",
+  "Shacker SBS 11",
   "Shacker SBS 12",
   "Shacker SBS 14",
+  "Shacker SBS 8",
   "Shacker SBS 9",
+  "Shacker de Suelo 1",
   "Shacker de Suelo 10 Orchard Rite",
+  "Shacker de Suelo 2",
+  "Shacker de Suelo 4",
   "Shacker de Suelo 5",
   "Shacker de Suelo 6",
   "Shacker de Suelo 8",
   "Shacker de Suelo 9",
-  "Tractor 13 Deutz Fahr 115",
-  "Tractor 15 Deutz Fahr 115",
   "Tractor 16 Kubota 108",
   "Tractor 17 Kubota 108",
-  "Tractor 2 Same Explorer 95",
   "Tractor 3 Same Frutetto 100"
  ],
- "maquinas_con_datos": 42,
+ "maquinas_con_datos": 44,
  "sin_geocerca": [
   {
    "maquina": "Tractor 16 Kubota 108",
@@ -40,7 +47,7 @@
    "dias_trabajados": 1,
    "horas": 6.1,
    "ha_aprox": 6.6,
-   "hace_dias": -113
+   "hace_dias": -98
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -53,7 +60,7 @@
    "dias_trabajados": 4,
    "horas": 8.4,
    "ha_aprox": 9.1,
-   "hace_dias": -113
+   "hace_dias": -98
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -66,7 +73,7 @@
    "dias_trabajados": 2,
    "horas": 7.5,
    "ha_aprox": 12.8,
-   "hace_dias": -113
+   "hace_dias": -98
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -79,7 +86,7 @@
    "dias_trabajados": 2,
    "horas": 10.5,
    "ha_aprox": 11.1,
-   "hace_dias": -113
+   "hace_dias": -98
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -92,7 +99,7 @@
    "dias_trabajados": 2,
    "horas": 9.6,
    "ha_aprox": 13.5,
-   "hace_dias": -115
+   "hace_dias": -100
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -105,7 +112,7 @@
    "dias_trabajados": 3,
    "horas": 12.5,
    "ha_aprox": 13.2,
-   "hace_dias": -115
+   "hace_dias": -100
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -118,7 +125,7 @@
    "dias_trabajados": 2,
    "horas": 11.1,
    "ha_aprox": 9.1,
-   "hace_dias": -116
+   "hace_dias": -101
   },
   {
    "maquina": "Tractor 16 Kubota 108",
@@ -131,7 +138,7 @@
    "dias_trabajados": 2,
    "horas": 3.4,
    "ha_aprox": 2.9,
-   "hace_dias": -117
+   "hace_dias": -102
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -144,7 +151,7 @@
    "dias_trabajados": 1,
    "horas": 2.1,
    "ha_aprox": 2.5,
-   "hace_dias": -117
+   "hace_dias": -102
   },
   {
    "maquina": "Tractor 16 Kubota 108",
@@ -157,7 +164,7 @@
    "dias_trabajados": 6,
    "horas": 23.3,
    "ha_aprox": 19.6,
-   "hace_dias": -120
+   "hace_dias": -105
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -170,7 +177,7 @@
    "dias_trabajados": 1,
    "horas": 2.5,
    "ha_aprox": 2.1,
-   "hace_dias": -120
+   "hace_dias": -105
   },
   {
    "maquina": "Tractor 14 Deutz Fahr 115",
@@ -183,7 +190,7 @@
    "dias_trabajados": 3,
    "horas": 5.5,
    "ha_aprox": 4.9,
-   "hace_dias": -121
+   "hace_dias": -106
   },
   {
    "maquina": "Tractor 4 Same Frutetto 100",
@@ -196,7 +203,7 @@
    "dias_trabajados": 2,
    "horas": 3.0,
    "ha_aprox": 3.3,
-   "hace_dias": -121
+   "hace_dias": -106
   },
   {
    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
@@ -209,7 +216,7 @@
    "dias_trabajados": 1,
    "horas": 3.0,
    "ha_aprox": 2.7,
-   "hace_dias": -122
+   "hace_dias": -107
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -222,7 +229,7 @@
    "dias_trabajados": 1,
    "horas": 2.0,
    "ha_aprox": 2.1,
-   "hace_dias": -122
+   "hace_dias": -107
   },
   {
    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
@@ -235,7 +242,7 @@
    "dias_trabajados": 2,
    "horas": 5.8,
    "ha_aprox": 4.8,
-   "hace_dias": -123
+   "hace_dias": -108
   },
   {
    "maquina": "Tractor 14 Deutz Fahr 115",
@@ -248,7 +255,7 @@
    "dias_trabajados": 2,
    "horas": 5.4,
    "ha_aprox": 4.7,
-   "hace_dias": -123
+   "hace_dias": -108
   },
   {
    "maquina": "Tractor 4 Same Frutetto 100",
@@ -261,7 +268,7 @@
    "dias_trabajados": 2,
    "horas": 4.6,
    "ha_aprox": 4.3,
-   "hace_dias": -123
+   "hace_dias": -108
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -274,7 +281,7 @@
    "dias_trabajados": 2,
    "horas": 2.6,
    "ha_aprox": 2.3,
-   "hace_dias": -125
+   "hace_dias": -110
   },
   {
    "maquina": "Tractor 16 Kubota 108",
@@ -287,7 +294,7 @@
    "dias_trabajados": 10,
    "horas": 27.5,
    "ha_aprox": 25.7,
-   "hace_dias": -127
+   "hace_dias": -112
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -300,7 +307,7 @@
    "dias_trabajados": 1,
    "horas": 1.9,
    "ha_aprox": 1.4,
-   "hace_dias": -129
+   "hace_dias": -114
   },
   {
    "maquina": "Tractor 10 Deutz Fahr 115",
@@ -313,7 +320,7 @@
    "dias_trabajados": 1,
    "horas": 5.7,
    "ha_aprox": 3.7,
-   "hace_dias": -130
+   "hace_dias": -115
   },
   {
    "maquina": "Tractor 13 Deutz Fahr 115",
@@ -326,7 +333,7 @@
    "dias_trabajados": 1,
    "horas": 4.3,
    "ha_aprox": 3.3,
-   "hace_dias": -130
+   "hace_dias": -115
   },
   {
    "maquina": "Tractor 14 Deutz Fahr 115",
@@ -339,7 +346,7 @@
    "dias_trabajados": 1,
    "horas": 2.4,
    "ha_aprox": 1.9,
-   "hace_dias": -131
+   "hace_dias": -116
   },
   {
    "maquina": "Tractor 4 Same Frutetto 100",
@@ -352,7 +359,7 @@
    "dias_trabajados": 1,
    "horas": 2.0,
    "ha_aprox": 2.1,
-   "hace_dias": -131
+   "hace_dias": -116
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -365,7 +372,7 @@
    "dias_trabajados": 1,
    "horas": 2.5,
    "ha_aprox": 2.3,
-   "hace_dias": -131
+   "hace_dias": -116
   },
   {
    "maquina": "Tractor 9 Deutz Fahr 115",
@@ -378,7 +385,7 @@
    "dias_trabajados": 5,
    "horas": 17.7,
    "ha_aprox": 17.7,
-   "hace_dias": -135
+   "hace_dias": -120
   },
   {
    "maquina": "Tractor 10 Deutz Fahr 115",
@@ -391,7 +398,7 @@
    "dias_trabajados": 2,
    "horas": 8.8,
    "ha_aprox": 6.1,
-   "hace_dias": -136
+   "hace_dias": -121
   },
   {
    "maquina": "Tractor 13 Deutz Fahr 115",
@@ -404,7 +411,7 @@
    "dias_trabajados": 2,
    "horas": 6.3,
    "ha_aprox": 4.4,
-   "hace_dias": -136
+   "hace_dias": -121
   },
   {
    "maquina": "Tractor 14 Deutz Fahr 115",
@@ -417,7 +424,7 @@
    "dias_trabajados": 1,
    "horas": 2.6,
    "ha_aprox": 3.1,
-   "hace_dias": -136
+   "hace_dias": -121
   },
   {
    "maquina": "Tractor 4 Same Frutetto 100",
@@ -430,7 +437,7 @@
    "dias_trabajados": 1,
    "horas": 2.1,
    "ha_aprox": 3.2,
-   "hace_dias": -136
+   "hace_dias": -121
   },
   {
    "maquina": "Tractor 8 Kubota 108",
@@ -443,7 +450,7 @@
    "dias_trabajados": 1,
    "horas": 2.5,
    "ha_aprox": 3.0,
-   "hace_dias": -136
+   "hace_dias": -121
   },
   {
    "maquina": "Barredora 1",
@@ -456,7 +463,7 @@
    "dias_trabajados": 2,
    "horas": 8.0,
    "ha_aprox": 16.9,
-   "hace_dias": -137
+   "hace_dias": -122
   },
   {
    "maquina": "Barredora 6",
@@ -469,7 +476,7 @@
    "dias_trabajados": 1,
    "horas": 2.1,
    "ha_aprox": 8.0,
-   "hace_dias": -137
+   "hace_dias": -122
   },
   {
    "maquina": "Tractor 10 Deutz Fahr 115",
@@ -482,7 +489,7 @@
    "dias_trabajados": 2,
    "horas": 6.6,
    "ha_aprox": 5.5,
-   "hace_dias": -137
+   "hace_dias": -122
   },
   {
    "maquina": "Tractor 13 Deutz Fahr 115",
@@ -495,7 +502,7 @@
    "dias_trabajados": 3,
    "horas": 8.6,
    "ha_aprox": 5.7,
-   "hace_dias": -137
+   "hace_dias": -122
   },
   {
    "maquina": "Tractor 16 Kubota 108",
@@ -508,7 +515,7 @@
    "dias_trabajados": 1,
    "horas": 4.1,
    "ha_aprox": 3.5,
-   "hace_dias": -137
+   "hace_dias": -122
   },
   {
    "maquina": "Tractor 7 Kubota 95",
@@ -521,7 +528,7 @@
    "dias_trabajados": 3,
    "horas": 11.0,
    "ha_aprox": 9.9,
-   "hace_dias": -137
+   "hace_dias": -122
   },
   {
    "maquina": "Tractor 17 Kubota 108",
@@ -534,7 +541,7 @@
    "dias_trabajados": 1,
    "horas": 1.0,
    "ha_aprox": 1.7,
-   "hace_dias": -138
+   "hace_dias": -123
   },
   {
    "maquina": "Barredora 1",
@@ -547,7 +554,7 @@
    "dias_trabajados": 1,
    "horas": 1.0,
    "ha_aprox": 1.3,
-   "hace_dias": -141
+   "hace_dias": -126
   }
  ],
  "alertas": [

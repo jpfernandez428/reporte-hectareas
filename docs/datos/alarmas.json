@@ -637,5 +637,41 @@
   "tipo": "Repaso",
   "ha": 1.39,
   "temporada": "2026"
+ },
+ {
+  "fecha": "2026-06-15",
+  "maquina": "Tractor 11 Deutz Fahr 115",
+  "cuartel": "Longavi 2",
+  "labor": "Poda",
+  "tipo": "Repaso",
+  "ha": 0.27,
+  "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-06-15",
+  "maquina": "Tractor 11 Deutz Fahr 115",
+  "cuartel": "Longavi 3",
+  "labor": "Poda",
+  "tipo": "Repaso",
+  "ha": 0.38,
+  "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-06-15",
+  "maquina": "Tractor 11 Deutz Fahr 115",
+  "cuartel": "Longavi 4",
+  "labor": "Poda",
+  "tipo": "Repaso",
+  "ha": 0.41,
+  "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-06-15",
+  "maquina": "Tractor 11 Deutz Fahr 115",
+  "cuartel": "Longavi 5",
+  "labor": "Poda",
+  "tipo": "Repaso",
+  "ha": 1.1,
+  "temporada": "2026-27"
  }
 ]
