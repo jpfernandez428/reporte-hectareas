@@ -2772,10 +2772,11 @@ def orden_flota(nombre):
 
 
 def ultimos_mensajes(sid):
-    """{id: (hora_unix, lon, lat)} del ultimo mensaje GPS de cada unidad (solo lectura)."""
+    """{id: (hora_unix, lon, lat, horometro)} del ultimo mensaje GPS de cada
+    unidad y su contador de horas de motor en Wialon (solo lectura)."""
     params = json.dumps({
         "spec": {"itemsType": "avl_unit", "propName": "sys_name", "propValueMask": "*", "sortType": "sys_name"},
-        "force": 1, "flags": 0x1 | 0x400, "from": 0, "to": 0,
+        "force": 1, "flags": 0x1 | 0x400 | 0x2000, "from": 0, "to": 0,
     })
     r = requests.get(f"{WIALON_HOST}/wialon/ajax.html",
                      params={"svc": "core/search_items", "params": params, "sid": sid}, timeout=60)
@@ -2787,7 +2788,7 @@ def ultimos_mensajes(sid):
     for item in data.get("items", []):
         pos = item.get("pos") or {}
         t = (item.get("lmsg") or {}).get("t") or pos.get("t")
-        salida[item["id"]] = (t, pos.get("x"), pos.get("y"))
+        salida[item["id"]] = (t, pos.get("x"), pos.get("y"), item.get("cneh"))
     return salida
 
 
@@ -2884,7 +2885,7 @@ def construir_flota(sid, geocercas, patio):
     descargas = 0
     for unidad in sorted(UNIDADES, key=lambda u: orden_flota(u["nombre"])):
         nombre = unidad["nombre"]
-        t_ultimo, lon, lat = ultimos.get(unidad["id"], (None, None, None))
+        t_ultimo, lon, lat, horometro = ultimos.get(unidad["id"], (None, None, None, None))
         guardados = {d["fecha"]: d for d in anterior.get(nombre, {}).get("dias", []) if d.get("completo")}
         registros = []
         for dia in dias:
@@ -2966,6 +2967,8 @@ def construir_flota(sid, geocercas, patio):
             "ubicacion": lugar_actual or ("Fuera de geocercas" if lon is not None else None),
             "mapa": f"https://www.google.com/maps?q={lat:.6f},{lon:.6f}" if lon is not None else None,
             "sin_senal": sin_senal, "dias": registros,
+            # Horometro: contador de horas de motor de la unidad en Wialon.
+            "horometro": round(horometro, 1) if horometro else None,
         })
 
     sin_senal = []

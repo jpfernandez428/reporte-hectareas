@@ -196,7 +196,7 @@
     <div class="resumen-flota" id="flotaResumen"></div>
     <div class="marco">
       <table>
-        <thead><tr><th>Máquina</th><th>Labor</th><th>Estado</th><th>Ubicación</th><th>Última conexión</th></tr></thead>
+        <thead><tr><th>Máquina</th><th>Labor</th><th>Estado</th><th>Ubicación</th><th>Última conexión</th><th>Horómetro</th></tr></thead>
         <tbody id="flotaLista"></tbody>
       </table>
     </div>
@@ -663,11 +663,12 @@ async function cargarFlota() {
   const cuerpo = document.getElementById('flotaLista');
   let grupo = null, html = '';
   flota.maquinas.forEach((m, i) => {
-    if (m.grupo !== grupo) { grupo = m.grupo; html += `<tr class="grupo"><td colspan="5">${escaparXml(grupo)}</td></tr>`; }
+    if (m.grupo !== grupo) { grupo = m.grupo; html += `<tr class="grupo"><td colspan="6">${escaparXml(grupo)}</td></tr>`; }
     const ubic = m.mapa ? `<a href="${m.mapa}" target="_blank" rel="noopener">${escaparXml(m.ubicacion)}</a>` : '—';
     html += `<tr class="maquina ${m.estado}" data-i="${i}"><td><button class="nombre" aria-expanded="false"><span class="flecha">▸</span>${escaparXml(m.nombre)}</button></td>` +
       `<td>${escaparXml(m.labor)}</td><td><span class="estado ${m.estado}">${escaparXml(m.texto)}</span></td><td>${ubic}</td>` +
-      `<td class="num">${escaparXml(m.ultima_conexion || '—')}</td></tr>`;
+      `<td class="num">${escaparXml(m.ultima_conexion || '—')}</td>` +
+      `<td class="num">${m.horometro ? m.horometro.toLocaleString('es-CL', { maximumFractionDigits: 1 }) + ' h' : '—'}</td></tr>`;
   });
   cuerpo.innerHTML = html;
   cuerpo.onclick = ev => {
@@ -678,7 +679,7 @@ async function cargarFlota() {
     fila.querySelector('.nombre').setAttribute('aria-expanded', abierta);
     const sig = fila.nextElementSibling;
     if (sig && sig.classList.contains('detalle')) { sig.remove(); return; }
-    fila.insertAdjacentHTML('afterend', `<tr class="detalle"><td colspan="5"><div class="detalle">${detalleFlota(flota.maquinas[fila.dataset.i])}</div></td></tr>`);
+    fila.insertAdjacentHTML('afterend', `<tr class="detalle"><td colspan="6"><div class="detalle">${detalleFlota(flota.maquinas[fila.dataset.i])}</div></td></tr>`);
   };
 
   const sin = flota.sin_geocerca_30_dias || [];
@@ -691,8 +692,9 @@ async function cargarFlota() {
 }
 
 function detalleFlota(m) {
+  const horometro = m.horometro ? ` · horómetro según Wialon: ${m.horometro.toLocaleString('es-CL', { maximumFractionDigits: 1 })} h` : '';
   const dias = m.dias.filter(d => !d.sin_datos).slice().reverse();
-  if (!dias.length) return `<h4>${escaparXml(m.nombre)} · últimos 30 días</h4><p class="chica">Sin datos GPS en los últimos 30 días.</p>`;
+  if (!dias.length) return `<h4>${escaparXml(m.nombre)} · últimos 30 días${horometro}</h4><p class="chica">Sin datos GPS en los últimos 30 días.</p>`;
   const filas = dias.map(d => {
     const horasGeo = d.horas_geocercas || {}, haGeo = d.ha || {}, sin = d.sin_geocerca || [];
     const geos = [...new Set([...Object.keys(horasGeo), ...Object.keys(haGeo)])].sort();
@@ -707,7 +709,7 @@ function detalleFlota(m) {
     return `<tr><td class="num">${fechaCorta(d.fecha)}</td><td>${lugares.join('<br>') || '<span class="chica">Sin trabajo en geocercas</span>'}</td>` +
       `<td>${escaparXml(m.labor)}</td><td class="num">${horas ? horas.toFixed(1) + ' h' : '—'}</td><td class="num">${hect ? ha2(hect) + ' ha' : '—'}</td><td>${quedo}</td></tr>`;
   }).join('');
-  return `<h4>${escaparXml(m.nombre)} · últimos 30 días</h4><div class="marco"><table>` +
+  return `<h4>${escaparXml(m.nombre)} · últimos 30 días${horometro}</h4><div class="marco"><table>` +
     `<thead><tr><th>Día</th><th>Dónde trabajó</th><th>Labor</th><th>Horas</th><th>Hectáreas</th><th>Dónde quedó</th></tr></thead>` +
     `<tbody>${filas}</tbody></table></div>`;
 }

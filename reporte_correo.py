@@ -808,7 +808,9 @@ def armar_html(datos):
     tot_h = sum(d["horas"] for m in maquinas for d in m["dias"].values())
     tot_cam = sum(km(camionetas, f.isoformat()) for f in dias)
     tot_camion = sum(km(camiones, f.isoformat()) for f in dias)
-    filas_html.append(indicadores([(num(tot_ha, 2), "hectáreas"), (num(tot_h), "horas de las máquinas")]))
+    tot_sin = sum(d["ha_sin"] for m in maquinas for d in m["dias"].values())
+    filas_html.append(indicadores([(num(tot_ha, 2), f"ha en geocercas + ~{num(tot_sin)} ha estimadas sin geocerca"),
+                                   (num(tot_h), "horas de las máquinas")]))
     filas_html.append(indicadores([(f"{num(tot_cam, 0)} km", "camionetas"), (f"{num(tot_camion, 0)} km", "camión")]))
 
     filas_html.append(subtitulo("Día por día"))
@@ -1038,7 +1040,7 @@ def armar_html_corto(datos):
     tot_sin = sum(d["ha_sin"] for m in maquinas for d in m["dias"].values())
     tot_h = sum(d["horas"] for m in maquinas for d in m["dias"].values())
     filas.append(linea(f'<b style="font-size:15px;color:{VERDE};">{num(tot_ha, 2)} ha</b> en geocercas'
-                       + (f' + <b style="color:{ROJO};">~{num(tot_sin)} ha</b> sin geocerca' if tot_sin else "")
+                       + (f' + <b style="color:{ROJO};">~{num(tot_sin)} ha</b> estimadas sin geocerca' if tot_sin else "")
                        + f' · <b>{num(tot_h)} h</b> de máquinas'))
     filas.append(linea(f'<b>{num(sum(km(camionetas, d.isoformat()) for d in dias), 0)} km</b> camionetas · '
                        f'<b>{num(sum(km(camiones, d.isoformat()) for d in dias), 0)} km</b> camión'))
