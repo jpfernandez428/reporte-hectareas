@@ -94,8 +94,18 @@ function seccionResumen(d) {
     </div>
     <div class="alerta"><b>GPS sin señal:</b> ${senal}</div>
     <div class="alerta"><b>Trabajo sin geocerca ayer:</b> ${sinGeo}</div>
+    ${alarmasLabor(d)}
     <p class="nota">No trabajaron ayer: ${r.no_trabajaron} máquinas — ${r.en_cyh} en CYH, ${r.detenidas_fuera} detenidas fuera de CYH y ${r.sin_senal_30} sin señal hace más de 30 días (<a href="index.html#flota">ver en Flota</a>).</p>
   </section>`;
+}
+
+// Alarmas de labor de los 7 dias: fuera de temporada, REPASO y "Revisar labor".
+function alarmasLabor(d) {
+  const lista = (d.alarmas_labor || []).slice().reverse();
+  if (!lista.length) return '<div class="alerta" style="background:#f6f8f7;border-color:#b9c0bb"><b>Alarmas de labor (7 días):</b> ninguna</div>';
+  const filas = lista.map(a => `<tr><td>${fc(a.fecha)}</td><td>${esc(a.tipo)}</td><td>${esc(a.maquina)}</td><td>${esc(a.labor)}<br><small>${esc(a.cuartel)}</small></td><td class="n">${a.no_suma ? '~' : ''}${n(a.ha, 2)}${a.no_suma ? '<br><small>sin sumar</small>' : ''}</td></tr>`).join('');
+  return `<details class="sin-geo" style="margin-top:6px"><summary><span class="tit"><b>Alarmas de labor (7 días): ${lista.length}</b><small>Fuera de temporada, repasos y "Revisar labor", para revisar</small></span></summary>
+    <div class="dentro tabla"><table><thead><tr><th>Día</th><th>Tipo</th><th>Máquina</th><th>Labor · cuartel</th><th class="n">Ha</th></tr></thead><tbody>${filas}</tbody></table></div></details>`;
 }
 
 function seccionMaquinas(d) {

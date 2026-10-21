@@ -301,9 +301,10 @@ function renderAvancePorCuartel() {
 
   const porCuartel = {};
   for (const d of filtrados) {
-    const clave = d.cuartel + '||' + (d.labor || '');
+    const clave = d.cuartel + '||' + (d.labor || '') + '||' + (d.temporada || '') + '||' + (d.repaso || 0);
     if (!porCuartel[clave]) {
-      porCuartel[clave] = { nombre: d.cuartel, labor: d.labor || '', area_total: d.area_total_ha, trabajado: 0 };
+      porCuartel[clave] = { nombre: d.cuartel, labor: d.labor || '', temporada: d.temporada || '', repaso: d.repaso || 0,
+                            area_total: d.area_total_ha, trabajado: 0 };
     }
     porCuartel[clave].area_total = Math.max(porCuartel[clave].area_total, d.area_total_ha);
     porCuartel[clave].trabajado += d.area_trabajada_ha;
@@ -315,10 +316,11 @@ function renderAvancePorCuartel() {
   const hasta = hastaDelFiltro();
   const completos = completosAl(hasta, umbral / 100);
   const filas = Object.values(porCuartel).map(v => ({
-    nombre: v.nombre, labor: v.labor, area_total: v.area_total,
+    nombre: v.nombre, labor: v.labor + (v.repaso ? ` – REPASO ${v.repaso}` : '') + (v.temporada && v.labor !== 'Barrido' ? ` (${v.temporada})` : ''),
+    area_total: v.area_total,
     trabajado: Math.min(v.trabajado, v.labor === 'Barrido' ? Infinity : v.area_total),
     porcentaje: v.area_total > 0 ? Math.min(100, (v.trabajado / v.area_total) * 100) : 0,
-    completo: completos.has(v.nombre + '||' + v.labor),
+    completo: v.repaso ? v.trabajado >= umbral / 100 * v.area_total : completos.has(v.nombre + '||' + v.labor + '||' + v.temporada),
   }));
   cont.innerHTML = `<div class="sub" style="margin:-6px 0 10px;">Con filtro: el % es el trabajo de las máquinas y fechas elegidas; ✓ = cuartel completo al ${escaparXml(hasta)} (todas las máquinas de esa labor).</div>` +
     tablaAvance(filas, umbral);
@@ -336,15 +338,22 @@ function hastaDelFiltro() {
 
 // Cuarteles + labor completos a una fecha: lo acreditado por todas las
 // maquinas de esa labor hasta ese dia llega al umbral (95 %).
+// Cada labor parte de cero en su temporada (campo "temporada" del historial) y
+// los repasos van aparte: el estado es por cuartel + labor + temporada. Tambien
+// se agrega "cuartel||labor" con el estado de su temporada mas reciente.
 function completosAl(hasta, umbral) {
-  const suma = {}, area = {};
+  const suma = {}, area = {}, ultima = {};
   for (const d of datos) {
-    if (d.fecha > hasta) continue;
-    const clave = d.cuartel + '||' + (d.labor || '');
+    if (d.fecha > hasta || d.repaso) continue;
+    const base = d.cuartel + '||' + (d.labor || '');
+    const clave = base + '||' + (d.temporada || '');
     suma[clave] = (suma[clave] || 0) + d.area_trabajada_ha;
     area[clave] = Math.max(area[clave] || 0, d.area_total_ha);
+    if ((d.temporada || '') >= (ultima[base] || '')) ultima[base] = d.temporada || '';
   }
-  return new Set(Object.keys(suma).filter(k => area[k] > 0 && suma[k] >= umbral * area[k]));
+  const completos = new Set(Object.keys(suma).filter(k => area[k] > 0 && suma[k] >= umbral * area[k]));
+  for (const [base, t] of Object.entries(ultima)) if (completos.has(base + '||' + t)) completos.add(base);
+  return completos;
 }
 
 function tablaAvance(filas, umbral) {

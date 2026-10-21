@@ -67,19 +67,23 @@ function datosInforme(raices, desde, hasta) {
   const completos = {};
   const acumulado = {};
   for (const d of [...datos].sort((a, b) => a.fecha.localeCompare(b.fecha))) {
-    if (d.labor === 'Barrido') continue;
-    const k = d.cuartel + '||' + d.labor;
+    if (d.labor === 'Barrido' || d.repaso) continue;  // cada temporada parte de cero; los repasos van aparte
+    const k = d.cuartel + '||' + d.labor + '||' + (d.temporada || '');
     acumulado[k] = (acumulado[k] || 0) + d.area_trabajada_ha;
     if (!completos[k] && acumulado[k] >= INF_UMBRAL * area[d.cuartel] - 1e-6) completos[k] = d.fecha;
   }
-  const claves = [...new Set(filas.map(d => d.cuartel + '||' + d.labor))];
+  // Una fila por cuartel + labor + temporada (y repaso aparte).
+  const mismo = (d, cuartel, labor, temporada, repaso) => d.cuartel === cuartel && d.labor === labor &&
+    (d.temporada || '') === temporada && String(d.repaso || 0) === repaso;
+  const claves = [...new Set(filas.map(d => [d.cuartel, d.labor, d.temporada || '', d.repaso || 0].join('||')))];
   const cuarteles = claves.map(k => {
-    const [cuartel, labor] = k.split('||');
-    const del = datos.filter(d => d.cuartel === cuartel && d.labor === labor);
-    const ha = filas.filter(d => d.cuartel === cuartel && d.labor === labor).reduce((t, d) => t + d.area_trabajada_ha, 0);
+    const [cuartel, laborBase, temporada, repaso] = k.split('||');
+    const del = datos.filter(d => mismo(d, cuartel, laborBase, temporada, repaso));
+    const ha = filas.filter(d => mismo(d, cuartel, laborBase, temporada, repaso)).reduce((t, d) => t + d.area_trabajada_ha, 0);
     const hastaFecha = del.filter(d => d.fecha <= hasta).reduce((t, d) => t + d.area_trabajada_ha, 0);
-    const c = { campo: nombreCampo(cuartel), raiz: raizCampo(cuartel), cuartel, labor, area: area[cuartel], ha };
-    if (labor === 'Barrido') {
+    const labor = laborBase + (repaso !== '0' ? ` – REPASO ${repaso}` : '');
+    const c = { campo: nombreCampo(cuartel), raiz: raizCampo(cuartel), cuartel, labor, laborBase, area: area[cuartel], ha };
+    if (laborBase === 'Barrido') {
       const info = avanceCuarteles && avanceCuarteles.cuarteles[cuartel] && avanceCuarteles.cuarteles[cuartel].labores.Barrido;
       const cierres = ((info && info.cierres) || []).filter(f => f <= hasta);
       const enPeriodo = cierres.filter(f => f >= desde);
@@ -88,8 +92,12 @@ function datosInforme(raices, desde, hasta) {
       c.completo = enPeriodo.length > 0;
       c.pct = c.completo && enCurso < 0.01 ? 1 : Math.min(1, enCurso);
       c.fechaCompleto = enPeriodo[0] || null;
+    } else if (repaso !== '0') {
+      c.completo = hastaFecha >= INF_UMBRAL * c.area - 1e-6;
+      c.pct = Math.min(1, hastaFecha / c.area);
+      c.fechaCompleto = null;
     } else {
-      const fc = completos[k];
+      const fc = completos[[cuartel, laborBase, temporada].join('||')];
       c.completo = !!(fc && fc <= hasta);
       c.pct = c.completo ? 1 : Math.min(1, hastaFecha / c.area);
       c.fechaCompleto = c.completo ? fc : null;
@@ -97,6 +105,13 @@ function datosInforme(raices, desde, hasta) {
     return c;
   }).sort((a, b) => ordenCuartel(a.cuartel, b.cuartel) || a.labor.localeCompare(b.labor));
   return { filas, cuarteles };
+}
+
+// Area total: cada cuartel + labor cuenta una sola vez (no por temporada ni repaso).
+function areaSinRepetir(cs) {
+  const area = {};
+  for (const c of cs) area[c.cuartel + '||' + (c.laborBase || c.labor)] = c.area;
+  return Object.values(area).reduce((t, a) => t + a, 0);
 }
 
 function resumenDe(filas, cuarteles) {
@@ -187,7 +202,7 @@ async function informeExcel(campos, desde, hasta) {
       cs.map(c => [...(conCampo ? [c.campo] : []), c.cuartel, c.labor, c.area, c.ha, c.pct, c.completo ? 'Completo' : 'En proceso', aFecha(c.fechaCompleto),
                    ...(r.hayBarrido ? [c.labor === 'Barrido' ? c.pasadas : null] : [])]),
       [...(conCampo ? [null] : []), null, null, NUM, NUM, PCT, null, FEC, ...(r.hayBarrido ? ['0'] : [])],
-      [...(conCampo ? [null] : []), 'Total', null, cs.reduce((t, c) => t + c.area, 0), cs.reduce((t, c) => t + c.ha, 0), null, `${r.completos} completos`, null, ...(r.hayBarrido ? [null] : [])],
+      [...(conCampo ? [null] : []), 'Total', null, areaSinRepetir(cs), cs.reduce((t, c) => t + c.ha, 0), null, `${r.completos} completos`, null, ...(r.hayBarrido ? [null] : [])],
       columnas.indexOf('Estado') + 1);
     [18, 16, 14, 14, 14, 12, 13, 14, 12].forEach((w, j) => { ws.getColumn(j + 1).width = w; });
   }
@@ -398,7 +413,7 @@ async function informePdf(campos, desde, hasta) {
       head: [enc],
       body: cs.map(c => [...(conCampo ? [c.campo] : []), c.cuartel, c.labor, n2(c.area), n2(c.ha), p1(c.pct), c.completo ? 'Completo' : 'En proceso',
                           fechaCl(c.fechaCompleto), ...(r.hayBarrido ? [c.labor === 'Barrido' ? String(c.pasadas) : ''] : [])]),
-      foot: [[...(conCampo ? [''] : []), 'Total', '', n2(cs.reduce((t, c) => t + c.area, 0)), n2(cs.reduce((t, c) => t + c.ha, 0)), '', `${r.completos} completos`, '', ...(r.hayBarrido ? [''] : [])]],
+      foot: [[...(conCampo ? [''] : []), 'Total', '', n2(areaSinRepetir(cs)), n2(cs.reduce((t, c) => t + c.ha, 0)), '', `${r.completos} completos`, '', ...(r.hayBarrido ? [''] : [])]],
       columnStyles: Object.fromEntries(enc.map((c, i) => [i, { halign: ['Área (ha)', 'Ha en el período', '% avance', 'Pasadas'].includes(c) ? 'right' : (c === 'Estado' || c === 'Completado' ? 'center' : 'left') }])),
       didParseCell: h => {
         if (h.section === 'body' && h.column.index === colEstado) {
