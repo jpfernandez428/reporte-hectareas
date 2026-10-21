@@ -652,9 +652,17 @@ Registro:
   `vista_previa` (no envía; HTML+PDF como archivo de 1 día que se borra apenas
   se descarga), `prueba` (solo a `CORREO_PRUEBA`), `diario` (el envío normal)
   y `atraso` (medición de GPS tardío, solo lectura). Tarda ~2–3 min.
-- **Envío diario (modo `diario`)**: inactivo mientras no exista el secreto
-  `CORREO_DESTINATARIOS` (no envía a nadie y no da error; regla del usuario
-  20-oct-2026). El usuario lo carga cuando apruebe la prueba. Lógica:
+- **Envío diario ACTIVO desde el jueves 22-oct-2026** a todos los de
+  `CORREO_DESTINATARIOS` (4 direcciones), a las 07:45, con Cloudflare y los
+  horarios de GitHub de respaldo. El 21-oct se mandó a mano (`modo` `todos`)
+  el reporte del 20-oct a las 4 direcciones: 0 rechazos y 0 rebotes (el modo
+  `todos` deja la marca del día y revisa rebotes en la casilla que envía,
+  sin mostrar direcciones). Sin `CORREO_DESTINATARIOS` el modo diario no
+  envía nada. **Los avisos de falla y de atraso van solo a `CORREO_PRUEBA`**
+  (el usuario), no a todos. Mientras no se apruebe el recálculo de la rama
+  `dia-chile`, el correo y el PDF llevan arriba "Marcha blanca: algunos
+  números se están ajustando" (`correo_marcha_blanca` en `config.json`,
+  por defecto sí): quitarla al pasar el recálculo a main. Lógica:
   - Lo lanzan: el Worker de Cloudflare a las 07:30 y 09:00 de Chile; los
     horarios de GitHub de `correo.yml` como respaldo (07:40 y 09:10); y
     `workflow_run` al terminar la corrida de la noche. Todos usan la marca del
@@ -672,7 +680,9 @@ Registro:
 - **Corrida de la noche**: guarda `docs/datos/ultima_corrida.json` (día
   procesado) y no repite un día ya procesado (si la lanzan Cloudflare y el
   horario de respaldo de GitHub). Antes de correr trae lo último de GitHub.
-- **Cloudflare** (`cloudflare/worker.js`, Worker `disparador-reporte`): Cron
+- **Cloudflare** (configurado por el usuario el 21-oct-2026; `cloudflare/worker.js`,
+  Worker `disparador-reporte`; solo tiene el disparador programado, sin
+  respuesta web: entrar a su dirección workers.dev no lanza nada): Cron
   Triggers `0 6,7 * * *` (03:00 de Chile: corrida de la noche), `30 10,11 * * *`
   (07:30: correo) y `0 12,13 * * *` (09:00: aviso de atraso). Cada horario va
   dos veces (verano UTC-3 / invierno UTC-4) y el Worker lanza solo el que
@@ -680,12 +690,8 @@ Registro:
   fine-grained solo de este repositorio, Actions: Read and write; lo carga el
   usuario en Cloudflare, nunca en el chat ni en el repositorio). Los horarios
   de GitHub siguen activos como respaldo (regla del usuario 20-oct-2026).
-- **Vencimiento del token**: `config.json` → `vencimiento_token_github`
-  (AAAA-MM-DD, no es secreto). Desde 30 días antes, el correo muestra arriba
-  de las alertas qué renovar y dónde: nuevo token en GitHub (Settings →
-  Developer settings → Personal access tokens → Fine-grained), cargarlo en
-  Cloudflare (Workers → disparador-reporte → Settings → Variables and Secrets
-  → GITHUB_TOKEN) y actualizar la fecha en `config.json`.
+- **Token del Worker sin vencimiento** (el usuario lo creó así el 21-oct-2026):
+  no hay aviso de renovación en el correo.
 - **Tres piezas** (cambios del usuario del 21-oct-2026, reemplazan lo anterior):
   1. **Correo corto** (`armar_html_corto`): "Resumen de ayer (lunes 19-10-2026)"
      con máquinas que trabajaron, ha en geocercas + ~ha estimadas sin
