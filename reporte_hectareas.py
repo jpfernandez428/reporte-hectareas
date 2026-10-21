@@ -444,12 +444,20 @@ def obtener_mensajes(sid, unit_id, dia):
         "flagsMask": 0,
         "loadCount": 0xFFFFFFFF,
     })
-    r = requests.get(
-        f"{WIALON_HOST}/wialon/ajax.html",
-        params={"svc": "messages/load_interval", "params": params, "sid": sid},
-        timeout=60,
-    )
-    data = r.json()
+    # Reintentos: un corte de red con Wialon no debe botar la corrida entera.
+    for intento in range(4):
+        try:
+            r = requests.get(
+                f"{WIALON_HOST}/wialon/ajax.html",
+                params={"svc": "messages/load_interval", "params": params, "sid": sid},
+                timeout=60,
+            )
+            data = r.json()
+            break
+        except (requests.ConnectionError, requests.Timeout, ValueError):
+            if intento == 3:
+                raise
+            time.sleep(15 * (intento + 1))
     return data.get("messages", [])
 
 
