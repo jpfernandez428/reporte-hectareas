@@ -46,8 +46,10 @@ function nombreCampo(nombreCuartel) {
 // estan a mas de 20 km entre si: cada una es un campo. {id, nombre}
 let CAMPO_DE_RAIZ = {};   // raiz -> nombre del campo unido
 let RAICES_DE_CAMPO = {}; // nombre del campo unido -> [raices]
+let CUARTELES_EN_USO = [];  // todas las geocercas en uso (para listar todos los campos)
 function cargarCamposUnidos(datosCampos) {
   CAMPO_DE_RAIZ = {}; RAICES_DE_CAMPO = (datosCampos && datosCampos.campos_unidos) || {};
+  CUARTELES_EN_USO = (datosCampos && datosCampos.cuarteles) || [];
   for (const [campo, raices] of Object.entries(RAICES_DE_CAMPO)) for (const r of raices) CAMPO_DE_RAIZ[r] = campo;
 }
 function campoDe(nombreCuartel) {

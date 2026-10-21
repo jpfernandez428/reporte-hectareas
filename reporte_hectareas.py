@@ -2070,7 +2070,8 @@ def guardar_geocercas_web(geocercas):
     # Campos unidos (nombres distintos del mismo campo) para el filtro de campo
     # de la pagina y el informe: se publican desde config.json.
     with open(os.path.join(CARPETA_DATOS, "campos.json"), "w", encoding="utf-8") as f:
-        json.dump({"campos_unidos": CONFIG.get("campos_unidos", {})}, f, ensure_ascii=False, indent=1)
+        json.dump({"campos_unidos": CONFIG.get("campos_unidos", {}),
+                   "cuarteles": sorted(g["nombre"] for g in geocercas)}, f, ensure_ascii=False, indent=1)
 
 
 def guardar_geocercas_conocidas(geocercas):

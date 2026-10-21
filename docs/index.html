@@ -415,11 +415,12 @@ function poblarFiltroMaquinas() {
   const box = document.getElementById('filtroMaquinaBox');
   const maquinas = [...new Set(datos.map(d => d.maquina))]
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+  // Todos los campos (cuarteles en uso de campos.json y los del historial).
   const campos = {};
-  for (const d of datos) {
-    const c = campoDe(d.cuartel);
+  for (const cuartel of new Set([...CUARTELES_EN_USO, ...datos.map(d => d.cuartel)])) {
+    const c = campoDe(cuartel);
     if (!campos[c.id]) campos[c.id] = { nombre: c.nombre, busqueda: new Set([c.nombre]) };
-    campos[c.id].busqueda.add(d.cuartel);
+    campos[c.id].busqueda.add(cuartel);
   }
   for (const [campo, raices] of Object.entries(RAICES_DE_CAMPO)) {
     const c = campos['u:' + campo];
