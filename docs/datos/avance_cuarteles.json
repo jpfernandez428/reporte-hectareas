@@ -468,6 +468,15 @@
             "porcentaje": 11.9
           }
         },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026-27"
+        },
         "Recolección": {
           "maquinas": [
             "Recogedora 3"
@@ -2608,6 +2617,20 @@
         }
       }
     },
+    "Agrofarming": {
+      "area_total_ha": 36.4005,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Tractor 13 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 31.133,
+          "porcentaje": 85.5,
+          "completo": false,
+          "temporada": "2026-27"
+        }
+      }
+    },
     "Alberto Guzman 6": {
       "area_total_ha": 11.0641,
       "labores": {
@@ -3171,10 +3194,11 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.1519,
-          "porcentaje": 7.8,
-          "completo": false,
-          "temporada": "2026-27"
+          "trabajado_ha": 1.9461,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026-27",
+          "fecha_completo": "2026-08-19"
         }
       }
     },
@@ -3188,10 +3212,11 @@
             "Tractor 4 Same Frutetto 100",
             "Tractor 8 Kubota 108"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
-          "completo": false,
-          "temporada": "2026-27"
+          "trabajado_ha": 1.6426,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026-27",
+          "fecha_completo": "2026-08-19"
         }
       }
     },
@@ -3610,6 +3635,15 @@
           "completo": false,
           "cierres": []
         },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 11.8946,
+          "porcentaje": 30.4,
+          "completo": false,
+          "temporada": "2026-27"
+        },
         "Poda": {
           "maquinas": [
             "Podadora 1"
@@ -3657,6 +3691,15 @@
           "porcentaje": 47.5,
           "completo": false,
           "cierres": []
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 10.1387,
+          "porcentaje": 48.9,
+          "completo": false,
+          "temporada": "2026-27"
         },
         "Poda": {
           "maquinas": [
@@ -3717,6 +3760,15 @@
           "porcentaje": 0.0,
           "completo": false,
           "temporada": "2026"
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026-27"
         },
         "Poda": {
           "maquinas": [
@@ -3814,6 +3866,16 @@
           "completo": false,
           "cierres": []
         },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 20.6423,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026-27",
+          "fecha_completo": "2026-08-26"
+        },
         "Recolección": {
           "maquinas": [
             "Recogedora 3"
@@ -3852,6 +3914,15 @@
           "porcentaje": 85.7,
           "completo": false,
           "cierres": []
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026-27"
         },
         "Recolección": {
           "maquinas": [
@@ -3902,6 +3973,15 @@
           "porcentaje": 0.0,
           "completo": false,
           "temporada": "2026"
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026-27"
         },
         "Recolección": {
           "maquinas": [
@@ -3989,6 +4069,15 @@
           "porcentaje": 82.4,
           "completo": false,
           "cierres": []
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026-27"
         },
         "Poda": {
           "maquinas": [
@@ -4097,6 +4186,15 @@
           "porcentaje": 0.0,
           "completo": false,
           "temporada": "2026"
+        },
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026-27"
         },
         "Poda": {
           "maquinas": [
@@ -5109,6 +5207,15 @@
             "porcentaje": 15.1
           }
         },
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026-27"
+        },
         "Recolección": {
           "maquinas": [
             "Recogedora 3",
@@ -5264,6 +5371,15 @@
           "completo": false,
           "cierres": []
         },
+        "Poda": {
+          "maquinas": [
+            "Tractor 9 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 0.0783,
+          "porcentaje": 8.7,
+          "completo": false,
+          "temporada": "2026-27"
+        },
         "Recolección": {
           "maquinas": [
             "Recogedora 6"
@@ -5364,8 +5480,8 @@
           "maquinas": [
             "Tractor 9 Deutz Fahr 115"
           ],
-          "trabajado_ha": 19.0693,
-          "porcentaje": 56.1,
+          "trabajado_ha": 31.1702,
+          "porcentaje": 91.7,
           "completo": false,
           "temporada": "2026-27"
         },
@@ -12564,7 +12680,13 @@
           "porcentaje": 100.0,
           "completo": true,
           "temporada": "2026-27",
-          "fecha_completo": "2026-08-14"
+          "fecha_completo": "2026-08-14",
+          "repaso": {
+            "repasos_completos": 0,
+            "numero": 1,
+            "trabajado_ha": 0.6265,
+            "porcentaje": 11.1
+          }
         },
         "Poda": {
           "maquinas": [
@@ -13460,6 +13582,15 @@
           "porcentaje": 87.7,
           "completo": false,
           "temporada": "2026"
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 11 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 2.4799,
+          "porcentaje": 57.9,
+          "completo": false,
+          "temporada": "2026-27"
         }
       }
     },
@@ -13485,6 +13616,16 @@
           "porcentaje": 91.9,
           "completo": false,
           "temporada": "2026"
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 11 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 6.7795,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026-27",
+          "fecha_completo": "2026-08-21"
         }
       }
     },
@@ -13516,10 +13657,11 @@
           "maquinas": [
             "Tractor 11 Deutz Fahr 115"
           ],
-          "trabajado_ha": 11.9523,
-          "porcentaje": 93.7,
-          "completo": false,
-          "temporada": "2026-27"
+          "trabajado_ha": 12.7541,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026-27",
+          "fecha_completo": "2026-08-17"
         }
       }
     },
@@ -13584,6 +13726,15 @@
           "completo": true,
           "temporada": "2026",
           "fecha_completo": "2026-04-01"
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 11 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 4.4611,
+          "porcentaje": 82.2,
+          "completo": false,
+          "temporada": "2026-27"
         }
       }
     },
@@ -13612,6 +13763,15 @@
           "completo": true,
           "temporada": "2026",
           "fecha_completo": "2026-04-10"
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 11 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 3.584,
+          "porcentaje": 87.2,
+          "completo": false,
+          "temporada": "2026-27"
         }
       }
     },
@@ -13637,6 +13797,15 @@
           "porcentaje": 93.2,
           "completo": false,
           "temporada": "2026"
+        },
+        "Poda": {
+          "maquinas": [
+            "Tractor 11 Deutz Fahr 115"
+          ],
+          "trabajado_ha": 1.3978,
+          "porcentaje": 57.9,
+          "completo": false,
+          "temporada": "2026-27"
         }
       }
     },
@@ -15148,7 +15317,7 @@
           "repaso": {
             "repasos_completos": 0,
             "numero": 1,
-            "trabajado_ha": 0.7448,
+            "trabajado_ha": 0.7461,
             "porcentaje": 4.7
           }
         },
@@ -15188,6 +15357,21 @@
         }
       }
     },
+    "Solfrut 10": {
+      "area_total_ha": 4.3724,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 4.3724,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026-27",
+          "fecha_completo": "2026-08-18"
+        }
+      }
+    },
     "Solfrut 11": {
       "area_total_ha": 5.7337,
       "labores": {
@@ -15195,10 +15379,11 @@
           "maquinas": [
             "Tractor 16 Kubota 108"
           ],
-          "trabajado_ha": 2.9123,
-          "porcentaje": 50.8,
-          "completo": false,
-          "temporada": "2026-27"
+          "trabajado_ha": 5.7337,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026-27",
+          "fecha_completo": "2026-08-17"
         }
       }
     },
@@ -15209,10 +15394,11 @@
           "maquinas": [
             "Tractor 16 Kubota 108"
           ],
-          "trabajado_ha": 4.4356,
-          "porcentaje": 60.6,
-          "completo": false,
-          "temporada": "2026-27"
+          "trabajado_ha": 7.3243,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026-27",
+          "fecha_completo": "2026-08-17"
         }
       }
     },
@@ -15223,10 +15409,11 @@
           "maquinas": [
             "Tractor 16 Kubota 108"
           ],
-          "trabajado_ha": 4.3103,
-          "porcentaje": 50.5,
-          "completo": false,
-          "temporada": "2026-27"
+          "trabajado_ha": 8.5391,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026-27",
+          "fecha_completo": "2026-08-17"
         }
       }
     },
@@ -15655,6 +15842,36 @@
           "porcentaje": 31.9,
           "completo": false,
           "temporada": "2026"
+        }
+      }
+    },
+    "Solfrut 8": {
+      "area_total_ha": 10.2145,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 10.2145,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026-27",
+          "fecha_completo": "2026-08-18"
+        }
+      }
+    },
+    "Solfrut 9": {
+      "area_total_ha": 8.3091,
+      "labores": {
+        "Picado": {
+          "maquinas": [
+            "Tractor 16 Kubota 108"
+          ],
+          "trabajado_ha": 8.3091,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026-27",
+          "fecha_completo": "2026-08-18"
         }
       }
     },

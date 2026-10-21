@@ -997,5 +997,14 @@
   "tipo": "Repaso",
   "ha": 0.42,
   "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-08-17",
+  "maquina": "Tractor 17 Kubota 108",
+  "cuartel": "Nancagua_SBS Campo",
+  "labor": "Picado",
+  "tipo": "Repaso",
+  "ha": 0.63,
+  "temporada": "2026-27"
  }
 ]
