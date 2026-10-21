@@ -870,6 +870,21 @@ Registro:
   - Geocercas nuevas: recuperar 90 días (no 30), en una corrida aparte para
     no atrasar el correo; si ya había trabajo seguido antes de esos 90 días,
     aviso en el correo y la página (ha y desde qué fecha).
+- **Recálculo encadenado en GitHub (desde el 21-oct-2026, no depende del Mac)**:
+  en la rama de prueba, `diario.yml` (versión de la rama) espera si main
+  tiene en curso la corrida de la noche o el correo, y al terminar bien un
+  tramo lanza el siguiente (quincenas) hasta la fecha de
+  `recalculo_plan.json` (`recalculo_cadena.py`; nunca corre en main; una falla
+  corta la cadena). Recálculo con temporadas, repasos y día de Chile del
+  1-ene al 20-oct lanzado el 21-oct (tramo 1 a mano, desde el 2 en cadena).
+  Antes, el 21-oct, el tramo 1 falló por un corte de conexión con Wialon
+  (sin commit): se agregaron reintentos a la descarga del GPS (rama y main).
+- **Campos unidos** (`config.json` → `campos_unidos`, revisados por el usuario el
+  21-oct-2026; 152 → 137 campos): nombres distintos del mismo campo, para las
+  horas por campo. Incluye El Volcán Nueces en El Volcán, A1–A15 en
+  Ballerina, Campo Lolol AEC en Campo Lolol, Ochagavía Manantiales en
+  Ochagavía, y Agrícola El Carmen junto con Ochagavía (San Gregorio). Mismo
+  nombre a más de 20 km = campos distintos (ej. las 3 "Nueva geocerca").
 - **Temporadas (antecedente)**: el avance de una labor no debería acumularse de una
   temporada a otra. Hoy el avance de cada geocerca + labor se acumula todo el
   año y nunca baja. Ej. EL PRINCIPIO 12 – Cosecha con recibidor: 92,4 %
