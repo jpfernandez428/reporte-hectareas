@@ -529,5 +529,32 @@
   "tipo": "Repaso",
   "ha": 0.16,
   "temporada": "2026"
+ },
+ {
+  "fecha": "2026-05-04",
+  "maquina": "Recogedora 3",
+  "cuartel": "Bernardo Lira Pomaire 7",
+  "labor": "Recolección",
+  "tipo": "Repaso",
+  "ha": 1.11,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-05-04",
+  "maquina": "Recogedora 3",
+  "cuartel": "Bernardo Lira Pomaire 8",
+  "labor": "Recolección",
+  "tipo": "Repaso",
+  "ha": 1.31,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-05-15",
+  "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+  "cuartel": "Agricola Flor Oriente 2",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 0.67,
+  "temporada": "2026"
  }
 ]
