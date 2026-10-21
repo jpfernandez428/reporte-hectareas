@@ -8429,7 +8429,7 @@
             "Barredora 23"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 10.4,
+          "porcentaje_en_curso": 47.2,
           "trabajado_ha": 4.6162,
           "porcentaje": 100.0,
           "completo": true,
@@ -8438,8 +8438,8 @@
           ],
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 0.4788,
-            "porcentaje": 10.4
+            "trabajado_ha": 2.1768,
+            "porcentaje": 47.2
           }
         }
       }
@@ -8451,12 +8451,14 @@
           "maquinas": [
             "Barredora 23"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 91.5,
-          "trabajado_ha": 3.8111,
-          "porcentaje": 91.5,
-          "completo": false,
-          "cierres": []
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 4.1667,
+          "porcentaje": 100.0,
+          "completo": true,
+          "cierres": [
+            "2026-10-20"
+          ]
         }
       }
     },
@@ -8468,9 +8470,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 57.9,
-          "trabajado_ha": 2.8808,
-          "porcentaje": 57.9,
+          "porcentaje_en_curso": 61.6,
+          "trabajado_ha": 3.0676,
+          "porcentaje": 61.6,
           "completo": false,
           "cierres": []
         }
@@ -8587,7 +8589,7 @@
             "Barredora 24 Weiss c/cab"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 93.7,
+          "porcentaje_en_curso": 94.6,
           "trabajado_ha": 5.9205,
           "porcentaje": 100.0,
           "completo": true,
@@ -8596,8 +8598,8 @@
           ],
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 5.5472,
-            "porcentaje": 93.7
+            "trabajado_ha": 5.6013,
+            "porcentaje": 94.6
           }
         },
         "Picado": {
@@ -8661,7 +8663,7 @@
             "Barredora 23"
           ],
           "pasadas_completas": 1,
-          "porcentaje_en_curso": 10.6,
+          "porcentaje_en_curso": 12.8,
           "trabajado_ha": 12.2031,
           "porcentaje": 100.0,
           "completo": true,
@@ -8670,8 +8672,8 @@
           ],
           "repaso": {
             "repasos_completos": 0,
-            "trabajado_ha": 1.2985,
-            "porcentaje": 10.6
+            "trabajado_ha": 1.5648,
+            "porcentaje": 12.8
           }
         }
       }
@@ -8685,9 +8687,9 @@
             "Barredora 23"
           ],
           "pasadas_completas": 0,
-          "porcentaje_en_curso": 54.4,
-          "trabajado_ha": 7.3123,
-          "porcentaje": 54.4,
+          "porcentaje_en_curso": 75.3,
+          "trabajado_ha": 10.1263,
+          "porcentaje": 75.3,
           "completo": false,
           "cierres": []
         }
@@ -8717,12 +8719,14 @@
             "Barredora 1",
             "Barredora 23"
           ],
-          "pasadas_completas": 0,
-          "porcentaje_en_curso": 90.6,
-          "trabajado_ha": 6.7291,
-          "porcentaje": 90.6,
-          "completo": false,
-          "cierres": []
+          "pasadas_completas": 1,
+          "porcentaje_en_curso": 0.0,
+          "trabajado_ha": 7.4241,
+          "porcentaje": 100.0,
+          "completo": true,
+          "cierres": [
+            "2026-10-20"
+          ]
         }
       }
     },
@@ -8800,9 +8804,9 @@
             "Shacker SBS 10",
             "Shacker SBS 7"
           ],
-          "trabajado_ha": 4.4617,
-          "porcentaje": 92.4,
-          "completo": false
+          "trabajado_ha": 4.8292,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },

@@ -48985,5 +48985,95 @@
     "n_hileras": 84,
     "area_total_ha": 4.98,
     "area_trabajada_ha": 0.02
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "EL PRINCIPIO 12",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 56,
+    "area_total_ha": 4.83,
+    "area_trabajada_ha": 0.37
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 4",
+    "labor": "Barrido",
+    "n_hileras": 218,
+    "area_total_ha": 5.92,
+    "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 6",
+    "labor": "Barrido",
+    "n_hileras": 68,
+    "area_total_ha": 12.2,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 6",
+    "labor": "Barrido",
+    "n_hileras": 84,
+    "area_total_ha": 12.2,
+    "area_trabajada_ha": 0.11
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 1",
+    "cuartel": "Candelaria 7",
+    "labor": "Barrido",
+    "n_hileras": 82,
+    "area_total_ha": 13.45,
+    "area_trabajada_ha": 2.72
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 7",
+    "labor": "Barrido",
+    "n_hileras": 10,
+    "area_total_ha": 13.45,
+    "area_trabajada_ha": 0.1
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 9",
+    "labor": "Barrido",
+    "n_hileras": 140,
+    "area_total_ha": 7.42,
+    "area_trabajada_ha": 0.69
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 10",
+    "labor": "Barrido",
+    "n_hileras": 107,
+    "area_total_ha": 4.62,
+    "area_trabajada_ha": 1.7
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 11",
+    "labor": "Barrido",
+    "n_hileras": 109,
+    "area_total_ha": 4.17,
+    "area_trabajada_ha": 0.36
+  },
+  {
+    "fecha": "2026-10-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Candelaria 12",
+    "labor": "Barrido",
+    "n_hileras": 111,
+    "area_total_ha": 4.98,
+    "area_trabajada_ha": 0.19
   }
 ]
