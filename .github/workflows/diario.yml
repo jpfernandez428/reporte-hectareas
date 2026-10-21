@@ -50,6 +50,7 @@ on:
 
 permissions:
   contents: write
+  actions: write   # en otra rama: lanzar el tramo siguiente del recalculo
 
 # Una sola corrida a la vez que escriba en el repositorio (con la del tablero).
 concurrency:
@@ -63,6 +64,12 @@ jobs:
     steps:
       - name: Descargar el repositorio
         uses: actions/checkout@v4
+
+      - name: Esperar si main esta corriendo (recalculo en otra rama)
+        if: ${{ github.ref_name != 'main' && inputs.fecha_inicio != '' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pip install -q requests && python3 recalculo_cadena.py esperar
 
       - name: Traer lo ultimo de GitHub
         # Si la corrida espero su turno, trae lo que subio la anterior (ej. el
@@ -118,3 +125,10 @@ jobs:
             git pull --rebase origin ${{ github.ref_name }}
             git push origin HEAD:${{ github.ref_name }}
           fi
+
+      - name: Lanzar el tramo siguiente (recalculo en otra rama)
+        if: ${{ success() && github.ref_name != 'main' && inputs.fecha_fin != '' && inputs.diagnostico == '' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FECHA_FIN_MANUAL: ${{ inputs.fecha_fin }}
+        run: python3 recalculo_cadena.py siguiente
