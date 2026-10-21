@@ -25,5 +25,32 @@
   "tipo": "Repaso",
   "ha": 1.68,
   "temporada": "2026"
+ },
+ {
+  "fecha": "2026-02-18",
+  "maquina": "Shacker SBS 10",
+  "cuartel": "Camilo del Real 7",
+  "labor": "Cosecha con recibidor",
+  "tipo": "Repaso",
+  "ha": 1.24,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-02-26",
+  "maquina": "Shacker SBS 13",
+  "cuartel": "DON CRISTOBAL LARRAIN",
+  "labor": "Cosecha con recibidor",
+  "tipo": "Repaso",
+  "ha": 0.17,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-02-28",
+  "maquina": "Shacker de Suelo 1",
+  "cuartel": "Santa Ana 2.9",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 0.08,
+  "temporada": "2026"
  }
 ]
