@@ -905,6 +905,32 @@ Registro:
     (solo esas máquinas en esos campos); se aplica en totales, tabla, avance
     por cuartel, mapa KML, filtros combinados, y el informe se abre con los
     campos y fechas del filtro.
+- **Trabajo sin geocerca por campo (reglas del usuario 21-oct-2026)**:
+  - `sin_geocerca.py` (paso de la corrida de la noche, después del programa):
+    guarda TODO el trabajo sin geocerca en `docs/datos/sin_geocerca.json`
+    (historial acumulado, no solo 30 días; con comuna de Wialon) y lo asigna:
+    1) lugar confirmado (`config.json` → `lugares_confirmados`, a menos de
+    600 m) → ese campo "confirmado" (o "ningún campo"); 2) campos con un
+    cuartel a menos de 2 km: si la máquina trabajó en un cuartel de ese campo
+    ese día o está entre dos días en que trabajó ahí sin ir a otro campo ni a
+    CYH → "asignado"; si no, estadía ampliada (ese día no trabajó en otro
+    campo ni pasó por CYH) → "probable"; con dos o más campos posibles no se
+    elige: "probable: Aurora o El Volcán"; 3) si no, "sin campo". Las ha son
+    estimadas (horas × rendimiento real) y nunca se suman al total exacto.
+  - Página: con filtro de campo, "X ha en geocercas + ~Y ha estimadas sin
+    geocerca" y la lista del campo; sin filtro, "Por confirmar", "Asignados",
+    "Sin campo" y "Lugares confirmados · geocercas por crear en Wialon" (con
+    mapa y Deshacer). Informe descargable: indicador, hoja (Excel) y página
+    (PDF) "Trabajo sin geocerca (estimado)" con el campo y si es probable.
+  - Confirmar desde la página (ABIERTO, sin clave, pedido del usuario; la
+    clave con Cloudflare Access va después): botones "Aceptar <campo>" /
+    "Es <campo>" / "No es de ningún campo" / "Deshacer" → POST al Worker de
+    Cloudflare (`/confirmar`, solo desde la página publicada, valida datos)
+    → lanza `confirmar.yml` → `confirmar.py` guarda la regla del lugar en
+    `config.json` → `lugares_confirmados` (una por lugar; la nueva reemplaza)
+    y el registro en `docs/datos/confirmaciones.json` (fecha, hora, lugar,
+    campo, acción), y recalcula `sin_geocerca.json`. Dirección del Worker en
+    `config.json` → `url_confirmaciones`.
 - **Temporadas (antecedente)**: el avance de una labor no debería acumularse de una
   temporada a otra. Hoy el avance de cada geocerca + labor se acumula todo el
   año y nunca baja. Ej. EL PRINCIPIO 12 – Cosecha con recibidor: 92,4 %

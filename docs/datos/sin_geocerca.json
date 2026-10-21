@@ -1,0 +1,1466 @@
+{
+"distancia_campo_km": 2.0,
+"lugar_m": 600,
+"url_confirmar": null,
+"lugares_confirmados": [],
+"trabajos": [
+{
+"fecha": "2026-09-21",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.043172,
+"lon": -70.68888,
+"horas": 6.14,
+"mapa": "https://www.google.com/maps?q=-34.043172,-70.688880",
+"ha": 14.4,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-21",
+"maquina": "Tractor 17 Kubota 108",
+"labor": "Picado",
+"lat": -33.695477,
+"lon": -70.754899,
+"horas": 2.03,
+"mapa": "https://www.google.com/maps?q=-33.695477,-70.754899",
+"ha": 3.77,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-21",
+"maquina": "Tractor 7 Kubota 95",
+"labor": "Picado",
+"lat": -35.627036,
+"lon": -71.309455,
+"horas": 6.03,
+"mapa": "https://www.google.com/maps?q=-35.627036,-71.309455",
+"ha": 11.2,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-21",
+"maquina": "Tractor 8 Kubota 108",
+"labor": "Picado",
+"lat": -33.675385,
+"lon": -70.568262,
+"horas": 4.86,
+"mapa": "https://www.google.com/maps?q=-33.675385,-70.568262",
+"ha": 9.03,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-22",
+"maquina": "Tractor 17 Kubota 108",
+"labor": "Picado",
+"lat": -33.693364,
+"lon": -70.754624,
+"horas": 3.2,
+"mapa": "https://www.google.com/maps?q=-33.693364,-70.754624",
+"ha": 5.95,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-22",
+"maquina": "Tractor 8 Kubota 108",
+"labor": "Picado",
+"lat": -33.675289,
+"lon": -70.564456,
+"horas": 5.62,
+"mapa": "https://www.google.com/maps?q=-33.675289,-70.564456",
+"ha": 10.44,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-23",
+"maquina": "Tractor 17 Kubota 108",
+"labor": "Picado",
+"lat": -33.695081,
+"lon": -70.758342,
+"horas": 1.69,
+"mapa": "https://www.google.com/maps?q=-33.695081,-70.758342",
+"ha": 3.14,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-23",
+"maquina": "Tractor 7 Kubota 95",
+"labor": "Picado",
+"lat": -35.627049,
+"lon": -71.314636,
+"horas": 1.47,
+"mapa": "https://www.google.com/maps?q=-35.627049,-71.314636",
+"ha": 2.73,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-23",
+"maquina": "Tractor 7 Kubota 95",
+"labor": "Picado",
+"lat": -35.632935,
+"lon": -71.311135,
+"horas": 5.02,
+"mapa": "https://www.google.com/maps?q=-35.632935,-71.311135",
+"ha": 9.33,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-23",
+"maquina": "Tractor 8 Kubota 108",
+"labor": "Picado",
+"lat": -33.675026,
+"lon": -70.559726,
+"horas": 6.47,
+"mapa": "https://www.google.com/maps?q=-33.675026,-70.559726",
+"ha": 12.02,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-24",
+"maquina": "Tractor 17 Kubota 108",
+"labor": "Picado",
+"lat": -33.680281,
+"lon": -70.757144,
+"horas": 5.36,
+"mapa": "https://www.google.com/maps?q=-33.680281,-70.757144",
+"ha": 9.96,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-24",
+"maquina": "Tractor 7 Kubota 95",
+"labor": "Picado",
+"lat": -35.632001,
+"lon": -71.304818,
+"horas": 4.55,
+"mapa": "https://www.google.com/maps?q=-35.632001,-71.304818",
+"ha": 8.45,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-24",
+"maquina": "Tractor 8 Kubota 108",
+"labor": "Picado",
+"lat": -33.677588,
+"lon": -70.558653,
+"horas": 2.1,
+"mapa": "https://www.google.com/maps?q=-33.677588,-70.558653",
+"ha": 3.9,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-25",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.965839,
+"lon": -71.14422,
+"horas": 1.98,
+"mapa": "https://www.google.com/maps?q=-34.965839,-71.144220",
+"ha": 4.64,
+"opciones": [
+"Huertos de Nogal"
+],
+"distancias_km": {
+"Huertos de Nogal": 0.1
+},
+"campo": "Huertos de Nogal",
+"estado": "asignado"
+},
+{
+"fecha": "2026-09-25",
+"maquina": "Tractor 17 Kubota 108",
+"labor": "Picado",
+"lat": -33.680368,
+"lon": -70.757351,
+"horas": 5.77,
+"mapa": "https://www.google.com/maps?q=-33.680368,-70.757351",
+"ha": 10.72,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-25",
+"maquina": "Tractor 7 Kubota 95",
+"labor": "Picado",
+"lat": -35.629824,
+"lon": -71.299016,
+"horas": 2.13,
+"mapa": "https://www.google.com/maps?q=-35.629824,-71.299016",
+"ha": 3.96,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-25",
+"maquina": "Tractor 8 Kubota 108",
+"labor": "Picado",
+"lat": -33.678546,
+"lon": -70.561134,
+"horas": 3.97,
+"mapa": "https://www.google.com/maps?q=-33.678546,-70.561134",
+"ha": 7.38,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-26",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.966751,
+"lon": -71.145993,
+"horas": 1.38,
+"mapa": "https://www.google.com/maps?q=-34.966751,-71.145993",
+"ha": 3.24,
+"opciones": [
+"Huertos de Nogal"
+],
+"distancias_km": {
+"Huertos de Nogal": 0.2
+},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-28",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.316101,
+"lon": -71.421822,
+"horas": 1.69,
+"mapa": "https://www.google.com/maps?q=-34.316101,-71.421822",
+"ha": 3.96,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.3
+},
+"campo": "torretagle",
+"estado": "probable"
+},
+{
+"fecha": "2026-09-28",
+"maquina": "Tractor 17 Kubota 108",
+"labor": "Picado",
+"lat": -33.672979,
+"lon": -70.766853,
+"horas": 2.5,
+"mapa": "https://www.google.com/maps?q=-33.672979,-70.766853",
+"ha": 4.64,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-28",
+"maquina": "Tractor 17 Kubota 108",
+"labor": "Picado",
+"lat": -33.695207,
+"lon": -70.758296,
+"horas": 1.53,
+"mapa": "https://www.google.com/maps?q=-33.695207,-70.758296",
+"ha": 2.84,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-09-29",
+"maquina": "Tractor 14 Deutz Fahr 115",
+"labor": "Picado",
+"lat": -33.680458,
+"lon": -71.613871,
+"horas": 1.64,
+"mapa": "https://www.google.com/maps?q=-33.680458,-71.613871",
+"ha": 3.05,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 0.5
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-09-29",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.315008,
+"lon": -71.421704,
+"horas": 6.87,
+"mapa": "https://www.google.com/maps?q=-34.315008,-71.421704",
+"ha": 16.11,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.3
+},
+"campo": "torretagle",
+"estado": "asignado"
+},
+{
+"fecha": "2026-09-29",
+"maquina": "Tractor 4 Same Frutetto 100",
+"labor": "Picado",
+"lat": -33.679693,
+"lon": -71.61373,
+"horas": 1.16,
+"mapa": "https://www.google.com/maps?q=-33.679693,-71.613730",
+"ha": 2.16,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 0.4
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-09-30",
+"maquina": "Tractor 1 Deutz-Fahr Agroplus",
+"labor": "Picado",
+"lat": -33.679981,
+"lon": -71.617857,
+"horas": 3.05,
+"mapa": "https://www.google.com/maps?q=-33.679981,-71.617857",
+"ha": 5.67,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 0.4
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-09-30",
+"maquina": "Tractor 14 Deutz Fahr 115",
+"labor": "Picado",
+"lat": -33.680139,
+"lon": -71.616873,
+"horas": 2.1,
+"mapa": "https://www.google.com/maps?q=-33.680139,-71.616873",
+"ha": 3.9,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 0.4
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-09-30",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.313702,
+"lon": -71.421848,
+"horas": 1.99,
+"mapa": "https://www.google.com/maps?q=-34.313702,-71.421848",
+"ha": 4.67,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.3
+},
+"campo": "torretagle",
+"estado": "asignado"
+},
+{
+"fecha": "2026-09-30",
+"maquina": "Tractor 4 Same Frutetto 100",
+"labor": "Picado",
+"lat": -33.67982,
+"lon": -71.618117,
+"horas": 1.83,
+"mapa": "https://www.google.com/maps?q=-33.679820,-71.618117",
+"ha": 3.4,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 0.4
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-09-30",
+"maquina": "Tractor 8 Kubota 108",
+"labor": "Picado",
+"lat": -34.249074,
+"lon": -70.991505,
+"horas": 1.98,
+"mapa": "https://www.google.com/maps?q=-34.249074,-70.991505",
+"ha": 3.68,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-10-01",
+"maquina": "Tractor 1 Deutz-Fahr Agroplus",
+"labor": "Picado",
+"lat": -33.687242,
+"lon": -71.617445,
+"horas": 4.24,
+"mapa": "https://www.google.com/maps?q=-33.687242,-71.617445",
+"ha": 7.88,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 1.2
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-01",
+"maquina": "Tractor 14 Deutz Fahr 115",
+"labor": "Picado",
+"lat": -33.687304,
+"lon": -71.617416,
+"horas": 3.68,
+"mapa": "https://www.google.com/maps?q=-33.687304,-71.617416",
+"ha": 6.84,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 1.2
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-01",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.312758,
+"lon": -71.422315,
+"horas": 5.6,
+"mapa": "https://www.google.com/maps?q=-34.312758,-71.422315",
+"ha": 13.13,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.3
+},
+"campo": "torretagle",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-01",
+"maquina": "Tractor 4 Same Frutetto 100",
+"labor": "Picado",
+"lat": -33.687197,
+"lon": -71.617457,
+"horas": 3.14,
+"mapa": "https://www.google.com/maps?q=-33.687197,-71.617457",
+"ha": 5.83,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 1.2
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-02",
+"maquina": "Tractor 1 Deutz-Fahr Agroplus",
+"labor": "Picado",
+"lat": -33.689486,
+"lon": -71.615144,
+"horas": 1.54,
+"mapa": "https://www.google.com/maps?q=-33.689486,-71.615144",
+"ha": 2.86,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 1.5
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-02",
+"maquina": "Tractor 14 Deutz Fahr 115",
+"labor": "Picado",
+"lat": -33.689625,
+"lon": -71.615085,
+"horas": 1.68,
+"mapa": "https://www.google.com/maps?q=-33.689625,-71.615085",
+"ha": 3.12,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 1.5
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-02",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.311941,
+"lon": -71.422123,
+"horas": 3.74,
+"mapa": "https://www.google.com/maps?q=-34.311941,-71.422123",
+"ha": 8.77,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.3
+},
+"campo": "torretagle",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-02",
+"maquina": "Tractor 4 Same Frutetto 100",
+"labor": "Picado",
+"lat": -33.689549,
+"lon": -71.615261,
+"horas": 1.43,
+"mapa": "https://www.google.com/maps?q=-33.689549,-71.615261",
+"ha": 2.66,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 1.5
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-03",
+"maquina": "Tractor 8 Kubota 108",
+"labor": "Picado",
+"lat": -34.228728,
+"lon": -71.058229,
+"horas": 1.44,
+"mapa": "https://www.google.com/maps?q=-34.228728,-71.058229",
+"ha": 2.68,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-10-04",
+"maquina": "Tractor 8 Kubota 108",
+"labor": "Picado",
+"lat": -34.230811,
+"lon": -71.059177,
+"horas": 1.17,
+"mapa": "https://www.google.com/maps?q=-34.230811,-71.059177",
+"ha": 2.17,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-10-05",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.31061,
+"lon": -71.423203,
+"horas": 1.63,
+"mapa": "https://www.google.com/maps?q=-34.310610,-71.423203",
+"ha": 3.82,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.4
+},
+"campo": "torretagle",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-07",
+"maquina": "Tractor 14 Deutz Fahr 115",
+"labor": "Picado",
+"lat": -33.678476,
+"lon": -71.617948,
+"horas": 1.76,
+"mapa": "https://www.google.com/maps?q=-33.678476,-71.617948",
+"ha": 3.27,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 0.3
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-07",
+"maquina": "Tractor 8 Kubota 108",
+"labor": "Picado",
+"lat": -33.678521,
+"lon": -71.617609,
+"horas": 1.89,
+"mapa": "https://www.google.com/maps?q=-33.678521,-71.617609",
+"ha": 3.51,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 0.3
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-08",
+"maquina": "Tractor 10 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -35.13669,
+"lon": -71.618442,
+"horas": 5.72,
+"mapa": "https://www.google.com/maps?q=-35.136690,-71.618442",
+"ha": 1.99,
+"opciones": [
+"Aurora"
+],
+"distancias_km": {
+"Aurora": 0.1
+},
+"campo": "Aurora",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-08",
+"maquina": "Tractor 13 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -35.136206,
+"lon": -71.62012,
+"horas": 4.28,
+"mapa": "https://www.google.com/maps?q=-35.136206,-71.620120",
+"ha": 1.49,
+"opciones": [
+"Aurora"
+],
+"distancias_km": {
+"Aurora": 0.1
+},
+"campo": "Aurora",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-08",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.310423,
+"lon": -71.422852,
+"horas": 1.56,
+"mapa": "https://www.google.com/maps?q=-34.310423,-71.422852",
+"ha": 3.66,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.4
+},
+"campo": "torretagle",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-09",
+"maquina": "Tractor 14 Deutz Fahr 115",
+"labor": "Picado",
+"lat": -33.693451,
+"lon": -71.611618,
+"horas": 2.35,
+"mapa": "https://www.google.com/maps?q=-33.693451,-71.611618",
+"ha": 4.37,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 1.9
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-09",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.309437,
+"lon": -71.422087,
+"horas": 3.05,
+"mapa": "https://www.google.com/maps?q=-34.309437,-71.422087",
+"ha": 7.15,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.4
+},
+"campo": "torretagle",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-09",
+"maquina": "Tractor 4 Same Frutetto 100",
+"labor": "Picado",
+"lat": -33.693442,
+"lon": -71.611668,
+"horas": 2.01,
+"mapa": "https://www.google.com/maps?q=-33.693442,-71.611668",
+"ha": 3.73,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 1.9
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-09",
+"maquina": "Tractor 8 Kubota 108",
+"labor": "Picado",
+"lat": -33.693383,
+"lon": -71.611074,
+"horas": 2.45,
+"mapa": "https://www.google.com/maps?q=-33.693383,-71.611074",
+"ha": 4.55,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 1.9
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-10",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.308756,
+"lon": -71.419978,
+"horas": 4.69,
+"mapa": "https://www.google.com/maps?q=-34.308756,-71.419978",
+"ha": 11.0,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.3
+},
+"campo": "torretagle",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-11",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.306643,
+"lon": -71.422066,
+"horas": 2.29,
+"mapa": "https://www.google.com/maps?q=-34.306643,-71.422066",
+"ha": 5.37,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.2
+},
+"campo": "torretagle",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-13",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.306817,
+"lon": -71.421114,
+"horas": 1.35,
+"mapa": "https://www.google.com/maps?q=-34.306817,-71.421114",
+"ha": 3.17,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.1
+},
+"campo": "torretagle",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-13",
+"maquina": "Tractor 9 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -33.464618,
+"lon": -71.164999,
+"horas": 2.53,
+"mapa": "https://www.google.com/maps?q=-33.464618,-71.164999",
+"ha": 0.88,
+"opciones": [
+"Santa Ana"
+],
+"distancias_km": {
+"Santa Ana": 0.5
+},
+"campo": "Santa Ana",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-14",
+"maquina": "Tractor 10 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -35.153343,
+"lon": -71.61835,
+"horas": 5.67,
+"mapa": "https://www.google.com/maps?q=-35.153343,-71.618350",
+"ha": 1.98,
+"opciones": [
+"Aurora"
+],
+"distancias_km": {
+"Aurora": 0.2
+},
+"campo": "Aurora",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-14",
+"maquina": "Tractor 13 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -35.153272,
+"lon": -71.618391,
+"horas": 4.21,
+"mapa": "https://www.google.com/maps?q=-35.153272,-71.618391",
+"ha": 1.46,
+"opciones": [
+"Aurora"
+],
+"distancias_km": {
+"Aurora": 0.2
+},
+"campo": "Aurora",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-14",
+"maquina": "Tractor 14 Deutz Fahr 115",
+"labor": "Picado",
+"lat": -33.67961,
+"lon": -71.60647,
+"horas": 2.6,
+"mapa": "https://www.google.com/maps?q=-33.679610,-71.606470",
+"ha": 4.83,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 0.4
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-14",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.305652,
+"lon": -71.422158,
+"horas": 5.15,
+"mapa": "https://www.google.com/maps?q=-34.305652,-71.422158",
+"ha": 12.08,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.2
+},
+"campo": "torretagle",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-14",
+"maquina": "Tractor 4 Same Frutetto 100",
+"labor": "Picado",
+"lat": -33.679652,
+"lon": -71.606188,
+"horas": 2.11,
+"mapa": "https://www.google.com/maps?q=-33.679652,-71.606188",
+"ha": 3.92,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 0.4
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-14",
+"maquina": "Tractor 8 Kubota 108",
+"labor": "Picado",
+"lat": -33.679609,
+"lon": -71.606108,
+"horas": 2.5,
+"mapa": "https://www.google.com/maps?q=-33.679609,-71.606108",
+"ha": 4.64,
+"opciones": [
+"Avoamerica"
+],
+"distancias_km": {
+"Avoamerica": 0.4
+},
+"campo": "Avoamerica",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-14",
+"maquina": "Tractor 9 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -33.465503,
+"lon": -71.167501,
+"horas": 3.88,
+"mapa": "https://www.google.com/maps?q=-33.465503,-71.167501",
+"ha": 1.35,
+"opciones": [
+"Santa Ana"
+],
+"distancias_km": {
+"Santa Ana": 0.3
+},
+"campo": "Santa Ana",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-15",
+"maquina": "Barredora 1",
+"labor": "Barrido",
+"lat": -33.814035,
+"lon": -70.694481,
+"horas": 5.17,
+"mapa": "https://www.google.com/maps?q=-33.814035,-70.694481",
+"ha": 9.41,
+"opciones": [
+"Candelaria"
+],
+"distancias_km": {
+"Candelaria": 0.2
+},
+"campo": "Candelaria",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-15",
+"maquina": "Barredora 6",
+"labor": "Barrido",
+"lat": -33.268733,
+"lon": -70.834546,
+"horas": 2.09,
+"mapa": "https://www.google.com/maps?q=-33.268733,-70.834546",
+"ha": 3.47,
+"opciones": [
+"Puerto Lampa"
+],
+"distancias_km": {
+"Puerto Lampa": 0.3
+},
+"campo": "Puerto Lampa",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-15",
+"maquina": "Tractor 10 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -35.154836,
+"lon": -71.616511,
+"horas": 3.11,
+"mapa": "https://www.google.com/maps?q=-35.154836,-71.616511",
+"ha": 1.08,
+"opciones": [
+"Aurora"
+],
+"distancias_km": {
+"Aurora": 0.4
+},
+"campo": "Aurora",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-15",
+"maquina": "Tractor 10 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -35.163234,
+"lon": -71.634313,
+"horas": 2.34,
+"mapa": "https://www.google.com/maps?q=-35.163234,-71.634313",
+"ha": 0.82,
+"opciones": [
+"Aurora"
+],
+"distancias_km": {
+"Aurora": 0.8
+},
+"campo": "Aurora",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-15",
+"maquina": "Tractor 13 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -35.154639,
+"lon": -71.616889,
+"horas": 2.1,
+"mapa": "https://www.google.com/maps?q=-35.154639,-71.616889",
+"ha": 0.73,
+"opciones": [
+"Aurora"
+],
+"distancias_km": {
+"Aurora": 0.4
+},
+"campo": "Aurora",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-15",
+"maquina": "Tractor 13 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -35.163705,
+"lon": -71.634216,
+"horas": 2.15,
+"mapa": "https://www.google.com/maps?q=-35.163705,-71.634216",
+"ha": 0.75,
+"opciones": [
+"Aurora"
+],
+"distancias_km": {
+"Aurora": 0.9
+},
+"campo": "Aurora",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-15",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.304418,
+"lon": -71.422154,
+"horas": 4.11,
+"mapa": "https://www.google.com/maps?q=-34.304418,-71.422154",
+"ha": 9.64,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.1
+},
+"campo": "torretagle",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-15",
+"maquina": "Tractor 7 Kubota 95",
+"labor": "Picado",
+"lat": -34.719511,
+"lon": -71.604765,
+"horas": 2.28,
+"mapa": "https://www.google.com/maps?q=-34.719511,-71.604765",
+"ha": 4.24,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-10-15",
+"maquina": "Tractor 9 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -33.464158,
+"lon": -71.169979,
+"horas": 5.58,
+"mapa": "https://www.google.com/maps?q=-33.464158,-71.169979",
+"ha": 1.94,
+"opciones": [
+"Santa Ana"
+],
+"distancias_km": {
+"Santa Ana": 0.2
+},
+"campo": "Santa Ana",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-16",
+"maquina": "Barredora 1",
+"labor": "Barrido",
+"lat": -33.815307,
+"lon": -70.695552,
+"horas": 2.8,
+"mapa": "https://www.google.com/maps?q=-33.815307,-70.695552",
+"ha": 5.1,
+"opciones": [
+"Candelaria"
+],
+"distancias_km": {
+"Candelaria": 0.3
+},
+"campo": "Candelaria",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-16",
+"maquina": "Tractor 13 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -35.162897,
+"lon": -71.634159,
+"horas": 3.8,
+"mapa": "https://www.google.com/maps?q=-35.162897,-71.634159",
+"ha": 1.32,
+"opciones": [
+"Aurora"
+],
+"distancias_km": {
+"Aurora": 0.8
+},
+"campo": "Aurora",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-16",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.310555,
+"lon": -71.422348,
+"horas": 1.92,
+"mapa": "https://www.google.com/maps?q=-34.310555,-71.422348",
+"ha": 4.5,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.4
+},
+"campo": "torretagle",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-16",
+"maquina": "Tractor 17 Kubota 108",
+"labor": "Picado",
+"lat": -32.710324,
+"lon": -71.243775,
+"horas": 1.03,
+"mapa": "https://www.google.com/maps?q=-32.710324,-71.243775",
+"ha": 1.91,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-10-16",
+"maquina": "Tractor 7 Kubota 95",
+"labor": "Picado",
+"lat": -34.718322,
+"lon": -71.605222,
+"horas": 5.27,
+"mapa": "https://www.google.com/maps?q=-34.718322,-71.605222",
+"ha": 9.79,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-10-16",
+"maquina": "Tractor 9 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -33.46205,
+"lon": -71.167018,
+"horas": 3.4,
+"mapa": "https://www.google.com/maps?q=-33.462050,-71.167018",
+"ha": 1.18,
+"opciones": [
+"Santa Ana"
+],
+"distancias_km": {
+"Santa Ana": 0.6
+},
+"campo": "Santa Ana",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-17",
+"maquina": "Tractor 13 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -35.162374,
+"lon": -71.633974,
+"horas": 2.62,
+"mapa": "https://www.google.com/maps?q=-35.162374,-71.633974",
+"ha": 0.91,
+"opciones": [
+"Aurora"
+],
+"distancias_km": {
+"Aurora": 0.8
+},
+"campo": "Aurora",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-17",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.30994,
+"lon": -71.421348,
+"horas": 3.49,
+"mapa": "https://www.google.com/maps?q=-34.309940,-71.421348",
+"ha": 8.19,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.3
+},
+"campo": "torretagle",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-17",
+"maquina": "Tractor 9 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -33.459375,
+"lon": -71.165423,
+"horas": 2.3,
+"mapa": "https://www.google.com/maps?q=-33.459375,-71.165423",
+"ha": 0.8,
+"opciones": [
+"Santa Ana"
+],
+"distancias_km": {
+"Santa Ana": 0.9
+},
+"campo": "Santa Ana",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-18",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.308557,
+"lon": -71.422425,
+"horas": 2.4,
+"mapa": "https://www.google.com/maps?q=-34.308557,-71.422425",
+"ha": 5.63,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.3
+},
+"campo": "torretagle",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-19",
+"maquina": "Barredora 1",
+"labor": "Barrido",
+"lat": -33.821849,
+"lon": -70.701286,
+"horas": 1.0,
+"mapa": "https://www.google.com/maps?q=-33.821849,-70.701286",
+"ha": 1.82,
+"opciones": [
+"Candelaria"
+],
+"distancias_km": {
+"Candelaria": 0.2
+},
+"campo": "Candelaria",
+"estado": "asignado"
+},
+{
+"fecha": "2026-10-19",
+"maquina": "Tractor 10 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -35.161395,
+"lon": -71.632469,
+"horas": 4.29,
+"mapa": "https://www.google.com/maps?q=-35.161395,-71.632469",
+"ha": 1.49,
+"opciones": [
+"Aurora"
+],
+"distancias_km": {
+"Aurora": 0.6
+},
+"campo": "Aurora",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-19",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.314479,
+"lon": -71.421652,
+"horas": 3.37,
+"mapa": "https://www.google.com/maps?q=-34.314479,-71.421652",
+"ha": 7.9,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.3
+},
+"campo": "torretagle",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-19",
+"maquina": "Tractor 7 Kubota 95",
+"labor": "Picado",
+"lat": -34.719736,
+"lon": -71.605241,
+"horas": 3.09,
+"mapa": "https://www.google.com/maps?q=-34.719736,-71.605241",
+"ha": 5.74,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-10-20",
+"maquina": "Tractor 10 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -35.16041,
+"lon": -71.633469,
+"horas": 6.43,
+"mapa": "https://www.google.com/maps?q=-35.160410,-71.633469",
+"ha": 2.24,
+"opciones": [
+"Aurora"
+],
+"distancias_km": {
+"Aurora": 0.6
+},
+"campo": "Aurora",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-20",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.312174,
+"lon": -71.421826,
+"horas": 2.73,
+"mapa": "https://www.google.com/maps?q=-34.312174,-71.421826",
+"ha": 6.4,
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.3
+},
+"campo": "torretagle",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-20",
+"maquina": "Tractor 17 Kubota 108",
+"labor": "Picado",
+"lat": -32.710451,
+"lon": -71.244854,
+"horas": 1.64,
+"mapa": "https://www.google.com/maps?q=-32.710451,-71.244854",
+"ha": 3.05,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+},
+{
+"fecha": "2026-10-20",
+"maquina": "Tractor 7 Kubota 95",
+"labor": "Picado",
+"lat": -34.718551,
+"lon": -71.606503,
+"horas": 2.5,
+"mapa": "https://www.google.com/maps?q=-34.718551,-71.606503",
+"ha": 4.64,
+"opciones": [],
+"distancias_km": {},
+"campo": null,
+"estado": "sin campo"
+}
+]
+}
