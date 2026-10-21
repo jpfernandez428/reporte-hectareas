@@ -821,8 +821,50 @@ Registro:
   cuarteles quedaron al 100 % de "Cosecha con recibidor" en febrero (Shacker
   SBS 13) y el avance nunca baja. Se corrige con las temporadas (raleo
   separado de la cosecha): daría ~47 % de cada cuartel (2,13 + 2,34 ha).
-- **Temporadas (reglas del usuario 21-oct-2026; esperando que confirme la
-  tabla antes de recalcular en `dia-chile`)**: el avance de una labor no debería acumularse de una
+- **Reglas decididas por el usuario el 21-oct-2026 (a implementar en la rama
+  `dia-chile`; recalcular solo después de que apruebe la lista de tractores
+  fuera de temporada y la zona de los campos)**:
+  - Temporadas: barrido igual que hoy; **Cosecha** (Shacker SBS) ene–may
+    desde cada 1 de enero; **Raleo** (Shacker SBS) sep–nov desde cada 1 de
+    septiembre, labor aparte (mismas reglas de pasadas que la cosecha con
+    recibidor); picado y poda abr–oct desde cada 1 de abril; remecido de
+    suelo y recolección ene–may desde cada 1 de enero. Fuera de temporada se
+    cuenta igual, con alarma.
+  - Shacker SBS en jun–ago o diciembre: **"Revisar labor"**, con alarma, sin
+    sumar a ningún avance hasta que el usuario diga cuál fue.
+  - Tractores de picado/poda fuera de su temporada: si en ese campo y día
+    hubo cosecha (shakers, barredoras, recogedoras) es **"Recolección
+    (tractor con recogedora)"** con la temporada de cosecha; si no, "Revisar
+    labor" con alarma y sin sumar. Lista de casos mostrada al usuario
+    (nov–mar: 3 casos, 69,7 ha, todos con cosecha el mismo día; abr–may está
+    dentro de la temporada de picado/poda: 422,7 ha con cosecha el mismo
+    día, pendiente que el usuario diga si también aplica).
+  - **REPASO**: un cuartel + labor que ya llegó al 95 % en la temporada y se
+    vuelve a trabajar es una pasada nueva con sus propias hectáreas, se
+    muestra como "REPASO" y levanta alarma. Solo si trabaja de verdad las
+    hileras (pasadas en serie siguiendo las hileras); cruzar un cuartel
+    antiguo para trasladarse no cuenta.
+  - **Horas**: siempre según el sensor de encendido; si el sensor está malo o
+    sin datos, la regla anterior (movimiento + paradas de hasta 15 min dentro
+    del cuartel entre la primera y la última pasada del día). Sensor que
+    parece malo (apagado mientras trabaja, o encendido todo el día): alarma
+    en la página.
+  - **Horas por campo**: por máquina, horas con motor encendido desde que
+    llega al campo hasta que se va, separadas en trabajando (dentro de los
+    cuarteles) y traslado u otras (dentro del campo fuera de los cuarteles,
+    y el camino entre grupos lejanos de cuarteles del mismo campo). La
+    estadía se corta al ir a otro campo o volver a CYH; entre campos van en
+    camión y no cuenta. Zona del campo propuesta: cuarteles del mismo campo a
+    menos de 500 m forman un grupo, y cada grupo se agranda 150 m (pendiente
+    del OK del usuario). Tractores: acumulado de la estadía ("Tractor 4 en
+    Avoamerica desde 13-10: 45 h = 38 h trabajando + 7 h traslado u otras")
+    y detalle por día, en la página y el PDF; propuesta para el correo en la
+    próxima prueba. Las demás máquinas igual, con menos protagonismo. El
+    rendimiento (ha/h) usa las horas trabajando.
+  - Geocercas nuevas: recuperar 90 días (no 30), en una corrida aparte para
+    no atrasar el correo; si ya había trabajo seguido antes de esos 90 días,
+    aviso en el correo y la página (ha y desde qué fecha).
+- **Temporadas (antecedente)**: el avance de una labor no debería acumularse de una
   temporada a otra. Hoy el avance de cada geocerca + labor se acumula todo el
   año y nunca baja. Ej. EL PRINCIPIO 12 – Cosecha con recibidor: 92,4 %
   publicado = 2,11 ha del Shacker SBS 7 (12 y 13-feb) + 2,35 ha del Shacker
