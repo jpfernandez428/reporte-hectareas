@@ -1,0 +1,35 @@
+{
+  "referencia": [
+    -71.14708112179515,
+    -33.648669890070714
+  ],
+  "labor": "Recolección (tractor con recogedora)|2026",
+  "hileras": [
+    {
+      "id": 1,
+      "origen": [
+        0.0,
+        0.0
+      ],
+      "direccion": [
+        0.13939623216430153,
+        0.9902366840601272
+      ],
+      "min_proy": 0,
+      "max_proy": 56.88612109846687,
+      "intervalos": [
+        [
+          0.0,
+          56.9,
+          "2026-04-15"
+        ]
+      ],
+      "fechas": [
+        "2026-04-15"
+      ],
+      "primera_vez": 1776306590.276716,
+      "paso_gps": 28.5
+    }
+  ],
+  "area_acumulada_ha": 0.0
+}

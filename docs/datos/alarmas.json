@@ -277,5 +277,113 @@
   "tipo": "Repaso",
   "ha": 0.13,
   "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-02",
+  "maquina": "Shacker de Suelo 8",
+  "cuartel": "Achurra 1",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 0.42,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-04",
+  "maquina": "Shacker SBS 12",
+  "cuartel": "Agricola Aeropuerto 5",
+  "labor": "Cosecha con recibidor",
+  "tipo": "Repaso",
+  "ha": 0.76,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-06",
+  "maquina": "Shacker de Suelo 8",
+  "cuartel": "Achurra 3",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 0.5,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-06",
+  "maquina": "Shacker de Suelo 8",
+  "cuartel": "Achurra 1",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 1.52,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-07",
+  "maquina": "Shacker SBS 12",
+  "cuartel": "Agricola Aeropuerto 5",
+  "labor": "Cosecha con recibidor",
+  "tipo": "Repaso",
+  "ha": 0.09,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-07",
+  "maquina": "Shacker de Suelo 8",
+  "cuartel": "Achurra 3",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 8.67,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-07",
+  "maquina": "Shacker de Suelo 8",
+  "cuartel": "Achurra 5",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 5.07,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-11",
+  "maquina": "Shacker de Suelo 7",
+  "cuartel": "Bernardo Lira Chiñihue A6",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 2.39,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-13",
+  "maquina": "Shacker de Suelo 7",
+  "cuartel": "Bernardo Lira Chiñihue N1",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 5.6,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-14",
+  "maquina": "Recogedora 6",
+  "cuartel": "Bernardo Lira Chiñihue A3",
+  "labor": "Recolección",
+  "tipo": "Repaso",
+  "ha": 0.62,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-15",
+  "maquina": "Recogedora 6",
+  "cuartel": "Bernardo Lira Chiñihue A11",
+  "labor": "Recolección",
+  "tipo": "Repaso",
+  "ha": 3.17,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-15",
+  "maquina": "Recogedora 6",
+  "cuartel": "Bernardo Lira Chiñihue A3",
+  "labor": "Recolección",
+  "tipo": "Repaso",
+  "ha": 0.66,
+  "temporada": "2026"
  }
 ]
