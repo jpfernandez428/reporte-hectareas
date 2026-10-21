@@ -686,29 +686,43 @@ Registro:
   Developer settings → Personal access tokens → Fine-grained), cargarlo en
   Cloudflare (Workers → disparador-reporte → Settings → Variables and Secrets
   → GITHUB_TOKEN) y actualizar la fecha en `config.json`.
-- Contenido (en este orden; cambios del usuario del 19-oct-2026):
-  1. Encabezado (día reportado y rango de 7 días).
-  2. Resumen de ayer: máquinas que trabajaron (de cuántas), hectáreas, horas
-     de las máquinas; km de camionetas (cuántas de las 11 se movieron) y km
-     del camión, por separado.
-  3. Alertas: GPS sin señal (`flota.json`, sin las guardadas en CYH) y
-     trabajo sin geocerca de ayer (horas, coordenadas, mapa).
-  4. "Máquinas · ayer": Máquina | Labor | Dónde estuvo | Ha | Horas, orden
-     fijo del panel Flota agrupado por tipo; sin geocerca en rojo con mapa.
-     Debajo, cuántas no trabajaron: en CYH / detenidas fuera / sin señal
-     > 30 días (solo el número, con "ver lista en la página"; no se listan).
-  5. "Camionetas · ayer" (las 11): Camioneta | Km | Salida – llegada | Dónde
-     estuvo (sin repetir). Las que no se movieron: 0 y "No se movió · en
-     <lugar>". "Camión · ayer" (KWFJ69 CAMION): Km | Salida – llegada |
-     Recorrido en orden (CYH → Santo Domingo → CYH).
-  6. Últimos 7 días: totales (ha, horas de máquinas, km camionetas, km
-     camión); día por día (Día | Máquinas | Hectáreas con barrita | Horas |
-     Km camionetas | Km camión); por máquina (Máquina | Dónde estuvo | Días |
-     Ha | Horas, con horas sin geocerca); camionetas (Camioneta | Días con
-     movimiento | Km | Lugares más visitados, sin CYH) con total; el camión
-     aparte; avance por campo (Campo | Labores | Ha 7 días | Cuarteles
-     terminados).
-  7. Botón a la página.
+- **Tres piezas** (cambios del usuario del 21-oct-2026, reemplazan lo anterior):
+  1. **Correo corto** (`armar_html_corto`): "Resumen de ayer (lunes 19-10-2026)"
+     con máquinas que trabajaron, ha en geocercas + ~ha estimadas sin
+     geocerca (al lado, sin sumar), horas, km camionetas (cuántas de 9 se
+     movieron) y km camión; alertas en 2 líneas (GPS sin señal: máquinas y
+     desde cuándo; trabajo sin geocerca: máquinas y ~ha); "Máquinas · ayer
+     (19-10)": Máquina | Labor · lugar | Ha | Horas, sin geocerca destacada con
+     "(~3,8)", total "14,97 (+~12,6)"; "Camionetas · ayer": Camioneta | Dónde
+     estuvo (en orden, " · ", campos en negrita y comunas normal, con nota) |
+     Km y total; "Camión · ayer": una línea con km, salida–llegada y recorrido
+     (CYH → Nancagua → …); últimos 7 días (totales y día por día: Día | Máq. |
+     Hectáreas | Horas | Km cam. | Km camión); trabajo sin geocerca en una
+     línea (lugares, horas, ~ha y los 4 que más pesan). Cada sección con
+     "Ver detalle" a `reporte.html#<sección>`.
+  2. **PDF adjunto** = detalle completo (`armar_html`, el reporte largo).
+  3. **Página `docs/reporte.html`** (datos `docs/datos/reporte_diario.json`,
+     los publica el correo diario y la prueba): todo resumido y se despliega
+     al tocar. Camionetas → 7 días (km, salida–llegada, lugares) → al tocar
+     un día, las visitas reales en orden con hora de llegada, tiempo ahí y
+     mapa. Camión → 7 días con el recorrido. Máquinas → días con dónde
+     trabajó, ha (~ha sin geocerca) y horas. Trabajo sin geocerca → una fila
+     por lugar (todas las fechas y máquinas de la misma comuna juntas) con
+     "cerca de <campo>", rango, horas y ~ha → días con máquina, horas, ~ha y
+     mapa. Anclas: `#resumen`, `#maquinas`, `#camionetas`, `#camion`,
+     `#semana`, `#sin-geocerca`. Enlazada desde `index.html`.
+  - **Privacidad (pendiente, 21-oct-2026)**: la página es pública (el usuario
+    lo aceptó por ahora; muestra recorridos de las camionetas). Falta
+    protegerla con clave (Cloudflare Access).
+- **Hectáreas estimadas sin geocerca** (pedido del usuario 21-oct-2026, en el
+  correo y la página): horas sin geocerca × rendimiento real de la máquina =
+  ha acreditadas ÷ horas en geocercas en los días con ambas cosas de los
+  últimos 30 días (`rendimientos`); con menos de 10 h de referencia
+  (`horas_minimas_rendimiento`) el de su labor; sin referencia, el cálculo
+  del GPS. El cálculo del GPS (el del panel Flota, `ha_aprox`) suma el largo
+  de las pasadas × espaciado (2,5–5 m): cuenta dos veces lo que se repasa,
+  por eso las barredoras daban 2–3,8 ha/h y su rendimiento real es ~1,1–1,8
+  ha/h. El panel Flota sigue con el cálculo del GPS (no se cambió).
 - **Máquinas: sin km en ninguna parte del correo** (pedido del usuario). Solo
   hectáreas (historial), horas y geocercas (tablero de la flota: horas en
   movimiento dentro de geocercas + horas sin geocerca). "Trabajó" = ha > 0,
@@ -769,7 +783,16 @@ Registro:
   con su propio grupo y sube a esa rama). Recalcular el año en la rama por
   quincenas, comparar los casos de calibración y los cuarteles que cambien
   más de 2 puntos, y **no reemplazar el historial de main sin el OK del
-  usuario**. Falta su OK a la lista de lo que se limpia en la rama.
+  usuario**. Limpieza en la rama aprobada y hecha (2.311 memorias, 73
+  geometrías, avance, KML, historial vacío); recálculo del 1-ene al 19-oct en
+  20 tramos de 10–21 min (20-oct, 15:58 a 22:12), sin fallas. Comparación
+  (`comparar.py`, hasta el 19-oct): casos de calibración iguales o a menos de
+  1 punto; en el mismo período que main tenía calculado, −1,30 ha de 8.359
+  (−0,02 %). Las diferencias grandes no son del día de Chile: la rama
+  calculó todo el año en geocercas que main solo tenía desde su creación o
+  recuperación (Avoamerica, Candelaria, Puerto Lampa: +330 ha de abril a
+  agosto) y 13 Avoamerica que main nunca tuvo. Falta el OK del usuario para
+  pasar a main.
 - **Arreglo 20-oct-2026**: la corrida de esa noche armó el tablero de la flota
   sin la última conexión de ninguna máquina (63 "Sin datos GPS"): la sesión
   de Wialon vence tras 5 min sin uso y entre la última descarga y el tablero
