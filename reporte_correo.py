@@ -1478,8 +1478,74 @@ def medir_atraso(dias=14):
         print(f"ATRASO | peor: {nombre} dia {dia}: llego {a / 60:.1f} h despues de medianoche")
 
 
+def valor_parametro(mensaje, parametro):
+    """Valor de un parametro simple ("io_239", "in1", ...) en un mensaje; None
+    si el sensor usa una formula que no se puede leer directo."""
+    m = re.fullmatch(r"in(\d+)", parametro or "")
+    if m:
+        return (mensaje.get("i") or 0) >> (int(m.group(1)) - 1) & 1
+    if not re.fullmatch(r"[A-Za-z_][\w]*", parametro or ""):
+        return None
+    return (mensaje.get("p") or {}).get(parametro)
+
+
+def horas_motor(mensajes, parametro):
+    """Horas con el motor encendido segun el sensor (intervalos de hasta 15
+    min entre mensajes). None si el parametro no viene en los mensajes."""
+    segundos, leidos = 0.0, 0
+    for a, b in zip(mensajes, mensajes[1:]):
+        v = valor_parametro(a, parametro)
+        if v is None:
+            continue
+        leidos += 1
+        dt = b["t"] - a["t"]
+        if v and 0 < dt <= 900:
+            segundos += dt
+    return segundos / 3600 if leidos else None
+
+
+def revisar_sensores(dias=7):
+    """Solo lectura: por maquina, sensor de encendido, horometro (contador de
+    horas de motor de Wialon), ultimo dato y horas de motor de los 7 dias.
+    Deja salida_correo/sensores.json."""
+    sid, _ = login()
+    hoy = datetime.now(ZONA).date()
+    salida = []
+    for u in sorted(rh.UNIDADES, key=lambda u: rh.orden_flota(u["nombre"])):
+        item = wialon(sid, "core/search_item", {"id": u["id"], "flags": 0x1 | 0x400 | 0x1000 | 0x2000}).get("item", {})
+        sensores = list((item.get("sens") or {}).values())
+        encendido = next((x for x in sensores if x.get("t") in ("engine operation", "ignition")), None)
+        horometro_sensor = next((x for x in sensores if x.get("t") in ("engine hours", "absolute engine hours")), None)
+        horas7 = None
+        if encendido:
+            total = 0.0
+            leido = False
+            for k in range(dias, 0, -1):
+                h = horas_motor(mensajes_dia(sid, u["id"], hoy - timedelta(days=k)), encendido.get("p"))
+                if h is not None:
+                    total += h
+                    leido = True
+            horas7 = round(total, 1) if leido else None
+        ultimo = (item.get("lmsg") or {}).get("t")
+        salida.append({"maquina": u["nombre"], "labor": rh.labor_de(u),
+                       "sensor_encendido": encendido.get("n") if encendido else None,
+                       "parametro_encendido": encendido.get("p") if encendido else None,
+                       "sensor_horometro": horometro_sensor.get("n") if horometro_sensor else None,
+                       "horometro_h": round(item["cneh"], 1) if item.get("cneh") is not None else None,
+                       "ultimo_dato": datetime.fromtimestamp(ultimo, ZONA).strftime("%Y-%m-%d %H:%M") if ultimo else None,
+                       "horas_motor_7_dias": horas7,
+                       "tipos_sensores": sorted({x.get("t") for x in sensores})})
+        print(f"SENSORES | {u['nombre']} | encendido: {salida[-1]['sensor_encendido']} ({salida[-1]['parametro_encendido']}) | "
+              f"horometro: {salida[-1]['horometro_h']} | 7 dias: {horas7} | tipos: {salida[-1]['tipos_sensores']}")
+    os.makedirs(CARPETA_SALIDA, exist_ok=True)
+    with open(os.path.join(CARPETA_SALIDA, "sensores.json"), "w", encoding="utf-8") as f:
+        json.dump(salida, f, ensure_ascii=False)
+
+
 def main():
     modo = os.environ.get("MODO_CORREO", "vista_previa").strip()
+    if modo == "sensores":
+        return revisar_sensores()
     if modo == "atraso":
         return medir_atraso()
     if modo == "diario":

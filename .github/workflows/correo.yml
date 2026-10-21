@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
     inputs:
       modo:
-        description: 'diario (el envio normal), vista_previa (no envia; archivo por 1 dia), prueba (solo a CORREO_PRUEBA) o atraso (medicion de GPS tardio, solo lectura)'
+        description: 'diario (el envio normal), vista_previa (no envia; archivo por 1 dia), prueba (solo a CORREO_PRUEBA) atraso (GPS tardio) o sensores (encendido y horometro); los dos ultimos solo leen Wialon'
         required: true
         default: 'vista_previa'
       fecha:
@@ -67,7 +67,7 @@ jobs:
           python3 reporte_correo.py
 
       - name: Guardar la vista previa (1 dia)
-        if: ${{ inputs.modo == 'vista_previa' }}
+        if: ${{ inputs.modo == 'vista_previa' || inputs.modo == 'sensores' }}
         uses: actions/upload-artifact@v4
         with:
           name: vista-previa-correo
