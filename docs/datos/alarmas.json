@@ -970,5 +970,32 @@
   "tipo": "Repaso",
   "ha": 3.0,
   "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-08-07",
+  "maquina": "Tractor 16 Kubota 108",
+  "cuartel": "Solfrut",
+  "labor": "Picado",
+  "tipo": "Repaso",
+  "ha": 0.74,
+  "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-08-07",
+  "maquina": "Tractor 16 Kubota 108",
+  "cuartel": "Solfrut 4",
+  "labor": "Picado",
+  "tipo": "Repaso",
+  "ha": 0.29,
+  "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-08-11",
+  "maquina": "Tractor 16 Kubota 108",
+  "cuartel": "Solfrut 7",
+  "labor": "Picado",
+  "tipo": "Repaso",
+  "ha": 0.42,
+  "temporada": "2026-27"
  }
 ]
