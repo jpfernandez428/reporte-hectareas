@@ -36,6 +36,9 @@
   #contenedorTabla, #contenedorAvanceCuartel { overflow-x: auto; }
   /* Botones rapidos de periodo (solo cambian Desde y Hasta) */
   .periodo { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .modo-filtro { display: flex; gap: 6px; margin-bottom: 6px; }
+  .modo-filtro button.rapido { background: #e3e8e4; color: #1a1a1a; font-weight: 600; padding: 7px 12px; }
+  .modo-filtro button.rapido.activo { background: #2f6f3e; color: white; }
   .periodo .grupo-rapido { display: inline-flex; gap: 4px; align-items: center; }
   .periodo button.rapido { background: #e3e8e4; color: #1a1a1a; font-weight: 600; padding: 8px 12px; }
   .periodo button.rapido:hover { background: #d4dbd6; }
@@ -117,14 +120,21 @@
 
 <div class="filtros">
   <div class="campo">
-    <label>Máquina o campo</label>
+    <div class="modo-filtro" id="modoFiltro">
+      <button type="button" class="rapido activo" data-modo="maquina">Por máquina</button>
+      <button type="button" class="rapido" data-modo="campo">Por campo</button>
+    </div>
     <div style="margin-bottom:4px;">
       <a href="#" onclick="marcarTodas(true); return false;" style="font-size:12px;">Todas</a> ·
       <a href="#" onclick="marcarTodas(false); return false;" style="font-size:12px;">Ninguna</a>
     </div>
-    <input type="text" id="buscarMaquina" placeholder="Buscar máquina o campo (ej. 10, Nueces)" oninput="filtrarListaMaquinas()"
+    <input type="text" id="buscarMaquina" placeholder="Buscar máquina (ej. 10)" oninput="filtrarListaMaquinas()"
            style="width:100%; box-sizing:border-box; margin-bottom:4px; padding:6px; border-radius:6px; border:1px solid #ccc;">
     <div id="filtroMaquinaBox" style="max-height:140px; overflow-y:auto; border:1px solid #ccc; border-radius:6px; padding:8px; min-width:240px; background:white;"></div>
+    <div id="filtroAcotar" hidden style="margin-top:6px;">
+      <div id="filtroAcotarTitulo" style="font-size:12px; font-weight:600; color:#555; margin-bottom:2px;"></div>
+      <div id="filtroAcotarBox" style="max-height:110px; overflow-y:auto; border:1px dashed #b9c0bb; border-radius:6px; padding:6px 8px; background:#fafbfa;"></div>
+    </div>
   </div>
   <div class="campo">
     <label>Desde</label>
@@ -407,15 +417,18 @@ function tablaAvance(filas, umbral) {
   return html;
 }
 
-// Un solo buscador con dos grupos: "Maquinas" y "Campos" (campos unidos: se
-// encuentra por cualquiera de sus nombres o cuarteles, ej. "Nueces" -> El Volcan).
+// Filtro "Por maquina" o "Por campo": la lista principal muestra solo ese tipo
+// (campos unidos, buscables por cualquiera de sus nombres o cuarteles, ej.
+// "Nueces" -> El Volcan). Debajo, "Acotar" muestra lo otro, solo lo que
+// aparece en el resultado (ej. Por campo Avoamerica -> sus maquinas).
 const sinTildes = t => t.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+let modoFiltro = 'maquina';
+let listaMaquinas = [], listaCampos = [];  // [{valor, texto, busqueda}]
 
 function poblarFiltroMaquinas() {
-  const box = document.getElementById('filtroMaquinaBox');
-  const maquinas = [...new Set(datos.map(d => d.maquina))]
-    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
-  // Todos los campos (cuarteles en uso de campos.json y los del historial).
+  listaMaquinas = [...new Set(datos.map(d => d.maquina))]
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
+    .map(m => ({ valor: m, texto: m, busqueda: sinTildes(m) }));
   const campos = {};
   for (const cuartel of new Set([...CUARTELES_EN_USO, ...datos.map(d => d.cuartel)])) {
     const c = campoDe(cuartel);
@@ -426,13 +439,55 @@ function poblarFiltroMaquinas() {
     const c = campos['u:' + campo];
     if (c) raices.forEach(r => c.busqueda.add(r));
   }
-  const fila = (tipo, valor, texto, busqueda) =>
-    `<label class="opcion" data-tipo="${tipo}" data-busqueda="${escaparXml(sinTildes(busqueda))}" style="display:block;font-weight:normal;font-size:13px;padding:2px 0;">` +
-    `<input type="checkbox" data-tipo="${tipo}" value="${escaparXml(valor)}" onchange="aplicarFiltros()"> ${escaparXml(texto)}</label>`;
-  const titulo = (tipo, texto) => `<div class="titulo-lista" data-tipo="${tipo}" style="font-size:11px;font-weight:700;color:#2f6f3e;text-transform:uppercase;margin:6px 0 2px;">${texto}</div>`;
-  box.innerHTML = titulo('maquina', 'Máquinas') + maquinas.map(m => fila('maquina', m, m, m)).join('') +
-    titulo('campo', 'Campos') + Object.entries(campos).sort((a, b) => a[1].nombre.localeCompare(b[1].nombre, 'es'))
-      .map(([id, c]) => fila('campo', id, c.nombre, [...c.busqueda].join(' | '))).join('');
+  listaCampos = Object.entries(campos).sort((a, b) => a[1].nombre.localeCompare(b[1].nombre, 'es'))
+    .map(([id, c]) => ({ valor: id, texto: c.nombre, busqueda: sinTildes([...c.busqueda].join(' | ')) }));
+  document.querySelectorAll('#modoFiltro button').forEach(b => {
+    b.onclick = () => cambiarModoFiltro(b.dataset.modo);
+  });
+  dibujarListaPrincipal();
+}
+
+const casilla = (tipo, o, marcado) =>
+  `<label class="opcion" data-busqueda="${escaparXml(o.busqueda)}" style="display:block;font-weight:normal;font-size:13px;padding:2px 0;">` +
+  `<input type="checkbox" data-tipo="${tipo}" value="${escaparXml(o.valor)}"${marcado ? ' checked' : ''} onchange="aplicarFiltros()"> ${escaparXml(o.texto)}</label>`;
+
+function dibujarListaPrincipal() {
+  const lista = modoFiltro === 'maquina' ? listaMaquinas : listaCampos;
+  document.getElementById('filtroMaquinaBox').innerHTML = lista.map(o => casilla(modoFiltro, o, false)).join('');
+  document.getElementById('buscarMaquina').value = '';
+  document.getElementById('buscarMaquina').placeholder = modoFiltro === 'maquina' ? 'Buscar máquina (ej. 10)' : 'Buscar campo (ej. Aurora, Nueces)';
+  dibujarAcotar();
+}
+
+function cambiarModoFiltro(modo) {
+  modoFiltro = modo;
+  document.querySelectorAll('#modoFiltro button').forEach(b => b.classList.toggle('activo', b.dataset.modo === modo));
+  dibujarListaPrincipal();  // al cambiar de modo se parte de cero
+  aplicarFiltros();
+}
+
+// "Acotar": lo otro (campos de las maquinas elegidas, o maquinas de los campos
+// elegidos) que aparece en el resultado con las fechas actuales.
+function dibujarAcotar() {
+  const otro = modoFiltro === 'maquina' ? 'campo' : 'maquina';
+  const principales = [...document.querySelectorAll(`#filtroMaquinaBox input[data-tipo=${modoFiltro}]:checked`)].map(c => c.value);
+  const caja = document.getElementById('filtroAcotar');
+  if (!principales.length) { caja.hidden = true; document.getElementById('filtroAcotarBox').innerHTML = ''; return; }
+  const marcados = new Set([...document.querySelectorAll(`#filtroAcotarBox input:checked`)].map(c => c.value));
+  const desde = document.getElementById('filtroDesde').value, hasta = document.getElementById('filtroHasta').value;
+  const presentes = new Set();
+  for (const d of datos) {
+    if ((desde && d.fecha < desde) || (hasta && d.fecha > hasta)) continue;
+    const valorPrincipal = modoFiltro === 'maquina' ? d.maquina : campoDe(d.cuartel).id;
+    if (!principales.includes(valorPrincipal)) continue;
+    presentes.add(otro === 'maquina' ? d.maquina : campoDe(d.cuartel).id);
+  }
+  const lista = (otro === 'maquina' ? listaMaquinas : listaCampos).filter(o => presentes.has(o.valor));
+  caja.hidden = false;
+  document.getElementById('filtroAcotarTitulo').textContent = otro === 'maquina'
+    ? `Acotar por máquina (${lista.length} trabajaron ahí):` : `Acotar por campo (${lista.length} donde trabajó):`;
+  document.getElementById('filtroAcotarBox').innerHTML = lista.map(o => casilla(otro, o, marcados.has(o.valor))).join('')
+    || '<span style="font-size:12px;color:#888;">Sin trabajo en esas fechas.</span>';
 }
 
 function filtrarListaMaquinas() {
@@ -440,24 +495,17 @@ function filtrarListaMaquinas() {
   document.querySelectorAll('#filtroMaquinaBox label.opcion').forEach(label => {
     label.style.display = label.dataset.busqueda.includes(texto) ? 'block' : 'none';
   });
-  // Un grupo sin coincidencias no muestra su titulo.
-  document.querySelectorAll('#filtroMaquinaBox .titulo-lista').forEach(t => {
-    const hay = [...document.querySelectorAll(`#filtroMaquinaBox label.opcion[data-tipo="${t.dataset.tipo}"]`)]
-      .some(l => l.style.display !== 'none');
-    t.style.display = hay ? 'block' : 'none';
-  });
 }
 
 function marcarTodas(valor) {
-  // "Todas" marca las maquinas; "Ninguna" desmarca maquinas y campos.
-  document.querySelectorAll('#filtroMaquinaBox input[type=checkbox]').forEach(c => {
-    if (c.dataset.tipo === 'maquina' || !valor) c.checked = valor;
-  });
+  // "Todas" marca toda la lista principal; "Ninguna" desmarca todo.
+  document.querySelectorAll('#filtroMaquinaBox input[type=checkbox]').forEach(c => { c.checked = valor; });
+  if (!valor) document.querySelectorAll('#filtroAcotarBox input[type=checkbox]').forEach(c => { c.checked = false; });
   aplicarFiltros();
 }
 
 function camposSeleccionados() {
-  return Array.from(document.querySelectorAll('#filtroMaquinaBox input[data-tipo=campo]:checked')).map(c => c.value);
+  return Array.from(document.querySelectorAll('#filtroMaquinaBox input[data-tipo=campo]:checked, #filtroAcotarBox input[data-tipo=campo]:checked')).map(c => c.value);
 }
 
 // Maquinas y campos se combinan: marcando ambos, solo el trabajo de esas
@@ -469,10 +517,11 @@ function pasaFiltro(d, maquinas, campos, desde, hasta) {
 }
 
 function maquinasSeleccionadas() {
-  return Array.from(document.querySelectorAll('#filtroMaquinaBox input[data-tipo=maquina]:checked')).map(c => c.value);
+  return Array.from(document.querySelectorAll('#filtroMaquinaBox input[data-tipo=maquina]:checked, #filtroAcotarBox input[data-tipo=maquina]:checked')).map(c => c.value);
 }
 
 function aplicarFiltros() {
+  dibujarAcotar();
   if (gruposFiltro.length > 0) {
     // Con filtros combinados, las fechas Desde/Hasta (si hay) acotan ademas el periodo.
     const desdeG = document.getElementById('filtroDesde').value;
@@ -593,8 +642,8 @@ function renderChipsGrupos() {
     partesTexto.push(g.maquinas.length > 0 ? g.maquinas.join(', ') : 'Todas las máquinas');
     if ((g.campos || []).length) {
       const nombres = g.campos.map(id => {
-        const caja = document.querySelector(`#filtroMaquinaBox input[data-tipo=campo][value="${CSS.escape(id)}"]`);
-        return caja ? caja.parentElement.textContent.trim() : id;
+        const o = listaCampos.find(x => x.valor === id);
+        return o ? o.texto : id;
       });
       partesTexto.push('en ' + nombres.join(', '));
     }
