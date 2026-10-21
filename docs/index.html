@@ -33,6 +33,17 @@
           border-radius: 16px; padding: 5px 10px 5px 12px; margin: 0 8px 8px 0; font-size: 13px; }
   .chip button { background: none; color: #666; border: none; cursor: pointer; font-size: 14px; padding: 0 2px; }
   .vista[hidden] { display: none !important; }
+  /* Botones rapidos de periodo (solo cambian Desde y Hasta) */
+  .periodo { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .periodo .grupo-rapido { display: inline-flex; gap: 4px; align-items: center; }
+  .periodo button.rapido { background: #e3e8e4; color: #1a1a1a; font-weight: 600; padding: 8px 12px; }
+  .periodo button.rapido:hover { background: #d4dbd6; }
+  .periodo button.rapido.activo { background: #2f6f3e; color: white; }
+  .periodo select { padding: 7px 6px; font-size: 13px; }
+  @media (max-width: 600px) {
+    .filtros .campo { width: 100%; }
+    .periodo button.rapido { padding: 8px 10px; font-size: 13px; }
+  }
   .panel-informe { background: white; border-radius: 10px; padding: 16px; margin-top: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 2px solid #2f6f3e; }
   .panel-informe[hidden] { display: none !important; }
   .panel-informe h3 { margin: 0 0 6px; font-size: 16px; color: #2f6f3e; }
@@ -121,6 +132,21 @@
   <div class="campo">
     <label>Hasta</label>
     <input type="date" id="filtroHasta">
+  </div>
+  <div class="campo">
+    <label>Período</label>
+    <div class="periodo" id="periodoRapido">
+      <button type="button" class="rapido" data-periodo="ayer">Ayer</button>
+      <button type="button" class="rapido" data-periodo="7dias">Últimos 7 días</button>
+      <span class="grupo-rapido">
+        <button type="button" class="rapido" data-periodo="mes">Mes</button>
+        <select id="selMes" aria-label="Elegir mes"></select>
+      </span>
+      <span class="grupo-rapido">
+        <button type="button" class="rapido" data-periodo="anio">Año</button>
+        <select id="selAnio" aria-label="Elegir año"></select>
+      </span>
+    </div>
   </div>
   <div class="campo">
     <button onclick="aplicarFiltros()">Filtrar</button>
@@ -238,6 +264,7 @@ async function cargarDatos() {
     avanceCuarteles = null;
   }
   poblarFiltroMaquinas();
+  prepararPeriodoRapido();
   filtrados = datos;
   renderTabla();
 }
@@ -417,11 +444,14 @@ function maquinasSeleccionadas() {
 
 function aplicarFiltros() {
   if (gruposFiltro.length > 0) {
+    // Con filtros combinados, las fechas Desde/Hasta (si hay) acotan ademas el periodo.
+    const desdeG = document.getElementById('filtroDesde').value;
+    const hastaG = document.getElementById('filtroHasta').value;
     filtrados = datos.filter(d => gruposFiltro.some(g =>
       (g.maquinas.length === 0 || g.maquinas.includes(d.maquina)) &&
       (!g.desde || d.fecha >= g.desde) &&
       (!g.hasta || d.fecha <= g.hasta)
-    ));
+    ) && (!desdeG || d.fecha >= desdeG) && (!hastaG || d.fecha <= hastaG));
     renderTabla();
     return;
   }
@@ -437,6 +467,73 @@ function aplicarFiltros() {
     return true;
   });
   renderTabla();
+}
+
+// ---------------------------------------------------------------------------
+// Botones rapidos de periodo: solo cambian Desde y Hasta (que siguen visibles
+// para ajustarlas a mano) y aplican al tiro; los demas filtros se mantienen.
+// "Ayer" es en hora de Chile; "Ultimos 7 dias" son los 7 que terminan ayer.
+// ---------------------------------------------------------------------------
+const MESES_ES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+const isoDe = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+function ayerChile() {
+  const [a, m, d] = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Santiago' }).split('-').map(Number);
+  return new Date(a, m - 1, d - 1);
+}
+function finDeMes(anio, mes) { return new Date(anio, mes + 1, 0); }
+
+function rangoPeriodo(tipo) {
+  const ayer = ayerChile();
+  if (tipo === 'ayer') return [ayer, ayer];
+  if (tipo === '7dias') return [new Date(ayer.getFullYear(), ayer.getMonth(), ayer.getDate() - 6), ayer];
+  if (tipo === 'mes') {
+    const [a, m] = document.getElementById('selMes').value.split('-').map(Number);
+    const fin = finDeMes(a, m - 1);
+    return [new Date(a, m - 1, 1), fin > ayer ? ayer : fin];
+  }
+  if (tipo === 'anio') {
+    const a = Number(document.getElementById('selAnio').value);
+    const fin = new Date(a, 11, 31);
+    return [new Date(a, 0, 1), fin > ayer ? ayer : fin];
+  }
+}
+
+function aplicarPeriodo(tipo) {
+  const [desde, hasta] = rangoPeriodo(tipo);
+  document.getElementById('filtroDesde').value = isoDe(desde);
+  document.getElementById('filtroHasta').value = isoDe(hasta);
+  document.querySelectorAll('#periodoRapido button.rapido').forEach(b => b.classList.toggle('activo', b.dataset.periodo === tipo));
+  aplicarFiltros();
+}
+
+function prepararPeriodoRapido() {
+  const ayer = ayerChile();
+  // El mes y el anio "actuales" son los de ayer (el 1 de un mes, el mes anterior completo).
+  const primero = datos.map(d => d.fecha).sort()[0] || isoDe(ayer);
+  const [a0, m0] = primero.split('-').map(Number);
+  const meses = [];
+  for (let a = ayer.getFullYear(), m = ayer.getMonth() + 1; a > a0 || (a === a0 && m >= m0); m === 1 ? (a--, m = 12) : m--) {
+    meses.push([`${a}-${String(m).padStart(2, '0')}`, `${MESES_ES[m - 1]} ${a}`]);
+  }
+  const selMes = document.getElementById('selMes');
+  selMes.innerHTML = meses.map(([v, t]) => `<option value="${v}">${t}</option>`).join('');
+  const selAnio = document.getElementById('selAnio');
+  const anios = [];
+  for (let a = ayer.getFullYear(); a >= a0; a--) anios.push(a);
+  selAnio.innerHTML = anios.map(a => `<option value="${a}">${a}</option>`).join('');
+  document.querySelectorAll('#periodoRapido button.rapido').forEach(b => {
+    b.onclick = () => {
+      // Con un clic, Mes y Año vuelven al actual; el selector elige otro.
+      if (b.dataset.periodo === 'mes') selMes.selectedIndex = 0;
+      if (b.dataset.periodo === 'anio') selAnio.selectedIndex = 0;
+      aplicarPeriodo(b.dataset.periodo);
+    };
+  });
+  selMes.onchange = () => aplicarPeriodo('mes');
+  selAnio.onchange = () => aplicarPeriodo('anio');
+  // Si se cambian las fechas a mano, ningun boton queda destacado.
+  ['filtroDesde', 'filtroHasta'].forEach(id => document.getElementById(id).addEventListener('input', () =>
+    document.querySelectorAll('#periodoRapido button.rapido').forEach(b => b.classList.remove('activo'))));
 }
 
 function agregarGrupoFiltro() {
