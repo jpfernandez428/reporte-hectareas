@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
     inputs:
       modo:
-        description: 'diario (el envio normal), vista_previa (no envia; archivo por 1 dia), prueba (solo a CORREO_PRUEBA) atraso (GPS tardio) o sensores (encendido y horometro); los dos ultimos solo leen Wialon'
+        description: 'diario (el envio normal), vista_previa (no envia; archivo por 1 dia), prueba (solo a CORREO_PRUEBA), todos (manda ya el de ayer a todos), atraso (GPS tardio) o sensores (encendido y horometro); los dos ultimos solo leen Wialon'
         required: true
         default: 'vista_previa'
       fecha:

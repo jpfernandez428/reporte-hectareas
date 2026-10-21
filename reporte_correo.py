@@ -62,9 +62,8 @@ HORA_PREPARAR = rh.CONFIG.get("hora_preparar_correo", "07:30")
 HORA_AVISO_ATRASO = rh.CONFIG.get("hora_aviso_atraso_correo", "09:00")
 RUTA_ESTADO_CORREO = os.path.join(rh.CARPETA_DATOS, "correo_enviado.json")
 REPO = os.environ.get("GITHUB_REPOSITORY", "jpfernandez428/reporte-hectareas")
-# Token con que el Worker de Cloudflare lanza los workflows: vence en un ano.
-VENCE_TOKEN = rh.CONFIG.get("vencimiento_token_github")
-DIAS_AVISO_TOKEN = 30
+# Linea "Marcha blanca" arriba del correo mientras no se apruebe el recalculo.
+MARCHA_BLANCA = rh.CONFIG.get("correo_marcha_blanca", True)
 
 VERDE = "#2F6F3E"
 VERDE_CLARO = "#EAF3EC"
@@ -690,7 +689,9 @@ def armar_html(datos):
         f'<div style="font-size:20px;font-weight:bold;">Reporte diario de flota – C&amp;H Maquinaria</div>'
         f'<div style="font-size:14px;padding-top:6px;">Día reportado: <b>{fecha_larga(ayer)}</b></div>'
         f'<div style="font-size:13px;padding-top:2px;opacity:0.9;">Últimos 7 días: {dias[0]:%d-%m-%Y} al {ayer:%d-%m-%Y}</div>'
-        f'</td></tr>')
+        f'</td></tr>'
+        + (f'<tr><td style="padding:6px 16px;background:#FFF6DB;font-family:{FUENTE};font-size:12px;color:#7A5B00;">'
+           'Marcha blanca: algunos números se están ajustando.</td></tr>' if MARCHA_BLANCA else ""))
 
     # 2. Resumen de ayer
     hoy_m = [(m, m["dias"][fa]) for m in maquinas]
@@ -710,9 +711,6 @@ def armar_html(datos):
 
     # 3. Alertas (primero el aviso del token, si esta por vencer)
     alertas = []
-    aviso = aviso_token(ayer + timedelta(days=1))
-    if aviso:
-        alertas.append(aviso)
     for a in flota.get("alertas_sin_senal", []):
         alertas.append(f'<b>GPS sin señal</b>: {escape(a["maquina"])} – última señal {escape(a["ultima_conexion"] or "")} '
                        f'({a["horas"]} h), {escape(a["ubicacion"] or "ubicación desconocida")}'
@@ -960,7 +958,9 @@ def armar_html_corto(datos):
     encabezado = (
         f'<tr><td style="padding:16px;background:{VERDE};font-family:{FUENTE};color:#ffffff;">'
         f'<div style="font-size:19px;font-weight:bold;">Reporte diario de flota – C&amp;H Maquinaria</div>'
-        f'<div style="font-size:14px;padding-top:4px;">{fecha_larga(ayer).capitalize()}</div></td></tr>')
+        f'<div style="font-size:14px;padding-top:4px;">{fecha_larga(ayer).capitalize()}</div></td></tr>'
+        + (f'<tr><td style="padding:6px 16px;background:#FFF6DB;font-family:{FUENTE};font-size:12px;color:#7A5B00;">'
+           'Marcha blanca: algunos números se están ajustando.</td></tr>' if MARCHA_BLANCA else ""))
 
     # Resumen de ayer
     filas.append(titulo(f"Resumen de ayer ({fecha_larga(ayer, anio=False)} {ayer:%d-%m-%Y})"))
@@ -977,9 +977,6 @@ def armar_html_corto(datos):
 
     # Alertas en 2 lineas
     filas.append(titulo("Alertas"))
-    aviso = aviso_token(ayer + timedelta(days=1))
-    if aviso:
-        filas.append(linea(f'<span style="color:{ROJO};">{aviso}</span>', tam=12))
     sin_senal = flota.get("alertas_sin_senal", [])
     texto = ", ".join(f'{escape(a["maquina"])} (desde {escape((a["ultima_conexion"] or "")[:5])})' for a in sin_senal)
     filas.append(linea(f'<b style="color:{ROJO if sin_senal else TEXTO};">GPS sin señal:</b> {texto or "ninguna"}'))
@@ -1221,23 +1218,6 @@ def preparar_reporte(sid, usuario, ayer, publicar):
 # PDF y envio
 # ---------------------------------------------------------------------------
 
-def aviso_token(hoy):
-    """Aviso desde DIAS_AVISO_TOKEN dias antes de que venza el token de GitHub
-    que usa el Worker de Cloudflare."""
-    if not VENCE_TOKEN:
-        return None
-    vence = date.fromisoformat(VENCE_TOKEN)
-    faltan = (vence - hoy).days
-    if faltan > DIAS_AVISO_TOKEN:
-        return None
-    cuando = f"venció el {vence:%d-%m-%Y}" if faltan < 0 else f"vence el {vence:%d-%m-%Y} (en {faltan} días)"
-    return (f"<b>Renovar token de GitHub</b>: el token que usa Cloudflare para lanzar este reporte {cuando}. "
-            "Crear uno nuevo en GitHub (Settings → Developer settings → Personal access tokens → Fine-grained, solo "
-            "el repositorio reporte-hectareas, permiso Actions: Read and write), cargarlo en Cloudflare (Workers → "
-            "disparador-reporte → Settings → Variables and Secrets → GITHUB_TOKEN) y actualizar "
-            "\"vencimiento_token_github\" en config.json.")
-
-
 def generar_pdf(ruta_html, ruta_pdf):
     """Imprime el mismo HTML a PDF con Chrome sin ventana."""
     for chrome in ("google-chrome", "chromium", "chromium-browser",
@@ -1266,22 +1246,21 @@ def enviar(asunto, html, texto, destinatarios, adjunto=None):
     if adjunto:
         with open(adjunto, "rb") as f:
             msg.add_attachment(f.read(), maintype="application", subtype="pdf", filename=os.path.basename(adjunto))
-    # Diagnostico sin mostrar los valores: solo su forma.
-    print(f"Envio: usuario de {len(usuario)} caracteres, termina en @gmail.com: {usuario.lower().endswith('@gmail.com')}; "
-          f"clave de {len(clave)} caracteres, solo letras minusculas: {clave.isalpha() and clave.islower()}; "
-          f"{len(destinatarios)} destinatario(s)")
     ultimo_error = None
     for intento in range(3):
         try:
             if intento % 2 == 0:
                 with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=60) as s:
                     s.login(usuario, clave)
-                    s.send_message(msg, to_addrs=destinatarios)
+                    rechazados = s.send_message(msg, to_addrs=destinatarios)
             else:
                 with smtplib.SMTP("smtp.gmail.com", 587, timeout=60) as s:
                     s.starttls()
                     s.login(usuario, clave)
-                    s.send_message(msg, to_addrs=destinatarios)
+                    rechazados = s.send_message(msg, to_addrs=destinatarios)
+            # Sin mostrar direcciones (el registro de GitHub es publico).
+            print(f"Envio: aceptado por Gmail para {len(destinatarios) - len(rechazados)} de {len(destinatarios)} "
+                  f"direcciones; rechazadas al enviar: {len(rechazados)}")
             return
         except (smtplib.SMTPServerDisconnected, smtplib.SMTPConnectError, OSError) as e:
             ultimo_error = e
@@ -1369,6 +1348,8 @@ def envio_diario():
     if not destinatarios:
         print("Envio diario inactivo: falta el secreto CORREO_DESTINATARIOS (se activa cuando el usuario lo cargue).")
         return
+    # Los avisos (falla, atraso) van solo al usuario, no a todos (regla del 21-oct-2026).
+    solo_usuario = destinatarios_de("CORREO_PRUEBA") or destinatarios
     ahora = datetime.now(ZONA)
     hoy, ayer = ahora.date(), ahora.date() - timedelta(days=1)
     estado = leer_estado(hoy)
@@ -1395,7 +1376,7 @@ def envio_diario():
                                   f"La corrida de la noche terminó bien, pero el reporte falló al armarse: "
                                   f"<b>{escape(type(e).__name__)}: {escape(str(e))}</b>. Se puede volver a lanzar a "
                                   "mano en GitHub (Actions → Reporte diario de flota por correo)."),
-                       f"El reporte diario de flota no se generó: {e}", destinatarios)
+                       f"El reporte diario de flota no se generó: {e}", solo_usuario)
                 estado["falla"] = datetime.now(ZONA).strftime("%H:%M")
                 guardar_estado(estado)
             raise
@@ -1417,7 +1398,7 @@ def envio_diario():
                           f'<span style="font-family:monospace;font-size:12px;">{detalle}</span><br><br>'
                           f'{enlace("Ver la corrida en GitHub", run["html_url"])}. Cuando se vuelva a correr y '
                           "termine bien, el reporte sale solo."),
-               f"El reporte diario de flota no se genero: fallo la corrida de la noche ({paso}).", destinatarios)
+               f"El reporte diario de flota no se genero: fallo la corrida de la noche ({paso}).", solo_usuario)
         estado["falla"] = datetime.now(ZONA).strftime("%H:%M")
         guardar_estado(estado)
         print(f"Aviso de falla enviado (paso: {paso}).")
@@ -1426,12 +1407,58 @@ def envio_diario():
         enviar(f"Reporte diario de flota – {ayer:%d-%m-%Y}: viene atrasado",
                html_corto("El reporte diario de flota viene atrasado",
                           f"La corrida de la noche {situacion}. El reporte sale solo apenas termine."),
-               f"El reporte diario de flota viene atrasado: la corrida de la noche {situacion}.", destinatarios)
+               f"El reporte diario de flota viene atrasado: la corrida de la noche {situacion}.", solo_usuario)
         estado["atraso"] = datetime.now(ZONA).strftime("%H:%M")
         guardar_estado(estado)
         print("Aviso de atraso enviado.")
     else:
         print("La corrida de la noche no ha terminado: el reporte sale cuando termine.")
+
+
+def enviar_ahora_a_todos():
+    """Envio manual del reporte de ayer a CORREO_DESTINATARIOS (pedido del
+    usuario 21-oct-2026). Deja la marca del dia para que el envio automatico
+    no lo repita. Despues revisa rebotes en la casilla que envia."""
+    destinatarios = destinatarios_de("CORREO_DESTINATARIOS")
+    if not destinatarios:
+        raise RuntimeError("Falta el secreto CORREO_DESTINATARIOS")
+    hoy = datetime.now(ZONA).date()
+    ayer = hoy - timedelta(days=1)
+    estado = leer_estado(hoy)
+    if estado.get("reporte"):
+        print(f"El reporte de hoy ya se envio a las {estado['reporte']}: no se repite.")
+        return
+    sid, usuario = login()
+    html, ruta_pdf, _ = preparar_reporte(sid, usuario, ayer, publicar=True)
+    inicio = time.time()
+    enviar(f"Reporte diario de flota – {ayer:%d-%m-%Y}", html,
+           f"Reporte diario de flota del {ayer:%d-%m-%Y}. Detalle completo en el PDF adjunto.", destinatarios, ruta_pdf)
+    estado["reporte"] = datetime.now(ZONA).strftime("%H:%M")
+    guardar_estado(estado)
+    time.sleep(120)
+    revisar_rebotes(inicio)
+
+
+def revisar_rebotes(desde_unix):
+    """Solo lectura: cuenta los avisos de rebote (Mail Delivery Subsystem) que
+    llegaron a la casilla que envia despues del envio. No muestra direcciones."""
+    import email
+    import imaplib
+    usuario, clave = os.environ["CORREO_USUARIO"].strip(), os.environ["CORREO_CLAVE"].replace(" ", "").strip()
+    try:
+        with imaplib.IMAP4_SSL("imap.gmail.com") as m:
+            m.login(usuario, clave)
+            m.select("INBOX", readonly=True)
+            _, ids = m.search(None, f'(FROM "mailer-daemon" SINCE "{datetime.now(ZONA):%d-%b-%Y}")')
+            rebotes = 0
+            for i in ids[0].split():
+                _, datos = m.fetch(i, "(BODY.PEEK[HEADER.FIELDS (DATE)])")
+                fecha = email.utils.parsedate_to_datetime(email.message_from_bytes(datos[0][1])["Date"])
+                if fecha.timestamp() >= desde_unix - 60:
+                    rebotes += 1
+            print(f"Rebotes recibidos en los 2 minutos siguientes: {rebotes}")
+    except Exception as e:
+        print(f"No se pudieron revisar los rebotes ({type(e).__name__}): revisar la casilla a mano.")
 
 
 def destinatarios_de(variable):
@@ -1552,6 +1579,8 @@ def main():
         return medir_atraso()
     if modo == "diario":
         return envio_diario()
+    if modo == "todos":
+        return enviar_ahora_a_todos()
     hoy = datetime.now(ZONA).date()
     ayer = (date.fromisoformat(os.environ["FECHA_REPORTE"].strip()) if os.environ.get("FECHA_REPORTE", "").strip()
             else hoy - timedelta(days=1))
