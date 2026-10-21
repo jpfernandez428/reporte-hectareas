@@ -50,6 +50,10 @@ VELOCIDAD_MAXIMA_VEHICULO_KMH = rh.CONFIG.get("velocidad_maxima_vehiculo_kmh", 1
 MINUTOS_PARADA_FUERA = rh.CONFIG.get("minutos_parada_fuera", 15)
 MINUTOS_EN_GEOCERCA = rh.CONFIG.get("minutos_en_geocerca_vehiculo", 5)
 KM_MINIMO_SE_MOVIO = 0.5
+# Hectareas estimadas sin geocerca = horas x rendimiento real de la maquina
+# (ha/h en sus cuarteles con geocerca, ultimos 30 dias); con menos de estas
+# horas de referencia, el de su labor; sin referencia, el calculo del GPS.
+HORAS_MINIMAS_RENDIMIENTO = rh.CONFIG.get("horas_minimas_rendimiento", 10)
 
 # Envio diario (CLAUDE.md, "Reporte diario por correo").
 HORA_ENVIO = rh.CONFIG.get("hora_envio_correo", "07:45")
@@ -244,9 +248,10 @@ def nombre_lugar(punto, indice, patio, usuario):
 
 
 def recorrido_vehiculo(puntos, indice, patio, usuario):
-    """Lugares en el orden en que paso: CYH, campos de las geocercas donde
-    estuvo al menos MINUTOS_EN_GEOCERCA, y la comuna de cada parada de al menos
-    MINUTOS_PARADA_FUERA fuera de geocercas. [{"nombre", "mapa"}]"""
+    """Visitas en el orden en que paso: CYH, geocercas donde estuvo al menos
+    MINUTOS_EN_GEOCERCA, y cada parada de al menos MINUTOS_PARADA_FUERA fuera
+    de geocercas (con su comuna). [{"nombre", "tipo": cyh/campo/comuna,
+    "detalle" (geocerca), "llegada" (unix), "minutos", "mapa"}]"""
     tramos = []  # [lugar, t_inicio, t_fin, k_inicio, k_fin]
     for k, p in enumerate(puntos):
         lugar = lugar_del_punto(p["punto"], indice, patio)
@@ -254,18 +259,16 @@ def recorrido_vehiculo(puntos, indice, patio, usuario):
             tramos[-1][2], tramos[-1][4] = p["t"], k
         else:
             tramos.append([lugar, p["t"], p["t"], k, k])
-    lugares = []
-
-    def agregar(nombre, mapa=None):
-        if nombre and (not lugares or lugares[-1]["nombre"] != nombre):
-            lugares.append({"nombre": nombre, "mapa": mapa})
-
+    visitas = []
+    mapa_de = lambda punto: f"https://www.google.com/maps?q={punto[1]:.6f},{punto[0]:.6f}"
     for lugar, t0, t1, k0, k1 in tramos:
         if lugar == "CYH":
-            agregar("CYH")
+            visitas.append({"nombre": "CYH", "tipo": "cyh", "detalle": None, "llegada": t0,
+                            "minutos": round((t1 - t0) / 60), "mapa": mapa_de(puntos[k0]["punto"])})
         elif lugar:
             if t1 - t0 >= MINUTOS_EN_GEOCERCA * 60:
-                agregar(nombre_campo(lugar))
+                visitas.append({"nombre": nombre_campo(lugar), "tipo": "campo", "detalle": lugar, "llegada": t0,
+                                "minutos": round((t1 - t0) / 60), "mapa": mapa_de(puntos[k0]["punto"])})
         else:
             k = k0
             while k <= k1:
@@ -273,9 +276,21 @@ def recorrido_vehiculo(puntos, indice, patio, usuario):
                 while j + 1 <= k1 and distancia_m(puntos[k]["punto"], puntos[j + 1]["punto"]) < 150:
                     j += 1
                 if puntos[j]["t"] - puntos[k]["t"] >= MINUTOS_PARADA_FUERA * 60:
-                    agregar(*nombre_lugar(puntos[k]["punto"], indice, patio, usuario))
+                    nombre, mapa = nombre_lugar(puntos[k]["punto"], indice, patio, usuario)
+                    visitas.append({"nombre": nombre, "tipo": "comuna", "detalle": None, "llegada": puntos[k]["t"],
+                                    "minutos": round((puntos[j]["t"] - puntos[k]["t"]) / 60),
+                                    "mapa": mapa or mapa_de(puntos[k]["punto"])})
                 k = j + 1
-    return lugares
+    return visitas
+
+
+def lugares_en_orden(visitas):
+    """Visitas sin repetir el mismo lugar seguido (CYH -> Nancagua -> CYH)."""
+    salida = []
+    for v in visitas:
+        if not salida or salida[-1]["nombre"] != v["nombre"]:
+            salida.append(v)
+    return salida
 
 
 # ---------------------------------------------------------------------------
@@ -340,9 +355,9 @@ def campo_cercano(lon, lat, geocercas, maximo_m=5000):
 
 def trabajo_sin_geocerca(maquinas, fechas, geocercas, usuario):
     """Trabajo sin geocerca de los 7 dias (alertas del tablero), un lugar por
-    fila: se juntan los dias y maquinas que trabajaron a menos de
-    DISTANCIA_MISMO_LUGAR_M (el mismo criterio de lugar del panel)."""
-    lugares = []
+    fila: se juntan todos los dias y maquinas de la misma comuna o localidad
+    (direcciones de Wialon); sin comuna, a menos de DISTANCIA_MISMO_LUGAR_M."""
+    lugares = {}
     for m in maquinas:
         for f in fechas:
             for s in m["dias"][f]["sin_geocerca"]:
@@ -350,21 +365,57 @@ def trabajo_sin_geocerca(maquinas, fechas, geocercas, usuario):
                 if not q:
                     continue
                 lat, lon = float(q.group(1)), float(q.group(2))
-                g = next((g for g in lugares
-                          if distancia_m((g["lon"], g["lat"]), (lon, lat)) <= rh.DISTANCIA_MISMO_LUGAR_M), None)
-                if g is None:
-                    g = {"lat": lat, "lon": lon, "mapa": s["mapa"], "maquinas": [], "dias": set(),
-                         "horas": 0.0, "ha": 0.0}
-                    lugares.append(g)
+                nombre = localidad(direccion(usuario, lon, lat)) if usuario else None
+                clave = nombre or next((k for k, g in lugares.items() if not g["nombre"] and distancia_m(
+                    (g["lon"], g["lat"]), (lon, lat)) <= rh.DISTANCIA_MISMO_LUGAR_M), f"{lat:.4f},{lon:.4f}")
+                g = lugares.setdefault(clave, {"nombre": nombre, "lat": lat, "lon": lon, "mapa": s["mapa"],
+                                               "maquinas": [], "dias": [], "horas": 0.0, "ha": 0.0})
                 if m["nombre"] not in g["maquinas"]:
                     g["maquinas"].append(m["nombre"])
-                g["dias"].add(f)
+                g["dias"].append({"fecha": f, "maquina": m["nombre"], "horas": s["horas"], "ha": s["ha_est"],
+                                  "mapa": s["mapa"]})
                 g["horas"] += s["horas"]
-                g["ha"] += s["ha"]
-    for g in lugares:
-        g["nombre"] = localidad(direccion(usuario, g["lon"], g["lat"])) if usuario else None
+                g["ha"] += s["ha_est"]
+    for g in lugares.values():
+        mayor = max(g["dias"], key=lambda d: d["horas"])  # el punto con mas trabajo representa el lugar
+        q = re.search(r"q=([-\d.]+),([-\d.]+)", mayor["mapa"])
+        g["lat"], g["lon"], g["mapa"] = float(q.group(1)), float(q.group(2)), mayor["mapa"]
         g["cerca"] = campo_cercano(g["lon"], g["lat"], geocercas)
-    return sorted(lugares, key=lambda g: -g["horas"])
+        g["dias"].sort(key=lambda d: (d["fecha"], d["maquina"]))
+    return sorted(lugares.values(), key=lambda g: -g["horas"])
+
+
+def rendimientos(flota, historico):
+    """Ha por hora de cada maquina en sus cuarteles con geocerca (dias de los
+    ultimos 30 con hectareas y horas en geocercas). Con menos de
+    HORAS_MINIMAS_RENDIMIENTO se usa el de su labor. {maquina: (ha_h, fuente)}"""
+    dias = {d["fecha"] for m in flota.get("maquinas", []) for d in m.get("dias", [])}
+    ha = {}
+    for r in historico:
+        if r["fecha"] in dias:
+            ha[(r["maquina"], r["fecha"])] = ha.get((r["maquina"], r["fecha"]), 0) + r["area_trabajada_ha"]
+    propio, por_labor = {}, {}
+    labor = {u["nombre"]: rh.labor_de(u) for u in rh.UNIDADES}
+    for m in flota.get("maquinas", []):
+        horas = hectareas = 0.0
+        for d in m.get("dias", []):
+            h = sum((d.get("horas_geocercas") or {}).values())
+            a = ha.get((m["nombre"], d["fecha"]), 0)
+            if h > 0 and a > 0:
+                horas += h
+                hectareas += a
+        propio[m["nombre"]] = (hectareas, horas)
+        t = por_labor.setdefault(labor.get(m["nombre"]), [0.0, 0.0])
+        t[0] += hectareas
+        t[1] += horas
+    salida = {}
+    for nombre, (a, h) in propio.items():
+        if h >= HORAS_MINIMAS_RENDIMIENTO:
+            salida[nombre] = (a / h, "propio")
+        else:
+            a_l, h_l = por_labor.get(labor.get(nombre), (0, 0))
+            salida[nombre] = (a_l / h_l, "labor") if h_l >= HORAS_MINIMAS_RENDIMIENTO else (None, "gps")
+    return salida
 
 
 def datos_reporte(sid, usuario, ayer):
@@ -389,6 +440,7 @@ def datos_reporte(sid, usuario, ayer):
             ha[(r["maquina"], r["fecha"])] = ha.get((r["maquina"], r["fecha"]), 0) + r["area_trabajada_ha"]
 
     # Maquinas: hectareas del historial; horas, geocercas y alertas del tablero.
+    rend = rendimientos(flota, historico)
     maquinas = []
     por_nombre_flota = {m["nombre"]: m for m in flota.get("maquinas", [])}
     for unidad in sorted(rh.UNIDADES, key=lambda u: rh.orden_flota(u["nombre"])):
@@ -399,8 +451,12 @@ def datos_reporte(sid, usuario, ayer):
         for fecha in fechas:
             d = dias_flota.get(fecha, {})
             horas_geo = d.get("horas_geocercas", {}) or {}
-            sin = d.get("sin_geocerca", []) or []
+            sin = [dict(x) for x in d.get("sin_geocerca", []) or []]
+            ha_h, _ = rend.get(nombre, (None, "gps"))
+            for x in sin:
+                x["ha_est"] = x["horas"] * ha_h if ha_h else x["ha"]
             fila = {"ha": ha.get((nombre, fecha), 0.0), "horas_geocercas": horas_geo,
+                    "ha_sin": sum(x["ha_est"] for x in sin),
                     "horas_sin": sum(s["horas"] for s in sin), "sin_geocerca": sin,
                     "fin_lugar": (d.get("fin") or {}).get("lugar")}
             fila["horas"] = sum(horas_geo.values()) + fila["horas_sin"]
@@ -408,7 +464,7 @@ def datos_reporte(sid, usuario, ayer):
                                or any(h >= rh.HORAS_MINIMAS_ALERTA for h in horas_geo.values()))
             fila["se_movio"] = fila["trabajo"] or bool(horas_geo)
             filas[fecha] = fila
-        maquinas.append({"nombre": nombre, "labor": rh.labor_de(unidad),
+        maquinas.append({"nombre": nombre, "labor": rh.labor_de(unidad), "rendimiento": rend.get(nombre),
                          "grupo": rh.NOMBRES_GRUPOS_FLOTA[rh.orden_flota(nombre)[0]],
                          "ubicacion": mf.get("ubicacion"), "ultima_conexion": mf.get("ultima_conexion"),
                          "dias": filas})
@@ -426,8 +482,9 @@ def datos_reporte(sid, usuario, ayer):
                     "salida": movimiento[0][0]["t"] if movimiento else None,
                     "llegada": movimiento[-1][1]["t"] if movimiento else None}
             fila["se_movio"] = fila["km"] >= KM_MINIMO_SE_MOVIO
-            fila["lugares"] = recorrido_vehiculo(puntos, indice, patio, usuario) if fila["se_movio"] else []
-            if fecha == fechas[-1] and not fila["se_movio"]:
+            fila["visitas"] = recorrido_vehiculo(puntos, indice, patio, usuario) if fila["se_movio"] else []
+            fila["lugares"] = lugares_en_orden(fila["visitas"])
+            if not fila["se_movio"]:
                 fin_dia = datetime(dia.year, dia.month, dia.day, tzinfo=ZONA).timestamp() + 86400
                 if puntos:
                     pos, fuente = puntos[-1]["punto"], "dia"
@@ -475,11 +532,24 @@ def hora(t):
     return datetime.fromtimestamp(t, ZONA).strftime("%H:%M") if t else "–"
 
 
-def fecha_larga(d):
+def fecha_larga(d, anio=True):
+    """"lunes 19 de octubre de 2026"; con anio=False solo el dia de la semana."""
     dias = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
     meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre",
              "octubre", "noviembre", "diciembre"]
+    if not anio:
+        return dias[d.weekday()]
     return f"{dias[d.weekday()]} {d.day} de {meses[d.month - 1]} de {d.year}"
+
+
+def ha_texto(ha, ha_sin, total=False):
+    """"4,54", "(~3,8)", "4,54 (~1,0)" o, en el total, "14,97 (+~12,6)"."""
+    if not ha and not ha_sin:
+        return "–"
+    partes = [num(ha, 2)] if ha or total else []
+    if ha_sin:
+        partes.append(f'<span style="color:{ROJO};">({"+" if total else ""}~{num(ha_sin)})</span>')
+    return " ".join(partes)
 
 
 def fecha_corta(d):
@@ -561,9 +631,17 @@ def barrita(valor, maximo):
 
 
 
-def lugares_html(lugares, separador=" · "):
-    return separador.join(enlace(escape(l["nombre"]), l["mapa"]) if l.get("mapa") else escape(l["nombre"])
-                          for l in lugares)
+def lugares_html(lugares, separador=" · ", enlaces=True):
+    """Campos (geocercas) en negrita y comunas en texto normal (con mapa)."""
+    partes = []
+    for l in lugares:
+        if l.get("tipo") == "campo":
+            partes.append(f"<b>{escape(l['nombre'])}</b>")
+        elif l.get("tipo") == "comuna" and enlaces and l.get("mapa"):
+            partes.append(enlace(escape(l["nombre"]), l["mapa"], TEXTO))
+        else:
+            partes.append(escape(l["nombre"]))
+    return separador.join(partes)
 
 
 def sin_repetir(lugares):
@@ -605,11 +683,13 @@ def armar_html(datos):
     hoy_m = [(m, m["dias"][fa]) for m in maquinas]
     trabajaron = [x for x in hoy_m if x[1]["trabajo"]]
     ha_ayer = sum(d["ha"] for _, d in hoy_m)
+    ha_sin_ayer = sum(d["ha_sin"] for _, d in hoy_m)
     horas_ayer = sum(d["horas"] for _, d in hoy_m)
     movidas = sum(1 for v in camionetas if v["dias"][fa]["se_movio"])
-    filas_html.append(titulo("Resumen de ayer"))
+    filas_html.append(titulo(f"Resumen de ayer ({fecha_larga(ayer, anio=False)} {ayer:%d-%m-%Y})"))
     filas_html.append(indicadores([(f"{len(trabajaron)} de {len(maquinas)}", "máquinas trabajaron"),
-                                   (num(ha_ayer, 2), "hectáreas"), (num(horas_ayer), "horas de las máquinas")]))
+                                   (num(ha_ayer, 2), f"ha en geocercas + ~{num(ha_sin_ayer)} ha estimadas sin geocerca"),
+                                   (num(horas_ayer), "horas de las máquinas")]))
     cajas = [(f"{num(km(camionetas, fa), 0)} km", f"camionetas ({movidas} de {len(camionetas)} se movieron)")]
     for c in camiones:
         cajas.append((f"{num(c['dias'][fa]['km'], 0)} km", "camión"))
@@ -629,7 +709,7 @@ def armar_html(datos):
             q = re.search(r"q=([-\d.]+),([-\d.]+)", s.get("mapa") or "")
             coords = f"{float(q.group(1)):.5f}, {float(q.group(2)):.5f}" if q else ""
             alertas.append(f'<b>Trabajo sin geocerca</b>: {escape(m["nombre"])} – {num(s["horas"])} h '
-                           f'(~{num(s["ha"])} ha aprox.) en {coords} · {enlace("ver mapa", s["mapa"], ROJO)}')
+                           f'(~{num(s["ha_est"])} ha estimadas) en {coords} · {enlace("ver mapa", s["mapa"], ROJO)}')
     filas_html.append(titulo("Alertas"))
     if alertas:
         filas_html.append('<tr><td style="padding:4px 0;"><table role="presentation" width="100%" cellpadding="0" '
@@ -642,7 +722,7 @@ def armar_html(datos):
         filas_html.append(parrafo("Sin alertas: todas las máquinas con señal y ningún trabajo sin geocerca ayer."))
 
     # 4. Maquinas ayer (sin km)
-    filas_html.append(titulo("Máquinas · ayer"))
+    filas_html.append(titulo(f"Máquinas · ayer ({ayer:%d-%m})"))
     filas, estilos, grupo = [], {}, None
     for m, d in hoy_m:
         if not d["se_movio"]:
@@ -656,11 +736,11 @@ def armar_html(datos):
             donde = (donde + "<br>" if donde else "") + f'<span style="color:{ROJO};font-weight:bold;">Sin geocerca ' \
                                                        f'{num(d["horas_sin"])} h</span> ({enlaces})'
             estilos[len(filas)] = ROJO_CLARO
-        filas.append([escape(m["nombre"]), escape(m["labor"]), donde or "–", num(d["ha"], 2) if d["ha"] else "–",
+        filas.append([escape(m["nombre"]), escape(m["labor"]), donde or "–", ha_texto(d["ha"], d["ha_sin"]),
                       num(d["horas"]) if d["horas"] else "–"])
     if any(not isinstance(f, str) for f in filas):
         filas_html.append(tabla(["Máquina", "Labor", "Dónde estuvo", "Ha", "Horas"], filas,
-                                ["l", "l", "l", "r", "r"], ["Total", "", "", num(ha_ayer, 2), num(horas_ayer)],
+                                ["l", "l", "l", "r", "r"], ["Total", "", "", ha_texto(ha_ayer, ha_sin_ayer, total=True), num(horas_ayer)],
                                 estilos, ocultar_celular={1}))
     else:
         filas_html.append(parrafo("Ninguna máquina trabajó ayer."))
@@ -686,7 +766,7 @@ def armar_html(datos):
         return f'<span style="color:{TEXTO_SUAVE};">No se movió · en {lugar}</span>'
 
     # 5. Camionetas ayer
-    filas_html.append(titulo("Camionetas · ayer"))
+    filas_html.append(titulo(f"Camionetas · ayer ({ayer:%d-%m})"))
     filas = []
     for v in camionetas:
         d = v["dias"][fa]
@@ -699,7 +779,7 @@ def armar_html(datos):
     # Camion ayer
     for c in camiones:
         d = c["dias"][fa]
-        filas_html.append(titulo(f"Camión · ayer <span style=\"font-weight:normal;font-size:13px;color:{TEXTO_SUAVE};\">"
+        filas_html.append(titulo(f"Camión · ayer ({ayer:%d-%m}) <span style=\"font-weight:normal;font-size:13px;color:{TEXTO_SUAVE};\">"
                                  f"({escape(c['nombre'])})</span>"))
         filas_html.append(tabla(["Km", "Salida – llegada", "Recorrido"],
                                 [[f'<b style="font-size:14px;color:{VERDE};">{num(d["km"])}</b>',
@@ -765,13 +845,13 @@ def armar_html(datos):
             if g["cerca"]:
                 lugar += (f'<br><span style="color:{TEXTO_SUAVE};font-size:11px;">cerca de {escape(g["cerca"][0])} '
                           f'({num(g["cerca"][1] / 1000)} km)</span>')
-            dias_g = sorted(g["dias"])
+            dias_g = sorted({d["fecha"] for d in g["dias"]})
             rango = (f'{date.fromisoformat(dias_g[0]):%d-%m}' + (f' a {date.fromisoformat(dias_g[-1]):%d-%m}'
                                                                  if len(dias_g) > 1 else ""))
             filas.append([lugar, escape(", ".join(g["maquinas"])),
                           f'{len(dias_g)}<br><span style="color:{TEXTO_SUAVE};font-size:11px;">{rango}</span>',
                           num(g["horas"]), num(g["ha"]), enlace("mapa", g["mapa"], ROJO)])
-        filas_html.append(tabla(["Lugar", "Máquinas", "Días", "Horas", "Ha aprox.", "Mapa"], filas,
+        filas_html.append(tabla(["Lugar", "Máquinas", "Días", "Horas", "Ha estim.", "Mapa"], filas,
                                 ["l", "l", "r", "r", "r", "l"],
                                 ["Total", "", "", num(sum(g["horas"] for g in datos["sin_geocerca"])),
                                  num(sum(g["ha"] for g in datos["sin_geocerca"])), ""]))
@@ -833,6 +913,293 @@ def armar_html(datos):
             f'{encabezado}<tr><td style="padding:0 10px 16px 10px;"><table role="presentation" width="100%" '
             f'cellpadding="0" cellspacing="0" style="border-collapse:collapse;">{"".join(filas_html)}</table></td></tr>'
             '</table></td></tr></table></body></html>')
+
+
+def boton_detalle(ancla):
+    url = f"{URL_PAGINA}reporte.html#{ancla}"
+    return (f'<tr><td align="right" style="padding:6px 0 2px 0;"><a href="{url}" style="display:inline-block;'
+            f'padding:6px 12px;border:1px solid {VERDE};border-radius:5px;font-family:{FUENTE};font-size:12px;'
+            f'font-weight:bold;color:{VERDE};text-decoration:none;">Ver detalle &rsaquo;</a></td></tr>')
+
+
+def linea(texto, tam=13):
+    return (f'<tr><td style="padding:5px 0;font-family:{FUENTE};font-size:{tam}px;color:{TEXTO};'
+            f'line-height:1.45;">{texto}</td></tr>')
+
+
+def armar_html_corto(datos):
+    """Cuerpo del correo: corto y resumido; cada seccion con "Ver detalle"
+    (la pagina reporte.html) y el detalle completo en el PDF adjunto."""
+    ayer, dias = datos["ayer"], datos["dias"]
+    fa = ayer.isoformat()
+    flota = datos["flota"]
+    maquinas, camionetas, camiones = datos["maquinas"], datos["camionetas"], datos["camiones"]
+    km = lambda lista, f: sum(v["dias"][f]["km"] for v in lista)
+    hoy_m = [(m, m["dias"][fa]) for m in maquinas]
+    ha_ayer = sum(d["ha"] for _, d in hoy_m)
+    ha_sin_ayer = sum(d["ha_sin"] for _, d in hoy_m)
+    horas_ayer = sum(d["horas"] for _, d in hoy_m)
+    movidas = sum(1 for v in camionetas if v["dias"][fa]["se_movio"])
+    filas = []
+
+    encabezado = (
+        f'<tr><td style="padding:16px;background:{VERDE};font-family:{FUENTE};color:#ffffff;">'
+        f'<div style="font-size:19px;font-weight:bold;">Reporte diario de flota – C&amp;H Maquinaria</div>'
+        f'<div style="font-size:14px;padding-top:4px;">{fecha_larga(ayer).capitalize()}</div></td></tr>')
+
+    # Resumen de ayer
+    filas.append(titulo(f"Resumen de ayer ({fecha_larga(ayer, anio=False)} {ayer:%d-%m-%Y})"))
+    filas.append(indicadores([
+        (f"{sum(1 for _, d in hoy_m if d['trabajo'])} de {len(maquinas)}", "máquinas trabajaron"),
+        (num(horas_ayer), "horas de las máquinas")]))
+    filas.append(linea(f'<b style="font-size:16px;color:{VERDE};">{num(ha_ayer, 2)} ha</b> en geocercas'
+                       + (f' + <b style="color:{ROJO};">~{num(ha_sin_ayer)} ha</b> estimadas sin geocerca'
+                          if ha_sin_ayer else "")))
+    km_camion = " · ".join(f'<b>{num(c["dias"][fa]["km"], 0)} km</b> camión' for c in camiones)
+    filas.append(linea(f'<b>{num(km(camionetas, fa), 0)} km</b> camionetas ({movidas} de {len(camionetas)} se movieron)'
+                       + (f" · {km_camion}" if km_camion else "")))
+    filas.append(boton_detalle("resumen"))
+
+    # Alertas en 2 lineas
+    filas.append(titulo("Alertas"))
+    aviso = aviso_token(ayer + timedelta(days=1))
+    if aviso:
+        filas.append(linea(f'<span style="color:{ROJO};">{aviso}</span>', tam=12))
+    sin_senal = flota.get("alertas_sin_senal", [])
+    texto = ", ".join(f'{escape(a["maquina"])} (desde {escape((a["ultima_conexion"] or "")[:5])})' for a in sin_senal)
+    filas.append(linea(f'<b style="color:{ROJO if sin_senal else TEXTO};">GPS sin señal:</b> {texto or "ninguna"}'))
+    sin_geo = [(m, d) for m, d in hoy_m if d["sin_geocerca"]]
+    texto = ", ".join(f'{escape(m["nombre"])} (~{num(d["ha_sin"])} ha)' for m, d in sin_geo)
+    filas.append(linea(f'<b style="color:{ROJO if sin_geo else TEXTO};">Trabajo sin geocerca:</b> {texto or "ninguno"}'))
+    filas.append(boton_detalle("sin-geocerca"))
+
+    # Maquinas ayer
+    filas.append(titulo(f"Máquinas · ayer ({ayer:%d-%m})"))
+    lista, estilos = [], {}
+    for m, d in hoy_m:
+        if not d["se_movio"]:
+            continue
+        lugar = agrupar_geocercas(sorted(d["horas_geocercas"], key=lambda g: -d["horas_geocercas"][g]))
+        if d["sin_geocerca"]:
+            lugar = (lugar + " · " if lugar else "") + "sin geocerca"
+            estilos[len(lista)] = ROJO_CLARO
+        lista.append([f'<b>{escape(m["nombre"])}</b><br><span style="color:{TEXTO_SUAVE};font-size:11px;">'
+                      f'{escape(m["labor"])} · {escape(lugar or "–")}</span>',
+                      ha_texto(d["ha"], d["ha_sin"]), num(d["horas"]) if d["horas"] else "–"])
+    if lista:
+        filas.append(tabla(["Máquina · labor · lugar", "Ha", "Horas"], lista, ["l", "r", "r"],
+                           ["Total", ha_texto(ha_ayer, ha_sin_ayer, total=True), num(horas_ayer)], estilos))
+    else:
+        filas.append(parrafo("Ninguna máquina trabajó ayer."))
+    filas.append(boton_detalle("maquinas"))
+
+    # Camionetas ayer
+    filas.append(titulo(f"Camionetas · ayer ({ayer:%d-%m})"))
+    lista = []
+    for v in camionetas:
+        d = v["dias"][fa]
+        if d["se_movio"]:
+            donde = lugares_html(d["lugares"], enlaces=False) or "camino"
+        else:
+            donde = f'<span style="color:{TEXTO_SUAVE};">No se movió · en {escape((d.get("donde_quedo") or ("?",))[0])}</span>'
+        lista.append([escape(v["nombre"]), donde, f'<b>{num(d["km"])}</b>'])
+    filas.append(tabla(["Camioneta", "Dónde estuvo", "Km"], lista, ["l", "l", "r"],
+                       ["Total", "", f'<b>{num(km(camionetas, fa))}</b>']))
+    filas.append(parrafo("En negrita, los campos (geocercas); en texto normal, las comunas donde se detuvo.", tam=11))
+    filas.append(boton_detalle("camionetas"))
+
+    # Camion ayer
+    for c in camiones:
+        d = c["dias"][fa]
+        filas.append(titulo(f"Camión · ayer ({ayer:%d-%m})"))
+        if d["se_movio"]:
+            filas.append(linea(f'<b>{num(d["km"])} km</b> · {hora(d["salida"])}–{hora(d["llegada"])} · '
+                               f'{lugares_html(d["lugares"], " → ", enlaces=False)}'))
+        else:
+            filas.append(linea(f'0 km · No se movió · en {escape((d.get("donde_quedo") or ("?",))[0])}'))
+        filas.append(boton_detalle("camion"))
+
+    # Ultimos 7 dias
+    filas.append(titulo(f"Últimos 7 días ({dias[0]:%d-%m} al {ayer:%d-%m})"))
+    tot_ha = sum(d["ha"] for m in maquinas for d in m["dias"].values())
+    tot_sin = sum(d["ha_sin"] for m in maquinas for d in m["dias"].values())
+    tot_h = sum(d["horas"] for m in maquinas for d in m["dias"].values())
+    filas.append(linea(f'<b style="font-size:15px;color:{VERDE};">{num(tot_ha, 2)} ha</b> en geocercas'
+                       + (f' + <b style="color:{ROJO};">~{num(tot_sin)} ha</b> sin geocerca' if tot_sin else "")
+                       + f' · <b>{num(tot_h)} h</b> de máquinas'))
+    filas.append(linea(f'<b>{num(sum(km(camionetas, d.isoformat()) for d in dias), 0)} km</b> camionetas · '
+                       f'<b>{num(sum(km(camiones, d.isoformat()) for d in dias), 0)} km</b> camión'))
+    ha_dia = {d.isoformat(): sum(m["dias"][d.isoformat()]["ha"] for m in maquinas) for d in dias}
+    maximo = max(ha_dia.values()) if ha_dia else 0
+    lista = [[fecha_corta(d), str(sum(1 for m in maquinas if m["dias"][d.isoformat()]["trabajo"])),
+              barrita(ha_dia[d.isoformat()], maximo), num(sum(m["dias"][d.isoformat()]["horas"] for m in maquinas)),
+              num(km(camionetas, d.isoformat()), 0), num(km(camiones, d.isoformat()), 0)] for d in dias]
+    filas.append(tabla(["Día", "Máq.", "Hectáreas", "Horas", "Km cam.", "Km camión"], lista,
+                       ["l", "r", "r", "r", "r", "r"],
+                       ["Total", "", num(tot_ha, 2), num(tot_h),
+                        num(sum(km(camionetas, d.isoformat()) for d in dias), 0),
+                        num(sum(km(camiones, d.isoformat()) for d in dias), 0)]))
+    filas.append(boton_detalle("semana"))
+
+    # Trabajo sin geocerca (7 dias)
+    filas.append(titulo("Trabajo sin geocerca · últimos 7 días"))
+    sg = datos["sin_geocerca"]
+    if sg:
+        top = ", ".join(f'{escape(g["nombre"] or "sin nombre")} (~{num(g["ha"])} ha)' for g in sg[:4])
+        filas.append(linea(f'<b>{len(sg)} lugar{"es" if len(sg) != 1 else ""}</b> · {num(sum(g["horas"] for g in sg))} h · '
+                           f'<b style="color:{ROJO};">~{num(sum(g["ha"] for g in sg))} ha estimadas</b>. '
+                           f'Los que más pesan: {top}.'))
+    else:
+        filas.append(linea("Sin trabajo fuera de geocercas en los últimos 7 días."))
+    filas.append(boton_detalle("sin-geocerca"))
+
+    filas.append(parrafo("El detalle completo va en el PDF adjunto. Hectáreas sin geocerca: estimadas con el "
+                         "rendimiento real de cada máquina (ha por hora en sus cuarteles con geocerca).", tam=11))
+    return ('<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">'
+            '<meta name="viewport" content="width=device-width, initial-scale=1">'
+            '<meta name="color-scheme" content="light"><title>Reporte diario de flota</title>'
+            "<style>@media screen and (max-width:520px){.caja{width:47%!important;min-width:0!important;}}</style></head>"
+            '<body style="margin:0;padding:0;background:#F1F4F2;">'
+            '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F1F4F2;">'
+            '<tr><td align="center" style="padding:8px 0;">'
+            '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" '
+            'style="max-width:640px;background:#ffffff;border-collapse:collapse;">'
+            f'{encabezado}<tr><td style="padding:0 10px 16px 10px;"><table role="presentation" width="100%" '
+            f'cellpadding="0" cellspacing="0" style="border-collapse:collapse;">{"".join(filas)}</table></td></tr>'
+            '</table></td></tr></table></body></html>')
+
+
+RUTA_DATOS_PAGINA = os.path.join(rh.CARPETA_DATOS, "reporte_diario.json")
+
+
+def no_trabajaron(maquinas, fa):
+    """(sin trabajo, en CYH, detenidas fuera, sin senal > 30 dias)."""
+    sin_trabajo = [m for m in maquinas if not m["dias"][fa]["se_movio"]]
+    hace_30 = datetime.now(ZONA) - timedelta(days=rh.DIAS_FLOTA)
+
+    def sin_senal_30(m):
+        try:
+            return datetime.strptime(m["ultima_conexion"], "%d-%m-%Y %H:%M").replace(tzinfo=ZONA) < hace_30
+        except (TypeError, ValueError):
+            return m["ultima_conexion"] is None
+    n_30 = sum(1 for m in sin_trabajo if sin_senal_30(m))
+    n_cyh = sum(1 for m in sin_trabajo if not sin_senal_30(m)
+                and (m["dias"][fa]["fin_lugar"] == "CYH" or m["ubicacion"] == "CYH"))
+    return len(sin_trabajo), n_cyh, len(sin_trabajo) - n_30 - n_cyh, n_30
+
+
+def datos_pagina(datos):
+    """docs/datos/reporte_diario.json: lo que muestra la pagina reporte.html
+    (resumido, con el detalle que se despliega al tocar)."""
+    ayer, dias = datos["ayer"], datos["dias"]
+    fechas = [d.isoformat() for d in dias]
+    fa = ayer.isoformat()
+    r1 = lambda v: round(v, 1)
+    hhmm = lambda t: datetime.fromtimestamp(t, ZONA).strftime("%H:%M") if t else None
+
+    def vehiculo(v):
+        salida = []
+        for f in fechas:
+            d = v["dias"][f]
+            salida.append({
+                "fecha": f, "km": r1(d["km"]), "se_movio": d["se_movio"],
+                "salida": hhmm(d["salida"]), "llegada": hhmm(d["llegada"]),
+                "lugares": [{"nombre": l["nombre"], "tipo": l["tipo"]} for l in d["lugares"]],
+                "visitas": [{"nombre": x["nombre"], "tipo": x["tipo"], "detalle": x["detalle"],
+                             "llegada": hhmm(x["llegada"]), "minutos": x["minutos"], "mapa": x["mapa"]}
+                            for x in d["visitas"]],
+                "donde_quedo": (d.get("donde_quedo") or [None])[0]})
+        return {"nombre": v["nombre"], "km": r1(sum(x["km"] for x in salida)),
+                "dias_movimiento": sum(1 for x in salida if x["se_movio"]), "dias": salida}
+
+    maquinas = []
+    for m in datos["maquinas"]:
+        ds = [dict(fecha=f, **m["dias"][f]) for f in fechas if m["dias"][f]["se_movio"]]
+        if not ds:
+            continue
+        maquinas.append({
+            "nombre": m["nombre"], "labor": m["labor"], "grupo": m["grupo"],
+            "rendimiento": round(m["rendimiento"][0], 2) if m.get("rendimiento") and m["rendimiento"][0] else None,
+            "ha": round(sum(d["ha"] for d in ds), 2), "ha_sin": r1(sum(d["ha_sin"] for d in ds)),
+            "horas": r1(sum(d["horas"] for d in ds)), "dias_trabajo": sum(1 for d in ds if d["trabajo"] or d["horas"] > 0),
+            "dias": [{"fecha": d["fecha"], "ha": round(d["ha"], 2), "ha_sin": r1(d["ha_sin"]), "horas": r1(d["horas"]),
+                      "horas_sin": r1(d["horas_sin"]),
+                      "lugares": [{"geocerca": g, "horas": r1(h)} for g, h in
+                                  sorted(d["horas_geocercas"].items(), key=lambda x: -x[1])],
+                      "sin": [{"horas": r1(x["horas"]), "ha": r1(x["ha_est"]), "mapa": x["mapa"]}
+                              for x in d["sin_geocerca"]]} for d in ds]})
+    semana = []
+    for f in fechas:
+        semana.append({"fecha": f,
+                       "maquinas": sum(1 for m in datos["maquinas"] if m["dias"][f]["trabajo"]),
+                       "ha": round(sum(m["dias"][f]["ha"] for m in datos["maquinas"]), 2),
+                       "ha_sin": r1(sum(m["dias"][f]["ha_sin"] for m in datos["maquinas"])),
+                       "horas": r1(sum(m["dias"][f]["horas"] for m in datos["maquinas"])),
+                       "km_camionetas": r1(sum(v["dias"][f]["km"] for v in datos["camionetas"])),
+                       "km_camion": r1(sum(v["dias"][f]["km"] for v in datos["camiones"]))})
+    hoy = next(x for x in semana if x["fecha"] == fa)
+    n, n_cyh, n_fuera, n_30 = no_trabajaron(datos["maquinas"], fa)
+    return {
+        "fecha": fa, "fecha_texto": f"{fecha_larga(ayer, anio=False)} {ayer:%d-%m-%Y}", "dias": fechas,
+        "generado": datetime.now(ZONA).strftime("%d-%m-%Y %H:%M"),
+        "resumen": {**hoy, "total_maquinas": len(datos["maquinas"]),
+                    "camionetas_movidas": sum(1 for v in datos["camionetas"] if v["dias"][fa]["se_movio"]),
+                    "total_camionetas": len(datos["camionetas"]),
+                    "no_trabajaron": n, "en_cyh": n_cyh, "detenidas_fuera": n_fuera, "sin_senal_30": n_30},
+        "alertas": {"sin_senal": datos["flota"].get("alertas_sin_senal", []),
+                    "sin_geocerca": [{"maquina": m["nombre"], "horas": r1(x["horas"]), "ha": r1(x["ha_est"]),
+                                      "mapa": x["mapa"]}
+                                     for m in datos["maquinas"] for x in m["dias"][fa]["sin_geocerca"]]},
+        "maquinas": maquinas,
+        "camionetas": [vehiculo(v) for v in datos["camionetas"]],
+        "camion": [vehiculo(v) for v in datos["camiones"]],
+        "semana": semana,
+        "sin_geocerca": [{"lugar": g["nombre"] or f'{g["lat"]:.4f}, {g["lon"]:.4f}',
+                          "cerca": [g["cerca"][0], r1(g["cerca"][1] / 1000)] if g["cerca"] else None,
+                          "desde": min(d["fecha"] for d in g["dias"]), "hasta": max(d["fecha"] for d in g["dias"]),
+                          "n_dias": len({d["fecha"] for d in g["dias"]}), "maquinas": g["maquinas"],
+                          "horas": r1(g["horas"]), "ha": r1(g["ha"]), "mapa": g["mapa"],
+                          "dias": [{**d, "horas": r1(d["horas"]), "ha": r1(d["ha"])} for d in g["dias"]]}
+                         for g in datos["sin_geocerca"]],
+        "campos": [{"campo": c, "labores": sorted(v["labores"]), "ha": round(v["ha"], 2),
+                    "terminados": len(v["terminados"])}
+                   for c, v in sorted(datos["campos"].items(), key=lambda x: -x[1]["ha"])],
+    }
+
+
+def guardar_en_repo(rutas, mensaje):
+    """Sube archivos al repositorio (con reintentos si otra corrida subio algo)."""
+    for intento in range(5):
+        subprocess.run(["git", "add", *rutas], check=True)
+        if subprocess.run(["git", "diff", "--staged", "--quiet"]).returncode == 0:
+            return
+        subprocess.run(["git", "commit", "-q", "-m", mensaje], check=True)
+        subprocess.run(["git", "pull", "-q", "--rebase", "origin", "main"], check=False)
+        if subprocess.run(["git", "push", "-q"]).returncode == 0:
+            return
+        time.sleep(10)
+    raise RuntimeError(f"No se pudo subir {rutas}")
+
+
+def preparar_reporte(sid, usuario, ayer, publicar):
+    """Arma el correo (corto), el PDF (detalle completo) y, si publicar, los
+    datos de la pagina reporte.html. Devuelve (html_corto, ruta_pdf, datos)."""
+    datos = datos_reporte(sid, usuario, ayer)
+    os.makedirs(CARPETA_SALIDA, exist_ok=True)
+    ruta_html = os.path.join(CARPETA_SALIDA, f"reporte_flota_{ayer}.html")
+    ruta_pdf = os.path.join(CARPETA_SALIDA, f"Reporte_flota_{ayer}.pdf")
+    with open(ruta_html, "w", encoding="utf-8") as f:
+        f.write(armar_html(datos))
+    generar_pdf(ruta_html, ruta_pdf)
+    corto = armar_html_corto(datos)
+    with open(os.path.join(CARPETA_SALIDA, f"correo_{ayer}.html"), "w", encoding="utf-8") as f:
+        f.write(corto)
+    with open(RUTA_DATOS_PAGINA if publicar else os.path.join(CARPETA_SALIDA, "reporte_diario.json"),
+              "w", encoding="utf-8") as f:
+        json.dump(datos_pagina(datos), f, ensure_ascii=False)
+    if publicar:
+        guardar_en_repo([RUTA_DATOS_PAGINA], f"Reporte diario {ayer}")
+    return corto, ruta_pdf, datos
 
 
 # ---------------------------------------------------------------------------
@@ -962,16 +1329,7 @@ def guardar_estado(estado):
     aviso al terminar la corrida. Solo fecha y horas, sin direcciones."""
     with open(RUTA_ESTADO_CORREO, "w", encoding="utf-8") as f:
         json.dump(estado, f, ensure_ascii=False)
-    for intento in range(5):
-        subprocess.run(["git", "add", RUTA_ESTADO_CORREO], check=True)
-        if subprocess.run(["git", "diff", "--staged", "--quiet"]).returncode == 0:
-            return
-        subprocess.run(["git", "commit", "-q", "-m", f"Correo diario {estado['fecha']}"], check=True)
-        subprocess.run(["git", "pull", "-q", "--rebase", "origin", "main"], check=False)
-        if subprocess.run(["git", "push", "-q"]).returncode == 0:
-            return
-        time.sleep(10)
-    raise RuntimeError("No se pudo guardar la marca del correo enviado")
+    guardar_en_repo([RUTA_ESTADO_CORREO], f"Correo diario {estado['fecha']}")
 
 
 def esperar_hasta(hhmm):
@@ -1014,14 +1372,7 @@ def envio_diario():
     if lista:
         try:
             sid, usuario = login()
-            datos = datos_reporte(sid, usuario, ayer)
-            html = armar_html(datos)
-            os.makedirs(CARPETA_SALIDA, exist_ok=True)
-            ruta_html = os.path.join(CARPETA_SALIDA, f"reporte_flota_{ayer}.html")
-            ruta_pdf = os.path.join(CARPETA_SALIDA, f"Reporte_flota_{ayer}.pdf")
-            with open(ruta_html, "w", encoding="utf-8") as f:
-                f.write(html)
-            generar_pdf(ruta_html, ruta_pdf)
+            html, ruta_pdf, _ = preparar_reporte(sid, usuario, ayer, publicar=True)
         except Exception as e:  # el reporte no se pudo armar: aviso corto
             if not estado.get("falla"):
                 enviar(f"Reporte diario de flota – {ayer:%d-%m-%Y}: no se generó",
@@ -1126,32 +1477,27 @@ def main():
     print(f"Reporte diario de flota del {ayer} (modo {modo}).")
     sid, usuario = login()
     inicio = time.time()
-    datos = datos_reporte(sid, usuario, ayer)
-    print(f"Datos listos en {time.time() - inicio:.0f} s.")
+    # En la prueba se publican los datos de la pagina, para que "Ver detalle" funcione.
+    html, ruta_pdf, datos = preparar_reporte(sid, usuario, ayer, publicar=(modo == "prueba"))
+    print(f"Reporte generado en {time.time() - inicio:.0f} s: correo corto, {ruta_pdf} y datos de la pagina.")
     for v in datos["camionetas"] + datos["camiones"]:
         d = v["dias"][ayer.isoformat()]
         print(f"Vehiculo | {v['nombre']} | {d['km']:.1f} km | "
               + (" -> ".join(l["nombre"] for l in d["lugares"]) if d["se_movio"]
                  else f"no se movio, en {d['donde_quedo'][0]} (posicion: {d['fuente_posicion']})"))
-
-    if modo == "vista_previa":
-        for (lon, lat), texto in sorted(direccion.__defaults__[0].items()):
-            print(f"Direccion | {lat:.3f}, {lon:.3f} | {texto} -> {localidad(texto)}")
-
-    os.makedirs(CARPETA_SALIDA, exist_ok=True)
-    html = armar_html(datos)
-    ruta_html = os.path.join(CARPETA_SALIDA, f"reporte_flota_{ayer}.html")
-    ruta_pdf = os.path.join(CARPETA_SALIDA, f"Reporte_flota_{ayer}.pdf")
-    with open(ruta_html, "w", encoding="utf-8") as f:
-        f.write(html)
-    generar_pdf(ruta_html, ruta_pdf)
-    print(f"Reporte generado: {ruta_html} y {ruta_pdf}")
+    for m in datos["maquinas"]:
+        if any(x["sin_geocerca"] for x in m["dias"].values()):
+            r = m["rendimiento"]
+            print(f"Rendimiento | {m['nombre']} | {r[0] and round(r[0], 2)} ha/h ({r[1]}) | "
+                  f"sin geocerca 7 dias: {sum(x['horas_sin'] for x in m['dias'].values()):.1f} h, "
+                  f"~{sum(x['ha_sin'] for x in m['dias'].values()):.1f} ha (GPS: "
+                  f"{sum(y['ha'] for x in m['dias'].values() for y in x['sin_geocerca']):.1f} ha)")
 
     if modo == "prueba":
         if not destinatarios_de("CORREO_PRUEBA"):
             raise RuntimeError("Falta el secreto CORREO_PRUEBA")
         asunto = f"Reporte diario de flota – {ayer:%d-%m-%Y} (PRUEBA)"
-        enviar(asunto, html, f"Reporte diario de flota del {ayer:%d-%m-%Y}. Ver el PDF adjunto.",
+        enviar(asunto, html, f"Reporte diario de flota del {ayer:%d-%m-%Y}. Detalle completo en el PDF adjunto.",
                destinatarios_de("CORREO_PRUEBA"), ruta_pdf)
         print("Correo de prueba enviado.")
 
