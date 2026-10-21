@@ -54,6 +54,7 @@ KM_MINIMO_SE_MOVIO = 0.5
 # (ha/h en sus cuarteles con geocerca, ultimos 30 dias); con menos de estas
 # horas de referencia, el de su labor; sin referencia, el calculo del GPS.
 HORAS_MINIMAS_RENDIMIENTO = rh.CONFIG.get("horas_minimas_rendimiento", 10)
+DIAS_MINIMOS_RENDIMIENTO = rh.CONFIG.get("dias_minimos_rendimiento", 3)
 
 # Envio diario (CLAUDE.md, "Reporte diario por correo").
 HORA_ENVIO = rh.CONFIG.get("hora_envio_correo", "07:45")
@@ -385,36 +386,48 @@ def trabajo_sin_geocerca(maquinas, fechas, geocercas, usuario):
     return sorted(lugares.values(), key=lambda g: -g["horas"])
 
 
-def rendimientos(flota, historico):
-    """Ha por hora de cada maquina en sus cuarteles con geocerca (dias de los
-    ultimos 30 con hectareas y horas en geocercas). Con menos de
-    HORAS_MINIMAS_RENDIMIENTO se usa el de su labor. {maquina: (ha_h, fuente)}"""
+def rendimientos(flota, historico, avance):
+    """Ha por hora de cada maquina en sus cuarteles con geocerca: dias de los
+    ultimos 30 con hectareas y horas en geocercas, SIN los dias en que se
+    completo un cuartel (ese dia se acredita el area total y el ha/h se
+    infla; en barrido, los dias de cierre de una pasada). Propio si tiene al
+    menos DIAS_MINIMOS_RENDIMIENTO dias y HORAS_MINIMAS_RENDIMIENTO horas; si no,
+    el promedio de la flota en su labor (con la misma regla).
+    {maquina: (ha_h, fuente, dias, horas)}"""
     dias = {d["fecha"] for m in flota.get("maquinas", []) for d in m.get("dias", [])}
-    ha = {}
+    completos = {(c, l, f) for (c, l), f in fechas_completado(historico).items()}
+    for cuartel, info in avance.items():
+        for f in ((info.get("labores") or {}).get(rh.LABOR_CON_PASADAS) or {}).get("cierres") or []:
+            completos.add((cuartel, rh.LABOR_CON_PASADAS, f))
+    ha, con_cierre = {}, set()
     for r in historico:
         if r["fecha"] in dias:
             ha[(r["maquina"], r["fecha"])] = ha.get((r["maquina"], r["fecha"]), 0) + r["area_trabajada_ha"]
-    propio, por_labor = {}, {}
+            if (r["cuartel"], r["labor"], r["fecha"]) in completos:
+                con_cierre.add((r["maquina"], r["fecha"]))
     labor = {u["nombre"]: rh.labor_de(u) for u in rh.UNIDADES}
+    propio, por_labor = {}, {}
     for m in flota.get("maquinas", []):
-        horas = hectareas = 0.0
+        n_dias, horas, hectareas = 0, 0.0, 0.0
         for d in m.get("dias", []):
             h = sum((d.get("horas_geocercas") or {}).values())
             a = ha.get((m["nombre"], d["fecha"]), 0)
-            if h > 0 and a > 0:
+            if h > 0 and a > 0 and (m["nombre"], d["fecha"]) not in con_cierre:
+                n_dias += 1
                 horas += h
                 hectareas += a
-        propio[m["nombre"]] = (hectareas, horas)
-        t = por_labor.setdefault(labor.get(m["nombre"]), [0.0, 0.0])
+        propio[m["nombre"]] = (hectareas, horas, n_dias)
+        t = por_labor.setdefault(labor.get(m["nombre"]), [0.0, 0.0, 0])
         t[0] += hectareas
         t[1] += horas
+        t[2] += n_dias
     salida = {}
-    for nombre, (a, h) in propio.items():
-        if h >= HORAS_MINIMAS_RENDIMIENTO:
-            salida[nombre] = (a / h, "propio")
+    for nombre, (a, h, n) in propio.items():
+        if n >= DIAS_MINIMOS_RENDIMIENTO and h >= HORAS_MINIMAS_RENDIMIENTO:
+            salida[nombre] = (a / h, "propio", n, h)
         else:
-            a_l, h_l = por_labor.get(labor.get(nombre), (0, 0))
-            salida[nombre] = (a_l / h_l, "labor") if h_l >= HORAS_MINIMAS_RENDIMIENTO else (None, "gps")
+            a_l, h_l, n_l = por_labor.get(labor.get(nombre), (0, 0, 0))
+            salida[nombre] = (a_l / h_l, "flota", n_l, h_l) if h_l > 0 else (None, "gps", 0, 0)
     return salida
 
 
@@ -440,7 +453,7 @@ def datos_reporte(sid, usuario, ayer):
             ha[(r["maquina"], r["fecha"])] = ha.get((r["maquina"], r["fecha"]), 0) + r["area_trabajada_ha"]
 
     # Maquinas: hectareas del historial; horas, geocercas y alertas del tablero.
-    rend = rendimientos(flota, historico)
+    rend = rendimientos(flota, historico, avance)
     maquinas = []
     por_nombre_flota = {m["nombre"]: m for m in flota.get("maquinas", [])}
     for unidad in sorted(rh.UNIDADES, key=lambda u: rh.orden_flota(u["nombre"])):
@@ -452,7 +465,7 @@ def datos_reporte(sid, usuario, ayer):
             d = dias_flota.get(fecha, {})
             horas_geo = d.get("horas_geocercas", {}) or {}
             sin = [dict(x) for x in d.get("sin_geocerca", []) or []]
-            ha_h, _ = rend.get(nombre, (None, "gps"))
+            ha_h = rend.get(nombre, (None,))[0]
             for x in sin:
                 x["ha_est"] = x["horas"] * ha_h if ha_h else x["ha"]
             fila = {"ha": ha.get((nombre, fecha), 0.0), "horas_geocercas": horas_geo,
