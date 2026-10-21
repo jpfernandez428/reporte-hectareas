@@ -892,7 +892,12 @@ Registro:
     con un clic = el actual hasta ayer (el 1 del mes, el mes anterior
     completo), con selector para otro mes/año completo. Sin botón de
     temporada. Con filtros combinados, Desde/Hasta acotan además cada uno.
-  - Filtro por campo en el mismo buscador: grupos "Máquinas" y "Campos"
+  - Filtro (reemplaza el buscador mezclado, 21-oct-2026): botones [Por máquina]
+    [Por campo]; la lista y el buscador muestran solo ese tipo, y debajo
+    "Acotar por …" muestra lo otro que aparece en el resultado (ej. Por campo
+    Avoamerica → sus máquinas; Por máquina Tractor 4 → sus campos). Al cambiar
+    de modo se parte de cero.
+  - (Antes) Filtro por campo en el mismo buscador: grupos "Máquinas" y "Campos"
     (`docs/datos/campos.json` = `campos_unidos` + cuarteles en uso, lo
     escribe la corrida de la noche; `campoDe()` en `informe.js`, común a la
     página, el informe y el mapa). Se busca por cualquier nombre o cuartel
