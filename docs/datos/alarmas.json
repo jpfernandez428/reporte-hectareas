@@ -1,1 +1,29 @@
-[]
+[
+ {
+  "fecha": "2026-02-10",
+  "maquina": "Shacker de Suelo 2",
+  "cuartel": "Bruno Raggi 20",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 0.16,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-02-11",
+  "maquina": "Shacker de Suelo 2",
+  "cuartel": "Bruno Raggi 20",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 0.06,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-02-14",
+  "maquina": "Shacker SBS 6",
+  "cuartel": "Catalina Gonzalez",
+  "labor": "Cosecha con recibidor",
+  "tipo": "Repaso",
+  "ha": 1.68,
+  "temporada": "2026"
+ }
+]
