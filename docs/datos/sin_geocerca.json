@@ -9,6 +9,13 @@
 "lon": -71.080512,
 "campo": "MERCOFRUT",
 "fecha": "2026-10-22 16:59"
+},
+{
+"id": "20261022170019",
+"lat": -33.268733,
+"lon": -70.834546,
+"campo": "Puerto Lampa",
+"fecha": "2026-10-22 17:00"
 }
 ],
 "trabajos": [
@@ -1103,7 +1110,7 @@
 "Puerto Lampa": 0.0
 },
 "campo": "Puerto Lampa",
-"estado": "asignado",
+"estado": "confirmado",
 "comuna": "Lampa"
 },
 {
