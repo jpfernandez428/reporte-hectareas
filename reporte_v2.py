@@ -118,7 +118,7 @@ def hace(segundos):
     h = segundos / 3600
     if h < 1:
         return f"{max(1, round(segundos / 60))} min"
-    return f"{round(h)} h" if h < 48 else f"{round(h / 24)} días"
+    return f"{round(h)} h" if round(h) < 48 else f"{round(h / 24)} días"
 
 
 def texto_gps(ctx, maquina, usuario=None):
