@@ -118,5 +118,11 @@
   "lat": -33.459375,
   "lon": -71.165423,
   "campo": "Santa Ana"
+ },
+ {
+  "fecha": "2026-10-22 18:31",
+  "accion": "equivalencia operador",
+  "nombre": "Prueba Op",
+  "operador": "Pirincho"
  }
 ]

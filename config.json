@@ -481,5 +481,8 @@
     "Bunster Nancagua (ricardo gonzales)": ["Bunster El Huique", "Bunster Placilla", "Rodrigo Bunster"],
     "Alto Calibre": [],
     "Agr Santa Berta": []
+  },
+  "equivalencias_operadores": {
+    "Pirincho": ["Prueba Op"]
   }
 }
