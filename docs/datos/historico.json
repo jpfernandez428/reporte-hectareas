@@ -45479,5 +45479,558 @@
     "area_total_ha": 1.73,
     "area_trabajada_ha": 0.11,
     "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-16",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente 3",
+    "labor": "Recolección (tractor con recogedora)",
+    "n_hileras": 62,
+    "area_total_ha": 9.9,
+    "area_trabajada_ha": 1.32,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-05-16",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 17",
+    "labor": "Picado",
+    "n_hileras": 20,
+    "area_total_ha": 10.7,
+    "area_trabajada_ha": 0.34,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-16",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 18",
+    "labor": "Picado",
+    "n_hileras": 26,
+    "area_total_ha": 12.24,
+    "area_trabajada_ha": 0.38,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-18",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Recolección (tractor con recogedora)",
+    "n_hileras": 23,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 1.53,
+    "temporada": "2026",
+    "repaso": 1,
+    "alarma": "Repaso"
+  },
+  {
+    "fecha": "2026-05-18",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente 3",
+    "labor": "Recolección (tractor con recogedora)",
+    "n_hileras": 85,
+    "area_total_ha": 9.9,
+    "area_trabajada_ha": 2.4,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-05-18",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 17",
+    "labor": "Picado",
+    "n_hileras": 26,
+    "area_total_ha": 10.7,
+    "area_trabajada_ha": 0.25,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-18",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 18",
+    "labor": "Picado",
+    "n_hileras": 33,
+    "area_total_ha": 12.24,
+    "area_trabajada_ha": 0.22,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-19",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Recolección (tractor con recogedora)",
+    "n_hileras": 30,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.96,
+    "temporada": "2026",
+    "repaso": 1,
+    "alarma": "Repaso"
+  },
+  {
+    "fecha": "2026-05-19",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente 3",
+    "labor": "Recolección (tractor con recogedora)",
+    "n_hileras": 105,
+    "area_total_ha": 9.9,
+    "area_trabajada_ha": 2.31,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-05-19",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 4",
+    "labor": "Barrido",
+    "n_hileras": 33,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 1.8
+  },
+  {
+    "fecha": "2026-05-19",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "labor": "Barrido",
+    "n_hileras": 22,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 2.53
+  },
+  {
+    "fecha": "2026-05-19",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 17",
+    "labor": "Picado",
+    "n_hileras": 43,
+    "area_total_ha": 10.7,
+    "area_trabajada_ha": 0.49,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-19",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 18",
+    "labor": "Picado",
+    "n_hileras": 49,
+    "area_total_ha": 12.24,
+    "area_trabajada_ha": 0.53,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-19",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 19",
+    "labor": "Picado",
+    "n_hileras": 0,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.08,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-20",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Recolección (tractor con recogedora)",
+    "n_hileras": 41,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 2.06,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-05-20",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Recolección (tractor con recogedora)",
+    "n_hileras": 44,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 1.47,
+    "temporada": "2026",
+    "repaso": 1,
+    "alarma": "Repaso"
+  },
+  {
+    "fecha": "2026-05-20",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "labor": "Barrido",
+    "n_hileras": 68,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 3.57
+  },
+  {
+    "fecha": "2026-05-20",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 24",
+    "labor": "Picado",
+    "n_hileras": 21,
+    "area_total_ha": 8.54,
+    "area_trabajada_ha": 0.82,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-20",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 25",
+    "labor": "Picado",
+    "n_hileras": 22,
+    "area_total_ha": 7.76,
+    "area_trabajada_ha": 0.83,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-21",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Recolección (tractor con recogedora)",
+    "n_hileras": 70,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 1.65,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-05-21",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 4",
+    "labor": "Barrido",
+    "n_hileras": 51,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 0.41
+  },
+  {
+    "fecha": "2026-05-21",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "labor": "Barrido",
+    "n_hileras": 88,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 2.27
+  },
+  {
+    "fecha": "2026-05-22",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Recolección (tractor con recogedora)",
+    "n_hileras": 98,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 2.09,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-05-25",
+    "maquina": "Tractor 10 Deutz Fahr 115",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Recolección (tractor con recogedora)",
+    "n_hileras": 137,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 3.22,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-05-25",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Recolección (tractor con recogedora)",
+    "n_hileras": 60,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.86,
+    "temporada": "2026",
+    "repaso": 1,
+    "alarma": "Repaso"
+  },
+  {
+    "fecha": "2026-05-25",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 24",
+    "labor": "Picado",
+    "n_hileras": 48,
+    "area_total_ha": 8.54,
+    "area_trabajada_ha": 0.96,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-25",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 25",
+    "labor": "Picado",
+    "n_hileras": 47,
+    "area_total_ha": 7.76,
+    "area_trabajada_ha": 0.98,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-26",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente",
+    "labor": "Recolección (tractor con recogedora)",
+    "n_hileras": 9,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 1.17,
+    "temporada": "2026",
+    "repaso": 1,
+    "alarma": "Repaso"
+  },
+  {
+    "fecha": "2026-05-26",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Recolección (tractor con recogedora)",
+    "n_hileras": 69,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 0.97,
+    "temporada": "2026",
+    "repaso": 1,
+    "alarma": "Repaso"
+  },
+  {
+    "fecha": "2026-05-26",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 24",
+    "labor": "Picado",
+    "n_hileras": 67,
+    "area_total_ha": 8.54,
+    "area_trabajada_ha": 0.7,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-26",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 25",
+    "labor": "Picado",
+    "n_hileras": 65,
+    "area_total_ha": 7.76,
+    "area_trabajada_ha": 0.74,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-27",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 4",
+    "labor": "Barrido",
+    "n_hileras": 54,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 0.22
+  },
+  {
+    "fecha": "2026-05-27",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "labor": "Barrido",
+    "n_hileras": 92,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 0.56
+  },
+  {
+    "fecha": "2026-05-27",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 24",
+    "labor": "Picado",
+    "n_hileras": 77,
+    "area_total_ha": 8.54,
+    "area_trabajada_ha": 0.34,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-27",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 25",
+    "labor": "Picado",
+    "n_hileras": 78,
+    "area_total_ha": 7.76,
+    "area_trabajada_ha": 0.3,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-27",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 27",
+    "labor": "Picado",
+    "n_hileras": 5,
+    "area_total_ha": 7.05,
+    "area_trabajada_ha": 0.21,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-27",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 29",
+    "labor": "Picado",
+    "n_hileras": 4,
+    "area_total_ha": 6.21,
+    "area_trabajada_ha": 0.15,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-28",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 4",
+    "labor": "Barrido",
+    "n_hileras": 83,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 1.93
+  },
+  {
+    "fecha": "2026-05-28",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "labor": "Barrido",
+    "n_hileras": 127,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 3.9
+  },
+  {
+    "fecha": "2026-05-28",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 19",
+    "labor": "Picado",
+    "n_hileras": 23,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.5,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-28",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 21",
+    "labor": "Picado",
+    "n_hileras": 19,
+    "area_total_ha": 9.27,
+    "area_trabajada_ha": 0.73,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 2",
+    "labor": "Recolección (tractor con recogedora)",
+    "n_hileras": 89,
+    "area_total_ha": 9.81,
+    "area_trabajada_ha": 2.34,
+    "temporada": "2026",
+    "repaso": 1,
+    "alarma": "Repaso"
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 4",
+    "labor": "Barrido",
+    "n_hileras": 86,
+    "area_total_ha": 4.35,
+    "area_trabajada_ha": 0.16
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Barredora 23",
+    "cuartel": "Agricola Flor Oriente 5",
+    "labor": "Barrido",
+    "n_hileras": 131,
+    "area_total_ha": 12.83,
+    "area_trabajada_ha": 0.25
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Barredora 23",
+    "cuartel": "Juan Hiribarren",
+    "labor": "Barrido",
+    "n_hileras": 27,
+    "area_total_ha": 10.16,
+    "area_trabajada_ha": 0.74
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Barredora 1",
+    "cuartel": "santa Isabel",
+    "labor": "Barrido",
+    "n_hileras": 56,
+    "area_total_ha": 12.17,
+    "area_trabajada_ha": 5.84
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 19",
+    "labor": "Picado",
+    "n_hileras": 48,
+    "area_total_ha": 9.69,
+    "area_trabajada_ha": 0.68,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 21",
+    "labor": "Picado",
+    "n_hileras": 40,
+    "area_total_ha": 9.27,
+    "area_trabajada_ha": 0.79,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 24",
+    "labor": "Picado",
+    "n_hileras": 79,
+    "area_total_ha": 8.54,
+    "area_trabajada_ha": 0.02,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 25",
+    "labor": "Picado",
+    "n_hileras": 79,
+    "area_total_ha": 7.76,
+    "area_trabajada_ha": 0.04,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 27",
+    "labor": "Picado",
+    "n_hileras": 6,
+    "area_total_ha": 7.05,
+    "area_trabajada_ha": 0.05,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "Avoamerica 27",
+    "labor": "Picado",
+    "n_hileras": 4,
+    "area_total_ha": 7.05,
+    "area_trabajada_ha": 0.25,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Tractor 8 Kubota 108",
+    "cuartel": "Avoamerica 29",
+    "labor": "Picado",
+    "n_hileras": 5,
+    "area_total_ha": 6.21,
+    "area_trabajada_ha": 0.05,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-29",
+    "maquina": "Tractor 14 Deutz Fahr 115",
+    "cuartel": "Avoamerica 29",
+    "labor": "Picado",
+    "n_hileras": 5,
+    "area_total_ha": 6.21,
+    "area_trabajada_ha": 0.23,
+    "temporada": "2026-27"
+  },
+  {
+    "fecha": "2026-05-30",
+    "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+    "cuartel": "Agricola Flor Oriente 3",
+    "labor": "Recolección (tractor con recogedora)",
+    "n_hileras": 17,
+    "area_total_ha": 9.9,
+    "area_trabajada_ha": 1.39,
+    "temporada": "2026",
+    "repaso": 1,
+    "alarma": "Repaso"
   }
 ]

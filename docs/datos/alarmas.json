@@ -358,5 +358,77 @@
   "tipo": "Repaso",
   "ha": 0.67,
   "temporada": "2026"
+ },
+ {
+  "fecha": "2026-05-18",
+  "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+  "cuartel": "Agricola Flor Oriente 2",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 1.53,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-05-19",
+  "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+  "cuartel": "Agricola Flor Oriente 2",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 0.96,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-05-20",
+  "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+  "cuartel": "Agricola Flor Oriente 2",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 1.47,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-05-25",
+  "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+  "cuartel": "Agricola Flor Oriente 2",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 0.86,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-05-26",
+  "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+  "cuartel": "Agricola Flor Oriente",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 1.17,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-05-26",
+  "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+  "cuartel": "Agricola Flor Oriente 2",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 0.97,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-05-29",
+  "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+  "cuartel": "Agricola Flor Oriente 2",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 2.34,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-05-30",
+  "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+  "cuartel": "Agricola Flor Oriente 3",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 1.39,
+  "temporada": "2026"
  }
 ]
