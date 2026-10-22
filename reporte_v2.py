@@ -114,6 +114,37 @@ class Contexto:
                 "mapa": m.get("mapa"), "ultima_conexion": m.get("ultima_conexion")}
 
 
+def hace(segundos):
+    h = segundos / 3600
+    if h < 1:
+        return f"{max(1, round(segundos / 60))} min"
+    return f"{round(h)} h" if h < 48 else f"{round(h / 24)} días"
+
+
+def texto_gps(ctx, maquina, usuario=None):
+    """Lo que dice el GPS, siempre (regla del 23-oct-2026): "detenido sin
+    geocerca en <comuna>, desde hace 5 h" / "en movimiento en Candelaria" /
+    "detenido en CYH, desde hace 3 días" / "sin señal desde el …"."""
+    m = ctx.por_maquina.get(maquina, {})
+    g = ctx.gps(maquina)
+    ahora = datetime.now(ZONA).timestamp()
+    if g["dias_sin_senal"] is not None and g["dias_sin_senal"] >= 1:
+        return f"sin señal desde el {m.get('ultima_conexion')}"
+    q = re.search(r"q=([-\d.]+),([-\d.]+)", m.get("mapa") or "")
+    if g["lugar"] == "fuera de geocercas":
+        comuna = None
+        if q and usuario:
+            comuna = rc.localidad(rc.direccion(usuario, float(q.group(2)), float(q.group(1))))
+        lugar = f"sin geocerca en {comuna}" if comuna else "sin geocerca"
+    else:
+        lugar = f"en {g['lugar']}"
+    movimientos = [d["ultimo_movimiento"] for d in m.get("dias", []) if d.get("ultimo_movimiento")]
+    ultimo = max(movimientos) if movimientos else None
+    if ultimo and ahora - ultimo < 20 * 60:
+        return f"en movimiento {lugar}"
+    return f"detenido {lugar}" + (f", desde hace {hace(ahora - ultimo)}" if ultimo else "")
+
+
 # ---------------------------------------------------------------------------
 # Trabajo por campo (temporada)
 # ---------------------------------------------------------------------------
@@ -185,7 +216,7 @@ def trabajo_por_campo(ctx):
 # Maquinas en operacion: planilla vs GPS
 # ---------------------------------------------------------------------------
 
-def operacion(ctx, trabajo):
+def operacion(ctx, trabajo, usuario=None):
     plan = ctx.planilla
     filas, no_en_planilla, apagadas, alerta_grande, avisos = [], [], [], [], []
     promedio = {(f["maquina"], f["campo"]): f for f in trabajo}
@@ -196,7 +227,11 @@ def operacion(ctx, trabajo):
         base = {"maquina": nombre, "labor": rh.labor_de(u), "grupo": rh.NOMBRES_GRUPOS_FLOTA[rh.orden_flota(nombre)[0]],
                 "operador": (p or {}).get("operador", ""), "campo_planilla": (p or {}).get("campo", "").strip(),
                 "gps": g["lugar"], "dias_sin_senal": g["dias_sin_senal"], "mapa": g["mapa"],
-                "no_cyh": nombre in NO_CYH}
+                "no_cyh": nombre in NO_CYH, "gps_texto": texto_gps(ctx, nombre, usuario),
+                "lat_gps": None, "lon_gps": None}
+        q = re.search(r"q=([-\d.]+),([-\d.]+)", g["mapa"] or "")
+        if q:
+            base["lat_gps"], base["lon_gps"] = float(q.group(1)), float(q.group(2))
         sin_senal = g["dias_sin_senal"]
         # GPS apagado hace mas de 30 dias fuera de CYH (en CYH el GPS se apaga al guardarla).
         if sin_senal is not None and sin_senal > DIAS_GPS_APAGADO and g["lugar"] != "CYH":
@@ -379,7 +414,8 @@ def armar_html_v2(datos, ctx, trabajo, oper):
         campo = (escape(f["campo_planilla"]) if f["campo_planilla"] and pl.normalizar(f["campo_planilla"]) != "taller"
                  else "Taller")
         ayer_txt = f'<b style="color:{rc.VERDE};">{rc.num(f["ayer_ha"], 2)}</b>' if f["ayer_ha"] else "–"
-        lista.append([escape(f["maquina"]), escape(f["operador"] or "–"), f"{campo}<br>{marca(f['estado'], f['texto'])}",
+        gps = f'<br><span style="color:{rc.TEXTO_SUAVE};font-size:11px;">GPS: {escape(f["gps_texto"])}</span>'
+        lista.append([escape(f["maquina"]), escape(f["operador"] or "–"), f"{campo}<br>{marca(f['estado'], f['texto'])}{gps}",
                       rc.num(f["promedio"], 2) if f["promedio"] else "–", ayer_txt])
     if lista:
         filas.append(rc.tabla(["Máquina", "Operador", "Campo (planilla)", "Promedio ha/día", "Ayer ha"], lista,
@@ -495,10 +531,12 @@ def datos_pagina_v2(datos, ctx, trabajo, oper):
     filas = []
     for f in oper["filas"]:
         t = ultimo_sg.get(f["maquina"])
+        lat, lon = (t["lat"], t["lon"]) if t and t["fecha"] >= (ctx.ayer - timedelta(days=7)).isoformat() \
+            else (f.get("lat_gps"), f.get("lon_gps"))
         filas.append({k: f.get(k) for k in ("maquina", "labor", "grupo", "operador", "campo_planilla", "estado", "texto",
                                               "promedio", "ayer_ha", "ayer_trabajo", "gps", "dias_sin_senal", "mapa",
-                                              "campos_wialon")}
-                     | {"lat": t["lat"] if t else None, "lon": t["lon"] if t else None})
+                                              "campos_wialon", "gps_texto")}
+                     | {"lat": lat, "lon": lon})
     return {
         "pagina": PAGINA,
         "url_confirmar": rh.CONFIG.get("url_confirmaciones"),
@@ -507,8 +545,8 @@ def datos_pagina_v2(datos, ctx, trabajo, oper):
                           for a in oper["alerta_grande"]],
         "maquinas_ayer": maquinas_ayer,
         "operacion": filas,
-        "no_en_planilla": [{k: x.get(k) for k in ("maquina", "labor", "texto", "mapa", "no_cyh")} for x in oper["no_en_planilla"]],
-        "gps_apagado": [{k: x.get(k) for k in ("maquina", "labor", "dias_sin_senal", "mapa")} for x in oper["gps_apagado"]],
+        "no_en_planilla": [{k: x.get(k) for k in ("maquina", "labor", "texto", "mapa", "no_cyh", "gps_texto")} for x in oper["no_en_planilla"]],
+        "gps_apagado": [{k: x.get(k) for k in ("maquina", "labor", "dias_sin_senal", "mapa", "gps_texto")} for x in oper["gps_apagado"]],
         "avisos_planilla": oper["avisos"],
         "trabajo_campo": [{**f, "ha": round(f["ha"], 2), "ha_sin": round(f["ha_sin"], 1), "promedio": round(f["promedio"], 2),
                            "ayer_ha": round(f["ayer_ha"], 2), "ayer_sin": round(f["ayer_sin"], 1),
@@ -521,7 +559,7 @@ def preparar(sid, usuario, ayer, publicar, planilla=None):
     corto, ruta_pdf, datos = rc.preparar_reporte(sid, usuario, ayer, publicar=False)
     ctx = Contexto(ayer, planilla)
     trabajo = trabajo_por_campo(ctx)
-    oper = operacion(ctx, trabajo)
+    oper = operacion(ctx, trabajo, usuario)
     html = armar_html_v2(datos, ctx, trabajo, oper)
     pagina = rc.datos_pagina(datos)
     pagina["v2"] = datos_pagina_v2(datos, ctx, trabajo, oper)

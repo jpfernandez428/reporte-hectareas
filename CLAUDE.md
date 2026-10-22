@@ -1034,6 +1034,17 @@ Registro:
     planilla cambie (la confirmación deja de aplicar sola cuando cambia el
     valor de la planilla). Requiere el Worker nuevo desplegado y
     `url_confirmaciones`.
+  - **Cambios del 22-oct-2026 (revisión del usuario)**: en "Máquinas en
+    operación" siempre "Planilla: X · GPS: …" (`texto_gps`: "detenido sin
+    geocerca en <comuna>, desde hace X h", "en movimiento en <campo>", "sin
+    señal desde el …"), con mapa; también corto en el correo. Todas las "sin
+    geocerca" tienen botones (lugar = último trabajo sin geocerca de 7 días o,
+    si no hay, la posición GPS actual). Elegir campo con lista desplegable con
+    buscador (campos de Wialon y sus equivalentes; la misma en Equivalencias).
+    Sin ventanas emergentes: los avisos salen junto al botón. Equivalencias:
+    lista completa (nombre en planilla, campo en Wialon, fecha del último
+    cambio; "carga inicial 22-10-2026" si no tiene registro) y botón
+    "Descargar Excel".
   - Prueba v2 enviada el 22-oct-2026 a `CORREO_PRUEBA` con la planilla leída
     (13 máquinas en operación, sin alerta grande).
   - **Tarea futura (opción A)**: que al confirmar se actualice solo el Drive:

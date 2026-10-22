@@ -72,6 +72,10 @@
   tr.fila-trabajo { cursor: pointer; } tr.fila-trabajo:hover td { background: #f6f8f6; }
   tr.detalle td { background: #fafbfa; font-size: 13px; }
   .aviso-planilla { color: #b3261e; font-weight: 700; margin: 6px 0; }
+  .gps { font-size: 12px; color: var(--gris); margin-top: 3px; }
+  .mensaje { font-size: 12px; font-weight: 600; margin-top: 3px; }
+  .selector { display: inline-flex; flex-direction: column; gap: 2px; min-width: 210px; max-width: 100%; }
+  .selector input, .selector select { padding: 4px; font-size: 13px; border: 1px solid #ccc; border-radius: 6px; width: 100%; }
 </style>
 </head>
 <body>
@@ -193,18 +197,49 @@ const sinT = t => String(t || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLo
 const coincide = (...textos) => { const q = sinT(document.getElementById('buscador').value.trim()); return !q || textos.some(t => sinT(t).includes(q)); };
 const marcaHtml = (estado, texto) => `<span class="marca m-${estado}">${estado === 'ok' ? '✓ ' : ''}${esc(texto)}</span>`;
 
+// Mensaje junto al boton, dentro de la pagina (sin ventanas emergentes).
+function mensaje(boton, texto, error) {
+  const caja = boton.closest('.acciones') || boton.parentElement;
+  let m = caja.nextElementSibling;
+  if (!m || !m.classList.contains('mensaje')) { caja.insertAdjacentHTML('afterend', '<div class="mensaje"></div>'); m = caja.nextElementSibling; }
+  m.textContent = texto;
+  m.style.color = error ? 'var(--rojo)' : 'var(--verde)';
+}
+
 function confirmar(cuerpo, boton) {
   const url = V.url_confirmar;
-  if (!url) { alert('Falta configurar la dirección del Worker de Cloudflare (url_confirmaciones). Mientras tanto no se puede confirmar desde la página.'); return; }
+  if (!url) { mensaje(boton, 'Todavía no se puede guardar: falta configurar el Worker de Cloudflare.', true); return; }
   boton.disabled = true;
+  mensaje(boton, 'Guardando…', false);
   fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
     .then(r => r.json().then(j => ({ ok: r.ok, j })))
-    .then(({ ok, j }) => { boton.parentElement.insertAdjacentHTML('afterend', `<div class="nota">${ok ? 'Guardado: se verá al recargar en 2–3 minutos.' : 'No se pudo guardar (' + esc(j.error || 'error') + ').'}</div>`); if (!ok) boton.disabled = false; })
-    .catch(() => { boton.disabled = false; alert('No se pudo conectar con el Worker de Cloudflare.'); });
+    .then(({ ok, j }) => { mensaje(boton, ok ? 'Guardado: se verá al recargar en 2–3 minutos.' : 'No se pudo guardar (' + (j.error || 'error') + ').', !ok); if (!ok) boton.disabled = false; })
+    .catch(() => { boton.disabled = false; mensaje(boton, 'No se pudo conectar con el Worker de Cloudflare.', true); });
+}
+
+// 3. Lista desplegable con buscador de campos de Wialon (con sus equivalentes).
+function opcionesCampos(filtro) {
+  const q = sinT(filtro || '');
+  const eq = CAMPOS.equivalencias || {};
+  return CAMPOS.campos.map(c => {
+    const otros = Object.keys(eq).filter(k => (eq[k] || []).includes(c));
+    return { valor: c, texto: c + (otros.length ? ` (= ${otros.join(', ')})` : '') };
+  }).filter(o => !q || sinT(o.texto).includes(q));
+}
+function selectorCampo(clase) {
+  const ops = opcionesCampos('').map(o => `<option value="${esc(o.valor)}">${esc(o.texto)}</option>`).join('');
+  return `<span class="selector ${clase || ''}"><input type="search" placeholder="Buscar campo" oninput="filtrarSelector(this)">` +
+    `<select size="5">${ops}</select></span>`;
+}
+function filtrarSelector(entrada) {
+  const sel = entrada.nextElementSibling;
+  sel.innerHTML = opcionesCampos(entrada.value).map(o => `<option value="${esc(o.valor)}">${esc(o.texto)}</option>`).join('');
+  if (sel.options.length) sel.selectedIndex = 0;
 }
 function confirmarElegido(boton, cuerpo) {
-  const campo = boton.parentElement.querySelector('.elegir-campo').value.trim();
-  if (!CAMPOS.campos.includes(campo)) { alert('Elige un campo de la lista de Wialon.'); return; }
+  const sel = boton.closest('.acciones').querySelector('.selector select');
+  const campo = sel && sel.value;
+  if (!campo) { mensaje(boton, 'Elige un campo de la lista.', true); return; }
   confirmar({ ...cuerpo, campo }, boton);
 }
 const btn = (texto, cuerpo) => `<button type="button" onclick='confirmar(JSON.parse(this.dataset.c), this)' data-c="${esc(JSON.stringify(cuerpo))}">${esc(texto)}</button>`;
@@ -222,10 +257,11 @@ function accionesOperacion(f) {
     // Si la planilla ya tiene su campo de Wialon, un boton; si no, elegirlo de la lista
     // (y si el nombre es distinto queda guardada la equivalencia).
     if (f.campos_wialon && f.campos_wialon.length) {
-      return `<div class="acciones">${f.campos_wialon.map(c => btn('Confirmar: es ' + c, { accion: 'campo', lat: f.lat, lon: f.lon, campo: c, planilla: f.campo_planilla })).join('')}</div>`;
+      return `<div class="acciones">${f.campos_wialon.map(c => btn('Confirmar: es ' + c, { accion: 'campo', lat: f.lat, lon: f.lon, campo: c, planilla: f.campo_planilla })).join('')}</div>` +
+        `<div class="acciones">${selectorCampo()}<button type="button" onclick='confirmarElegido(this, ${esc(JSON.stringify({ accion: 'campo', lat: f.lat, lon: f.lon, planilla: f.campo_planilla }))})'>Es otro campo</button></div>`;
     }
-    return `<div class="acciones"><input list="listaCampos" class="elegir-campo" placeholder="Campo en Wialon" style="padding:4px;font-size:12px;width:150px">` +
-      `<button type="button" onclick='confirmarElegido(this, ${esc(JSON.stringify({ accion: 'campo', lat: f.lat, lon: f.lon, planilla: f.campo_planilla }))})'>Confirmar</button>` +
+    return `<div class="acciones">${selectorCampo()}` +
+      `<button type="button" onclick='confirmarElegido(this, ${esc(JSON.stringify({ accion: 'campo', lat: f.lat, lon: f.lon, planilla: f.campo_planilla }))})'>Confirmar campo elegido</button>` +
       `${btn('Sigue sin geocerca: ' + f.campo_planilla, { accion: 'campo', lat: f.lat, lon: f.lon, campo: f.campo_planilla })}</div>`;
   }
   return '';
@@ -260,12 +296,13 @@ function seccionOperacion() {
   if (filtroOp !== 'apagado') {
     const filas = v.operacion.filter(f => pasa(f) && coincide(f.maquina, f.campo_planilla, f.operador, f.gps)).map(f =>
       `<tr><td>${esc(f.maquina)}<br><small>${esc(f.labor)}</small></td><td>${esc(f.operador || '–')}</td>` +
-      `<td>${esc(f.campo_planilla || 'Taller')}<br>${marcaHtml(f.estado, f.texto)}${accionesOperacion(f)}</td>` +
+      `<td>Planilla: <b>${esc(f.campo_planilla || 'Taller')}</b><br>${marcaHtml(f.estado, f.texto)}` +
+      `<div class="gps">GPS: ${esc(f.gps_texto || f.gps || '')} ${mapa(f.mapa)}</div>${accionesOperacion(f)}</td>` +
       `<td class="n">${f.promedio ? n(f.promedio, 2) : '–'}</td><td class="n">${f.ayer_ha ? '<b>' + n(f.ayer_ha, 2) + '</b>' : '–'}</td><td>${mapa(f.mapa)}</td></tr>`).join('');
     html += `<div class="tabla"><table><thead><tr><th>Máquina</th><th>Operador</th><th>Campo (planilla)</th><th class="n">Prom. ha/día</th><th class="n">Ayer ha</th><th></th></tr></thead><tbody>${filas || '<tr><td colspan="6" class="vacio">Sin máquinas para este filtro.</td></tr>'}</tbody></table></div>`;
     html += v.avisos_planilla.map(a => `<div class="aviso-planilla">${esc(a)}</div>`).join('');
     if (filtroOp === 'todas' && v.no_en_planilla.length) html += `<h3 class="grupo" style="color:var(--rojo)">Fuera de CYH y no está en la planilla</h3>` +
-      v.no_en_planilla.filter(x => coincide(x.maquina)).map(x => `<div>${esc(x.maquina)} · ${esc(x.texto)}${x.no_cyh ? ' · <b style="color:var(--rojo)">No es de CYH (por revisar)</b>' : ''} ${mapa(x.mapa)}</div>`).join('');
+      v.no_en_planilla.filter(x => coincide(x.maquina)).map(x => `<div>${esc(x.maquina)} · GPS: ${esc(x.gps_texto || x.texto)}${x.no_cyh ? ' · <b style="color:var(--rojo)">No es de CYH (por revisar)</b>' : ''} ${mapa(x.mapa)}</div>`).join('');
   }
   if (filtroOp === 'todas' || filtroOp === 'apagado') html += `<h3 class="grupo">GPS apagado hace más de 30 días</h3>` +
     v.gps_apagado.filter(x => coincide(x.maquina)).map(x => `<div>${esc(x.maquina)} · ${x.dias_sin_senal} días ${mapa(x.mapa)}</div>`).join('');
@@ -304,29 +341,58 @@ function detalleTrabajo(f) {
 }
 
 // Equivalencias planilla -> Wialon (config.json, editables aqui; registro en confirmaciones.json).
+function filasEquivalencias() {
+  // Fecha de cada par: el ultimo cambio en el registro; las de la carga inicial, su fecha.
+  const fecha = {};
+  for (const r of REGISTRO) if ((r.accion || '').startsWith('equivalencia')) fecha[sinT(r.nombre) + '||' + r.campo] = r.fecha;
+  const filas = [];
+  for (const [k, v] of Object.entries(CAMPOS.equivalencias || {}).sort((a, b) => a[0].localeCompare(b[0]))) {
+    if (!v.length) filas.push({ nombre: k, campo: '(sin geocerca por ahora)', fecha: fecha[sinT(k) + '||'] || 'carga inicial 22-10-2026' });
+    for (const c of v) filas.push({ nombre: k, campo: c, fecha: fecha[sinT(k) + '||' + c] || 'carga inicial 22-10-2026' });
+  }
+  return filas;
+}
+
+function descargarEquivalencias(boton) {
+  const filas = filasEquivalencias();
+  const ir = () => {
+    const hoja = XLSX.utils.aoa_to_sheet([['Nombre en planilla', 'Campo en Wialon', 'Fecha del cambio'], ...filas.map(f => [f.nombre, f.campo, f.fecha])]);
+    hoja['!cols'] = [{ wch: 38 }, { wch: 30 }, { wch: 24 }];
+    const libro = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(libro, hoja, 'Equivalencias');
+    XLSX.writeFile(libro, `Equivalencias_de_campos_${new Date().toISOString().slice(0, 10)}.xlsx`);
+    mensaje(boton, 'Descargado.', false);
+  };
+  if (window.XLSX) return ir();
+  const sc = document.createElement('script');
+  sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+  sc.onload = ir; sc.onerror = () => mensaje(boton, 'No se pudo cargar el generador de Excel.', true);
+  document.head.appendChild(sc);
+}
+
+// Equivalencias planilla -> Wialon (config.json, editables aqui; registro en confirmaciones.json).
 function seccionEquivalencias() {
-  const eq = CAMPOS.equivalencias || {};
-  const nombres = [...new Set([...Object.keys(eq), ...V.operacion.map(f => f.campo_planilla).filter(c => c && sinT(c) !== 'taller')])].sort();
-  const filas = Object.entries(eq).sort((a, b) => a[0].localeCompare(b[0])).filter(([k, v]) => coincide(k, ...v)).map(([k, v]) =>
-    `<tr><td>${esc(k)}</td><td>${v.length ? v.map(c => `${esc(c)} <span class="acciones" style="display:inline-flex">${btn('Quitar', { accion: 'borrar_equivalencia', planilla: k, campo: c })}</span>`).join('<br>') : '<i>sin geocerca por ahora</i>'}</td>` +
-    `<td><div class="acciones">${btn('Borrar todo', { accion: 'borrar_equivalencia', planilla: k, campo: '' })}</div></td></tr>`).join('');
-  const reg = REGISTRO.filter(r => (r.accion || '').includes('equivalencia')).slice(-15).reverse().map(r =>
-    `<li>${esc(r.fecha)} · ${esc(r.accion)}: ${esc(r.nombre || '')} → ${esc(r.campo || '')}</li>`).join('');
+  const nombres = [...new Set([...Object.keys(CAMPOS.equivalencias || {}), ...V.operacion.map(f => f.campo_planilla).filter(c => c && sinT(c) !== 'taller')])].sort();
+  const filas = filasEquivalencias().filter(f => coincide(f.nombre, f.campo)).map(f =>
+    `<tr><td>${esc(f.nombre)}</td><td>${esc(f.campo)}</td><td>${esc(f.fecha)}</td><td><div class="acciones">` +
+    (f.campo.startsWith('(') ? btn('Borrar', { accion: 'borrar_equivalencia', planilla: f.nombre, campo: '' })
+                             : btn('Quitar', { accion: 'borrar_equivalencia', planilla: f.nombre, campo: f.campo })) + '</div></td></tr>').join('');
   return `<section id="equivalencias"><h2>Equivalencias de campos (planilla → Wialon)</h2>
-    <div class="acciones" style="gap:6px;align-items:center">
-      <input list="listaNombres" id="eqNombre" placeholder="Nombre en la planilla" style="padding:6px;min-width:200px">
-      <input list="listaCampos" id="eqCampo" placeholder="Campo en Wialon (buscar)" style="padding:6px;min-width:200px">
+    <div class="acciones" style="gap:8px;align-items:flex-start">
+      <span class="selector"><input list="listaNombres" id="eqNombre" placeholder="Nombre en la planilla"></span>
+      ${selectorCampo('eqCampo')}
       <button type="button" onclick="guardarEquivalencia(this)">Guardar</button></div>
     <datalist id="listaNombres">${nombres.map(n => `<option value="${esc(n)}">`).join('')}</datalist>
-    <div class="tabla" style="margin-top:8px"><table><thead><tr><th>Nombre en planilla</th><th>Campo en Wialon</th><th></th></tr></thead><tbody>${filas}</tbody></table></div>
-    <p class="nota">Un nombre puede tener varios campos. Al confirmar un campo en "Máquinas en operación" con un nombre distinto al de la planilla, la equivalencia se guarda sola.</p>
-    ${reg ? `<details><summary><span class="tit">Registro de cambios</span></summary><ul class="nota">${reg}</ul></details>` : ''}</section>`;
+    <div class="acciones" style="margin-top:8px"><button type="button" onclick="descargarEquivalencias(this)">Descargar Excel</button></div>
+    <div class="tabla" style="margin-top:8px"><table><thead><tr><th>Nombre en planilla</th><th>Campo en Wialon</th><th>Fecha del cambio</th><th></th></tr></thead><tbody>${filas}</tbody></table></div>
+    <p class="nota">Un nombre puede tener varios campos. Al confirmar un campo en "Máquinas en operación" con un nombre distinto al de la planilla, la equivalencia se guarda sola.</p></section>`;
 }
 
 function guardarEquivalencia(boton) {
-  const nombre = document.getElementById('eqNombre').value.trim(), campo = document.getElementById('eqCampo').value.trim();
-  if (!nombre) { alert('Escribe o elige el nombre de la planilla.'); return; }
-  if (!CAMPOS.campos.includes(campo)) { alert('Elige un campo de la lista de Wialon.'); return; }
+  const nombre = document.getElementById('eqNombre').value.trim();
+  const sel = document.querySelector('.eqCampo select');
+  const campo = sel && sel.value;
+  if (!nombre) { mensaje(boton, 'Escribe o elige el nombre de la planilla.', true); return; }
+  if (!campo) { mensaje(boton, 'Elige el campo de Wialon en la lista.', true); return; }
   confirmar({ accion: 'equivalencia', planilla: nombre, campo }, boton);
 }
 
