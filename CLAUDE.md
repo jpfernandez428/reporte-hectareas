@@ -696,7 +696,17 @@ Registro:
     (`relanzar_correo`); si la corrida termina después de las 07:45 sale apenas
     esté. La marca del día evita duplicados (`correo.yml`: `actions: write`,
     `timeout-minutes: 345`).
-  - Worker: prueba a mano `GET /probar?hora=00:30|07:30|09:00` (lanza esa
+  - **Causa (confirmada por el usuario en Cloudflare)**: los Cron Triggers del
+    Worker se habían borrado ("No cron triggers configured"; 2 invocaciones,
+    0 subrequests), no fue el token. El usuario los volvió a poner el
+    22-oct-2026 a las 09:56: `0 6,7 * * *`, `30 10,11 * * *` y `0 12,13 * * *`,
+    y **dejó desplegado el Worker antiguo** (sin `/probar` ni `/confirmar`;
+    corrida de la noche a las 03:00 de Chile). La corrida la cubren el Worker a
+    las 03:00 o los respaldos de GitHub (desde las 00:37). **Pendiente** (cuando
+    el usuario quiera): pegar el `cloudflare/worker.js` nuevo (corrida a las
+    00:30, `/probar`, `/confirmar`) y cambiar el Cron `0 6,7 * * *` por
+    `30 3,4 * * *`; sin eso los botones de confirmar campo no funcionan.
+  - Worker (código nuevo, aún no desplegado): prueba a mano `GET /probar?hora=00:30|07:30|09:00` (lanza esa
     tarea al tiro y muestra la respuesta de GitHub y si el token está
     cargado; inofensivo por las marcas del día); errores al lanzar quedan en
     los registros de Cloudflare.
@@ -867,9 +877,18 @@ Registro:
     día, pendiente que el usuario diga si también aplica).
   - **REPASO**: un cuartel + labor que ya llegó al 95 % en la temporada y se
     vuelve a trabajar es una pasada nueva con sus propias hectáreas, se
-    muestra como "REPASO" y levanta alarma. Solo si trabaja de verdad las
-    hileras (pasadas en serie siguiendo las hileras); cruzar un cuartel
-    antiguo para trasladarse no cuenta.
+    muestra como "REPASO" y levanta alarma. Solo si al menos 3 pasadas del día,
+    en hileras distintas una al lado de la otra, van **por hileras ya pasadas
+    esa temporada** (por cualquier máquina de la labor; regla del 22-oct-2026).
+    Si van por hileras nuevas es terminar el trabajo (ej. las saltadas de un
+    patrón ancho, que ya contaban) y no suma; cruzar un cuartel no cuenta.
+    (El primer recálculo marcaba repaso con 3 pasadas en paralelo cualquiera:
+    117 repasos falsos, ej. Longaví 16 con un repaso del 100 %.)
+  - Shacker de Suelo SÍ cuenta como shaker para la recolección con tractor
+    (después del remecido se recoge con tractor con recogedora o con
+    recogedora autopropulsada): Gonzalo Sánchez 2, 7 y 8 en feb–mar quedan
+    como "Recolección (tractor con recogedora)" (confirmado 22-oct-2026; antes
+    eran casos de calibración de picado).
   - **Horas**: siempre según el sensor de encendido; si el sensor está malo o
     sin datos, la regla anterior (movimiento + paradas de hasta 15 min dentro
     del cuartel entre la primera y la última pasada del día). Sensor que

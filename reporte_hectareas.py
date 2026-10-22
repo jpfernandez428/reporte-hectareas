@@ -2544,18 +2544,52 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                     )
                 guardar_estado(unidad["id"], geo["nombre"], clave, *estado[k])
 
-            def trabaja_hileras(puntos_geo, referencia):
-                """Repaso solo si hay al menos MINIMO_PASADAS_REPASO pasadas en
-                paralelo, en hileras distintas (una al lado de la otra); pasadas
-                por la misma linea son un traslado."""
+            def trabaja_hileras(puntos_geo, clave_base):
+                """Repaso (regla del usuario 22-oct-2026): al menos
+                MINIMO_PASADAS_REPASO pasadas del dia, en hileras distintas una
+                al lado de la otra, van por hileras YA PASADAS esa temporada (por
+                cualquier maquina de la labor). Si van por hileras nuevas es
+                terminar el trabajo (ej. las saltadas de un patron ancho) y no
+                es repaso; pasadas por la misma linea son un traslado."""
+                ref0 = geo["contorno"][0]
                 hileras_prueba = []
-                procesar_puntos(puntos_geo, referencia, hileras_prueba, [], fecha_str)
-                alineadas, _ = filtrar_hileras_regulares(hileras_prueba)
-                if len(alineadas) < MINIMO_PASADAS_REPASO:
+                procesar_puntos(puntos_geo, ref0, hileras_prueba, [], fecha_str)
+                hoy, _ = filtrar_hileras_regulares(hileras_prueba)
+                if len(hoy) < MINIMO_PASADAS_REPASO:
                     return False
-                ref = hilera_referencia(alineadas)
+                # Hileras ya pasadas esa temporada, en el mismo sistema de metros.
+                base = []
+                for u in UNIDADES:
+                    if not con_memoria(u, geo, clave_base):
+                        continue
+                    ref_u, hs_u, _ = estado_de(u, geo, clave_base)
+                    if ref_u is None:
+                        continue
+                    for h in filtrar_hileras_regulares(hs_u)[0]:
+                        a = punto_a_metros(metros_a_punto((h.origen[0] + h.direccion[0] * h.min_proy,
+                                                           h.origen[1] + h.direccion[1] * h.min_proy), ref_u), ref0)
+                        b = punto_a_metros(metros_a_punto((h.origen[0] + h.direccion[0] * h.max_proy,
+                                                           h.origen[1] + h.direccion[1] * h.max_proy), ref_u), ref0)
+                        largo = math.hypot(b[0] - a[0], b[1] - a[1])
+                        if largo >= 1:
+                            base.append((a, ((b[0] - a[0]) / largo, (b[1] - a[1]) / largo), largo))
+                coinciden = []
+                for h in hoy:
+                    medio = (h.origen[0] + h.direccion[0] * (h.min_proy + h.max_proy) / 2,
+                             h.origen[1] + h.direccion[1] * (h.min_proy + h.max_proy) / 2)
+                    for a, d, largo in base:
+                        paralelo = abs(h.direccion[0] * d[0] + h.direccion[1] * d[1]) >= math.cos(math.radians(TOLERANCIA_ANGULO_GRADOS))
+                        rel = (medio[0] - a[0], medio[1] - a[1])
+                        lateral = abs(rel[0] * -d[1] + rel[1] * d[0])
+                        a_lo_largo = rel[0] * d[0] + rel[1] * d[1]
+                        if paralelo and lateral < TOLERANCIA_MISMA_HILERA_M and -10 <= a_lo_largo <= largo + 10:
+                            coinciden.append(h)
+                            break
+                if len(coinciden) < MINIMO_PASADAS_REPASO:
+                    return False
+                ref = hilera_referencia(coinciden)
                 laterales = sorted((h.origen[0] - ref.origen[0]) * -ref.direccion[1]
-                                   + (h.origen[1] - ref.origen[1]) * ref.direccion[0] for h in alineadas)
+                                   + (h.origen[1] - ref.origen[1]) * ref.direccion[0] for h in coinciden)
                 lineas = 1 + sum(1 for a, b in zip(laterales, laterales[1:]) if b - a >= TOLERANCIA_MISMA_HILERA_M)
                 return lineas >= MINIMO_PASADAS_REPASO
 
@@ -2574,17 +2608,18 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                     # (antes de hoy) y hoy trabaja de verdad sus hileras -> REPASO.
                     base_avance = estado_avance_de(estado_avance, geo["nombre"], clave)
                     if base_avance["max_fraccion"] >= 1.0 and base_avance.get("fecha_completo", fecha_str) < fecha_str:
-                        referencia_base = estado_de(unidad, geo, clave)[0] or puntos_geo[0]["punto"]
-                        if not trabaja_hileras(puntos_geo, referencia_base):
-                            print(f"  [solo cruza, no es repaso] {fecha_str} - {unidad['nombre']} - {geo['nombre']}")
-                            continue
-                        n = base_avance.get("repasos", 0) or 1
-                        while estado_avance_de(estado_avance, geo["nombre"], clave + f"|repaso{n}").get(
-                                "fecha_completo", fecha_str) < fecha_str:
-                            n += 1
-                        base_avance["repasos"] = n
-                        clave = clave + f"|repaso{n}"
-                        alarma = "Repaso" + (f" ({alarma.lower()})" if alarma else "")
+                        if not trabaja_hileras(puntos_geo, clave):
+                            # Hileras nuevas (terminar el trabajo, ej. las saltadas de un patron
+                            # ancho) o solo cruza: sigue en la temporada, sin sumar mas alla del 100 %.
+                            print(f"  [no es repaso: hileras nuevas o solo cruza] {fecha_str} - {unidad['nombre']} - {geo['nombre']}")
+                        else:
+                            n = base_avance.get("repasos", 0) or 1
+                            while estado_avance_de(estado_avance, geo["nombre"], clave + f"|repaso{n}").get(
+                                    "fecha_completo", fecha_str) < fecha_str:
+                                n += 1
+                            base_avance["repasos"] = n
+                            clave = clave + f"|repaso{n}"
+                            alarma = "Repaso" + (f" ({alarma.lower()})" if alarma else "")
                 referencia, hileras, _ = estado_de(unidad, geo, clave)
                 if referencia is None:
                     referencia = puntos_geo[0]["punto"]
