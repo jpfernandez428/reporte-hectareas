@@ -85,7 +85,8 @@ class Contexto:
         with open(rh.RUTA_GEOCERCAS_WEB, "r", encoding="utf-8") as f:
             self.campos = sorted({CAMPO(n) for n in json.load(f)})
         self.unidades = {u["nombre"]: u for u in rh.UNIDADES}
-        self.planilla = planilla if planilla is not None else pl.cargar(list(self.unidades))
+        self.planilla = planilla if planilla is not None else pl.cargar(
+            list(self.unidades), rh.CONFIG.get("equivalencias_campos", {}))
         self.confirmadas = rh.CONFIG.get("maquinas_confirmadas", {})
         self.por_maquina = {m["nombre"]: m for m in self.flota.get("maquinas", [])}
 

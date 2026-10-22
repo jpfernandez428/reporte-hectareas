@@ -977,11 +977,23 @@ Registro:
     correo sale igual con un aviso): planilla "Maquinas en Operacion" (Excel,
     `planilla.URL_PLANILLA`; columnas Tractor | Maquina | Operador | Campo |
     Ubicacion | Fecha termino | Destino | PROX X CONFIRMAR; "Taller" = en CYH)
-    y "Equivalencias de campos" (Google Sheet, `planilla.URL_EQUIVALENCIAS`;
-    Nombre en planilla | Campo en Wialon | Nota; "varios campos: A / B / C" =
-    varios; "(sin geocerca por ahora)" = sin campo en Wialon). **Tienen que
-    estar compartidos como "Cualquier persona con el enlace (Lector)"**: el
-    22-oct pedían iniciar sesión (GitHub no los puede leer así). Nunca se
+    **Compartida como "Cualquier persona con el enlace (Lector)"** desde el
+    22-oct-2026 (antes pedía iniciar sesión y GitHub no la podía leer).
+  - **Equivalencias de campos planilla → Wialon (desde el 23-oct-2026 en el
+    sistema)**: `config.json` → `equivalencias_campos` ({nombre en la planilla:
+    [campos de Wialon]}, varios por nombre; [] = sin geocerca por ahora). Se
+    cargaron una vez desde la hoja del Drive "Equivalencias de campos" (que ya
+    no se usa) más MGH = Nancagua SBS Campo. Las edita el usuario en la
+    sección "Equivalencias" de `reporte2.html` (elegir nombre y campo de una
+    lista con buscador → Guardar; Quitar / Borrar todo), con registro de fecha
+    y hora en `docs/datos/confirmaciones.json`. Al confirmar un campo en
+    "Máquinas en operación" con un nombre de planilla distinto, la
+    equivalencia se guarda sola; en "Confirmar · GPS en otro campo" hay un
+    botón "Es el mismo campo". Mismo camino que los otros botones (Worker →
+    `confirmar.yml` → `confirmar.py`, acciones `equivalencia` y
+    `borrar_equivalencia`). Se usan en el cruce con la planilla y en el
+    buscador por campo de la página (`docs/datos/campos.json` →
+    `equivalencias`, junto con la lista de campos de Wialon). Nunca se
     escribe en las planillas; en el repositorio solo queda máquina, operador,
     campo y destino (en `docs/datos/reporte_diario.json` → `v2`).
   - **Los nombres de operadores SÍ salen en la página y el correo** (autorizado
@@ -1022,6 +1034,8 @@ Registro:
     planilla cambie (la confirmación deja de aplicar sola cuando cambia el
     valor de la planilla). Requiere el Worker nuevo desplegado y
     `url_confirmaciones`.
+  - Prueba v2 enviada el 22-oct-2026 a `CORREO_PRUEBA` con la planilla leída
+    (13 máquinas en operación, sin alerta grande).
   - **Tarea futura (opción A)**: que al confirmar se actualice solo el Drive:
     pasar la planilla a Google Sheets, una cuenta de servicio de Google con
     permiso de editor (credencial como secreto de GitHub) y una columna de

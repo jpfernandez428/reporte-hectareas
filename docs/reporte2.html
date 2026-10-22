@@ -83,7 +83,7 @@
 <nav aria-label="Secciones">
   <a href="#resumen">Resumen</a><a href="#maquinas-ayer">Máquinas ayer</a><a href="#camionetas">Camionetas</a>
   <a href="#camion">Camión</a><a href="#operacion">En operación</a><a href="#alertas">Alertas</a>
-  <a href="#trabajo-campo">Trabajo por campo</a><a href="#semana">7 días</a>
+  <a href="#trabajo-campo">Trabajo por campo</a><a href="#semana">7 días</a><a href="#equivalencias">Equivalencias</a>
 </nav>
 <main>
   <input class="buscador" id="buscador" type="search" placeholder="Buscar máquina o campo (ej. Tractor 16, Candelaria)">
@@ -188,7 +188,7 @@ function seccionSinGeocerca(d) {
 // Version nueva (CLAUDE.md "Correo y pagina v2"): cruce con la planilla
 // "Maquinas en Operacion" del Drive. Datos: reporte_diario.json -> v2.
 // ---------------------------------------------------------------------------
-let D = null, V = null, filtroOp = 'todas';
+let D = null, V = null, filtroOp = 'todas', CAMPOS = { campos: [], equivalencias: {} }, REGISTRO = [];
 const sinT = t => String(t || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
 const coincide = (...textos) => { const q = sinT(document.getElementById('buscador').value.trim()); return !q || textos.some(t => sinT(t).includes(q)); };
 const marcaHtml = (estado, texto) => `<span class="marca m-${estado}">${estado === 'ok' ? '✓ ' : ''}${esc(texto)}</span>`;
@@ -202,18 +202,31 @@ function confirmar(cuerpo, boton) {
     .then(({ ok, j }) => { boton.parentElement.insertAdjacentHTML('afterend', `<div class="nota">${ok ? 'Guardado: se verá al recargar en 2–3 minutos.' : 'No se pudo guardar (' + esc(j.error || 'error') + ').'}</div>`); if (!ok) boton.disabled = false; })
     .catch(() => { boton.disabled = false; alert('No se pudo conectar con el Worker de Cloudflare.'); });
 }
+function confirmarElegido(boton, cuerpo) {
+  const campo = boton.parentElement.querySelector('.elegir-campo').value.trim();
+  if (!CAMPOS.campos.includes(campo)) { alert('Elige un campo de la lista de Wialon.'); return; }
+  confirmar({ ...cuerpo, campo }, boton);
+}
 const btn = (texto, cuerpo) => `<button type="button" onclick='confirmar(JSON.parse(this.dataset.c), this)' data-c="${esc(JSON.stringify(cuerpo))}">${esc(texto)}</button>`;
 
 function accionesOperacion(f) {
   const enTaller = !f.campo_planilla || sinT(f.campo_planilla) === 'taller';
   if (f.estado === 'confirmar') {
     const base = { accion: 'maquina', maquina: f.maquina, planilla: f.campo_planilla };
+    const mismo = (!enTaller && f.gps && f.gps !== 'CYH' && f.gps !== 'fuera de geocercas')
+      ? btn(`Es el mismo campo (${f.campo_planilla} = ${f.gps})`, { accion: 'equivalencia', planilla: f.campo_planilla, campo: f.gps }) : '';
     return `<div class="acciones">${btn(enTaller ? 'Está en CYH (GPS con falla)' : 'Está en CYH', { ...base, valor: 'cyh' })}` +
-      `${btn(enTaller ? 'Está en el campo' : 'Está en el campo (GPS con falla)', { ...base, valor: enTaller ? 'campo: ' + (f.gps || '') : 'campo' })}</div>`;
+      `${btn(enTaller ? 'Está en el campo' : 'Está en el campo (GPS con falla)', { ...base, valor: enTaller ? 'campo: ' + (f.gps || '') : 'campo' })}${mismo}</div>`;
   }
   if (f.estado === 'sin_geocerca' && f.lat && f.campo_planilla) {
-    const campo = (f.campos_wialon && f.campos_wialon.length === 1) ? f.campos_wialon[0] : f.campo_planilla;
-    return `<div class="acciones">${btn('Confirmar: es ' + campo, { accion: 'campo', lat: f.lat, lon: f.lon, campo })}</div>`;
+    // Si la planilla ya tiene su campo de Wialon, un boton; si no, elegirlo de la lista
+    // (y si el nombre es distinto queda guardada la equivalencia).
+    if (f.campos_wialon && f.campos_wialon.length) {
+      return `<div class="acciones">${f.campos_wialon.map(c => btn('Confirmar: es ' + c, { accion: 'campo', lat: f.lat, lon: f.lon, campo: c, planilla: f.campo_planilla })).join('')}</div>`;
+    }
+    return `<div class="acciones"><input list="listaCampos" class="elegir-campo" placeholder="Campo en Wialon" style="padding:4px;font-size:12px;width:150px">` +
+      `<button type="button" onclick='confirmarElegido(this, ${esc(JSON.stringify({ accion: 'campo', lat: f.lat, lon: f.lon, planilla: f.campo_planilla }))})'>Confirmar</button>` +
+      `${btn('Sigue sin geocerca: ' + f.campo_planilla, { accion: 'campo', lat: f.lat, lon: f.lon, campo: f.campo_planilla })}</div>`;
   }
   return '';
 }
@@ -290,11 +303,39 @@ function detalleTrabajo(f) {
     `<td class="n">${d.horas ? n(d.horas) + ' h' : '–'}</td><td colspan="2"></td></tr>`).join('');
 }
 
+// Equivalencias planilla -> Wialon (config.json, editables aqui; registro en confirmaciones.json).
+function seccionEquivalencias() {
+  const eq = CAMPOS.equivalencias || {};
+  const nombres = [...new Set([...Object.keys(eq), ...V.operacion.map(f => f.campo_planilla).filter(c => c && sinT(c) !== 'taller')])].sort();
+  const filas = Object.entries(eq).sort((a, b) => a[0].localeCompare(b[0])).filter(([k, v]) => coincide(k, ...v)).map(([k, v]) =>
+    `<tr><td>${esc(k)}</td><td>${v.length ? v.map(c => `${esc(c)} <span class="acciones" style="display:inline-flex">${btn('Quitar', { accion: 'borrar_equivalencia', planilla: k, campo: c })}</span>`).join('<br>') : '<i>sin geocerca por ahora</i>'}</td>` +
+    `<td><div class="acciones">${btn('Borrar todo', { accion: 'borrar_equivalencia', planilla: k, campo: '' })}</div></td></tr>`).join('');
+  const reg = REGISTRO.filter(r => (r.accion || '').includes('equivalencia')).slice(-15).reverse().map(r =>
+    `<li>${esc(r.fecha)} · ${esc(r.accion)}: ${esc(r.nombre || '')} → ${esc(r.campo || '')}</li>`).join('');
+  return `<section id="equivalencias"><h2>Equivalencias de campos (planilla → Wialon)</h2>
+    <div class="acciones" style="gap:6px;align-items:center">
+      <input list="listaNombres" id="eqNombre" placeholder="Nombre en la planilla" style="padding:6px;min-width:200px">
+      <input list="listaCampos" id="eqCampo" placeholder="Campo en Wialon (buscar)" style="padding:6px;min-width:200px">
+      <button type="button" onclick="guardarEquivalencia(this)">Guardar</button></div>
+    <datalist id="listaNombres">${nombres.map(n => `<option value="${esc(n)}">`).join('')}</datalist>
+    <div class="tabla" style="margin-top:8px"><table><thead><tr><th>Nombre en planilla</th><th>Campo en Wialon</th><th></th></tr></thead><tbody>${filas}</tbody></table></div>
+    <p class="nota">Un nombre puede tener varios campos. Al confirmar un campo en "Máquinas en operación" con un nombre distinto al de la planilla, la equivalencia se guarda sola.</p>
+    ${reg ? `<details><summary><span class="tit">Registro de cambios</span></summary><ul class="nota">${reg}</ul></details>` : ''}</section>`;
+}
+
+function guardarEquivalencia(boton) {
+  const nombre = document.getElementById('eqNombre').value.trim(), campo = document.getElementById('eqCampo').value.trim();
+  if (!nombre) { alert('Escribe o elige el nombre de la planilla.'); return; }
+  if (!CAMPOS.campos.includes(campo)) { alert('Elige un campo de la lista de Wialon.'); return; }
+  confirmar({ accion: 'equivalencia', planilla: nombre, campo }, boton);
+}
+
 function dibujar() {
   const d = D;
   document.getElementById('contenido').innerHTML = seccionResumenV2(d)
     + seccionVehiculos('camionetas', 'Camionetas', d.camionetas, false) + seccionVehiculos('camion', 'Camión', d.camion, true)
-    + seccionOperacion() + seccionAlertasV2(d) + seccionTrabajoCampo() + seccionSemana(d);
+    + seccionOperacion() + seccionAlertasV2(d) + seccionTrabajoCampo() + seccionSemana(d) + seccionEquivalencias()
+    + `<datalist id="listaCampos">${CAMPOS.campos.map(c => `<option value="${esc(c)}">`).join('')}</datalist>`;
   document.getElementById('cuerpoTrabajo').onclick = ev => {
     const tr = ev.target.closest('tr.fila-trabajo');
     if (!tr) return;
@@ -304,8 +345,12 @@ function dibujar() {
   };
 }
 
-fetch('datos/reporte_diario.json', { cache: 'no-store' }).then(r => r.json()).then(d => {
-  D = d; V = d.v2;
+Promise.all([
+  fetch('datos/reporte_diario.json', { cache: 'no-store' }).then(r => r.json()),
+  fetch('datos/campos.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+  fetch('datos/confirmaciones.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []),
+]).then(([d, c, reg]) => {
+  D = d; V = d.v2; CAMPOS = { campos: c.campos || [], equivalencias: c.equivalencias || {} }; REGISTRO = reg || [];
   document.getElementById('fecha').textContent = `Día reportado: ${d.fecha_texto} · actualizado ${d.generado}`;
   if (!V) { document.getElementById('contenido').innerHTML = '<section><p class="vacio">La versión nueva todavía no tiene datos publicados.</p></section>'; return; }
   dibujar();

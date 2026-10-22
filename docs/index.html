@@ -459,6 +459,10 @@ function poblarFiltroMaquinas() {
     const c = campos['u:' + campo];
     if (c) raices.forEach(r => c.busqueda.add(r));
   }
+  // Nombres de la planilla (equivalencias): "Siracusa" encuentra Aurora.
+  for (const [nombre, destinos] of Object.entries(EQUIVALENCIAS)) {
+    for (const c of Object.values(campos)) if (destinos.includes(c.nombre)) c.busqueda.add(nombre);
+  }
   listaCampos = Object.entries(campos).sort((a, b) => a[1].nombre.localeCompare(b[1].nombre, 'es'))
     .map(([id, c]) => ({ valor: id, texto: c.nombre, busqueda: sinTildes([...c.busqueda].join(' | ')) }));
   document.querySelectorAll('#modoFiltro button').forEach(b => {

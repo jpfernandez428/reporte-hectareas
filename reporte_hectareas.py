@@ -2069,9 +2069,40 @@ def guardar_geocercas_web(geocercas):
                    for g in geocercas}, f, ensure_ascii=False, separators=(",", ":"))
     # Campos unidos (nombres distintos del mismo campo) para el filtro de campo
     # de la pagina y el informe: se publican desde config.json.
+    escribir_campos_web(sorted(g["nombre"] for g in geocercas))
+
+
+def campo_de_cuartel(nombre_cuartel):
+    """Campo de un cuartel con los nombres unidos (mismo criterio que campoDe()
+    de la pagina): "El Volcan Nueces 3" -> "El Volcan"; las "Nueva geocerca"
+    son cada una su campo."""
+    raiz = raiz_campo(nombre_cuartel)
+    if raiz.startswith("nueva geocerca"):
+        return nombre_cuartel
+    unidos = {r: k for k, v in CONFIG.get("campos_unidos", {}).items() for r in v}
+    if raiz in unidos:
+        return unidos[raiz]
+    palabras = []
+    for p in re.split(r"[\s_]+", nombre_cuartel):
+        if re.search(r"\d", p):
+            break
+        if p:
+            palabras.append(p)
+    return " ".join(palabras) or nombre_cuartel
+
+
+def escribir_campos_web(cuarteles):
+    """docs/datos/campos.json: campos unidos, cuarteles en uso, lista de campos
+    de Wialon y equivalencias planilla -> Wialon (config.json ->
+    equivalencias_campos, las edita el usuario desde la pagina)."""
+    campos = {}
+    for c in cuarteles:
+        nombre = campo_de_cuartel(c)
+        campos.setdefault(unicodedata.normalize("NFKD", nombre).encode("ascii", "ignore").decode().lower(), nombre)
     with open(os.path.join(CARPETA_DATOS, "campos.json"), "w", encoding="utf-8") as f:
-        json.dump({"campos_unidos": CONFIG.get("campos_unidos", {}),
-                   "cuarteles": sorted(g["nombre"] for g in geocercas)}, f, ensure_ascii=False, indent=1)
+        json.dump({"campos_unidos": CONFIG.get("campos_unidos", {}), "cuarteles": cuarteles,
+                   "campos": sorted(campos.values(), key=lambda x: x.lower()),
+                   "equivalencias": CONFIG.get("equivalencias_campos", {})}, f, ensure_ascii=False, indent=1)
 
 
 def guardar_geocercas_conocidas(geocercas):

@@ -71,6 +71,7 @@ async function confirmar(peticion, env) {
       const campo = String(datos.campo || '').trim();
       if (!campo || campo.length > 80) return responder(400, { error: 'campo' });
       inputs.campo = campo;
+      if (datos.planilla) inputs.planilla = String(datos.planilla).slice(0, 80);  // equivalencia sola
     }
   } else if (accion === 'maquina' || accion === 'deshacer_maquina') {
     const maquina = String(datos.maquina || '').trim();
@@ -82,6 +83,10 @@ async function confirmar(peticion, env) {
       inputs.campo = valor.slice(0, 90);
       inputs.planilla = String(datos.planilla || '').slice(0, 80);
     }
+  } else if (accion === 'equivalencia' || accion === 'borrar_equivalencia') {
+    const nombre = String(datos.planilla || '').trim(), campo = String(datos.campo || '').trim();
+    if (!nombre || nombre.length > 80 || campo.length > 80 || (accion === 'equivalencia' && !campo)) return responder(400, { error: 'equivalencia' });
+    inputs.planilla = nombre; inputs.campo = campo;
   } else if (accion === 'deshacer') {
     const id = String(datos.id || '');
     if (!/^\d{14}$/.test(id)) return responder(400, { error: 'id' });

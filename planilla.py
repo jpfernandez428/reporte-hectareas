@@ -114,19 +114,18 @@ def leer_equivalencias(contenido):
     return salida
 
 
-def cargar(nombres_wialon):
+def cargar(nombres_wialon, equivalencias=None):
     """{"ok", "aviso", "maquinas": {nombre Wialon: fila}, "sin_cruce": [filas],
-    "equivalencias": {...}}. Nunca falla: si no se puede leer, ok=False y aviso."""
-    resultado = {"ok": False, "aviso": None, "maquinas": {}, "sin_cruce": [], "equivalencias": {}}
+    "equivalencias": {...}}. Nunca falla: si no se puede leer, ok=False y aviso.
+    Las equivalencias vienen de config.json -> equivalencias_campos (desde el
+    23-oct-2026 se editan en la pagina; la hoja del Drive ya no se usa)."""
+    resultado = {"ok": False, "aviso": None, "maquinas": {}, "sin_cruce": [],
+                 "equivalencias": {normalizar(k): v for k, v in (equivalencias or {}).items()}}
     try:
         filas = leer_planilla(descargar(URL_PLANILLA))
     except Exception as e:
         resultado["aviso"] = f"No se pudo leer la planilla 'Maquinas en Operacion': {e}"
         return resultado
-    try:
-        resultado["equivalencias"] = leer_equivalencias(descargar(URL_EQUIVALENCIAS))
-    except Exception as e:
-        resultado["aviso"] = f"No se pudo leer 'Equivalencias de campos': {e}"
     for f in filas:
         f["en_cyh"] = normalizar(f["campo"]) in ("taller", "cyh", "")
         w = cruzar_maquina(f["maquina_planilla"], nombres_wialon)

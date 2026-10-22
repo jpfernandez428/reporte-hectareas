@@ -39,10 +39,12 @@ UNIDOS = {r: k for k, v in rh.CONFIG.get("campos_unidos", {}).items() for r in v
 
 def campo_de(nombre_cuartel):
     """Mismo criterio que campoDe() de la pagina (informe.js)."""
-    raiz = rh.raiz_campo(nombre_cuartel)
-    if raiz.startswith("nueva geocerca"):
-        return nombre_cuartel
-    return UNIDOS.get(raiz) or rc.nombre_campo(nombre_cuartel)
+    return rh.campo_de_cuartel(nombre_cuartel)
+
+
+def pl_normalizar(texto):
+    import unicodedata
+    return unicodedata.normalize("NFKD", str(texto or "")).encode("ascii", "ignore").decode().lower().strip()
 
 
 def distancia_m(a, b):

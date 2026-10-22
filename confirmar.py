@@ -66,6 +66,31 @@ def guardar_clave(clave, valor):
     rh.CONFIG[clave] = valor
 
 
+def cambiar_equivalencia(nombre, campo, agregar):
+    """Agrega (o quita) un campo de Wialon a un nombre de la planilla. Sin
+    campo al quitar: se borra el nombre completo. Reescribe campos.json."""
+    equivalencias = {k: list(v) for k, v in rh.CONFIG.get("equivalencias_campos", {}).items()}
+    clave = next((k for k in equivalencias if sg.pl_normalizar(k) == sg.pl_normalizar(nombre)), nombre)
+    if agregar:
+        lista = equivalencias.setdefault(clave, [])
+        if campo and campo not in lista:
+            lista.append(campo)
+    elif not campo:
+        equivalencias.pop(clave, None)
+    elif clave in equivalencias:
+        equivalencias[clave] = [c for c in equivalencias[clave] if c != campo]
+    guardar_clave("equivalencias_campos", equivalencias)
+    with open(rh.RUTA_GEOCERCAS_WEB, "r", encoding="utf-8") as f:
+        rh.escribir_campos_web(sorted(json.load(f)))
+    return equivalencias
+
+
+def cerrar(registro):
+    with open(RUTA_REGISTRO, "w", encoding="utf-8") as f:
+        json.dump(registro, f, ensure_ascii=False, indent=1)
+    print(f"Listo: {registro[-1]}")
+
+
 def main():
     accion = os.environ.get("ACCION", "").strip()
     ahora = datetime.now(rh.ZONA_HORARIA).strftime("%Y-%m-%d %H:%M")
@@ -90,6 +115,24 @@ def main():
         reglas.append(regla)
         registro.append({"fecha": ahora, "accion": "no es de ningun campo" if campo is None else "campo",
                          "id": regla["id"], "lat": regla["lat"], "lon": regla["lon"], "campo": campo})
+        nombre_planilla = os.environ.get("PLANILLA", "").strip()
+        if campo and nombre_planilla and sg.pl_normalizar(nombre_planilla) != sg.pl_normalizar(campo):
+            cambiar_equivalencia(nombre_planilla, campo, True)
+            registro.append({"fecha": ahora, "accion": "equivalencia (al confirmar)", "nombre": nombre_planilla,
+                             "campo": campo})
+    elif accion in ("equivalencia", "borrar_equivalencia"):
+        # Equivalencias planilla -> Wialon (desde el 23-oct-2026 las edita el
+        # usuario en la pagina; un nombre puede tener varios campos).
+        nombre = os.environ.get("PLANILLA", "").strip()
+        campo = os.environ.get("CAMPO", "").strip()
+        if not (0 < len(nombre) <= 80) or len(campo) > 80:
+            sys.exit("Nombre o campo invalido.")
+        equivalencias = cambiar_equivalencia(nombre, campo, accion == "equivalencia")
+        registro.append({"fecha": ahora, "accion": "equivalencia" if accion == "equivalencia" else "borrar equivalencia",
+                         "nombre": nombre, "campo": campo or "(todo el nombre)",
+                         "resultado": equivalencias.get(nombre)})
+        cerrar(registro)
+        return
     elif accion == "maquina":
         # Planilla vs GPS (opcion B, 22-oct-2026): queda en config.json ->
         # maquinas_confirmadas y genera el aviso "Actualizar planilla" hasta que
