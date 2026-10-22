@@ -54,5 +54,13 @@
   "lat": -33.268733,
   "lon": -70.834546,
   "campo": "Puerto Lampa"
+ },
+ {
+  "fecha": "2026-10-22 17:02",
+  "accion": "campo",
+  "id": "20261022170230",
+  "lat": -33.268733,
+  "lon": -70.834546,
+  "campo": "Puerto Lampa"
  }
 ]
