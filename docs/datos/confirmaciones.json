@@ -124,5 +124,11 @@
   "accion": "equivalencia operador",
   "nombre": "Prueba Op",
   "operador": "Pirincho"
+ },
+ {
+  "fecha": "2026-10-22 18:33",
+  "accion": "borrar equivalencia operador",
+  "nombre": "Prueba Op",
+  "operador": "Pirincho"
  }
 ]
