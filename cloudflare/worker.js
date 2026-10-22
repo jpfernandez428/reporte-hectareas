@@ -12,9 +12,12 @@
 
 const REPO = 'jpfernandez428/reporte-hectareas';
 
-// Hora de Chile (HH:MM) -> workflow que se lanza.
+// Hora de Chile (HH:MM) -> workflow que se lanza. Cron Triggers del Worker:
+//   30 3,4 * * *    (00:30 de Chile: corrida de la noche)
+//   30 10,11 * * *  (07:30: correo; se arma y sale a las 07:45)
+//   0 12,13 * * *   (09:00: aviso de atraso)
 const TAREAS = {
-  '03:00': { workflow: 'diario.yml', inputs: {} },               // corrida de la noche
+  '00:30': { workflow: 'diario.yml', inputs: {} },               // corrida de la noche
   '07:30': { workflow: 'correo.yml', inputs: { modo: 'diario' } }, // arma el correo y lo envia a las 07:45
   '09:00': { workflow: 'correo.yml', inputs: { modo: 'diario' } }, // aviso si la corrida viene atrasada
 };
@@ -84,6 +87,21 @@ export default {
   async fetch(peticion, env) {
     const url = new URL(peticion.url);
     if (peticion.method === 'OPTIONS') return new Response(null, { headers: CORS });
+    // Prueba a mano (GET /probar?hora=00:30 | 07:30 | 09:00): lanza esa tarea al
+    // tiro y muestra la respuesta de GitHub. Es inofensivo: la corrida no
+    // repite un dia ya procesado y el correo no sale dos veces el mismo dia.
+    if (url.pathname === '/probar') {
+      const hora = url.searchParams.get('hora') || '';
+      const tarea = TAREAS[hora];
+      if (!tarea) return new Response(`Horas validas: ${Object.keys(TAREAS).join(', ')}`, { status: 400 });
+      const token = env.GITHUB_TOKEN ? `token cargado (${String(env.GITHUB_TOKEN).length} caracteres)` : 'FALTA el secreto GITHUB_TOKEN';
+      try {
+        await lanzar(env, tarea);
+        return new Response(`OK: GitHub acepto lanzar ${tarea.workflow} (${hora}). ${token}. Hora de Chile ahora: ${horaChile(new Date())}.`);
+      } catch (e) {
+        return new Response(`ERROR: ${e.message}. ${token}.`, { status: 502 });
+      }
+    }
     if (url.pathname === '/confirmar' && peticion.method === 'POST') {
       if ((peticion.headers.get('Origin') || '') !== ORIGEN_PAGINA) return responder(403, { error: 'origen' });
       try { return await confirmar(peticion, env); } catch (e) { return responder(502, { error: String(e.message || e) }); }
@@ -98,7 +116,12 @@ export default {
       console.log(`${hora} de Chile: no corresponde (es el horario del otro cambio de hora).`);
       return;
     }
-    await lanzar(env, tarea);
-    console.log(`${hora} de Chile: lanzado ${tarea.workflow}`);
+    try {
+      await lanzar(env, tarea);
+      console.log(`${hora} de Chile: lanzado ${tarea.workflow}`);
+    } catch (e) {
+      console.log(`${hora} de Chile: ERROR al lanzar ${tarea.workflow}: ${e.message}`);
+      throw e;  // queda como error en los registros de Cloudflare
+    }
   },
 };

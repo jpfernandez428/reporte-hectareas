@@ -4,7 +4,12 @@ run-name: ${{ (inputs.fecha_inicio == '' && inputs.fecha_fin == '' && inputs.dia
 
 on:
   schedule:
-    - cron: '0 5 * * *'   # 05:00 UTC = ~02:00 Chile. Respaldo: la lanza a la hora el Worker de Cloudflare (CLAUDE.md)
+    # La lanza a las 00:30 de Chile el Worker de Cloudflare. Respaldos de GitHub
+    # (se atrasan 4-5 h; minutos que no son en punto, verano/invierno). La
+    # corrida no repite un dia ya procesado.
+    - cron: '37 3,4 * * *'    # 00:37 de Chile
+    - cron: '13 5,6 * * *'    # 02:13
+    - cron: '7 7,8 * * *'     # 04:07
   workflow_dispatch:
     inputs:
       fecha_inicio:

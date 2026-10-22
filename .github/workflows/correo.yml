@@ -6,9 +6,13 @@ name: Reporte diario de flota por correo
 # usan la misma marca del dia (docs/datos/correo_enviado.json): el correo sale
 # una sola vez. Sin el secreto CORREO_DESTINATARIOS no envia nada.
 on:
+  # Respaldos (GitHub los larga hasta 4-5 h tarde; minutos que no son en punto).
+  # Si parten antes de las 07:30 esperan y el correo sale a las 07:45.
   schedule:
-    - cron: '40 10,11 * * *'   # 07:40 de Chile (verano u invierno), respaldo
-    - cron: '10 12,13 * * *'   # 09:10 de Chile, respaldo del aviso de atraso
+    - cron: '23 6,7 * * *'     # 03:23 de Chile (verano u invierno)
+    - cron: '47 8,9 * * *'     # 05:47
+    - cron: '43 10,11 * * *'   # 07:43
+    - cron: '7 12,13 * * *'    # 09:07, respaldo del aviso de atraso
   workflow_run:
     workflows: ['Reporte diario de hectareas']
     types: [completed]
@@ -26,7 +30,7 @@ on:
 
 permissions:
   contents: write   # marca del dia
-  actions: read     # estado y motivo de falla de la corrida de la noche
+  actions: write    # estado de la corrida de la noche y relanzarse para seguir esperando las 07:45
 
 concurrency:
   group: correo-flota
@@ -35,7 +39,7 @@ concurrency:
 jobs:
   correo:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 345   # puede esperar hasta las 07:45 (maximo 5 h 15 min y se relanza)
     steps:
       - name: Descargar el repositorio
         uses: actions/checkout@v4

@@ -680,10 +680,30 @@ Registro:
 - **Corrida de la noche**: guarda `docs/datos/ultima_corrida.json` (día
   procesado) y no repite un día ya procesado (si la lanzan Cloudflare y el
   horario de respaldo de GitHub). Antes de correr trae lo último de GitHub.
+- **22-oct-2026, primer día real: el correo NO salió a las 07:45** (el usuario lo
+  mandó a mano a las 08:14 con `modo` `todos`). En GitHub no hubo ningún
+  `workflow_dispatch` del Worker a las 03:00 ni a las 07:30 (la corrida partió
+  por el horario de respaldo a las 06:54 y terminó 07:23; el correo lanzado al
+  terminar no hizo nada por ser antes de las 07:30). Cambios:
+  - Corrida de la noche a las **00:30 de Chile** (Cron `30 3,4 * * *` en vez de
+    `0 6,7 * * *`); mismo GPS tardío perdido que a las 03:00 (medición 20-oct).
+  - Respaldos de GitHub en minutos que no son en punto: `diario.yml` 00:37,
+    02:13 y 04:07 de Chile (cada uno dos veces, verano/invierno; la corrida no
+    repite un día ya procesado); `correo.yml` 03:23, 05:47, 07:43 y 09:07.
+  - **El correo no se rinde**: si parte antes de las 07:30 (fin de la corrida
+    o un respaldo) espera dentro de GitHub, arma el reporte a las 07:30 y sale
+    a las 07:45; si la espera supera 5 h 15 min espera eso y se relanza solo
+    (`relanzar_correo`); si la corrida termina después de las 07:45 sale apenas
+    esté. La marca del día evita duplicados (`correo.yml`: `actions: write`,
+    `timeout-minutes: 345`).
+  - Worker: prueba a mano `GET /probar?hora=00:30|07:30|09:00` (lanza esa
+    tarea al tiro y muestra la respuesta de GitHub y si el token está
+    cargado; inofensivo por las marcas del día); errores al lanzar quedan en
+    los registros de Cloudflare.
 - **Cloudflare** (configurado por el usuario el 21-oct-2026; `cloudflare/worker.js`,
   Worker `disparador-reporte`; solo tiene el disparador programado, sin
   respuesta web: entrar a su dirección workers.dev no lanza nada): Cron
-  Triggers `0 6,7 * * *` (03:00 de Chile: corrida de la noche), `30 10,11 * * *`
+  Triggers `30 3,4 * * *` (00:30 de Chile: corrida de la noche; antes `0 6,7 * * *`), `30 10,11 * * *`
   (07:30: correo) y `0 12,13 * * *` (09:00: aviso de atraso). Cada horario va
   dos veces (verano UTC-3 / invierno UTC-4) y el Worker lanza solo el que
   calza con la hora de Chile. Secreto del Worker: `GITHUB_TOKEN` (token
