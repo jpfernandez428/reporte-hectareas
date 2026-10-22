@@ -23,6 +23,13 @@
 "lon": -71.633469,
 "campo": "Aurora",
 "fecha": "2026-10-22 17:05"
+},
+{
+"id": "20261022170628",
+"lat": -34.312174,
+"lon": -71.421826,
+"campo": "torretagle",
+"fecha": "2026-10-22 17:06"
 }
 ],
 "trabajos": [
@@ -320,7 +327,7 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "Pichidegua"
 },
 {
@@ -388,7 +395,7 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "asignado",
+"estado": "confirmado",
 "comuna": "Pichidegua"
 },
 {
@@ -464,7 +471,7 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "asignado",
+"estado": "confirmado",
 "comuna": "Pichidegua"
 },
 {
@@ -555,7 +562,7 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "asignado",
+"estado": "confirmado",
 "comuna": "Pichidegua"
 },
 {
@@ -631,7 +638,7 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "asignado",
+"estado": "confirmado",
 "comuna": "Pichidegua"
 },
 {
@@ -699,7 +706,7 @@
 "torretagle": 0.4
 },
 "campo": "torretagle",
-"estado": "asignado",
+"estado": "confirmado",
 "comuna": "Pichidegua"
 },
 {
@@ -794,7 +801,7 @@
 "torretagle": 0.4
 },
 "campo": "torretagle",
-"estado": "asignado",
+"estado": "confirmado",
 "comuna": "Pichidegua"
 },
 {
@@ -832,7 +839,7 @@
 "torretagle": 0.4
 },
 "campo": "torretagle",
-"estado": "asignado",
+"estado": "confirmado",
 "comuna": "Pichidegua"
 },
 {
@@ -889,7 +896,7 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "Pichidegua"
 },
 {
@@ -927,7 +934,7 @@
 "torretagle": 0.1
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "Pichidegua"
 },
 {
@@ -1303,7 +1310,7 @@
 "torretagle": 0.4
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "Pichidegua"
 },
 {
@@ -1390,7 +1397,7 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "Pichidegua"
 },
 {
@@ -1428,7 +1435,7 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "Pichidegua"
 },
 {
@@ -1485,7 +1492,7 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "Pichidegua"
 },
 {
@@ -1538,7 +1545,7 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "Pichidegua"
 },
 {
