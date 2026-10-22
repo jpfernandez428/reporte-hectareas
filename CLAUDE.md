@@ -1067,6 +1067,25 @@ Registro:
     geocercas de prueba "Maquina …" / "Cliente …" (`CAMPOS_FUERA_DE_LISTA`).
     Lo que se guarda sigue siendo el nombre interno (reglas y equivalencias
     no cambian). Con sus equivalentes: "Aurora (= Siracusa)".
+  - **Después de cada confirmación se rearma `reporte_diario.json` → `v2`**
+    (22-oct-2026; `reporte_v2.rearmar_pagina`, al final de `confirmar.py`):
+    con lo ya publicado (flota.json, historial, sin_geocerca.json,
+    config.json y la planilla del Drive), sin bajar GPS de Wialon; las
+    comunas se toman de lo publicado y "Máquinas que trabajaron ayer" no
+    cambia; si la planilla no se puede leer no toca nada. Lleva
+    `actualizado` (fecha y hora). El cambio se ve en 2–3 minutos.
+  - Un lugar confirmado (`lugares_confirmados`, a menos de 600 m del último
+    trabajo sin geocerca de 7 días o de la posición GPS) deja la fila de
+    "Máquinas en operación" en "confirmado: <campo> (sin geocerca)".
+  - Al confirmar, la página dice "Confirmado, se verá en unos minutos" y
+    bloquea los botones de esa fila; al recargar sigue así (en ese
+    navegador, hasta 15 min) mientras los datos sean anteriores a la
+    confirmación.
+  - **Nunca una equivalencia del mismo nombre** ("Puerto Lampa = Puerto
+    Lampa", sin importar mayúsculas, tildes, espacios ni signos;
+    `planilla.mismo_nombre`): ni al confirmar, ni con "Guardar", ni con "Es el
+    mismo campo" (la página no lo envía y `confirmar.py` lo rechaza). La de
+    Puerto Lampa (creada el 22-oct a las 17:03) se borró desde la página.
   - Quitar el último campo de una equivalencia borra el nombre (antes quedaba
     como "sin geocerca por ahora"). Probado de verdad desde la página
     publicada el 22-oct-2026 (equivalencia "Prueba Claude" → Aurora, guardar y
