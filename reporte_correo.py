@@ -1350,6 +1350,20 @@ def guardar_estado(estado):
     guardar_en_repo([RUTA_ESTADO_CORREO], f"Correo diario {estado['fecha']}")
 
 
+# Espera maxima dentro de un trabajo de GitHub (limite 6 h): 5 h 15 min.
+ESPERA_MAXIMA_S = 5 * 3600 + 15 * 60
+
+
+def relanzar_correo():
+    """Lanza de nuevo correo.yml (modo diario) para seguir esperando las 07:45."""
+    r = requests.post(f"https://api.github.com/repos/{REPO}/actions/workflows/correo.yml/dispatches", timeout=60,
+                      headers={"Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}",
+                               "Accept": "application/vnd.github+json"},
+                      json={"ref": "main", "inputs": {"modo": "diario"}})
+    r.raise_for_status()
+    print("Correo relanzado para seguir esperando.")
+
+
 def esperar_hasta(hhmm):
     hoy = datetime.now(ZONA)
     h, m = map(int, hhmm.split(":"))
@@ -1381,8 +1395,25 @@ def envio_diario():
         print(f"El reporte de hoy ya se envio a las {estado['reporte']}.")
         return
     if ahora.strftime("%H:%M") < HORA_PREPARAR:
-        print(f"Todavia no son las {HORA_PREPARAR}: el envio lo hace la corrida de las {HORA_PREPARAR}.")
-        return
+        # El correo no se rinde (regla del usuario 22-oct-2026): espera aqui
+        # hasta las 07:30, arma el reporte y sale a las 07:45. Un trabajo de
+        # GitHub dura como maximo 6 h: si falta mas, espera ~5 h y se relanza.
+        h, m = map(int, HORA_PREPARAR.split(":"))
+        objetivo = ahora.replace(hour=h, minute=m, second=0, microsecond=0)
+        falta = (objetivo - ahora).total_seconds()
+        if falta > ESPERA_MAXIMA_S:
+            print(f"Faltan {falta / 3600:.1f} h para las {HORA_PREPARAR}: espera {ESPERA_MAXIMA_S / 3600:.1f} h y se relanza.")
+            time.sleep(ESPERA_MAXIMA_S)
+            relanzar_correo()
+            return
+        print(f"Esperando hasta las {HORA_PREPARAR} de Chile ({falta / 60:.0f} min).")
+        time.sleep(max(0, falta))
+        estado = leer_estado(hoy)
+        if estado.get("reporte"):
+            print(f"El reporte de hoy ya se envio a las {estado['reporte']}.")
+            return
+        ahora = datetime.now(ZONA)
+        subprocess.run(["git", "pull", "-q", "--rebase", "origin", "main"], check=False)  # lo ultimo de la noche
     try:
         with open(rh.RUTA_ULTIMA_CORRIDA, "r", encoding="utf-8") as f:
             lista = json.load(f).get("dia_procesado") == ayer.isoformat()
