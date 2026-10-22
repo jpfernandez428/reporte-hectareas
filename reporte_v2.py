@@ -258,7 +258,9 @@ def operacion(ctx, trabajo, usuario=None):
         if not (en_planilla_campo or (p and fuera_cyh)):
             continue  # en CYH segun la planilla y el GPS
         conf = ctx.confirmadas.get(nombre)
-        if conf and conf.get("planilla") != base["campo_planilla"]:
+        # La planilla ya se actualizo como pedia el aviso: confirmado, sin aviso.
+        cumplida = bool(conf and conf.get("aviso") and pl.mismo_nombre(conf["aviso"], base["campo_planilla"] or "Taller"))
+        if conf and conf.get("planilla") != base["campo_planilla"] and not cumplida:
             conf = None  # la planilla cambio: la confirmacion ya no aplica
         wc = ctx.campos_wialon(p["campo"]) if en_planilla_campo else []
         fila = {**base, "campos_wialon": wc}
@@ -268,7 +270,7 @@ def operacion(ctx, trabajo, usuario=None):
                 alerta_grande.append(base)
         elif conf:
             fila.update(estado="ok", texto=f"confirmado: {conf['texto']}")
-            if conf.get("aviso"):
+            if conf.get("aviso") and not cumplida:
                 avisos.append(f"Actualizar planilla: {nombre} → {conf['aviso']}")
         elif en_planilla_campo and (g["lugar"] in wc or g["recientes"] & set(wc)):
             fila.update(estado="ok", texto="GPS calza")
@@ -524,6 +526,15 @@ def armar_html_v2(datos, ctx, trabajo, oper):
 # Datos de la pagina (se agregan a docs/datos/reporte_diario.json, clave "v2")
 # ---------------------------------------------------------------------------
 
+def huella_planilla(plan):
+    """Huella (sha256) de lo que se usa de la planilla: si no cambia, no se
+    rearma la pagina. No guarda la planilla, solo la huella."""
+    import hashlib
+    filas = sorted((f["maquina_planilla"], f["operador"], f["campo"], f["destino"])
+                   for f in list(plan.get("maquinas", {}).values()) + plan.get("sin_cruce", []))
+    return hashlib.sha256(json.dumps(filas, ensure_ascii=False).encode()).hexdigest()
+
+
 def datos_pagina_v2(datos, ctx, trabajo, oper):
     fa = ctx.fa
     plan = ctx.planilla["maquinas"]
@@ -549,6 +560,8 @@ def datos_pagina_v2(datos, ctx, trabajo, oper):
         "pagina": PAGINA,
         "url_confirmar": rh.CONFIG.get("url_confirmaciones"),
         "aviso_planilla": oper.get("aviso_planilla"),
+        "planilla_huella": huella_planilla(ctx.planilla) if ctx.planilla.get("ok") else None,
+        "planilla_leida": datetime.now(ZONA).strftime("%d-%m-%Y %H:%M") if ctx.planilla.get("ok") else None,
         "alerta_grande": [{k: a.get(k) for k in ("maquina", "campo_planilla", "dias_sin_senal", "mapa")}
                           for a in oper["alerta_grande"]],
         "maquinas_ayer": maquinas_ayer,
@@ -581,7 +594,7 @@ def preparar(sid, usuario, ayer, publicar, planilla=None):
     return html, ruta_pdf, oper
 
 
-def rearmar_pagina():
+def rearmar_pagina(solo_si_cambio=False):
     """Vuelve a armar docs/datos/reporte_diario.json -> v2 con lo ya publicado
     (flota.json, historial, sin_geocerca.json, config.json y la planilla del
     Drive), SIN bajar GPS de Wialon. Lo usa confirmar.py despues de cada
@@ -589,14 +602,17 @@ def rearmar_pagina():
     ya publicado y "Maquinas que trabajaron ayer" no cambia. Si la planilla no
     se puede leer, no toca nada."""
     if not os.path.exists(rc.RUTA_DATOS_PAGINA):
-        return
+        return False
     with open(rc.RUTA_DATOS_PAGINA, "r", encoding="utf-8") as f:
         pagina = json.load(f)
     previo = pagina.get("v2") or {}
     ctx = Contexto(date.fromisoformat(pagina["fecha"]))
     if not ctx.planilla.get("ok"):
         print(f"No se rearma reporte2: {ctx.planilla.get('aviso')}")
-        return
+        return False
+    if solo_si_cambio and previo.get("planilla_huella") == huella_planilla(ctx.planilla):
+        print("La planilla no cambio: no se rearma.")
+        return False
     for x in previo.get("operacion", []) + previo.get("no_en_planilla", []) + previo.get("gps_apagado", []):
         c = re.search(r"sin geocerca en (.+?)(?:,|$)", x.get("gps_texto") or "")
         if c:
@@ -610,3 +626,4 @@ def rearmar_pagina():
     with open(rc.RUTA_DATOS_PAGINA, "w", encoding="utf-8") as f:
         json.dump(pagina, f, ensure_ascii=False)
     print(f"reporte2 rearmado: {len(oper['filas'])} maquinas en operacion.")
+    return True

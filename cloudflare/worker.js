@@ -16,11 +16,19 @@ const REPO = 'jpfernandez428/reporte-hectareas';
 //   30 3,4 * * *    (00:30 de Chile: corrida de la noche)
 //   30 10,11 * * *  (07:30: correo; se arma y sale a las 07:45)
 //   0 12,13 * * *   (09:00: aviso de atraso)
+//   */30 * * * *    (revision de la planilla del Drive cada 30 min, solo de
+//                    07:00 a 21:00 de Chile; ver CRON_PLANILLA)
 const TAREAS = {
   '00:30': { workflow: 'diario.yml', inputs: {} },               // corrida de la noche
   '07:30': { workflow: 'correo.yml', inputs: { modo: 'diario' } }, // arma el correo y lo envia a las 07:45
   '09:00': { workflow: 'correo.yml', inputs: { modo: 'diario' } }, // aviso si la corrida viene atrasada
 };
+
+// Revision de la planilla "Maquinas en Operacion" (pedido del usuario 22-oct-2026):
+// cada 30 min de 07:00 a 21:00 de Chile lanza planilla.yml, que rearma los
+// datos de reporte2 solo si la planilla cambio.
+const CRON_PLANILLA = '*/30 * * * *';
+const PLANILLA_DESDE = '07:00', PLANILLA_HASTA = '21:00';
 
 function horaChile(fecha) {
   return new Intl.DateTimeFormat('en-GB', {
@@ -102,13 +110,14 @@ export default {
   async fetch(peticion, env) {
     const url = new URL(peticion.url);
     if (peticion.method === 'OPTIONS') return new Response(null, { headers: CORS });
-    // Prueba a mano (GET /probar?hora=00:30 | 07:30 | 09:00): lanza esa tarea al
+    // Prueba a mano (GET /probar?hora=00:30 | 07:30 | 09:00 | planilla): lanza esa tarea al
     // tiro y muestra la respuesta de GitHub. Es inofensivo: la corrida no
     // repite un dia ya procesado y el correo no sale dos veces el mismo dia.
     if (url.pathname === '/probar') {
       const hora = url.searchParams.get('hora') || '';
-      const tarea = TAREAS[hora];
-      if (!tarea) return new Response(`Horas validas: ${Object.keys(TAREAS).join(', ')}`, { status: 400 });
+      // /probar?hora=planilla lanza la revision de la planilla (como el Cron).
+      const tarea = hora === 'planilla' ? { workflow: 'planilla.yml', inputs: { origen: 'cron' } } : TAREAS[hora];
+      if (!tarea) return new Response(`Horas validas: ${Object.keys(TAREAS).join(', ')}, planilla`, { status: 400 });
       const token = env.GITHUB_TOKEN ? `token cargado (${String(env.GITHUB_TOKEN).length} caracteres)` : 'FALTA el secreto GITHUB_TOKEN';
       try {
         await lanzar(env, tarea);
@@ -116,6 +125,14 @@ export default {
       } catch (e) {
         return new Response(`ERROR: ${e.message}. ${token}.`, { status: 502 });
       }
+    }
+    // Boton "Actualizar desde la planilla" de reporte2.html.
+    if (url.pathname === '/planilla' && peticion.method === 'POST') {
+      if ((peticion.headers.get('Origin') || '') !== ORIGEN_PAGINA) return responder(403, { error: 'origen' });
+      try {
+        await lanzar(env, { workflow: 'planilla.yml', inputs: { origen: 'boton' } });
+        return responder(200, { ok: true });
+      } catch (e) { return responder(502, { error: String(e.message || e) }); }
     }
     if (url.pathname === '/confirmar' && peticion.method === 'POST') {
       if ((peticion.headers.get('Origin') || '') !== ORIGEN_PAGINA) return responder(403, { error: 'origen' });
@@ -126,6 +143,17 @@ export default {
 
   async scheduled(evento, env) {
     const hora = horaChile(new Date(evento.scheduledTime));
+    if (evento.cron === CRON_PLANILLA) {
+      if (hora < PLANILLA_DESDE || hora > PLANILLA_HASTA) return;  // fuera de 07:00-21:00 de Chile
+      try {
+        await lanzar(env, { workflow: 'planilla.yml', inputs: { origen: 'cron' } });
+        console.log(`${hora} de Chile: lanzada la revision de la planilla`);
+      } catch (e) {
+        console.log(`${hora} de Chile: ERROR al lanzar planilla.yml: ${e.message}`);
+        throw e;
+      }
+      return;
+    }
     const tarea = TAREAS[hora];
     if (!tarea) {
       console.log(`${hora} de Chile: no corresponde (es el horario del otro cambio de hora).`);
