@@ -8775,6 +8775,7 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
+            "Shacker SBS 10",
             "Shacker SBS 7"
           ],
           "trabajado_ha": 1.4534,
@@ -8788,6 +8789,7 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
+            "Shacker SBS 10",
             "Shacker SBS 7"
           ],
           "trabajado_ha": 1.8133,
@@ -8933,11 +8935,12 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
+            "Shacker SBS 10",
             "Shacker SBS 7"
           ],
-          "trabajado_ha": 0.9169,
-          "porcentaje": 87.1,
-          "completo": false
+          "trabajado_ha": 1.0525,
+          "porcentaje": 100.0,
+          "completo": true
         }
       }
     },
@@ -12746,6 +12749,38 @@
           "porcentaje_en_curso": 25.3,
           "trabajado_ha": 3.0708,
           "porcentaje": 25.3,
+          "completo": false,
+          "cierres": []
+        }
+      }
+    },
+    "Puerto Lampa 5": {
+      "area_total_ha": 10.6435,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 6"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 26.5,
+          "trabajado_ha": 2.8216,
+          "porcentaje": 26.5,
+          "completo": false,
+          "cierres": []
+        }
+      }
+    },
+    "Puerto Lampa 6": {
+      "area_total_ha": 10.1909,
+      "labores": {
+        "Barrido": {
+          "maquinas": [
+            "Barredora 6"
+          ],
+          "pasadas_completas": 0,
+          "porcentaje_en_curso": 27.8,
+          "trabajado_ha": 2.8287,
+          "porcentaje": 27.8,
           "completo": false,
           "cierres": []
         }

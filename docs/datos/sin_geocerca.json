@@ -16,7 +16,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "Codegua"
 },
 {
 "fecha": "2026-09-21",
@@ -30,7 +31,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "San Bernardo"
 },
 {
 "fecha": "2026-09-21",
@@ -44,7 +46,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "San Clemente"
 },
 {
 "fecha": "2026-09-21",
@@ -58,7 +61,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "Pirque"
 },
 {
 "fecha": "2026-09-22",
@@ -68,11 +72,12 @@
 "lon": -70.754624,
 "horas": 3.2,
 "mapa": "https://www.google.com/maps?q=-33.693364,-70.754624",
-"ha": 5.95,
+"ha": 5.94,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "San Bernardo"
 },
 {
 "fecha": "2026-09-22",
@@ -86,7 +91,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "Pirque"
 },
 {
 "fecha": "2026-09-23",
@@ -100,7 +106,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "San Bernardo"
 },
 {
 "fecha": "2026-09-23",
@@ -114,7 +121,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "San Clemente"
 },
 {
 "fecha": "2026-09-23",
@@ -124,11 +132,12 @@
 "lon": -71.311135,
 "horas": 5.02,
 "mapa": "https://www.google.com/maps?q=-35.632935,-71.311135",
-"ha": 9.33,
+"ha": 9.32,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "San Clemente"
 },
 {
 "fecha": "2026-09-23",
@@ -142,7 +151,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "Pirque"
 },
 {
 "fecha": "2026-09-24",
@@ -156,7 +166,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "San Bernardo"
 },
 {
 "fecha": "2026-09-24",
@@ -170,7 +181,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "San Clemente"
 },
 {
 "fecha": "2026-09-24",
@@ -184,7 +196,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "Pirque"
 },
 {
 "fecha": "2026-09-25",
@@ -194,7 +207,7 @@
 "lon": -71.14422,
 "horas": 1.98,
 "mapa": "https://www.google.com/maps?q=-34.965839,-71.144220",
-"ha": 4.64,
+"ha": 3.68,
 "opciones": [
 "Huertos de Nogal"
 ],
@@ -202,7 +215,8 @@
 "Huertos de Nogal": 0.1
 },
 "campo": "Huertos de Nogal",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Romeral"
 },
 {
 "fecha": "2026-09-25",
@@ -216,7 +230,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "San Bernardo"
 },
 {
 "fecha": "2026-09-25",
@@ -230,7 +245,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "San Clemente"
 },
 {
 "fecha": "2026-09-25",
@@ -240,11 +256,12 @@
 "lon": -70.561134,
 "horas": 3.97,
 "mapa": "https://www.google.com/maps?q=-33.678546,-70.561134",
-"ha": 7.38,
+"ha": 7.37,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "Pirque"
 },
 {
 "fecha": "2026-09-26",
@@ -254,7 +271,7 @@
 "lon": -71.145993,
 "horas": 1.38,
 "mapa": "https://www.google.com/maps?q=-34.966751,-71.145993",
-"ha": 3.24,
+"ha": 2.56,
 "opciones": [
 "Huertos de Nogal"
 ],
@@ -262,7 +279,8 @@
 "Huertos de Nogal": 0.2
 },
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "Romeral"
 },
 {
 "fecha": "2026-09-28",
@@ -272,7 +290,7 @@
 "lon": -71.421822,
 "horas": 1.69,
 "mapa": "https://www.google.com/maps?q=-34.316101,-71.421822",
-"ha": 3.96,
+"ha": 3.14,
 "opciones": [
 "torretagle"
 ],
@@ -280,7 +298,8 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-09-28",
@@ -294,7 +313,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "San Bernardo"
 },
 {
 "fecha": "2026-09-28",
@@ -308,7 +328,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "San Bernardo"
 },
 {
 "fecha": "2026-09-29",
@@ -326,7 +347,8 @@
 "Avoamerica": 0.5
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-09-29",
@@ -336,7 +358,7 @@
 "lon": -71.421704,
 "horas": 6.87,
 "mapa": "https://www.google.com/maps?q=-34.315008,-71.421704",
-"ha": 16.11,
+"ha": 12.76,
 "opciones": [
 "torretagle"
 ],
@@ -344,7 +366,8 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-09-29",
@@ -354,7 +377,7 @@
 "lon": -71.61373,
 "horas": 1.16,
 "mapa": "https://www.google.com/maps?q=-33.679693,-71.613730",
-"ha": 2.16,
+"ha": 2.15,
 "opciones": [
 "Avoamerica"
 ],
@@ -362,7 +385,8 @@
 "Avoamerica": 0.4
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-09-30",
@@ -380,7 +404,8 @@
 "Avoamerica": 0.4
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-09-30",
@@ -398,7 +423,8 @@
 "Avoamerica": 0.4
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-09-30",
@@ -408,7 +434,7 @@
 "lon": -71.421848,
 "horas": 1.99,
 "mapa": "https://www.google.com/maps?q=-34.313702,-71.421848",
-"ha": 4.67,
+"ha": 3.7,
 "opciones": [
 "torretagle"
 ],
@@ -416,7 +442,8 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-09-30",
@@ -434,7 +461,8 @@
 "Avoamerica": 0.4
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-09-30",
@@ -448,7 +476,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "Doñihue"
 },
 {
 "fecha": "2026-10-01",
@@ -466,7 +495,8 @@
 "Avoamerica": 1.2
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-10-01",
@@ -484,7 +514,8 @@
 "Avoamerica": 1.2
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-10-01",
@@ -494,7 +525,7 @@
 "lon": -71.422315,
 "horas": 5.6,
 "mapa": "https://www.google.com/maps?q=-34.312758,-71.422315",
-"ha": 13.13,
+"ha": 10.4,
 "opciones": [
 "torretagle"
 ],
@@ -502,7 +533,8 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-10-01",
@@ -520,7 +552,8 @@
 "Avoamerica": 1.2
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-10-02",
@@ -538,7 +571,8 @@
 "Avoamerica": 1.5
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-10-02",
@@ -556,7 +590,8 @@
 "Avoamerica": 1.5
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-10-02",
@@ -566,7 +601,7 @@
 "lon": -71.422123,
 "horas": 3.74,
 "mapa": "https://www.google.com/maps?q=-34.311941,-71.422123",
-"ha": 8.77,
+"ha": 6.95,
 "opciones": [
 "torretagle"
 ],
@@ -574,7 +609,8 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-10-02",
@@ -592,7 +628,8 @@
 "Avoamerica": 1.5
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-10-03",
@@ -602,11 +639,12 @@
 "lon": -71.058229,
 "horas": 1.44,
 "mapa": "https://www.google.com/maps?q=-34.228728,-71.058229",
-"ha": 2.68,
+"ha": 2.67,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "Coltauco"
 },
 {
 "fecha": "2026-10-04",
@@ -620,7 +658,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "Coltauco"
 },
 {
 "fecha": "2026-10-05",
@@ -630,7 +669,7 @@
 "lon": -71.423203,
 "horas": 1.63,
 "mapa": "https://www.google.com/maps?q=-34.310610,-71.423203",
-"ha": 3.82,
+"ha": 3.03,
 "opciones": [
 "torretagle"
 ],
@@ -638,7 +677,8 @@
 "torretagle": 0.4
 },
 "campo": "torretagle",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-10-07",
@@ -656,7 +696,8 @@
 "Avoamerica": 0.3
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-10-07",
@@ -674,7 +715,8 @@
 "Avoamerica": 0.3
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-10-08",
@@ -684,7 +726,7 @@
 "lon": -71.618442,
 "horas": 5.72,
 "mapa": "https://www.google.com/maps?q=-35.136690,-71.618442",
-"ha": 1.99,
+"ha": 1.93,
 "opciones": [
 "Aurora"
 ],
@@ -692,7 +734,8 @@
 "Aurora": 0.1
 },
 "campo": "Aurora",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Sagrada Familia"
 },
 {
 "fecha": "2026-10-08",
@@ -702,7 +745,7 @@
 "lon": -71.62012,
 "horas": 4.28,
 "mapa": "https://www.google.com/maps?q=-35.136206,-71.620120",
-"ha": 1.49,
+"ha": 1.45,
 "opciones": [
 "Aurora"
 ],
@@ -710,7 +753,8 @@
 "Aurora": 0.1
 },
 "campo": "Aurora",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Sagrada Familia"
 },
 {
 "fecha": "2026-10-08",
@@ -720,7 +764,7 @@
 "lon": -71.422852,
 "horas": 1.56,
 "mapa": "https://www.google.com/maps?q=-34.310423,-71.422852",
-"ha": 3.66,
+"ha": 2.9,
 "opciones": [
 "torretagle"
 ],
@@ -728,7 +772,8 @@
 "torretagle": 0.4
 },
 "campo": "torretagle",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-10-09",
@@ -738,7 +783,7 @@
 "lon": -71.611618,
 "horas": 2.35,
 "mapa": "https://www.google.com/maps?q=-33.693451,-71.611618",
-"ha": 4.37,
+"ha": 4.36,
 "opciones": [
 "Avoamerica"
 ],
@@ -746,7 +791,8 @@
 "Avoamerica": 1.9
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-10-09",
@@ -756,7 +802,7 @@
 "lon": -71.422087,
 "horas": 3.05,
 "mapa": "https://www.google.com/maps?q=-34.309437,-71.422087",
-"ha": 7.15,
+"ha": 5.67,
 "opciones": [
 "torretagle"
 ],
@@ -764,7 +810,8 @@
 "torretagle": 0.4
 },
 "campo": "torretagle",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-10-09",
@@ -782,7 +829,8 @@
 "Avoamerica": 1.9
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-10-09",
@@ -800,7 +848,8 @@
 "Avoamerica": 1.9
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-10-10",
@@ -810,7 +859,7 @@
 "lon": -71.419978,
 "horas": 4.69,
 "mapa": "https://www.google.com/maps?q=-34.308756,-71.419978",
-"ha": 11.0,
+"ha": 8.71,
 "opciones": [
 "torretagle"
 ],
@@ -818,7 +867,8 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-10-11",
@@ -828,7 +878,7 @@
 "lon": -71.422066,
 "horas": 2.29,
 "mapa": "https://www.google.com/maps?q=-34.306643,-71.422066",
-"ha": 5.37,
+"ha": 4.25,
 "opciones": [
 "torretagle"
 ],
@@ -836,7 +886,8 @@
 "torretagle": 0.2
 },
 "campo": "torretagle",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-10-13",
@@ -846,7 +897,7 @@
 "lon": -71.421114,
 "horas": 1.35,
 "mapa": "https://www.google.com/maps?q=-34.306817,-71.421114",
-"ha": 3.17,
+"ha": 2.51,
 "opciones": [
 "torretagle"
 ],
@@ -854,7 +905,8 @@
 "torretagle": 0.1
 },
 "campo": "torretagle",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-10-13",
@@ -864,7 +916,7 @@
 "lon": -71.164999,
 "horas": 2.53,
 "mapa": "https://www.google.com/maps?q=-33.464618,-71.164999",
-"ha": 0.88,
+"ha": 0.85,
 "opciones": [
 "Santa Ana"
 ],
@@ -872,7 +924,8 @@
 "Santa Ana": 0.5
 },
 "campo": "Santa Ana",
-"estado": "probable"
+"estado": "probable",
+"comuna": "María Pinto"
 },
 {
 "fecha": "2026-10-14",
@@ -882,7 +935,7 @@
 "lon": -71.61835,
 "horas": 5.67,
 "mapa": "https://www.google.com/maps?q=-35.153343,-71.618350",
-"ha": 1.98,
+"ha": 1.92,
 "opciones": [
 "Aurora"
 ],
@@ -890,7 +943,8 @@
 "Aurora": 0.2
 },
 "campo": "Aurora",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Sagrada Familia"
 },
 {
 "fecha": "2026-10-14",
@@ -900,7 +954,7 @@
 "lon": -71.618391,
 "horas": 4.21,
 "mapa": "https://www.google.com/maps?q=-35.153272,-71.618391",
-"ha": 1.46,
+"ha": 1.42,
 "opciones": [
 "Aurora"
 ],
@@ -908,7 +962,8 @@
 "Aurora": 0.2
 },
 "campo": "Aurora",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Sagrada Familia"
 },
 {
 "fecha": "2026-10-14",
@@ -926,7 +981,8 @@
 "Avoamerica": 0.4
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-10-14",
@@ -936,7 +992,7 @@
 "lon": -71.422158,
 "horas": 5.15,
 "mapa": "https://www.google.com/maps?q=-34.305652,-71.422158",
-"ha": 12.08,
+"ha": 9.57,
 "opciones": [
 "torretagle"
 ],
@@ -944,7 +1000,8 @@
 "torretagle": 0.2
 },
 "campo": "torretagle",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-10-14",
@@ -962,7 +1019,8 @@
 "Avoamerica": 0.4
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-10-14",
@@ -980,7 +1038,8 @@
 "Avoamerica": 0.4
 },
 "campo": "Avoamerica",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Santo Domingo"
 },
 {
 "fecha": "2026-10-14",
@@ -990,7 +1049,7 @@
 "lon": -71.167501,
 "horas": 3.88,
 "mapa": "https://www.google.com/maps?q=-33.465503,-71.167501",
-"ha": 1.35,
+"ha": 1.31,
 "opciones": [
 "Santa Ana"
 ],
@@ -998,7 +1057,8 @@
 "Santa Ana": 0.3
 },
 "campo": "Santa Ana",
-"estado": "probable"
+"estado": "probable",
+"comuna": "María Pinto"
 },
 {
 "fecha": "2026-10-15",
@@ -1008,7 +1068,7 @@
 "lon": -70.694481,
 "horas": 5.17,
 "mapa": "https://www.google.com/maps?q=-33.814035,-70.694481",
-"ha": 9.41,
+"ha": 9.71,
 "opciones": [
 "Candelaria"
 ],
@@ -1016,7 +1076,8 @@
 "Candelaria": 0.2
 },
 "campo": "Candelaria",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Paine"
 },
 {
 "fecha": "2026-10-15",
@@ -1031,10 +1092,11 @@
 "Puerto Lampa"
 ],
 "distancias_km": {
-"Puerto Lampa": 0.3
+"Puerto Lampa": 0.0
 },
 "campo": "Puerto Lampa",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Lampa"
 },
 {
 "fecha": "2026-10-15",
@@ -1044,7 +1106,7 @@
 "lon": -71.616511,
 "horas": 3.11,
 "mapa": "https://www.google.com/maps?q=-35.154836,-71.616511",
-"ha": 1.08,
+"ha": 1.05,
 "opciones": [
 "Aurora"
 ],
@@ -1052,7 +1114,8 @@
 "Aurora": 0.4
 },
 "campo": "Aurora",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Sagrada Familia"
 },
 {
 "fecha": "2026-10-15",
@@ -1062,7 +1125,7 @@
 "lon": -71.634313,
 "horas": 2.34,
 "mapa": "https://www.google.com/maps?q=-35.163234,-71.634313",
-"ha": 0.82,
+"ha": 0.79,
 "opciones": [
 "Aurora"
 ],
@@ -1070,7 +1133,8 @@
 "Aurora": 0.8
 },
 "campo": "Aurora",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Sagrada Familia"
 },
 {
 "fecha": "2026-10-15",
@@ -1080,7 +1144,7 @@
 "lon": -71.616889,
 "horas": 2.1,
 "mapa": "https://www.google.com/maps?q=-35.154639,-71.616889",
-"ha": 0.73,
+"ha": 0.71,
 "opciones": [
 "Aurora"
 ],
@@ -1088,7 +1152,8 @@
 "Aurora": 0.4
 },
 "campo": "Aurora",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Sagrada Familia"
 },
 {
 "fecha": "2026-10-15",
@@ -1098,7 +1163,7 @@
 "lon": -71.634216,
 "horas": 2.15,
 "mapa": "https://www.google.com/maps?q=-35.163705,-71.634216",
-"ha": 0.75,
+"ha": 0.73,
 "opciones": [
 "Aurora"
 ],
@@ -1106,7 +1171,8 @@
 "Aurora": 0.9
 },
 "campo": "Aurora",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Sagrada Familia"
 },
 {
 "fecha": "2026-10-15",
@@ -1116,7 +1182,7 @@
 "lon": -71.422154,
 "horas": 4.11,
 "mapa": "https://www.google.com/maps?q=-34.304418,-71.422154",
-"ha": 9.64,
+"ha": 7.63,
 "opciones": [
 "torretagle"
 ],
@@ -1124,7 +1190,8 @@
 "torretagle": 0.1
 },
 "campo": "torretagle",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-10-15",
@@ -1134,11 +1201,12 @@
 "lon": -71.604765,
 "horas": 2.28,
 "mapa": "https://www.google.com/maps?q=-34.719511,-71.604765",
-"ha": 4.24,
+"ha": 4.23,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "Lolol"
 },
 {
 "fecha": "2026-10-15",
@@ -1148,7 +1216,7 @@
 "lon": -71.169979,
 "horas": 5.58,
 "mapa": "https://www.google.com/maps?q=-33.464158,-71.169979",
-"ha": 1.94,
+"ha": 1.88,
 "opciones": [
 "Santa Ana"
 ],
@@ -1156,7 +1224,8 @@
 "Santa Ana": 0.2
 },
 "campo": "Santa Ana",
-"estado": "probable"
+"estado": "probable",
+"comuna": "María Pinto"
 },
 {
 "fecha": "2026-10-16",
@@ -1166,7 +1235,7 @@
 "lon": -70.695552,
 "horas": 2.8,
 "mapa": "https://www.google.com/maps?q=-33.815307,-70.695552",
-"ha": 5.1,
+"ha": 5.26,
 "opciones": [
 "Candelaria"
 ],
@@ -1174,7 +1243,8 @@
 "Candelaria": 0.3
 },
 "campo": "Candelaria",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Paine"
 },
 {
 "fecha": "2026-10-16",
@@ -1184,7 +1254,7 @@
 "lon": -71.634159,
 "horas": 3.8,
 "mapa": "https://www.google.com/maps?q=-35.162897,-71.634159",
-"ha": 1.32,
+"ha": 1.28,
 "opciones": [
 "Aurora"
 ],
@@ -1192,7 +1262,8 @@
 "Aurora": 0.8
 },
 "campo": "Aurora",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Sagrada Familia"
 },
 {
 "fecha": "2026-10-16",
@@ -1202,7 +1273,7 @@
 "lon": -71.422348,
 "horas": 1.92,
 "mapa": "https://www.google.com/maps?q=-34.310555,-71.422348",
-"ha": 4.5,
+"ha": 3.57,
 "opciones": [
 "torretagle"
 ],
@@ -1210,7 +1281,8 @@
 "torretagle": 0.4
 },
 "campo": "torretagle",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-10-16",
@@ -1224,7 +1296,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "Nogales"
 },
 {
 "fecha": "2026-10-16",
@@ -1238,7 +1311,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "Lolol"
 },
 {
 "fecha": "2026-10-16",
@@ -1248,7 +1322,7 @@
 "lon": -71.167018,
 "horas": 3.4,
 "mapa": "https://www.google.com/maps?q=-33.462050,-71.167018",
-"ha": 1.18,
+"ha": 1.15,
 "opciones": [
 "Santa Ana"
 ],
@@ -1256,7 +1330,8 @@
 "Santa Ana": 0.6
 },
 "campo": "Santa Ana",
-"estado": "probable"
+"estado": "probable",
+"comuna": "María Pinto"
 },
 {
 "fecha": "2026-10-17",
@@ -1266,7 +1341,7 @@
 "lon": -71.633974,
 "horas": 2.62,
 "mapa": "https://www.google.com/maps?q=-35.162374,-71.633974",
-"ha": 0.91,
+"ha": 0.89,
 "opciones": [
 "Aurora"
 ],
@@ -1274,7 +1349,8 @@
 "Aurora": 0.8
 },
 "campo": "Aurora",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Sagrada Familia"
 },
 {
 "fecha": "2026-10-17",
@@ -1284,7 +1360,7 @@
 "lon": -71.421348,
 "horas": 3.49,
 "mapa": "https://www.google.com/maps?q=-34.309940,-71.421348",
-"ha": 8.19,
+"ha": 6.48,
 "opciones": [
 "torretagle"
 ],
@@ -1292,7 +1368,8 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-10-17",
@@ -1302,7 +1379,7 @@
 "lon": -71.165423,
 "horas": 2.3,
 "mapa": "https://www.google.com/maps?q=-33.459375,-71.165423",
-"ha": 0.8,
+"ha": 0.78,
 "opciones": [
 "Santa Ana"
 ],
@@ -1310,7 +1387,8 @@
 "Santa Ana": 0.9
 },
 "campo": "Santa Ana",
-"estado": "probable"
+"estado": "probable",
+"comuna": "María Pinto"
 },
 {
 "fecha": "2026-10-18",
@@ -1320,7 +1398,7 @@
 "lon": -71.422425,
 "horas": 2.4,
 "mapa": "https://www.google.com/maps?q=-34.308557,-71.422425",
-"ha": 5.63,
+"ha": 4.46,
 "opciones": [
 "torretagle"
 ],
@@ -1328,7 +1406,8 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-10-19",
@@ -1338,7 +1417,7 @@
 "lon": -70.701286,
 "horas": 1.0,
 "mapa": "https://www.google.com/maps?q=-33.821849,-70.701286",
-"ha": 1.82,
+"ha": 1.88,
 "opciones": [
 "Candelaria"
 ],
@@ -1346,7 +1425,8 @@
 "Candelaria": 0.2
 },
 "campo": "Candelaria",
-"estado": "asignado"
+"estado": "asignado",
+"comuna": "Paine"
 },
 {
 "fecha": "2026-10-19",
@@ -1356,7 +1436,7 @@
 "lon": -71.632469,
 "horas": 4.29,
 "mapa": "https://www.google.com/maps?q=-35.161395,-71.632469",
-"ha": 1.49,
+"ha": 1.45,
 "opciones": [
 "Aurora"
 ],
@@ -1364,7 +1444,8 @@
 "Aurora": 0.6
 },
 "campo": "Aurora",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Sagrada Familia"
 },
 {
 "fecha": "2026-10-19",
@@ -1374,7 +1455,7 @@
 "lon": -71.421652,
 "horas": 3.37,
 "mapa": "https://www.google.com/maps?q=-34.314479,-71.421652",
-"ha": 7.9,
+"ha": 6.26,
 "opciones": [
 "torretagle"
 ],
@@ -1382,7 +1463,8 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-10-19",
@@ -1396,7 +1478,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "Lolol"
 },
 {
 "fecha": "2026-10-20",
@@ -1406,7 +1489,7 @@
 "lon": -71.633469,
 "horas": 6.43,
 "mapa": "https://www.google.com/maps?q=-35.160410,-71.633469",
-"ha": 2.24,
+"ha": 2.17,
 "opciones": [
 "Aurora"
 ],
@@ -1414,7 +1497,8 @@
 "Aurora": 0.6
 },
 "campo": "Aurora",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Sagrada Familia"
 },
 {
 "fecha": "2026-10-20",
@@ -1424,7 +1508,7 @@
 "lon": -71.421826,
 "horas": 2.73,
 "mapa": "https://www.google.com/maps?q=-34.312174,-71.421826",
-"ha": 6.4,
+"ha": 5.07,
 "opciones": [
 "torretagle"
 ],
@@ -1432,7 +1516,8 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable"
+"estado": "probable",
+"comuna": "Pichidegua"
 },
 {
 "fecha": "2026-10-20",
@@ -1446,7 +1531,8 @@
 "opciones": [],
 "distancias_km": {},
 "campo": null,
-"estado": "sin campo"
+"estado": "sin campo",
+"comuna": "Nogales"
 },
 {
 "fecha": "2026-10-20",
@@ -1459,6 +1545,26 @@
 "ha": 4.64,
 "opciones": [],
 "distancias_km": {},
+"campo": null,
+"estado": "sin campo",
+"comuna": "Lolol"
+},
+{
+"fecha": "2026-10-21",
+"maquina": "Tractor 10 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -35.161633,
+"lon": -71.634245,
+"horas": 3.07,
+"mapa": "https://www.google.com/maps?q=-35.161633,-71.634245",
+"ha": 1.04,
+"comuna": "Sagrada Familia",
+"opciones": [
+"Aurora"
+],
+"distancias_km": {
+"Aurora": 0.7
+},
 "campo": null,
 "estado": "sin campo"
 }
