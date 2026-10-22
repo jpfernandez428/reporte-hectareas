@@ -605,6 +605,13 @@ async function leerRed() {
   const rs = await Promise.all(ARCHIVOS.map((u, i) => fetch(u, { cache: 'no-store' }).catch(e => { if (i === 0) throw e; return null; })));
   if (!rs[0].ok) throw new Error('sin datos');
   const guardado = rs[0].headers.get('X-Desde-Cache') === '1';  // sw.js sin red
+  // La pagina tambien guarda lo que trae (en la primera visita sw.js aun no esta activo).
+  if (!guardado) {
+    try {
+      const c = await caches.open(CACHE_DATOS);
+      await Promise.all(rs.map((r, i) => r && r.ok ? c.put(new URL(ARCHIVOS[i], location.href).href, r.clone()) : null));
+    } catch (e) { /* sin almacenamiento (navegacion privada): sigue sin guardar */ }
+  }
   return { datos: await Promise.all(rs.map((r, i) => r && r.ok ? r.json() : vacio(i))), guardado };
 }
 function aplicar([d, c, reg]) {
