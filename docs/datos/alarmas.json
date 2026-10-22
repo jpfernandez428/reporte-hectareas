@@ -223,5 +223,113 @@
   "tipo": "Repaso",
   "ha": 0.66,
   "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-16",
+  "maquina": "Shacker de Suelo 7",
+  "cuartel": "Bernardo Lira Chiñihue N1",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 2.94,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-16",
+  "maquina": "Shacker de Suelo 7",
+  "cuartel": "Bernardo Lira Chiñihue N2",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 4.05,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-17",
+  "maquina": "Recogedora 2",
+  "cuartel": "Rafael Peña 3",
+  "labor": "Recolección",
+  "tipo": "Repaso",
+  "ha": 0.77,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-17",
+  "maquina": "Shacker de Suelo 7",
+  "cuartel": "Bernardo Lira Chiñihue N2",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 6.48,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-21",
+  "maquina": "Shacker de Suelo 7",
+  "cuartel": "Bernardo Lira Chiñihue N2",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 0.98,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-22",
+  "maquina": "Shacker de Suelo 7",
+  "cuartel": "Bernardo Lira Chiñihue N3",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 0.84,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-23",
+  "maquina": "Shacker de Suelo 7",
+  "cuartel": "Bernardo Lira Chiñihue N3",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 7.5,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-24",
+  "maquina": "Shacker de Suelo 4",
+  "cuartel": "Bernardo Lira Chiñihue N3",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 0.84,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-24",
+  "maquina": "Shacker de Suelo 7",
+  "cuartel": "Bernardo Lira Chiñihue N3",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 5.99,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-25",
+  "maquina": "Shacker de Suelo 4",
+  "cuartel": "Bernardo Lira Chiñihue N3",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 0.12,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-28",
+  "maquina": "Recogedora 3",
+  "cuartel": "Bernardo Lira Pomaire 7",
+  "labor": "Recolección",
+  "tipo": "Repaso",
+  "ha": 0.75,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-04-30",
+  "maquina": "Recogedora 3",
+  "cuartel": "Bernardo Lira Pomaire 21",
+  "labor": "Recolección",
+  "tipo": "Repaso",
+  "ha": 0.16,
+  "temporada": "2026"
  }
 ]
