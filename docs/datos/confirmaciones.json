@@ -30,5 +30,13 @@
   "nombre": "Prueba Claude",
   "campo": "Aurora",
   "resultado": null
+ },
+ {
+  "fecha": "2026-10-22 16:59",
+  "accion": "maquina",
+  "maquina": "Tractor 13 Deutz Fahr 115",
+  "planilla": "Siracusa",
+  "valor": "en CYH",
+  "id": "20261022165910"
  }
 ]
