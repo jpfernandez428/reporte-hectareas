@@ -1622,6 +1622,9 @@ def main():
         html, ruta_pdf, oper = reporte_v2.preparar(sid, usuario, ayer, publicar=True)
         print(f"Planilla: {'leida' if not oper.get('aviso_planilla') else oper['aviso_planilla']}; "
               f"{len(oper['filas'])} maquinas en operacion, {len(oper['alerta_grande'])} en alerta grande.")
+        if oper.get("aviso_planilla"):
+            print("No se envia la prueba: sin la planilla no se ve el cruce (se publican igual los datos de la pagina).")
+            return
         enviar(f"Reporte diario de flota – {ayer:%d-%m-%Y} (PRUEBA versión nueva)", html,
                f"Reporte diario de flota del {ayer:%d-%m-%Y} (version nueva). Detalle en el PDF adjunto.",
                destinatarios_de("CORREO_PRUEBA"), ruta_pdf)
