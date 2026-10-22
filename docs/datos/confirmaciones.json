@@ -94,5 +94,13 @@
   "nombre": "Puerto Lampa",
   "campo": "Puerto Lampa",
   "resultado": null
+ },
+ {
+  "fecha": "2026-10-22 17:23",
+  "accion": "campo",
+  "id": "20261022172339",
+  "lat": -34.718551,
+  "lon": -71.606503,
+  "campo": "Agr Santa Berta"
  }
 ]
