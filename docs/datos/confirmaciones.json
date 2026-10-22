@@ -14,5 +14,14 @@
   "nombre": "Prueba Claude",
   "campo": "Aurora",
   "resultado": []
+ },
+ {
+  "fecha": "2026-10-22 16:52",
+  "accion": "equivalencia",
+  "nombre": "Prueba Claude",
+  "campo": "Aurora",
+  "resultado": [
+   "Aurora"
+  ]
  }
 ]
