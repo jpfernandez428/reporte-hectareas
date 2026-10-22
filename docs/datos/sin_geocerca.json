@@ -72,7 +72,7 @@
 "lon": -70.754624,
 "horas": 3.2,
 "mapa": "https://www.google.com/maps?q=-33.693364,-70.754624",
-"ha": 3.3,
+"ha": 7.67,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -87,7 +87,7 @@
 "lon": -70.564456,
 "horas": 5.62,
 "mapa": "https://www.google.com/maps?q=-33.675289,-70.564456",
-"ha": 6.3,
+"ha": 13.46,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -102,7 +102,7 @@
 "lon": -70.758342,
 "horas": 1.69,
 "mapa": "https://www.google.com/maps?q=-33.695081,-70.758342",
-"ha": 1.99,
+"ha": 4.05,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -117,7 +117,7 @@
 "lon": -71.314636,
 "horas": 1.47,
 "mapa": "https://www.google.com/maps?q=-35.627049,-71.314636",
-"ha": 2.51,
+"ha": 3.52,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -132,7 +132,7 @@
 "lon": -71.311135,
 "horas": 5.02,
 "mapa": "https://www.google.com/maps?q=-35.632935,-71.311135",
-"ha": 7.41,
+"ha": 12.02,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -147,7 +147,7 @@
 "lon": -70.559726,
 "horas": 6.47,
 "mapa": "https://www.google.com/maps?q=-33.675026,-70.559726",
-"ha": 6.24,
+"ha": 15.5,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -162,7 +162,7 @@
 "lon": -70.757144,
 "horas": 5.36,
 "mapa": "https://www.google.com/maps?q=-33.680281,-70.757144",
-"ha": 4.23,
+"ha": 12.84,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -177,7 +177,7 @@
 "lon": -71.304818,
 "horas": 4.55,
 "mapa": "https://www.google.com/maps?q=-35.632001,-71.304818",
-"ha": 6.13,
+"ha": 10.9,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -192,7 +192,7 @@
 "lon": -70.558653,
 "horas": 2.1,
 "mapa": "https://www.google.com/maps?q=-33.677588,-70.558653",
-"ha": 1.61,
+"ha": 5.03,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -207,7 +207,7 @@
 "lon": -71.14422,
 "horas": 1.98,
 "mapa": "https://www.google.com/maps?q=-34.965839,-71.144220",
-"ha": 1.65,
+"ha": 4.74,
 "opciones": [
 "Huertos de Nogal"
 ],
@@ -226,7 +226,7 @@
 "lon": -70.757351,
 "horas": 5.77,
 "mapa": "https://www.google.com/maps?q=-33.680368,-70.757351",
-"ha": 4.83,
+"ha": 13.82,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -241,7 +241,7 @@
 "lon": -71.299016,
 "horas": 2.13,
 "mapa": "https://www.google.com/maps?q=-35.629824,-71.299016",
-"ha": 2.52,
+"ha": 5.1,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -256,7 +256,7 @@
 "lon": -70.561134,
 "horas": 3.97,
 "mapa": "https://www.google.com/maps?q=-33.678546,-70.561134",
-"ha": 5.39,
+"ha": 9.51,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -271,7 +271,7 @@
 "lon": -71.145993,
 "horas": 1.38,
 "mapa": "https://www.google.com/maps?q=-34.966751,-71.145993",
-"ha": 1.25,
+"ha": 3.31,
 "opciones": [
 "Huertos de Nogal"
 ],
@@ -290,7 +290,7 @@
 "lon": -71.421822,
 "horas": 1.69,
 "mapa": "https://www.google.com/maps?q=-34.316101,-71.421822",
-"ha": 1.14,
+"ha": 4.05,
 "opciones": [
 "torretagle"
 ],
@@ -309,7 +309,7 @@
 "lon": -70.766853,
 "horas": 2.5,
 "mapa": "https://www.google.com/maps?q=-33.672979,-70.766853",
-"ha": 2.11,
+"ha": 5.99,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -324,7 +324,7 @@
 "lon": -70.758296,
 "horas": 1.53,
 "mapa": "https://www.google.com/maps?q=-33.695207,-70.758296",
-"ha": 1.94,
+"ha": 3.66,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -339,7 +339,7 @@
 "lon": -71.613871,
 "horas": 1.64,
 "mapa": "https://www.google.com/maps?q=-33.680458,-71.613871",
-"ha": 1.53,
+"ha": 3.93,
 "opciones": [
 "Avoamerica"
 ],
@@ -347,7 +347,7 @@
 "Avoamerica": 0.5
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -358,7 +358,7 @@
 "lon": -71.421704,
 "horas": 6.87,
 "mapa": "https://www.google.com/maps?q=-34.315008,-71.421704",
-"ha": 5.23,
+"ha": 16.46,
 "opciones": [
 "torretagle"
 ],
@@ -366,7 +366,7 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Pichidegua"
 },
 {
@@ -377,7 +377,7 @@
 "lon": -71.61373,
 "horas": 1.16,
 "mapa": "https://www.google.com/maps?q=-33.679693,-71.613730",
-"ha": 1.1,
+"ha": 2.78,
 "opciones": [
 "Avoamerica"
 ],
@@ -385,7 +385,7 @@
 "Avoamerica": 0.4
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -396,7 +396,7 @@
 "lon": -71.617857,
 "horas": 3.05,
 "mapa": "https://www.google.com/maps?q=-33.679981,-71.617857",
-"ha": 2.72,
+"ha": 7.31,
 "opciones": [
 "Avoamerica"
 ],
@@ -415,7 +415,7 @@
 "lon": -71.616873,
 "horas": 2.1,
 "mapa": "https://www.google.com/maps?q=-33.680139,-71.616873",
-"ha": 1.97,
+"ha": 5.03,
 "opciones": [
 "Avoamerica"
 ],
@@ -423,7 +423,7 @@
 "Avoamerica": 0.4
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -434,7 +434,7 @@
 "lon": -71.421848,
 "horas": 1.99,
 "mapa": "https://www.google.com/maps?q=-34.313702,-71.421848",
-"ha": 1.79,
+"ha": 4.77,
 "opciones": [
 "torretagle"
 ],
@@ -453,7 +453,7 @@
 "lon": -71.618117,
 "horas": 1.83,
 "mapa": "https://www.google.com/maps?q=-33.679820,-71.618117",
-"ha": 2.23,
+"ha": 4.38,
 "opciones": [
 "Avoamerica"
 ],
@@ -461,7 +461,7 @@
 "Avoamerica": 0.4
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -472,7 +472,7 @@
 "lon": -70.991505,
 "horas": 1.98,
 "mapa": "https://www.google.com/maps?q=-34.249074,-70.991505",
-"ha": 2.06,
+"ha": 4.74,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -487,7 +487,7 @@
 "lon": -71.617445,
 "horas": 4.24,
 "mapa": "https://www.google.com/maps?q=-33.687242,-71.617445",
-"ha": 3.64,
+"ha": 10.16,
 "opciones": [
 "Avoamerica"
 ],
@@ -506,7 +506,7 @@
 "lon": -71.617416,
 "horas": 3.68,
 "mapa": "https://www.google.com/maps?q=-33.687304,-71.617416",
-"ha": 3.57,
+"ha": 8.81,
 "opciones": [
 "Avoamerica"
 ],
@@ -514,7 +514,7 @@
 "Avoamerica": 1.2
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -525,7 +525,7 @@
 "lon": -71.422315,
 "horas": 5.6,
 "mapa": "https://www.google.com/maps?q=-34.312758,-71.422315",
-"ha": 4.38,
+"ha": 13.41,
 "opciones": [
 "torretagle"
 ],
@@ -544,7 +544,7 @@
 "lon": -71.617457,
 "horas": 3.14,
 "mapa": "https://www.google.com/maps?q=-33.687197,-71.617457",
-"ha": 3.03,
+"ha": 7.52,
 "opciones": [
 "Avoamerica"
 ],
@@ -552,7 +552,7 @@
 "Avoamerica": 1.2
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -563,7 +563,7 @@
 "lon": -71.615144,
 "horas": 1.54,
 "mapa": "https://www.google.com/maps?q=-33.689486,-71.615144",
-"ha": 1.16,
+"ha": 3.69,
 "opciones": [
 "Avoamerica"
 ],
@@ -582,7 +582,7 @@
 "lon": -71.615085,
 "horas": 1.68,
 "mapa": "https://www.google.com/maps?q=-33.689625,-71.615085",
-"ha": 1.12,
+"ha": 4.02,
 "opciones": [
 "Avoamerica"
 ],
@@ -590,7 +590,7 @@
 "Avoamerica": 1.5
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -601,7 +601,7 @@
 "lon": -71.422123,
 "horas": 3.74,
 "mapa": "https://www.google.com/maps?q=-34.311941,-71.422123",
-"ha": 3.14,
+"ha": 8.96,
 "opciones": [
 "torretagle"
 ],
@@ -620,7 +620,7 @@
 "lon": -71.615261,
 "horas": 1.43,
 "mapa": "https://www.google.com/maps?q=-33.689549,-71.615261",
-"ha": 1.27,
+"ha": 3.43,
 "opciones": [
 "Avoamerica"
 ],
@@ -628,7 +628,7 @@
 "Avoamerica": 1.5
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -639,7 +639,7 @@
 "lon": -71.058229,
 "horas": 1.44,
 "mapa": "https://www.google.com/maps?q=-34.228728,-71.058229",
-"ha": 1.14,
+"ha": 3.45,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -654,7 +654,7 @@
 "lon": -71.059177,
 "horas": 1.17,
 "mapa": "https://www.google.com/maps?q=-34.230811,-71.059177",
-"ha": 1.13,
+"ha": 2.8,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -669,7 +669,7 @@
 "lon": -71.423203,
 "horas": 1.63,
 "mapa": "https://www.google.com/maps?q=-34.310610,-71.423203",
-"ha": 1.53,
+"ha": 3.9,
 "opciones": [
 "torretagle"
 ],
@@ -688,7 +688,7 @@
 "lon": -71.617948,
 "horas": 1.76,
 "mapa": "https://www.google.com/maps?q=-33.678476,-71.617948",
-"ha": 1.39,
+"ha": 4.22,
 "opciones": [
 "Avoamerica"
 ],
@@ -707,7 +707,7 @@
 "lon": -71.617609,
 "horas": 1.89,
 "mapa": "https://www.google.com/maps?q=-33.678521,-71.617609",
-"ha": 1.37,
+"ha": 4.53,
 "opciones": [
 "Avoamerica"
 ],
@@ -726,7 +726,7 @@
 "lon": -71.618442,
 "horas": 5.72,
 "mapa": "https://www.google.com/maps?q=-35.136690,-71.618442",
-"ha": 3.68,
+"ha": 2.34,
 "opciones": [
 "Aurora"
 ],
@@ -745,7 +745,7 @@
 "lon": -71.62012,
 "horas": 4.28,
 "mapa": "https://www.google.com/maps?q=-35.136206,-71.620120",
-"ha": 3.34,
+"ha": 1.75,
 "opciones": [
 "Aurora"
 ],
@@ -764,7 +764,7 @@
 "lon": -71.422852,
 "horas": 1.56,
 "mapa": "https://www.google.com/maps?q=-34.310423,-71.422852",
-"ha": 2.14,
+"ha": 3.74,
 "opciones": [
 "torretagle"
 ],
@@ -783,7 +783,7 @@
 "lon": -71.611618,
 "horas": 2.35,
 "mapa": "https://www.google.com/maps?q=-33.693451,-71.611618",
-"ha": 1.88,
+"ha": 5.63,
 "opciones": [
 "Avoamerica"
 ],
@@ -802,7 +802,7 @@
 "lon": -71.422087,
 "horas": 3.05,
 "mapa": "https://www.google.com/maps?q=-34.309437,-71.422087",
-"ha": 3.23,
+"ha": 7.31,
 "opciones": [
 "torretagle"
 ],
@@ -821,7 +821,7 @@
 "lon": -71.611668,
 "horas": 2.01,
 "mapa": "https://www.google.com/maps?q=-33.693442,-71.611668",
-"ha": 2.09,
+"ha": 4.81,
 "opciones": [
 "Avoamerica"
 ],
@@ -840,7 +840,7 @@
 "lon": -71.611074,
 "horas": 2.45,
 "mapa": "https://www.google.com/maps?q=-33.693383,-71.611074",
-"ha": 2.32,
+"ha": 5.87,
 "opciones": [
 "Avoamerica"
 ],
@@ -859,7 +859,7 @@
 "lon": -71.419978,
 "horas": 4.69,
 "mapa": "https://www.google.com/maps?q=-34.308756,-71.419978",
-"ha": 3.76,
+"ha": 11.23,
 "opciones": [
 "torretagle"
 ],
@@ -878,7 +878,7 @@
 "lon": -71.422066,
 "horas": 2.29,
 "mapa": "https://www.google.com/maps?q=-34.306643,-71.422066",
-"ha": 1.77,
+"ha": 5.49,
 "opciones": [
 "torretagle"
 ],
@@ -897,7 +897,7 @@
 "lon": -71.421114,
 "horas": 1.35,
 "mapa": "https://www.google.com/maps?q=-34.306817,-71.421114",
-"ha": 1.4,
+"ha": 3.23,
 "opciones": [
 "torretagle"
 ],
@@ -916,7 +916,7 @@
 "lon": -71.164999,
 "horas": 2.53,
 "mapa": "https://www.google.com/maps?q=-33.464618,-71.164999",
-"ha": 2.67,
+"ha": 1.03,
 "opciones": [
 "Santa Ana"
 ],
@@ -935,7 +935,7 @@
 "lon": -71.61835,
 "horas": 5.67,
 "mapa": "https://www.google.com/maps?q=-35.153343,-71.618350",
-"ha": 3.97,
+"ha": 2.32,
 "opciones": [
 "Aurora"
 ],
@@ -954,7 +954,7 @@
 "lon": -71.618391,
 "horas": 4.21,
 "mapa": "https://www.google.com/maps?q=-35.153272,-71.618391",
-"ha": 3.12,
+"ha": 1.72,
 "opciones": [
 "Aurora"
 ],
@@ -973,7 +973,7 @@
 "lon": -71.60647,
 "horas": 2.6,
 "mapa": "https://www.google.com/maps?q=-33.679610,-71.606470",
-"ha": 3.1,
+"ha": 6.23,
 "opciones": [
 "Avoamerica"
 ],
@@ -992,7 +992,7 @@
 "lon": -71.422158,
 "horas": 5.15,
 "mapa": "https://www.google.com/maps?q=-34.305652,-71.422158",
-"ha": 4.3,
+"ha": 12.34,
 "opciones": [
 "torretagle"
 ],
@@ -1011,7 +1011,7 @@
 "lon": -71.606188,
 "horas": 2.11,
 "mapa": "https://www.google.com/maps?q=-33.679652,-71.606188",
-"ha": 3.16,
+"ha": 5.05,
 "opciones": [
 "Avoamerica"
 ],
@@ -1030,7 +1030,7 @@
 "lon": -71.606108,
 "horas": 2.5,
 "mapa": "https://www.google.com/maps?q=-33.679609,-71.606108",
-"ha": 3.05,
+"ha": 5.99,
 "opciones": [
 "Avoamerica"
 ],
@@ -1049,7 +1049,7 @@
 "lon": -71.167501,
 "horas": 3.88,
 "mapa": "https://www.google.com/maps?q=-33.465503,-71.167501",
-"ha": 4.81,
+"ha": 1.59,
 "opciones": [
 "Santa Ana"
 ],
@@ -1068,7 +1068,7 @@
 "lon": -70.694481,
 "horas": 5.17,
 "mapa": "https://www.google.com/maps?q=-33.814035,-70.694481",
-"ha": 11.61,
+"ha": 9.43,
 "opciones": [
 "Candelaria"
 ],
@@ -1106,7 +1106,7 @@
 "lon": -71.616511,
 "horas": 3.11,
 "mapa": "https://www.google.com/maps?q=-35.154836,-71.616511",
-"ha": 2.1,
+"ha": 1.27,
 "opciones": [
 "Aurora"
 ],
@@ -1125,7 +1125,7 @@
 "lon": -71.634313,
 "horas": 2.34,
 "mapa": "https://www.google.com/maps?q=-35.163234,-71.634313",
-"ha": 1.92,
+"ha": 0.96,
 "opciones": [
 "Aurora"
 ],
@@ -1144,7 +1144,7 @@
 "lon": -71.616889,
 "horas": 2.1,
 "mapa": "https://www.google.com/maps?q=-35.154639,-71.616889",
-"ha": 1.3,
+"ha": 0.86,
 "opciones": [
 "Aurora"
 ],
@@ -1163,7 +1163,7 @@
 "lon": -71.634216,
 "horas": 2.15,
 "mapa": "https://www.google.com/maps?q=-35.163705,-71.634216",
-"ha": 0.97,
+"ha": 0.88,
 "opciones": [
 "Aurora"
 ],
@@ -1182,7 +1182,7 @@
 "lon": -71.422154,
 "horas": 4.11,
 "mapa": "https://www.google.com/maps?q=-34.304418,-71.422154",
-"ha": 3.45,
+"ha": 9.84,
 "opciones": [
 "torretagle"
 ],
@@ -1216,7 +1216,7 @@
 "lon": -71.604733,
 "horas": 2.75,
 "mapa": "https://www.google.com/maps?q=-34.719243,-71.604733",
-"ha": 2.4,
+"ha": 6.59,
 "comuna": "Lolol",
 "opciones": [],
 "distancias_km": {},
@@ -1231,7 +1231,7 @@
 "lon": -71.169979,
 "horas": 5.58,
 "mapa": "https://www.google.com/maps?q=-33.464158,-71.169979",
-"ha": 5.94,
+"ha": 2.28,
 "opciones": [
 "Santa Ana"
 ],
@@ -1250,7 +1250,7 @@
 "lon": -70.695552,
 "horas": 2.8,
 "mapa": "https://www.google.com/maps?q=-33.815307,-70.695552",
-"ha": 5.32,
+"ha": 5.11,
 "opciones": [
 "Candelaria"
 ],
@@ -1269,7 +1269,7 @@
 "lon": -71.634159,
 "horas": 3.8,
 "mapa": "https://www.google.com/maps?q=-35.162897,-71.634159",
-"ha": 2.73,
+"ha": 1.55,
 "opciones": [
 "Aurora"
 ],
@@ -1288,7 +1288,7 @@
 "lon": -71.422348,
 "horas": 1.92,
 "mapa": "https://www.google.com/maps?q=-34.310555,-71.422348",
-"ha": 2.08,
+"ha": 4.6,
 "opciones": [
 "torretagle"
 ],
@@ -1307,7 +1307,7 @@
 "lon": -71.243775,
 "horas": 1.03,
 "mapa": "https://www.google.com/maps?q=-32.710324,-71.243775",
-"ha": 1.69,
+"ha": 2.47,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -1337,7 +1337,7 @@
 "lon": -71.605324,
 "horas": 5.14,
 "mapa": "https://www.google.com/maps?q=-34.718444,-71.605324",
-"ha": 3.72,
+"ha": 12.31,
 "comuna": "Lolol",
 "opciones": [],
 "distancias_km": {},
@@ -1352,7 +1352,7 @@
 "lon": -71.167018,
 "horas": 3.4,
 "mapa": "https://www.google.com/maps?q=-33.462050,-71.167018",
-"ha": 2.23,
+"ha": 1.39,
 "opciones": [
 "Santa Ana"
 ],
@@ -1371,7 +1371,7 @@
 "lon": -71.633974,
 "horas": 2.62,
 "mapa": "https://www.google.com/maps?q=-35.162374,-71.633974",
-"ha": 2.03,
+"ha": 1.07,
 "opciones": [
 "Aurora"
 ],
@@ -1390,7 +1390,7 @@
 "lon": -71.421348,
 "horas": 3.49,
 "mapa": "https://www.google.com/maps?q=-34.309940,-71.421348",
-"ha": 3.45,
+"ha": 8.36,
 "opciones": [
 "torretagle"
 ],
@@ -1409,7 +1409,7 @@
 "lon": -71.165423,
 "horas": 2.3,
 "mapa": "https://www.google.com/maps?q=-33.459375,-71.165423",
-"ha": 2.04,
+"ha": 0.94,
 "opciones": [
 "Santa Ana"
 ],
@@ -1428,7 +1428,7 @@
 "lon": -71.422425,
 "horas": 2.4,
 "mapa": "https://www.google.com/maps?q=-34.308557,-71.422425",
-"ha": 2.02,
+"ha": 5.75,
 "opciones": [
 "torretagle"
 ],
@@ -1447,7 +1447,7 @@
 "lon": -70.701286,
 "horas": 1.0,
 "mapa": "https://www.google.com/maps?q=-33.821849,-70.701286",
-"ha": 1.27,
+"ha": 1.82,
 "opciones": [
 "Candelaria"
 ],
@@ -1466,7 +1466,7 @@
 "lon": -71.632469,
 "horas": 4.29,
 "mapa": "https://www.google.com/maps?q=-35.161395,-71.632469",
-"ha": 3.57,
+"ha": 1.75,
 "opciones": [
 "Aurora"
 ],
@@ -1485,7 +1485,7 @@
 "lon": -71.421652,
 "horas": 3.37,
 "mapa": "https://www.google.com/maps?q=-34.314479,-71.421652",
-"ha": 3.91,
+"ha": 8.07,
 "opciones": [
 "torretagle"
 ],
@@ -1504,7 +1504,7 @@
 "lon": -71.605241,
 "horas": 3.09,
 "mapa": "https://www.google.com/maps?q=-34.719736,-71.605241",
-"ha": 3.79,
+"ha": 7.4,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -1519,7 +1519,7 @@
 "lon": -71.633469,
 "horas": 6.43,
 "mapa": "https://www.google.com/maps?q=-35.160410,-71.633469",
-"ha": 4.06,
+"ha": 2.63,
 "opciones": [
 "Aurora"
 ],
@@ -1538,7 +1538,7 @@
 "lon": -71.421826,
 "horas": 2.73,
 "mapa": "https://www.google.com/maps?q=-34.312174,-71.421826",
-"ha": 2.51,
+"ha": 6.54,
 "opciones": [
 "torretagle"
 ],
@@ -1557,7 +1557,7 @@
 "lon": -71.244854,
 "horas": 1.64,
 "mapa": "https://www.google.com/maps?q=-32.710451,-71.244854",
-"ha": 1.47,
+"ha": 3.93,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
@@ -1572,7 +1572,7 @@
 "lon": -71.606503,
 "horas": 2.5,
 "mapa": "https://www.google.com/maps?q=-34.718551,-71.606503",
-"ha": 2.4,
+"ha": 5.99,
 "opciones": [],
 "distancias_km": {},
 "campo": null,
