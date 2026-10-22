@@ -102,5 +102,13 @@
   "lat": -34.718551,
   "lon": -71.606503,
   "campo": "Agr Santa Berta"
+ },
+ {
+  "fecha": "2026-10-22 17:24",
+  "accion": "campo",
+  "id": "20261022172411",
+  "lat": -32.710451,
+  "lon": -71.244854,
+  "campo": "Alto Calibre"
  }
 ]

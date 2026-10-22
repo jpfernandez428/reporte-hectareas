@@ -37,6 +37,13 @@
 "lon": -71.606503,
 "campo": "Agr Santa Berta",
 "fecha": "2026-10-22 17:23"
+},
+{
+"id": "20261022172411",
+"lat": -32.710451,
+"lon": -71.244854,
+"campo": "Alto Calibre",
+"fecha": "2026-10-22 17:24"
 }
 ],
 "trabajos": [
@@ -1331,8 +1338,8 @@
 "ha": 1.91,
 "opciones": [],
 "distancias_km": {},
-"campo": null,
-"estado": "sin campo",
+"campo": "Alto Calibre",
+"estado": "confirmado",
 "comuna": "Nogales"
 },
 {
@@ -1566,8 +1573,8 @@
 "ha": 3.05,
 "opciones": [],
 "distancias_km": {},
-"campo": null,
-"estado": "sin campo",
+"campo": "Alto Calibre",
+"estado": "confirmado",
 "comuna": "Nogales"
 },
 {
