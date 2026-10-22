@@ -472,5 +472,8 @@
   },
   "maquinas_confirmadas": {
     "Tractor 13 Deutz Fahr 115": {"planilla": "Siracusa", "texto": "en CYH", "aviso": "Taller", "fecha": "2026-10-22 16:59", "id": "20261022165910"}
-  }
+  },
+  "lugares_confirmados": [
+    {"id": "20261022165942", "lat": -34.72735, "lon": -71.080512, "campo": "MERCOFRUT", "fecha": "2026-10-22 16:59"}
+  ]
 }

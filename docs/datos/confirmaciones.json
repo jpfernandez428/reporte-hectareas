@@ -38,5 +38,13 @@
   "planilla": "Siracusa",
   "valor": "en CYH",
   "id": "20261022165910"
+ },
+ {
+  "fecha": "2026-10-22 16:59",
+  "accion": "campo",
+  "id": "20261022165942",
+  "lat": -34.72735,
+  "lon": -71.080512,
+  "campo": "MERCOFRUT"
  }
 ]

@@ -2,7 +2,15 @@
 "distancia_campo_km": 2.0,
 "lugar_m": 600,
 "url_confirmar": "https://disparador-reporte.dawn-band-fd6c.workers.dev/confirmar",
-"lugares_confirmados": [],
+"lugares_confirmados": [
+{
+"id": "20261022165942",
+"lat": -34.72735,
+"lon": -71.080512,
+"campo": "MERCOFRUT",
+"fecha": "2026-10-22 16:59"
+}
+],
 "trabajos": [
 {
 "fecha": "2026-09-21",
