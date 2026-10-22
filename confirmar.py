@@ -89,6 +89,18 @@ def cambiar_equivalencia(nombre, campo, agregar):
     return equivalencias
 
 
+def guardar_lista(clave, valor):
+    """Reescribe solo esa clave (una lista) de config.json, al final."""
+    with open(RUTA_CONFIG, "r", encoding="utf-8") as f:
+        texto = f.read()
+    texto = re.sub(r',\s*"' + re.escape(clave) + r'": \[.*?\](?=\s*[,}])', "", texto, count=1, flags=re.S)
+    texto = texto.rstrip().rstrip("}").rstrip() + ",\n  " + f'"{clave}": ' + json.dumps(valor, ensure_ascii=False) + "\n}\n"
+    json.loads(texto)
+    with open(RUTA_CONFIG, "w", encoding="utf-8") as f:
+        f.write(texto)
+    rh.CONFIG[clave] = valor
+
+
 def cerrar(registro):
     with open(RUTA_REGISTRO, "w", encoding="utf-8") as f:
         json.dump(registro, f, ensure_ascii=False, indent=1)
@@ -124,6 +136,43 @@ def main():
             cambiar_equivalencia(nombre_planilla, campo, True)
             registro.append({"fecha": ahora, "accion": "equivalencia (al confirmar)", "nombre": nombre_planilla,
                              "campo": campo})
+    elif accion in ("equivalencia", "borrar_equivalencia") and \
+            os.environ.get("PLANILLA", "").strip().lower().startswith(("operador:", "operador-distinto:")):
+        # Equivalencias de OPERADORES (22-oct-2026). Usan el mismo camino que las
+        # de campos (sin cambiar el Worker): PLANILLA = "operador: <otro nombre>"
+        # y CAMPO = <nombre que queda>; "operador-distinto: A" + CAMPO B = no es el mismo.
+        tipo, nombre = os.environ["PLANILLA"].split(":", 1)
+        nombre, otro = nombre.strip(), os.environ.get("CAMPO", "").strip()
+        if not (0 < len(nombre) <= 80) or len(otro) > 80:
+            sys.exit("Nombre de operador invalido.")
+        if tipo.strip().lower() == "operador-distinto":
+            distintos = [list(p) for p in rh.CONFIG.get("operadores_distintos", [])]
+            if accion == "equivalencia" and otro and [nombre, otro] not in distintos:
+                distintos.append([nombre, otro])
+            elif accion == "borrar_equivalencia":
+                distintos = [p for p in distintos if p != [nombre, otro]]
+            guardar_lista("operadores_distintos", distintos)
+            registro.append({"fecha": ahora, "accion": "operador distinto" if accion == "equivalencia" else "borrar operador distinto",
+                             "nombre": nombre, "otro": otro})
+        else:
+            if accion == "equivalencia" and (not otro or pl.mismo_nombre(nombre, otro)):
+                print(f"No se guarda: {nombre!r} y {otro!r} son el mismo nombre.")
+                return
+            eq = {k: list(v) for k, v in rh.CONFIG.get("equivalencias_operadores", {}).items()}
+            if accion == "equivalencia":
+                lista = eq.setdefault(otro, [])
+                if nombre not in lista:
+                    lista.append(nombre)
+            else:
+                for k in list(eq):
+                    eq[k] = [x for x in eq[k] if not (x == nombre and (not otro or k == otro))]
+                    if not eq[k]:
+                        eq.pop(k)
+            guardar_clave("equivalencias_operadores", eq)
+            registro.append({"fecha": ahora, "accion": "equivalencia operador" if accion == "equivalencia" else "borrar equivalencia operador",
+                             "nombre": nombre, "operador": otro or "(todos)"})
+        cerrar(registro)
+        return
     elif accion in ("equivalencia", "borrar_equivalencia"):
         # Equivalencias planilla -> Wialon (desde el 23-oct-2026 las edita el
         # usuario en la pagina; un nombre puede tener varios campos).

@@ -1,0 +1,51 @@
+{
+ "dias": {
+  "2026-10-22": {
+   "Barredora 1": {
+    "campo": "Candelaria",
+    "implemento": "",
+    "operador": "Alberto"
+   },
+   "Barredora 23": {
+    "campo": "Candelaria",
+    "implemento": "",
+    "operador": "Moises"
+   },
+   "Shacker SBS 10": {
+    "campo": "Agricola Principio (Cancura)",
+    "implemento": "Shaker",
+    "operador": "Pirincho"
+   },
+   "Shacker SBS 6": {
+    "campo": "Bunster Nancagua (ricardo gonzales)",
+    "implemento": "Shaker",
+    "operador": "Sebastian I"
+   },
+   "Shacker SBS 7": {
+    "campo": "MGH",
+    "implemento": "Shaker",
+    "operador": "Cristian Muñoz"
+   },
+   "Tractor 16 Kubota 108": {
+    "campo": "Torretagle",
+    "implemento": "PICKER R",
+    "operador": "Jonathan"
+   },
+   "Tractor 17 Kubota 108": {
+    "campo": "Alto Calibre",
+    "implemento": "PICKER R",
+    "operador": "Beño"
+   },
+   "Tractor 7 Kubota 95": {
+    "campo": "Agr Santa Berta",
+    "implemento": "PICKER R",
+    "operador": "Jorge Cordova"
+   },
+   "Tractor 9 Deutz Fahr 115": {
+    "campo": "santa ana",
+    "implemento": "ESTRELLA",
+    "operador": "Carlos ayala"
+   }
+  }
+ }
+}

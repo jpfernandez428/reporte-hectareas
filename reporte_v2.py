@@ -295,6 +295,8 @@ def operacion(ctx, trabajo, usuario=None):
                                    for r in ctx.historico) or any(
             d["fecha"] == ctx.fa and (d.get("horas_geocercas") or d.get("sin_geocerca"))
             for d in ctx.por_maquina.get(nombre, {}).get("dias", []))
+        # Trabajo fuera de CYH sin operador anotado en la planilla: queda en la maquina.
+        fila["sin_operador"] = bool(fila["ayer_trabajo"] and g["lugar"] != "CYH" and not (p.get("operador") or "").strip())
         filas.append(fila)
     return {"filas": filas, "no_en_planilla": no_en_planilla, "gps_apagado": apagadas,
             "alerta_grande": alerta_grande, "avisos": avisos,
@@ -555,9 +557,11 @@ def datos_pagina_v2(datos, ctx, trabajo, oper):
     for f in oper["filas"]:
         filas.append({k: f.get(k) for k in ("maquina", "labor", "grupo", "operador", "campo_planilla", "estado", "texto",
                                               "promedio", "ayer_ha", "ayer_trabajo", "gps", "dias_sin_senal", "mapa",
-                                              "campos_wialon", "gps_texto", "lat", "lon")})
+                                              "campos_wialon", "gps_texto", "lat", "lon", "sin_operador")})
+    import operadores
     return {
         "pagina": PAGINA,
+        "operadores": operadores.construir(ctx, oper),
         "url_confirmar": rh.CONFIG.get("url_confirmaciones"),
         "aviso_planilla": oper.get("aviso_planilla"),
         "planilla_huella": huella_planilla(ctx.planilla) if ctx.planilla.get("ok") else None,
@@ -610,7 +614,9 @@ def rearmar_pagina(solo_si_cambio=False):
     if not ctx.planilla.get("ok"):
         print(f"No se rearma reporte2: {ctx.planilla.get('aviso')}")
         return False
-    if solo_si_cambio and previo.get("planilla_huella") == huella_planilla(ctx.planilla):
+    import operadores
+    nuevos_operadores = operadores.registrar(ctx.planilla)  # historial de operadores de hoy
+    if solo_si_cambio and previo.get("planilla_huella") == huella_planilla(ctx.planilla) and not nuevos_operadores:
         print("La planilla no cambio: no se rearma.")
         return False
     for x in previo.get("operacion", []) + previo.get("no_en_planilla", []) + previo.get("gps_apagado", []):

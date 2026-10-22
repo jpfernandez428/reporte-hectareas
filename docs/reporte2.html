@@ -95,6 +95,11 @@
   .selector { display: inline-flex; flex-direction: column; gap: 2px; min-width: 210px; max-width: 100%; }
   .selector input, .selector select { padding: 4px; font-size: 13px; border: 1px solid #ccc; border-radius: 6px; width: 100%; }
   .tc-eq { color: var(--gris); font-weight: 400; }
+  .est { display: inline-block; padding: 1px 7px; border-radius: 9px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .est-trabajo { background: #e3f2e6; color: #1f6b34; } .est-cyh { background: #fff4cc; color: #8a6a00; }
+  .est-nada { background: #eceeed; color: #5d6660; } .est-senal { background: #fdecea; color: #b3261e; }
+  .sube { color: #1f6b34; font-weight: 700; } .baja { color: #b3261e; font-weight: 700; } .igual { color: var(--gris); }
+  .aprox { color: #8a6a00; font-size: 11px; font-weight: 600; }
   /* Celular: cada fila de tabla como tarjeta (sin mover hacia el lado). */
   @media (max-width: 600px) {
     .tabla { overflow-x: visible; }
@@ -124,7 +129,7 @@
 <nav aria-label="Secciones">
   <a href="#resumen">Resumen</a><a href="#maquinas-ayer">Máquinas ayer</a><a href="#camionetas">Camionetas</a>
   <a href="#camion">Camión</a><a href="#operacion">En operación</a><a href="#alertas">Alertas</a>
-  <a href="#trabajo-campo">Trabajo por campo</a><a href="#semana">7 días</a><a href="#equivalencias">Equivalencias</a>
+  <a href="#operadores">Operadores</a><a href="#trabajo-campo">Trabajo por campo</a><a href="#semana">7 días</a><a href="#equivalencias">Equivalencias</a>
 </nav>
 <main>
   <input class="buscador" id="buscador" type="search" placeholder="Buscar máquina o campo (ej. Tractor 16, Candelaria)">
@@ -361,6 +366,7 @@ function seccionOperacion() {
     const filas = v.operacion.filter(f => pasa(f) && coincide(f.maquina, f.campo_planilla, f.operador, f.gps)).map(f =>
       `<tr data-maquina="${esc(f.maquina)}"><td>${esc(f.maquina)}<br><small>${esc(f.labor)}</small></td><td>${esc(f.operador || '–')}</td>` +
       `<td>Planilla: <b>${esc(f.campo_planilla || 'Taller')}</b><br>${marcaHtml(f.estado, f.texto)}` +
+      `${f.sin_operador ? ' <span class="marca m-confirmar">Sin operador en la planilla</span>' : ''}` +
       `<div class="gps">GPS: ${esc(f.gps_texto || f.gps || '')} ${mapa(f.mapa)}</div>${accionesOperacion(f)}</td>` +
       `<td class="n">${f.promedio ? n(f.promedio, 2) : '–'}</td><td class="n">${f.ayer_ha ? '<b>' + n(f.ayer_ha, 2) + '</b>' : '–'}</td><td>${mapa(f.mapa)}</td></tr>`).join('');
     html += `<div class="tabla"><table><thead><tr><th>Máquina</th><th>Operador</th><th>Campo (planilla)</th><th class="n">Prom. ha/día</th><th class="n">Ayer ha</th><th></th></tr></thead><tbody>${filas || '<tr><td colspan="6" class="vacio">Sin máquinas para este filtro.</td></tr>'}</tbody></table></div>`;
@@ -516,6 +522,96 @@ function tablasMovil(raiz) {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Operadores (pedido del usuario 22-oct-2026). Datos: v2.operadores (operadores.py).
+// ---------------------------------------------------------------------------
+const OPS = { q: '' };
+const claseEstado = e => ({ 'trabajó ayer': 'est-trabajo', 'en CYH': 'est-cyh', 'sin señal': 'est-senal' }[e] || 'est-nada');
+// Flecha frente al promedio de todos (±5 % = igual).
+function flecha(propio, todos) {
+  if (propio == null || !todos) return '';
+  const d = (propio - todos) / todos;
+  if (Math.abs(d) <= 0.05) return ` <span class="igual">≈ ${n(todos, 2)}</span>`;
+  return d > 0 ? ` <span class="sube">▲</span> <small>prom. ${n(todos, 2)}</small>` : ` <span class="baja">▼</span> <small>prom. ${n(todos, 2)}</small>`;
+}
+// Equivalencias de operadores por el mismo camino que las de campos (sin cambiar el Worker):
+// planilla = "operador: <otro nombre>", campo = <nombre que queda>.
+const btnOp = (texto, accion, nombre, otro, distinto) => btn(texto, { accion, planilla: (distinto ? 'operador-distinto: ' : 'operador: ') + nombre, campo: otro || '' });
+
+function detalleOperador(o) {
+  const labores = o.labores.map(l => {
+    const t = l.promedio_todos || {};
+    return `<tr><td><b>${esc(l.labor)}</b> ${esc(l.temporada)}${l.aproximado ? '<br><span class="aprox">≈ aproximado</span>' : ''}</td>` +
+      `<td>${esc(l.maquinas.join(', '))}<br><small>${esc(l.campos.map(nombreCampo).join(', ') || '–')}</small></td>` +
+      `<td class="n">${l.dias}</td><td class="n">${l.horas ? n(l.horas) : '–'}</td><td class="n">${n(l.ha, 2)}</td>` +
+      `<td class="n">${l.ha_dia != null ? n(l.ha_dia, 2) : '–'}${flecha(l.ha_dia, t.ha_dia)}</td>` +
+      `<td class="n">${l.ha_hora != null ? n(l.ha_hora, 2) : '–'}${flecha(l.ha_hora, t.ha_hora)}</td></tr>`;
+  }).join('');
+  const dias = o.ultimos.map(d => `<tr><td>${fc(d.fecha)}${d.exacto ? '' : ' <span class="aprox">≈</span>'}</td><td>${esc(d.maquina)}<br><small>${esc(d.labor)}</small></td>` +
+    `<td>${d.cuarteles.length ? d.cuarteles.map(c => `${esc(c.cuartel)}${c.ha ? ' ' + n(c.ha, 2) + ' ha' : ''}`).join('<br>') : esc(d.campos.map(nombreCampo).join(', ') || '–')}</td>` +
+    `<td class="n">${d.horas ? n(d.horas) : '–'}</td><td class="n">${d.ha ? n(d.ha, 2) : '–'}</td></tr>`).join('');
+  return `<div class="dentro">
+    ${o.otros_nombres.length ? `<p class="nota">También anotado como: ${esc(o.otros_nombres.join(', '))}</p>` : ''}
+    ${labores ? `<div class="tabla"><table><thead><tr><th>Labor y temporada</th><th>Máquina y campo</th><th class="n">Días</th><th class="n">Horas</th><th class="n">Ha</th><th class="n">Ha/día</th><th class="n">Ha/hora</th></tr></thead><tbody>${labores}</tbody></table></div>`
+               : '<p class="vacio">Todavía sin trabajo registrado con este operador.</p>'}
+    ${dias ? `<h3 class="grupo">Últimos días</h3><div class="tabla"><table><thead><tr><th>Fecha</th><th>Máquina</th><th>Campo / cuarteles</th><th class="n">Horas</th><th class="n">Ha</th></tr></thead><tbody>${dias}</tbody></table></div>` : ''}
+  </div>`;
+}
+
+function listaOperadores() {
+  const v = V.operadores, q = sinT(OPS.q.trim());
+  const lista = v.lista.filter(o => !q || [o.operador, ...o.otros_nombres, ...o.hoy.flatMap(h => [h.maquina, h.campo, h.nombre_planilla])].some(t => sinT(t).includes(q)));
+  if (!lista.length) return '<p class="vacio">Ningún operador con ese nombre.</p>';
+  return lista.map(o => {
+    const k = 'op:' + o.operador;
+    const hoy = o.hoy.length ? o.hoy.map(h => `${esc(h.maquina)}${h.implemento ? ' + ' + esc(h.implemento) : ''} · ${esc(h.campo || 'Taller')} <span class="est ${claseEstado(h.estado)}">${esc(h.estado)}</span>`).join('<br>')
+                             : '<span class="est est-nada">no está hoy en la planilla</span>';
+    return `<details data-tc="${esc(k)}"${abierto(k)}><summary><span class="tit"><b>${esc(o.operador)}</b><small>${hoy}</small></span></summary>${detalleOperador(o)}</details>`;
+  }).join('');
+}
+function dibujarOperadores() {
+  const caja = document.getElementById('opLista');
+  if (caja) { caja.innerHTML = listaOperadores(); tablasMovil(caja); }
+}
+
+function seccionOperadores() {
+  const v = V.operadores;
+  if (!v) return '';
+  const parecidos = (v.parecidos || []).map(p => `<div class="alerta">¿<b>${esc(p.nombre)}</b> es el mismo operador que <b>${esc(p.parecido_a)}</b>?
+      <div class="acciones">${btnOp(`Sí, es ${p.parecido_a}`, 'equivalencia', p.nombre, p.parecido_a)}${btnOp('No, son distintos', 'equivalencia', p.nombre, p.parecido_a, true)}</div></div>`).join('');
+  const sinOp = (v.sin_operador || []).map(x => `<div class="alerta"><b>Sin operador en la planilla:</b> ${esc(x.maquina)} trabajó ayer fuera de CYH (${esc(x.campo_planilla || '–')}). Ese trabajo queda en la máquina, sin operador.</div>`).join('');
+  return `<section id="operadores"><h2>Operadores</h2>${sinOp}${parecidos}
+    <input class="buscador" id="opBuscar" type="search" placeholder="Buscar operador, máquina o campo" value="${esc(OPS.q)}" oninput="OPS.q = this.value; dibujarOperadores()">
+    <div id="opLista">${listaOperadores()}</div>
+    <p class="nota">Promedios por labor y temporada, comparados con el promedio de todos los operadores en la misma labor y temporada (▲ más de 5 % sobre el promedio, ▼ más de 5 % bajo, ≈ parecido).
+    Exacto desde el ${esc(v.desde_exacto ? fc(v.desde_exacto) : 'primer registro')} (lectura de la planilla); antes, <span class="aprox">≈ aproximado</span>: el operador actual durante la estadía actual de la máquina en el campo.
+    Horas: las del tablero de la flota (últimos 30 días); sin horas, ha/hora queda en –.</p>
+    ${seccionEquivOperadores()}</section>`;
+}
+
+function seccionEquivOperadores() {
+  const v = V.operadores, eq = v.equivalencias || {};
+  const fecha = {};
+  for (const r of REGISTRO) if ((r.accion || '').includes('operador')) fecha[sinT(r.nombre) + '||' + sinT(r.operador || r.otro || '')] = r.fecha;
+  const filas = Object.entries(eq).sort((a, b) => a[0].localeCompare(b[0])).flatMap(([k, otros]) => otros.map(o =>
+    `<tr><td>${esc(o)}</td><td>${esc(k)}</td><td>${esc(fecha[sinT(o) + '||' + sinT(k)] || '–')}</td><td><div class="acciones">${btnOp('Quitar', 'borrar_equivalencia', o, k)}</div></td></tr>`)).join('');
+  const nombres = [...new Set(v.lista.flatMap(o => [o.operador, ...o.otros_nombres, ...o.hoy.map(h => h.nombre_planilla)]))].sort();
+  return `<h3 class="grupo" id="equivalencias-operadores">Equivalencias de operadores</h3>
+    <div class="acciones" style="gap:8px;align-items:flex-start">
+      <span class="selector"><input list="listaOperadores" id="eqOpNombre" placeholder="Nombre como aparece (ej. Carlos A)"></span>
+      <span class="selector"><input list="listaOperadores" id="eqOpMismo" placeholder="Es el mismo que (ej. Carlos Ayala)"></span>
+      <button type="button" onclick="guardarEquivOperador(this)">Guardar</button></div>
+    <datalist id="listaOperadores">${nombres.map(x => `<option value="${esc(x)}">`).join('')}</datalist>
+    <div class="tabla" style="margin-top:8px"><table><thead><tr><th>Nombre anotado</th><th>Es el mismo que</th><th>Fecha del cambio</th><th></th></tr></thead>
+    <tbody>${filas || '<tr><td colspan="4" class="vacio">Sin equivalencias todavía.</td></tr>'}</tbody></table></div>`;
+}
+function guardarEquivOperador(boton) {
+  const a = document.getElementById('eqOpNombre').value.trim(), b = document.getElementById('eqOpMismo').value.trim();
+  if (!a || !b) { mensaje(boton, 'Escribe los dos nombres.', true); return; }
+  if (mismoNombre(a, b)) { mensaje(boton, 'Es el mismo nombre: no hace falta una equivalencia.', true); return; }
+  confirmar({ accion: 'equivalencia', planilla: 'operador: ' + a, campo: b }, boton);
+}
+
 // Equivalencias planilla -> Wialon (config.json, editables aqui; registro en confirmaciones.json).
 function filasEquivalencias() {
   // Fecha de cada par: el ultimo cambio en el registro; las de la carga inicial, su fecha.
@@ -577,7 +673,7 @@ function dibujar() {
   const d = D;
   document.getElementById('contenido').innerHTML = seccionResumenV2(d)
     + seccionVehiculos('camionetas', 'Camionetas', d.camionetas, false) + seccionVehiculos('camion', 'Camión', d.camion, true)
-    + seccionOperacion() + seccionAlertasV2(d) + seccionTrabajoCampo() + seccionSemana(d) + seccionEquivalencias()
+    + seccionOperacion() + seccionOperadores() + seccionAlertasV2(d) + seccionTrabajoCampo() + seccionSemana(d) + seccionEquivalencias()
     + `<datalist id="listaCampos">${CAMPOS.campos.map(c => `<option value="${esc(c)}">`).join('')}</datalist>`;
   tablasMovil(document.getElementById('contenido'));
 }
