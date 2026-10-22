@@ -2091,6 +2091,28 @@ def campo_de_cuartel(nombre_cuartel):
     return " ".join(palabras) or nombre_cuartel
 
 
+CAMPOS_FUERA_DE_LISTA = {"maquina", "cliente"}  # geocercas de prueba de Wialon ("Maquina 4 Cliente 1")
+
+
+def nombre_lista_campo(campo):
+    """Nombre limpio para la lista "Buscar campo" de la pagina (pedido del
+    usuario 22-oct-2026); el nombre interno del campo no cambia. None = no va
+    en la lista (nombres basura como "Ag. nnnn")."""
+    nueva = re.match(r"nueva geocerca \(id [\d]+-(\d+)\)", campo, re.I)
+    if nueva:
+        return f"Nueva geocerca …{nueva.group(1)}"
+    n = re.sub(r"\s*\(id\b.*$", "", campo).replace("_", " ")
+    palabras = [w for w in n.split() if not re.search(r"(.)\1{3,}", w, re.I)]
+    while palabras and re.sub(r"[^\w]", "", palabras[-1]).lower() in ("cuartel", "c", "campo", "") or palabras[-1].isdigit():
+        palabras.pop()
+    n = " ".join(palabras).strip(" ,.-")
+    if not n or len(re.sub(r"[^\w]", "", n)) < 3 or n.lower() in CAMPOS_FUERA_DE_LISTA:
+        return None
+    if n == n.lower():
+        n = " ".join(w[:1].upper() + w[1:] for w in n.split())
+    return n
+
+
 def escribir_campos_web(cuarteles):
     """docs/datos/campos.json: campos unidos, cuarteles en uso, lista de campos
     de Wialon y equivalencias planilla -> Wialon (config.json ->
@@ -2102,6 +2124,7 @@ def escribir_campos_web(cuarteles):
     with open(os.path.join(CARPETA_DATOS, "campos.json"), "w", encoding="utf-8") as f:
         json.dump({"campos_unidos": CONFIG.get("campos_unidos", {}), "cuarteles": cuarteles,
                    "campos": sorted(campos.values(), key=lambda x: x.lower()),
+                   "nombres_lista": {c: nombre_lista_campo(c) for c in campos.values() if nombre_lista_campo(c)},
                    "equivalencias": CONFIG.get("equivalencias_campos", {})}, f, ensure_ascii=False, indent=1)
 
 

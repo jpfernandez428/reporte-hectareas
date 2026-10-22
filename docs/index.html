@@ -703,7 +703,9 @@ function trabajosSinGeocercaFiltrados() {
 }
 
 function enviarConfirmacion(cuerpo, boton) {
-  const url = sinGeocerca && sinGeocerca.url_confirmar;
+  const base = sinGeocerca && sinGeocerca.url_confirmar;
+  // El Worker solo recibe en /confirmar.
+  const url = base && (/\/confirmar\/?$/.test(base) ? base : base.replace(/\/+$/, '') + '/confirmar');
   const aviso = boton.closest('td, li, div').querySelector('.sg-aviso') || boton.parentElement;
   if (!url) { alert('Falta configurar la dirección del Worker de Cloudflare (url_confirmaciones en config.json).'); return; }
   boton.disabled = true;

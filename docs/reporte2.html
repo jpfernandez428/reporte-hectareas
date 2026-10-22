@@ -207,7 +207,9 @@ function mensaje(boton, texto, error) {
 }
 
 function confirmar(cuerpo, boton) {
-  const url = V.url_confirmar;
+  const base = V.url_confirmar;
+  // El Worker solo recibe en /confirmar.
+  const url = base && (/\/confirmar\/?$/.test(base) ? base : base.replace(/\/+$/, '') + '/confirmar');
   if (!url) { mensaje(boton, 'Todavía no se puede guardar: falta configurar el Worker de Cloudflare.', true); return; }
   boton.disabled = true;
   mensaje(boton, 'Guardando…', false);
@@ -218,13 +220,17 @@ function confirmar(cuerpo, boton) {
 }
 
 // 3. Lista desplegable con buscador de campos de Wialon (con sus equivalentes).
+// Nombre limpio del campo para mostrar (campos.json -> nombres_lista); el valor
+// que se guarda sigue siendo el nombre interno.
+const nombreCampo = c => (CAMPOS.nombres && CAMPOS.nombres[c]) || c;
 function opcionesCampos(filtro) {
   const q = sinT(filtro || '');
   const eq = CAMPOS.equivalencias || {};
-  return CAMPOS.campos.map(c => {
+  return CAMPOS.campos.filter(c => !CAMPOS.nombres || CAMPOS.nombres[c]).map(c => {
     const otros = Object.keys(eq).filter(k => (eq[k] || []).includes(c));
-    return { valor: c, texto: c + (otros.length ? ` (= ${otros.join(', ')})` : '') };
-  }).filter(o => !q || sinT(o.texto).includes(q));
+    return { valor: c, texto: nombreCampo(c) + (otros.length ? ` (= ${otros.join(', ')})` : ''), interno: c };
+  }).sort((a, b) => a.texto.localeCompare(b.texto, 'es'))
+    .filter(o => !q || sinT(o.texto).includes(q) || sinT(o.interno).includes(q));
 }
 function selectorCampo(clase) {
   const ops = opcionesCampos('').map(o => `<option value="${esc(o.valor)}">${esc(o.texto)}</option>`).join('');
@@ -257,7 +263,7 @@ function accionesOperacion(f) {
     // Si la planilla ya tiene su campo de Wialon, un boton; si no, elegirlo de la lista
     // (y si el nombre es distinto queda guardada la equivalencia).
     if (f.campos_wialon && f.campos_wialon.length) {
-      return `<div class="acciones">${f.campos_wialon.map(c => btn('Confirmar: es ' + c, { accion: 'campo', lat: f.lat, lon: f.lon, campo: c, planilla: f.campo_planilla })).join('')}</div>` +
+      return `<div class="acciones">${f.campos_wialon.map(c => btn('Confirmar: es ' + nombreCampo(c), { accion: 'campo', lat: f.lat, lon: f.lon, campo: c, planilla: f.campo_planilla })).join('')}</div>` +
         `<div class="acciones">${selectorCampo()}<button type="button" onclick='confirmarElegido(this, ${esc(JSON.stringify({ accion: 'campo', lat: f.lat, lon: f.lon, planilla: f.campo_planilla }))})'>Es otro campo</button></div>`;
     }
     return `<div class="acciones">${selectorCampo()}` +
@@ -373,7 +379,7 @@ function descargarEquivalencias(boton) {
 function seccionEquivalencias() {
   const nombres = [...new Set([...Object.keys(CAMPOS.equivalencias || {}), ...V.operacion.map(f => f.campo_planilla).filter(c => c && sinT(c) !== 'taller')])].sort();
   const filas = filasEquivalencias().filter(f => coincide(f.nombre, f.campo)).map(f =>
-    `<tr><td>${esc(f.nombre)}</td><td>${esc(f.campo)}</td><td>${esc(f.fecha)}</td><td><div class="acciones">` +
+    `<tr><td>${esc(f.nombre)}</td><td>${esc(nombreCampo(f.campo))}</td><td>${esc(f.fecha)}</td><td><div class="acciones">` +
     (f.campo.startsWith('(') ? btn('Borrar', { accion: 'borrar_equivalencia', planilla: f.nombre, campo: '' })
                              : btn('Quitar', { accion: 'borrar_equivalencia', planilla: f.nombre, campo: f.campo })) + '</div></td></tr>').join('');
   return `<section id="equivalencias"><h2>Equivalencias de campos (planilla → Wialon)</h2>
@@ -416,7 +422,7 @@ Promise.all([
   fetch('datos/campos.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
   fetch('datos/confirmaciones.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []),
 ]).then(([d, c, reg]) => {
-  D = d; V = d.v2; CAMPOS = { campos: c.campos || [], equivalencias: c.equivalencias || {} }; REGISTRO = reg || [];
+  D = d; V = d.v2; CAMPOS = { campos: c.campos || [], equivalencias: c.equivalencias || {}, nombres: c.nombres_lista || null }; REGISTRO = reg || [];
   document.getElementById('fecha').textContent = `Día reportado: ${d.fecha_texto} · actualizado ${d.generado}`;
   if (!V) { document.getElementById('contenido').innerHTML = '<section><p class="vacio">La versión nueva todavía no tiene datos publicados.</p></section>'; return; }
   dibujar();
