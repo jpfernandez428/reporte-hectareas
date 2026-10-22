@@ -461,6 +461,13 @@
   },
   "maquinas_no_cyh": ["Barredora 5497"],
   "url_confirmaciones": "https://disparador-reporte.dawn-band-fd6c.workers.dev/confirmar",
+  "maquinas_confirmadas": {
+    "Tractor 13 Deutz Fahr 115": {"planilla": "Siracusa", "texto": "en CYH", "aviso": "Taller", "fecha": "2026-10-22 16:59", "id": "20261022165910"}
+  },
+  "lugares_confirmados": [
+    {"id": "20261022165942", "lat": -34.72735, "lon": -71.080512, "campo": "MERCOFRUT", "fecha": "2026-10-22 16:59"},
+    {"id": "20261022170230", "lat": -33.268733, "lon": -70.834546, "campo": "Puerto Lampa", "fecha": "2026-10-22 17:02"}
+  ],
   "equivalencias_campos": {
     "Siracusa": ["Aurora"],
     "Agricola Principio (Cancura)": ["EL PRINCIPIO"],
@@ -468,13 +475,7 @@
     "Santa Ana 2": ["Santa Ana"],
     "Bunster Nancagua (ricardo gonzales)": ["Bunster El Huique", "Bunster Placilla", "Rodrigo Bunster"],
     "Alto Calibre": [],
-    "Agr Santa Berta": []
-  },
-  "maquinas_confirmadas": {
-    "Tractor 13 Deutz Fahr 115": {"planilla": "Siracusa", "texto": "en CYH", "aviso": "Taller", "fecha": "2026-10-22 16:59", "id": "20261022165910"}
-  },
-  "lugares_confirmados": [
-    {"id": "20261022165942", "lat": -34.72735, "lon": -71.080512, "campo": "MERCOFRUT", "fecha": "2026-10-22 16:59"},
-    {"id": "20261022170230", "lat": -33.268733, "lon": -70.834546, "campo": "Puerto Lampa", "fecha": "2026-10-22 17:02"}
-  ]
+    "Agr Santa Berta": [],
+    "Puerto Lampa": ["Puerto Lampa"]
+  }
 }
