@@ -1,7 +1,7 @@
 {
 "distancia_campo_km": 2.0,
 "lugar_m": 600,
-"url_confirmar": null,
+"url_confirmar": "https://disparador-reporte.dawn-band-fd6c.workers.dev",
 "lugares_confirmados": [],
 "trabajos": [
 {

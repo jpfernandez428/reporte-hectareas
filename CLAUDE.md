@@ -700,13 +700,24 @@ Registro:
     Worker se habían borrado ("No cron triggers configured"; 2 invocaciones,
     0 subrequests), no fue el token. El usuario los volvió a poner el
     22-oct-2026 a las 09:56: `0 6,7 * * *`, `30 10,11 * * *` y `0 12,13 * * *`,
-    y **dejó desplegado el Worker antiguo** (sin `/probar` ni `/confirmar`;
-    corrida de la noche a las 03:00 de Chile). La corrida la cubren el Worker a
+    y dejó desplegado el Worker antiguo (reemplazado por el nuevo a las 16:23,
+    ver abajo). La corrida la cubren el Worker a
     las 03:00 o los respaldos de GitHub (desde las 00:37). **Pendiente** (cuando
     el usuario quiera): pegar el `cloudflare/worker.js` nuevo (corrida a las
     00:30, `/probar`, `/confirmar`) y cambiar el Cron `0 6,7 * * *` por
     `30 3,4 * * *`; sin eso los botones de confirmar campo no funcionan.
-  - Worker (código nuevo, aún no desplegado): prueba a mano `GET /probar?hora=00:30|07:30|09:00` (lanza esa
+  - **Worker nuevo desplegado por el usuario el 22-oct-2026 a las 16:23**
+    (`cloudflare/worker.js` de main). Cron Triggers revisados después del
+    Deploy: `30 3,4 * * *`, `30 10,11 * * *` y `0 12,13 * * *` (borró
+    `0 6,7 * * *`). `/probar?hora=07:30` respondió "OK: GitHub acepto lanzar
+    correo.yml (07:30). token cargado"; esa corrida no mandó un segundo
+    correo ("El reporte de hoy ya se envio a las 08:14"). Dirección:
+    `https://disparador-reporte.dawn-band-fd6c.workers.dev`, guardada en
+    `config.json` → `url_confirmaciones` (y en `url_confirmar` de
+    `reporte_diario.json` y `sin_geocerca.json`): botones de confirmar y
+    equivalencias activos. CORS solo desde `https://jpfernandez428.github.io`
+    (verificado).
+  - Worker (desplegado el 22-oct-2026): prueba a mano `GET /probar?hora=00:30|07:30|09:00` (lanza esa
     tarea al tiro y muestra la respuesta de GitHub y si el token está
     cargado; inofensivo por las marcas del día); errores al lanzar quedan en
     los registros de Cloudflare.
@@ -1032,8 +1043,8 @@ Registro:
     `maquina` / `deshacer_maquina` de `confirmar.yml`) y genera "Actualizar
     planilla: <máquina> → <valor>" en la página y el correo hasta que la
     planilla cambie (la confirmación deja de aplicar sola cuando cambia el
-    valor de la planilla). Requiere el Worker nuevo desplegado y
-    `url_confirmaciones`.
+    valor de la planilla). Activo desde el 22-oct-2026 (Worker nuevo y
+    `url_confirmaciones`).
   - **Cambios del 22-oct-2026 (revisión del usuario)**: en "Máquinas en
     operación" siempre "Planilla: X · GPS: …" (`texto_gps`: "detenido sin
     geocerca en <comuna>, desde hace X h", "en movimiento en <campo>", "sin
