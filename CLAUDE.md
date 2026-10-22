@@ -1090,6 +1090,41 @@ Registro:
     como "sin geocerca por ahora"). Probado de verdad desde la página
     publicada el 22-oct-2026 (equivalencia "Prueba Claude" → Aurora, guardar y
     quitar).
+  - **Actualizar desde la planilla (22-oct-2026)**: `planilla.yml` +
+    `planilla_revisar.py` leen la planilla (solo lectura) y, SOLO si cambió
+    (huella sha256 de máquina/operador/campo/destino en `v2.planilla_huella`;
+    la planilla no se guarda), rearman `reporte_diario.json` → `v2` sin Wialon
+    (`reporte_v2.rearmar_pagina(solo_si_cambio=True)`) y hacen commit; si no
+    cambió, no suben nada. `v2.planilla_leida` = hora de la lectura. Lanzan:
+    el Worker cada 30 min de 07:00 a 21:00 de Chile (Cron `*/30 * * * *`,
+    `CRON_PLANILLA`, origen `cron`) y el botón "Actualizar desde la planilla"
+    de la página (POST `/planilla` del Worker, origen `boton`;
+    `/probar?hora=planilla` para probar). Choques: con `cron` se salta la
+    revisión (la corrida se cancela sola) si está corriendo `diario.yml`,
+    `correo.yml` o `confirmar.yml` en main; con `boton` espera hasta 20 min a
+    `diario.yml` y `confirmar.yml`. Grupo propio `revisar-planilla`. No usa
+    Wialon ni toca la rama `dia-chile`. Probado el 22-oct (botón: rearmó y
+    subió; cron: "no cambió", sin commit). Cuando la planilla queda como pedía
+    el aviso "Actualizar planilla", la confirmación se da por cumplida y el
+    aviso desaparece. **Pendiente**: que el usuario pegue el Worker nuevo y
+    agregue el Cron (después del 23-oct 08:00, pedido del usuario).
+  - **Página nueva de reporte2 (en la rama `reporte2-nueva`, SIN publicar
+    hasta que el usuario la revise; main sigue con la anterior)**: "Trabajo
+    por campo" con "Ver por: Campo | Máquina" y buscador (todo cerrado de
+    entrada; por campo encuentra por equivalencias, ej. Siracusa → Aurora;
+    por máquina, los números calzan enteros: "10" abre Barredora 10, SBS 10,
+    Tractor 10 y Shacker de Suelo 10); botón y "Planilla leída a las HH:MM"
+    (la hora sale también de la última corrida bien terminada de
+    `planilla.yml`, API pública de GitHub); "Datos de …" y aviso sin
+    conexión; tablas como tarjetas en pantallas de menos de 600 px; app para
+    el celular (PWA "Flota C&H": `manifest.webmanifest`, `sw.js`, íconos
+    `icono-192/512.png`, `icono-maskable-512.png`, `apple-touch-icon.png`;
+    guarda la página y los últimos datos y se actualiza sola al volver la
+    señal y cada 5 min). Probada publicada el 22-oct a 390 px de ancho (sin
+    mover hacia el lado) y sin conexión.
+  - **Hasta el 23-oct-2026 08:00 no tocar nada del envío diario**
+    (`correo.yml`, `diario.yml`, `reporte_correo.py`, corrida de la noche,
+    Worker) — pedido del usuario.
   - Prueba v2 enviada el 22-oct-2026 a `CORREO_PRUEBA` con la planilla leída
     (13 máquinas en operación, sin alerta grande).
   - **Tarea futura (opción A)**: que al confirmar se actualice solo el Drive:
