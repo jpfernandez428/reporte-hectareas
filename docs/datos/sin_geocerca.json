@@ -1068,7 +1068,7 @@
 "lon": -70.694481,
 "horas": 5.17,
 "mapa": "https://www.google.com/maps?q=-33.814035,-70.694481",
-"ha": 9.93,
+"ha": 9.71,
 "opciones": [
 "Candelaria"
 ],
@@ -1250,7 +1250,7 @@
 "lon": -70.695552,
 "horas": 2.8,
 "mapa": "https://www.google.com/maps?q=-33.815307,-70.695552",
-"ha": 5.38,
+"ha": 5.26,
 "opciones": [
 "Candelaria"
 ],
@@ -1447,7 +1447,7 @@
 "lon": -70.701286,
 "horas": 1.0,
 "mapa": "https://www.google.com/maps?q=-33.821849,-70.701286",
-"ha": 1.92,
+"ha": 1.88,
 "opciones": [
 "Candelaria"
 ],
@@ -1578,6 +1578,25 @@
 "campo": null,
 "estado": "sin campo",
 "comuna": "Lolol"
+},
+{
+"fecha": "2026-10-21",
+"maquina": "Tractor 10 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -35.161633,
+"lon": -71.634245,
+"horas": 3.07,
+"mapa": "https://www.google.com/maps?q=-35.161633,-71.634245",
+"ha": 1.26,
+"comuna": "Sagrada Familia",
+"opciones": [
+"Aurora"
+],
+"distancias_km": {
+"Aurora": 0.7
+},
+"campo": null,
+"estado": "sin campo"
 }
 ]
 }
