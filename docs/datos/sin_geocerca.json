@@ -16,6 +16,13 @@
 "lon": -70.834546,
 "campo": "Puerto Lampa",
 "fecha": "2026-10-22 17:02"
+},
+{
+"id": "20261022170558",
+"lat": -35.16041,
+"lon": -71.633469,
+"campo": "Aurora",
+"fecha": "2026-10-22 17:05"
 }
 ],
 "trabajos": [
@@ -1148,7 +1155,7 @@
 "Aurora": 0.8
 },
 "campo": "Aurora",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "Sagrada Familia"
 },
 {
@@ -1186,7 +1193,7 @@
 "Aurora": 0.9
 },
 "campo": "Aurora",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "Sagrada Familia"
 },
 {
@@ -1277,7 +1284,7 @@
 "Aurora": 0.8
 },
 "campo": "Aurora",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "Sagrada Familia"
 },
 {
@@ -1364,7 +1371,7 @@
 "Aurora": 0.8
 },
 "campo": "Aurora",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "Sagrada Familia"
 },
 {
@@ -1459,7 +1466,7 @@
 "Aurora": 0.6
 },
 "campo": "Aurora",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "Sagrada Familia"
 },
 {
@@ -1512,7 +1519,7 @@
 "Aurora": 0.6
 },
 "campo": "Aurora",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "Sagrada Familia"
 },
 {
@@ -1580,8 +1587,8 @@
 "distancias_km": {
 "Aurora": 0.7
 },
-"campo": null,
-"estado": "sin campo"
+"campo": "Aurora",
+"estado": "confirmado"
 }
 ]
 }

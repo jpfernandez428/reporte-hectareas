@@ -466,7 +466,8 @@
   },
   "lugares_confirmados": [
     {"id": "20261022165942", "lat": -34.72735, "lon": -71.080512, "campo": "MERCOFRUT", "fecha": "2026-10-22 16:59"},
-    {"id": "20261022170230", "lat": -33.268733, "lon": -70.834546, "campo": "Puerto Lampa", "fecha": "2026-10-22 17:02"}
+    {"id": "20261022170230", "lat": -33.268733, "lon": -70.834546, "campo": "Puerto Lampa", "fecha": "2026-10-22 17:02"},
+    {"id": "20261022170558", "lat": -35.16041, "lon": -71.633469, "campo": "Aurora", "fecha": "2026-10-22 17:05"}
   ],
   "equivalencias_campos": {
     "Siracusa": ["Aurora"],

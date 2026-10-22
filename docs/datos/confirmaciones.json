@@ -71,5 +71,13 @@
   "resultado": [
    "Puerto Lampa"
   ]
+ },
+ {
+  "fecha": "2026-10-22 17:05",
+  "accion": "campo",
+  "id": "20261022170558",
+  "lat": -35.16041,
+  "lon": -71.633469,
+  "campo": "Aurora"
  }
 ]
