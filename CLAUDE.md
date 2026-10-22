@@ -1123,6 +1123,39 @@ Registro:
     guarda la página y los últimos datos y se actualiza sola al volver la
     señal y cada 5 min). Probada publicada el 22-oct a 390 px de ancho (sin
     mover hacia el lado) y sin conexión.
+  - **Pestaña "Operadores" (22-oct-2026, EN PRUEBA hasta que el usuario la
+    apruebe; publicada en reporte2.html)**: `operadores.py`. Historial en
+    `docs/datos/operadores.json` (nombres autorizados en el repositorio por el
+    usuario el 22-10-2026): en cada lectura de la planilla se guarda el
+    operador de cada máquina ese día (exacto desde el 22-oct-2026). Antes:
+    "≈ aproximado" = el operador actual durante la estadía actual de la
+    máquina en el campo (hacia atrás hasta que terminó un día en CYH o trabajó
+    en otro campo; solo los 30 días del tablero). Por operador: hoy (máquina +
+    implemento, campo, estado trabajó ayer / no trabajó ayer / en CYH / sin
+    señal) y promedios por labor y temporada (días, horas, ha, ha/día, ha/hora)
+    frente al promedio de todos en esa labor y temporada (▲▼ con ±5 %), más
+    sus últimos 15 días. Horas del tablero (30 días); ha del historial
+    (hoy en main con día UTC: hay días con ha y 0 h). Equivalencias de
+    operadores: `config.json` → `equivalencias_operadores` ({nombre: [otros
+    nombres]}); "no es el mismo": `operadores_distintos`. Van por el mismo
+    camino que las de campos, sin cambiar el Worker: acción `equivalencia` /
+    `borrar_equivalencia` con PLANILLA "operador: <otro nombre>" (o
+    "operador-distinto: …") y CAMPO = nombre que queda. Aviso de nombres
+    parecidos (mismo primer nombre e inicial del apellido, o difflib ≥ 0,78).
+    "Sin operador en la planilla": máquina fuera de CYH que trabajó ayer sin
+    operador anotado (en Máquinas en operación y en Operadores); ese trabajo
+    queda en la máquina. Probado el 22-oct desde la página publicada
+    (guardar y quitar "Prueba Op" = Pirincho).
+  - **Recálculo de la rama `dia-chile` TERMINADO el 22-oct-2026** (último
+    tramo 16 al 21-oct, sin fallas). Comparación con main hasta el 21-oct
+    mostrada al usuario (script en el scratchpad, `comparar3.py`): casos de
+    calibración iguales o a menos de 1 punto, salvo GS 7 (ahora recolección
+    con tractor, 43,5 % en vez de 78 %); total 8.371 → 8.701 ha (+330, casi
+    todo por geocercas que main no tenía calculadas); recolección con tractor
+    371,8 ha (abril 259 ha; con las reglas de la recolección da menos que
+    como picado, ej. Pomaire 7 3,31 → 1,03 ha); raleo 18,4 ha en 10
+    cuarteles; 52 repasos (97,7 ha); 0 "Revisar labor". **Falta el OK del
+    usuario para pasar a main.**
   - **Hasta el 23-oct-2026 08:00 no tocar nada del envío diario**
     (`correo.yml`, `diario.yml`, `reporte_correo.py`, corrida de la noche,
     Worker) — pedido del usuario.
