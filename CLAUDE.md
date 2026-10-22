@@ -1108,8 +1108,9 @@ Registro:
     el aviso "Actualizar planilla", la confirmación se da por cumplida y el
     aviso desaparece. **Pendiente**: que el usuario pegue el Worker nuevo y
     agregue el Cron (después del 23-oct 08:00, pedido del usuario).
-  - **Página nueva de reporte2 (en la rama `reporte2-nueva`, SIN publicar
-    hasta que el usuario la revise; main sigue con la anterior)**: "Trabajo
+  - **Página nueva de reporte2 (publicada en main el 22-oct-2026 a pedido del
+    usuario: reporte2.html sigue siendo de prueba y el correo diario enlaza a
+    reporte.html; copia en la rama `reporte2-nueva`)**: "Trabajo
     por campo" con "Ver por: Campo | Máquina" y buscador (todo cerrado de
     entrada; por campo encuentra por equivalencias, ej. Siracusa → Aurora;
     por máquina, los números calzan enteros: "10" abre Barredora 10, SBS 10,

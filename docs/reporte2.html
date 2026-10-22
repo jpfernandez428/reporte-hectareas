@@ -2,17 +2,35 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Reporte diario de flota (nueva versión) - C&amp;H Maquinaria</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flota C&amp;H</title>
+<!-- App para el celular (PWA): se agrega a la pantalla de inicio. -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#2f6f3e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Flota C&amp;H">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icono-192.png">
 <style>
   :root { --verde: #2f6f3e; --verde-f: #eaf3ec; --rojo: #b3261e; --rojo-f: #fdecea; --gris: #5f6b64; --borde: #e3e8e5; }
   * { box-sizing: border-box; }
   body { font-family: -apple-system, Arial, sans-serif; margin: 0; background: #f5f6f7; color: #1a1a1a; font-size: 15px; }
-  header { background: var(--verde); color: white; padding: 16px; }
+  header { background: var(--verde); color: white; padding: 16px; padding-top: calc(16px + env(safe-area-inset-top));
+           padding-left: calc(16px + env(safe-area-inset-left)); padding-right: calc(16px + env(safe-area-inset-right)); }
+  /* Franja verde fija bajo la barra de estado del iPhone (app a pantalla completa). */
+  body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; height: env(safe-area-inset-top); background: var(--verde); z-index: 5; }
+  .cab-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0 6px; }
+  .cab-acciones button { border: 1px solid #fff; background: #fff; color: var(--verde); font-weight: 700; border-radius: 999px;
+                         padding: 6px 12px; font-size: 13px; cursor: pointer; }
+  .cab-acciones button:disabled { opacity: .7; }
+  #msgPlanilla { font-size: 13px; font-weight: 600; }
+  .sin-red { background: #fff4cc; color: #6b5200; border-radius: 6px; padding: 2px 6px; font-weight: 600; }
   header h1 { margin: 0; font-size: 19px; }
   header .sub { font-size: 14px; opacity: .92; margin-top: 4px; }
   header a { color: white; font-size: 13px; }
-  nav { position: sticky; top: 0; z-index: 3; background: white; border-bottom: 1px solid var(--borde);
+  nav { position: sticky; top: env(safe-area-inset-top); z-index: 3; background: white; border-bottom: 1px solid var(--borde);
         display: flex; gap: 6px; overflow-x: auto; padding: 8px 12px; }
   nav a { flex: none; text-decoration: none; color: var(--verde); font-weight: 600; font-size: 13px;
           border: 1px solid #cfe0d1; border-radius: 999px; padding: 5px 11px; background: var(--verde-f); }
@@ -76,12 +94,31 @@
   .mensaje { font-size: 12px; font-weight: 600; margin-top: 3px; }
   .selector { display: inline-flex; flex-direction: column; gap: 2px; min-width: 210px; max-width: 100%; }
   .selector input, .selector select { padding: 4px; font-size: 13px; border: 1px solid #ccc; border-radius: 6px; width: 100%; }
+  .tc-eq { color: var(--gris); font-weight: 400; }
+  /* Celular: cada fila de tabla como tarjeta (sin mover hacia el lado). */
+  @media (max-width: 600px) {
+    .tabla { overflow-x: visible; }
+    table.resp thead { display: none; }
+    table.resp, table.resp tbody, table.resp tfoot, table.resp tr { display: block; width: 100%; }
+    table.resp tr { border: 1px solid var(--borde); border-radius: 8px; margin: 0 0 8px; padding: 6px 10px; background: #fff; }
+    table.resp tfoot tr { background: #eef1ee; }
+    table.resp td { display: block; border: 0; padding: 3px 0; text-align: left; white-space: normal; }
+    table.resp td.n { display: inline-block; min-width: 31%; margin-right: 6px; vertical-align: top; }
+    table.resp td[data-label]:not([data-label=""])::before { content: attr(data-label); display: block; font-size: 11px;
+      font-weight: 600; color: var(--gris); text-transform: uppercase; letter-spacing: .02em; }
+    table.resp td:empty { display: none; }
+    table.resp tr.detalle { background: #fafbfa; }
+    table.resp td.grupo { margin: 0; }
+    .selector { min-width: 0; width: 100%; }
+  }
 </style>
 </head>
 <body>
 <header>
   <h1>Reporte diario de flota – C&amp;H Maquinaria</h1>
   <div class="sub" id="fecha">Cargando…</div>
+  <div class="sub" id="estadoDatos"></div>
+  <div class="cab-acciones"><button type="button" id="btnPlanilla" onclick="actualizarPlanilla(this)">Actualizar desde la planilla</button><span id="msgPlanilla"></span></div>
   <a href="index.html">← Hectáreas y Flota</a>
 </header>
 <nav aria-label="Secciones">
@@ -346,25 +383,137 @@ function seccionAlertasV2(d) {
   return `<section id="alertas"><h2>Alertas</h2><div class="alerta"><b>GPS sin señal:</b> ${senal}</div><div class="alerta"><b>Trabajo sin geocerca ayer:</b> ${sinGeo}</div>${typeof alarmasLabor === 'function' ? alarmasLabor(d) : ''}</section>`;
 }
 
-function seccionTrabajoCampo() {
-  let html = '', grupo = null;
-  V.trabajo_campo.forEach((f, i) => {
-    if (!coincide(f.maquina, f.campo, f.labor)) return;
-    if (f.grupo !== grupo) { grupo = f.grupo; html += `<tr><td colspan="6" class="grupo">${esc(grupo)}</td></tr>`; }
-    const area = (f.ha_sin ? '~' : '') + n(f.ha + f.ha_sin, 1);
-    const ayer = f.ayer_ha + f.ayer_sin;
-    html += `<tr class="fila-trabajo" data-i="${i}"><td><b>${esc(f.maquina)}</b><br><small>${esc(f.labor)}</small></td><td>${esc(f.campo)}</td>` +
-      `<td class="n">${area}</td><td class="n">${f.dias}</td><td class="n">${n(f.promedio, 2)}</td><td class="n">${ayer ? '<b style="color:var(--verde)">' + (f.ayer_sin ? '~' : '') + n(ayer, 2) + '</b>' : '–'}</td></tr>`;
-  });
-  return `<section id="trabajo-campo"><h2>Trabajo de las máquinas por campo · temporada</h2><div class="tabla"><table>
-    <thead><tr><th>Máquina</th><th>Campo</th><th class="n">Ha temporada</th><th class="n">Días</th><th class="n">Ha/día</th><th class="n">Ayer</th></tr></thead>
-    <tbody id="cuerpoTrabajo">${html}</tbody></table></div>
-    <p class="nota">Toca una fila para ver el detalle por día y cuartel. Con ~: incluye trabajo sin geocerca estimado. Temporada: poda y picado desde el 1 de abril; raleo desde el 1 de septiembre; las demás desde el 1 de enero.</p></section>`;
+// Trabajo de las maquinas por campo (temporada), pedido del usuario 22-oct-2026:
+// "Ver por: Campo | Maquina" + buscador; todo cerrado de entrada.
+// TC.abiertos guarda lo desplegado para no perderlo al volver a dibujar.
+const TC = { modo: 'campo', q: '', abiertos: new Set() };
+document.addEventListener('toggle', ev => {
+  const k = ev.target && ev.target.dataset && ev.target.dataset.tc;
+  if (k) { if (ev.target.open) TC.abiertos.add(k); else TC.abiertos.delete(k); }
+}, true);
+const abierto = k => TC.abiertos.has(k) ? ' open' : '';
+const areaTC = (ha, sin) => (sin ? '~' : '') + n(ha + sin, 1) + ' ha';
+const ayerTC = (ha, sin) => (ha + sin) ? `ayer <b style="color:var(--verde)">${sin ? '~' : ''}${n(ha + sin, 2)}</b>` : 'ayer –';
+const diasTxt = k => `${k} día${k === 1 ? '' : 's'}`;
+// Nombres de la planilla que equivalen a un campo de Wialon (ej. Siracusa -> Aurora).
+const equivalentes = campo => Object.keys(CAMPOS.equivalencias || {}).filter(k => (CAMPOS.equivalencias[k] || []).includes(campo));
+// Maquina por texto: los numeros deben calzar enteros ("10" = Tractor 10, no Tractor 1).
+function calzaMaquina(nombre, q) {
+  const nums = (nombre.match(/\d+/g) || []);
+  return sinT(q).split(/\s+/).filter(Boolean).every(t => /^\d+$/.test(t) ? nums.includes(t) : sinT(nombre).includes(t));
 }
 
-function detalleTrabajo(f) {
-  return f.detalle.map(d => `<tr class="detalle"><td>${fc(d.fecha)}</td><td colspan="2">${d.cuarteles.map(c => `${esc(c.cuartel)} ${n(c.ha, 2)} ha`).join('<br>')}${d.sin ? `<br><span class="estim">sin geocerca ~${n(d.sin)} ha</span>` : ''}</td>` +
-    `<td class="n">${d.horas ? n(d.horas) + ' h' : '–'}</td><td colspan="2"></td></tr>`).join('');
+function detalleTC(f) {
+  const filas = f.detalle.map(d => `<tr class="detalle"><td>${fc(d.fecha)}</td><td>${d.cuarteles.map(c => `${esc(c.cuartel)} ${n(c.ha, 2)} ha`).join('<br>')}` +
+    `${d.sin ? `${d.cuarteles.length ? '<br>' : ''}<span class="estim">sin geocerca ~${n(d.sin)} ha</span>` : ''}</td><td class="n">${d.horas ? n(d.horas) + ' h' : '–'}</td></tr>`).join('');
+  return `<table><thead><tr><th>Día</th><th>Cuarteles</th><th class="n">Horas</th></tr></thead><tbody>${filas}</tbody></table>`;
+}
+const filaTC = (k, titulo, sub, f) => `<details data-tc="${esc(k)}"${abierto(k)}><summary><span class="tit">${titulo}<small>${sub}</small></span>` +
+  `<span class="cif">${areaTC(f.ha, f.ha_sin)}<small>${diasTxt(f.dias)} · ${n(f.promedio, 2)} ha/día · ${ayerTC(f.ayer_ha, f.ayer_sin)}</small></span></summary>` +
+  `<div class="dentro">${detalleTC(f)}</div></details>`;
+
+function listaPorCampo() {
+  const q = sinT(TC.q.trim());
+  const campos = new Map();
+  for (const f of V.trabajo_campo) { if (!campos.has(f.campo)) campos.set(f.campo, []); campos.get(f.campo).push(f); }
+  let lista = [...campos.entries()].map(([campo, filas]) => {
+    const fechas = new Set(filas.flatMap(f => f.detalle.map(d => d.fecha)));
+    return { campo, filas, eq: equivalentes(campo), ha: filas.reduce((t, f) => t + f.ha, 0), sin: filas.reduce((t, f) => t + f.ha_sin, 0),
+             dias: fechas.size, maquinas: new Set(filas.map(f => f.maquina)).size };
+  });
+  if (q) lista = lista.filter(c => [c.campo, nombreCampo(c.campo), ...c.eq].some(t => sinT(t).includes(q)));
+  lista.sort((a, b) => (b.ha + b.sin) - (a.ha + a.sin));
+  if (!lista.length) return '<p class="vacio">Ningún campo con ese nombre.</p>';
+  return lista.map(c => {
+    const k = 'c:' + c.campo;
+    const maquinas = c.filas.slice().sort((a, b) => (b.ha + b.ha_sin) - (a.ha + a.ha_sin))
+      .map(f => filaTC(`cm:${c.campo}|${f.maquina}|${f.labor}`, esc(f.maquina), esc(f.labor), f)).join('');
+    return `<details data-tc="${esc(k)}"${abierto(k)}><summary><span class="tit"><b>${esc(nombreCampo(c.campo))}</b>` +
+      `${c.eq.length ? ` <span class="tc-eq">(= ${esc(c.eq.join(', '))})</span>` : ''}<small>${diasTxt(c.dias)} · ${c.maquinas} máquina${c.maquinas === 1 ? '' : 's'}</small></span>` +
+      `<span class="cif">${areaTC(c.ha, c.sin)}</span></summary><div class="dentro">${maquinas}</div></details>`;
+  }).join('');
+}
+
+function listaPorMaquina() {
+  const q = TC.q.trim();
+  const grupos = new Map();  // en el orden fijo de la flota (trabajo_campo ya viene ordenado)
+  for (const f of V.trabajo_campo) {
+    if (q && !calzaMaquina(f.maquina, q)) continue;
+    if (!grupos.has(f.grupo)) grupos.set(f.grupo, new Map());
+    const g = grupos.get(f.grupo);
+    if (!g.has(f.maquina)) g.set(f.maquina, []);
+    g.get(f.maquina).push(f);
+  }
+  if (!grupos.size) return '<p class="vacio">Ninguna máquina con ese nombre.</p>';
+  const suma = (fs, k) => fs.reduce((t, f) => t + f[k], 0);
+  return [...grupos.entries()].map(([grupo, maquinas]) => {
+    const kg = 'g:' + grupo;
+    const todas = [...maquinas.values()].flat();
+    const lista = [...maquinas.entries()].map(([maquina, filas]) => {
+      const km = 'm:' + maquina;
+      const campos = filas.slice().sort((a, b) => (b.ha + b.ha_sin) - (a.ha + a.ha_sin))
+        .map(f => filaTC(`mc:${maquina}|${f.campo}|${f.labor}`, `<b>${esc(nombreCampo(f.campo))}</b>`, esc(f.labor), f)).join('');
+      return `<details data-tc="${esc(km)}"${abierto(km)}><summary><span class="tit">${esc(maquina)}<small>${esc([...new Set(filas.map(f => f.labor))].join(', '))} · ${filas.length} campo${filas.length === 1 ? '' : 's'}</small></span>` +
+        `<span class="cif">${areaTC(suma(filas, 'ha'), suma(filas, 'ha_sin'))}<small>${ayerTC(suma(filas, 'ayer_ha'), suma(filas, 'ayer_sin'))}</small></span></summary>` +
+        `<div class="dentro">${campos}</div></details>`;
+    }).join('');
+    return `<details data-tc="${esc(kg)}"${abierto(kg)}><summary><span class="tit"><b>${esc(grupo)}</b><small>${maquinas.size} máquina${maquinas.size === 1 ? '' : 's'}</small></span>` +
+      `<span class="cif">${areaTC(suma(todas, 'ha'), suma(todas, 'ha_sin'))}</span></summary><div class="dentro">${lista}</div></details>`;
+  }).join('');
+}
+
+// Al buscar se despliega lo encontrado: un solo campo, o los grupos y las maquinas
+// (todas si se busco un numero, ej. "10"; si no, hasta 3).
+function abrirBusqueda() {
+  TC.abiertos = new Set();
+  const q = TC.q.trim();
+  if (!q) return;
+  if (TC.modo === 'campo') {
+    const qs = sinT(q);
+    const campos = [...new Set(V.trabajo_campo.map(f => f.campo))].filter(c => [c, nombreCampo(c), ...equivalentes(c)].some(t => sinT(t).includes(qs)));
+    if (campos.length === 1) TC.abiertos.add('c:' + campos[0]);
+  } else {
+    const filas = V.trabajo_campo.filter(f => calzaMaquina(f.maquina, q));
+    filas.forEach(f => TC.abiertos.add('g:' + f.grupo));
+    const maquinas = [...new Set(filas.map(f => f.maquina))];
+    if (maquinas.length <= 3 || /\d/.test(q)) maquinas.forEach(m => TC.abiertos.add('m:' + m));
+  }
+}
+
+function listaTC() { return TC.modo === 'campo' ? listaPorCampo() : listaPorMaquina(); }
+function dibujarTC() {
+  const caja = document.getElementById('tcLista');
+  if (caja) { caja.innerHTML = listaTC(); tablasMovil(caja); }
+}
+function cambiarModoTC(modo) {
+  TC.modo = modo; TC.q = ''; TC.abiertos = new Set();
+  const sec = document.getElementById('trabajo-campo');
+  sec.outerHTML = seccionTrabajoCampo();
+  tablasMovil(document.getElementById('trabajo-campo'));
+}
+
+function seccionTrabajoCampo() {
+  const b = (k, t) => `<button type="button" class="${TC.modo === k ? 'activo' : ''}" onclick="cambiarModoTC('${k}')">${t}</button>`;
+  const ph = TC.modo === 'campo' ? 'Buscar campo (ej. Aurora, Siracusa)' : 'Buscar máquina (ej. 10, SBS 10, Tractor 4)';
+  return `<section id="trabajo-campo"><h2>Trabajo de las máquinas por campo · temporada</h2>
+    <div class="filtros-op"><span style="align-self:center;font-size:13px;color:var(--gris)">Ver por:</span>${b('campo', 'Campo')}${b('maquina', 'Máquina')}</div>
+    <input class="buscador" id="tcBuscar" type="search" placeholder="${ph}" value="${esc(TC.q)}" oninput="TC.q = this.value; abrirBusqueda(); dibujarTC()">
+    <div id="tcLista">${listaTC()}</div>
+    <p class="nota">${TC.modo === 'campo' ? 'Toca un campo para ver sus máquinas y una máquina para su detalle por día y cuartel.' : 'Toca un tipo para ver sus máquinas, una máquina para sus campos y un campo para el detalle por día y cuartel.'}
+    Con ~: incluye trabajo sin geocerca estimado. Temporada: poda y picado desde el 1 de abril; raleo desde el 1 de septiembre; las demás desde el 1 de enero.</p></section>`;
+}
+
+// Celular: cada celda lleva el titulo de su columna (las tablas se ven como tarjetas).
+function tablasMovil(raiz) {
+  if (!raiz) return;
+  raiz.querySelectorAll('table').forEach(t => {
+    t.classList.add('resp');
+    const ths = [...t.querySelectorAll('thead th')].map(th => th.textContent.trim());
+    t.querySelectorAll('tbody tr, tfoot tr').forEach(tr => {
+      let i = 0;
+      [...tr.cells].forEach(td => { if (!td.hasAttribute('data-label')) td.setAttribute('data-label', td.colSpan > 1 ? '' : (ths[i] || '')); i += td.colSpan; });
+    });
+  });
 }
 
 // Equivalencias planilla -> Wialon (config.json, editables aqui; registro en confirmaciones.json).
@@ -430,27 +579,126 @@ function dibujar() {
     + seccionVehiculos('camionetas', 'Camionetas', d.camionetas, false) + seccionVehiculos('camion', 'Camión', d.camion, true)
     + seccionOperacion() + seccionAlertasV2(d) + seccionTrabajoCampo() + seccionSemana(d) + seccionEquivalencias()
     + `<datalist id="listaCampos">${CAMPOS.campos.map(c => `<option value="${esc(c)}">`).join('')}</datalist>`;
-  document.getElementById('cuerpoTrabajo').onclick = ev => {
-    const tr = ev.target.closest('tr.fila-trabajo');
-    if (!tr) return;
-    const sig = tr.nextElementSibling;
-    if (sig && sig.classList.contains('detalle')) { while (tr.nextElementSibling && tr.nextElementSibling.classList.contains('detalle')) tr.nextElementSibling.remove(); return; }
-    tr.insertAdjacentHTML('afterend', detalleTrabajo(V.trabajo_campo[tr.dataset.i]));
-  };
+  tablasMovil(document.getElementById('contenido'));
 }
 
-Promise.all([
-  fetch('datos/reporte_diario.json', { cache: 'no-store' }).then(r => r.json()),
-  fetch('datos/campos.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
-  fetch('datos/confirmaciones.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []),
-]).then(([d, c, reg]) => {
+// ---------------------------------------------------------------------------
+// Carga de datos. Abre rapido con lo guardado en el telefono (cache de la app,
+// sw.js) y despues trae lo nuevo; sin senal muestra lo guardado con su fecha.
+// Se actualiza sola al volver la conexion y cada 5 min con la app abierta.
+// ---------------------------------------------------------------------------
+const ARCHIVOS = ['datos/reporte_diario.json', 'datos/campos.json', 'datos/confirmaciones.json'];
+const CACHE_DATOS = 'flota-datos-v1';
+const WORKER = 'https://disparador-reporte.dawn-band-fd6c.workers.dev';
+let firma = '', sinRed = false, planillaApi = '';
+const vacio = i => i === 2 ? [] : {};
+
+async function leerGuardado() {
+  try {
+    const c = await caches.open(CACHE_DATOS);
+    const rs = await Promise.all(ARCHIVOS.map(u => c.match(new URL(u, location.href).href)));
+    if (!rs[0]) return null;
+    return await Promise.all(rs.map((r, i) => r ? r.json() : vacio(i)));
+  } catch (e) { return null; }
+}
+async function leerRed() {
+  const rs = await Promise.all(ARCHIVOS.map((u, i) => fetch(u, { cache: 'no-store' }).catch(e => { if (i === 0) throw e; return null; })));
+  if (!rs[0].ok) throw new Error('sin datos');
+  const guardado = rs[0].headers.get('X-Desde-Cache') === '1';  // sw.js sin red
+  // La pagina tambien guarda lo que trae (en la primera visita sw.js aun no esta activo).
+  if (!guardado) {
+    try {
+      const c = await caches.open(CACHE_DATOS);
+      await Promise.all(rs.map((r, i) => r && r.ok ? c.put(new URL(ARCHIVOS[i], location.href).href, r.clone()) : null));
+    } catch (e) { /* sin almacenamiento (navegacion privada): sigue sin guardar */ }
+  }
+  return { datos: await Promise.all(rs.map((r, i) => r && r.ok ? r.json() : vacio(i))), guardado };
+}
+function aplicar([d, c, reg]) {
+  const v = d.v2 || {};
+  const f = [d.generado, v.actualizado, v.planilla_leida, JSON.stringify(c.equivalencias || {}), (reg || []).length].join('|');
+  if (f === firma) return;
+  firma = f;
   D = d; V = d.v2; CAMPOS = { campos: c.campos || [], equivalencias: c.equivalencias || {}, nombres: c.nombres_lista || null }; REGISTRO = reg || [];
-  document.getElementById('fecha').textContent = `Día reportado: ${d.fecha_texto} · actualizado ${d.generado}`;
+  document.getElementById('fecha').textContent = `Día reportado: ${d.fecha_texto}`;
   if (!V) { document.getElementById('contenido').innerHTML = '<section><p class="vacio">La versión nueva todavía no tiene datos publicados.</p></section>'; return; }
+  const y = window.scrollY;
   dibujar();
-  document.getElementById('buscador').addEventListener('input', dibujar);
-  if (location.hash) { const el = document.querySelector(location.hash); if (el) el.scrollIntoView(); }
-}).catch(() => { document.getElementById('contenido').innerHTML = '<section><p class="vacio">Todavía no hay reporte publicado.</p></section>'; });
+  window.scrollTo(0, y);
+}
+// "dd-mm-aaaa HH:MM" (hora de Chile) -> "aaaa-mm-dd HH:MM" para comparar.
+const ordenable = t => { const a = /^(\d\d)-(\d\d)-(\d{4}) (\d\d:\d\d)/.exec(t || ''); return a ? `${a[3]}-${a[2]}-${a[1]} ${a[4]}` : ''; };
+const corta = t => { const a = /^(\d{4})-(\d\d)-(\d\d) (\d\d:\d\d)/.exec(t || ''); return a ? `${a[3]}-${a[2]} ${a[4]}` : ''; };
+function mostrarEstado() {
+  if (!D) return;
+  const datos = ordenable((V && V.actualizado) || D.generado) || ordenable(D.generado);
+  const planilla = [ordenable(V && V.planilla_leida), planillaApi].sort().pop();
+  document.getElementById('estadoDatos').innerHTML = `Datos de ${esc(corta(datos))}` +
+    (planilla ? ` · Planilla leída a las ${esc(planilla.slice(11))}${planilla.slice(0, 10) !== datos.slice(0, 10) ? ' del ' + esc(corta(planilla).slice(0, 5)) : ''}` : '') +
+    (sinRed ? ' · <span class="sin-red">sin conexión: se actualiza sola al volver la señal</span>' : '');
+}
+// Ultima lectura de la planilla aunque no haya cambiado (la revision sin cambios no sube nada):
+// la ultima corrida terminada bien de planilla.yml (API publica de GitHub, solo lectura).
+async function leerPlanillaApi() {
+  try {
+    const r = await fetch('https://api.github.com/repos/jpfernandez428/reporte-hectareas/actions/workflows/planilla.yml/runs?status=success&per_page=1', { cache: 'no-store' });
+    const run = r.ok && (await r.json()).workflow_runs[0];
+    if (!run) return;
+    planillaApi = new Intl.DateTimeFormat('sv-SE', { timeZone: 'America/Santiago', year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date(run.updated_at)).replace(',', '');
+  } catch (e) { /* sin red o limite de la API: queda la hora de los datos */ }
+}
+let cargando = false;
+async function cargar(primera) {
+  if (cargando) return;
+  cargando = true;
+  try {
+    if (primera) { const g = await leerGuardado(); if (g) { sinRed = !navigator.onLine; aplicar(g); mostrarEstado(); } }
+    try {
+      const { datos, guardado } = await leerRed();
+      sinRed = guardado || !navigator.onLine;
+      aplicar(datos);
+    } catch (e) {
+      sinRed = true;
+      if (!D) document.getElementById('contenido').innerHTML = '<section><p class="vacio">Sin conexión y sin datos guardados todavía. Se cargará al volver la señal.</p></section>';
+    }
+    if (!sinRed) await leerPlanillaApi();
+    mostrarEstado();
+    if (primera && location.hash) { const el = document.querySelector(location.hash); if (el) el.scrollIntoView(); }
+  } finally { cargando = false; }
+}
+
+// Boton "Actualizar desde la planilla": el Worker lanza planilla.yml; la pagina
+// revisa cada 30 s (hasta 6 min) si ya se leyo.
+async function actualizarPlanilla(boton) {
+  const msg = document.getElementById('msgPlanilla');
+  const base = ((V && V.url_confirmar) || WORKER).replace(/\/confirmar\/?$/, '').replace(/\/+$/, '');
+  boton.disabled = true;
+  msg.textContent = 'Enviando…';
+  const antes = [ordenable(V && V.planilla_leida), planillaApi].sort().pop() || '';
+  try {
+    const r = await fetch(base + '/planilla', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+    if (!r.ok) throw new Error('Worker ' + r.status);
+  } catch (e) { boton.disabled = false; msg.textContent = 'No se pudo conectar con el Worker de Cloudflare.'; return; }
+  msg.textContent = 'Actualizando, se verá en 2–3 minutos.';
+  for (let i = 0; i < 12; i++) {
+    await new Promise(r => setTimeout(r, 30000));
+    await cargar(false);
+    await leerPlanillaApi(); mostrarEstado();
+    const ahora = [ordenable(V && V.planilla_leida), planillaApi].sort().pop() || '';
+    if (ahora > antes) { msg.textContent = `Listo: planilla leída a las ${ahora.slice(11)}.`; boton.disabled = false; return; }
+  }
+  msg.textContent = 'Todavía no termina; vuelve a mirar en unos minutos.';
+  boton.disabled = false;
+}
+
+document.getElementById('buscador').addEventListener('input', () => { if (V) dibujar(); });
+window.addEventListener('online', () => cargar(false));
+window.addEventListener('offline', () => { sinRed = true; mostrarEstado(); });
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') cargar(false); });
+setInterval(() => { if (document.visibilityState === 'visible') cargar(false); }, 5 * 60 * 1000);
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+cargar(true);
 </script>
 </body>
 </html>
