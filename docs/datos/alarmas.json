@@ -430,5 +430,32 @@
   "tipo": "Repaso",
   "ha": 1.39,
   "temporada": "2026"
+ },
+ {
+  "fecha": "2026-06-16",
+  "maquina": "Tractor 11 Deutz Fahr 115",
+  "cuartel": "Longavi 5",
+  "labor": "Poda",
+  "tipo": "Repaso",
+  "ha": 2.3,
+  "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-06-17",
+  "maquina": "Tractor 1 Deutz-Fahr Agroplus",
+  "cuartel": "Agricola Flor Oriente",
+  "labor": "Picado",
+  "tipo": "Repaso",
+  "ha": 7.33,
+  "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-06-18",
+  "maquina": "Tractor 11 Deutz Fahr 115",
+  "cuartel": "Longavi 4",
+  "labor": "Poda",
+  "tipo": "Repaso",
+  "ha": 4.24,
+  "temporada": "2026-27"
  }
 ]
