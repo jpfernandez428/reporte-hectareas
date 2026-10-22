@@ -712,7 +712,10 @@ Registro:
     `0 6,7 * * *`). `/probar?hora=07:30` respondió "OK: GitHub acepto lanzar
     correo.yml (07:30). token cargado"; esa corrida no mandó un segundo
     correo ("El reporte de hoy ya se envio a las 08:14"). Dirección:
-    `https://disparador-reporte.dawn-band-fd6c.workers.dev`, guardada en
+    `https://disparador-reporte.dawn-band-fd6c.workers.dev/confirmar` (**con
+    `/confirmar`**: el Worker solo recibe POST ahí; sin la ruta responde 404 sin
+    CORS y la página decía "No se pudo conectar"; las páginas agregan
+    `/confirmar` si falta), guardada en
     `config.json` → `url_confirmaciones` (y en `url_confirmar` de
     `reporte_diario.json` y `sin_geocerca.json`): botones de confirmar y
     equivalencias activos. CORS solo desde `https://jpfernandez428.github.io`
@@ -1056,6 +1059,18 @@ Registro:
     lista completa (nombre en planilla, campo en Wialon, fecha del último
     cambio; "carga inicial 22-10-2026" si no tiene registro) y botón
     "Descargar Excel".
+  - **Lista "Buscar campo" con nombres limpios** (22-oct-2026):
+    `campos.json` → `nombres_lista` ({nombre interno: nombre para mostrar},
+    `rh.nombre_lista_campo`): sin "Cuartel", "C", "Campo" ni números al final,
+    sin "(id …" ("Nueva geocerca …690"), minúsculas con mayúscula inicial, y
+    fuera de la lista los nombres basura ("Ag. nnnn", letras repetidas) y las
+    geocercas de prueba "Maquina …" / "Cliente …" (`CAMPOS_FUERA_DE_LISTA`).
+    Lo que se guarda sigue siendo el nombre interno (reglas y equivalencias
+    no cambian). Con sus equivalentes: "Aurora (= Siracusa)".
+  - Quitar el último campo de una equivalencia borra el nombre (antes quedaba
+    como "sin geocerca por ahora"). Probado de verdad desde la página
+    publicada el 22-oct-2026 (equivalencia "Prueba Claude" → Aurora, guardar y
+    quitar).
   - Prueba v2 enviada el 22-oct-2026 a `CORREO_PRUEBA` con la planilla leída
     (13 máquinas en operación, sin alerta grande).
   - **Tarea futura (opción A)**: que al confirmar se actualice solo el Drive:
