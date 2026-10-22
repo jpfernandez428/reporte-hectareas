@@ -40,6 +40,13 @@ def normalizar(texto):
     return unicodedata.normalize("NFKD", str(texto or "")).encode("ascii", "ignore").decode().lower().strip()
 
 
+def mismo_nombre(a, b):
+    """Mismo nombre sin importar mayusculas, tildes, espacios ni signos
+    ("Puerto Lampa" = "puerto  lampa" = "Puerto-Lampa")."""
+    clave = lambda t: re.sub(r"[^a-z0-9]", "", normalizar(t))
+    return clave(a) == clave(b)
+
+
 def tipo_y_numeros(nombre):
     n = normalizar(nombre)
     tipo = next((t for patron, t in TIPOS if re.search(patron, n)), None)

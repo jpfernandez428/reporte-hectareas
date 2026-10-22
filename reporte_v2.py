@@ -88,6 +88,7 @@ class Contexto:
         self.planilla = planilla if planilla is not None else pl.cargar(
             list(self.unidades), rh.CONFIG.get("equivalencias_campos", {}))
         self.confirmadas = rh.CONFIG.get("maquinas_confirmadas", {})
+        self.comunas = {}  # maquina -> comuna ya conocida (al rearmar sin Wialon)
         self.por_maquina = {m["nombre"]: m for m in self.flota.get("maquinas", [])}
 
     def campos_wialon(self, nombre_planilla):
@@ -95,7 +96,7 @@ class Contexto:
         n = pl.normalizar(nombre_planilla)
         if n in self.planilla.get("equivalencias", {}):
             return self.planilla["equivalencias"][n]
-        return [c for c in self.campos if pl.normalizar(c) == n]
+        return [c for c in self.campos if pl.mismo_nombre(c, nombre_planilla)]
 
     def gps(self, maquina):
         """Lugar actual (CYH / campo / "sin geocerca"), dias sin senal y campos recientes."""
@@ -132,7 +133,7 @@ def texto_gps(ctx, maquina, usuario=None):
         return f"sin señal desde el {m.get('ultima_conexion')}"
     q = re.search(r"q=([-\d.]+),([-\d.]+)", m.get("mapa") or "")
     if g["lugar"] == "fuera de geocercas":
-        comuna = None
+        comuna = ctx.comunas.get(maquina)
         if q and usuario:
             comuna = rc.localidad(rc.direccion(usuario, float(q.group(2)), float(q.group(1))))
         lugar = f"sin geocerca en {comuna}" if comuna else "sin geocerca"
@@ -216,6 +217,13 @@ def trabajo_por_campo(ctx):
 # Maquinas en operacion: planilla vs GPS
 # ---------------------------------------------------------------------------
 
+def ultimo_sin_geo(ctx, maquina):
+    """Ultimo trabajo sin geocerca de la maquina en los 7 dias hasta ayer (o None)."""
+    desde = (ctx.ayer - timedelta(days=7)).isoformat()
+    ts = [t for t in ctx.sin_geo if t["maquina"] == maquina and t["fecha"] >= desde]
+    return max(ts, key=lambda t: t["fecha"]) if ts else None
+
+
 def operacion(ctx, trabajo, usuario=None):
     plan = ctx.planilla
     filas, no_en_planilla, apagadas, alerta_grande, avisos = [], [], [], [], []
@@ -232,6 +240,9 @@ def operacion(ctx, trabajo, usuario=None):
         q = re.search(r"q=([-\d.]+),([-\d.]+)", g["mapa"] or "")
         if q:
             base["lat_gps"], base["lon_gps"] = float(q.group(1)), float(q.group(2))
+        # Lugar de trabajo sin geocerca: el ultimo de los 7 dias o, si no hay, la posicion GPS.
+        t = ultimo_sin_geo(ctx, nombre)
+        base["lat"], base["lon"] = (t["lat"], t["lon"]) if t else (base["lat_gps"], base["lon_gps"])
         sin_senal = g["dias_sin_senal"]
         # GPS apagado hace mas de 30 dias fuera de CYH (en CYH el GPS se apaga al guardarla).
         if sin_senal is not None and sin_senal > DIAS_GPS_APAGADO and g["lugar"] != "CYH":
@@ -262,7 +273,13 @@ def operacion(ctx, trabajo, usuario=None):
         elif en_planilla_campo and (g["lugar"] in wc or g["recientes"] & set(wc)):
             fila.update(estado="ok", texto="GPS calza")
         elif en_planilla_campo and (g["lugar"] == "fuera de geocercas" or (g["sin_geocerca"] and g["lugar"] != "CYH")):
-            fila.update(estado="sin_geocerca", texto=f"sin geocerca · Posiblemente {p['campo'].strip()}")
+            regla = sg.regla_confirmada((base["lon"], base["lat"])) if base["lat"] is not None else None
+            if regla:
+                # Lugar confirmado en la pagina (lugares_confirmados).
+                fila.update(estado="ok", texto=f"confirmado: {rh.nombre_lista_campo(regla['campo']) or regla['campo']} (sin geocerca)" if regla["campo"]
+                            else "confirmado: no es de ningún campo")
+            else:
+                fila.update(estado="sin_geocerca", texto=f"sin geocerca · Posiblemente {p['campo'].strip()}")
         elif en_planilla_campo:
             fila.update(estado="confirmar", texto=f"Confirmar · GPS en {g['lugar']}")
         else:
@@ -510,13 +527,8 @@ def armar_html_v2(datos, ctx, trabajo, oper):
 def datos_pagina_v2(datos, ctx, trabajo, oper):
     fa = ctx.fa
     plan = ctx.planilla["maquinas"]
-    # Ultimo trabajo sin geocerca de cada maquina (para "Confirmar: es <campo>").
-    ultimo_sg = {}
-    for t in ctx.sin_geo:
-        if t["maquina"] not in ultimo_sg or t["fecha"] > ultimo_sg[t["maquina"]]["fecha"]:
-            ultimo_sg[t["maquina"]] = t
     maquinas_ayer = []
-    for m in datos["maquinas"]:
+    for m in (datos or {}).get("maquinas", []):
         d = m["dias"][fa]
         if not d["se_movio"]:
             continue
@@ -530,13 +542,9 @@ def datos_pagina_v2(datos, ctx, trabajo, oper):
             "no_cyh": m["nombre"] in NO_CYH})
     filas = []
     for f in oper["filas"]:
-        t = ultimo_sg.get(f["maquina"])
-        lat, lon = (t["lat"], t["lon"]) if t and t["fecha"] >= (ctx.ayer - timedelta(days=7)).isoformat() \
-            else (f.get("lat_gps"), f.get("lon_gps"))
         filas.append({k: f.get(k) for k in ("maquina", "labor", "grupo", "operador", "campo_planilla", "estado", "texto",
                                               "promedio", "ayer_ha", "ayer_trabajo", "gps", "dias_sin_senal", "mapa",
-                                              "campos_wialon", "gps_texto")}
-                     | {"lat": lat, "lon": lon})
+                                              "campos_wialon", "gps_texto", "lat", "lon")})
     return {
         "pagina": PAGINA,
         "url_confirmar": rh.CONFIG.get("url_confirmaciones"),
@@ -571,3 +579,34 @@ def preparar(sid, usuario, ayer, publicar, planilla=None):
     if publicar:
         rc.guardar_en_repo([rc.RUTA_DATOS_PAGINA], f"Reporte diario {ayer} (v2)")
     return html, ruta_pdf, oper
+
+
+def rearmar_pagina():
+    """Vuelve a armar docs/datos/reporte_diario.json -> v2 con lo ya publicado
+    (flota.json, historial, sin_geocerca.json, config.json y la planilla del
+    Drive), SIN bajar GPS de Wialon. Lo usa confirmar.py despues de cada
+    confirmacion (pedido del usuario 22-oct-2026). Las comunas se toman de lo
+    ya publicado y "Maquinas que trabajaron ayer" no cambia. Si la planilla no
+    se puede leer, no toca nada."""
+    if not os.path.exists(rc.RUTA_DATOS_PAGINA):
+        return
+    with open(rc.RUTA_DATOS_PAGINA, "r", encoding="utf-8") as f:
+        pagina = json.load(f)
+    previo = pagina.get("v2") or {}
+    ctx = Contexto(date.fromisoformat(pagina["fecha"]))
+    if not ctx.planilla.get("ok"):
+        print(f"No se rearma reporte2: {ctx.planilla.get('aviso')}")
+        return
+    for x in previo.get("operacion", []) + previo.get("no_en_planilla", []) + previo.get("gps_apagado", []):
+        c = re.search(r"sin geocerca en (.+?)(?:,|$)", x.get("gps_texto") or "")
+        if c:
+            ctx.comunas[x["maquina"]] = c.group(1)
+    trabajo = trabajo_por_campo(ctx)
+    oper = operacion(ctx, trabajo)
+    nuevo = datos_pagina_v2(None, ctx, trabajo, oper)
+    nuevo["maquinas_ayer"] = previo.get("maquinas_ayer", [])
+    nuevo["actualizado"] = datetime.now(ZONA).strftime("%d-%m-%Y %H:%M")
+    pagina["v2"] = nuevo
+    with open(rc.RUTA_DATOS_PAGINA, "w", encoding="utf-8") as f:
+        json.dump(pagina, f, ensure_ascii=False)
+    print(f"reporte2 rearmado: {len(oper['filas'])} maquinas en operacion.")

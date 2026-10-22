@@ -24,6 +24,7 @@ import re
 import sys
 from datetime import datetime
 
+import planilla as pl
 import reporte_hectareas as rh
 import sin_geocerca as sg
 
@@ -119,7 +120,7 @@ def main():
         registro.append({"fecha": ahora, "accion": "no es de ningun campo" if campo is None else "campo",
                          "id": regla["id"], "lat": regla["lat"], "lon": regla["lon"], "campo": campo})
         nombre_planilla = os.environ.get("PLANILLA", "").strip()
-        if campo and nombre_planilla and sg.pl_normalizar(nombre_planilla) != sg.pl_normalizar(campo):
+        if campo and nombre_planilla and not pl.mismo_nombre(nombre_planilla, campo):
             cambiar_equivalencia(nombre_planilla, campo, True)
             registro.append({"fecha": ahora, "accion": "equivalencia (al confirmar)", "nombre": nombre_planilla,
                              "campo": campo})
@@ -130,6 +131,10 @@ def main():
         campo = os.environ.get("CAMPO", "").strip()
         if not (0 < len(nombre) <= 80) or len(campo) > 80:
             sys.exit("Nombre o campo invalido.")
+        if accion == "equivalencia" and pl.mismo_nombre(nombre, campo):
+            # "Puerto Lampa = Puerto Lampa" no es una equivalencia (regla del usuario 22-oct-2026).
+            print(f"No se guarda: {nombre!r} y {campo!r} son el mismo nombre.")
+            return
         equivalencias = cambiar_equivalencia(nombre, campo, accion == "equivalencia")
         registro.append({"fecha": ahora, "accion": "equivalencia" if accion == "equivalencia" else "borrar equivalencia",
                          "nombre": nombre, "campo": campo or "(todo el nombre)",
@@ -197,3 +202,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # Vuelve a armar los datos de reporte2.html (sin bajar GPS de Wialon) para
+    # que la confirmacion se vea en 2-3 minutos.
+    import reporte_v2
+    reporte_v2.rearmar_pagina()

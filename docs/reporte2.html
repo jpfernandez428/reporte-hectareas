@@ -215,8 +215,28 @@ function confirmar(cuerpo, boton) {
   mensaje(boton, 'Guardando…', false);
   fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
     .then(r => r.json().then(j => ({ ok: r.ok, j })))
-    .then(({ ok, j }) => { mensaje(boton, ok ? 'Guardado: se verá al recargar en 2–3 minutos.' : 'No se pudo guardar (' + (j.error || 'error') + ').', !ok); if (!ok) boton.disabled = false; })
+    .then(({ ok, j }) => {
+      mensaje(boton, ok ? 'Confirmado, se verá en unos minutos.' : 'No se pudo guardar (' + (j.error || 'error') + ').', !ok);
+      if (!ok) { boton.disabled = false; return; }
+      // Para no apretar dos veces: se bloquean los botones de esa fila y se recuerda 15 min.
+      (boton.closest('td') || boton.parentElement).querySelectorAll('button').forEach(b => b.disabled = true);
+      const fila = boton.closest('[data-maquina]');
+      if (fila) { try { localStorage.setItem('conf:' + fila.dataset.maquina, String(Date.now())); } catch (e) {} }
+    })
     .catch(() => { boton.disabled = false; mensaje(boton, 'No se pudo conectar con el Worker de Cloudflare.', true); });
+}
+
+// Mismo nombre sin importar mayusculas, tildes, espacios ni signos.
+const mismoNombre = (a, b) => sinT(a).replace(/[^a-z0-9]/g, '') === sinT(b).replace(/[^a-z0-9]/g, '');
+// Confirmado hace menos de 15 min (en este navegador): la fila espera los datos nuevos.
+// Deja de esperar cuando los datos publicados son posteriores a la confirmacion (V.actualizado).
+function recienConfirmada(maquina) {
+  let t = 0;
+  try { t = Number(localStorage.getItem('conf:' + maquina)) || 0; } catch (e) { return false; }
+  if (!t || Date.now() - t > 15 * 60 * 1000) return false;
+  const a = /^(\d\d)-(\d\d)-(\d{4}) (\d\d):(\d\d)$/.exec((V && V.actualizado) || '');
+  const datos = a ? new Date(`${a[3]}-${a[2]}-${a[1]}T${a[4]}:${a[5]}:59-03:00`).getTime() : 0;
+  return datos < t;
 }
 
 // 3. Lista desplegable con buscador de campos de Wialon (con sus equivalentes).
@@ -251,10 +271,11 @@ function confirmarElegido(boton, cuerpo) {
 const btn = (texto, cuerpo) => `<button type="button" onclick='confirmar(JSON.parse(this.dataset.c), this)' data-c="${esc(JSON.stringify(cuerpo))}">${esc(texto)}</button>`;
 
 function accionesOperacion(f) {
+  if (recienConfirmada(f.maquina)) return '<div class="mensaje" style="color:var(--verde)">Confirmado, se verá en unos minutos.</div>';
   const enTaller = !f.campo_planilla || sinT(f.campo_planilla) === 'taller';
   if (f.estado === 'confirmar') {
     const base = { accion: 'maquina', maquina: f.maquina, planilla: f.campo_planilla };
-    const mismo = (!enTaller && f.gps && f.gps !== 'CYH' && f.gps !== 'fuera de geocercas')
+    const mismo = (!enTaller && f.gps && f.gps !== 'CYH' && f.gps !== 'fuera de geocercas' && !mismoNombre(f.campo_planilla, f.gps))
       ? btn(`Es el mismo campo (${f.campo_planilla} = ${f.gps})`, { accion: 'equivalencia', planilla: f.campo_planilla, campo: f.gps }) : '';
     return `<div class="acciones">${btn(enTaller ? 'Está en CYH (GPS con falla)' : 'Está en CYH', { ...base, valor: 'cyh' })}` +
       `${btn(enTaller ? 'Está en el campo' : 'Está en el campo (GPS con falla)', { ...base, valor: enTaller ? 'campo: ' + (f.gps || '') : 'campo' })}${mismo}</div>`;
@@ -301,7 +322,7 @@ function seccionOperacion() {
   let html = '';
   if (filtroOp !== 'apagado') {
     const filas = v.operacion.filter(f => pasa(f) && coincide(f.maquina, f.campo_planilla, f.operador, f.gps)).map(f =>
-      `<tr><td>${esc(f.maquina)}<br><small>${esc(f.labor)}</small></td><td>${esc(f.operador || '–')}</td>` +
+      `<tr data-maquina="${esc(f.maquina)}"><td>${esc(f.maquina)}<br><small>${esc(f.labor)}</small></td><td>${esc(f.operador || '–')}</td>` +
       `<td>Planilla: <b>${esc(f.campo_planilla || 'Taller')}</b><br>${marcaHtml(f.estado, f.texto)}` +
       `<div class="gps">GPS: ${esc(f.gps_texto || f.gps || '')} ${mapa(f.mapa)}</div>${accionesOperacion(f)}</td>` +
       `<td class="n">${f.promedio ? n(f.promedio, 2) : '–'}</td><td class="n">${f.ayer_ha ? '<b>' + n(f.ayer_ha, 2) + '</b>' : '–'}</td><td>${mapa(f.mapa)}</td></tr>`).join('');
@@ -399,6 +420,7 @@ function guardarEquivalencia(boton) {
   const campo = sel && sel.value;
   if (!nombre) { mensaje(boton, 'Escribe o elige el nombre de la planilla.', true); return; }
   if (!campo) { mensaje(boton, 'Elige el campo de Wialon en la lista.', true); return; }
+  if (mismoNombre(nombre, campo)) { mensaje(boton, 'Es el mismo nombre: no hace falta una equivalencia.', true); return; }
   confirmar({ accion: 'equivalencia', planilla: nombre, campo }, boton);
 }
 
