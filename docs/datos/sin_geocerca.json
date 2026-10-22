@@ -44,6 +44,13 @@
 "lon": -71.244854,
 "campo": "Alto Calibre",
 "fecha": "2026-10-22 17:24"
+},
+{
+"id": "20261022180426",
+"lat": -33.459375,
+"lon": -71.165423,
+"campo": "Santa Ana",
+"fecha": "2026-10-22 18:04"
 }
 ],
 "trabajos": [
@@ -967,7 +974,7 @@
 "Santa Ana": 0.5
 },
 "campo": "Santa Ana",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "María Pinto"
 },
 {
@@ -1373,7 +1380,7 @@
 "Santa Ana": 0.6
 },
 "campo": "Santa Ana",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "María Pinto"
 },
 {
@@ -1430,7 +1437,7 @@
 "Santa Ana": 0.9
 },
 "campo": "Santa Ana",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "María Pinto"
 },
 {
