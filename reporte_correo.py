@@ -1612,6 +1612,21 @@ def main():
         return envio_diario()
     if modo == "todos":
         return enviar_ahora_a_todos()
+    if modo == "prueba_v2":
+        # Version nueva (planilla del Drive), solo a CORREO_PRUEBA; publica los
+        # datos de la pagina reporte2.html. No cambia el envio diario.
+        import reporte_v2
+        ayer = (date.fromisoformat(os.environ["FECHA_REPORTE"].strip()) if os.environ.get("FECHA_REPORTE", "").strip()
+                else datetime.now(ZONA).date() - timedelta(days=1))
+        sid, usuario = login()
+        html, ruta_pdf, oper = reporte_v2.preparar(sid, usuario, ayer, publicar=True)
+        print(f"Planilla: {'leida' if not oper.get('aviso_planilla') else oper['aviso_planilla']}; "
+              f"{len(oper['filas'])} maquinas en operacion, {len(oper['alerta_grande'])} en alerta grande.")
+        enviar(f"Reporte diario de flota – {ayer:%d-%m-%Y} (PRUEBA versión nueva)", html,
+               f"Reporte diario de flota del {ayer:%d-%m-%Y} (version nueva). Detalle en el PDF adjunto.",
+               destinatarios_de("CORREO_PRUEBA"), ruta_pdf)
+        print("Correo de prueba (version nueva) enviado.")
+        return
     hoy = datetime.now(ZONA).date()
     ayer = (date.fromisoformat(os.environ["FECHA_REPORTE"].strip()) if os.environ.get("FECHA_REPORTE", "").strip()
             else hoy - timedelta(days=1))

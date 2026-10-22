@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       accion:
-        description: 'campo, ninguno o deshacer'
+        description: 'campo, ninguno, deshacer, maquina o deshacer_maquina'
         required: true
       lat:
         description: 'Latitud del lugar'
@@ -24,6 +24,14 @@ on:
         default: ''
       id:
         description: 'Regla a deshacer (accion deshacer)'
+        required: false
+        default: ''
+      maquina:
+        description: 'Maquina (acciones maquina y deshacer_maquina)'
+        required: false
+        default: ''
+      planilla:
+        description: 'Lo que dice la planilla (accion maquina)'
         required: false
         default: ''
 
@@ -61,6 +69,8 @@ jobs:
           LON: ${{ inputs.lon }}
           CAMPO: ${{ inputs.campo }}
           ID: ${{ inputs.id }}
+          MAQUINA: ${{ inputs.maquina }}
+          PLANILLA: ${{ inputs.planilla }}
         run: python3 confirmar.py
 
       - name: Subir

@@ -47,6 +47,25 @@ def guardar_reglas(reglas):
         f.write(texto)
 
 
+def guardar_clave(clave, valor):
+    """Reescribe solo esa clave de config.json (va al final del archivo)."""
+    with open(RUTA_CONFIG, "r", encoding="utf-8") as f:
+        datos = json.load(f)
+    datos.pop(clave, None)
+    with open(RUTA_CONFIG, "r", encoding="utf-8") as f:
+        texto = f.read()
+    patron = r',\s*"' + re.escape(clave) + r'": \{.*?\n  \}(?=\s*[,}])'
+    texto = re.sub(patron, "", texto, count=1, flags=re.S)
+    texto = re.sub(r',\s*"' + re.escape(clave) + r'": \{\}', "", texto, count=1)
+    bloque = f'"{clave}": ' + ("{\n" + ",\n".join(f"    {json.dumps(k, ensure_ascii=False)}: {json.dumps(v, ensure_ascii=False)}"
+                                                for k, v in valor.items()) + "\n  }" if valor else "{}")
+    texto = texto.rstrip().rstrip("}").rstrip() + ",\n  " + bloque + "\n}\n"
+    json.loads(texto)
+    with open(RUTA_CONFIG, "w", encoding="utf-8") as f:
+        f.write(texto)
+    rh.CONFIG[clave] = valor
+
+
 def main():
     accion = os.environ.get("ACCION", "").strip()
     ahora = datetime.now(rh.ZONA_HORARIA).strftime("%Y-%m-%d %H:%M")
@@ -61,11 +80,9 @@ def main():
         if not (-56 < lat < -17 and -76 < lon < -66):
             sys.exit("Coordenadas fuera de Chile.")
         campo = os.environ.get("CAMPO", "").strip() if accion == "campo" else None
-        if accion == "campo":
-            geos, *_ = sg.cargar_entrada()
-            conocidos = {sg.campo_de(n) for n in geos}
-            if campo not in conocidos:
-                sys.exit(f"Campo desconocido: {campo!r}")
+        if accion == "campo" and not (0 < len(campo) <= 80):
+            # Puede ser un campo de Wialon o uno de la planilla aun sin geocerca.
+            sys.exit(f"Campo invalido: {campo!r}")
         # Un lugar tiene una sola regla: la nueva reemplaza a la anterior.
         reglas = [r for r in reglas if sg.distancia_m((lon, lat), (r["lon"], r["lat"])) > sg.LUGAR_M]
         regla = {"id": datetime.now(rh.ZONA_HORARIA).strftime("%Y%m%d%H%M%S"), "lat": round(lat, 6),
@@ -73,6 +90,46 @@ def main():
         reglas.append(regla)
         registro.append({"fecha": ahora, "accion": "no es de ningun campo" if campo is None else "campo",
                          "id": regla["id"], "lat": regla["lat"], "lon": regla["lon"], "campo": campo})
+    elif accion == "maquina":
+        # Planilla vs GPS (opcion B, 22-oct-2026): queda en config.json ->
+        # maquinas_confirmadas y genera el aviso "Actualizar planilla" hasta que
+        # la planilla cambie. VALOR: "cyh" o "campo"; PLANILLA: lo que decia la
+        # planilla; CAMPO: el campo (si esta en el campo).
+        maquina = os.environ.get("MAQUINA", "").strip()
+        if maquina not in {u["nombre"] for u in rh.UNIDADES}:
+            sys.exit(f"Maquina desconocida: {maquina!r}")
+        valor = os.environ.get("CAMPO", "").strip()
+        planilla = os.environ.get("PLANILLA", "").strip()
+        en_taller = planilla.lower() in ("taller", "cyh", "")
+        if valor == "cyh":
+            texto = "en CYH" + (" (GPS con falla)" if en_taller else "")
+            aviso = None if en_taller else "Taller"
+        else:
+            campo = valor.split(":", 1)[1].strip() if ":" in valor else planilla
+            texto = f"en el campo {campo}" + (" (GPS con falla)" if not en_taller else "")
+            aviso = campo if en_taller else None
+        confirmadas = dict(rh.CONFIG.get("maquinas_confirmadas", {}))
+        confirmadas[maquina] = {"planilla": planilla, "texto": texto, "aviso": aviso, "fecha": ahora,
+                                "id": datetime.now(rh.ZONA_HORARIA).strftime("%Y%m%d%H%M%S")}
+        guardar_clave("maquinas_confirmadas", confirmadas)
+        registro.append({"fecha": ahora, "accion": "maquina", "maquina": maquina, "planilla": planilla, "valor": texto,
+                         "id": confirmadas[maquina]["id"]})
+        with open(RUTA_REGISTRO, "w", encoding="utf-8") as f:
+            json.dump(registro, f, ensure_ascii=False, indent=1)
+        print(f"Listo: {registro[-1]}")
+        return
+    elif accion == "deshacer_maquina":
+        maquina = os.environ.get("MAQUINA", "").strip()
+        confirmadas = dict(rh.CONFIG.get("maquinas_confirmadas", {}))
+        borrada = confirmadas.pop(maquina, None)
+        if not borrada:
+            sys.exit(f"No hay confirmacion para {maquina!r}")
+        guardar_clave("maquinas_confirmadas", confirmadas)
+        registro.append({"fecha": ahora, "accion": "deshacer maquina", "maquina": maquina, "valor": borrada["texto"]})
+        with open(RUTA_REGISTRO, "w", encoding="utf-8") as f:
+            json.dump(registro, f, ensure_ascii=False, indent=1)
+        print(f"Listo: {registro[-1]}")
+        return
     elif accion == "deshacer":
         regla_id = os.environ.get("ID", "").strip()
         borrada = next((r for r in reglas if r["id"] == regla_id), None)

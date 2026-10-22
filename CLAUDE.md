@@ -970,6 +970,70 @@ Registro:
     y el registro en `docs/datos/confirmaciones.json` (fecha, hora, lugar,
     campo, acción), y recalcula `sin_geocerca.json`. Dirección del Worker en
     `config.json` → `url_confirmaciones`.
+- **Correo y página v2 con la planilla del Drive (pedido del usuario 22-oct-2026;
+  en PRUEBA: el envío diario a todos sigue con la versión anterior hasta que
+  el usuario apruebe)**:
+  - Archivos (SOLO LECTURA, se leen en cada corrida; si no se pueden leer, el
+    correo sale igual con un aviso): planilla "Maquinas en Operacion" (Excel,
+    `planilla.URL_PLANILLA`; columnas Tractor | Maquina | Operador | Campo |
+    Ubicacion | Fecha termino | Destino | PROX X CONFIRMAR; "Taller" = en CYH)
+    y "Equivalencias de campos" (Google Sheet, `planilla.URL_EQUIVALENCIAS`;
+    Nombre en planilla | Campo en Wialon | Nota; "varios campos: A / B / C" =
+    varios; "(sin geocerca por ahora)" = sin campo en Wialon). **Tienen que
+    estar compartidos como "Cualquier persona con el enlace (Lector)"**: el
+    22-oct pedían iniciar sesión (GitHub no los puede leer así). Nunca se
+    escribe en las planillas; en el repositorio solo queda máquina, operador,
+    campo y destino (en `docs/datos/reporte_diario.json` → `v2`).
+  - **Los nombres de operadores SÍ salen en la página y el correo** (autorizado
+    por el usuario el 22-oct-2026).
+  - Cruce de nombres por tipo y número (`planilla.cruzar_maquina`; solo
+    unidades activas, sin las "No incluir"; números de modelo 95/100/108/115/
+    185/420 no cuentan; "Autopropulsada" = Podadora 1).
+  - Correo v2 (`reporte_v2.py`, `modo` `prueba_v2` de `correo.yml`, solo a
+    `CORREO_PRUEBA`): 0) alerta roja grande si una máquina está en un campo
+    según la planilla y su GPS lleva más de 15 días sin señal; 1) resumen de
+    ayer + máquinas que trabajaron (Máquina | Labor | Operador | Dónde | Horas
+    | Ha), camionetas y camión; 2) máquinas en operación fuera de CYH
+    (planilla en un campo + GPS fuera de CYH): Máquina | Operador | Campo
+    (planilla) con marca ✓ GPS calza (está o trabajó en los últimos 3 días en
+    ese campo o su equivalente) / "sin geocerca · Posiblemente X" / "Confirmar
+    · GPS en …" / "sin señal hace X días" | Promedio ha/día | Ayer ha; grupos
+    "Fuera de CYH y no está en la planilla" y "GPS apagado hace más de 30 días"
+    (solo con la última posición fuera de CYH); avisos "Actualizar planilla";
+    3) alertas; 4) trabajo por campo en la temporada (una fila por máquina y
+    campo; en el correo solo los campos con trabajo en los últimos 30 días, la
+    página todos; ~ = incluye trabajo sin geocerca, asignado al campo
+    confirmado o al de la planilla); 5) últimos 7 días. Cada sección con
+    "Más información en la página" (`docs/reporte2.html`). PDF adjunto: el
+    detalle completo de siempre.
+  - **Barredora 5497** (`config.json` → `maquinas_no_cyh`): "No es de CYH (por
+    revisar)"; sus horas y ha no se suman a nuestro trabajo ni a los totales.
+  - Página `docs/reporte2.html` (versión nueva; la actual `reporte.html` sigue
+    igual): buscador por máquina o campo; "Máquinas en operación" con filtros
+    Todas / Trabajaron ayer / No calzan / Sin geocerca / GPS apagado; "Trabajo
+    por campo": al tocar una fila, detalle por día y cuartel (horas y ha).
+  - **Confirmar en la página (opción B, decidido por el usuario 22-oct-2026)**:
+    en las "Confirmar": "Está en CYH" / "Está en el campo (GPS con falla)" (o al
+    revés si la planilla dice Taller); en las "sin geocerca": "Confirmar: es
+    <campo>" (mismo mecanismo de `lugares_confirmados`: aprende el lugar).
+    Lo confirmado queda en `config.json` → `maquinas_confirmadas` (acciones
+    `maquina` / `deshacer_maquina` de `confirmar.yml`) y genera "Actualizar
+    planilla: <máquina> → <valor>" en la página y el correo hasta que la
+    planilla cambie (la confirmación deja de aplicar sola cuando cambia el
+    valor de la planilla). Requiere el Worker nuevo desplegado y
+    `url_confirmaciones`.
+  - **Tarea futura (opción A)**: que al confirmar se actualice solo el Drive:
+    pasar la planilla a Google Sheets, una cuenta de servicio de Google con
+    permiso de editor (credencial como secreto de GitHub) y una columna de
+    registro de cambios.
+  - Tractor 8 Kubota 108, 15-10, 0,26 ha con 0 h (revisado 22-oct): son dos
+    pasadas cortas en Avoamerica 37 y 38 (3 y 0 hileras regulares). Las horas
+    no aparecen porque el historial de main usa el día UTC (21:00 a 21:00 de
+    Chile) y el tablero el día de Chile, y porque visitas de menos de 6 min
+    (0,1 h) no suman horas en geocercas. Las ha con 0 hileras salen del avance
+    de la labor recalculado (unión de todas las máquinas con el patrón del
+    campo) y se le acreditan a la máquina que tocó el cuartel ese día; con el
+    día de Chile (rama `dia-chile`) los días calzan.
 - **Temporadas (antecedente)**: el avance de una labor no debería acumularse de una
   temporada a otra. Hoy el avance de cada geocerca + labor se acumula todo el
   año y nunca baja. Ej. EL PRINCIPIO 12 – Cosecha con recibidor: 92,4 %

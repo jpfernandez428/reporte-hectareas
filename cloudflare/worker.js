@@ -72,6 +72,16 @@ async function confirmar(peticion, env) {
       if (!campo || campo.length > 80) return responder(400, { error: 'campo' });
       inputs.campo = campo;
     }
+  } else if (accion === 'maquina' || accion === 'deshacer_maquina') {
+    const maquina = String(datos.maquina || '').trim();
+    if (!maquina || maquina.length > 80) return responder(400, { error: 'maquina' });
+    inputs.maquina = maquina;
+    if (accion === 'maquina') {
+      const valor = String(datos.valor || '').trim();
+      if (!(valor === 'cyh' || valor.startsWith('campo'))) return responder(400, { error: 'valor' });
+      inputs.campo = valor.slice(0, 90);
+      inputs.planilla = String(datos.planilla || '').slice(0, 80);
+    }
   } else if (accion === 'deshacer') {
     const id = String(datos.id || '');
     if (!/^\d{14}$/.test(id)) return responder(400, { error: 'id' });

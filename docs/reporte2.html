@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reporte diario de flota (nueva versión) - C&amp;H Maquinaria</title>
+<style>
+  :root { --verde: #2f6f3e; --verde-f: #eaf3ec; --rojo: #b3261e; --rojo-f: #fdecea; --gris: #5f6b64; --borde: #e3e8e5; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, Arial, sans-serif; margin: 0; background: #f5f6f7; color: #1a1a1a; font-size: 15px; }
+  header { background: var(--verde); color: white; padding: 16px; }
+  header h1 { margin: 0; font-size: 19px; }
+  header .sub { font-size: 14px; opacity: .92; margin-top: 4px; }
+  header a { color: white; font-size: 13px; }
+  nav { position: sticky; top: 0; z-index: 3; background: white; border-bottom: 1px solid var(--borde);
+        display: flex; gap: 6px; overflow-x: auto; padding: 8px 12px; }
+  nav a { flex: none; text-decoration: none; color: var(--verde); font-weight: 600; font-size: 13px;
+          border: 1px solid #cfe0d1; border-radius: 999px; padding: 5px 11px; background: var(--verde-f); }
+  main { max-width: 820px; margin: 0 auto; padding: 12px; }
+  section { background: white; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.08); margin-bottom: 14px;
+            padding: 12px 14px; scroll-margin-top: 56px; }
+  h2 { font-size: 17px; color: var(--verde); margin: 2px 0 10px; }
+  .tarjetas { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+  .tarjeta { background: var(--verde-f); border-left: 4px solid var(--verde); padding: 8px 10px; }
+  .tarjeta b { display: block; font-size: 20px; color: var(--verde); }
+  .tarjeta span { font-size: 12px; color: var(--gris); }
+  .estim { color: var(--rojo); }
+  .alerta { background: var(--rojo-f); border-left: 4px solid var(--rojo); padding: 8px 10px; margin: 6px 0; font-size: 14px; }
+  .nota { font-size: 12px; color: var(--gris); margin: 8px 0 0; }
+  details { border-top: 1px solid var(--borde); }
+  details:first-of-type { border-top: 0; }
+  summary { cursor: pointer; list-style: none; padding: 10px 2px; display: flex; gap: 10px; align-items: baseline; }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "▸"; color: #888; flex: none; transition: transform .15s; }
+  details[open] > summary::before { transform: rotate(90deg); }
+  summary .tit { flex: 1; min-width: 0; }
+  summary .tit small { display: block; color: var(--gris); font-size: 12px; margin-top: 2px; }
+  summary .cif { flex: none; text-align: right; font-variant-numeric: tabular-nums; font-size: 14px; }
+  summary .cif small { display: block; color: var(--gris); font-size: 12px; }
+  .dentro { padding: 0 0 10px 20px; }
+  .dentro details summary { padding: 8px 2px; font-size: 14px; }
+  .sin-geo > summary { background: var(--rojo-f); }
+  .grupo { font-size: 12px; font-weight: 700; color: var(--verde); text-transform: uppercase; letter-spacing: .03em;
+           margin: 12px 0 2px; }
+  .tabla { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 7px 6px; text-align: left; border-bottom: 1px solid #eee; vertical-align: top; }
+  th { background: #eef1ee; font-size: 12px; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tfoot td { font-weight: 700; background: #eef1ee; }
+  .barra { display: inline-block; height: 8px; background: var(--verde); vertical-align: middle; margin-left: 6px; }
+  ol.visitas { margin: 4px 0 6px; padding-left: 20px; font-size: 14px; }
+  ol.visitas li { margin: 5px 0; }
+  ol.visitas .hora { font-variant-numeric: tabular-nums; color: var(--gris); }
+  a { color: var(--verde); }
+  .vacio { color: var(--gris); padding: 8px 0; }
+  @media (max-width: 520px) { body { font-size: 14px; } main { padding: 8px; } section { padding: 10px; }
+    .ocm { display: none; } th, td { padding: 6px 4px; font-size: 13px; } td.dia { white-space: nowrap; } }
+
+  .marca { display: inline-block; padding: 1px 7px; border-radius: 9px; font-size: 12px; font-weight: 700; }
+  .m-ok { background: #e3f2e6; color: #1f6b34; } .m-sin_geocerca { background: #fff4cc; color: #8a6a00; }
+  .m-confirmar { background: #fdecea; color: #b3261e; } .m-sin_senal { background: #eceeed; color: #5d6660; }
+  .alerta-grande { background: #b3261e; color: #fff; padding: 12px 14px; border-radius: 10px; margin-bottom: 14px; }
+  .alerta-grande b { font-size: 16px; }
+  .filtros-op { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .filtros-op button, .acciones button { border: 1px solid #cfe0d1; background: var(--verde-f); color: var(--verde); font-weight: 600;
+    border-radius: 999px; padding: 5px 11px; font-size: 13px; cursor: pointer; }
+  .filtros-op button.activo { background: var(--verde); color: #fff; }
+  .acciones { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+  .acciones button { border-radius: 6px; font-size: 12px; padding: 4px 8px; }
+  .buscador { width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; margin: 0 0 12px; }
+  tr.fila-trabajo { cursor: pointer; } tr.fila-trabajo:hover td { background: #f6f8f6; }
+  tr.detalle td { background: #fafbfa; font-size: 13px; }
+  .aviso-planilla { color: #b3261e; font-weight: 700; margin: 6px 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Reporte diario de flota – C&amp;H Maquinaria</h1>
+  <div class="sub" id="fecha">Cargando…</div>
+  <a href="index.html">← Hectáreas y Flota</a>
+</header>
+<nav aria-label="Secciones">
+  <a href="#resumen">Resumen</a><a href="#maquinas-ayer">Máquinas ayer</a><a href="#camionetas">Camionetas</a>
+  <a href="#camion">Camión</a><a href="#operacion">En operación</a><a href="#alertas">Alertas</a>
+  <a href="#trabajo-campo">Trabajo por campo</a><a href="#semana">7 días</a>
+</nav>
+<main>
+  <input class="buscador" id="buscador" type="search" placeholder="Buscar máquina o campo (ej. Tractor 16, Candelaria)">
+  <div id="contenido"></div>
+</main>
+<script>
+// Datos: docs/datos/reporte_diario.json (lo publica el correo diario). Reglas en CLAUDE.md.
+const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const n = (v, d = 1) => Number(v || 0).toLocaleString('es-CL', { minimumFractionDigits: d, maximumFractionDigits: d });
+const DIAS = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+const fc = iso => { const [a, m, d] = iso.split('-').map(Number); return `${DIAS[new Date(a, m - 1, d).getDay()]} ${String(d).padStart(2, '0')}-${String(m).padStart(2, '0')}`; };
+const mapa = (url, txt = 'mapa') => url ? `<a href="${esc(url)}" target="_blank" rel="noopener">${txt}</a>` : '';
+const haTxt = (ha, sin) => (ha ? n(ha, 2) : (sin ? '' : '–')) + (sin ? ` <span class="estim">(~${n(sin)})</span>` : '');
+const minTxt = m => m >= 60 ? `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, '0')} min` : `${m} min`;
+const lugaresTxt = (lugares, sep) => lugares.map(l => l.tipo === 'campo' ? `<b>${esc(l.nombre)}</b>` : esc(l.nombre)).join(sep);
+
+function seccionResumen(d) {
+  const r = d.resumen, a = d.alertas;
+  const senal = a.sin_senal.length ? a.sin_senal.map(x => `${esc(x.maquina)} (desde ${esc((x.ultima_conexion || '').slice(0, 5))}, ${esc(x.ubicacion || '')}) ${mapa(x.mapa)}`).join('; ') : 'ninguna';
+  const sinGeo = a.sin_geocerca.length ? a.sin_geocerca.map(x => `${esc(x.maquina)} – ${n(x.horas)} h (~${n(x.ha)} ha) ${mapa(x.mapa)}`).join('; ') : 'ninguno';
+  return `<section id="resumen"><h2>Resumen de ayer (${esc(d.fecha_texto)})</h2>
+    <div class="tarjetas">
+      <div class="tarjeta"><b>${r.maquinas} de ${r.total_maquinas}</b><span>máquinas trabajaron</span></div>
+      <div class="tarjeta"><b>${n(r.ha, 2)} ha</b><span>en geocercas${r.ha_sin ? ` <span class="estim">+ ~${n(r.ha_sin)} ha sin geocerca</span>` : ''}</span></div>
+      <div class="tarjeta"><b>${n(r.horas)} h</b><span>de las máquinas</span></div>
+      <div class="tarjeta"><b>${n(r.km_camionetas, 0)} km</b><span>camionetas (${r.camionetas_movidas} de ${r.total_camionetas} se movieron)</span></div>
+      <div class="tarjeta"><b>${n(r.km_camion, 0)} km</b><span>camión</span></div>
+    </div>
+    <div class="alerta"><b>GPS sin señal:</b> ${senal}</div>
+    <div class="alerta"><b>Trabajo sin geocerca ayer:</b> ${sinGeo}</div>
+    <p class="nota">No trabajaron ayer: ${r.no_trabajaron} máquinas — ${r.en_cyh} en CYH, ${r.detenidas_fuera} detenidas fuera de CYH y ${r.sin_senal_30} sin señal hace más de 30 días (<a href="index.html#flota">ver en Flota</a>).</p>
+  </section>`;
+}
+
+function seccionMaquinas(d) {
+  let html = '', grupo = null;
+  for (const m of d.maquinas) {
+    if (m.grupo !== grupo) { grupo = m.grupo; html += `<div class="grupo">${esc(grupo)}</div>`; }
+    const conSin = m.ha_sin > 0;
+    const dias = m.dias.slice().reverse().map(x => {
+      const lugares = x.lugares.map(l => `${esc(l.geocerca)} (${n(l.horas)} h)`);
+      if (x.sin.length) lugares.push(`<span class="estim">sin geocerca ${n(x.horas_sin)} h</span> ${x.sin.map(s => mapa(s.mapa)).join(' ')}`);
+      return `<tr><td>${fc(x.fecha)}</td><td>${lugares.join('<br>') || '–'}</td><td class="n">${haTxt(x.ha, x.ha_sin)}</td><td class="n">${n(x.horas)}</td></tr>`;
+    }).join('');
+    html += `<details class="${conSin ? 'sin-geo' : ''}"><summary><span class="tit">${esc(m.nombre)}<small>${esc(m.labor)} · ${m.dias_trabajo} día${m.dias_trabajo === 1 ? '' : 's'}</small></span>
+      <span class="cif">${haTxt(m.ha, m.ha_sin)} ha<small>${n(m.horas)} h</small></span></summary>
+      <div class="dentro"><table><thead><tr><th>Día</th><th>Dónde trabajó</th><th class="n">Ha</th><th class="n">Horas</th></tr></thead><tbody>${dias}</tbody></table>
+      ${conSin && m.rendimiento ? `<p class="nota">Ha sin geocerca estimadas con su rendimiento real: ${n(m.rendimiento, 2)} ha/h.</p>` : ''}</div></details>`;
+  }
+  return `<section id="maquinas"><h2>Máquinas · últimos 7 días</h2>${html || '<p class="vacio">Sin trabajo.</p>'}
+    <p class="nota">Entre paréntesis y en rojo, las hectáreas estimadas sin geocerca (horas × rendimiento real de la máquina en sus cuarteles con geocerca).</p></section>`;
+}
+
+function diaVehiculo(x, recorrido) {
+  if (!x.se_movio) return `<details><summary><span class="tit">${fc(x.fecha)} · 0 km<small>No se movió${x.donde_quedo ? ' · en ' + esc(x.donde_quedo) : ''}</small></span></summary></details>`;
+  const visitas = x.visitas.map(v => `<li><span class="hora">${esc(v.llegada)}</span> ${v.tipo === 'campo' ? `<b>${esc(v.nombre)}</b>${v.detalle && v.detalle !== v.nombre ? ` (${esc(v.detalle)})` : ''}` : esc(v.nombre)} · ${minTxt(v.minutos)} ${mapa(v.mapa)}</li>`).join('');
+  return `<details><summary><span class="tit">${fc(x.fecha)} · ${n(x.km)} km · ${esc(x.salida || '')}–${esc(x.llegada || '')}<small>${lugaresTxt(x.lugares, recorrido ? ' → ' : ' · ') || 'camino'}</small></span></summary>
+    <div class="dentro"><ol class="visitas">${visitas || '<li>Solo camino (sin paradas largas).</li>'}</ol></div></details>`;
+}
+
+function seccionVehiculos(id, titulo, lista, recorrido) {
+  const html = lista.map(v => `<details><summary><span class="tit">${esc(v.nombre)}<small>${v.dias_movimiento} día${v.dias_movimiento === 1 ? '' : 's'} con movimiento</small></span>
+      <span class="cif">${n(v.km)} km</span></summary><div class="dentro">${v.dias.slice().reverse().map(x => diaVehiculo(x, recorrido)).join('')}</div></details>`).join('');
+  const total = lista.reduce((t, v) => t + v.km, 0);
+  return `<section id="${id}"><h2>${titulo} · últimos 7 días</h2>${html}
+    <p class="nota">Total: <b>${n(total)} km</b>. Al tocar un día: los lugares en orden, con hora de llegada, tiempo ahí y mapa. En negrita, los campos (geocercas); en texto normal, las comunas donde se detuvo 15 min o más.</p></section>`;
+}
+
+function seccionSemana(d) {
+  const max = Math.max(...d.semana.map(x => x.ha), 0);
+  const filas = d.semana.map(x => `<tr><td class="dia">${fc(x.fecha)}</td><td class="n">${x.maquinas}</td><td class="n">${n(x.ha, 2)}${x.ha_sin ? `<br><span class="estim">~${n(x.ha_sin)}</span>` : ''}${max ? `<span class="barra ocm" style="width:${Math.round(40 * x.ha / max)}px"></span>` : ''}</td><td class="n">${n(x.horas)}</td><td class="n">${n(x.km_camionetas, 0)}</td><td class="n">${n(x.km_camion, 0)}</td></tr>`).join('');
+  const s = k => d.semana.reduce((t, x) => t + x[k], 0);
+  const campos = d.campos.map(c => `<tr><td>${esc(c.campo)}</td><td>${esc(c.labores.join(', '))}</td><td class="n">${n(c.ha, 2)}</td><td class="n">${c.terminados}</td></tr>`).join('');
+  return `<section id="semana"><h2>Últimos 7 días</h2>
+    <div class="tarjetas">
+      <div class="tarjeta"><b>${n(s('ha'), 2)} ha</b><span>en geocercas${s('ha_sin') ? ` <span class="estim">+ ~${n(s('ha_sin'))} ha sin geocerca</span>` : ''}</span></div>
+      <div class="tarjeta"><b>${n(s('horas'))} h</b><span>de las máquinas</span></div>
+      <div class="tarjeta"><b>${n(s('km_camionetas'), 0)} km</b><span>camionetas</span></div>
+      <div class="tarjeta"><b>${n(s('km_camion'), 0)} km</b><span>camión</span></div>
+    </div>
+    <div class="tabla"><table style="margin-top:10px"><thead><tr><th>Día</th><th class="n">Máq.</th><th class="n">Ha</th><th class="n">Horas</th><th class="n">Km<br>cam.</th><th class="n">Km<br>camión</th></tr></thead>
+      <tbody>${filas}</tbody><tfoot><tr><td>Total</td><td></td><td class="n">${haTxt(s('ha'), s('ha_sin'))}</td><td class="n">${n(s('horas'))}</td><td class="n">${n(s('km_camionetas'), 0)}</td><td class="n">${n(s('km_camion'), 0)}</td></tr></tfoot></table></div>
+    ${campos ? `<details style="margin-top:8px"><summary><span class="tit">Avance por campo</span></summary><div class="dentro"><table><thead><tr><th>Campo</th><th>Labores</th><th class="n">Ha</th><th class="n">Terminados</th></tr></thead><tbody>${campos}</tbody></table></div></details>` : ''}
+  </section>`;
+}
+
+function seccionSinGeocerca(d) {
+  const html = d.sin_geocerca.map(g => {
+    const rango = g.desde === g.hasta ? fc(g.desde) : `${fc(g.desde)} a ${fc(g.hasta)}`;
+    const dias = g.dias.map(x => `<tr><td>${fc(x.fecha)}</td><td>${esc(x.maquina)}</td><td class="n">${n(x.horas)}</td><td class="n">~${n(x.ha)}</td><td>${mapa(x.mapa)}</td></tr>`).join('');
+    return `<details class="sin-geo"><summary><span class="tit">${esc(g.lugar)}<small>${g.cerca ? `cerca de ${esc(g.cerca[0])} (${n(g.cerca[1])} km) · ` : ''}${rango} · ${g.n_dias} día${g.n_dias === 1 ? '' : 's'}</small></span>
+      <span class="cif">~${n(g.ha)} ha<small>${n(g.horas)} h</small></span></summary>
+      <div class="dentro"><table><thead><tr><th>Día</th><th>Máquina</th><th class="n">Horas</th><th class="n">Ha</th><th></th></tr></thead><tbody>${dias}</tbody></table></div></details>`;
+  }).join('');
+  const tot = k => d.sin_geocerca.reduce((t, g) => t + g[k], 0);
+  return `<section id="sin-geocerca"><h2>Trabajo sin geocerca · últimos 7 días</h2>${html || '<p class="vacio">Sin trabajo fuera de geocercas.</p>'}
+    ${html ? `<p class="nota">${d.sin_geocerca.length} lugares · ${n(tot('horas'))} h · ~${n(tot('ha'))} ha estimadas. Trabajo real en campos sin geocerca en Wialon: al crear la geocerca esas hectáreas se recuperan.</p>` : ''}</section>`;
+}
+
+
+// ---------------------------------------------------------------------------
+// Version nueva (CLAUDE.md "Correo y pagina v2"): cruce con la planilla
+// "Maquinas en Operacion" del Drive. Datos: reporte_diario.json -> v2.
+// ---------------------------------------------------------------------------
+let D = null, V = null, filtroOp = 'todas';
+const sinT = t => String(t || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const coincide = (...textos) => { const q = sinT(document.getElementById('buscador').value.trim()); return !q || textos.some(t => sinT(t).includes(q)); };
+const marcaHtml = (estado, texto) => `<span class="marca m-${estado}">${estado === 'ok' ? '✓ ' : ''}${esc(texto)}</span>`;
+
+function confirmar(cuerpo, boton) {
+  const url = V.url_confirmar;
+  if (!url) { alert('Falta configurar la dirección del Worker de Cloudflare (url_confirmaciones). Mientras tanto no se puede confirmar desde la página.'); return; }
+  boton.disabled = true;
+  fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
+    .then(r => r.json().then(j => ({ ok: r.ok, j })))
+    .then(({ ok, j }) => { boton.parentElement.insertAdjacentHTML('afterend', `<div class="nota">${ok ? 'Guardado: se verá al recargar en 2–3 minutos.' : 'No se pudo guardar (' + esc(j.error || 'error') + ').'}</div>`); if (!ok) boton.disabled = false; })
+    .catch(() => { boton.disabled = false; alert('No se pudo conectar con el Worker de Cloudflare.'); });
+}
+const btn = (texto, cuerpo) => `<button type="button" onclick='confirmar(JSON.parse(this.dataset.c), this)' data-c="${esc(JSON.stringify(cuerpo))}">${esc(texto)}</button>`;
+
+function accionesOperacion(f) {
+  const enTaller = !f.campo_planilla || sinT(f.campo_planilla) === 'taller';
+  if (f.estado === 'confirmar') {
+    const base = { accion: 'maquina', maquina: f.maquina, planilla: f.campo_planilla };
+    return `<div class="acciones">${btn(enTaller ? 'Está en CYH (GPS con falla)' : 'Está en CYH', { ...base, valor: 'cyh' })}` +
+      `${btn(enTaller ? 'Está en el campo' : 'Está en el campo (GPS con falla)', { ...base, valor: enTaller ? 'campo: ' + (f.gps || '') : 'campo' })}</div>`;
+  }
+  if (f.estado === 'sin_geocerca' && f.lat && f.campo_planilla) {
+    const campo = (f.campos_wialon && f.campos_wialon.length === 1) ? f.campos_wialon[0] : f.campo_planilla;
+    return `<div class="acciones">${btn('Confirmar: es ' + campo, { accion: 'campo', lat: f.lat, lon: f.lon, campo })}</div>`;
+  }
+  return '';
+}
+
+function seccionResumenV2(d) {
+  const r = d.resumen, v = V;
+  const grande = v.alerta_grande.length ? `<div class="alerta-grande"><b>⚠ Máquinas en campo sin señal GPS (más de 15 días)</b><br>${v.alerta_grande.map(a => `${esc(a.maquina)} – planilla: ${esc(a.campo_planilla)} · sin señal hace ${a.dias_sin_senal} días ${mapa(a.mapa)}`).join('<br>')}</div>` : '';
+  const aviso = v.aviso_planilla ? `<div class="aviso-planilla">⚠ ${esc(v.aviso_planilla)}. Se muestra sin el cruce con la planilla.</div>` : '';
+  const filas = v.maquinas_ayer.filter(m => coincide(m.maquina, m.geocercas, m.posible, m.operador)).map(m =>
+    `<tr${m.sin_geocerca || m.no_cyh ? ' style="background:var(--rojo-f)"' : ''}><td>${esc(m.maquina)}${m.no_cyh ? '<br><small style="color:var(--rojo)">No es de CYH (por revisar)</small>' : ''}</td><td>${esc(m.labor)}</td><td>${esc(m.operador || '–')}</td>` +
+    `<td>${esc(m.geocercas || '')}${m.sin_geocerca ? `<br><span class="estim">sin geocerca${m.posible ? ' · posiblemente ' + esc(m.posible) : ''}</span>` : ''}</td>` +
+    `<td class="n">${n(m.horas)}</td><td class="n">${haTxt(m.ha, m.ha_sin)}</td></tr>`).join('');
+  const nuestras = v.maquinas_ayer.filter(m => !m.no_cyh);
+  return grande + aviso + `<section id="resumen"><h2>Resumen de ayer (${esc(d.fecha_texto)})</h2>
+    <div class="tarjetas">
+      <div class="tarjeta"><b>${r.maquinas} de ${r.total_maquinas}</b><span>máquinas trabajaron</span></div>
+      <div class="tarjeta"><b>${n(r.ha, 2)} ha</b><span>en geocercas${r.ha_sin ? ` <span class="estim">+ ~${n(r.ha_sin)} ha sin geocerca</span>` : ''}</span></div>
+      <div class="tarjeta"><b>${n(r.horas)} h</b><span>de las máquinas</span></div>
+      <div class="tarjeta"><b>${n(r.km_camionetas, 0)} km</b><span>camionetas · ${n(r.km_camion, 0)} km camión</span></div>
+    </div></section>
+    <section id="maquinas-ayer"><h2>Máquinas que trabajaron ayer</h2><div class="tabla"><table>
+    <thead><tr><th>Máquina</th><th>Labor</th><th>Operador</th><th>Dónde</th><th class="n">Horas</th><th class="n">Ha</th></tr></thead>
+    <tbody>${filas || '<tr><td colspan="6" class="vacio">Ninguna.</td></tr>'}</tbody>
+    <tfoot><tr><td colspan="4">Total (sin las que no son de CYH)</td><td class="n">${n(nuestras.reduce((t, m) => t + m.horas, 0))}</td><td class="n">${haTxt(nuestras.reduce((t, m) => t + m.ha, 0), nuestras.reduce((t, m) => t + m.ha_sin, 0))}</td></tr></tfoot></table></div></section>`;
+}
+
+function seccionOperacion() {
+  const v = V;
+  const pasa = f => filtroOp === 'todas' || (filtroOp === 'ayer' && f.ayer_trabajo) || (filtroOp === 'nocalzan' && f.estado === 'confirmar') || (filtroOp === 'singeo' && f.estado === 'sin_geocerca');
+  let html = '';
+  if (filtroOp !== 'apagado') {
+    const filas = v.operacion.filter(f => pasa(f) && coincide(f.maquina, f.campo_planilla, f.operador, f.gps)).map(f =>
+      `<tr><td>${esc(f.maquina)}<br><small>${esc(f.labor)}</small></td><td>${esc(f.operador || '–')}</td>` +
+      `<td>${esc(f.campo_planilla || 'Taller')}<br>${marcaHtml(f.estado, f.texto)}${accionesOperacion(f)}</td>` +
+      `<td class="n">${f.promedio ? n(f.promedio, 2) : '–'}</td><td class="n">${f.ayer_ha ? '<b>' + n(f.ayer_ha, 2) + '</b>' : '–'}</td><td>${mapa(f.mapa)}</td></tr>`).join('');
+    html += `<div class="tabla"><table><thead><tr><th>Máquina</th><th>Operador</th><th>Campo (planilla)</th><th class="n">Prom. ha/día</th><th class="n">Ayer ha</th><th></th></tr></thead><tbody>${filas || '<tr><td colspan="6" class="vacio">Sin máquinas para este filtro.</td></tr>'}</tbody></table></div>`;
+    html += v.avisos_planilla.map(a => `<div class="aviso-planilla">${esc(a)}</div>`).join('');
+    if (filtroOp === 'todas' && v.no_en_planilla.length) html += `<h3 class="grupo" style="color:var(--rojo)">Fuera de CYH y no está en la planilla</h3>` +
+      v.no_en_planilla.filter(x => coincide(x.maquina)).map(x => `<div>${esc(x.maquina)} · ${esc(x.texto)}${x.no_cyh ? ' · <b style="color:var(--rojo)">No es de CYH (por revisar)</b>' : ''} ${mapa(x.mapa)}</div>`).join('');
+  }
+  if (filtroOp === 'todas' || filtroOp === 'apagado') html += `<h3 class="grupo">GPS apagado hace más de 30 días</h3>` +
+    v.gps_apagado.filter(x => coincide(x.maquina)).map(x => `<div>${esc(x.maquina)} · ${x.dias_sin_senal} días ${mapa(x.mapa)}</div>`).join('');
+  const b = (k, t) => `<button type="button" class="${filtroOp === k ? 'activo' : ''}" onclick="filtroOp='${k}'; dibujar()">${t}</button>`;
+  return `<section id="operacion"><h2>Máquinas en operación (fuera de CYH)</h2>
+    <div class="filtros-op">${b('todas', 'Todas')}${b('ayer', 'Trabajaron ayer')}${b('nocalzan', 'No calzan')}${b('singeo', 'Sin geocerca')}${b('apagado', 'GPS apagado')}</div>
+    ${html}<p class="nota">✓ = el GPS calza con el campo de la planilla (o su equivalente). "Confirmar": el GPS no calza; lo confirmado aparece como "Actualizar planilla" hasta que la planilla cambie.</p></section>`;
+}
+
+function seccionAlertasV2(d) {
+  const a = d.alertas;
+  const senal = a.sin_senal.length ? a.sin_senal.map(x => `${esc(x.maquina)} (desde ${esc((x.ultima_conexion || '').slice(0, 5))}) ${mapa(x.mapa)}`).join('; ') : 'ninguna';
+  const sinGeo = V.maquinas_ayer.filter(m => m.sin_geocerca).map(m => `${esc(m.maquina)} (~${n(m.ha_sin)} ha${m.posible ? ', probable ' + esc(m.posible) : ''})`).join('; ') || 'ninguno';
+  return `<section id="alertas"><h2>Alertas</h2><div class="alerta"><b>GPS sin señal:</b> ${senal}</div><div class="alerta"><b>Trabajo sin geocerca ayer:</b> ${sinGeo}</div>${typeof alarmasLabor === 'function' ? alarmasLabor(d) : ''}</section>`;
+}
+
+function seccionTrabajoCampo() {
+  let html = '', grupo = null;
+  V.trabajo_campo.forEach((f, i) => {
+    if (!coincide(f.maquina, f.campo, f.labor)) return;
+    if (f.grupo !== grupo) { grupo = f.grupo; html += `<tr><td colspan="6" class="grupo">${esc(grupo)}</td></tr>`; }
+    const area = (f.ha_sin ? '~' : '') + n(f.ha + f.ha_sin, 1);
+    const ayer = f.ayer_ha + f.ayer_sin;
+    html += `<tr class="fila-trabajo" data-i="${i}"><td><b>${esc(f.maquina)}</b><br><small>${esc(f.labor)}</small></td><td>${esc(f.campo)}</td>` +
+      `<td class="n">${area}</td><td class="n">${f.dias}</td><td class="n">${n(f.promedio, 2)}</td><td class="n">${ayer ? '<b style="color:var(--verde)">' + (f.ayer_sin ? '~' : '') + n(ayer, 2) + '</b>' : '–'}</td></tr>`;
+  });
+  return `<section id="trabajo-campo"><h2>Trabajo de las máquinas por campo · temporada</h2><div class="tabla"><table>
+    <thead><tr><th>Máquina</th><th>Campo</th><th class="n">Ha temporada</th><th class="n">Días</th><th class="n">Ha/día</th><th class="n">Ayer</th></tr></thead>
+    <tbody id="cuerpoTrabajo">${html}</tbody></table></div>
+    <p class="nota">Toca una fila para ver el detalle por día y cuartel. Con ~: incluye trabajo sin geocerca estimado. Temporada: poda y picado desde el 1 de abril; raleo desde el 1 de septiembre; las demás desde el 1 de enero.</p></section>`;
+}
+
+function detalleTrabajo(f) {
+  return f.detalle.map(d => `<tr class="detalle"><td>${fc(d.fecha)}</td><td colspan="2">${d.cuarteles.map(c => `${esc(c.cuartel)} ${n(c.ha, 2)} ha`).join('<br>')}${d.sin ? `<br><span class="estim">sin geocerca ~${n(d.sin)} ha</span>` : ''}</td>` +
+    `<td class="n">${d.horas ? n(d.horas) + ' h' : '–'}</td><td colspan="2"></td></tr>`).join('');
+}
+
+function dibujar() {
+  const d = D;
+  document.getElementById('contenido').innerHTML = seccionResumenV2(d)
+    + seccionVehiculos('camionetas', 'Camionetas', d.camionetas, false) + seccionVehiculos('camion', 'Camión', d.camion, true)
+    + seccionOperacion() + seccionAlertasV2(d) + seccionTrabajoCampo() + seccionSemana(d);
+  document.getElementById('cuerpoTrabajo').onclick = ev => {
+    const tr = ev.target.closest('tr.fila-trabajo');
+    if (!tr) return;
+    const sig = tr.nextElementSibling;
+    if (sig && sig.classList.contains('detalle')) { while (tr.nextElementSibling && tr.nextElementSibling.classList.contains('detalle')) tr.nextElementSibling.remove(); return; }
+    tr.insertAdjacentHTML('afterend', detalleTrabajo(V.trabajo_campo[tr.dataset.i]));
+  };
+}
+
+fetch('datos/reporte_diario.json', { cache: 'no-store' }).then(r => r.json()).then(d => {
+  D = d; V = d.v2;
+  document.getElementById('fecha').textContent = `Día reportado: ${d.fecha_texto} · actualizado ${d.generado}`;
+  if (!V) { document.getElementById('contenido').innerHTML = '<section><p class="vacio">La versión nueva todavía no tiene datos publicados.</p></section>'; return; }
+  dibujar();
+  document.getElementById('buscador').addEventListener('input', dibujar);
+  if (location.hash) { const el = document.querySelector(location.hash); if (el) el.scrollIntoView(); }
+}).catch(() => { document.getElementById('contenido').innerHTML = '<section><p class="vacio">Todavía no hay reporte publicado.</p></section>'; });
+</script>
+</body>
+</html>
