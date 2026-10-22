@@ -1,1 +1,65 @@
-[]
+[
+ {
+  "fecha": "2026-03-04",
+  "maquina": "Tractor 14 Deutz Fahr 115",
+  "cuartel": "Gonzalo Sanchez 3",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 0.26,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-05",
+  "maquina": "Tractor 14 Deutz Fahr 115",
+  "cuartel": "Gonzalo Sanchez 9",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 0.2,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-05",
+  "maquina": "Tractor 14 Deutz Fahr 115",
+  "cuartel": "Gonzalo Sanchez 14",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 0.38,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-06",
+  "maquina": "Tractor 14 Deutz Fahr 115",
+  "cuartel": "Gonzalo Sanchez 11",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 0.33,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-06",
+  "maquina": "Tractor 14 Deutz Fahr 115",
+  "cuartel": "Gonzalo Sanchez 12",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 0.29,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-06",
+  "maquina": "Tractor 14 Deutz Fahr 115",
+  "cuartel": "Gonzalo Sanchez 25",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 0.26,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-11",
+  "maquina": "Shacker de Suelo 7",
+  "cuartel": "Bernardo Lira Chiñihue A9",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 0.54,
+  "temporada": "2026"
+ }
+]
