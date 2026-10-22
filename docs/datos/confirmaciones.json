@@ -87,5 +87,12 @@
   "lat": -34.312174,
   "lon": -71.421826,
   "campo": "torretagle"
+ },
+ {
+  "fecha": "2026-10-22 17:12",
+  "accion": "borrar equivalencia",
+  "nombre": "Puerto Lampa",
+  "campo": "Puerto Lampa",
+  "resultado": null
  }
 ]
