@@ -79,6 +79,9 @@ def cambiar_equivalencia(nombre, campo, agregar):
         equivalencias.pop(clave, None)
     elif clave in equivalencias:
         equivalencias[clave] = [c for c in equivalencias[clave] if c != campo]
+        if not equivalencias[clave]:
+            # Quitar el ultimo campo borra el nombre (no lo deja "sin geocerca").
+            equivalencias.pop(clave)
     guardar_clave("equivalencias_campos", equivalencias)
     with open(rh.RUTA_GEOCERCAS_WEB, "r", encoding="utf-8") as f:
         rh.escribir_campos_web(sorted(json.load(f)))
