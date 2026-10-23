@@ -8831,6 +8831,7 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
+            "Shacker SBS 10",
             "Shacker SBS 7"
           ],
           "trabajado_ha": 0.0,
@@ -8883,10 +8884,11 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
+            "Shacker SBS 10",
             "Shacker SBS 7"
           ],
-          "trabajado_ha": 0.6629,
-          "porcentaje": 15.6,
+          "trabajado_ha": 2.6268,
+          "porcentaje": 61.9,
           "completo": false
         }
       }
@@ -8896,6 +8898,7 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
+            "Shacker SBS 10",
             "Shacker SBS 7"
           ],
           "trabajado_ha": 3.5159,
@@ -8909,6 +8912,7 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
+            "Shacker SBS 10",
             "Shacker SBS 7"
           ],
           "trabajado_ha": 4.2096,
@@ -12321,9 +12325,9 @@
             "Shacker SBS 7",
             "Shacker SBS Campo"
           ],
-          "trabajado_ha": 5.2395,
-          "porcentaje": 92.5,
-          "completo": false
+          "trabajado_ha": 5.6649,
+          "porcentaje": 100.0,
+          "completo": true
         },
         "Picado": {
           "maquinas": [
