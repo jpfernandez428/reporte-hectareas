@@ -49120,5 +49120,50 @@
     "n_hileras": 19,
     "area_total_ha": 4.24,
     "area_trabajada_ha": 1.96
+  },
+  {
+    "fecha": "2026-10-23",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "torretagle 7",
+    "labor": "Picado",
+    "n_hileras": 15,
+    "area_total_ha": 5.15,
+    "area_trabajada_ha": 0.6
+  },
+  {
+    "fecha": "2026-10-23",
+    "maquina": "Tractor 16 Kubota 108",
+    "cuartel": "torretagle 9",
+    "labor": "Picado",
+    "n_hileras": 7,
+    "area_total_ha": 3.05,
+    "area_trabajada_ha": 0.27
+  },
+  {
+    "fecha": "2026-10-23",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "EL PRINCIPIO 5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 53,
+    "area_total_ha": 4.24,
+    "area_trabajada_ha": 1.62
+  },
+  {
+    "fecha": "2026-10-23",
+    "maquina": "Shacker SBS 5",
+    "cuartel": "MERCOFRUT 5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 14,
+    "area_total_ha": 3.15,
+    "area_trabajada_ha": 0.23
+  },
+  {
+    "fecha": "2026-10-23",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "MERCOFRUT 5",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 0,
+    "area_total_ha": 3.15,
+    "area_trabajada_ha": 0.05
   }
 ]
