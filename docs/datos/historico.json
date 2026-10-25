@@ -49165,5 +49165,14 @@
     "n_hileras": 0,
     "area_total_ha": 3.15,
     "area_trabajada_ha": 0.05
+  },
+  {
+    "fecha": "2026-10-24",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Hernan Mascaro",
+    "labor": "Cosecha con recibidor",
+    "n_hileras": 37,
+    "area_total_ha": 24.73,
+    "area_trabajada_ha": 0.69
   }
 ]

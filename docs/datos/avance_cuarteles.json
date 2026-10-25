@@ -8927,6 +8927,7 @@
       "labores": {
         "Cosecha con recibidor": {
           "maquinas": [
+            "Shacker SBS 10",
             "Shacker SBS 7"
           ],
           "trabajado_ha": 5.9983,
@@ -10814,8 +10815,8 @@
             "Shacker SBS 6",
             "Shacker SBS 9"
           ],
-          "trabajado_ha": 19.2351,
-          "porcentaje": 77.8,
+          "trabajado_ha": 19.9262,
+          "porcentaje": 80.6,
           "completo": false
         }
       }
