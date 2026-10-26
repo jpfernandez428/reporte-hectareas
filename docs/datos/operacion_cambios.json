@@ -54,5 +54,19 @@
   "cambio": "Desde",
   "antes": "calculado del GPS en la carga",
   "despues": "automática (GPS), salvo que se ponga otra fecha"
+ },
+ {
+  "fecha": "26-10-2026 13:59",
+  "maquina": "Shacker SBS 4",
+  "cambio": "Desde",
+  "antes": "automática",
+  "despues": "2026-10-26 (restaurada: la había borrado el cambio a 'Desde automático' de las 13:51)"
+ },
+ {
+  "fecha": "26-10-2026 13:59",
+  "maquina": "Tractor 7 Kubota 95",
+  "cambio": "Desde",
+  "antes": "automática",
+  "despues": "2026-10-26 (restaurada: la había borrado el cambio a 'Desde automático' de las 13:51)"
  }
 ]

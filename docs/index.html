@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Reporte de Hectáreas - C&amp;H Maquinaria</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Misma app que reporte2 (Flota C&H): menu comun y barra verde. -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#2f6f3e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="informe.js"></script>
 <style>
@@ -119,11 +125,12 @@
   @media (prefers-reduced-motion: reduce) { .flota .flecha { transition: none; } }
 </style>
 <script src="pin.js"></script>
+<script src="menu.js"></script>
 </head>
 <body>
 
 <h1>Reporte de Hectáreas Trabajadas</h1>
-<div class="sub">C&amp;H Maquinaria — datos actualizados automáticamente desde Wialon · <a href="reporte.html" style="color:#2f6f3e;font-weight:600;">Reporte diario de flota →</a></div>
+<div class="sub">C&amp;H Maquinaria — datos actualizados automáticamente desde Wialon</div>
 
 <div class="vista" id="vistaReporte">
 <main class="principal">
@@ -938,6 +945,7 @@ function mostrarVista(vista) {
   document.getElementById('tabReporte').classList.toggle('activa', !enFlota);
   document.getElementById('tabFlota').classList.toggle('activa', enFlota);
   try { history.replaceState(null, '', enFlota ? '#flota' : location.pathname); } catch (e) {}
+  if (window.menuActualizar) window.menuActualizar();  // menu comun (menu.js)
   if (enFlota && !flota) cargarFlota();
   window.scrollTo(0, 0);
 }
@@ -1198,6 +1206,7 @@ async function descargarKML() {
 
 cargarDatos();
 if (location.hash === '#flota') mostrarVista('flota');
+window.addEventListener('hashchange', () => mostrarVista(location.hash === '#flota' ? 'flota' : 'reporte'));
 </script>
 
 </body>
