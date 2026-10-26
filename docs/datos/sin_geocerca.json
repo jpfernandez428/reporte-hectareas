@@ -328,8 +328,8 @@
 "distancias_km": {
 "Huertos de Nogal": 0.2
 },
-"campo": null,
-"estado": "sin campo",
+"campo": "Huertos de Nogal",
+"estado": "probable",
 "comuna": "Romeral"
 },
 {
