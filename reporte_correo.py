@@ -727,7 +727,10 @@ def armar_html(datos):
             alertas.append(f'<b>Trabajo sin geocerca</b>: {escape(m["nombre"])} – {num(s["horas"])} h '
                            f'(~{num(s["ha_est"])} ha estimadas) en {coords} · {enlace("ver mapa", s["mapa"], ROJO)}')
     for a in datos.get("alarmas_labor", []):
-        if a["fecha"] == fa:
+        if a["fecha"] == fa and a["tipo"] == "Trabajo sin hectáreas":
+            alertas.append(f'<b>Trabajo sin hectáreas</b>: {escape(a["maquina"])} – {num(a.get("horas", 0))} h en '
+                           f'{escape(a["cuartel"])} ({escape(a["labor"])}) y 0 ha: {escape(a.get("motivo", ""))}')
+        elif a["fecha"] == fa:
             alertas.append(f'<b>Alarma de labor ({escape(a["tipo"])})</b>: {escape(a["maquina"])} – {escape(a["labor"])} en '
                            f'{escape(a["cuartel"])}, {num(a["ha"], 2)} ha'
                            + (" (no suma hasta definir la labor)" if a.get("no_suma") else ""))
@@ -943,8 +946,10 @@ def alarmas_labor_txt(datos, fecha):
     lista = [a for a in datos.get("alarmas_labor", []) if a["fecha"] == fecha]
     if not lista:
         return "ninguna"
-    partes = [f'{escape(a["maquina"])}: {escape(a["tipo"].lower())} ({escape(a["labor"])}, {escape(a["cuartel"])}, '
-              f'{"~" if a.get("no_suma") else ""}{num(a["ha"], 2)} ha{" sin sumar" if a.get("no_suma") else ""})'
+    partes = [(f'{escape(a["maquina"])}: trabajo sin hectáreas ({escape(a["cuartel"])}, {num(a.get("horas", 0))} h: '
+               f'{escape(a.get("motivo", ""))})') if a["tipo"] == "Trabajo sin hectáreas" else
+              (f'{escape(a["maquina"])}: {escape(a["tipo"].lower())} ({escape(a["labor"])}, {escape(a["cuartel"])}, '
+               f'{"~" if a.get("no_suma") else ""}{num(a["ha"], 2)} ha{" sin sumar" if a.get("no_suma") else ""})')
               for a in lista[:4]]
     return "; ".join(partes) + (f" y {len(lista) - 4} más" if len(lista) > 4 else "")
 

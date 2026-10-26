@@ -441,5 +441,10 @@
     {"id": 401976258, "nombre": "LZYC98 Citroen Berlingo"},
     {"id": 400801786, "nombre": "SDFD14 MAXUS GRIS"},
     {"id": 401976268, "nombre": "SKTY32 MAXUS T90", "activo": false}
-  ]
+  ],
+  "calendario_labores": {
+    "nota": "Meses [desde, hasta] de cada labor e inicio de la temporada (poda y picado de abril a marzo). Shacker SBS fuera de cosecha y raleo = Revisar labor. Reglas del usuario 21 y 26-oct-2026.",
+    "meses": {"Cosecha con recibidor": [1, 5], "Raleo": [9, 11], "Picado": [4, 10], "Poda": [4, 10], "Remecido de suelo": [1, 5], "Recolección": [1, 5], "Recolección (tractor con recogedora)": [1, 5]},
+    "inicio_mes": {"Picado": 4, "Poda": 4}
+  }
 }

@@ -138,10 +138,19 @@ def labor_de(unidad):
 LABOR_RALEO = "Raleo"
 LABOR_RECOLECCION_TRACTOR = "Recolección (tractor con recogedora)"
 LABOR_REVISAR = "Revisar labor"
-# Meses de temporada de cada labor (desde, hasta).
-MESES_TEMPORADA = {"Cosecha con recibidor": (1, 5),
-                   LABOR_RALEO: (9, 11), "Picado": (4, 10), "Poda": (4, 10), "Remecido de suelo": (1, 5),
-                   "Recolección": (1, 5), LABOR_RECOLECCION_TRACTOR: (1, 5)}
+# Calendario de temporadas (regla del usuario 21-oct-2026), editable en
+# config.json -> calendario_labores (26-oct-2026): "meses" = [desde, hasta] de
+# cada labor; "inicio_mes" = mes en que empieza la temporada (poda y picado de
+# abril a marzo: "2026-27"; las demas, el anio). Shacker SBS fuera de cosecha y
+# raleo = "Revisar labor" (con alarma, sin sumar).
+CALENDARIO_DEFECTO = {
+    "meses": {"Cosecha con recibidor": [1, 5], LABOR_RALEO: [9, 11], "Picado": [4, 10], "Poda": [4, 10],
+              "Remecido de suelo": [1, 5], "Recolección": [1, 5], LABOR_RECOLECCION_TRACTOR: [1, 5]},
+    "inicio_mes": {"Picado": 4, "Poda": 4},
+}
+CALENDARIO = {**CALENDARIO_DEFECTO, **CONFIG.get("calendario_labores", {})}
+MESES_TEMPORADA = {k: tuple(v) for k, v in CALENDARIO["meses"].items()}
+INICIO_TEMPORADA = dict(CALENDARIO.get("inicio_mes", {}))
 LABORES_TRACTOR = ("Picado", "Poda")
 # Shakers (cosecha con recibidor y remecido de suelo): si ya trabajaron en el
 # campo en la temporada de cosecha, un tractor de picado/poda en ene-may es
@@ -169,13 +178,14 @@ MINIMO_PASADAS_REPASO = 3
 
 def en_temporada(labor, fecha):
     desde, hasta = MESES_TEMPORADA.get(labor, (1, 12))
-    return desde <= fecha.month <= hasta
+    return desde <= fecha.month <= hasta if desde <= hasta else (fecha.month >= desde or fecha.month <= hasta)
 
 
 def temporada_de(labor, fecha):
     """Picado y poda: de abril a marzo ("2026-27"); las demas, el anio."""
-    if labor in LABORES_TRACTOR:
-        anio = fecha.year if fecha.month >= 4 else fecha.year - 1
+    inicio = INICIO_TEMPORADA.get(labor, 1)
+    if inicio > 1:
+        anio = fecha.year if fecha.month >= inicio else fecha.year - 1
         return f"{anio}-{(anio + 1) % 100:02d}"
     return str(fecha.year)
 
@@ -190,12 +200,12 @@ def labor_del_dia(unidad, fecha, campo):
     - Las demas, su labor de config.json."""
     base = labor_de(unidad)
     if base == "Cosecha con recibidor":
-        if 1 <= fecha.month <= 5:
+        if en_temporada(base, fecha):
             return base
-        if 9 <= fecha.month <= 11:
+        if en_temporada(LABOR_RALEO, fecha):
             return LABOR_RALEO
         return LABOR_REVISAR
-    if base == "Picado" and 1 <= fecha.month <= 5:
+    if base == "Picado" and en_temporada(LABOR_RECOLECCION_TRACTOR, fecha):
         inicio = SHAKERS_POR_CAMPO.get(f"{campo}||{fecha.year}")
         if inicio and inicio <= fecha.isoformat():
             return LABOR_RECOLECCION_TRACTOR
@@ -2173,6 +2183,70 @@ def claves_de(unit_id, nombre_geocerca):
     return CLAVES.get(str(unit_id), {}).get(nombre_geocerca, [])
 
 
+def alarmas_trabajo_sin_ha():
+    """Alarma "Trabajo sin hectareas" (pedido del usuario 26-oct-2026): una
+    maquina trabajo 1 h o mas en un dia dentro de una geocerca en uso (no el
+    patio CYH) y le da 0 ha. Con el motivo: cuartel ya completo en la
+    temporada, Revisar labor (SBS fuera de cosecha y raleo), fuera de
+    temporada, o pasadas que no cuentan. Usa las horas del tablero de la flota
+    (sus 30 dias) y reemplaza las de esos dias en alarmas.json."""
+    if not os.path.exists(RUTA_FLOTA):
+        return
+    with open(RUTA_FLOTA, "r", encoding="utf-8") as f:
+        flota = json.load(f)
+    en_uso = set()
+    if os.path.exists(RUTA_GEOCERCAS_WEB):
+        with open(RUTA_GEOCERCAS_WEB, "r", encoding="utf-8") as f:
+            en_uso = set(json.load(f))
+    ha = {}
+    historico = cargar_historico()
+    for r in historico:
+        k = (r["maquina"], r["fecha"], r["cuartel"])
+        ha[k] = ha.get(k, 0.0) + r["area_trabajada_ha"]
+    # Solo dias ya calculados (hoy todavia no tiene hectareas).
+    ultimo = max((r["fecha"] for r in historico), default="")
+    avance = cargar_estado_avance()
+    unidades = {u["nombre"]: u for u in UNIDADES}
+    nuevas, fechas = [], set()
+    for m in flota.get("maquinas", []):
+        u = unidades.get(m["nombre"])
+        if not u:
+            continue
+        for d in m.get("dias", []):
+            if d["fecha"] > ultimo:
+                continue
+            fechas.add(d["fecha"])
+            for g, h in (d.get("horas_geocercas") or {}).items():
+                if h < 1 or g == GEOCERCA_PATIO or (en_uso and g not in en_uso) or ha.get((m["nombre"], d["fecha"], g), 0) > 0:
+                    continue
+                dia = date.fromisoformat(d["fecha"])
+                labor = labor_del_dia(u, dia, raiz_campo(g))
+                if labor == LABOR_REVISAR:
+                    motivo = "Revisar labor: Shacker SBS fuera de cosecha y raleo (no suma hasta definir la labor)"
+                elif labor == LABOR_CON_PASADAS:
+                    motivo = "barrido sin pasada nueva (pasadas sueltas, giros o día sin trabajo)"
+                else:
+                    est = avance.get(clave_avance(g, clave_labor(labor, dia, u))) or {}
+                    if est.get("max_fraccion", 0) >= 1.0 and est.get("fecha_completo", d["fecha"]) < d["fecha"]:
+                        motivo = (f"cuartel ya completo en la temporada {temporada_de(labor, dia)}"
+                                  + (f" (completo el {est['fecha_completo']})" if est.get("fecha_completo") else ""))
+                    elif not en_temporada(labor, dia):
+                        motivo = "fuera de temporada"
+                    else:
+                        motivo = "pasadas que no cuentan (traslado, giros, pasadas sueltas o solo por el borde)"
+                nuevas.append({"fecha": d["fecha"], "maquina": m["nombre"], "cuartel": g, "labor": labor,
+                               "tipo": "Trabajo sin hectáreas", "ha": 0.0, "horas": round(h, 1), "motivo": motivo,
+                               "temporada": temporada_de(labor, dia) if labor not in (LABOR_CON_PASADAS,) else None})
+    previas = []
+    if os.path.exists(RUTA_ALARMAS):
+        with open(RUTA_ALARMAS, "r", encoding="utf-8") as f:
+            previas = json.load(f)
+    previas = [a for a in previas if not (a["tipo"] == "Trabajo sin hectáreas" and a["fecha"] in fechas)]
+    with open(RUTA_ALARMAS, "w", encoding="utf-8") as f:
+        json.dump(sorted(previas + nuevas, key=lambda a: (a["fecha"], a["maquina"])), f, ensure_ascii=False, indent=1)
+    print(f"Alarmas 'Trabajo sin hectareas': {len(nuevas)} en los {len(fechas)} dias del tablero.")
+
+
 def guardar_alarmas(nuevas, desde_fecha=None):
     """docs/datos/alarmas.json: fuera de temporada, revisar labor y repasos.
     Las del periodo recalculado se reemplazan; las anteriores se mantienen."""
@@ -3461,6 +3535,7 @@ def main():
         patio = next((g for g in obtener_geocercas(sid, filtrar=False)
                       if g["nombre"].strip().lower() == GEOCERCA_PATIO.strip().lower()), None)
         construir_flota(sid, geocercas, patio)
+        alarmas_trabajo_sin_ha()
         return
 
     print("Descargando geocercas (cuarteles reales)...")
@@ -3664,6 +3739,7 @@ def main():
         # La sesion de Wialon vence tras 5 min sin uso, y armar avance, mapas y
         # geometria puede tardar mas: se vuelve a conectar antes del tablero.
         construir_flota(wialon_login(TOKEN), geocercas, patio)
+        alarmas_trabajo_sin_ha()
     if es_corrida_de_la_noche():
         with open(RUTA_ULTIMA_CORRIDA, "w", encoding="utf-8") as f:
             json.dump({"dia_procesado": FECHA_FIN.strftime("%Y-%m-%d"),
