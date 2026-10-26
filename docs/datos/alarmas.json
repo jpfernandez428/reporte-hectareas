@@ -61,5 +61,104 @@
   "tipo": "Repaso",
   "ha": 0.54,
   "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-20",
+  "maquina": "Tractor 14 Deutz Fahr 115",
+  "cuartel": "Gonzalo Sanchez 4",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 1.06,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-20",
+  "maquina": "Tractor 14 Deutz Fahr 115",
+  "cuartel": "Gonzalo Sanchez 6",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 0.51,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-20",
+  "maquina": "Tractor 14 Deutz Fahr 115",
+  "cuartel": "Gonzalo Sanchez 11",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 0.26,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-20",
+  "maquina": "Tractor 14 Deutz Fahr 115",
+  "cuartel": "Gonzalo Sanchez 12",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 0.52,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-20",
+  "maquina": "Tractor 14 Deutz Fahr 115",
+  "cuartel": "Gonzalo Sanchez 14",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 0.65,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-25",
+  "maquina": "Shacker de Suelo 2",
+  "cuartel": "Santa Ana 2.7",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 1.03,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-25",
+  "maquina": "Shacker de Suelo 2",
+  "cuartel": "Santa Ana 2.15",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 0.69,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-25",
+  "maquina": "Shacker de Suelo 2",
+  "cuartel": "Santa Ana 2.16",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 0.75,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-27",
+  "maquina": "Shacker de Suelo 2",
+  "cuartel": "Santa Ana 2.27",
+  "labor": "Remecido de suelo",
+  "tipo": "Repaso",
+  "ha": 1.04,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-27",
+  "maquina": "Tractor 14 Deutz Fahr 115",
+  "cuartel": "Gonzalo Sanchez 25",
+  "labor": "Recolección (tractor con recogedora)",
+  "tipo": "Repaso",
+  "ha": 0.13,
+  "temporada": "2026"
+ },
+ {
+  "fecha": "2026-03-31",
+  "maquina": "Tractor 7 Kubota 95",
+  "cuartel": "Puerto Lampa 6",
+  "labor": "Picado",
+  "tipo": "Fuera de temporada",
+  "ha": 3.47,
+  "temporada": "2025-26"
  }
 ]
