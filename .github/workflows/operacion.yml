@@ -5,13 +5,22 @@ name: Guardar la pagina Operacion
 # docs/datos/operacion.json, los anota en operacion_cambios.json, guarda la
 # foto del dia (operadores.json) y rearma reporte2 (reporte_v2.json) sin
 # bajar GPS de Wialon. Reglas en CLAUDE.md ("Pagina Operacion").
-run-name: Guardar Operacion
+# El id va en el nombre: la pagina busca su corrida para saber si fallo.
+run-name: Guardar Operacion ${{ inputs.id }}
 on:
   workflow_dispatch:
     inputs:
       cambios:
         description: 'JSON con las filas cambiadas (lo arma la pagina)'
         required: true
+      id:
+        description: 'Id del guardado (lo pone la pagina)'
+        required: false
+        default: ''
+      recibido:
+        description: 'Hora en que el Worker recibio el guardado (ms)'
+        required: false
+        default: 
 
 permissions:
   contents: write
@@ -38,6 +47,8 @@ jobs:
       - name: Guardar y subir
         env:
           CAMBIOS: ${{ inputs.cambios }}
+          ID_GUARDADO: ${{ inputs.id }}
+          RECIBIDO: ${{ inputs.recibido }}
         run: |
           git config user.name "Reporte automatico"
           git config user.email "actions@users.noreply.github.com"
@@ -51,3 +62,34 @@ jobs:
             sleep $((10 * i))
           done
           exit 1
+
+      # Medicion (pedido del usuario 26-oct-2026): cuanto demora el guardado en
+      # quedar publicado. Si falla, el guardado no se marca como fallido.
+      - name: Medir cuanto demora en quedar publicado
+        if: success() && inputs.id != ''
+        continue-on-error: true
+        env:
+          ID_GUARDADO: ${{ inputs.id }}
+          RECIBIDO: ${{ inputs.recibido }}
+        run: |
+          python3 operacion.py medir
+          cp docs/datos/operacion_tiempos.json /tmp/tiempos.json
+          for i in 1 2 3 4 5; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            python3 - <<'PY'
+          import json
+          nuevo = json.load(open("/tmp/tiempos.json"))[-1]
+          try:
+              lista = json.load(open("docs/datos/operacion_tiempos.json"))
+          except Exception:
+              lista = []
+          if not any(t.get("id") == nuevo["id"] for t in lista):
+              lista.append(nuevo)
+          json.dump(lista[-500:], open("docs/datos/operacion_tiempos.json", "w"), ensure_ascii=False, indent=1)
+          PY
+            git add docs/datos/operacion_tiempos.json
+            if git diff --staged --quiet; then exit 0; fi
+            git commit -q -m "Operacion: tiempo del guardado"
+            git push -q && exit 0
+            sleep $((10 * i))
+          done

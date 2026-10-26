@@ -6,7 +6,7 @@
    "implemento": "",
    "operador": "Alberto",
    "campo": "Candelaria",
-   "desde": "2026-09-27",
+   "desde": "",
    "destino": ""
   },
   "Barredora 2": {
@@ -41,7 +41,7 @@
    "implemento": "",
    "operador": "",
    "campo": "Puerto Lampa",
-   "desde": "2026-10-01",
+   "desde": "",
    "destino": ""
   },
   "Barredora 7": {
@@ -160,7 +160,7 @@
    "implemento": "",
    "operador": "Moises",
    "campo": "Candelaria",
-   "desde": "2026-10-01",
+   "desde": "",
    "destino": ""
   },
   "Barredora 24 Weiss c/cab": {
@@ -202,14 +202,14 @@
    "implemento": "Shaker",
    "operador": "Victor Ibarra",
    "campo": "CK2",
-   "desde": "2026-10-26",
+   "desde": "",
    "destino": ""
   },
   "Shacker SBS 5": {
    "implemento": "Shaker",
    "operador": "Carlos S",
    "campo": "mercofrut",
-   "desde": "2026-10-22",
+   "desde": "",
    "destino": ""
   },
   "Shacker SBS 6": {
@@ -223,14 +223,14 @@
    "implemento": "Shaker",
    "operador": "Cristian Muñoz",
    "campo": "MGH",
-   "desde": "2026-10-16",
+   "desde": "",
    "destino": ""
   },
   "Shacker SBS 8": {
    "implemento": "Shaker",
    "operador": "jorge mella",
    "campo": "mercofrut",
-   "desde": "2026-10-22",
+   "desde": "",
    "destino": ""
   },
   "Shacker SBS 9": {
@@ -244,7 +244,7 @@
    "implemento": "Shaker",
    "operador": "Pirincho",
    "campo": "Agricola Principio (Cancura)",
-   "desde": "2026-09-27",
+   "desde": "",
    "destino": ""
   },
   "Shacker SBS 11": {
@@ -321,7 +321,7 @@
    "implemento": "PICKER R",
    "operador": "",
    "campo": "Taller",
-   "desde": "2026-10-26",
+   "desde": "",
    "destino": ""
   },
   "Tractor 8 Kubota 108": {
@@ -335,7 +335,7 @@
    "implemento": "ESTRELLA",
    "operador": "Carlos ayala",
    "campo": "santa ana",
-   "desde": "2026-10-08",
+   "desde": "",
    "destino": ""
   },
   "Tractor 10 Deutz Fahr 115": {
@@ -377,14 +377,14 @@
    "implemento": "PICKER R",
    "operador": "Jonathan",
    "campo": "Torretagle",
-   "desde": "2026-09-28",
+   "desde": "",
    "destino": ""
   },
   "Tractor 17 Kubota 108": {
    "implemento": "PICKER R",
    "operador": "Beño",
    "campo": "Alto Calibre",
-   "desde": "2026-09-27",
+   "desde": "",
    "destino": ""
   },
   "Shacker de Suelo 1": {

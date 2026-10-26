@@ -586,6 +586,9 @@ def datos_pagina_v2(datos, ctx, trabajo, oper):
         "unidades": [{"maquina": m, "labor": rh.labor_de(ctx.unidades[m]),
                       "grupo": rh.NOMBRES_GRUPOS_FLOTA[rh.orden_flota(m)[0]]} for m in sorted(ctx.unidades, key=rh.orden_flota)],
         "operacion_actualizada": ctx.planilla.get("actualizado"),
+        # "Desde" automatico (llegada al campo actual segun el GPS) de cada maquina en un campo.
+        "desde_auto": {m: d for m, f in ctx.planilla.get("maquinas", {}).items() if not f.get("en_cyh")
+                       for d in [operadores.desde_auto(ctx, m, f["campo"])] if d},
         "fuente": ctx.planilla.get("fuente", "planilla"),
         "fecha": ctx.fa,
         "operadores": operadores.construir(ctx, oper),

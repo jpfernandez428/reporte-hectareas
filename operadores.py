@@ -7,9 +7,9 @@ usuario el 22-10-2026).
 
   - Historial (docs/datos/operadores.json): en cada lectura de la planilla
     "Maquinas en Operacion" se guarda que operador estaba en cada maquina ese
-    dia (exacto). Antes del primer registro se supone que el operador actual
-    estuvo en la maquina durante su estadia actual en el campo (desde que la
-    maquina llego al campo): "aproximado". Los dias sin lectura entre dos
+    dia (exacto). Sin foto del dia, los dias desde "Desde" (llegada al campo:
+    la fecha puesta en la pagina Operacion o la automatica del GPS) son del
+    operador actual: "aproximado". Los dias sin lectura entre dos
     lecturas con el mismo operador en la maquina tambien quedan aproximados.
   - Equivalencias de nombres (config.json -> equivalencias_operadores:
     {nombre: [otros nombres]}), editables en la pagina. Nombres parecidos a
@@ -32,6 +32,9 @@ import reporte_hectareas as rh
 
 RUTA = os.path.join(rh.CARPETA_DATOS, "operadores.json")
 DIAS_ULTIMOS = 15        # "sus ultimos dias" en la pagina
+# Dia trabajado (regla del usuario 26-oct-2026): con ha o al menos 1 h de trabajo
+# (en geocercas + sin geocerca). Detenida, en traslado o en CYH no cuenta.
+HORAS_DIA_TRABAJADO = 1.0
 PARECIDO_MINIMO = 0.78   # nombres parecidos (difflib): aviso para confirmar
 
 
@@ -108,6 +111,15 @@ def estadia(ctx, maquina, campo_planilla, hasta):
     return salida
 
 
+def desde_auto(ctx, maquina, campo, hasta=None):
+    """"Desde" automatico: dia en que la maquina llego a su campo actual segun
+    el GPS (estadia actual; solo los dias del tablero de la flota)."""
+    if not campo or pl.normalizar(campo) in ("taller", "cyh"):
+        return ""
+    dias = estadia(ctx, maquina, campo, hasta or ctx.fa)
+    return min(dias) if dias else ""
+
+
 def parecidos(nombres, distintos):
     """[(nuevo, conocido)] de nombres que se parecen sin ser el mismo."""
     salida, vistos = [], set()
@@ -151,13 +163,20 @@ def construir(ctx, oper):
             if y and canonico(x["operador"], mapa) == canonico(y["operador"], mapa):
                 for k in range(1, (db - da).days):
                     asignado.setdefault((m, (da + timedelta(days=k)).isoformat()), (canonico(x["operador"], mapa), False))
-    primero = min(historial) if historial else datetime.now(rh.ZONA_HORARIA).date().isoformat()
+    # "Desde" (regla del usuario 26-oct-2026): los dias desde la llegada al campo
+    # (la fecha puesta a mano en la pagina Operacion o, si no, la automatica del
+    # GPS) hasta ayer son del operador actual (aproximado si no hay foto del dia).
     for m, f in ctx.planilla.get("maquinas", {}).items():
         op = canonico(f.get("operador"), mapa)
         if not op or f.get("en_cyh"):
             continue
-        for fecha in estadia(ctx, m, f["campo"], min(ayer, (date.fromisoformat(primero) - timedelta(days=1)).isoformat())):
-            asignado.setdefault((m, fecha), (op, False))
+        desde = f.get("desde") or desde_auto(ctx, m, f["campo"])
+        if not desde:
+            continue
+        dia = date.fromisoformat(desde)
+        while dia.isoformat() <= ayer:
+            asignado.setdefault((m, dia.isoformat()), (op, False))
+            dia += timedelta(days=1)
 
     # Jornadas por maquina y dia: ha (historial), cuarteles, horas (tablero de la flota).
     jornadas = {}
@@ -175,23 +194,33 @@ def construir(ctx, oper):
             if d["fecha"] > ayer:
                 continue
             h = sum((d.get("horas_geocercas") or {}).values())
-            if h < 0.1:
+            h_sin = sum(x.get("horas", 0) for x in d.get("sin_geocerca") or [])
+            if h + h_sin < 0.1:
                 continue
             j = jornadas.setdefault((m["nombre"], d["fecha"]), {"ha": 0.0, "cuarteles": {}, "labor": None, "horas": 0.0})
             j["horas"] = h
+            j["horas_sin"] = h_sin
             for g in d.get("horas_geocercas") or {}:
                 j["cuarteles"].setdefault(g, 0.0)
+    # Hectareas estimadas sin geocerca del dia (horas x rendimiento real, sin_geocerca.json).
+    for t in ctx.sin_geo:
+        if t["fecha"] > ayer or t["maquina"] in rv.NO_CYH or t.get("estado") == "ninguno":
+            continue
+        j = jornadas.setdefault((t["maquina"], t["fecha"]), {"ha": 0.0, "cuarteles": {}, "labor": None, "horas": 0.0})
+        j["ha_sin"] = j.get("ha_sin", 0.0) + (t.get("ha") or 0.0)
     unidades = ctx.unidades
 
     filas_op = []   # jornadas con operador
     sin_operador = []
     for (m, fecha), j in sorted(jornadas.items(), key=lambda x: x[0][1]):
+        if j["ha"] <= 0 and j.get("ha_sin", 0) <= 0 and j["horas"] + j.get("horas_sin", 0) < HORAS_DIA_TRABAJADO:
+            continue  # no es dia trabajado: no cuenta en los promedios
         labor = j["labor"] or rv.labor_visible(rh.labor_de(unidades[m]) if m in unidades else "", fecha)
         temporada = etiqueta_temporada(labor, date.fromisoformat(fecha))
         campos = sorted({rv.CAMPO(c) for c in j["cuarteles"]})
         fila = {"fecha": fecha, "maquina": m, "labor": labor, "temporada": temporada, "campos": campos,
                 "cuarteles": [{"cuartel": c, "ha": round(h, 2)} for c, h in sorted(j["cuarteles"].items())],
-                "horas": round(j["horas"], 1), "ha": round(j["ha"], 2)}
+                "horas": round(j["horas"], 1), "ha": round(j["ha"], 2), "ha_sin": round(j.get("ha_sin", 0.0), 1)}
         op = asignado.get((m, fecha))
         if op:
             filas_op.append({**fila, "operador": op[0], "exacto": op[1]})
@@ -200,7 +229,7 @@ def construir(ctx, oper):
     todos = {}
     for f in filas_op:
         t = todos.setdefault((f["labor"], f["temporada"]), {"ha": 0.0, "horas": 0.0, "ha_con_horas": 0.0, "dias": 0})
-        t["ha"] += f["ha"]; t["dias"] += 1
+        t["ha"] += f["ha"] + f["ha_sin"]; t["dias"] += 1
         if f["horas"]:
             t["horas"] += f["horas"]; t["ha_con_horas"] += f["ha"]
     promedio = {k: {"ha_dia": round(v["ha"] / v["dias"], 2) if v["dias"] else None,
@@ -243,21 +272,23 @@ def construir(ctx, oper):
         grupos = {}
         for f in mias:
             g = grupos.setdefault((f["labor"], f["temporada"]), {"maquinas": set(), "campos": set(), "dias": 0, "horas": 0.0,
-                                                                  "ha": 0.0, "ha_con_horas": 0.0, "aproximado": False})
+                                                                  "ha": 0.0, "ha_sin": 0.0, "ha_con_horas": 0.0, "aproximado": False})
             g["maquinas"].add(f["maquina"]); g["campos"].update(f["campos"]); g["dias"] += 1
-            g["ha"] += f["ha"]; g["aproximado"] |= not f["exacto"]
+            g["ha"] += f["ha"]; g["ha_sin"] += f["ha_sin"]; g["aproximado"] |= not f["exacto"]
             if f["horas"]:
                 g["horas"] += f["horas"]; g["ha_con_horas"] += f["ha"]
         labores = []
         for (labor, temporada), g in sorted(grupos.items(), key=lambda x: (x[0][1], x[0][0]), reverse=True):
             labores.append({"labor": labor, "temporada": temporada, "maquinas": sorted(g["maquinas"], key=rh.orden_flota),
                             "campos": sorted(g["campos"]), "dias": g["dias"], "horas": round(g["horas"], 1), "ha": round(g["ha"], 2),
-                            "ha_dia": round(g["ha"] / g["dias"], 2) if g["dias"] else None,
+                            "ha_sin": round(g["ha_sin"], 1),
+                            # ha/dia por DIAS TRABAJADOS (con ~ha sin geocerca); ha/hora solo en geocercas.
+                            "ha_dia": round((g["ha"] + g["ha_sin"]) / g["dias"], 2) if g["dias"] else None,
                             "ha_hora": round(g["ha_con_horas"] / g["horas"], 2) if g["horas"] else None,
                             "aproximado": g["aproximado"], "promedio_todos": promedio.get((labor, temporada))})
         otros = sorted({o for k, v in rh.CONFIG.get("equivalencias_operadores", {}).items() if k == op for o in v})
         lista.append({"operador": op, "otros_nombres": otros, "hoy": hoy.get(op, []), "labores": labores,
-                      "ultimos": [{k: f[k] for k in ("fecha", "maquina", "labor", "campos", "cuarteles", "horas", "ha", "exacto")}
+                      "ultimos": [{k: f[k] for k in ("fecha", "maquina", "labor", "campos", "cuarteles", "horas", "ha", "ha_sin", "exacto")}
                                   for f in sorted(mias, key=lambda f: f["fecha"], reverse=True)[:DIAS_ULTIMOS]]})
     return {"lista": lista, "sin_operador": sin_operador, "parecidos": parecidos(nombres, distintos),
             "desde_exacto": min(historial) if historial else None,

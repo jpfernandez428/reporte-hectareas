@@ -47,5 +47,12 @@
   "cambio": "Desde",
   "antes": "",
   "despues": "2026-10-26"
+ },
+ {
+  "fecha": "26-10-2026 13:51",
+  "maquina": "(todas)",
+  "cambio": "Desde",
+  "antes": "calculado del GPS en la carga",
+  "despues": "automática (GPS), salvo que se ponga otra fecha"
  }
 ]

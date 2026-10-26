@@ -30,6 +30,11 @@ import reporte_hectareas as rh
 
 RUTA = pl.RUTA_OPERACION
 RUTA_CAMBIOS = os.path.join(rh.CARPETA_DATOS, "operacion_cambios.json")
+# Tiempo de cada guardado (pedido del usuario 26-oct-2026): desde que el Worker
+# lo recibe hasta que queda publicado en GitHub Pages. Para decidir si se pasa a
+# guardar en Cloudflare (KV).
+RUTA_TIEMPOS = os.path.join(rh.CARPETA_DATOS, "operacion_tiempos.json")
+URL_PUBLICADA = "https://jpfernandez428.github.io/reporte-hectareas/datos/operacion.json"
 CAMPOS_FILA = ("implemento", "operador", "campo", "desde", "destino")
 NOMBRES = {"implemento": "Implemento", "operador": "Operador", "campo": "Campo", "desde": "Desde", "destino": "Próximo destino"}
 
@@ -96,7 +101,7 @@ def limpiar(valor, largo=80):
     return re.sub(r"\s+", " ", str(valor or "")).strip()[:largo]
 
 
-def guardar(cambios_json):
+def guardar(cambios_json, id_guardado="", recibido=""):
     """Aplica los cambios de la pagina (lista de filas completas) y registra
     cada campo que cambio en el historial."""
     cambios = json.loads(cambios_json)
@@ -120,26 +125,63 @@ def guardar(cambios_json):
             nuevo["desde"] = fila.get("desde", "")
         if pl.es_taller(nuevo["campo"]):
             nuevo["campo"] = "Taller"
-        # Cambio de campo sin fecha nueva: desde hoy (en taller, sin fecha).
+        # "Desde" vacio = automatico (llegada al campo segun el GPS). Cambio de campo
+        # sin fecha nueva: vuelve a automatico.
         if nuevo["campo"] != fila.get("campo") and nuevo["desde"] == fila.get("desde"):
-            nuevo["desde"] = "" if nuevo["campo"] in ("", "Taller") else datetime.now(rh.ZONA_HORARIA).date().isoformat()
+            nuevo["desde"] = ""
         for k in CAMPOS_FILA:
             if nuevo[k] != (fila.get(k) or ""):
-                historial.append({"fecha": fecha, "maquina": m, "cambio": NOMBRES[k], "antes": fila.get(k) or "", "despues": nuevo[k]})
+                antes, despues = fila.get(k) or "", nuevo[k]
+                if k == "desde":
+                    antes, despues = antes or "automática", despues or "automática"
+                historial.append({"fecha": fecha, "maquina": m, "cambio": NOMBRES[k], "antes": antes, "despues": despues,
+                                  "id": id_guardado})
                 n += 1
         fila.update(nuevo)
     datos["actualizado"] = fecha
+    if id_guardado:
+        # La pagina reconoce su guardado (sincronizando… -> ✓ guardado) por este id.
+        datos["guardados"] = (datos.get("guardados") or [])[-49:] + [
+            {"id": id_guardado, "recibido": recibido, "aplicado": int(datetime.now().timestamp() * 1000), "cambios": n}]
     escribir(RUTA, datos)
     escribir(RUTA_CAMBIOS, historial)
     print(f"Operacion guardada: {n} cambios.")
+
+
+def medir(id_guardado, recibido):
+    """Espera (hasta 20 min) a que el guardado se vea en GitHub Pages y anota el
+    tiempo desde que el Worker lo recibio. Nunca falla el guardado."""
+    import time
+    import requests
+    if not id_guardado or not recibido:
+        print("Guardado sin id (Worker anterior): no se mide.")
+        return
+    inicio = time.time()
+    publicado = None
+    while time.time() - inicio < 20 * 60:
+        try:
+            r = requests.get(URL_PUBLICADA, params={"x": int(time.time())}, timeout=30, headers={"Cache-Control": "no-cache"})
+            if r.ok and any(g.get("id") == id_guardado for g in r.json().get("guardados", [])):
+                publicado = int(time.time() * 1000)
+                break
+        except Exception as e:
+            print(f"Reintento ({e})")
+        time.sleep(10)
+    tiempos = leer(RUTA_TIEMPOS, [])
+    segundos = round((publicado - int(recibido)) / 1000) if publicado else None
+    tiempos.append({"id": id_guardado, "fecha": ahora(), "recibido": int(recibido), "publicado": publicado, "segundos": segundos})
+    escribir(RUTA_TIEMPOS, tiempos[-500:])
+    print(f"Guardado {id_guardado}: " + (f"publicado en {segundos} s" if segundos is not None else "no se vio publicado en 20 min"))
 
 
 if __name__ == "__main__":
     if sys.argv[1:] == ["cargar"]:
         cargar_desde_drive()
     elif sys.argv[1:] == ["guardar"]:
-        guardar(os.environ["CAMBIOS"])
+        guardar(os.environ["CAMBIOS"], os.environ.get("ID_GUARDADO", ""), os.environ.get("RECIBIDO", ""))
         import reporte_v2
         reporte_v2.rearmar_pagina()  # incluye la foto del dia (operadores.registrar)
+    elif sys.argv[1:] == ["medir"]:
+        medir(os.environ.get("ID_GUARDADO", ""), os.environ.get("RECIBIDO", ""))
     else:
         sys.exit(__doc__)

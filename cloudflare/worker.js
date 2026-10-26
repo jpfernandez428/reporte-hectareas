@@ -144,7 +144,10 @@ async function guardarOperacion(datos, env) {
   }
   const texto = JSON.stringify(limpio);
   if (texto.length > 60000) return responder(400, { error: 'demasiados cambios' });
-  await lanzar(env, { workflow: 'operacion.yml', inputs: { cambios: texto } });
+  // Id del guardado (la pagina lo usa para pasar de "sincronizando…" a "✓ guardado")
+  // y hora en que el Worker lo recibio (medicion del tiempo hasta quedar publicado).
+  const id = /^[a-z0-9]{8,40}$/.test(String(datos.id || '')) ? String(datos.id) : '';
+  await lanzar(env, { workflow: 'operacion.yml', inputs: { cambios: texto, id, recibido: String(Date.now()) } });
   return responder(200, { ok: true });
 }
 

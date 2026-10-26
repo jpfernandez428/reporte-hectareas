@@ -547,16 +547,16 @@ function detalleOperador(o) {
     const t = l.promedio_todos || {};
     return `<tr><td><b>${esc(l.labor)}</b> ${esc(l.temporada)}${l.aproximado ? '<br><span class="aprox">≈ aproximado</span>' : ''}</td>` +
       `<td>${esc(l.maquinas.join(', '))}<br><small>${esc(l.campos.map(nombreCampo).join(', ') || '–')}</small></td>` +
-      `<td class="n">${l.dias}</td><td class="n">${l.horas ? n(l.horas) : '–'}</td><td class="n">${n(l.ha, 2)}</td>` +
-      `<td class="n">${l.ha_dia != null ? n(l.ha_dia, 2) : '–'}${flecha(l.ha_dia, t.ha_dia)}</td>` +
+      `<td class="n">${l.dias}</td><td class="n">${l.horas ? n(l.horas) : '–'}</td><td class="n">${n(l.ha, 2)}${l.ha_sin ? ` <span class="estim">(+~${n(l.ha_sin)})</span>` : ''}</td>` +
+      `<td class="n">${l.ha_dia != null ? (l.ha_sin ? '~' : '') + n(l.ha_dia, 2) : '–'}${flecha(l.ha_dia, t.ha_dia)}</td>` +
       `<td class="n">${l.ha_hora != null ? n(l.ha_hora, 2) : '–'}${flecha(l.ha_hora, t.ha_hora)}</td></tr>`;
   }).join('');
   const dias = o.ultimos.map(d => `<tr><td>${fc(d.fecha)}${d.exacto ? '' : ' <span class="aprox">≈</span>'}</td><td>${esc(d.maquina)}<br><small>${esc(d.labor)}</small></td>` +
     `<td>${d.cuarteles.length ? d.cuarteles.map(c => `${esc(c.cuartel)}${c.ha ? ' ' + n(c.ha, 2) + ' ha' : ''}`).join('<br>') : esc(d.campos.map(nombreCampo).join(', ') || '–')}</td>` +
-    `<td class="n">${d.horas ? n(d.horas) : '–'}</td><td class="n">${d.ha ? n(d.ha, 2) : '–'}</td></tr>`).join('');
+    `<td class="n">${d.horas ? n(d.horas) : '–'}</td><td class="n">${d.ha ? n(d.ha, 2) : (d.ha_sin ? '' : '–')}${d.ha_sin ? ` <span class="estim">~${n(d.ha_sin)}</span>` : ''}</td></tr>`).join('');
   return `<div class="dentro">
     ${o.otros_nombres.length ? `<p class="nota">También anotado como: ${esc(o.otros_nombres.join(', '))}</p>` : ''}
-    ${labores ? `<div class="tabla"><table><thead><tr><th>Labor y temporada</th><th>Máquina y campo</th><th class="n">Días</th><th class="n">Horas</th><th class="n">Ha</th><th class="n">Ha/día</th><th class="n">Ha/hora</th></tr></thead><tbody>${labores}</tbody></table></div>`
+    ${labores ? `<div class="tabla"><table><thead><tr><th>Labor y temporada</th><th>Máquina y campo</th><th class="n">Días trabajados</th><th class="n">Horas</th><th class="n">Ha</th><th class="n">Ha/día</th><th class="n">Ha/hora</th></tr></thead><tbody>${labores}</tbody></table></div>`
                : '<p class="vacio">Todavía sin trabajo registrado con este operador.</p>'}
     ${dias ? `<h3 class="grupo">Últimos días</h3><div class="tabla"><table><thead><tr><th>Fecha</th><th>Máquina</th><th>Campo / cuarteles</th><th class="n">Horas</th><th class="n">Ha</th></tr></thead><tbody>${dias}</tbody></table></div>` : ''}
   </div>`;
@@ -589,6 +589,7 @@ function seccionOperadores() {
     <div id="opLista">${listaOperadores()}</div>
     <p class="nota">Promedios por labor y temporada, comparados con el promedio de todos los operadores en la misma labor y temporada (▲ más de 5 % sobre el promedio, ▼ más de 5 % bajo, ≈ parecido).
     Exacto desde el ${esc(v.desde_exacto ? fc(v.desde_exacto) : 'primer registro')} (lectura de la planilla); antes, <span class="aprox">≈ aproximado</span>: el operador actual durante la estadía actual de la máquina en el campo.
+    Promedios por <b>días trabajados</b> (con ha o al menos 1 h de trabajo; detenida, en traslado o en CYH no cuenta). Ha/día incluye las ha estimadas sin geocerca (~); ha/hora = ha en geocercas ÷ horas en geocercas.
     Horas: las del tablero de la flota (últimos 30 días); sin horas, ha/hora queda en –.</p>
     ${seccionEquivOperadores()}</section>`;
 }

@@ -35,6 +35,14 @@
   td input.otro { margin-top: 4px; }
   tr.cambiada td { background: var(--amarillo-f); }
   tr.guardando td { background: #eef5ff; }
+  tr.fallo td { background: var(--rojo-f); }
+  .sinc { display: inline-block; margin-top: 3px; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 9px; }
+  .sinc-pend { background: #dfeafd; color: #1d4f91; } .sinc-ok { background: #e3f2e6; color: #1f6b34; }
+  .sinc-mal { background: var(--rojo); color: #fff; } .sinc-lento { background: #fff4cc; color: #8a6a00; }
+  .desde-txt { display: block; font-size: 11px; color: var(--gris); margin-top: 2px; }
+  .desde-txt a { font-size: 11px; }
+  .aviso-lento { background: #fff4cc; border-left: 4px solid #d4a017; padding: 8px 10px; margin: 0 0 10px; font-size: 14px; }
+  .tiempos { font-size: 13px; margin: 0 0 8px; }
   .grupo td { background: #fff; font-size: 12px; font-weight: 700; color: var(--verde); text-transform: uppercase; letter-spacing: .03em; padding-top: 12px; }
   .maq b { display: block; } .maq small { color: var(--gris); }
   .gps { font-size: 12px; color: var(--gris); }
@@ -56,9 +64,9 @@
     main { padding: 8px; } section { padding: 10px; }
     thead { display: none; }
     table, tbody, tr, td { display: block; width: 100%; }
-    tr.fila { border: 1px solid var(--borde); border-radius: 10px; margin: 0 0 10px; padding: 8px 10px; background: #fff; }
-    tr.fila td { border: 0; padding: 3px 0; }
-    tr.fila td[data-label]::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 600; color: var(--gris); text-transform: uppercase; }
+    tr.fila, tr.hist { border: 1px solid var(--borde); border-radius: 10px; margin: 0 0 10px; padding: 8px 10px; background: #fff; }
+    tr.fila td, tr.hist td { border: 0; padding: 3px 0; }
+    tr.fila td[data-label]::before, tr.hist td[data-label]::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 600; color: var(--gris); text-transform: uppercase; }
     tr.fila td.maq::before { content: none; }
     .grupo td { padding: 8px 0 4px; }
     #historial td { display: block; }
@@ -74,14 +82,16 @@
 <main>
   <section>
     <h2>Máquinas: implemento, operador y campo</h2>
+    <div id="avisoLento"></div>
     <div class="filtros" id="filtros"></div>
     <input class="buscador" id="buscador" type="search" placeholder="Buscar máquina, operador o campo">
     <div style="overflow-x:auto"><table id="tabla"><thead><tr><th>Máquina</th><th>Implemento</th><th>Operador</th><th>Campo</th><th>Desde</th><th>Próximo destino</th><th>GPS</th></tr></thead><tbody></tbody></table></div>
-    <p class="nota">Las filas cambiadas quedan en amarillo hasta guardar. "Desde" = día en que la máquina llegó al campo (si cambias el campo y no la fecha, queda hoy). GPS solo de lectura: ✓ calza / sin geocerca / Confirmar (GPS en otro lugar) / sin señal.</p>
+    <p class="nota">Las filas cambiadas quedan en amarillo hasta guardar; al guardar se ven al tiro con "sincronizando…" hasta que GitHub lo confirma ("✓ guardado"). "Desde" = día en que la máquina llegó a su campo: automático según el GPS, salvo que pongas otra fecha (si cambias el campo, vuelve a automático). GPS solo de lectura: ✓ calza / sin geocerca / Confirmar (GPS en otro lugar) / sin señal.</p>
   </section>
   <section>
     <h2>Historial de cambios</h2>
-    <div style="overflow-x:auto"><table id="historial"><thead><tr><th>Fecha y hora</th><th>Máquina</th><th>Qué cambió</th><th>Antes → después</th></tr></thead><tbody></tbody></table></div>
+    <div class="tiempos" id="tiempos"></div>
+    <div style="overflow-x:auto"><table id="historial"><thead><tr><th>Fecha y hora</th><th>Máquina</th><th>Qué cambió</th><th>Antes → después</th><th>Quedó publicado en</th></tr></thead><tbody></tbody></table></div>
   </section>
 </main>
 <div class="barra"><button type="button" class="guardar" id="guardar" disabled onclick="guardar(this)">Guardar cambios</button>
@@ -97,7 +107,7 @@ const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': 
 const sinT = t => String(t || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
 const fc = iso => iso ? `${iso.slice(8, 10)}-${iso.slice(5, 7)}-${iso.slice(0, 4)}` : '';
 const CAMPOS_FILA = ['implemento', 'operador', 'campo', 'desde', 'destino'];
-let OP = null, CAMBIOS = [], V = null, CAMPOS = { campos: [], equivalencias: {}, nombres_lista: {} };
+let OP = null, CAMBIOS = [], TIEMPOS = [], V = null, CAMPOS = { campos: [], equivalencias: {}, nombres_lista: {} };
 let filtro = 'todas', editado = {}, guardando = new Set();
 
 const esTaller = c => ['taller', 'cyh', 'taller (cyh)'].includes(sinT(c).trim());
@@ -108,8 +118,25 @@ function unidades() {
   if (V && V.unidades) return V.unidades;
   return Object.keys(OP.maquinas).map(m => ({ maquina: m, labor: '', grupo: '' }));
 }
-const valorDe = m => ({ ...OP.maquinas[m], ...(editado[m] || {}) });
-const cambiada = m => editado[m] && CAMPOS_FILA.some(k => (editado[m][k] ?? OP.maquinas[m][k] ?? '') !== (OP.maquinas[m][k] ?? ''));
+// Guardados pendientes (guardar al instante, opcion A del usuario 26-oct-2026):
+// se ven al tiro y se recuerdan en este navegador hasta que GitHub los confirma.
+const CLAVE_PEND = 'operacion_pendientes', CLAVE_RES = 'operacion_resultados';
+const leerLS = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } };
+const escribirLS = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* sin almacenamiento */ } };
+let PEND = leerLS(CLAVE_PEND, []);       // [{id, t0, filas: [{maquina, ...}]}]
+let RES = leerLS(CLAVE_RES, []);         // [{id, t, maquinas, ok, segundos, error}] (se muestran 30 min)
+const pendienteDe = m => PEND.filter(p => p.filas.some(f => f.maquina === m)).pop();
+const resultadoDe = m => RES.filter(r => r.maquinas.includes(m) && Date.now() - r.t < 30 * 60 * 1000).pop();
+const valorDe = m => {
+  const p = pendienteDe(m), fp = p && p.filas.find(f => f.maquina === m);
+  return { ...OP.maquinas[m], ...(fp || {}), ...(editado[m] || {}) };
+};
+const desdeAuto = m => (V && V.desde_auto && V.desde_auto[m]) || '';
+const cambiada = m => {
+  if (!editado[m]) return false;
+  const p = pendienteDe(m), base = { ...OP.maquinas[m], ...((p && p.filas.find(f => f.maquina === m)) || {}) };
+  return CAMPOS_FILA.some(k => (editado[m][k] ?? base[k] ?? '') !== (base[k] ?? ''));
+};
 
 // Opciones: operadores conocidos (con sus otros nombres) y campos de Wialon (con equivalentes).
 function opcionesOperador(actual) {
@@ -163,15 +190,32 @@ function pasaFiltro(m) {
   return [m, v.implemento, v.operador, v.campo, nombreCampo(v.campo), v.destino, g.texto, g.gps].some(t => sinT(t).includes(q));
 }
 
+function estadoSinc(m) {
+  const p = pendienteDe(m);
+  if (p) {
+    const min = (Date.now() - p.t0) / 60000;
+    return min > 10 ? `<span class="sinc sinc-lento">sincronizando… (más de 10 min)</span>` : `<span class="sinc sinc-pend">sincronizando…</span>`;
+  }
+  const r = resultadoDe(m);
+  if (!r) return '';
+  return r.ok ? `<span class="sinc sinc-ok">✓ guardado${r.segundos ? ' en ' + duracion(r.segundos) : ''}</span>`
+              : `<span class="sinc sinc-mal">No se guardó${r.error ? ': ' + esc(r.error) : ''}</span>`;
+}
+const duracion = s => s < 60 ? `${Math.round(s)} s` : `${Math.floor(s / 60)} min ${String(Math.round(s % 60)).padStart(2, '0')} s`;
+
 function fila(u) {
-  const m = u.maquina, v = valorDe(m);
-  const clase = guardando.has(m) ? 'guardando' : cambiada(m) ? 'cambiada' : '';
+  const m = u.maquina, v = valorDe(m), r = resultadoDe(m);
+  const clase = pendienteDe(m) ? 'guardando' : cambiada(m) ? 'cambiada' : (r && !r.ok) ? 'fallo' : '';
+  const auto = desdeAuto(m), manual = !!v.desde;
+  const desdeTxt = v.campo && !esTaller(v.campo)
+    ? (manual ? `<span class="desde-txt">puesta a mano · <a href="#" onclick="usarAuto('${esc(m)}'); return false">usar automática${auto ? ' (' + fc(auto) + ')' : ''}</a></span>`
+              : `<span class="desde-txt">${auto ? 'automática (GPS)' : 'sin dato del GPS'}</span>`) : '';
   return `<tr class="fila ${clase}" data-m="${esc(m)}">
-    <td class="maq"><b>${esc(m)}</b><small>${esc(u.labor)}${guardando.has(m) ? ' · guardando…' : ''}</small></td>
+    <td class="maq"><b>${esc(m)}</b><small>${esc(u.labor)}</small><br>${estadoSinc(m)}</td>
     <td data-label="Implemento"><input data-k="implemento" value="${esc(v.implemento)}" maxlength="80"></td>
     <td data-label="Operador"><select data-k="operador">${opcionesOperador(v.operador)}</select></td>
     <td data-label="Campo"><select data-k="campo">${opcionesCampo(v.campo)}</select></td>
-    <td data-label="Desde"><input data-k="desde" type="date" value="${esc(v.desde)}"></td>
+    <td data-label="Desde"><input data-k="desde" type="date" value="${esc(v.desde || auto)}">${desdeTxt}</td>
     <td data-label="Próximo destino"><input data-k="destino" value="${esc(v.destino)}" maxlength="80"></td>
     <td data-label="GPS">${gpsHtml(m)}</td></tr>`;
 }
@@ -213,9 +257,11 @@ document.addEventListener('change', ev => {
     return;
   }
   editado[m] = { ...(editado[m] || {}), [k]: el.value.trim() };
+  if (k === 'campo') { editado[m].desde = ''; const d = tr.querySelector('input[data-k="desde"]'); if (d) d.value = ''; }  // vuelve a automatico
   tr.classList.toggle('cambiada', !!cambiada(m));
   contar();
 });
+function usarAuto(m) { editado[m] = { ...(editado[m] || {}), desde: '' }; dibujar(); }
 document.addEventListener('input', ev => {
   const el = ev.target, tr = el.closest('tr.fila');
   if (!tr || !el.dataset.k || el.tagName !== 'INPUT') return;
@@ -230,30 +276,87 @@ async function guardar(boton) {
   const filas = Object.keys(editado).filter(cambiada).map(m => ({ maquina: m, ...Object.fromEntries(CAMPOS_FILA.map(k => [k, valorDe(m)[k] || ''])) }));
   if (!filas.length) return;
   const msg = document.getElementById('msg');
-  boton.disabled = true; msg.style.color = 'var(--verde)'; msg.textContent = 'Guardando…';
-  try {
-    const res = await enviarConPin(WORKER + '/operacion', { cambios: filas }, boton);
-    if (!res.ok) { msg.style.color = 'var(--rojo)'; msg.textContent = textoError(res); contar(); return; }
-  } catch (e) { msg.style.color = 'var(--rojo)'; msg.textContent = 'No se pudo conectar con el Worker de Cloudflare.'; contar(); return; }
-  msg.textContent = 'Guardado, se actualiza en 2–3 minutos.';
-  filas.forEach(f => guardando.add(f.maquina));
-  editado = {};
-  dibujar();
-  // Espera los datos nuevos (hasta 6 min).
-  const antes = OP.actualizado;
-  for (let i = 0; i < 12; i++) {
-    await new Promise(r => setTimeout(r, 30000));
-    await cargar();
-    if (OP.actualizado !== antes) { guardando.clear(); dibujar(); msg.textContent = `Guardado a las ${OP.actualizado.slice(11)}.`; return; }
+  const id = (Date.now().toString(36) + Math.random().toString(36).slice(2, 8)).toLowerCase();
+  // Se ve al tiro (sincronizando…) y queda en este navegador hasta que GitHub confirme.
+  const anteriores = editado;
+  PEND.push({ id, t0: Date.now(), filas }); escribirLS(CLAVE_PEND, PEND);
+  editado = {}; dibujar();
+  boton.disabled = true; msg.style.color = 'var(--verde)'; msg.textContent = 'Sincronizando…';
+  let res;
+  try { res = await enviarConPin(WORKER + '/operacion', { cambios: filas, id }, boton); }
+  catch (e) { res = { ok: false, j: { error: 'sin conexión con el Worker' } }; }
+  if (!res.ok) {
+    // No se guardo: vuelve a como estaba (los cambios siguen en amarillo para reintentar).
+    PEND = PEND.filter(p => p.id !== id); escribirLS(CLAVE_PEND, PEND);
+    marcarResultado(id, filas.map(f => f.maquina), false, res.pinMalo ? 'PIN incorrecto' : (res.cancelado ? 'sin PIN' : (res.j && res.j.error) || 'error'));
+    editado = anteriores;
+    msg.style.color = 'var(--rojo)'; msg.textContent = 'No se guardó: ' + textoError(res);
+    dibujar(); return;
   }
-  msg.textContent = 'Todavía no se ve el cambio; vuelve a mirar en unos minutos.';
+  msg.textContent = 'Guardado, se actualiza en 2–3 minutos.';
+  vigilar();
+}
+
+function marcarResultado(id, maquinas, ok, error, segundos) {
+  RES = RES.filter(r => Date.now() - r.t < 30 * 60 * 1000 && r.id !== id);
+  RES.push({ id, t: Date.now(), maquinas, ok, error, segundos }); escribirLS(CLAVE_RES, RES);
+}
+
+// Revisa los pendientes: ✓ cuando el guardado aparece publicado (operacion.json ->
+// guardados); "No se guardó" si la corrida de GitHub fallo (API publica, cada 90 s).
+let vigilando = false, ultimaApi = 0;
+async function vigilar() {
+  if (vigilando) return;
+  vigilando = true;
+  try {
+    const vigilados = new Set(PEND.map(p => p.id));
+    while (PEND.length) {
+      await new Promise(r => setTimeout(r, 20000));
+      PEND.forEach(p => vigilados.add(p.id));
+      await cargar(true);
+      const vistos = new Set(((OP && OP.guardados) || []).map(g => g.id));
+      for (const p of PEND.slice()) {
+        const iguales = p.filas.every(f => CAMPOS_FILA.every(k => (OP.maquinas[f.maquina] || {})[k] === f[k]));
+        if (vistos.has(p.id) || (!OP.guardados && iguales)) {
+          PEND = PEND.filter(x => x.id !== p.id);
+          marcarResultado(p.id, p.filas.map(f => f.maquina), true, '', (Date.now() - p.t0) / 1000);
+        } else if (Date.now() - p.t0 > 45 * 60 * 1000) {
+          PEND = PEND.filter(x => x.id !== p.id);
+          marcarResultado(p.id, p.filas.map(f => f.maquina), false, 'GitHub no lo confirmó en 45 min');
+        }
+      }
+      if (PEND.length && Date.now() - ultimaApi > 90000) {
+        ultimaApi = Date.now();
+        try {
+          const r = await fetch('https://api.github.com/repos/jpfernandez428/reporte-hectareas/actions/workflows/operacion.yml/runs?per_page=20', { cache: 'no-store' });
+          const runs = r.ok ? (await r.json()).workflow_runs : [];
+          for (const p of PEND.slice()) {
+            const run = runs.find(x => (x.display_title || '').includes(p.id));
+            if (run && run.status === 'completed' && run.conclusion !== 'success') {
+              PEND = PEND.filter(x => x.id !== p.id);
+              marcarResultado(p.id, p.filas.map(f => f.maquina), false, 'error de GitHub');
+            }
+          }
+        } catch (e) { /* sin API: se sigue esperando */ }
+      }
+      escribirLS(CLAVE_PEND, PEND);
+      // No redibujar mientras se escribe en una casilla (se perderia el foco).
+      const foco = document.activeElement;
+      if (!(foco && foco.closest && foco.closest('#tabla') && /INPUT|SELECT/.test(foco.tagName))) dibujar();
+      else dibujarHistorial();
+      const msg = document.getElementById('msg');
+      const malos = RES.filter(x => !x.ok && vigilados.has(x.id));
+      if (malos.length) { msg.style.color = 'var(--rojo)'; msg.textContent = 'No se guardó: ' + malos.map(x => x.error).join(', '); }
+      else if (!PEND.length) { msg.style.color = 'var(--verde)'; msg.textContent = '✓ Guardado.'; }
+    }
+  } finally { vigilando = false; }
 }
 
 function descargarExcel() {
   const ir = () => {
     const filas = unidades().filter(u => OP.maquinas[u.maquina]).map(u => {
       const v = valorDe(u.maquina), g = (V && V.gps_maquinas && V.gps_maquinas[u.maquina]) || {};
-      return [u.maquina, u.labor, v.implemento, v.operador, esTaller(v.campo) ? 'Taller (CYH)' : nombreCampo(v.campo), v.desde ? fc(v.desde) : '', v.destino, [g.texto, g.gps].filter(Boolean).join(' · ')];
+      return [u.maquina, u.labor, v.implemento, v.operador, esTaller(v.campo) ? 'Taller (CYH)' : nombreCampo(v.campo), v.desde ? fc(v.desde) : (desdeAuto(u.maquina) ? fc(desdeAuto(u.maquina)) + ' (auto)' : ''), v.destino, [g.texto, g.gps].filter(Boolean).join(' · ')];
     });
     const hoja = XLSX.utils.aoa_to_sheet([['Máquina', 'Labor', 'Implemento', 'Operador', 'Campo', 'Desde', 'Próximo destino', 'GPS'], ...filas]);
     hoja['!cols'] = [{ wch: 30 }, { wch: 18 }, { wch: 18 }, { wch: 20 }, { wch: 28 }, { wch: 12 }, { wch: 22 }, { wch: 50 }];
@@ -271,22 +374,43 @@ function descargarExcel() {
 }
 
 function dibujarHistorial() {
-  const filas = CAMBIOS.slice().reverse().slice(0, 300).map(c => `<tr class="fila"><td data-label="Fecha">${esc(c.fecha)}</td><td data-label="Máquina">${esc(c.maquina)}</td>` +
-    `<td data-label="Qué cambió">${esc(c.cambio)}</td><td data-label="Antes → después">${esc(c.antes || '—')} → <b>${esc(c.despues || '—')}</b></td></tr>`).join('');
-  document.querySelector('#historial tbody').innerHTML = filas || '<tr><td colspan="4" class="vacio">Sin cambios todavía.</td></tr>';
+  const tiempo = {};
+  for (const t of TIEMPOS) tiempo[t.id] = t;
+  const filas = CAMBIOS.slice().reverse().slice(0, 300).map(c => {
+    const t = c.id && tiempo[c.id];
+    const pub = !c.id ? '–' : !t ? 'midiendo…' : t.segundos == null ? '<b style="color:var(--rojo)">no se vio en 20 min</b>'
+      : t.segundos > 600 ? `<b style="color:var(--rojo)">${duracion(t.segundos)} ⚠</b>` : duracion(t.segundos);
+    return `<tr class="hist"><td data-label="Fecha">${esc(c.fecha)}</td><td data-label="Máquina">${esc(c.maquina)}</td>` +
+      `<td data-label="Qué cambió">${esc(c.cambio)}</td><td data-label="Antes → después">${esc(c.antes || '—')} → <b>${esc(c.despues || '—')}</b></td>` +
+      `<td data-label="Quedó publicado en">${pub}</td></tr>`;
+  }).join('');
+  document.querySelector('#historial tbody').innerHTML = filas || '<tr><td colspan="5" class="vacio">Sin cambios todavía.</td></tr>';
+  // Resumen de los ultimos 7 dias (para decidir si se pasa a guardar en Cloudflare KV).
+  const semana = TIEMPOS.filter(t => t.recibido && Date.now() - t.recibido < 7 * 86400000);
+  const seg = semana.filter(t => t.segundos != null).map(t => t.segundos).sort((a, b) => a - b);
+  const lentos = semana.filter(t => t.segundos == null || t.segundos > 600);
+  document.getElementById('tiempos').innerHTML = semana.length
+    ? `Tiempo hasta quedar publicado (últimos 7 días): ${semana.length} guardado${semana.length === 1 ? '' : 's'}` +
+      (seg.length ? ` · mediana ${duracion(seg[Math.floor(seg.length / 2)])} · máximo ${duracion(seg[seg.length - 1])}` : '') +
+      (lentos.length ? ` · <b style="color:var(--rojo)">${lentos.length} demoraron más de 10 min</b>` : '')
+    : '<span class="nota">Todavía no hay guardados medidos.</span>';
+  document.getElementById('avisoLento').innerHTML = lentos.length
+    ? `<div class="aviso-lento">⚠ En los últimos 7 días ${lentos.length} guardado${lentos.length === 1 ? '' : 's'} demoró más de 10 minutos en quedar publicado (ver Historial).</div>` : '';
 }
 
-async function cargar() {
-  const leer = (u, def) => fetch(u, { cache: 'no-store' }).then(r => r.ok ? r.json() : def).catch(() => def);
-  const [op, cambios, v2, campos] = await Promise.all([leer('datos/operacion.json', null), leer('datos/operacion_cambios.json', []),
-    leer('datos/reporte_v2.json', {}), leer('datos/campos.json', {})]);
-  if (!op) { document.getElementById('estado').textContent = 'Todavía no se carga la operación.'; return; }
-  OP = op; CAMBIOS = cambios || []; V = v2.v2 || null; CAMPOS = campos || CAMPOS; OPCIONES_CAMPO = null;
+async function cargar(soloOperacion) {
+  const leer = (u, def) => fetch(u + '?x=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : def).catch(() => def);
+  const [op, cambios, tiempos, v2, campos] = await Promise.all([leer('datos/operacion.json', null), leer('datos/operacion_cambios.json', []),
+    leer('datos/operacion_tiempos.json', []), soloOperacion && V ? { v2: V } : leer('datos/reporte_v2.json', {}),
+    soloOperacion && CAMPOS.campos.length ? CAMPOS : leer('datos/campos.json', {})]);
+  if (!op) { if (!OP) document.getElementById('estado').textContent = 'Todavía no se carga la operación.'; return; }
+  OP = op; CAMBIOS = cambios || []; TIEMPOS = tiempos || []; V = v2.v2 || null; CAMPOS = campos || CAMPOS; OPCIONES_CAMPO = null;
   document.getElementById('estado').textContent = `Guardado por última vez: ${OP.actualizado}` + (V && V.actualizado ? ` · GPS de ${V.actualizado}` : '');
   dibujar(); dibujarHistorial();
 }
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
-cargar();
+cargar().then(() => { if (PEND.length) vigilar(); });
+setInterval(() => { if (document.visibilityState === 'visible' && !vigilando) dibujar(); }, 60000);  // aviso de mas de 10 min
 </script>
 </body>
 </html>
