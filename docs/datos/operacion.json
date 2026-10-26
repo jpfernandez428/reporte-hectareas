@@ -1,5 +1,5 @@
 {
- "actualizado": "26-10-2026 12:22",
+ "actualizado": "26-10-2026 13:37",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -200,9 +200,9 @@
   },
   "Shacker SBS 4": {
    "implemento": "Shaker",
-   "operador": "",
+   "operador": "Victor Ibarra",
    "campo": "CK2",
-   "desde": "",
+   "desde": "2026-10-26",
    "destino": ""
   },
   "Shacker SBS 5": {
@@ -319,9 +319,9 @@
   },
   "Tractor 7 Kubota 95": {
    "implemento": "PICKER R",
-   "operador": "Jorge Cordova",
-   "campo": "Agr Santa Berta",
-   "desde": "2026-10-14",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
    "destino": ""
   },
   "Tractor 8 Kubota 108": {

@@ -5,5 +5,40 @@
   "cambio": "Carga inicial desde la planilla del Drive",
   "antes": "",
   "despues": "32 máquinas con campo"
+ },
+ {
+  "fecha": "26-10-2026 13:37",
+  "maquina": "Shacker SBS 4",
+  "cambio": "Operador",
+  "antes": "",
+  "despues": "Victor Ibarra"
+ },
+ {
+  "fecha": "26-10-2026 13:37",
+  "maquina": "Shacker SBS 4",
+  "cambio": "Desde",
+  "antes": "",
+  "despues": "2026-10-26"
+ },
+ {
+  "fecha": "26-10-2026 13:37",
+  "maquina": "Tractor 7 Kubota 95",
+  "cambio": "Operador",
+  "antes": "Jorge Cordova",
+  "despues": ""
+ },
+ {
+  "fecha": "26-10-2026 13:37",
+  "maquina": "Tractor 7 Kubota 95",
+  "cambio": "Campo",
+  "antes": "Agr Santa Berta",
+  "despues": "Taller"
+ },
+ {
+  "fecha": "26-10-2026 13:37",
+  "maquina": "Tractor 7 Kubota 95",
+  "cambio": "Desde",
+  "antes": "2026-10-14",
+  "despues": ""
  }
 ]

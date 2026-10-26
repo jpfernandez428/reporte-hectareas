@@ -63,6 +63,11 @@
     "implemento": "Shaker",
     "operador": "Pirincho"
    },
+   "Shacker SBS 4": {
+    "campo": "CK2",
+    "implemento": "Shaker",
+    "operador": "Victor Ibarra"
+   },
    "Shacker SBS 5": {
     "campo": "mercofrut",
     "implemento": "Shaker",
@@ -97,11 +102,6 @@
     "campo": "Alto Calibre",
     "implemento": "PICKER R",
     "operador": "Beño"
-   },
-   "Tractor 7 Kubota 95": {
-    "campo": "Agr Santa Berta",
-    "implemento": "PICKER R",
-    "operador": "Jorge Cordova"
    },
    "Tractor 9 Deutz Fahr 115": {
     "campo": "santa ana",
