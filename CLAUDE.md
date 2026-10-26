@@ -1009,7 +1009,7 @@ Registro:
     buscador por campo de la página (`docs/datos/campos.json` →
     `equivalencias`, junto con la lista de campos de Wialon). Nunca se
     escribe en las planillas; en el repositorio solo queda máquina, operador,
-    campo y destino (en `docs/datos/reporte_diario.json` → `v2`).
+    campo y destino (en `docs/datos/reporte_v2.json` → `v2`; antes en `reporte_diario.json`).
   - **Los nombres de operadores SÍ salen en la página y el correo** (autorizado
     por el usuario el 22-oct-2026).
   - Cruce de nombres por tipo y número (`planilla.cruzar_maquina`; solo
@@ -1156,6 +1156,25 @@ Registro:
     como picado, ej. Pomaire 7 3,31 → 1,03 ha); raleo 18,4 ha en 10
     cuarteles; 52 repasos (97,7 ha); 0 "Revisar labor". **Falta el OK del
     usuario para pasar a main.**
+  - **Datos de reporte2 en archivo aparte (26-oct-2026)**: el correo diario
+    (versión anterior) reescribe `docs/datos/reporte_diario.json` cada mañana
+    sin el bloque `v2`, y del 23 al 26-oct `reporte2.html` quedó vacía. Desde
+    el 26-oct todo lo de la versión nueva va en `docs/datos/reporte_v2.json`
+    (lo del correo + `v2`), que el correo no toca; lo leen `reporte2.html`, la
+    app (`sw.js`, cachés `flota-*-v2`), Operadores, la revisión de la planilla
+    y las confirmaciones (`reporte_v2.RUTA_V2`, `rearmar_pagina`). **Paso de
+    la mañana**: `.github/workflows/v2.yml` + `v2_manana.py`, al terminar cada
+    corrida de `correo.yml` (`workflow_run`) y de respaldo a las 08:17, 09:37
+    y 11:13 de Chile: si el correo de hoy ya salió (`correo_enviado.json`) y
+    reporte2 no está armado con ese día, lo arma desde el `reporte_diario.json`
+    nuevo ("Máquinas que trabajaron ayer" sale de ahí, sin Wialon; Wialon solo
+    para las comunas, lectura) y sube `reporte_v2.json` y `operadores.json`.
+    Corre aparte del correo (no toca `correo.yml`, `diario.yml` ni
+    `reporte_correo.py`); si falla, `v2_aviso.py` avisa solo a `CORREO_PRUEBA`.
+    `planilla.yml`, `v2.yml` y `confirmar.yml` suben sobre lo último de main
+    (si otro sube antes, se rehace). Historial de operadores: solo hubo
+    lectura el 22 y el 26-oct; los días entre dos lecturas con el mismo
+    operador en la máquina quedan "≈ aproximado" (23 al 25-oct recuperados).
   - **Hasta el 23-oct-2026 08:00 no tocar nada del envío diario**
     (`correo.yml`, `diario.yml`, `reporte_correo.py`, corrida de la noche,
     Worker) — pedido del usuario.
