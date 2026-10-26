@@ -215,7 +215,7 @@
 "Huertos de Nogal": 0.1
 },
 "campo": "Huertos de Nogal",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Romeral"
 },
 {
@@ -347,7 +347,7 @@
 "Avoamerica": 0.5
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -366,7 +366,7 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Pichidegua"
 },
 {
@@ -385,7 +385,7 @@
 "Avoamerica": 0.4
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -423,7 +423,7 @@
 "Avoamerica": 0.4
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -461,7 +461,7 @@
 "Avoamerica": 0.4
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -514,7 +514,7 @@
 "Avoamerica": 1.2
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -552,7 +552,7 @@
 "Avoamerica": 1.2
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -590,7 +590,7 @@
 "Avoamerica": 1.5
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -628,7 +628,7 @@
 "Avoamerica": 1.5
 },
 "campo": "Avoamerica",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Santo Domingo"
 },
 {
@@ -1068,7 +1068,7 @@
 "lon": -70.694481,
 "horas": 5.17,
 "mapa": "https://www.google.com/maps?q=-33.814035,-70.694481",
-"ha": 11.61,
+"ha": 9.84,
 "opciones": [
 "Candelaria"
 ],
@@ -1250,7 +1250,7 @@
 "lon": -70.695552,
 "horas": 2.8,
 "mapa": "https://www.google.com/maps?q=-33.815307,-70.695552",
-"ha": 5.32,
+"ha": 5.33,
 "opciones": [
 "Candelaria"
 ],
@@ -1447,7 +1447,7 @@
 "lon": -70.701286,
 "horas": 1.0,
 "mapa": "https://www.google.com/maps?q=-33.821849,-70.701286",
-"ha": 1.27,
+"ha": 1.9,
 "opciones": [
 "Candelaria"
 ],
