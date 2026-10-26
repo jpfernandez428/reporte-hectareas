@@ -1194,6 +1194,45 @@ Registro:
     (si otro sube antes, se rehace). Historial de operadores: solo hubo
     lectura el 22 y el 26-oct; los días entre dos lecturas con el mismo
     operador en la máquina quedan "≈ aproximado" (23 al 25-oct recuperados).
+  - **Página Operación (26-oct-2026; reemplaza la planilla del Drive "Maquinas
+    en Operacion"; EN PRUEBA hasta que el usuario la apruebe)**:
+    `docs/operacion.html` (enlace propio, pestaña "Operación ✎" y botón "Editar
+    Operación" en reporte2, y en la app). Tabla editable de las 76 máquinas
+    activas en el orden fijo: Implemento | Operador (conocidos con sus otros
+    nombres + "Nuevo operador…") | Campo ("Taller (CYH)" + campos de Wialon con
+    equivalentes + "Otro campo…" para campos sin geocerca) | Desde (llegada al
+    campo; si cambia el campo y no la fecha, queda hoy) | Próximo destino | GPS
+    (solo lectura, `v2.gps_maquinas`). Filtros Todas / En campo / En taller /
+    Sin operador, buscador, filas cambiadas en amarillo, "Guardar cambios",
+    "Descargar Excel" (hojas Operación e Historial) e historial de cambios.
+    Datos: `docs/datos/operacion.json` (estado) y `operacion_cambios.json`
+    (fecha y hora, máquina, qué cambió, antes → después); `operacion.py`
+    (`cargar` una sola vez, `guardar`). **Fuente única desde el 26-oct-2026
+    12:16**: se cargó UNA vez la planilla del Drive (32 máquinas con campo;
+    "Tractor Same Exp 95" ×2 y "Agrotron 185" no calzan con Wialon). Si existe
+    `operacion.json`, `planilla.cargar` lo usa y el Drive ya no se lee (para
+    volver al Drive: borrar ese archivo). La revisión cada 30 min quedó apagada
+    (el Worker ignora el Cron `*/30`); el botón "Actualizar" de reporte2 rearma
+    con la operación. Guardar: Worker `POST /operacion` (con PIN) →
+    `operacion.yml` (sin grupo de concurrencia: un guardado nunca reemplaza a
+    otro; se rehace sobre lo último de main) → `operacion.py guardar` → foto
+    del día y rearmado de reporte2 sin Wialon. **Foto diaria**
+    (`operadores.json`): en cada guardado y cada mañana (`v2_manana.py`); se
+    usa en Operadores, en el informe descargable (columna Operador en "Por
+    máquina" y "Detalle"; "≈" entre dos fotos iguales) y en el trabajo sin
+    geocerca (`sin_geocerca.campo_de_la_operacion`: sin campo seguro, el campo
+    de la operación ese día queda "probable"; protegido para no botar la
+    corrida de la noche).
+  - **PIN para guardar (26-oct-2026)**: un solo PIN, secreto `PIN_EDICION` del
+    Worker (lo carga el usuario; nunca en el código, el repositorio ni el
+    chat). Lo exigen `/confirmar`, `/planilla` (Actualizar) y `/operacion`; el
+    Worker compara en tiempo constante, espera 1 s si es incorrecto y responde
+    `{"error":"pin"}` sin lanzar nada; sin el secreto no guarda nada. El PIN
+    nunca se manda a GitHub. Páginas: `docs/pin.js` (lo pide una vez por
+    aparato dentro de la página, lo recuerda en el navegador y lo olvida si
+    es incorrecto: "PIN incorrecto: no se guardó nada"); lo usan reporte2
+    (confirmar, equivalencias de campos y operadores, Actualizar), index.html
+    (trabajo sin geocerca) y Operación.
   - **Hasta el 23-oct-2026 08:00 no tocar nada del envío diario**
     (`correo.yml`, `diario.yml`, `reporte_correo.py`, corrida de la noche,
     Worker) — pedido del usuario.
