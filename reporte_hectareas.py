@@ -146,7 +146,16 @@ LABORES_TRACTOR = ("Picado", "Poda")
 # Shakers (cosecha con recibidor y remecido de suelo): si ya trabajaron en el
 # campo en la temporada de cosecha, un tractor de picado/poda en ene-may es
 # recoleccion con recogedora.
-LABORES_SHAKER = ("Cosecha con recibidor", "Remecido de suelo")
+# Regla del usuario 26-oct-2026: solo el remecido (Shacker de Suelo, Shaker
+# Orchard Rite) deja la fruta en el suelo; el Shacker SBS (cosecha con
+# recibidor) no, asi que despues de un SBS el tractor sigue picando.
+LABORES_SHAKER = ("Remecido de suelo",)
+# Labores sin repaso (regla del usuario 26-oct-2026): se poda/pica una vez por
+# temporada; volver al cuartel es terminar lo que faltaba (no suma ni alarma).
+LABORES_SIN_REPASO = ("Poda", "Picado")
+# Recoleccion (recogedoras y tractor con recogedora): tambien es repaso si
+# antes hubo un repaso de remecido en ese cuartel (fruta nueva en el suelo).
+LABORES_RECOLECCION = ("Recolección", "Recolección (tractor con recogedora)")
 # Reglas de calculo (patron, entrehilera) de cada labor de temporada.
 REGLA_DE_LABOR = {LABOR_RALEO: "Cosecha con recibidor", LABOR_RECOLECCION_TRACTOR: "Recolección"}
 # (campo, anio) -> primer dia (AAAA-MM-DD) en que trabajo un shaker en ese
@@ -174,8 +183,10 @@ def temporada_de(labor, fecha):
 def labor_del_dia(unidad, fecha, campo):
     """Labor de la maquina ese dia segun la temporada:
     - Shacker SBS: ene-may cosecha; sep-nov raleo; jun-ago y dic "Revisar labor".
-    - Tractor de picado/poda en ene-may en un campo donde ya trabajo un shaker
-      desde el 1 de enero: recoleccion (tractor con recogedora).
+    - Tractor de PICADO en ene-may en un campo donde ya paso un Shacker de
+      Suelo o el Shaker Orchard Rite (remecido) desde el 1 de enero:
+      recoleccion (tractor con recogedora). Los tractores de PODA siempre
+      son poda (regla del usuario 26-oct-2026).
     - Las demas, su labor de config.json."""
     base = labor_de(unidad)
     if base == "Cosecha con recibidor":
@@ -184,7 +195,7 @@ def labor_del_dia(unidad, fecha, campo):
         if 9 <= fecha.month <= 11:
             return LABOR_RALEO
         return LABOR_REVISAR
-    if base in LABORES_TRACTOR and 1 <= fecha.month <= 5:
+    if base == "Picado" and 1 <= fecha.month <= 5:
         inicio = SHAKERS_POR_CAMPO.get(f"{campo}||{fecha.year}")
         if inicio and inicio <= fecha.isoformat():
             return LABOR_RECOLECCION_TRACTOR
@@ -2492,8 +2503,8 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                     hora_entrada = min((p["t"] for p in puntos_geo if p["t"] is not None), default=0)
                     entradas[nombre_geo].append((hora_entrada, unidad, puntos_geo))
 
-        # Campos donde un shaker trabajo hoy (temporada de cosecha, ene-may):
-        # desde ese dia, un tractor de picado/poda ahi es recoleccion.
+        # Campos donde un shaker de suelo (remecido) trabajo hoy (ene-may):
+        # desde ese dia, un tractor de picado ahi es recoleccion.
         if 1 <= dia.month <= 5:
             for nombre_geo, lista in entradas.items():
                 if any(labor_de(u) in LABORES_SHAKER for _, u, _ in lista):
@@ -2603,12 +2614,17 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                     alarma = "Revisar labor"
                 elif labor != LABOR_CON_PASADAS and not en_temporada(labor, fecha_dia):
                     alarma = "Fuera de temporada"
-                if labor not in (LABOR_CON_PASADAS, LABOR_REVISAR):
+                if labor not in (LABOR_CON_PASADAS, LABOR_REVISAR) + LABORES_SIN_REPASO:
                     # Labor repetida en la temporada: el cuartel ya estaba completo
                     # (antes de hoy) y hoy trabaja de verdad sus hileras -> REPASO.
                     base_avance = estado_avance_de(estado_avance, geo["nombre"], clave)
                     if base_avance["max_fraccion"] >= 1.0 and base_avance.get("fecha_completo", fecha_str) < fecha_str:
-                        if not trabaja_hileras(puntos_geo, clave):
+                        # Recoleccion despues de un repaso de remecido en el cuartel
+                        # (posterior a completar la recoleccion): repaso real.
+                        remecido = estado_avance.get(clave_avance(geo["nombre"], clave_labor("Remecido de suelo", fecha_dia))) or {}
+                        tras_remecido = (labor in LABORES_RECOLECCION and remecido.get("fecha_ultimo_repaso")
+                                         and base_avance.get("fecha_completo", fecha_str) < remecido["fecha_ultimo_repaso"] <= fecha_str)
+                        if not tras_remecido and not trabaja_hileras(puntos_geo, clave):
                             # Hileras nuevas (terminar el trabajo, ej. las saltadas de un patron
                             # ancho) o solo cruza: sigue en la temporada, sin sumar mas alla del 100 %.
                             print(f"  [no es repaso: hileras nuevas o solo cruza] {fecha_str} - {unidad['nombre']} - {geo['nombre']}")
@@ -2618,6 +2634,8 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                                     "fecha_completo", fecha_str) < fecha_str:
                                 n += 1
                             base_avance["repasos"] = n
+                            if labor == "Remecido de suelo":
+                                base_avance["fecha_ultimo_repaso"] = fecha_str
                             clave = clave + f"|repaso{n}"
                             alarma = "Repaso" + (f" ({alarma.lower()})" if alarma else "")
                 referencia, hileras, _ = estado_de(unidad, geo, clave)
