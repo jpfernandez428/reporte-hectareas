@@ -1154,8 +1154,27 @@ Registro:
     todo por geocercas que main no tenía calculadas); recolección con tractor
     371,8 ha (abril 259 ha; con las reglas de la recolección da menos que
     como picado, ej. Pomaire 7 3,31 → 1,03 ha); raleo 18,4 ha en 10
-    cuarteles; 52 repasos (97,7 ha); 0 "Revisar labor". **Falta el OK del
-    usuario para pasar a main.**
+    cuarteles; 52 repasos (97,7 ha); 0 "Revisar labor".
+  - **Respuestas del usuario (26-oct-2026), aplicadas en la rama y
+    recalculando de nuevo (1-ene al 25-oct, lanzado el 26-oct)**:
+    - Tractores de PODA (2, 9, 10, 11, 13 y 15): siempre Poda, nunca
+      recolección. Tractores de PICADO (1, 3, 4, 7, 8, 14, 16 y 17):
+      "Recolección (tractor con recogedora)" cuando trabajan en un campo
+      después de que pasó un Shacker de Suelo o el Shaker Orchard Rite
+      (remecido) en esa temporada (ene–may, también abril y mayo). Si solo
+      pasó un Shacker SBS (cosecha con recibidor) sigue siendo Picado
+      (`LABORES_SHAKER = ("Remecido de suelo",)`).
+    - Remecido de suelo: los repasos son reales (Achurra 3 7-abr, N3 22–25-abr,
+      N2 16, 17 y 21-abr).
+    - Poda y Picado: NUNCA repaso (`LABORES_SIN_REPASO`); volver al cuartel es
+      terminar lo que faltaba: no suma hectáreas ni alarma (Longaví 4 y 5 en
+      junio, Flor Oriente 17-jun, Aurora 2 25-sep).
+    - Recolección (recogedoras y tractor con recogedora): repaso real si antes
+      hubo un repaso de remecido en ese cuartel después de completar la
+      recolección (`fecha_ultimo_repaso` del remecido en el avance), o con la
+      regla de siempre (≥ 3 pasadas del día por hileras ya pasadas esa
+      temporada).
+    **Falta el OK del usuario para pasar a main.**
   - **Datos de reporte2 en archivo aparte (26-oct-2026)**: el correo diario
     (versión anterior) reescribe `docs/datos/reporte_diario.json` cada mañana
     sin el bloque `v2`, y del 23 al 26-oct `reporte2.html` quedó vacía. Desde
