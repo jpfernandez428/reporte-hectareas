@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flota C&amp;H</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#2f6f3e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Flota C&amp;H">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icono-192.png">
+<script src="pin.js"></script>
+<script src="menu.js"></script>
+<style>
+  :root { --verde: #2f6f3e; --verde-f: #eaf3ec; --rojo: #b3261e; --rojo-f: #fdecea; --gris: #5f6b64; --borde: #e3e8e5;
+          --amarillo-f: #fff4cc; --azul-f: #dfeafd; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, Arial, sans-serif; margin: 0; background: #f5f6f7; color: #1a1a1a; font-size: 15px; }
+  main { max-width: 1280px; margin: 0 auto; padding: 12px; }
+  h1 { font-size: 20px; margin: 4px 0 2px; color: var(--verde); }
+  .sub { font-size: 13px; color: var(--gris); margin-bottom: 10px; }
+  section, .caja { background: #fff; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.08); padding: 12px 14px; margin-bottom: 12px; }
+  h2 { font-size: 16px; color: var(--verde); margin: 0 0 10px; }
+  a { color: var(--verde); }
+  .vacio { color: var(--gris); padding: 8px 0; }
+  .nota { font-size: 12px; color: var(--gris); margin: 8px 0 0; }
+  /* Barra de herramientas */
+  .barra-op { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+  .seg { display: inline-flex; border: 1px solid #cfe0d1; border-radius: 999px; overflow: hidden; }
+  .seg button { border: 0; background: #fff; color: var(--verde); font-weight: 600; padding: 7px 13px; font-size: 13px; cursor: pointer; }
+  .seg button.activo { background: var(--verde); color: #fff; }
+  .seg .cuenta { display: inline-block; min-width: 18px; padding: 0 5px; border-radius: 9px; background: var(--rojo); color: #fff; font-size: 11px; margin-left: 4px; }
+  .seg button.activo .cuenta { background: #fff; color: var(--rojo); }
+  .boton-sec { border: 1px solid #cfe0d1; background: #fff; color: var(--verde); border-radius: 8px; padding: 7px 12px; font-weight: 600; font-size: 13px; cursor: pointer; }
+  .buscador { flex: 1 1 220px; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; }
+  .filtros { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .filtros button { border: 1px solid #cfe0d1; background: var(--verde-f); color: var(--verde); font-weight: 600; border-radius: 999px; padding: 5px 11px; font-size: 13px; cursor: pointer; }
+  .filtros button.activo { background: var(--verde); color: #fff; }
+  /* Por campo: tarjetas; computador con panel a la derecha */
+  .op-layout { display: grid; grid-template-columns: 1fr; gap: 12px; align-items: start; }
+  @media (min-width: 1000px) { .op-layout { grid-template-columns: 1fr 360px; } .panel-lateral { position: sticky; top: calc(var(--alto-menu, 0px) + 10px); } }
+  .campos { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+  .campo-card { background: #fff; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.08); overflow: hidden; }
+  .campo-card header { padding: 9px 12px; background: var(--verde-f); display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+  .campo-card header b { color: var(--verde); }
+  .campo-card header small { color: var(--gris); font-size: 12px; white-space: nowrap; }
+  .campo-card.taller header { background: #eceeed; } .campo-card.taller header b { color: #444; }
+  .maq-item { display: flex; width: 100%; text-align: left; gap: 8px; align-items: center; padding: 9px 12px; border: 0; border-top: 1px solid #f0f2f0; background: #fff; cursor: pointer; font-size: 14px; }
+  .maq-item:hover, .maq-item.sel { background: #f3f8f4; }
+  .ver-mas { padding: 10px 12px; border-top: 1px solid #f0f2f0; color: var(--verde); font-weight: 600; font-size: 14px; cursor: pointer; }
+  .maq-item .nom { flex: 1; min-width: 0; }
+  .maq-item .nom small { display: block; color: var(--gris); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .punto { flex: none; width: 10px; height: 10px; border-radius: 50%; }
+  .p-ok { background: #2e9e4f; } .p-sin_geocerca { background: #e0a800; } .p-confirmar { background: var(--rojo); } .p-sin_senal { background: #9aa39d; }
+  .marca { display: inline-block; padding: 1px 7px; border-radius: 9px; font-size: 12px; font-weight: 700; }
+  .m-ok { background: #e3f2e6; color: #1f6b34; } .m-sin_geocerca { background: #fff4cc; color: #8a6a00; }
+  .m-confirmar { background: #fdecea; color: #b3261e; } .m-sin_senal { background: #eceeed; color: #5d6660; }
+  .sinc { display: inline-block; margin-top: 3px; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 9px; white-space: nowrap; }
+  .sinc-pend { background: var(--azul-f); color: #1d4f91; } .sinc-ok { background: #e3f2e6; color: #1f6b34; }
+  .sinc-mal { background: var(--rojo); color: #fff; } .sinc-lento { background: #fff4cc; color: #8a6a00; }
+  /* Panel de la maquina (derecha en computador; hoja desde abajo en celular) */
+  .panel h3 { margin: 0 0 2px; font-size: 17px; }
+  .panel .labor { color: var(--gris); font-size: 13px; margin-bottom: 10px; }
+  .dato { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid #f0f2f0; font-size: 14px; }
+  .dato span:first-child { color: var(--gris); }
+  .dato input { width: 60%; padding: 6px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+  .acciones-grandes { display: grid; gap: 8px; margin: 12px 0 6px; }
+  .acciones-grandes button { padding: 13px; font-size: 16px; font-weight: 700; border-radius: 10px; border: 0; background: var(--verde); color: #fff; cursor: pointer; }
+  .acciones-grandes button.sec { background: #fff; color: var(--verde); border: 2px solid var(--verde); }
+  .acciones-grandes button:disabled { opacity: .45; }
+  .desde-txt { font-size: 11px; color: var(--gris); }
+  .hoja-fondo { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 40; }
+  .hoja { position: fixed; left: 0; right: 0; bottom: 0; z-index: 41; background: #fff; border-radius: 16px 16px 0 0; max-height: 88vh; overflow: auto;
+          padding: 14px 16px calc(16px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 20px rgba(0,0,0,.2); }
+  .hoja .cerrar { float: right; border: 0; background: #eee; border-radius: 50%; width: 32px; height: 32px; font-size: 18px; cursor: pointer; }
+  /* Selector con buscador (campo / operador) */
+  .selector-fondo { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 50; display: flex; align-items: flex-end; justify-content: center; }
+  @media (min-width: 700px) { .selector-fondo { align-items: center; } }
+  .selector { background: #fff; width: 100%; max-width: 520px; max-height: 90vh; display: flex; flex-direction: column; border-radius: 16px 16px 0 0; overflow: hidden; }
+  @media (min-width: 700px) { .selector { border-radius: 14px; } }
+  .selector header { padding: 12px 14px; border-bottom: 1px solid var(--borde); }
+  .selector header b { font-size: 16px; }
+  .selector input { width: 100%; margin-top: 8px; padding: 10px; font-size: 16px; border: 1px solid #bbb; border-radius: 8px; }
+  .selector .lista { overflow: auto; padding: 4px 0 calc(8px + env(safe-area-inset-bottom)); }
+  .selector .lista .tit { font-size: 11px; font-weight: 700; color: var(--gris); text-transform: uppercase; padding: 10px 14px 4px; }
+  .selector .lista button { display: block; width: 100%; text-align: left; padding: 12px 14px; border: 0; border-top: 1px solid #f2f2f2; background: #fff; font-size: 15px; cursor: pointer; }
+  .selector .lista button:hover { background: #f3f8f4; }
+  .selector .lista button small { color: var(--gris); }
+  .selector .lista button.nuevo { color: var(--verde); font-weight: 700; }
+  .selector .pregunta { padding: 12px 14px; background: var(--amarillo-f); font-size: 14px; }
+  .selector .pregunta button { margin: 8px 8px 0 0; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--verde); background: #fff; color: var(--verde); font-weight: 700; }
+  .selector .pregunta button.si { background: var(--verde); color: #fff; }
+  .selector footer { padding: 8px 14px; border-top: 1px solid var(--borde); text-align: right; }
+  /* Sugerencias */
+  .sug { display: flex; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid #f0f2f0; }
+  .sug:first-child { border-top: 0; }
+  .sug .txt { flex: 1; font-size: 14px; } .sug .txt small { display: block; color: var(--gris); font-size: 12px; }
+  .sug button { flex: none; padding: 9px 12px; border-radius: 8px; border: 0; background: var(--verde); color: #fff; font-weight: 700; cursor: pointer; }
+  /* Tabla (vista actual) */
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 6px 5px; text-align: left; border-bottom: 1px solid #eee; vertical-align: top; }
+  th { background: #eef1ee; font-size: 12px; position: sticky; top: var(--alto-menu, 0px); z-index: 1; }
+  td input, td select { width: 100%; padding: 5px; font-size: 14px; border: 1px solid #ccc; border-radius: 6px; background: #fff; }
+  tr.cambiada td { background: var(--amarillo-f); } tr.guardando td { background: #eef5ff; } tr.fallo td { background: var(--rojo-f); }
+  .grupo td { font-size: 12px; font-weight: 700; color: var(--verde); text-transform: uppercase; padding-top: 12px; }
+  .barra-guardar { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--borde); z-index: 20;
+                   padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); display: flex; gap: 8px; align-items: center; }
+  .barra-guardar .guardar { background: var(--verde); color: #fff; border: 0; border-radius: 8px; padding: 10px 16px; font-weight: 700; font-size: 15px; }
+  .barra-guardar .guardar:disabled { opacity: .5; }
+  #msg { font-size: 13px; font-weight: 600; }
+  .aviso-lento { background: #fff4cc; border-left: 4px solid #d4a017; padding: 8px 10px; margin: 0 0 10px; font-size: 14px; }
+  @media (max-width: 700px) {
+    main { padding: 8px; }
+    .tabla-op thead { display: none; }
+    .tabla-op, .tabla-op tbody, .tabla-op tr, .tabla-op td { display: block; width: 100%; }
+    .tabla-op tr.fila, #historial tr.hist { border: 1px solid var(--borde); border-radius: 10px; margin: 0 0 10px; padding: 8px 10px; background: #fff; }
+    .tabla-op tr.fila td, #historial tr.hist td { border: 0; padding: 3px 0; }
+    .tabla-op td[data-label]::before, #historial td[data-label]::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 600; color: var(--gris); text-transform: uppercase; }
+    #historial thead { display: none; } #historial, #historial tbody, #historial tr, #historial td { display: block; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<main id="app">
+  <div class="vacio">Cargando…</div>
+</main>
+<div id="capa"></div>
+<script>
+// ===========================================================================
+// App "Flota C&H" (reorganizacion pedida por el usuario 26-oct-2026): una sola
+// direccion con secciones #operacion, #ayer, #flota, #historial y #ajustes.
+// Etapa 1: Operacion (reemplaza la planilla del Drive, "Maquinas en operacion"
+// de reporte2 y operacion.html). Las demas secciones siguen, por ahora, en las
+// paginas actuales (el menu comun lleva a ellas). Reglas en CLAUDE.md.
+// Datos: datos/operacion.json, operacion_cambios.json, operacion_tiempos.json,
+// reporte_v2.json (GPS, maquinas activas, operadores, Desde automatico),
+// campos.json (campos de Wialon y equivalencias) y operadores.json (foto diaria).
+// Guardar: Worker /operacion con el PIN -> operacion.yml -> operacion.py.
+// ===========================================================================
+const WORKER = 'https://disparador-reporte.dawn-band-fd6c.workers.dev';
+const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const sinT = t => String(t || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const clave = t => sinT(t).replace(/[^a-z0-9]/g, '');
+const fc = iso => iso ? `${iso.slice(8, 10)}-${iso.slice(5, 7)}-${iso.slice(0, 4)}` : '';
+const CAMPOS_FILA = ['implemento', 'operador', 'campo', 'desde', 'destino'];
+let OP = null, CAMBIOS = [], TIEMPOS = [], V = null, FOTO = {}, CAMPOS = { campos: [], equivalencias: {}, nombres_lista: {} };
+const UI = { vista: leerLS('op_vista', innerWidth >= 1000 ? 'campo' : 'campo'), pestana: 'maquinas', filtro: 'todas', q: '', sel: null, qHist: '' };
+let editado = {};
+
+function leerLS(k, d) { try { const v = JSON.parse(localStorage.getItem(k)); return v ?? d; } catch (e) { return d; } }
+function escribirLS(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* sin almacenamiento */ } }
+const esTaller = c => ['taller', 'cyh', 'taller (cyh)'].includes(sinT(c).trim());
+// Nombre para mostrar: Taller; campo de Wialon (nombre limpio, aunque este escrito distinto,
+// ej. "mercofrut" = MERCOFRUT); o nombre de la planilla con su equivalente de Wialon.
+function nombreCampo(c) {
+  if (!c) return '';
+  if (esTaller(c)) return 'Taller (CYH)';
+  const nl = CAMPOS.nombres_lista || {};
+  if (nl[c]) return nl[c];
+  const w = (CAMPOS.campos || []).find(x => clave(x) === clave(c));
+  if (w) return nl[w] || w;
+  const eq = equivalenciaDe(c);
+  return eq.length ? `${c} (= ${eq.map(x => nl[x] || x).join(', ')})` : c;
+}
+const equivalenciaDe = c => (Object.entries(CAMPOS.equivalencias || {}).find(([k]) => clave(k) === clave(c)) || [null, []])[1];
+const equivalentes = c => Object.keys(CAMPOS.equivalencias || {}).filter(k => (CAMPOS.equivalencias[k] || []).includes(c));
+const desdeAuto = m => (V && V.desde_auto && V.desde_auto[m]) || '';
+const gpsDe = m => (V && V.gps_maquinas && V.gps_maquinas[m]) || {};
+const duracion = s => s < 60 ? `${Math.round(s)} s` : `${Math.floor(s / 60)} min ${String(Math.round(s % 60)).padStart(2, '0')} s`;
+function unidades() {
+  if (V && V.unidades) return V.unidades.filter(u => OP.maquinas[u.maquina]);
+  return Object.keys(OP.maquinas).map(m => ({ maquina: m, labor: '', grupo: '' }));
+}
+
+// ---------------------------------------------------------------------------
+// Guardar al instante (opcion A del usuario): se ve al tiro ("sincronizando…"),
+// queda en este navegador hasta que GitHub lo confirma ("✓ guardado"); si falla
+// ("No se guardó", PIN incorrecto o error de GitHub) vuelve a como estaba.
+// ---------------------------------------------------------------------------
+const CLAVE_PEND = 'operacion_pendientes', CLAVE_RES = 'operacion_resultados';
+let PEND = leerLS(CLAVE_PEND, []), RES = leerLS(CLAVE_RES, []);
+const pendienteDe = m => PEND.filter(p => p.filas.some(f => f.maquina === m)).pop();
+const resultadoDe = m => RES.filter(r => r.maquinas.includes(m) && Date.now() - r.t < 30 * 60 * 1000).pop();
+function valorDe(m) {
+  const p = pendienteDe(m), fp = p && p.filas.find(f => f.maquina === m);
+  return { ...OP.maquinas[m], ...(fp || {}), ...(editado[m] || {}) };
+}
+function cambiada(m) {
+  if (!editado[m]) return false;
+  const p = pendienteDe(m), base = { ...OP.maquinas[m], ...((p && p.filas.find(f => f.maquina === m)) || {}) };
+  return CAMPOS_FILA.some(k => (editado[m][k] ?? base[k] ?? '') !== (base[k] ?? ''));
+}
+function estadoSinc(m) {
+  const p = pendienteDe(m);
+  if (p) return (Date.now() - p.t0) / 60000 > 10 ? '<span class="sinc sinc-lento">sincronizando… (más de 10 min)</span>' : '<span class="sinc sinc-pend">sincronizando…</span>';
+  const r = resultadoDe(m);
+  if (!r) return '';
+  return r.ok ? `<span class="sinc sinc-ok">✓ guardado${r.segundos ? ' en ' + duracion(r.segundos) : ''}</span>`
+              : `<span class="sinc sinc-mal">No se guardó${r.error ? ': ' + esc(r.error) : ''}</span>`;
+}
+function marcarResultado(id, maquinas, ok, error, segundos) {
+  RES = RES.filter(r => Date.now() - r.t < 30 * 60 * 1000 && r.id !== id);
+  RES.push({ id, t: Date.now(), maquinas, ok, error, segundos }); escribirLS(CLAVE_RES, RES);
+}
+// filas: [{maquina, implemento, operador, campo, desde, destino}] (filas completas)
+async function guardarFilas(filas, boton, alFallar) {
+  const id = (Date.now().toString(36) + Math.random().toString(36).slice(2, 8)).toLowerCase();
+  PEND.push({ id, t0: Date.now(), filas }); escribirLS(CLAVE_PEND, PEND);
+  dibujar();
+  aviso('Sincronizando…', false);
+  let res;
+  try { res = await enviarConPin(WORKER + '/operacion', { cambios: filas, id }, boton || document.body); }
+  catch (e) { res = { ok: false, j: { error: 'sin conexión con el Worker' } }; }
+  if (!res.ok) {
+    PEND = PEND.filter(p => p.id !== id); escribirLS(CLAVE_PEND, PEND);
+    marcarResultado(id, filas.map(f => f.maquina), false, res.pinMalo ? 'PIN incorrecto' : (res.cancelado ? 'sin PIN' : (res.j && res.j.error) || 'error'));
+    if (alFallar) alFallar();
+    aviso('No se guardó: ' + textoError(res), true);
+    dibujar(); return false;
+  }
+  aviso('Guardado, se actualiza en 2–3 minutos.', false);
+  vigilar();
+  return true;
+}
+function filaCompleta(m, cambios) {
+  const v = valorDe(m);
+  return { maquina: m, ...Object.fromEntries(CAMPOS_FILA.map(k => [k, v[k] || ''])), ...cambios };
+}
+let vigilando = false, ultimaApi = 0;
+async function vigilar() {
+  if (vigilando) return;
+  vigilando = true;
+  try {
+    const vigilados = new Set(PEND.map(p => p.id));
+    while (PEND.length) {
+      await new Promise(r => setTimeout(r, 20000));
+      PEND.forEach(p => vigilados.add(p.id));
+      await cargar(true);
+      const vistos = new Set(((OP && OP.guardados) || []).map(g => g.id));
+      for (const p of PEND.slice()) {
+        const iguales = p.filas.every(f => CAMPOS_FILA.every(k => ((OP.maquinas[f.maquina] || {})[k] || '') === (f[k] || '')));
+        if (vistos.has(p.id) || iguales) {
+          PEND = PEND.filter(x => x.id !== p.id);
+          marcarResultado(p.id, p.filas.map(f => f.maquina), true, '', (Date.now() - p.t0) / 1000);
+        } else if (Date.now() - p.t0 > 45 * 60 * 1000) {
+          PEND = PEND.filter(x => x.id !== p.id);
+          marcarResultado(p.id, p.filas.map(f => f.maquina), false, 'GitHub no lo confirmó en 45 min');
+        }
+      }
+      if (PEND.length && Date.now() - ultimaApi > 90000) {
+        ultimaApi = Date.now();
+        try {
+          const r = await fetch('https://api.github.com/repos/jpfernandez428/reporte-hectareas/actions/workflows/operacion.yml/runs?per_page=20', { cache: 'no-store' });
+          const runs = r.ok ? (await r.json()).workflow_runs : [];
+          for (const p of PEND.slice()) {
+            const run = runs.find(x => (x.display_title || '').includes(p.id));
+            if (run && run.status === 'completed' && run.conclusion !== 'success') {
+              PEND = PEND.filter(x => x.id !== p.id);
+              marcarResultado(p.id, p.filas.map(f => f.maquina), false, 'error de GitHub');
+            }
+          }
+        } catch (e) { /* sin API: se sigue esperando */ }
+      }
+      escribirLS(CLAVE_PEND, PEND);
+      if (!escribiendo()) dibujar();
+      const malos = RES.filter(x => !x.ok && vigilados.has(x.id));
+      if (malos.length) aviso('No se guardó: ' + malos.map(x => x.error).join(', '), true);
+      else if (!PEND.length) aviso('✓ Guardado.', false);
+    }
+  } finally { vigilando = false; }
+}
+function aviso(texto, error) {
+  const m = document.getElementById('msg');
+  if (m) { m.textContent = texto; m.style.color = error ? 'var(--rojo)' : 'var(--verde)'; }
+}
+
+// ---------------------------------------------------------------------------
+// Listas de campos y operadores (con buscador, los mas usados primero y "+ nuevo")
+// ---------------------------------------------------------------------------
+function usos(tipo) {
+  // Cuantas veces aparece cada valor en la foto diaria y en la operacion de hoy.
+  const n = {};
+  const sumar = v => { if (v && !esTaller(v)) n[v] = (n[v] || 0) + 1; };
+  for (const dia of Object.values(FOTO)) for (const x of Object.values(dia)) sumar(tipo === 'campo' ? x.campo : x.operador);
+  for (const m of Object.keys(OP.maquinas)) sumar(valorDe(m)[tipo]);
+  return n;
+}
+function opciones(tipo) {
+  const lista = [];
+  if (tipo === 'campo') {
+    for (const c of CAMPOS.campos || []) {
+      if (CAMPOS.nombres_lista && !CAMPOS.nombres_lista[c]) continue;
+      const eq = equivalentes(c);
+      // Se busca tambien por los nombres unidos del campo ("nueces" -> El Volcan).
+      lista.push({ valor: c, texto: nombreCampo(c), extra: eq.length ? '= ' + eq.join(', ') : '', buscar: (CAMPOS.campos_unidos || {})[c] || [] });
+    }
+    // Campos anotados que no son de Wialon (sin geocerca o nombre antiguo de la planilla).
+    for (const m of Object.keys(OP.maquinas)) {
+      const c = valorDe(m).campo;
+      if (c && !esTaller(c) && !lista.some(o => clave(o.valor) === clave(c))) {
+        const eq = equivalenciaDe(c);
+        lista.push({ valor: c, texto: c, extra: eq.length ? '= ' + eq.map(x => (CAMPOS.nombres_lista || {})[x] || x).join(', ') : 'sin geocerca' });
+      }
+    }
+  } else {
+    for (const o of ((V && V.operadores && V.operadores.lista) || [])) lista.push({ valor: o.operador, texto: o.operador, extra: o.otros_nombres.length ? '= ' + o.otros_nombres.join(', ') : '' });
+    for (const m of Object.keys(OP.maquinas)) {
+      const o = valorDe(m).operador;
+      if (o && !lista.some(x => x.valor === o)) lista.push({ valor: o, texto: o, extra: '' });
+    }
+  }
+  const u = usos(tipo);
+  lista.forEach(o => { o.usos = u[o.valor] || 0; });
+  return lista.sort((a, b) => a.texto.localeCompare(b.texto, 'es'));
+}
+// Parecido entre nombres (para "+ nuevo": ¿es el mismo que uno existente?).
+function parecido(a, b) {
+  a = clave(a); b = clave(b);
+  if (!a || !b) return 0;
+  if (a === b) return 1;
+  if (a.includes(b) || b.includes(a)) return 0.9;
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)
+    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return 1 - d[a.length][b.length] / Math.max(a.length, b.length);
+}
+function mismoPrimerNombre(a, b) {
+  const ta = sinT(a).split(/\s+/), tb = sinT(b).split(/\s+/);
+  return ta[0] && ta[0] === tb[0] && (ta.length === 1 || tb.length === 1 || (ta[1] || '')[0] === (tb[1] || '')[0]);
+}
+
+// Abre la lista con buscador; resuelve con el valor elegido (o null).
+function elegir(tipo, titulo, actual) {
+  return new Promise(listo => {
+    const capa = document.getElementById('capa');
+    const todos = opciones(tipo);
+    const top = todos.filter(o => o.usos > 0).sort((a, b) => b.usos - a.usos).slice(0, 6);
+    const nuevoTxt = tipo === 'campo' ? '+ Campo nuevo…' : '+ Operador nuevo…';
+    capa.innerHTML = `<div class="selector-fondo"><div class="selector" role="dialog" aria-label="${esc(titulo)}">
+      <header><b>${esc(titulo)}</b><input type="search" placeholder="Buscar…" autocomplete="off"></header>
+      <div class="lista"></div><footer><button type="button" class="boton-sec" data-cerrar>Cancelar</button></footer></div></div>`;
+    const caja = capa.querySelector('.lista'), entrada = capa.querySelector('input');
+    const fin = v => { capa.innerHTML = ''; listo(v); };
+    const boton = o => `<button type="button" data-v="${esc(o.valor)}">${esc(o.texto)}${o.extra ? ` <small>(${esc(o.extra)})</small>` : ''}${o.valor === actual ? ' <small>· actual</small>' : ''}</button>`;
+    function pintar() {
+      const q = sinT(entrada.value.trim());
+      const pasa = o => !q || sinT([o.texto, o.extra, o.valor, ...(o.buscar || [])].join(' ')).includes(q);
+      let html = '';
+      if (!q && top.length) html += `<div class="tit">Más usados</div>` + top.map(boton).join('');
+      const resto = todos.filter(pasa);
+      html += `<div class="tit">${q ? 'Resultados' : 'Todos'}</div>` + (resto.map(boton).join('') || '<div class="vacio" style="padding:8px 14px">Sin resultados.</div>');
+      if (tipo === 'operador' && !q) html = `<button type="button" data-v="">(sin operador)</button>` + html;
+      html += `<button type="button" class="nuevo" data-nuevo>${nuevoTxt}${q ? ` «${esc(entrada.value.trim())}»` : ''}</button>`;
+      caja.innerHTML = html;
+    }
+    async function nuevo() {
+      let nombre = entrada.value.trim();
+      if (!nombre) {
+        caja.innerHTML = `<div class="pregunta">Escribe el nombre ${tipo === 'campo' ? 'del campo' : 'del operador'} arriba y vuelve a tocar "${nuevoTxt}".</div>` + caja.innerHTML;
+        entrada.focus(); return;
+      }
+      // Si se parece a uno existente, preguntar si es el mismo.
+      const candidatos = todos.map(o => ({ o, p: Math.max(parecido(nombre, o.texto), parecido(nombre, o.valor), mismoPrimerNombre(nombre, o.texto) ? 0.8 : 0) }))
+        .filter(x => x.p >= 0.75 && clave(x.o.valor) !== clave(nombre)).sort((a, b) => b.p - a.p).slice(0, 3);
+      const exacto = todos.find(o => clave(o.valor) === clave(nombre) || clave(o.texto) === clave(nombre));
+      if (exacto) return fin(exacto.valor);
+      if (!candidatos.length) return fin(nombre);
+      caja.innerHTML = `<div class="pregunta">«${esc(nombre)}» se parece a ${candidatos.length > 1 ? 'otros nombres' : 'un nombre'} que ya existe. ¿Es el mismo?<br>` +
+        candidatos.map(x => `<button type="button" class="si" data-v="${esc(x.o.valor)}">Sí, es ${esc(x.o.texto)}</button>`).join('') +
+        `<button type="button" data-nuevo-ok>No, es ${tipo === 'campo' ? 'un campo' : 'un operador'} nuevo</button></div>`;
+    }
+    capa.addEventListener('click', ev => {
+      if (ev.target.classList.contains('selector-fondo') || ev.target.closest('[data-cerrar]')) return fin(null);
+      const b = ev.target.closest('button');
+      if (!b) return;
+      if (b.hasAttribute('data-nuevo')) return nuevo();
+      if (b.hasAttribute('data-nuevo-ok')) return fin(entrada.value.trim());
+      if (b.hasAttribute('data-v')) return fin(b.dataset.v);
+    });
+    entrada.addEventListener('input', pintar);
+    entrada.addEventListener('keydown', ev => { if (ev.key === 'Enter') { const p = caja.querySelector('button[data-v]'); if (entrada.value.trim() && p) p.click(); } });
+    pintar(); entrada.focus();
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Acciones sobre una maquina (guardan al tocar)
+// ---------------------------------------------------------------------------
+async function moverACampo(m, boton, campo) {
+  if (!campo) campo = await elegir('campo', `Mover ${m} a…`, valorDe(m).campo);
+  if (campo == null || campo === '') return;
+  // Mover de campo: "Desde" vuelve a automatico (GPS).
+  await guardarFilas([filaCompleta(m, { campo, desde: '' })], boton);
+}
+async function cambiarOperador(m, boton, operador) {
+  if (operador === undefined) operador = await elegir('operador', `Operador de ${m}`, valorDe(m).operador);
+  if (operador == null) return;
+  await guardarFilas([filaCompleta(m, { operador })], boton);
+}
+async function volverATaller(m, boton) { await guardarFilas([filaCompleta(m, { campo: 'Taller', desde: '' })], boton); }
+async function guardarDato(m, k, boton) {
+  const el = document.getElementById('dato-' + k);
+  await guardarFilas([filaCompleta(m, { [k]: (el.value || '').trim() })], boton);
+}
+
+// ---------------------------------------------------------------------------
+// Sugerencias del GPS (para aprobar con un toque)
+// ---------------------------------------------------------------------------
+function campoDeLugar(lugar) {
+  // El lugar del GPS es un campo de Wialon (nombre de campos unidos); se busca su valor en la lista.
+  if (!lugar) return null;
+  const o = opciones('campo').find(x => clave(x.valor) === clave(lugar) || clave(x.texto) === clave(lugar));
+  return o ? o.valor : lugar;
+}
+function calzaCampo(anotado, lugar) {
+  if (!anotado || !lugar) return false;
+  if (clave(anotado) === clave(lugar)) return true;
+  const eq = Object.entries(CAMPOS.equivalencias || {}).find(([k]) => clave(k) === clave(anotado));
+  return !!(eq && eq[1].some(c => clave(c) === clave(lugar)));
+}
+const noEsDeCYH = m => ((V && V.no_en_planilla) || []).some(x => x.maquina === m && x.no_cyh);
+function sugerencias() {
+  const lista = [];
+  for (const u of unidades()) {
+    const m = u.maquina, v = valorDe(m), g = gpsDe(m);
+    if (pendienteDe(m) || !g.lugar || (g.lugar !== 'CYH' && g.dias_sin_senal != null && g.dias_sin_senal >= 2)) continue;
+    const enCampo = v.campo && !esTaller(v.campo);
+    const lugarCampo = g.lugar !== 'CYH' && g.lugar !== 'fuera de geocercas';
+    if (enCampo && g.lugar === 'CYH') {
+      lista.push({ m, texto: `${m} está en CYH según el GPS`, sub: `Anotada en ${nombreCampo(v.campo)}`, boton: 'Volver a taller', fn: b => volverATaller(m, b) });
+    } else if (lugarCampo && !calzaCampo(v.campo, g.lugar) && (enCampo || esTaller(v.campo) || !v.campo)) {
+      const destino = campoDeLugar(g.lugar);
+      lista.push({ m, texto: `${m} vista en ${nombreCampo(destino)}`, sub: `Anotada en ${v.campo ? nombreCampo(v.campo) : '(sin anotar)'} · ${g.gps || ''}`,
+                   boton: `Mover a ${nombreCampo(destino)}`, fn: b => moverACampo(m, b, destino) });
+    }
+    else if ((esTaller(v.campo) || !v.campo) && g.lugar === 'fuera de geocercas' && g.dias_sin_senal != null && g.dias_sin_senal < 2 && !noEsDeCYH(m)) {
+      lista.push({ m, texto: `${m} está fuera de CYH según el GPS`, sub: `Anotada en ${v.campo ? 'Taller' : '(sin campo)'} · ${g.gps || ''}`,
+                   boton: 'Mover a campo…', fn: b => moverACampo(m, b) });
+    }
+    if (enCampo && !v.operador && g.trabajo_ayer) {
+      lista.push({ m, texto: `${m} trabajó ayer sin operador`, sub: `En ${nombreCampo(v.campo)}`, boton: 'Elegir operador…', fn: b => cambiarOperador(m, b) });
+    }
+  }
+  return lista;
+}
+
+// ---------------------------------------------------------------------------
+// Dibujo
+// ---------------------------------------------------------------------------
+function gpsChip(m) {
+  const g = gpsDe(m);
+  if (!g.estado) return '<span class="marca m-sin_senal">sin dato GPS</span>';
+  const t = g.estado === 'ok' ? '✓ ' + g.texto : g.estado === 'confirmar' ? 'no calza · ' + g.texto.replace(/^Confirmar · /, '') : g.texto;
+  return `<span class="marca m-${esc(g.estado)}">${esc(t)}</span>`;
+}
+function pasa(m) {
+  const v = valorDe(m), enCampo = v.campo && !esTaller(v.campo), f = UI.filtro;
+  if (f === 'campo' && !enCampo) return false;
+  if (f === 'taller' && !esTaller(v.campo)) return false;
+  if (f === 'sinop' && !(enCampo && !v.operador)) return false;
+  const q = sinT(UI.q.trim());
+  if (!q) return true;
+  const g = gpsDe(m);
+  return [m, v.implemento, v.operador, v.campo, nombreCampo(v.campo), v.destino, g.texto, g.gps].some(t => sinT(t).includes(q));
+}
+function contarFiltro(k) {
+  const f0 = UI.filtro, q0 = UI.q; UI.filtro = k; UI.q = '';
+  const n = unidades().filter(u => pasa(u.maquina)).length;
+  UI.filtro = f0; UI.q = q0; return n;
+}
+
+function vistaPorCampo() {
+  const grupos = new Map();
+  for (const u of unidades()) {
+    if (!pasa(u.maquina)) continue;
+    const v = valorDe(u.maquina);
+    const k = esTaller(v.campo) ? '~taller' : !v.campo ? '~~sin' : (opciones('campo').find(o => clave(o.valor) === clave(v.campo)) || { valor: v.campo }).valor;
+    if (!grupos.has(k)) grupos.set(k, []);
+    grupos.get(k).push(u);
+  }
+  const orden = [...grupos.keys()].sort((a, b) => (a.startsWith('~') - b.startsWith('~')) || (a === '~taller') - (b === '~taller') || nombreCampo(a).localeCompare(nombreCampo(b), 'es'));
+  if (!orden.length) return '<div class="vacio">Ninguna máquina para este filtro.</div>';
+  return `<div class="campos">${orden.map(k => {
+    const us = grupos.get(k), taller = k === '~taller';
+    const titulo = taller ? 'Taller (CYH)' : k === '~~sin' ? 'Sin campo anotado' : nombreCampo(k);
+    const calzan = us.filter(u => gpsDe(u.maquina).estado === 'ok').length;
+    const items = us.map(u => {
+      const m = u.maquina, v = valorDe(m), g = gpsDe(m);
+      return `<button type="button" class="maq-item${UI.sel === m ? ' sel' : ''}" data-m="${esc(m)}"><span class="punto p-${esc(g.estado || 'sin_senal')}"></span>` +
+        `<span class="nom">${esc(m)}<small>${esc(v.operador || 'sin operador')}${v.implemento ? ' · ' + esc(v.implemento) : ''}</small>${estadoSinc(m)}</span></button>`;
+    }).join('');
+    // Taller y "sin campo" van plegados (son largos); se abren solos al buscar o si hay algo sincronizando.
+    const plegar = k.startsWith('~') && !UI.q.trim() && !us.some(u => pendienteDe(u.maquina) || resultadoDe(u.maquina));
+    return `<div class="campo-card${taller ? ' taller' : ''}"><header><b>${esc(titulo)}</b><small>${us.length} máq.${taller ? '' : ` · ${calzan} ✓ GPS`}</small></header>` +
+      (plegar ? `<details><summary class="ver-mas">Ver ${us.length} máquinas</summary>${items}</details>` : items) + '</div>';
+  }).join('')}</div>`;
+}
+
+function panelMaquina(m) {
+  if (!m || !OP.maquinas[m]) return '<div class="vacio">Toca una máquina para moverla, cambiar su operador o devolverla al taller.</div>';
+  const v = valorDe(m), g = gpsDe(m), u = unidades().find(x => x.maquina === m) || {};
+  const auto = desdeAuto(m), taller = esTaller(v.campo);
+  return `<div class="panel"><h3>${esc(m)}</h3><div class="labor">${esc(u.labor || '')} ${estadoSinc(m)}</div>
+    <div class="acciones-grandes">
+      <button type="button" onclick="moverACampo('${esc(m)}', this)">Mover a campo</button>
+      <button type="button" class="sec" onclick="cambiarOperador('${esc(m)}', this)">Cambiar operador</button>
+      <button type="button" class="sec" onclick="volverATaller('${esc(m)}', this)"${taller ? ' disabled' : ''}>Volver a taller</button>
+    </div>
+    <div class="dato"><span>Campo</span><b>${esc(v.campo ? nombreCampo(v.campo) : '(sin anotar)')}</b></div>
+    <div class="dato"><span>Operador</span><b>${esc(v.operador || '(sin operador)')}</b></div>
+    ${taller ? '' : `<div class="dato"><span>Desde</span><span><input type="date" id="dato-desde" value="${esc(v.desde || auto)}" onchange="guardarDato('${esc(m)}', 'desde', this)"><br><span class="desde-txt">${v.desde ? 'puesta a mano' : (auto ? 'automática (GPS)' : 'sin dato del GPS')}</span></span></div>`}
+    <div class="dato"><span>Próximo destino</span><input id="dato-destino" value="${esc(v.destino)}" maxlength="80" onchange="guardarDato('${esc(m)}', 'destino', this)"></div>
+    <div class="dato"><span>Implemento</span><input id="dato-implemento" value="${esc(v.implemento)}" maxlength="80" onchange="guardarDato('${esc(m)}', 'implemento', this)"></div>
+    <div class="dato" style="display:block"><span>GPS</span><div style="margin-top:4px">${gpsChip(m)}</div><div class="nota" style="margin-top:3px">${esc(g.gps || '')}${g.mapa ? ` · <a href="${esc(g.mapa)}" target="_blank" rel="noopener">ver en el mapa</a>` : ''}</div></div>
+  </div>`;
+}
+
+function vistaSugerencias() {
+  const s = sugerencias();
+  if (!s.length) return '<div class="vacio">Sin sugerencias: lo anotado calza con el GPS.</div>';
+  return s.map((x, i) => `<div class="sug"><div class="txt"><b>${esc(x.texto)}</b><small>${esc(x.sub)}</small></div><button type="button" onclick="aplicarSugerencia(${i}, this)">${esc(x.boton)}</button></div>`).join('');
+}
+function aplicarSugerencia(i, boton) { const s = sugerencias()[i]; if (s) s.fn(boton); }
+
+// Vista Tabla (la anterior de la pagina Operacion): edicion en la tabla y "Guardar cambios".
+function opcionesSelect(tipo, actual) {
+  const lista = opciones(tipo);
+  const igual = actual && lista.find(o => clave(o.valor) === clave(actual));
+  const base = tipo === 'campo' ? `<option value="">(sin anotar)</option><option value="Taller"${esTaller(actual) ? ' selected' : ''}>Taller (CYH)</option>` : `<option value="">(sin operador)</option>`;
+  return base + lista.map(o => `<option value="${esc(o === igual ? actual : o.valor)}"${o === igual ? ' selected' : ''}>${esc(o.texto)}${o.extra ? ' (' + esc(o.extra) + ')' : ''}</option>`).join('') +
+    `<option value="__nuevo">${tipo === 'campo' ? 'Otro campo…' : 'Nuevo operador…'}</option>`;
+}
+function vistaTabla() {
+  let html = '', grupo = null;
+  for (const u of unidades()) {
+    if (!pasa(u.maquina)) continue;
+    const m = u.maquina, v = valorDe(m), r = resultadoDe(m), auto = desdeAuto(m);
+    if (u.grupo && u.grupo !== grupo) { grupo = u.grupo; html += `<tr class="grupo"><td colspan="7">${esc(grupo)}</td></tr>`; }
+    const clase = pendienteDe(m) ? 'guardando' : cambiada(m) ? 'cambiada' : (r && !r.ok) ? 'fallo' : '';
+    html += `<tr class="fila ${clase}" data-m="${esc(m)}"><td><b>${esc(m)}</b><br><small>${esc(u.labor)}</small><br>${estadoSinc(m)}</td>
+      <td data-label="Implemento"><input data-k="implemento" value="${esc(v.implemento)}" maxlength="80"></td>
+      <td data-label="Operador"><select data-k="operador">${opcionesSelect('operador', v.operador)}</select></td>
+      <td data-label="Campo"><select data-k="campo">${opcionesSelect('campo', v.campo)}</select></td>
+      <td data-label="Desde"><input data-k="desde" type="date" value="${esc(v.desde || auto)}"><br><span class="desde-txt">${v.campo && !esTaller(v.campo) ? (v.desde ? 'puesta a mano' : (auto ? 'automática (GPS)' : 'sin dato')) : ''}</span></td>
+      <td data-label="Próximo destino"><input data-k="destino" value="${esc(v.destino)}" maxlength="80"></td>
+      <td data-label="GPS">${gpsChip(m)}<div class="nota" style="margin:2px 0 0">${esc(gpsDe(m).gps || '')}</div></td></tr>`;
+  }
+  const n = Object.keys(editado).filter(cambiada).length;
+  return `<div style="overflow-x:auto"><table class="tabla-op"><thead><tr><th>Máquina</th><th>Implemento</th><th>Operador</th><th>Campo</th><th>Desde</th><th>Próximo destino</th><th>GPS</th></tr></thead><tbody>${html || '<tr><td colspan="7" class="vacio">Ninguna máquina para este filtro.</td></tr>'}</tbody></table></div>
+    <div style="height:70px"></div>
+    <div class="barra-guardar"><button type="button" class="guardar" id="guardarTabla"${n ? '' : ' disabled'} onclick="guardarTabla(this)">${n ? `Guardar cambios (${n})` : 'Guardar cambios'}</button><span id="msg"></span></div>`;
+}
+async function guardarTabla(boton) {
+  const ms = Object.keys(editado).filter(cambiada);
+  if (!ms.length) return;
+  const filas = ms.map(m => ({ maquina: m, ...Object.fromEntries(CAMPOS_FILA.map(k => [k, valorDe(m)[k] || ''])) }));
+  const anteriores = editado; editado = {};
+  await guardarFilas(filas, boton, () => { editado = anteriores; });
+}
+
+function historial() {
+  const tiempo = {};
+  for (const t of TIEMPOS) tiempo[t.id] = t;
+  const q = sinT(UI.qHist.trim());
+  const filas = CAMBIOS.slice().reverse().filter(c => !q || sinT([c.fecha, c.maquina, c.cambio, c.antes, c.despues].join(' ')).includes(q)).slice(0, 300).map(c => {
+    const t = c.id && tiempo[c.id];
+    const pub = !c.id ? '–' : !t ? 'midiendo…' : t.segundos == null ? '<b style="color:var(--rojo)">no se vio en 20 min</b>' : t.segundos > 600 ? `<b style="color:var(--rojo)">${duracion(t.segundos)} ⚠</b>` : duracion(t.segundos);
+    return `<tr class="hist"><td data-label="Fecha">${esc(c.fecha)}</td><td data-label="Máquina">${esc(c.maquina)}</td><td data-label="Qué cambió">${esc(c.cambio)}</td>` +
+      `<td data-label="Antes → después">${esc(c.antes || '—')} → <b>${esc(c.despues || '—')}</b></td><td data-label="Quedó publicado en">${pub}</td></tr>`;
+  }).join('');
+  const semana = TIEMPOS.filter(t => t.recibido && Date.now() - t.recibido < 7 * 86400000);
+  const seg = semana.filter(t => t.segundos != null).map(t => t.segundos).sort((a, b) => a - b);
+  const lentos = semana.filter(t => t.segundos == null || t.segundos > 600);
+  return `<section id="historial-cambios"><h2>Historial de cambios</h2>
+    <p style="font-size:13px;margin:0 0 8px">${semana.length ? `Tiempo hasta quedar publicado (últimos 7 días): ${semana.length} guardado${semana.length === 1 ? '' : 's'}` +
+      (seg.length ? ` · mediana ${duracion(seg[Math.floor(seg.length / 2)])} · máximo ${duracion(seg[seg.length - 1])}` : '') +
+      (lentos.length ? ` · <b style="color:var(--rojo)">${lentos.length} demoraron más de 10 min</b>` : '') : '<span class="nota">Todavía no hay guardados medidos.</span>'}</p>
+    <input class="buscador" style="width:100%;margin-bottom:8px" type="search" placeholder="Buscar en el historial (máquina, operador, campo…)" value="${esc(UI.qHist)}" oninput="UI.qHist = this.value; document.getElementById('cuerpoHist').innerHTML = filasHistorial()">
+    <div style="overflow-x:auto"><table id="historial"><thead><tr><th>Fecha y hora</th><th>Máquina</th><th>Qué cambió</th><th>Antes → después</th><th>Quedó publicado en</th></tr></thead>
+    <tbody id="cuerpoHist">${filas || '<tr><td colspan="5" class="vacio">Sin cambios.</td></tr>'}</tbody></table></div>
+    ${lentos.length ? `<div class="aviso-lento" style="margin-top:8px">⚠ En los últimos 7 días ${lentos.length} guardado${lentos.length === 1 ? '' : 's'} demoró más de 10 minutos en quedar publicado.</div>` : ''}</section>`;
+}
+function filasHistorial() {
+  const div = document.createElement('div'); div.innerHTML = historial();
+  return div.querySelector('#cuerpoHist').innerHTML;
+}
+
+function dibujarOperacion() {
+  const s = sugerencias().length;
+  const segV = (k, t) => `<button type="button" class="${UI.vista === k ? 'activo' : ''}" onclick="UI.vista='${k}'; escribirLS('op_vista', '${k}'); dibujar()">${t}</button>`;
+  const segP = (k, t) => `<button type="button" class="${UI.pestana === k ? 'activo' : ''}" onclick="UI.pestana='${k}'; dibujar()">${t}</button>`;
+  const fb = (k, t) => `<button type="button" class="${UI.filtro === k ? 'activo' : ''}" onclick="UI.filtro='${k}'; dibujar()">${t} (${contarFiltro(k)})</button>`;
+  const ancho = innerWidth >= 1000;
+  const cuerpo = UI.pestana === 'sugerencias' ? `<section><h2>Sugerencias del GPS</h2>${vistaSugerencias()}<p class="nota">Se aprueban con un toque (piden el PIN la primera vez en este aparato). Vienen de lo que ve el GPS ahora: máquina vista en otro campo, en CYH estando anotada en un campo, o trabajando sin operador.</p></section>`
+    : UI.vista === 'tabla' ? vistaTabla()
+    : `<div class="op-layout"><div>${vistaPorCampo()}</div>${ancho ? `<div class="panel-lateral"><section>${panelMaquina(UI.sel)}</section><section><h2>Sugerencias del GPS (${s})</h2>${vistaSugerencias()}</section></div>` : ''}</div>`;
+  return `<h1>Operación</h1><div class="sub">¿Quién va a dónde? · Guardado por última vez: ${esc(OP.actualizado || '')}${V && V.actualizado ? ' · GPS de ' + esc(V.actualizado) : ''}</div>
+    <div class="barra-op">
+      <span class="seg">${segP('maquinas', 'Máquinas')}${segP('sugerencias', `Sugerencias${s ? `<span class="cuenta">${s}</span>` : ''}`)}</span>
+      ${UI.pestana === 'maquinas' ? `<span class="seg">${segV('campo', 'Por campo')}${segV('tabla', 'Tabla')}</span>` : ''}
+      <button type="button" class="boton-sec" onclick="descargarExcel()">Descargar Excel</button>
+      ${UI.vista !== 'tabla' || UI.pestana !== 'maquinas' ? '<span id="msg"></span>' : ''}
+    </div>
+    ${UI.pestana === 'maquinas' ? `<div class="barra-op"><input class="buscador" type="search" placeholder="Buscar máquina, operador o campo" value="${esc(UI.q)}" oninput="UI.q = this.value; redibujarLista()"></div>
+      <div class="filtros">${fb('todas', 'Todas')}${fb('campo', 'En campo')}${fb('taller', 'En taller')}${fb('sinop', 'Sin operador')}</div>` : ''}
+    <div id="vistaOp">${cuerpo}</div>
+    ${historial()}`;
+}
+function redibujarLista() {
+  const caja = document.getElementById('vistaOp');
+  if (!caja) return;
+  const tmp = document.createElement('div'); tmp.innerHTML = dibujarOperacion();
+  caja.innerHTML = tmp.querySelector('#vistaOp').innerHTML;
+  document.querySelectorAll('.filtros').forEach((f, i) => { const n = tmp.querySelectorAll('.filtros')[i]; if (n) f.innerHTML = n.innerHTML; });
+}
+
+function abrirHoja(m) {
+  UI.sel = m;
+  if (innerWidth >= 1000) { dibujar(); return; }
+  const capa = document.getElementById('capa');
+  capa.innerHTML = `<div class="hoja-fondo" onclick="cerrarHoja()"></div><div class="hoja"><button type="button" class="cerrar" onclick="cerrarHoja()" aria-label="Cerrar">×</button>${panelMaquina(m)}</div>`;
+}
+function cerrarHoja() { UI.sel = null; document.getElementById('capa').innerHTML = ''; }
+
+function dibujar() {
+  const app = document.getElementById('app');
+  if (!OP) return;
+  app.innerHTML = dibujarOperacion();
+  // Hoja abierta en el celular: se actualiza con el estado nuevo.
+  const hoja = document.querySelector('#capa .hoja');
+  if (hoja && UI.sel) hoja.innerHTML = `<button type="button" class="cerrar" onclick="cerrarHoja()" aria-label="Cerrar">×</button>${panelMaquina(UI.sel)}`;
+}
+
+// Eventos: tocar una maquina; editar la tabla.
+document.addEventListener('click', ev => {
+  const b = ev.target.closest('.maq-item');
+  if (b) abrirHoja(b.dataset.m);
+});
+document.addEventListener('change', async ev => {
+  const el = ev.target, tr = el.closest('tr.fila');
+  if (!tr || !el.dataset.k) return;
+  const m = tr.dataset.m, k = el.dataset.k;
+  let valor = el.value;
+  if (valor === '__nuevo') {
+    valor = await elegir(k === 'campo' ? 'campo' : 'operador', k === 'campo' ? `Campo de ${m}` : `Operador de ${m}`, valorDe(m)[k]);
+    if (valor == null) { dibujar(); return; }
+  }
+  editado[m] = { ...(editado[m] || {}), [k]: (valor || '').trim() };
+  if (k === 'campo') editado[m].desde = '';  // cambia el campo: "Desde" vuelve a automatico
+  dibujar();
+});
+document.addEventListener('input', ev => {
+  const el = ev.target, tr = el.closest('tr.fila');
+  if (!tr || !el.dataset.k || el.tagName !== 'INPUT') return;
+  const m = tr.dataset.m;
+  editado[m] = { ...(editado[m] || {}), [el.dataset.k]: el.value.trim() };
+  tr.classList.toggle('cambiada', !!cambiada(m));
+  const n = Object.keys(editado).filter(cambiada).length, g = document.getElementById('guardarTabla');
+  if (g) { g.disabled = !n; g.textContent = n ? `Guardar cambios (${n})` : 'Guardar cambios'; }
+});
+
+function descargarExcel() {
+  const ir = () => {
+    const filas = unidades().map(u => {
+      const v = valorDe(u.maquina), g = gpsDe(u.maquina);
+      return [u.maquina, u.labor, v.implemento, v.operador, v.campo ? nombreCampo(v.campo) : '', v.desde ? fc(v.desde) : (desdeAuto(u.maquina) ? fc(desdeAuto(u.maquina)) + ' (auto)' : ''), v.destino, [g.texto, g.gps].filter(Boolean).join(' · ')];
+    });
+    const hoja = XLSX.utils.aoa_to_sheet([['Máquina', 'Labor', 'Implemento', 'Operador', 'Campo', 'Desde', 'Próximo destino', 'GPS'], ...filas]);
+    hoja['!cols'] = [{ wch: 30 }, { wch: 18 }, { wch: 18 }, { wch: 20 }, { wch: 28 }, { wch: 14 }, { wch: 22 }, { wch: 50 }];
+    const hist = XLSX.utils.aoa_to_sheet([['Fecha y hora', 'Máquina', 'Qué cambió', 'Antes', 'Después'], ...CAMBIOS.slice().reverse().map(c => [c.fecha, c.maquina, c.cambio, c.antes, c.despues])]);
+    const libro = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(libro, hoja, 'Operación'); XLSX.utils.book_append_sheet(libro, hist, 'Historial');
+    XLSX.writeFile(libro, `Operacion_${new Date().toISOString().slice(0, 10)}.xlsx`);
+  };
+  if (window.XLSX) return ir();
+  const sc = document.createElement('script');
+  sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+  sc.onload = ir; sc.onerror = () => aviso('No se pudo cargar el generador de Excel.', true);
+  document.head.appendChild(sc);
+}
+
+// ---------------------------------------------------------------------------
+// Carga y secciones (#operacion; las demas, por ahora, en las paginas actuales)
+// ---------------------------------------------------------------------------
+async function cargar(soloOperacion) {
+  const leer = (u, def) => fetch(u + '?x=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : def).catch(() => def);
+  const [op, cambios, tiempos, v2, campos, foto] = await Promise.all([leer('datos/operacion.json', null), leer('datos/operacion_cambios.json', []),
+    leer('datos/operacion_tiempos.json', []), soloOperacion && V ? { v2: V } : leer('datos/reporte_v2.json', {}),
+    soloOperacion && CAMPOS.campos.length ? CAMPOS : leer('datos/campos.json', {}), soloOperacion ? { dias: FOTO } : leer('datos/operadores.json', {})]);
+  if (!op) { if (!OP) document.getElementById('app').innerHTML = '<div class="vacio">Todavía no se carga la operación.</div>'; return; }
+  OP = op; CAMBIOS = cambios || []; TIEMPOS = tiempos || []; V = (v2 && v2.v2) || V; CAMPOS = campos || CAMPOS; FOTO = (foto && foto.dias) || {};
+}
+const SECCIONES_FUERA = { ayer: 'reporte2.html', flota: 'index.html#flota', historial: 'index.html', ajustes: 'reporte2.html#equivalencias' };
+function ruta() {
+  const s = (location.hash || '#operacion').slice(1);
+  if (SECCIONES_FUERA[s]) { location.replace(SECCIONES_FUERA[s]); return false; }
+  return true;
+}
+window.addEventListener('hashchange', () => { if (ruta()) dibujar(); });
+// Solo se redibuja al cruzar el ancho del computador (el teclado del celular tambien cambia el alto).
+let eraAncho = innerWidth >= 1000;
+window.addEventListener('resize', () => { const a = innerWidth >= 1000; if (OP && a !== eraAncho) { eraAncho = a; dibujar(); } });
+const escribiendo = () => { const f = document.activeElement; return f && /INPUT|SELECT|TEXTAREA/.test(f.tagName); };
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+if (ruta()) cargar().then(() => { dibujar(); if (PEND.length) vigilar(); });
+setInterval(() => { if (OP && document.visibilityState === 'visible' && !vigilando && !escribiendo() && !document.querySelector('#capa .selector')) dibujar(); }, 60000);
+</script>
+</body>
+</html>

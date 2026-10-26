@@ -579,11 +579,19 @@ def datos_pagina_v2(datos, ctx, trabajo, oper):
             gps_maquinas[m] = {"estado": "sin_senal" if sin else "ok",
                                "texto": f"sin señal hace {g['dias_sin_senal']} días" if sin else "en CYH",
                                "gps": texto_gps(ctx, m), "mapa": g["mapa"]}
+    # Donde lo ve el GPS ("CYH", un campo o "fuera de geocercas"), para las sugerencias de Operacion.
+    for m in ctx.unidades:
+        g = ctx.gps(m)
+        gps_maquinas.setdefault(m, {})
+        gps_maquinas[m]["lugar"] = g["lugar"]
+        gps_maquinas[m]["dias_sin_senal"] = g["dias_sin_senal"]
+        gps_maquinas[m]["trabajo_ayer"] = any(r["maquina"] == m and r["fecha"] == ctx.fa and r["area_trabajada_ha"] > 0 for r in ctx.historico) \
+            or any(d["fecha"] == ctx.fa and (d.get("horas_geocercas") or d.get("sin_geocerca")) for d in ctx.por_maquina.get(m, {}).get("dias", []))
     return {
         "pagina": PAGINA,
         "gps_maquinas": gps_maquinas,
         # Maquinas activas en el orden fijo de la flota (filas de la pagina Operacion).
-        "unidades": [{"maquina": m, "labor": rh.labor_de(ctx.unidades[m]),
+        "unidades": [{"maquina": m, "labor": labor_visible(rh.labor_de(ctx.unidades[m]), datetime.now(ZONA).date().isoformat()),
                       "grupo": rh.NOMBRES_GRUPOS_FLOTA[rh.orden_flota(m)[0]]} for m in sorted(ctx.unidades, key=rh.orden_flota)],
         "operacion_actualizada": ctx.planilla.get("actualizado"),
         # "Desde" automatico (llegada al campo actual segun el GPS) de cada maquina en un campo.

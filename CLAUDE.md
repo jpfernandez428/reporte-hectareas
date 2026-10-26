@@ -1259,6 +1259,42 @@ Registro:
     Hectáreas (index.html) · Flota (index.html#flota), con la página actual
     destacada; en el celular caben las 5 en una línea. `reporte.html` (la
     antigua, la usa el correo diario actual) NO va en el menú y no se tocó.
+  - **REORGANIZACIÓN en una sola app "Flota C&H" (pedido del usuario
+    26-oct-2026; por etapas, mostrando cada una antes de seguir)**: una
+    dirección, `docs/app.html`, con secciones `#operacion`, `#ayer`, `#flota`,
+    `#historial` y `#ajustes`; menú común (`menu.js`) en todas las páginas:
+    Operación · Ayer · Flota (GPS) · Historial · Ajustes (este con contador de
+    preguntas pendientes en la etapa 4). La app del celular abre en
+    `app.html#operacion` (`manifest.webmanifest`). Cada dato en un solo lugar.
+    Etapas: 1) estructura, menú y Operación; 2) Ayer y Flota; 3) Historial con
+    operador; 4) Ajustes y Preguntas rápidas; 5) con el OK del usuario,
+    cambiar los enlaces del correo y quitar las páginas antiguas. **No tocar el
+    envío diario hasta la etapa 5.** Mantener PIN, medición de tiempos, app y
+    menú en todas las etapas. Mientras tanto, Ayer → reporte2.html, Flota →
+    index.html#flota, Historial → index.html, Ajustes →
+    reporte2.html#equivalencias (`SECCIONES_FUERA` en app.html).
+    - **Etapa 1 (26-oct-2026, en revisión)**: sección Operación en
+      `app.html` (reemplaza la planilla del Drive, "Máquinas en operación" de
+      reporte2 y operacion.html, que sigue publicada hasta la etapa 5).
+      Pestañas "Máquinas | Sugerencias"; vista "Por campo | Tabla" (la tabla es
+      la vista anterior; se recuerda en el navegador). Por campo: tarjetas por
+      campo (Taller y "Sin campo anotado" al final y plegados), punto de color
+      del GPS (✓ calza / sin geocerca / no calza / sin señal). Al tocar una
+      máquina: hoja desde abajo (celular) o panel a la derecha (computador)
+      con botones grandes "Mover a campo", "Cambiar operador", "Volver a
+      taller" que guardan al tocar (mismo guardado: PIN, sincronizando… → ✓
+      guardado, medición) y datos Desde / Próximo destino / Implemento.
+      Listas de campo y operador con buscador (también por los nombres unidos
+      del campo: "nueces" → El Volcán), los más usados primero (foto diaria +
+      operación de hoy) y "+ Campo nuevo…" / "+ Operador nuevo…" que pregunta
+      si se parece a uno existente ("Aurorra" → "¿Es Aurora?"). Sugerencias
+      del GPS con un toque: en CYH estando anotada en un campo → Volver a
+      taller; vista en otro campo → Mover a ese campo; fuera de CYH estando en
+      Taller o sin campo → Mover a campo…; trabajó ayer sin operador → Elegir
+      operador. Datos nuevos en `v2.gps_maquinas`: `lugar` (CYH, campo o
+      fuera de geocercas), `dias_sin_senal`, `trabajo_ayer`; `v2.unidades`
+      con la labor efectiva del día (SBS en sep–nov = Raleo). Historial de
+      cambios con buscador y tiempos de guardado; "Descargar Excel".
   - **PIN para guardar (26-oct-2026)**: un solo PIN, secreto `PIN_EDICION` del
     Worker (lo carga el usuario; nunca en el código, el repositorio ni el
     chat). Lo exigen `/confirmar`, `/planilla` (Actualizar) y `/operacion`; el

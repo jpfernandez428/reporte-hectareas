@@ -3,7 +3,7 @@
   "short_name": "Flota C&H",
   "description": "Reporte diario de la flota de C&H Maquinaria",
   "lang": "es-CL",
-  "start_url": "reporte2.html",
+  "start_url": "app.html#operacion",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

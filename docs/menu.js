@@ -1,22 +1,25 @@
-// Menu fijo comun a todas las paginas (pedido del usuario 26-oct-2026), en este
-// orden: Reporte diario · Operacion · Operadores · Hectareas · Flota, con la
-// pagina actual destacada. La pagina antigua reporte.html NO va en el menu (la
+// Menu fijo comun a todas las paginas (pedido del usuario 26-oct-2026):
+// Operacion · Ayer · Flota (GPS) · Historial · Ajustes, con la pagina actual
+// destacada. La pagina antigua reporte.html NO va en el menu (la
 // usa el correo diario actual). Todas las direcciones quedan dentro de la app
 // (mismo sitio), asi que en el celular no se sale de la app.
 (function () {
+  // Reorganizacion (26-oct-2026): una sola app con 5 secciones. Mientras se
+  // construyen por etapas, Ayer, Flota, Historial y Ajustes llevan a las
+  // paginas actuales (reporte2.html e index.html).
   const ITEMS = [
-    { id: 'reporte', texto: 'Reporte diario', href: 'reporte2.html' },
-    { id: 'operacion', texto: 'Operación', href: 'operacion.html' },
-    { id: 'operadores', texto: 'Operadores', href: 'reporte2.html#operadores' },
-    { id: 'hectareas', texto: 'Hectáreas', href: 'index.html' },
-    { id: 'flota', texto: 'Flota', href: 'index.html#flota' },
+    { id: 'operacion', texto: 'Operación', href: 'app.html#operacion' },
+    { id: 'ayer', texto: 'Ayer', href: 'reporte2.html' },
+    { id: 'flota', texto: 'Flota (GPS)', href: 'index.html#flota' },
+    { id: 'historial', texto: 'Historial', href: 'index.html' },
+    { id: 'ajustes', texto: 'Ajustes', href: 'reporte2.html#equivalencias' },
   ];
   const pagina = () => (location.pathname.split('/').pop() || 'index.html');
   function actual() {
     const p = pagina(), h = location.hash;
-    if (p === 'operacion.html') return 'operacion';
-    if (p === 'reporte2.html') return h === '#operadores' ? 'operadores' : 'reporte';
-    if (p === 'index.html') return h === '#flota' ? 'flota' : 'hectareas';
+    if (p === 'app.html' || p === 'operacion.html') return 'operacion';
+    if (p === 'reporte2.html') return h === '#equivalencias' ? 'ajustes' : 'ayer';
+    if (p === 'index.html') return h === '#flota' ? 'flota' : 'historial';
     return '';
   }
   function marcar() {
