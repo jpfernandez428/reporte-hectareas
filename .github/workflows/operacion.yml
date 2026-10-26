@@ -1,0 +1,53 @@
+name: Guardar la pagina Operacion
+
+# Lo lanza el Worker de Cloudflare (POST /operacion, con el PIN correcto) al
+# apretar "Guardar cambios" en docs/operacion.html. Aplica los cambios a
+# docs/datos/operacion.json, los anota en operacion_cambios.json, guarda la
+# foto del dia (operadores.json) y rearma reporte2 (reporte_v2.json) sin
+# bajar GPS de Wialon. Reglas en CLAUDE.md ("Pagina Operacion").
+run-name: Guardar Operacion
+on:
+  workflow_dispatch:
+    inputs:
+      cambios:
+        description: 'JSON con las filas cambiadas (lo arma la pagina)'
+        required: true
+
+permissions:
+  contents: write
+
+# Sin grupo de concurrencia: cada guardado corre (un guardado en espera no
+# reemplaza a otro); se aplica sobre lo ultimo de main y se rehace si otro
+# paso sube antes.
+jobs:
+  guardar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar librerias
+        run: pip install -r requirements.txt
+
+      - name: Guardar y subir
+        env:
+          CAMBIOS: ${{ inputs.cambios }}
+        run: |
+          git config user.name "Reporte automatico"
+          git config user.email "actions@users.noreply.github.com"
+          for i in 1 2 3 4 5; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            python3 operacion.py guardar
+            git add docs/datos/operacion.json docs/datos/operacion_cambios.json docs/datos/operadores.json docs/datos/reporte_v2.json
+            if git diff --staged --quiet; then echo "Sin cambios."; exit 0; fi
+            git commit -q -m "Operacion: cambios desde la pagina"
+            git push -q && exit 0
+            sleep $((10 * i))
+          done
+          exit 1

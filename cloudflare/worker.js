@@ -7,8 +7,13 @@
 // esta dos veces (verano UTC-3 e invierno UTC-4) y el Worker lanza solo el
 // que calza con la hora real de Chile.
 //
-// Secreto del Worker: GITHUB_TOKEN (token fine-grained solo del repositorio
-// reporte-hectareas, permiso Actions: Read and write). Nunca en este archivo.
+// Secretos del Worker (los carga el usuario en Cloudflare; nunca en este archivo,
+// el repositorio ni el chat):
+//   GITHUB_TOKEN  token fine-grained solo del repositorio reporte-hectareas,
+//                 permiso Actions: Read and write.
+//   PIN_EDICION   PIN unico para guardar desde las paginas (26-oct-2026): todos
+//                 los guardados (confirmar, equivalencias, actualizar, Operacion)
+//                 lo piden; sin el PIN correcto no se guarda nada.
 
 const REPO = 'jpfernandez428/reporte-hectareas';
 
@@ -16,19 +21,16 @@ const REPO = 'jpfernandez428/reporte-hectareas';
 //   30 3,4 * * *    (00:30 de Chile: corrida de la noche)
 //   30 10,11 * * *  (07:30: correo; se arma y sale a las 07:45)
 //   0 12,13 * * *   (09:00: aviso de atraso)
-//   */30 * * * *    (revision de la planilla del Drive cada 30 min, solo de
-//                    07:00 a 21:00 de Chile; ver CRON_PLANILLA)
+// (La revision de la planilla del Drive cada 30 min quedo apagada el 26-oct-2026:
+//  la pagina Operacion es la fuente. Si el Cron "*/30 * * * *" sigue en
+//  Cloudflare, no hace nada; se puede borrar.)
 const TAREAS = {
   '00:30': { workflow: 'diario.yml', inputs: {} },               // corrida de la noche
   '07:30': { workflow: 'correo.yml', inputs: { modo: 'diario' } }, // arma el correo y lo envia a las 07:45
   '09:00': { workflow: 'correo.yml', inputs: { modo: 'diario' } }, // aviso si la corrida viene atrasada
 };
 
-// Revision de la planilla "Maquinas en Operacion" (pedido del usuario 22-oct-2026):
-// cada 30 min de 07:00 a 21:00 de Chile lanza planilla.yml, que rearma los
-// datos de reporte2 solo si la planilla cambio.
-const CRON_PLANILLA = '*/30 * * * *';
-const PLANILLA_DESDE = '07:00', PLANILLA_HASTA = '21:00';
+const CRON_PLANILLA = '*/30 * * * *';  // apagado (26-oct-2026): no lanza nada
 
 function horaChile(fecha) {
   return new Intl.DateTimeFormat('en-GB', {
@@ -62,13 +64,30 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
+// PIN de edicion: comparacion en tiempo constante; con PIN incorrecto se
+// espera 1 s antes de responder (frena intentos seguidos).
+async function revisarPin(datos, env) {
+  if (!env.PIN_EDICION) return responder(500, { error: 'falta configurar el PIN en Cloudflare' });
+  const a = new TextEncoder().encode(String((datos && datos.pin) || ''));
+  const b = new TextEncoder().encode(String(env.PIN_EDICION));
+  let distinto = a.length !== b.length ? 1 : 0;
+  for (let i = 0; i < b.length; i++) distinto |= (a[i] || 0) ^ b[i];
+  if (distinto) {
+    await new Promise(r => setTimeout(r, 1000));
+    return responder(403, { error: 'pin' });
+  }
+  return null;
+}
+
+async function leerCuerpo(peticion) {
+  try { return await peticion.json(); } catch { return null; }
+}
+
 function responder(estado, cuerpo) {
   return new Response(JSON.stringify(cuerpo), { status: estado, headers: { ...CORS, 'Content-Type': 'application/json' } });
 }
 
-async function confirmar(peticion, env) {
-  let datos;
-  try { datos = await peticion.json(); } catch { return responder(400, { error: 'JSON invalido' }); }
+async function confirmar(datos, env) {
   const accion = String(datos.accion || '');
   const inputs = { accion };
   if (accion === 'campo' || accion === 'ninguno') {
@@ -106,6 +125,29 @@ async function confirmar(peticion, env) {
   return responder(200, { ok: true });
 }
 
+// Pagina Operacion: "Guardar cambios" manda las filas cambiadas; el Worker
+// valida y lanza operacion.yml (el PIN nunca se manda a GitHub).
+async function guardarOperacion(datos, env) {
+  const cambios = Array.isArray(datos.cambios) ? datos.cambios : null;
+  if (!cambios || !cambios.length || cambios.length > 150) return responder(400, { error: 'cambios' });
+  const limpio = [];
+  for (const c of cambios) {
+    const fila = {};
+    for (const k of ['maquina', 'implemento', 'operador', 'campo', 'desde', 'destino']) {
+      const v = String((c && c[k]) || '').trim();
+      if (v.length > 80) return responder(400, { error: k });
+      fila[k] = v;
+    }
+    if (!fila.maquina) return responder(400, { error: 'maquina' });
+    if (fila.desde && !/^\d{4}-\d{2}-\d{2}$/.test(fila.desde)) return responder(400, { error: 'desde' });
+    limpio.push(fila);
+  }
+  const texto = JSON.stringify(limpio);
+  if (texto.length > 60000) return responder(400, { error: 'demasiados cambios' });
+  await lanzar(env, { workflow: 'operacion.yml', inputs: { cambios: texto } });
+  return responder(200, { ok: true });
+}
+
 export default {
   async fetch(peticion, env) {
     const url = new URL(peticion.url);
@@ -126,34 +168,27 @@ export default {
         return new Response(`ERROR: ${e.message}. ${token}.`, { status: 502 });
       }
     }
-    // Boton "Actualizar desde la planilla" de reporte2.html.
-    if (url.pathname === '/planilla' && peticion.method === 'POST') {
+    // Guardados desde las paginas: solo desde la pagina publicada y con el PIN.
+    if (peticion.method === 'POST' && ['/confirmar', '/planilla', '/operacion'].includes(url.pathname)) {
       if ((peticion.headers.get('Origin') || '') !== ORIGEN_PAGINA) return responder(403, { error: 'origen' });
+      const datos = await leerCuerpo(peticion);
+      if (!datos) return responder(400, { error: 'JSON invalido' });
+      const sinPin = await revisarPin(datos, env);
+      if (sinPin) return sinPin;
       try {
+        if (url.pathname === '/confirmar') return await confirmar(datos, env);
+        if (url.pathname === '/operacion') return await guardarOperacion(datos, env);
+        // Boton "Actualizar" de reporte2.html: rearma con la pagina Operacion.
         await lanzar(env, { workflow: 'planilla.yml', inputs: { origen: 'boton' } });
         return responder(200, { ok: true });
       } catch (e) { return responder(502, { error: String(e.message || e) }); }
-    }
-    if (url.pathname === '/confirmar' && peticion.method === 'POST') {
-      if ((peticion.headers.get('Origin') || '') !== ORIGEN_PAGINA) return responder(403, { error: 'origen' });
-      try { return await confirmar(peticion, env); } catch (e) { return responder(502, { error: String(e.message || e) }); }
     }
     return new Response('No encontrado', { status: 404 });
   },
 
   async scheduled(evento, env) {
     const hora = horaChile(new Date(evento.scheduledTime));
-    if (evento.cron === CRON_PLANILLA) {
-      if (hora < PLANILLA_DESDE || hora > PLANILLA_HASTA) return;  // fuera de 07:00-21:00 de Chile
-      try {
-        await lanzar(env, { workflow: 'planilla.yml', inputs: { origen: 'cron' } });
-        console.log(`${hora} de Chile: lanzada la revision de la planilla`);
-      } catch (e) {
-        console.log(`${hora} de Chile: ERROR al lanzar planilla.yml: ${e.message}`);
-        throw e;
-      }
-      return;
-    }
+    if (evento.cron === CRON_PLANILLA) return;  // revision de la planilla apagada (26-oct-2026)
     const tarea = TAREAS[hora];
     if (!tarea) {
       console.log(`${hora} de Chile: no corresponde (es el horario del otro cambio de hora).`);

@@ -99,6 +99,29 @@ def regla_confirmada(punto):
     return None
 
 
+def campo_de_la_operacion():
+    """{(maquina, fecha): campo} segun la foto diaria de la pagina Operacion
+    (docs/datos/operadores.json; regla del usuario 26-oct-2026: el campo de la
+    operacion es el campo probable del trabajo sin geocerca). Los nombres de la
+    operacion pasan a Wialon con las equivalencias. Nunca falla: sin foto, {}."""
+    try:
+        with open(os.path.join(rh.CARPETA_DATOS, "operadores.json"), "r", encoding="utf-8") as f:
+            dias = json.load(f).get("dias", {})
+        eq = {pl_normalizar(k): v for k, v in rh.CONFIG.get("equivalencias_campos", {}).items()}
+        salida = {}
+        for fecha, maquinas in dias.items():
+            for m, x in maquinas.items():
+                campo = (x.get("campo") or "").strip()
+                if not campo or pl_normalizar(campo) in ("taller", "cyh"):
+                    continue
+                wialon = eq.get(pl_normalizar(campo))
+                salida[(m, fecha)] = wialon[0] if wialon and len(wialon) == 1 else campo
+        return salida
+    except Exception as e:
+        print(f"Sin foto de la operacion ({e}).")
+        return {}
+
+
 def main(con_direcciones=True):
     geos, flota, alertas, historico, avance = cargar_entrada()
     cuarteles_por_campo = {}
@@ -162,6 +185,7 @@ def main(con_direcciones=True):
                   "ha": round(a["horas"] * ha_h, 2) if ha_h else round(a["ha_aprox"], 2)})
         por_clave[clave] = t
 
+    operacion = campo_de_la_operacion()
     usuario = None
     if con_direcciones and os.environ.get("WIALON_TOKEN"):
         try:
@@ -189,6 +213,11 @@ def main(con_direcciones=True):
             t["opciones"] = posibles
         else:
             t["campo"], t["estado"] = None, "sin campo"
+        # Sin campo seguro: el campo de la pagina Operacion ese dia es el probable.
+        if t["estado"] in ("sin campo", "probable") and not t.get("campo"):
+            campo_op = operacion.get((t["maquina"], t["fecha"]))
+            if campo_op:
+                t["campo"], t["estado"], t["segun_operacion"] = campo_op, "probable", True
     trabajos = sorted(por_clave.values(), key=lambda t: (t["fecha"], t["maquina"]))
     with open(RUTA, "w", encoding="utf-8") as f:
         json.dump({"distancia_campo_km": DISTANCIA_CAMPO_M / 1000, "lugar_m": LUGAR_M,

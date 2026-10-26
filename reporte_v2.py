@@ -228,6 +228,7 @@ def ultimo_sin_geo(ctx, maquina):
 
 def operacion(ctx, trabajo, usuario=None):
     plan = ctx.planilla
+    fuente = "operación" if plan.get("fuente") == "operacion" else "planilla"
     filas, no_en_planilla, apagadas, alerta_grande, avisos = [], [], [], [], []
     promedio = {(f["maquina"], f["campo"]): f for f in trabajo}
     for nombre in sorted(ctx.unidades, key=rh.orden_flota):
@@ -273,7 +274,7 @@ def operacion(ctx, trabajo, usuario=None):
         elif conf:
             fila.update(estado="ok", texto=f"confirmado: {conf['texto']}")
             if conf.get("aviso") and not cumplida:
-                avisos.append(f"Actualizar planilla: {nombre} → {conf['aviso']}")
+                avisos.append(f"Actualizar {fuente}: {nombre} → {conf['aviso']}")
         elif en_planilla_campo and (g["lugar"] in wc or g["recientes"] & set(wc)):
             fila.update(estado="ok", texto="GPS calza")
         elif en_planilla_campo and (g["lugar"] == "fuera de geocercas" or (g["sin_geocerca"] and g["lugar"] != "CYH")):
@@ -288,7 +289,7 @@ def operacion(ctx, trabajo, usuario=None):
             fila.update(estado="confirmar", texto=f"Confirmar · GPS en {g['lugar']}")
         else:
             donde = g["lugar"] if g["lugar"] == "fuera de geocercas" else "en " + g["lugar"]
-            fila.update(estado="confirmar", texto=f"Confirmar · planilla Taller, GPS {donde}")
+            fila.update(estado="confirmar", texto=f"Confirmar · {fuente} Taller, GPS {donde}")
         clave = (nombre, (wc[0] if len(wc) == 1 else base["campo_planilla"]))
         t = promedio.get(clave)
         fila["promedio"] = round(t["promedio"], 2) if t else None
@@ -561,8 +562,31 @@ def datos_pagina_v2(datos, ctx, trabajo, oper):
                                               "promedio", "ayer_ha", "ayer_trabajo", "gps", "dias_sin_senal", "mapa",
                                               "campos_wialon", "gps_texto", "lat", "lon", "sin_operador")})
     import operadores
+    # GPS de TODAS las maquinas activas (columna GPS de la pagina Operacion).
+    gps_maquinas = {}
+    for f in oper["filas"]:
+        gps_maquinas[f["maquina"]] = {"estado": f["estado"], "texto": f["texto"], "gps": f.get("gps_texto"), "mapa": f.get("mapa")}
+    for x in oper["no_en_planilla"]:
+        gps_maquinas[x["maquina"]] = {"estado": "confirmar", "texto": "Confirmar · GPS fuera de CYH y sin campo en la operación",
+                                      "gps": x.get("gps_texto"), "mapa": x.get("mapa")}
+    for x in oper["gps_apagado"]:
+        gps_maquinas[x["maquina"]] = {"estado": "sin_senal", "texto": f"sin señal hace {x['dias_sin_senal']} días",
+                                      "gps": x.get("gps_texto"), "mapa": x.get("mapa")}
+    for m in ctx.unidades:
+        if m not in gps_maquinas:
+            g = ctx.gps(m)
+            sin = g["dias_sin_senal"] is not None and g["dias_sin_senal"] > DIAS_GPS_APAGADO
+            gps_maquinas[m] = {"estado": "sin_senal" if sin else "ok",
+                               "texto": f"sin señal hace {g['dias_sin_senal']} días" if sin else "en CYH",
+                               "gps": texto_gps(ctx, m), "mapa": g["mapa"]}
     return {
         "pagina": PAGINA,
+        "gps_maquinas": gps_maquinas,
+        # Maquinas activas en el orden fijo de la flota (filas de la pagina Operacion).
+        "unidades": [{"maquina": m, "labor": rh.labor_de(ctx.unidades[m]),
+                      "grupo": rh.NOMBRES_GRUPOS_FLOTA[rh.orden_flota(m)[0]]} for m in sorted(ctx.unidades, key=rh.orden_flota)],
+        "operacion_actualizada": ctx.planilla.get("actualizado"),
+        "fuente": ctx.planilla.get("fuente", "planilla"),
         "fecha": ctx.fa,
         "operadores": operadores.construir(ctx, oper),
         "url_confirmar": rh.CONFIG.get("url_confirmaciones"),

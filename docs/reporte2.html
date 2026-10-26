@@ -13,6 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="icono-192.png">
+<script src="pin.js"></script>
 <style>
   :root { --verde: #2f6f3e; --verde-f: #eaf3ec; --rojo: #b3261e; --rojo-f: #fdecea; --gris: #5f6b64; --borde: #e3e8e5; }
   * { box-sizing: border-box; }
@@ -123,12 +124,12 @@
   <h1>Reporte diario de flota – C&amp;H Maquinaria</h1>
   <div class="sub" id="fecha">Cargando…</div>
   <div class="sub" id="estadoDatos"></div>
-  <div class="cab-acciones"><button type="button" id="btnPlanilla" onclick="actualizarPlanilla(this)">Actualizar desde la planilla</button><span id="msgPlanilla"></span></div>
+  <div class="cab-acciones"><button type="button" id="btnPlanilla" onclick="actualizarPlanilla(this)">Actualizar</button><a href="operacion.html" style="font-weight:700">Editar Operación →</a><span id="msgPlanilla"></span></div>
   <a href="index.html">← Hectáreas y Flota</a>
 </header>
 <nav aria-label="Secciones">
   <a href="#resumen">Resumen</a><a href="#maquinas-ayer">Máquinas ayer</a><a href="#camionetas">Camionetas</a>
-  <a href="#camion">Camión</a><a href="#operacion">En operación</a><a href="#alertas">Alertas</a>
+  <a href="#camion">Camión</a><a href="operacion.html">Operación ✎</a><a href="#operacion">En operación</a><a href="#alertas">Alertas</a>
   <a href="#operadores">Operadores</a><a href="#trabajo-campo">Trabajo por campo</a><a href="#semana">7 días</a><a href="#equivalencias">Equivalencias</a>
 </nav>
 <main>
@@ -236,6 +237,8 @@ function seccionSinGeocerca(d) {
 // "Maquinas en Operacion" del Drive. Datos: reporte_v2.json -> v2.
 // ---------------------------------------------------------------------------
 let D = null, V = null, filtroOp = 'todas', CAMPOS = { campos: [], equivalencias: {} }, REGISTRO = [];
+// Fuente de maquinas y operadores: la pagina Operacion desde el 26-oct-2026 (antes la planilla del Drive).
+const FUENTE = () => (V && V.fuente === 'operacion') ? 'Operación' : 'Planilla';
 const sinT = t => String(t || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
 const coincide = (...textos) => { const q = sinT(document.getElementById('buscador').value.trim()); return !q || textos.some(t => sinT(t).includes(q)); };
 const marcaHtml = (estado, texto) => `<span class="marca m-${estado}">${estado === 'ok' ? '✓ ' : ''}${esc(texto)}</span>`;
@@ -256,10 +259,10 @@ function confirmar(cuerpo, boton) {
   if (!url) { mensaje(boton, 'Todavía no se puede guardar: falta configurar el Worker de Cloudflare.', true); return; }
   boton.disabled = true;
   mensaje(boton, 'Guardando…', false);
-  fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
-    .then(r => r.json().then(j => ({ ok: r.ok, j })))
-    .then(({ ok, j }) => {
-      mensaje(boton, ok ? 'Confirmado, se verá en unos minutos.' : 'No se pudo guardar (' + (j.error || 'error') + ').', !ok);
+  enviarConPin(url, cuerpo, boton)
+    .then(res => {
+      const ok = res.ok;
+      mensaje(boton, ok ? 'Confirmado, se verá en unos minutos.' : textoError(res), !ok);
       if (!ok) { boton.disabled = false; return; }
       // Para no apretar dos veces: se bloquean los botones de esa fila y se recuerda 15 min.
       (boton.closest('td') || boton.parentElement).querySelectorAll('button').forEach(b => b.disabled = true);
@@ -366,13 +369,13 @@ function seccionOperacion() {
   if (filtroOp !== 'apagado') {
     const filas = v.operacion.filter(f => pasa(f) && coincide(f.maquina, f.campo_planilla, f.operador, f.gps)).map(f =>
       `<tr data-maquina="${esc(f.maquina)}"><td>${esc(f.maquina)}<br><small>${esc(f.labor)}</small></td><td>${esc(f.operador || '–')}</td>` +
-      `<td>Planilla: <b>${esc(f.campo_planilla || 'Taller')}</b><br>${marcaHtml(f.estado, f.texto)}` +
-      `${f.sin_operador ? ' <span class="marca m-confirmar">Sin operador en la planilla</span>' : ''}` +
+      `<td>${FUENTE()}: <b>${esc(f.campo_planilla || 'Taller')}</b><br>${marcaHtml(f.estado, f.texto)}` +
+      `${f.sin_operador ? ` <span class="marca m-confirmar">Sin operador en la ${FUENTE().toLowerCase()}</span>` : ''}` +
       `<div class="gps">GPS: ${esc(f.gps_texto || f.gps || '')} ${mapa(f.mapa)}</div>${accionesOperacion(f)}</td>` +
       `<td class="n">${f.promedio ? n(f.promedio, 2) : '–'}</td><td class="n">${f.ayer_ha ? '<b>' + n(f.ayer_ha, 2) + '</b>' : '–'}</td><td>${mapa(f.mapa)}</td></tr>`).join('');
-    html += `<div class="tabla"><table><thead><tr><th>Máquina</th><th>Operador</th><th>Campo (planilla)</th><th class="n">Prom. ha/día</th><th class="n">Ayer ha</th><th></th></tr></thead><tbody>${filas || '<tr><td colspan="6" class="vacio">Sin máquinas para este filtro.</td></tr>'}</tbody></table></div>`;
+    html += `<div class="tabla"><table><thead><tr><th>Máquina</th><th>Operador</th><th>Campo (${FUENTE().toLowerCase()})</th><th class="n">Prom. ha/día</th><th class="n">Ayer ha</th><th></th></tr></thead><tbody>${filas || '<tr><td colspan="6" class="vacio">Sin máquinas para este filtro.</td></tr>'}</tbody></table></div>`;
     html += v.avisos_planilla.map(a => `<div class="aviso-planilla">${esc(a)}</div>`).join('');
-    if (filtroOp === 'todas' && v.no_en_planilla.length) html += `<h3 class="grupo" style="color:var(--rojo)">Fuera de CYH y no está en la planilla</h3>` +
+    if (filtroOp === 'todas' && v.no_en_planilla.length) html += `<h3 class="grupo" style="color:var(--rojo)">Fuera de CYH y no está en la ${FUENTE().toLowerCase()}</h3>` +
       v.no_en_planilla.filter(x => coincide(x.maquina)).map(x => `<div>${esc(x.maquina)} · GPS: ${esc(x.gps_texto || x.texto)}${x.no_cyh ? ' · <b style="color:var(--rojo)">No es de CYH (por revisar)</b>' : ''} ${mapa(x.mapa)}</div>`).join('');
   }
   if (filtroOp === 'todas' || filtroOp === 'apagado') html += `<h3 class="grupo">GPS apagado hace más de 30 días</h3>` +
@@ -380,7 +383,7 @@ function seccionOperacion() {
   const b = (k, t) => `<button type="button" class="${filtroOp === k ? 'activo' : ''}" onclick="filtroOp='${k}'; dibujar()">${t}</button>`;
   return `<section id="operacion"><h2>Máquinas en operación (fuera de CYH)</h2>
     <div class="filtros-op">${b('todas', 'Todas')}${b('ayer', 'Trabajaron ayer')}${b('nocalzan', 'No calzan')}${b('singeo', 'Sin geocerca')}${b('apagado', 'GPS apagado')}</div>
-    ${html}<p class="nota">✓ = el GPS calza con el campo de la planilla (o su equivalente). "Confirmar": el GPS no calza; lo confirmado aparece como "Actualizar planilla" hasta que la planilla cambie.</p></section>`;
+    ${html}<p class="nota">✓ = el GPS calza con el campo de la ${FUENTE().toLowerCase()} (o su equivalente). "Confirmar": el GPS no calza; lo confirmado aparece como "Actualizar ${FUENTE().toLowerCase()}" hasta que se corrija en la página <a href="operacion.html">Operación</a>.</p></section>`;
 }
 
 function seccionAlertasV2(d) {
@@ -566,7 +569,7 @@ function listaOperadores() {
   return lista.map(o => {
     const k = 'op:' + o.operador;
     const hoy = o.hoy.length ? o.hoy.map(h => `${esc(h.maquina)}${h.implemento ? ' + ' + esc(h.implemento) : ''} · ${esc(h.campo || 'Taller')} <span class="est ${claseEstado(h.estado)}">${esc(h.estado)}</span>`).join('<br>')
-                             : '<span class="est est-nada">no está hoy en la planilla</span>';
+                             : `<span class="est est-nada">no está hoy en la ${FUENTE().toLowerCase()}</span>`;
     return `<details data-tc="${esc(k)}"${abierto(k)}><summary><span class="tit"><b>${esc(o.operador)}</b><small>${hoy}</small></span></summary>${detalleOperador(o)}</details>`;
   }).join('');
 }
@@ -731,7 +734,7 @@ function mostrarEstado() {
   const datos = ordenable((V && V.actualizado) || D.generado) || ordenable(D.generado);
   const planilla = [ordenable(V && V.planilla_leida), planillaApi].sort().pop();
   document.getElementById('estadoDatos').innerHTML = `Datos de ${esc(corta(datos))}` +
-    (planilla ? ` · Planilla leída a las ${esc(planilla.slice(11))}${planilla.slice(0, 10) !== datos.slice(0, 10) ? ' del ' + esc(corta(planilla).slice(0, 5)) : ''}` : '') +
+    (planilla ? ` · ${V && V.fuente === 'operacion' ? 'Actualizado' : 'Planilla leída'} a las ${esc(planilla.slice(11))}${planilla.slice(0, 10) !== datos.slice(0, 10) ? ' del ' + esc(corta(planilla).slice(0, 5)) : ''}` : '') +
     (sinRed ? ' · <span class="sin-red">sin conexión: se actualiza sola al volver la señal</span>' : '');
 }
 // Ultima lectura de la planilla aunque no haya cambiado (la revision sin cambios no sube nada):
@@ -774,8 +777,8 @@ async function actualizarPlanilla(boton) {
   msg.textContent = 'Enviando…';
   const antes = [ordenable(V && V.planilla_leida), planillaApi].sort().pop() || '';
   try {
-    const r = await fetch(base + '/planilla', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
-    if (!r.ok) throw new Error('Worker ' + r.status);
+    const res = await enviarConPin(base + '/planilla', {}, boton);
+    if (!res.ok) { boton.disabled = false; msg.textContent = textoError(res); return; }
   } catch (e) { boton.disabled = false; msg.textContent = 'No se pudo conectar con el Worker de Cloudflare.'; return; }
   msg.textContent = 'Actualizando, se verá en 2–3 minutos.';
   for (let i = 0; i < 12; i++) {
@@ -783,7 +786,7 @@ async function actualizarPlanilla(boton) {
     await cargar(false);
     await leerPlanillaApi(); mostrarEstado();
     const ahora = [ordenable(V && V.planilla_leida), planillaApi].sort().pop() || '';
-    if (ahora > antes) { msg.textContent = `Listo: planilla leída a las ${ahora.slice(11)}.`; boton.disabled = false; return; }
+    if (ahora > antes) { msg.textContent = `Listo: actualizado a las ${ahora.slice(11)}.`; boton.disabled = false; return; }
   }
   msg.textContent = 'Todavía no termina; vuelve a mirar en unos minutos.';
   boton.disabled = false;

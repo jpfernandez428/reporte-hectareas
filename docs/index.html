@@ -118,6 +118,7 @@
   .flota details.alertas .marco { margin: 0 12px 12px; }
   @media (prefers-reduced-motion: reduce) { .flota .flecha { transition: none; } }
 </style>
+<script src="pin.js"></script>
 </head>
 <body>
 
@@ -293,6 +294,13 @@ async function cargarDatos() {
     sinGeocerca = respSG.ok ? await respSG.json() : null;
   } catch (e) {
     sinGeocerca = null;
+  }
+  try {
+    // Foto diaria de la pagina Operacion: operador de cada maquina cada dia (informe).
+    const respOp = await fetch('datos/operadores.json?_=' + Date.now());
+    OPERADORES_DIAS = respOp.ok ? (await respOp.json()).dias || {} : {};
+  } catch (e) {
+    OPERADORES_DIAS = {};
   }
   try {
     const respCampos = await fetch('datos/campos.json?_=' + Date.now());
@@ -709,10 +717,10 @@ function enviarConfirmacion(cuerpo, boton) {
   const aviso = boton.closest('td, li, div').querySelector('.sg-aviso') || boton.parentElement;
   if (!url) { alert('Falta configurar la dirección del Worker de Cloudflare (url_confirmaciones en config.json).'); return; }
   boton.disabled = true;
-  fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
-    .then(r => r.json().then(j => ({ ok: r.ok, j })))
-    .then(({ ok, j }) => {
-      const msg = ok ? 'Guardado: se verá al recargar en 2–3 minutos.' : 'No se pudo guardar (' + (j.error || 'error') + ').';
+  enviarConPin(url, cuerpo, boton)  // PIN para guardar (pin.js, 26-oct-2026)
+    .then(res => {
+      const ok = res.ok;
+      const msg = ok ? 'Guardado: se verá al recargar en 2–3 minutos.' : textoError(res);
       boton.parentElement.insertAdjacentHTML('afterend', `<div class="chica" style="color:${ok ? '#1f6b34' : '#b3261e'}">${msg}</div>`);
       if (!ok) boton.disabled = false;
     })

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Operación – Flota C&amp;H</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#2f6f3e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icono-192.png">
+<script src="pin.js"></script>
+<style>
+  :root { --verde: #2f6f3e; --verde-f: #eaf3ec; --rojo: #b3261e; --rojo-f: #fdecea; --gris: #5f6b64; --borde: #e3e8e5; --amarillo-f: #fff4cc; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, Arial, sans-serif; margin: 0; background: #f5f6f7; color: #1a1a1a; font-size: 15px; padding-bottom: 80px; }
+  body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; height: env(safe-area-inset-top); background: var(--verde); z-index: 5; }
+  header { background: var(--verde); color: #fff; padding: 16px; padding-top: calc(16px + env(safe-area-inset-top)); }
+  header h1 { margin: 0; font-size: 19px; }
+  header .sub { font-size: 14px; opacity: .92; margin-top: 4px; }
+  header a { color: #fff; font-size: 13px; margin-right: 12px; }
+  main { max-width: 1100px; margin: 0 auto; padding: 12px; }
+  section { background: #fff; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.08); margin-bottom: 14px; padding: 12px 14px; }
+  h2 { font-size: 17px; color: var(--verde); margin: 2px 0 10px; }
+  .filtros { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; align-items: center; }
+  .filtros button, .botones button { border: 1px solid #cfe0d1; background: var(--verde-f); color: var(--verde); font-weight: 600;
+    border-radius: 999px; padding: 6px 12px; font-size: 13px; cursor: pointer; }
+  .filtros button.activo { background: var(--verde); color: #fff; }
+  .buscador { width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; margin: 0 0 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 6px 5px; text-align: left; border-bottom: 1px solid #eee; vertical-align: top; }
+  th { background: #eef1ee; font-size: 12px; position: sticky; top: 0; z-index: 1; }
+  td input, td select { width: 100%; padding: 5px; font-size: 14px; border: 1px solid #ccc; border-radius: 6px; background: #fff; }
+  td input.otro { margin-top: 4px; }
+  tr.cambiada td { background: var(--amarillo-f); }
+  tr.guardando td { background: #eef5ff; }
+  .grupo td { background: #fff; font-size: 12px; font-weight: 700; color: var(--verde); text-transform: uppercase; letter-spacing: .03em; padding-top: 12px; }
+  .maq b { display: block; } .maq small { color: var(--gris); }
+  .gps { font-size: 12px; color: var(--gris); }
+  .marca { display: inline-block; padding: 1px 7px; border-radius: 9px; font-size: 12px; font-weight: 700; }
+  .m-ok { background: #e3f2e6; color: #1f6b34; } .m-sin_geocerca { background: #fff4cc; color: #8a6a00; }
+  .m-confirmar { background: #fdecea; color: #b3261e; } .m-sin_senal { background: #eceeed; color: #5d6660; }
+  .barra { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--borde); z-index: 4;
+           padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .barra .guardar { background: var(--verde); color: #fff; border: 0; border-radius: 8px; padding: 10px 16px; font-weight: 700; font-size: 15px; }
+  .barra .guardar:disabled { opacity: .5; }
+  .barra .sec { background: #fff; color: var(--verde); border: 1px solid #cfe0d1; border-radius: 8px; padding: 9px 12px; font-weight: 600; }
+  #msg { font-size: 13px; font-weight: 600; }
+  .nota { font-size: 12px; color: var(--gris); margin: 8px 0 0; }
+  .vacio { color: var(--gris); padding: 8px 0; }
+  a { color: var(--verde); }
+  .acciones { display: inline; }
+  /* Celular: cada maquina como tarjeta. */
+  @media (max-width: 700px) {
+    main { padding: 8px; } section { padding: 10px; }
+    thead { display: none; }
+    table, tbody, tr, td { display: block; width: 100%; }
+    tr.fila { border: 1px solid var(--borde); border-radius: 10px; margin: 0 0 10px; padding: 8px 10px; background: #fff; }
+    tr.fila td { border: 0; padding: 3px 0; }
+    tr.fila td[data-label]::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 600; color: var(--gris); text-transform: uppercase; }
+    tr.fila td.maq::before { content: none; }
+    .grupo td { padding: 8px 0 4px; }
+    #historial td { display: block; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Operación – Flota C&amp;H</h1>
+  <div class="sub" id="estado">Cargando…</div>
+  <div style="margin-top:6px"><a href="reporte2.html">← Reporte diario</a><a href="index.html">Hectáreas y Flota</a></div>
+</header>
+<main>
+  <section>
+    <h2>Máquinas: implemento, operador y campo</h2>
+    <div class="filtros" id="filtros"></div>
+    <input class="buscador" id="buscador" type="search" placeholder="Buscar máquina, operador o campo">
+    <div style="overflow-x:auto"><table id="tabla"><thead><tr><th>Máquina</th><th>Implemento</th><th>Operador</th><th>Campo</th><th>Desde</th><th>Próximo destino</th><th>GPS</th></tr></thead><tbody></tbody></table></div>
+    <p class="nota">Las filas cambiadas quedan en amarillo hasta guardar. "Desde" = día en que la máquina llegó al campo (si cambias el campo y no la fecha, queda hoy). GPS solo de lectura: ✓ calza / sin geocerca / Confirmar (GPS en otro lugar) / sin señal.</p>
+  </section>
+  <section>
+    <h2>Historial de cambios</h2>
+    <div style="overflow-x:auto"><table id="historial"><thead><tr><th>Fecha y hora</th><th>Máquina</th><th>Qué cambió</th><th>Antes → después</th></tr></thead><tbody></tbody></table></div>
+  </section>
+</main>
+<div class="barra"><button type="button" class="guardar" id="guardar" disabled onclick="guardar(this)">Guardar cambios</button>
+  <button type="button" class="sec" onclick="descargarExcel()">Descargar Excel</button><span id="msg"></span></div>
+<script>
+// Pagina Operacion (pedido del usuario 26-oct-2026): reemplaza la planilla del
+// Drive "Maquinas en Operacion". Datos: datos/operacion.json (estado),
+// datos/operacion_cambios.json (historial), datos/reporte_v2.json (GPS,
+// maquinas activas y operadores conocidos) y datos/campos.json (campos de Wialon).
+// Guardar: Worker /operacion con el PIN -> operacion.yml -> operacion.py.
+const WORKER = 'https://disparador-reporte.dawn-band-fd6c.workers.dev';
+const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const sinT = t => String(t || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const fc = iso => iso ? `${iso.slice(8, 10)}-${iso.slice(5, 7)}-${iso.slice(0, 4)}` : '';
+const CAMPOS_FILA = ['implemento', 'operador', 'campo', 'desde', 'destino'];
+let OP = null, CAMBIOS = [], V = null, CAMPOS = { campos: [], equivalencias: {}, nombres_lista: {} };
+let filtro = 'todas', editado = {}, guardando = new Set();
+
+const esTaller = c => ['taller', 'cyh', 'taller (cyh)'].includes(sinT(c).trim());
+const nombreCampo = c => (CAMPOS.nombres_lista && CAMPOS.nombres_lista[c]) || c;
+const equivalentes = c => Object.keys(CAMPOS.equivalencias || {}).filter(k => (CAMPOS.equivalencias[k] || []).includes(c));
+
+function unidades() {
+  if (V && V.unidades) return V.unidades;
+  return Object.keys(OP.maquinas).map(m => ({ maquina: m, labor: '', grupo: '' }));
+}
+const valorDe = m => ({ ...OP.maquinas[m], ...(editado[m] || {}) });
+const cambiada = m => editado[m] && CAMPOS_FILA.some(k => (editado[m][k] ?? OP.maquinas[m][k] ?? '') !== (OP.maquinas[m][k] ?? ''));
+
+// Opciones: operadores conocidos (con sus otros nombres) y campos de Wialon (con equivalentes).
+function opcionesOperador(actual) {
+  const lista = ((V && V.operadores && V.operadores.lista) || []).map(o => ({ valor: o.operador, texto: o.operador + (o.otros_nombres.length ? ` (= ${o.otros_nombres.join(', ')})` : '') }));
+  if (actual && !lista.some(o => o.valor === actual)) lista.push({ valor: actual, texto: actual });
+  lista.sort((a, b) => a.texto.localeCompare(b.texto, 'es'));
+  return `<option value="">(sin operador)</option>` + lista.map(o => `<option value="${esc(o.valor)}"${o.valor === actual ? ' selected' : ''}>${esc(o.texto)}</option>`).join('') +
+    `<option value="__nuevo">Nuevo operador…</option>`;
+}
+let OPCIONES_CAMPO = null;
+function opcionesCampo(actual) {
+  if (!OPCIONES_CAMPO) {
+    OPCIONES_CAMPO = (CAMPOS.campos || []).filter(c => !CAMPOS.nombres_lista || CAMPOS.nombres_lista[c]).map(c => {
+      const eq = equivalentes(c);
+      return { valor: c, texto: nombreCampo(c) + (eq.length ? ` (= ${eq.join(', ')})` : '') };
+    }).sort((a, b) => a.texto.localeCompare(b.texto, 'es'));
+  }
+  const lista = OPCIONES_CAMPO.slice();
+  // Mismo campo de Wialon escrito distinto ("mercofrut" = MERCOFRUT): se muestra ese.
+  const clave = t => sinT(t).replace(/[^a-z0-9]/g, '');
+  const mismo = actual && lista.find(o => clave(o.valor) === clave(actual));
+  if (mismo) return `<option value="">(sin anotar)</option><option value="Taller">Taller (CYH)</option>` +
+    lista.map(o => `<option value="${esc(o === mismo ? actual : o.valor)}"${o === mismo ? ' selected' : ''}>${esc(o.texto)}</option>`).join('') +
+    `<option value="__otro">Otro campo…</option>`;
+  if (actual && !esTaller(actual) && !lista.some(o => o.valor === actual)) {
+    // Campo sin geocerca o nombre antiguo de la planilla: se muestra tal cual (con su equivalente si tiene).
+    const eq = (CAMPOS.equivalencias || {})[actual] || Object.entries(CAMPOS.equivalencias || {}).find(([k]) => sinT(k) === sinT(actual))?.[1] || [];
+    lista.unshift({ valor: actual, texto: actual + (eq.length ? ` (= ${eq.map(nombreCampo).join(', ')})` : ' (sin geocerca)') });
+  }
+  return `<option value="">(sin anotar)</option><option value="Taller"${esTaller(actual) ? ' selected' : ''}>Taller (CYH)</option>` +
+    lista.map(o => `<option value="${esc(o.valor)}"${o.valor === actual ? ' selected' : ''}>${esc(o.texto)}</option>`).join('') +
+    `<option value="__otro">Otro campo…</option>`;
+}
+
+function gpsHtml(m) {
+  const g = V && V.gps_maquinas && V.gps_maquinas[m];
+  if (!g) return '<span class="gps">–</span>';
+  const t = g.estado === 'ok' ? '✓ ' + g.texto : g.texto;
+  return `<span class="marca m-${esc(g.estado)}">${esc(t)}</span>${g.gps ? `<div class="gps">${esc(g.gps)}${g.mapa ? ` · <a href="${esc(g.mapa)}" target="_blank" rel="noopener">mapa</a>` : ''}</div>` : ''}`;
+}
+
+function pasaFiltro(m) {
+  const v = valorDe(m);
+  const enCampo = v.campo && !esTaller(v.campo);
+  if (filtro === 'campo' && !enCampo) return false;
+  if (filtro === 'taller' && !esTaller(v.campo)) return false;
+  if (filtro === 'sinop' && !(enCampo && !v.operador)) return false;
+  const q = sinT(document.getElementById('buscador').value.trim());
+  if (!q) return true;
+  const g = (V && V.gps_maquinas && V.gps_maquinas[m]) || {};
+  return [m, v.implemento, v.operador, v.campo, nombreCampo(v.campo), v.destino, g.texto, g.gps].some(t => sinT(t).includes(q));
+}
+
+function fila(u) {
+  const m = u.maquina, v = valorDe(m);
+  const clase = guardando.has(m) ? 'guardando' : cambiada(m) ? 'cambiada' : '';
+  return `<tr class="fila ${clase}" data-m="${esc(m)}">
+    <td class="maq"><b>${esc(m)}</b><small>${esc(u.labor)}${guardando.has(m) ? ' · guardando…' : ''}</small></td>
+    <td data-label="Implemento"><input data-k="implemento" value="${esc(v.implemento)}" maxlength="80"></td>
+    <td data-label="Operador"><select data-k="operador">${opcionesOperador(v.operador)}</select></td>
+    <td data-label="Campo"><select data-k="campo">${opcionesCampo(v.campo)}</select></td>
+    <td data-label="Desde"><input data-k="desde" type="date" value="${esc(v.desde)}"></td>
+    <td data-label="Próximo destino"><input data-k="destino" value="${esc(v.destino)}" maxlength="80"></td>
+    <td data-label="GPS">${gpsHtml(m)}</td></tr>`;
+}
+
+function dibujar() {
+  const b = (k, t) => `<button type="button" class="${filtro === k ? 'activo' : ''}" onclick="filtro='${k}'; dibujar()">${t}</button>`;
+  const n = k => unidades().filter(u => { const f0 = filtro; filtro = k; const r = pasaFiltroSinBuscar(u.maquina); filtro = f0; return r; }).length;
+  document.getElementById('filtros').innerHTML = b('todas', `Todas (${n('todas')})`) + b('campo', `En campo (${n('campo')})`) + b('taller', `En taller (${n('taller')})`) + b('sinop', `Sin operador (${n('sinop')})`);
+  let html = '', grupo = null;
+  for (const u of unidades()) {
+    if (!OP.maquinas[u.maquina] || !pasaFiltro(u.maquina)) continue;
+    if (u.grupo && u.grupo !== grupo) { grupo = u.grupo; html += `<tr class="grupo"><td colspan="7">${esc(grupo)}</td></tr>`; }
+    html += fila(u);
+  }
+  document.querySelector('#tabla tbody').innerHTML = html || '<tr><td colspan="7" class="vacio">Ninguna máquina para este filtro.</td></tr>';
+  contar();
+}
+function pasaFiltroSinBuscar(m) {
+  const v = valorDe(m), enCampo = v.campo && !esTaller(v.campo);
+  return filtro === 'todas' || (filtro === 'campo' && enCampo) || (filtro === 'taller' && esTaller(v.campo)) || (filtro === 'sinop' && enCampo && !v.operador);
+}
+function contar() {
+  const n = Object.keys(editado).filter(cambiada).length;
+  const btn = document.getElementById('guardar');
+  btn.disabled = !n;
+  btn.textContent = n ? `Guardar cambios (${n})` : 'Guardar cambios';
+}
+
+// Edicion: "Nuevo operador…" y "Otro campo…" abren un cuadro de texto.
+document.addEventListener('change', ev => {
+  const el = ev.target, tr = el.closest('tr.fila');
+  if (!tr || !el.dataset.k) return;
+  const m = tr.dataset.m, k = el.dataset.k;
+  if (el.value === '__nuevo' || el.value === '__otro') {
+    if (!tr.querySelector(`input.otro[data-k="${k}"]`)) {
+      el.insertAdjacentHTML('afterend', `<input class="otro" data-k="${k}" maxlength="80" placeholder="${k === 'operador' ? 'Nombre del operador' : 'Nombre del campo (sin geocerca)'}">`);
+      el.nextElementSibling.focus();
+    }
+    return;
+  }
+  editado[m] = { ...(editado[m] || {}), [k]: el.value.trim() };
+  tr.classList.toggle('cambiada', !!cambiada(m));
+  contar();
+});
+document.addEventListener('input', ev => {
+  const el = ev.target, tr = el.closest('tr.fila');
+  if (!tr || !el.dataset.k || el.tagName !== 'INPUT') return;
+  const m = tr.dataset.m;
+  editado[m] = { ...(editado[m] || {}), [el.dataset.k]: el.value.trim() };
+  tr.classList.toggle('cambiada', !!cambiada(m));
+  contar();
+});
+document.getElementById('buscador').addEventListener('input', dibujar);
+
+async function guardar(boton) {
+  const filas = Object.keys(editado).filter(cambiada).map(m => ({ maquina: m, ...Object.fromEntries(CAMPOS_FILA.map(k => [k, valorDe(m)[k] || ''])) }));
+  if (!filas.length) return;
+  const msg = document.getElementById('msg');
+  boton.disabled = true; msg.style.color = 'var(--verde)'; msg.textContent = 'Guardando…';
+  try {
+    const res = await enviarConPin(WORKER + '/operacion', { cambios: filas }, boton);
+    if (!res.ok) { msg.style.color = 'var(--rojo)'; msg.textContent = textoError(res); contar(); return; }
+  } catch (e) { msg.style.color = 'var(--rojo)'; msg.textContent = 'No se pudo conectar con el Worker de Cloudflare.'; contar(); return; }
+  msg.textContent = 'Guardado, se actualiza en 2–3 minutos.';
+  filas.forEach(f => guardando.add(f.maquina));
+  editado = {};
+  dibujar();
+  // Espera los datos nuevos (hasta 6 min).
+  const antes = OP.actualizado;
+  for (let i = 0; i < 12; i++) {
+    await new Promise(r => setTimeout(r, 30000));
+    await cargar();
+    if (OP.actualizado !== antes) { guardando.clear(); dibujar(); msg.textContent = `Guardado a las ${OP.actualizado.slice(11)}.`; return; }
+  }
+  msg.textContent = 'Todavía no se ve el cambio; vuelve a mirar en unos minutos.';
+}
+
+function descargarExcel() {
+  const ir = () => {
+    const filas = unidades().filter(u => OP.maquinas[u.maquina]).map(u => {
+      const v = valorDe(u.maquina), g = (V && V.gps_maquinas && V.gps_maquinas[u.maquina]) || {};
+      return [u.maquina, u.labor, v.implemento, v.operador, esTaller(v.campo) ? 'Taller (CYH)' : nombreCampo(v.campo), v.desde ? fc(v.desde) : '', v.destino, [g.texto, g.gps].filter(Boolean).join(' · ')];
+    });
+    const hoja = XLSX.utils.aoa_to_sheet([['Máquina', 'Labor', 'Implemento', 'Operador', 'Campo', 'Desde', 'Próximo destino', 'GPS'], ...filas]);
+    hoja['!cols'] = [{ wch: 30 }, { wch: 18 }, { wch: 18 }, { wch: 20 }, { wch: 28 }, { wch: 12 }, { wch: 22 }, { wch: 50 }];
+    const hist = XLSX.utils.aoa_to_sheet([['Fecha y hora', 'Máquina', 'Qué cambió', 'Antes', 'Después'], ...CAMBIOS.slice().reverse().map(c => [c.fecha, c.maquina, c.cambio, c.antes, c.despues])]);
+    hist['!cols'] = [{ wch: 17 }, { wch: 30 }, { wch: 16 }, { wch: 28 }, { wch: 28 }];
+    const libro = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(libro, hoja, 'Operación'); XLSX.utils.book_append_sheet(libro, hist, 'Historial');
+    XLSX.writeFile(libro, `Operacion_${new Date().toISOString().slice(0, 10)}.xlsx`);
+  };
+  if (window.XLSX) return ir();
+  const sc = document.createElement('script');
+  sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+  sc.onload = ir; sc.onerror = () => { document.getElementById('msg').textContent = 'No se pudo cargar el generador de Excel.'; };
+  document.head.appendChild(sc);
+}
+
+function dibujarHistorial() {
+  const filas = CAMBIOS.slice().reverse().slice(0, 300).map(c => `<tr class="fila"><td data-label="Fecha">${esc(c.fecha)}</td><td data-label="Máquina">${esc(c.maquina)}</td>` +
+    `<td data-label="Qué cambió">${esc(c.cambio)}</td><td data-label="Antes → después">${esc(c.antes || '—')} → <b>${esc(c.despues || '—')}</b></td></tr>`).join('');
+  document.querySelector('#historial tbody').innerHTML = filas || '<tr><td colspan="4" class="vacio">Sin cambios todavía.</td></tr>';
+}
+
+async function cargar() {
+  const leer = (u, def) => fetch(u, { cache: 'no-store' }).then(r => r.ok ? r.json() : def).catch(() => def);
+  const [op, cambios, v2, campos] = await Promise.all([leer('datos/operacion.json', null), leer('datos/operacion_cambios.json', []),
+    leer('datos/reporte_v2.json', {}), leer('datos/campos.json', {})]);
+  if (!op) { document.getElementById('estado').textContent = 'Todavía no se carga la operación.'; return; }
+  OP = op; CAMBIOS = cambios || []; V = v2.v2 || null; CAMPOS = campos || CAMPOS; OPCIONES_CAMPO = null;
+  document.getElementById('estado').textContent = `Guardado por última vez: ${OP.actualizado}` + (V && V.actualizado ? ` · GPS de ${V.actualizado}` : '');
+  dibujar(); dibujarHistorial();
+}
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+cargar();
+</script>
+</body>
+</html>

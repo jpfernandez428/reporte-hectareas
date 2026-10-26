@@ -1,0 +1,538 @@
+{
+ "actualizado": "26-10-2026 12:16",
+ "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
+ "maquinas": {
+  "Barredora 1": {
+   "implemento": "",
+   "operador": "Alberto",
+   "campo": "Candelaria",
+   "desde": "2026-09-27",
+   "destino": ""
+  },
+  "Barredora 2": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 3": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 4": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 5": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 6": {
+   "implemento": "",
+   "operador": "",
+   "campo": "Puerto Lampa",
+   "desde": "2026-10-01",
+   "destino": ""
+  },
+  "Barredora 7": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 8": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 9 Weiss c/cab": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 10": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 11": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 12": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 13": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 14": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 15": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 16": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 17": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 18": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 19": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 20 Weiss s/cab": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 21 Weiss s/cab": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 22": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 23": {
+   "implemento": "",
+   "operador": "Moises",
+   "campo": "Candelaria",
+   "desde": "2026-10-01",
+   "destino": ""
+  },
+  "Barredora 24 Weiss c/cab": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Barredora 5497": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker SBS 1": {
+   "implemento": "Shaker",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker SBS 2": {
+   "implemento": "Shaker",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker SBS 3": {
+   "implemento": "Shaker",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker SBS 4": {
+   "implemento": "Shaker",
+   "operador": "",
+   "campo": "CK2",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker SBS 5": {
+   "implemento": "Shaker",
+   "operador": "Carlos S",
+   "campo": "mercofrut",
+   "desde": "2026-10-22",
+   "destino": ""
+  },
+  "Shacker SBS 6": {
+   "implemento": "Shaker",
+   "operador": "Sebastian I",
+   "campo": "juan valenzuela",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker SBS 7": {
+   "implemento": "Shaker",
+   "operador": "Cristian Muñoz",
+   "campo": "MGH",
+   "desde": "2026-10-16",
+   "destino": ""
+  },
+  "Shacker SBS 8": {
+   "implemento": "Shaker",
+   "operador": "jorge mella",
+   "campo": "mercofrut",
+   "desde": "2026-10-22",
+   "destino": ""
+  },
+  "Shacker SBS 9": {
+   "implemento": "Shaker",
+   "operador": "Gaston H",
+   "campo": "Viejo nerquihue (mascaró)",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker SBS 10": {
+   "implemento": "Shaker",
+   "operador": "Pirincho",
+   "campo": "Agricola Principio (Cancura)",
+   "desde": "2026-09-27",
+   "destino": ""
+  },
+  "Shacker SBS 11": {
+   "implemento": "Shaker",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker SBS 12": {
+   "implemento": "Shaker",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker SBS 13": {
+   "implemento": "Shaker",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker SBS 14": {
+   "implemento": "Shaker",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker SBS 15 OMC": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker SBS Campo": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Tractor 1 Deutz-Fahr Agroplus": {
+   "implemento": "PICKER R",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Tractor 2 Same Explorer 95": {
+   "implemento": "ID DAVID",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Tractor 3 Same Frutetto 100": {
+   "implemento": "PICKER R",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Tractor 4 Same Frutetto 100": {
+   "implemento": "PICKER R",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Tractor 7 Kubota 95": {
+   "implemento": "PICKER R",
+   "operador": "Jorge Cordova",
+   "campo": "Agr Santa Berta",
+   "desde": "2026-10-14",
+   "destino": ""
+  },
+  "Tractor 8 Kubota 108": {
+   "implemento": "PICKER R",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Tractor 9 Deutz Fahr 115": {
+   "implemento": "ESTRELLA",
+   "operador": "Carlos ayala",
+   "campo": "santa ana",
+   "desde": "2026-10-08",
+   "destino": ""
+  },
+  "Tractor 10 Deutz Fahr 115": {
+   "implemento": "ESTRELLA",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Tractor 11 Deutz Fahr 115": {
+   "implemento": "ID DAVID",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Tractor 13 Deutz Fahr 115": {
+   "implemento": "ESTRELLA",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Tractor 14 Deutz Fahr 115": {
+   "implemento": "PICKER R",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Tractor 15 Deutz Fahr 115": {
+   "implemento": "ESTRELLA",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  },
+  "Tractor 16 Kubota 108": {
+   "implemento": "PICKER R",
+   "operador": "Jonathan",
+   "campo": "Torretagle",
+   "desde": "2026-09-28",
+   "destino": ""
+  },
+  "Tractor 17 Kubota 108": {
+   "implemento": "PICKER R",
+   "operador": "Beño",
+   "campo": "Alto Calibre",
+   "desde": "2026-09-27",
+   "destino": ""
+  },
+  "Shacker de Suelo 1": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker de Suelo 2": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker de Suelo 3": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker de Suelo 4": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker de Suelo 5": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker de Suelo 6": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker de Suelo 7": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker de Suelo 8": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker de Suelo 9": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker de Suelo 10 Orchard Rite": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker de Suelo 11 Orchard Rite": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Shacker de Suelo Frontal OMC (proyecto 2027)": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Shaker Orchard Rite": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Recogedora 1": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Recogedora 2": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Recogedora 3": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Recogedora 4": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Recogedora 5": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Recogedora 6": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Recogedora 7": {
+   "implemento": "",
+   "operador": "",
+   "campo": "",
+   "desde": "",
+   "destino": ""
+  },
+  "Podadora 1": {
+   "implemento": "ESTRELLA",
+   "operador": "",
+   "campo": "Taller",
+   "desde": "",
+   "destino": ""
+  }
+ }
+}

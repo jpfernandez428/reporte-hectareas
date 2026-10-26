@@ -241,7 +241,7 @@ async function informeExcel(campos, desde, hasta) {
     pageSetup: { orientation: 'landscape', fitToPage: true, fitToWidth: 1, fitToHeight: 0 } });
   ws.getCell('A1').value = 'Hectáreas por máquina y por día'; ws.getCell('A1').font = { size: 16, bold: true, color: { argb: 'FF' + INF_VERDE } };
   ws.getCell('A2').value = `${camposTxt} · ${fechaCl(desde)} al ${fechaCl(hasta)}`; ws.getCell('A2').font = { color: { argb: 'FF555555' } };
-  ['Máquina', 'Fecha', 'Labor', 'Cuarteles trabajados', 'Hectáreas'].forEach((c, j) => { Object.assign(ws.getCell(4, j + 1), encabezado, { value: c }); });
+  ['Máquina', 'Fecha', 'Labor', 'Cuarteles trabajados', 'Hectáreas', 'Operador'].forEach((c, j) => { Object.assign(ws.getCell(4, j + 1), encabezado, { value: c }); });
   const porMaq = {};
   for (const d of filas) {
     const k = d.maquina + '||' + d.fecha;
@@ -254,7 +254,7 @@ async function informeExcel(campos, desde, hasta) {
     const filasM = Object.values(porMaq).filter(x => x.maquina === m).sort((a, b) => a.fecha.localeCompare(b.fecha));
     filasM.forEach((x, i) => {
       const fila = ws.getRow(r++);
-      [m, aFecha(x.fecha), [...x.labores].sort().join(', '), [...x.cuarteles].sort(ordenCuartel).join(', '), x.ha].forEach((v, j) => {
+      [m, aFecha(x.fecha), [...x.labores].sort().join(', '), [...x.cuarteles].sort(ordenCuartel).join(', '), x.ha, operadorDe(m, x.fecha)].forEach((v, j) => {
         const celda = fila.getCell(j + 1); celda.value = v; celda.font = { size: 10 };
         celda.border = { bottom: { style: 'thin', color: { argb: 'FFD0D7D1' } } };
         if (i % 2) celda.fill = relleno('F2F5F2');
@@ -273,18 +273,18 @@ async function informeExcel(campos, desde, hasta) {
     const celda = fg.getCell(j + 1); celda.value = v; celda.font = { size: 11, bold: true, color: { argb: 'FFFFFFFF' } }; celda.fill = relleno(INF_VERDE);
   });
   fg.getCell(5).numFmt = NUM;
-  [32, 12, 14, 60, 13].forEach((w, j) => { ws.getColumn(j + 1).width = w; });
+  [32, 12, 14, 60, 13, 22].forEach((w, j) => { ws.getColumn(j + 1).width = w; });
   // Detalle
   ws = wb.addWorksheet('Detalle', { views: [{ state: 'frozen', ySplit: 4, showGridLines: false }],
     pageSetup: { orientation: 'landscape', fitToPage: true, fitToWidth: 1, fitToHeight: 0 } });
   ws.getCell('A1').value = 'Detalle por cuartel, día y máquina'; ws.getCell('A1').font = { size: 16, bold: true, color: { argb: 'FF' + INF_VERDE } };
   ws.getCell('A2').value = `${camposTxt} · ${fechaCl(desde)} al ${fechaCl(hasta)}`; ws.getCell('A2').font = { color: { argb: 'FF555555' } };
   const det = [...filas].sort((a, b) => ordenCuartel(a.cuartel, b.cuartel) || a.fecha.localeCompare(b.fecha) || a.maquina.localeCompare(b.maquina));
-  r = tabla(ws, 4, ['Campo', 'Cuartel', 'Fecha', 'Labor', 'Máquina', 'Hectáreas'],
-    det.map(d => [campoDe(d.cuartel).nombre, d.cuartel, aFecha(d.fecha), d.labor, d.maquina, d.area_trabajada_ha]),
-    [null, null, FEC, null, null, NUM], ['Total', null, null, null, null, det.reduce((t, d) => t + d.area_trabajada_ha, 0)]);
-  ws.autoFilter = { from: 'A4', to: `F${4 + det.length}` };
-  [14, 16, 12, 12, 32, 12].forEach((w, j) => { ws.getColumn(j + 1).width = w; });
+  r = tabla(ws, 4, ['Campo', 'Cuartel', 'Fecha', 'Labor', 'Máquina', 'Hectáreas', 'Operador'],
+    det.map(d => [campoDe(d.cuartel).nombre, d.cuartel, aFecha(d.fecha), d.labor, d.maquina, d.area_trabajada_ha, operadorDe(d.maquina, d.fecha)]),
+    [null, null, FEC, null, null, NUM, null], ['Total', null, null, null, null, det.reduce((t, d) => t + d.area_trabajada_ha, 0), null]);
+  ws.autoFilter = { from: 'A4', to: `G${4 + det.length}` };
+  [14, 16, 12, 12, 32, 12, 22].forEach((w, j) => { ws.getColumn(j + 1).width = w; });
   // Trabajo sin geocerca (estimado, aparte)
   const sg = sinGeocercaInforme(campos, desde, hasta);
   if (sg.length) {
@@ -549,4 +549,18 @@ async function generarInforme(tipo) {
   } catch (e) {
     aviso.textContent = 'No se pudo generar el informe: ' + e.message;
   }
+}
+
+// Operador de una maquina un dia (foto diaria de la pagina Operacion,
+// datos/operadores.json; pedido del usuario 26-oct-2026). Exacto el dia de una
+// lectura; entre dos lecturas con el mismo operador, ese operador con "≈".
+var OPERADORES_DIAS = typeof OPERADORES_DIAS !== 'undefined' ? OPERADORES_DIAS : {};
+function operadorDe(maquina, fecha) {
+  const dias = OPERADORES_DIAS || {};
+  const exacto = dias[fecha] && dias[fecha][maquina];
+  if (exacto) return exacto.operador || '';
+  const fechas = Object.keys(dias).sort();
+  const antes = fechas.filter(f => f < fecha).pop(), despues = fechas.find(f => f > fecha);
+  const a = antes && dias[antes][maquina], b = despues && dias[despues][maquina];
+  return a && b && a.operador && a.operador === b.operador ? a.operador + ' ≈' : '';
 }

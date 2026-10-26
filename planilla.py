@@ -17,12 +17,18 @@ Wialon. Reglas del usuario (22-oct-2026, ver CLAUDE.md):
 
 import csv
 import io
+import json
+import os
 import re
 import unicodedata
 
 import requests
 
 URL_PLANILLA = "https://drive.google.com/uc?export=download&id=1D7e_wQwUD00WPS2i0fc8xsw6p27euR3A"
+# Desde el 26-oct-2026 la pagina Operacion (docs/operacion.html) reemplaza la
+# planilla del Drive: si existe este archivo es la UNICA fuente y el Drive ya
+# no se lee (se cargo una vez desde la planilla con operacion_cargar.py).
+RUTA_OPERACION = os.path.join(os.path.dirname(os.path.abspath(__file__)), "docs", "datos", "operacion.json")
 URL_EQUIVALENCIAS = "https://docs.google.com/spreadsheets/d/1WfzQbMCZ8DKLHR1jnnQdQR-r2glbIoft_Qkn2bOYuo8/export?format=csv"
 
 TIPOS = [  # (patron en la planilla, tipo comun)
@@ -121,11 +127,42 @@ def leer_equivalencias(contenido):
     return salida
 
 
-def cargar(nombres_wialon, equivalencias=None):
+def es_taller(campo):
+    return normalizar(campo) in ("taller", "cyh", "taller (cyh)")
+
+
+def cargar_operacion(nombres_wialon, equivalencias=None):
+    """Misma estructura que cargar(), desde docs/datos/operacion.json (pagina
+    Operacion). Las maquinas sin campo anotado quedan fuera ("no esta en la
+    operacion"), como las que no estaban en la planilla."""
+    resultado = {"ok": False, "aviso": None, "maquinas": {}, "sin_cruce": [], "fuente": "operacion",
+                 "equivalencias": {normalizar(k): v for k, v in (equivalencias or {}).items()}}
+    try:
+        with open(RUTA_OPERACION, "r", encoding="utf-8") as f:
+            datos = json.load(f)
+    except Exception as e:
+        resultado["aviso"] = f"No se pudo leer la pagina Operacion: {e}"
+        return resultado
+    for m, x in datos.get("maquinas", {}).items():
+        campo = (x.get("campo") or "").strip()
+        if m not in nombres_wialon or not campo:
+            continue
+        resultado["maquinas"][m] = {"fila": None, "maquina_planilla": m, "implemento": (x.get("implemento") or "").strip(),
+                                    "operador": (x.get("operador") or "").strip(), "campo": "Taller" if es_taller(campo) else campo,
+                                    "destino": (x.get("destino") or "").strip(), "desde": x.get("desde") or "",
+                                    "en_cyh": es_taller(campo)}
+    resultado["ok"] = True
+    resultado["actualizado"] = datos.get("actualizado")
+    return resultado
+
+
+def cargar(nombres_wialon, equivalencias=None, forzar_drive=False):
     """{"ok", "aviso", "maquinas": {nombre Wialon: fila}, "sin_cruce": [filas],
     "equivalencias": {...}}. Nunca falla: si no se puede leer, ok=False y aviso.
     Las equivalencias vienen de config.json -> equivalencias_campos (desde el
     23-oct-2026 se editan en la pagina; la hoja del Drive ya no se usa)."""
+    if os.path.exists(RUTA_OPERACION) and not forzar_drive:
+        return cargar_operacion(nombres_wialon, equivalencias)
     resultado = {"ok": False, "aviso": None, "maquinas": {}, "sin_cruce": [],
                  "equivalencias": {normalizar(k): v for k, v in (equivalencias or {}).items()}}
     try:

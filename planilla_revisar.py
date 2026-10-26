@@ -1,8 +1,10 @@
 """
 planilla_revisar.py
 
-Revisa la planilla "Maquinas en Operacion" del Drive (SOLO LECTURA) y, solo si
-cambio algo, vuelve a armar los datos de reporte2.html con lo ya publicado,
+Desde el 26-oct-2026: con la pagina Operacion como fuente (operacion.json) ya
+no se lee el Drive; el boton "Actualizar" rearma reporte2 y la revision cada
+30 min queda apagada (sin Cron en el Worker). Antes: revisaba la planilla
+"Maquinas en Operacion" del Drive (SOLO LECTURA) y, solo si cambio algo, volvia a armar los datos de reporte2.html con lo ya publicado,
 sin bajar GPS de Wialon (pedido del usuario 22-oct-2026). Lo ejecuta
 .github/workflows/planilla.yml, que lanza el Worker de Cloudflare cada 30 min
 de 07:00 a 21:00 de Chile (ORIGEN=cron) o el boton "Actualizar desde la
@@ -66,7 +68,9 @@ def main():
             else:
                 saltar("la corrida de la noche o una confirmacion sigue corriendo")
     import reporte_v2
-    reporte_v2.rearmar_pagina(solo_si_cambio=True)
+    # Desde el 26-oct-2026 la fuente es la pagina Operacion (operacion.json), no
+    # el Drive: el boton "Actualizar" rearma siempre; el cron (apagado) solo si cambio.
+    reporte_v2.rearmar_pagina(solo_si_cambio=(origen == "cron"))
 
 
 if __name__ == "__main__":
