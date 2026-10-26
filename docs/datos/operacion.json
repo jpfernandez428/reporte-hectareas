@@ -1,5 +1,5 @@
 {
- "actualizado": "26-10-2026 13:38",
+ "actualizado": "26-10-2026 13:52",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -534,5 +534,13 @@
    "desde": "",
    "destino": ""
   }
- }
+ },
+ "guardados": [
+  {
+   "id": "pruebamedicion1",
+   "recibido": "1793033514051",
+   "aplicado": 1793033543698,
+   "cambios": 0
+  }
+ ]
 }
