@@ -1223,6 +1223,42 @@ Registro:
     geocerca (`sin_geocerca.campo_de_la_operacion`: sin campo seguro, el campo
     de la operación ese día queda "probable"; protegido para no botar la
     corrida de la noche).
+  - **Cambios del 26-oct-2026 en Operación y Operadores**:
+    - "Desde" automático: vacío en `operacion.json` = la llegada al campo
+      actual según el GPS (`operadores.desde_auto`, en `v2.desde_auto`); si el
+      usuario pone otra fecha, se usa la suya. La página dice "automática (GPS)"
+      o "puesta a mano · usar automática". Cambiar el campo vuelve a automático.
+      (Incidente: al pasar a automático los "Desde" de la carga se borraron
+      también dos fechas puestas a mano a las 13:37–13:38 —Shacker SBS 4 y
+      Tractor 7, 2026-10-26—; se restauraron y quedó anotado en el historial.)
+    - Operadores: promedios por DÍAS TRABAJADOS (con ha o ≥ 1 h de trabajo en
+      geocercas + sin geocerca; detenida, traslado o CYH no cuentan). ha/día =
+      (ha + ~ha estimadas sin geocerca) ÷ días trabajados; ha/hora = ha en
+      geocercas ÷ horas en geocercas. "Desde" solo define qué días son del
+      operador (sin foto del día: desde "Desde" hasta ayer, aproximado).
+    - Guardar al instante (opción A): al guardar la fila se ve al tiro con
+      "sincronizando…" (y queda en el navegador, `localStorage`
+      `operacion_pendientes`, aunque se recargue) hasta que el guardado aparece
+      publicado (`operacion.json` → `guardados`, por id; o los valores ya
+      publicados) → "✓ guardado en X"; con PIN incorrecto o error de GitHub
+      (corrida fallida, buscada por el id en el nombre de la corrida) → "No se
+      guardó" en rojo y la fila vuelve a como estaba (los cambios quedan en
+      amarillo para reintentar). Más de 10 min: "sincronizando… (más de 10 min)".
+    - Medición: el Worker manda `id` y `recibido` (hora en que lo recibió);
+      `operacion.yml` → `operacion.py medir` espera a que GitHub Pages publique
+      el guardado y anota los segundos en `docs/datos/operacion_tiempos.json`
+      (se ven en el historial; resumen de 7 días y aviso si alguno pasa de 10
+      min). Primera medición (prueba sin cambios): 83 s. **Pendiente: el
+      2-nov-2026 hacerle al usuario un resumen de los tiempos de esa semana para
+      decidir si se pasa a guardar en Cloudflare KV.** Requiere el Worker con
+      `id` (pegado después del 26-oct 13:51); con el Worker anterior el guardado
+      funciona pero no se mide.
+  - **Menú común (26-oct-2026)**: `docs/menu.js`, fijo arriba en index.html,
+    reporte2.html y operacion.html (y en la app): Reporte diario
+    (reporte2.html) · Operación · Operadores (reporte2.html#operadores) ·
+    Hectáreas (index.html) · Flota (index.html#flota), con la página actual
+    destacada; en el celular caben las 5 en una línea. `reporte.html` (la
+    antigua, la usa el correo diario actual) NO va en el menú y no se tocó.
   - **PIN para guardar (26-oct-2026)**: un solo PIN, secreto `PIN_EDICION` del
     Worker (lo carga el usuario; nunca en el código, el repositorio ni el
     chat). Lo exigen `/confirmar`, `/planilla` (Actualizar) y `/operacion`; el
