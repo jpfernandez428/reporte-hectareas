@@ -317,7 +317,8 @@ async function vigilar() {
       const vistos = new Set(((OP && OP.guardados) || []).map(g => g.id));
       for (const p of PEND.slice()) {
         const iguales = p.filas.every(f => CAMPOS_FILA.every(k => (OP.maquinas[f.maquina] || {})[k] === f[k]));
-        if (vistos.has(p.id) || (!OP.guardados && iguales)) {
+        // Su id publicado, o (con el Worker anterior, sin id) los valores ya publicados.
+        if (vistos.has(p.id) || iguales) {
           PEND = PEND.filter(x => x.id !== p.id);
           marcarResultado(p.id, p.filas.map(f => f.maquina), true, '', (Date.now() - p.t0) / 1000);
         } else if (Date.now() - p.t0 > 45 * 60 * 1000) {
