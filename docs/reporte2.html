@@ -136,7 +136,8 @@
   <div id="contenido"></div>
 </main>
 <script>
-// Datos: docs/datos/reporte_diario.json (lo publica el correo diario). Reglas en CLAUDE.md.
+// Datos: docs/datos/reporte_v2.json (aparte del reporte_diario.json del correo diario; lo arma
+// v2_manana.py despues del correo, y las confirmaciones y la planilla). Reglas en CLAUDE.md.
 const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const n = (v, d = 1) => Number(v || 0).toLocaleString('es-CL', { minimumFractionDigits: d, maximumFractionDigits: d });
 const DIAS = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
@@ -232,7 +233,7 @@ function seccionSinGeocerca(d) {
 
 // ---------------------------------------------------------------------------
 // Version nueva (CLAUDE.md "Correo y pagina v2"): cruce con la planilla
-// "Maquinas en Operacion" del Drive. Datos: reporte_diario.json -> v2.
+// "Maquinas en Operacion" del Drive. Datos: reporte_v2.json -> v2.
 // ---------------------------------------------------------------------------
 let D = null, V = null, filtroOp = 'todas', CAMPOS = { campos: [], equivalencias: {} }, REGISTRO = [];
 const sinT = t => String(t || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -683,8 +684,8 @@ function dibujar() {
 // sw.js) y despues trae lo nuevo; sin senal muestra lo guardado con su fecha.
 // Se actualiza sola al volver la conexion y cada 5 min con la app abierta.
 // ---------------------------------------------------------------------------
-const ARCHIVOS = ['datos/reporte_diario.json', 'datos/campos.json', 'datos/confirmaciones.json'];
-const CACHE_DATOS = 'flota-datos-v1';
+const ARCHIVOS = ['datos/reporte_v2.json', 'datos/campos.json', 'datos/confirmaciones.json'];
+const CACHE_DATOS = 'flota-datos-v2';
 const WORKER = 'https://disparador-reporte.dawn-band-fd6c.workers.dev';
 let firma = '', sinRed = false, planillaApi = '';
 const vacio = i => i === 2 ? [] : {};

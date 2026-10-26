@@ -44,6 +44,8 @@ DIAS_GPS_APAGADO = 30
 DIAS_RECIENTES = 3
 DIAS_TRABAJO_CORREO = 30  # "Trabajo por campo" en el correo: campos con trabajo en estos dias  # el GPS "calza" si esta o trabajo en el campo en estos dias
 PAGINA = rh.CONFIG.get("pagina_reporte_v2", "reporte2.html")
+# Datos de reporte2.html (aparte de reporte_diario.json, que reescribe el correo diario).
+RUTA_V2 = os.path.join(rh.CARPETA_DATOS, "reporte_v2.json")
 
 
 def temporada_inicio(labor, dia):
@@ -561,6 +563,7 @@ def datos_pagina_v2(datos, ctx, trabajo, oper):
     import operadores
     return {
         "pagina": PAGINA,
+        "fecha": ctx.fa,
         "operadores": operadores.construir(ctx, oper),
         "url_confirmar": rh.CONFIG.get("url_confirmaciones"),
         "aviso_planilla": oper.get("aviso_planilla"),
@@ -588,29 +591,64 @@ def preparar(sid, usuario, ayer, publicar, planilla=None):
     html = armar_html_v2(datos, ctx, trabajo, oper)
     pagina = rc.datos_pagina(datos)
     pagina["v2"] = datos_pagina_v2(datos, ctx, trabajo, oper)
-    destino = rc.RUTA_DATOS_PAGINA if publicar else os.path.join(rc.CARPETA_SALIDA, "reporte_diario.json")
+    destino = RUTA_V2 if publicar else os.path.join(rc.CARPETA_SALIDA, "reporte_v2.json")
     with open(destino, "w", encoding="utf-8") as f:
         json.dump(pagina, f, ensure_ascii=False)
     with open(os.path.join(rc.CARPETA_SALIDA, f"correo_v2_{ayer}.html"), "w", encoding="utf-8") as f:
         f.write(html)
     if publicar:
-        rc.guardar_en_repo([rc.RUTA_DATOS_PAGINA], f"Reporte diario {ayer} (v2)")
+        rc.guardar_en_repo([RUTA_V2], f"Reporte diario {ayer} (v2)")
     return html, ruta_pdf, oper
 
 
-def rearmar_pagina(solo_si_cambio=False):
-    """Vuelve a armar docs/datos/reporte_diario.json -> v2 con lo ya publicado
-    (flota.json, historial, sin_geocerca.json, config.json y la planilla del
-    Drive), SIN bajar GPS de Wialon. Lo usa confirmar.py despues de cada
-    confirmacion (pedido del usuario 22-oct-2026). Las comunas se toman de lo
-    ya publicado y "Maquinas que trabajaron ayer" no cambia. Si la planilla no
-    se puede leer, no toca nada."""
-    if not os.path.exists(rc.RUTA_DATOS_PAGINA):
-        return False
-    with open(rc.RUTA_DATOS_PAGINA, "r", encoding="utf-8") as f:
-        pagina = json.load(f)
-    previo = pagina.get("v2") or {}
-    ctx = Contexto(date.fromisoformat(pagina["fecha"]))
+def maquinas_ayer_de_pagina(pagina, ctx):
+    """"Maquinas que trabajaron ayer" desde los datos ya publicados del correo
+    (reporte_diario.json), sin Wialon."""
+    plan = ctx.planilla.get("maquinas", {})
+    salida = []
+    for m in pagina.get("maquinas", []):
+        d = next((x for x in m.get("dias", []) if x["fecha"] == ctx.fa), None)
+        if not d or not (d.get("ha") or d.get("horas") or d.get("sin")):
+            continue
+        p = plan.get(m["nombre"], {})
+        lugares = sorted(d.get("lugares", []), key=lambda l: -l.get("horas", 0))
+        salida.append({
+            "maquina": m["nombre"], "labor": m["labor"], "grupo": m["grupo"], "operador": p.get("operador", ""),
+            "geocercas": rc.agrupar_geocercas([l["geocerca"] for l in lugares]),
+            "sin_geocerca": bool(d.get("sin")),
+            "posible": p.get("campo", "").strip() if p and not p.get("en_cyh") else "",
+            "horas": round(d.get("horas", 0) + d.get("horas_sin", 0), 1), "ha": round(d.get("ha", 0), 2),
+            "ha_sin": round(d.get("ha_sin", 0), 1), "no_cyh": m["nombre"] in NO_CYH})
+    return salida
+
+
+def leer_json(ruta):
+    if os.path.exists(ruta):
+        with open(ruta, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return None
+
+
+def rearmar_pagina(solo_si_cambio=False, base_nueva=False, usuario=None):
+    """Arma docs/datos/reporte_v2.json (datos de reporte2.html: lo del correo
+    + bloque "v2") con lo ya publicado (flota.json, historial,
+    sin_geocerca.json, config.json y la planilla del Drive), SIN bajar GPS de
+    Wialon (usuario: solo para las comunas, lectura). Desde el 26-oct-2026 en
+    un archivo aparte: el correo diario reescribe reporte_diario.json sin "v2".
+      - base_nueva: parte del reporte_diario.json de hoy (paso de la manana,
+        despues del correo de las 07:45); si no, de reporte_v2.json.
+      - solo_si_cambio: solo si cambio la planilla o el historial de operadores.
+    Si la planilla no se puede leer, no toca nada."""
+    doc = leer_json(RUTA_V2)
+    if base_nueva or not doc:
+        base = leer_json(rc.RUTA_DATOS_PAGINA)
+        if not base:
+            return False
+    else:
+        base = doc
+    base = {k: v for k, v in base.items() if k != "v2"}
+    previo = (doc or {}).get("v2") or (leer_json(rc.RUTA_DATOS_PAGINA) or {}).get("v2") or {}
+    ctx = Contexto(date.fromisoformat(base["fecha"]))
     if not ctx.planilla.get("ok"):
         print(f"No se rearma reporte2: {ctx.planilla.get('aviso')}")
         return False
@@ -624,12 +662,13 @@ def rearmar_pagina(solo_si_cambio=False):
         if c:
             ctx.comunas[x["maquina"]] = c.group(1)
     trabajo = trabajo_por_campo(ctx)
-    oper = operacion(ctx, trabajo)
+    oper = operacion(ctx, trabajo, usuario)
     nuevo = datos_pagina_v2(None, ctx, trabajo, oper)
-    nuevo["maquinas_ayer"] = previo.get("maquinas_ayer", [])
+    nuevo["maquinas_ayer"] = (previo["maquinas_ayer"] if previo.get("fecha") == ctx.fa and previo.get("maquinas_ayer")
+                              else maquinas_ayer_de_pagina(base, ctx))
     nuevo["actualizado"] = datetime.now(ZONA).strftime("%d-%m-%Y %H:%M")
-    pagina["v2"] = nuevo
-    with open(rc.RUTA_DATOS_PAGINA, "w", encoding="utf-8") as f:
-        json.dump(pagina, f, ensure_ascii=False)
-    print(f"reporte2 rearmado: {len(oper['filas'])} maquinas en operacion.")
+    with open(RUTA_V2, "w", encoding="utf-8") as f:
+        json.dump({**base, "v2": nuevo}, f, ensure_ascii=False)
+    print(f"reporte2 armado ({base['fecha']}): {len(oper['filas'])} maquinas en operacion, "
+          f"{len(nuevo['maquinas_ayer'])} trabajaron ayer.")
     return True

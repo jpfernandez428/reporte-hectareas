@@ -39,24 +39,21 @@ jobs:
       - name: Instalar librerias
         run: pip install -r requirements.txt
 
-      - name: Revisar la planilla
-        id: revisar
+      - name: Revisar la planilla y subir (solo si cambio)
         env:
           ORIGEN: ${{ inputs.origen }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git pull --ff-only origin main
-          python3 planilla_revisar.py
-
-      - name: Subir (solo si cambio)
-        if: steps.revisar.outputs.cambio == 'si'
-        run: |
           git config user.name "Reporte automatico"
           git config user.email "actions@users.noreply.github.com"
-          git add docs/datos/reporte_diario.json docs/datos/operadores.json
-          git commit -m "Planilla actualizada (${{ inputs.origen }})"
+          # Siempre sobre lo ultimo de main; si otro paso sube antes, se rehace.
           for i in 1 2 3; do
-            git pull --rebase origin main && git push && exit 0
-            sleep 10
+            git fetch -q origin main && git reset -q --hard origin/main
+            python3 planilla_revisar.py
+            git add docs/datos/reporte_v2.json docs/datos/operadores.json
+            if git diff --staged --quiet; then echo "Sin cambios: no se sube nada."; exit 0; fi
+            git commit -q -m "Planilla actualizada (${{ inputs.origen }})"
+            git push -q && exit 0
+            sleep 15
           done
           exit 1

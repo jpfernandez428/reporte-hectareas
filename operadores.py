@@ -9,7 +9,8 @@ usuario el 22-10-2026).
     "Maquinas en Operacion" se guarda que operador estaba en cada maquina ese
     dia (exacto). Antes del primer registro se supone que el operador actual
     estuvo en la maquina durante su estadia actual en el campo (desde que la
-    maquina llego al campo): "aproximado".
+    maquina llego al campo): "aproximado". Los dias sin lectura entre dos
+    lecturas con el mismo operador en la maquina tambien quedan aproximados.
   - Equivalencias de nombres (config.json -> equivalencias_operadores:
     {nombre: [otros nombres]}), editables en la pagina. Nombres parecidos a
     uno conocido generan un aviso para confirmar si es el mismo
@@ -127,7 +128,7 @@ def parecidos(nombres, distintos):
 
 
 def construir(ctx, oper):
-    """Datos de la pestana Operadores (reporte_diario.json -> v2.operadores)."""
+    """Datos de la pestana Operadores (reporte_v2.json -> v2.operadores)."""
     import reporte_v2 as rv
     mapa = mapa_canonico()
     historial = cargar()["dias"]
@@ -138,6 +139,18 @@ def construir(ctx, oper):
     for fecha, maquinas in historial.items():
         for m, x in maquinas.items():
             asignado[(m, fecha)] = (canonico(x["operador"], mapa), True)
+    # Dias sin lectura entre dos lecturas con el mismo operador en la maquina
+    # (ej. 23 al 25-oct-2026, antes del Worker nuevo): ese operador, aproximado.
+    fechas = sorted(historial)
+    for a, b in zip(fechas, fechas[1:]):
+        da, db = date.fromisoformat(a), date.fromisoformat(b)
+        if (db - da).days > 31:
+            continue
+        for m, x in historial[a].items():
+            y = historial[b].get(m)
+            if y and canonico(x["operador"], mapa) == canonico(y["operador"], mapa):
+                for k in range(1, (db - da).days):
+                    asignado.setdefault((m, (da + timedelta(days=k)).isoformat()), (canonico(x["operador"], mapa), False))
     primero = min(historial) if historial else datetime.now(rh.ZONA_HORARIA).date().isoformat()
     for m, f in ctx.planilla.get("maquinas", {}).items():
         op = canonico(f.get("operador"), mapa)

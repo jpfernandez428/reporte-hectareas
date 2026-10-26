@@ -1,0 +1,74 @@
+name: Datos de reporte2 (version nueva)
+
+# Paso de la manana de reporte2.html (pedido del usuario 26-oct-2026): DESPUES
+# de que el correo diario de las 07:45 ya salio, arma docs/datos/reporte_v2.json
+# (v2_manana.py). Corre aparte: no toca correo.yml ni sus archivos, y si falla
+# el correo no se ve afectado; avisa solo a CORREO_PRUEBA. Si el correo de hoy
+# aun no sale o reporte2 ya esta armado, no hace nada.
+run-name: Datos reporte2 (${{ github.event_name }})
+on:
+  # Al terminar cada corrida del correo (la que envia, los respaldos, etc.).
+  workflow_run:
+    workflows: ["Reporte diario de flota por correo"]
+    types: [completed]
+  # Respaldos (hora de Chile, verano/invierno): 08:17, 09:37 y 11:13.
+  schedule:
+    - cron: '17 11,12 * * *'
+    - cron: '37 12,13 * * *'
+    - cron: '13 14,15 * * *'
+  workflow_dispatch:
+    inputs:
+      forzar:
+        description: 'si = armar ahora aunque el correo de hoy no haya salido'
+        required: false
+        default: 'no'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: datos-reporte2
+  cancel-in-progress: false
+
+jobs:
+  armar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar librerias
+        run: pip install -r requirements.txt
+
+      - name: Armar y subir reporte_v2.json
+        env:
+          WIALON_TOKEN: ${{ secrets.WIALON_TOKEN }}
+          FORZAR: ${{ inputs.forzar }}
+        run: |
+          git config user.name "Reporte automatico"
+          git config user.email "actions@users.noreply.github.com"
+          # Siempre sobre lo ultimo de main; si otro paso sube antes, se rehace.
+          for i in 1 2 3; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            python3 v2_manana.py
+            git add docs/datos/reporte_v2.json docs/datos/operadores.json
+            if git diff --staged --quiet; then echo "Sin cambios."; exit 0; fi
+            git commit -q -m "Datos de reporte2 $(date -u +%F)"
+            git push -q && exit 0
+            sleep 20
+          done
+          exit 1
+
+      - name: Avisar al usuario si fallo
+        if: failure()
+        env:
+          CORREO_USUARIO: ${{ secrets.CORREO_USUARIO }}
+          CORREO_CLAVE: ${{ secrets.CORREO_CLAVE }}
+          CORREO_PRUEBA: ${{ secrets.CORREO_PRUEBA }}
+        run: python3 v2_aviso.py

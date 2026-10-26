@@ -66,9 +66,7 @@ def main():
             else:
                 saltar("la corrida de la noche o una confirmacion sigue corriendo")
     import reporte_v2
-    cambio = reporte_v2.rearmar_pagina(solo_si_cambio=True)
-    with open(os.environ.get("GITHUB_OUTPUT", os.devnull), "a") as f:
-        f.write(f"cambio={'si' if cambio else 'no'}\n")
+    reporte_v2.rearmar_pagina(solo_si_cambio=True)
 
 
 if __name__ == "__main__":
