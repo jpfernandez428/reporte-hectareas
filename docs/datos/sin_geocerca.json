@@ -905,7 +905,7 @@
 "torretagle": 0.1
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Pichidegua"
 },
 {
@@ -1000,7 +1000,7 @@
 "torretagle": 0.2
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Pichidegua"
 },
 {
@@ -1068,7 +1068,7 @@
 "lon": -70.694481,
 "horas": 5.17,
 "mapa": "https://www.google.com/maps?q=-33.814035,-70.694481",
-"ha": 10.53,
+"ha": 10.15,
 "opciones": [
 "Candelaria"
 ],
@@ -1190,7 +1190,7 @@
 "torretagle": 0.1
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Pichidegua"
 },
 {
@@ -1250,7 +1250,7 @@
 "lon": -70.695552,
 "horas": 2.8,
 "mapa": "https://www.google.com/maps?q=-33.815307,-70.695552",
-"ha": 5.7,
+"ha": 5.5,
 "opciones": [
 "Candelaria"
 ],
@@ -1296,7 +1296,7 @@
 "torretagle": 0.4
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Pichidegua"
 },
 {
@@ -1398,7 +1398,7 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Pichidegua"
 },
 {
@@ -1436,7 +1436,7 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Pichidegua"
 },
 {
@@ -1447,7 +1447,7 @@
 "lon": -70.701286,
 "horas": 1.0,
 "mapa": "https://www.google.com/maps?q=-33.821849,-70.701286",
-"ha": 2.04,
+"ha": 1.96,
 "opciones": [
 "Candelaria"
 ],
@@ -1493,7 +1493,7 @@
 "torretagle": 0.3
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "asignado",
 "comuna": "Pichidegua"
 },
 {
@@ -1597,6 +1597,44 @@
 },
 "campo": null,
 "estado": "sin campo"
+},
+{
+"fecha": "2026-10-22",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.309998,
+"lon": -71.423636,
+"horas": 1.61,
+"mapa": "https://www.google.com/maps?q=-34.309998,-71.423636",
+"ha": 0.73,
+"comuna": "Pichidegua",
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.5
+},
+"campo": "torretagle",
+"estado": "probable"
+},
+{
+"fecha": "2026-10-23",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.305824,
+"lon": -71.421722,
+"horas": 3.61,
+"mapa": "https://www.google.com/maps?q=-34.305824,-71.421722",
+"ha": 1.65,
+"comuna": "Pichidegua",
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.1
+},
+"campo": "torretagle",
+"estado": "asignado"
 }
 ]
 }
