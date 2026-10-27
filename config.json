@@ -482,5 +482,11 @@
     "Alto Calibre": [],
     "Agr Santa Berta": []
   },
-  "equivalencias_operadores": {}
+  "equivalencias_operadores": {},
+  "calendario_labores": {
+    "nota": "Meses [desde, hasta] de cada labor e inicio de la temporada (poda y picado de abril a marzo). Shacker SBS fuera de cosecha y raleo = Revisar labor. Reglas del usuario 21 y 26-oct-2026.",
+    "meses": {"Cosecha con recibidor": [1, 5], "Raleo": [9, 11], "Picado": [4, 10], "Poda": [4, 10], "Remecido de suelo": [1, 5], "Recolección": [1, 5], "Recolección (tractor con recogedora)": [1, 5]},
+    "inicio_mes": {"Picado": 4, "Poda": 4}
+  },
+  "correo_marcha_blanca": false
 }

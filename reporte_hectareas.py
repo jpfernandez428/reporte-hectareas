@@ -129,6 +129,124 @@ def labor_de(unidad):
     return unidad.get("labor") or "Sin labor"
 
 
+# ---------------------------------------------------------------------------
+# Temporadas por labor (reglas del usuario, 21-oct-2026; ver CLAUDE.md)
+# ---------------------------------------------------------------------------
+# Cada labor parte de cero en su temporada: la memoria de hileras, la
+# cobertura y el avance se guardan con la clave "labor|temporada" (y
+# "|repasoN" para un repaso). El barrido no cambia (pasadas, 30 dias).
+LABOR_RALEO = "Raleo"
+LABOR_RECOLECCION_TRACTOR = "Recolección (tractor con recogedora)"
+LABOR_REVISAR = "Revisar labor"
+# Calendario de temporadas (regla del usuario 21-oct-2026), editable en
+# config.json -> calendario_labores (26-oct-2026): "meses" = [desde, hasta] de
+# cada labor; "inicio_mes" = mes en que empieza la temporada (poda y picado de
+# abril a marzo: "2026-27"; las demas, el anio). Shacker SBS fuera de cosecha y
+# raleo = "Revisar labor" (con alarma, sin sumar).
+CALENDARIO_DEFECTO = {
+    "meses": {"Cosecha con recibidor": [1, 5], LABOR_RALEO: [9, 11], "Picado": [4, 10], "Poda": [4, 10],
+              "Remecido de suelo": [1, 5], "Recolección": [1, 5], LABOR_RECOLECCION_TRACTOR: [1, 5]},
+    "inicio_mes": {"Picado": 4, "Poda": 4},
+}
+CALENDARIO = {**CALENDARIO_DEFECTO, **CONFIG.get("calendario_labores", {})}
+MESES_TEMPORADA = {k: tuple(v) for k, v in CALENDARIO["meses"].items()}
+INICIO_TEMPORADA = dict(CALENDARIO.get("inicio_mes", {}))
+LABORES_TRACTOR = ("Picado", "Poda")
+# Shakers (cosecha con recibidor y remecido de suelo): si ya trabajaron en el
+# campo en la temporada de cosecha, un tractor de picado/poda en ene-may es
+# recoleccion con recogedora.
+# Regla del usuario 26-oct-2026: solo el remecido (Shacker de Suelo, Shaker
+# Orchard Rite) deja la fruta en el suelo; el Shacker SBS (cosecha con
+# recibidor) no, asi que despues de un SBS el tractor sigue picando.
+LABORES_SHAKER = ("Remecido de suelo",)
+# Labores sin repaso (regla del usuario 26-oct-2026): se poda/pica una vez por
+# temporada; volver al cuartel es terminar lo que faltaba (no suma ni alarma).
+LABORES_SIN_REPASO = ("Poda", "Picado")
+# Recoleccion (recogedoras y tractor con recogedora): tambien es repaso si
+# antes hubo un repaso de remecido en ese cuartel (fruta nueva en el suelo).
+LABORES_RECOLECCION = ("Recolección", "Recolección (tractor con recogedora)")
+# Reglas de calculo (patron, entrehilera) de cada labor de temporada.
+REGLA_DE_LABOR = {LABOR_RALEO: "Cosecha con recibidor", LABOR_RECOLECCION_TRACTOR: "Recolección"}
+# (campo, anio) -> primer dia (AAAA-MM-DD) en que trabajo un shaker en ese
+# campo en la temporada de cosecha. Se guarda en memoria_hileras/_temporadas.json.
+SHAKERS_POR_CAMPO = {}
+# Alarmas para el correo y la pagina: fuera de temporada, revisar labor, repaso.
+ALARMAS = []
+# Repaso: al menos estas pasadas en paralelo, en hileras distintas, en el dia.
+MINIMO_PASADAS_REPASO = 3
+
+
+def en_temporada(labor, fecha):
+    desde, hasta = MESES_TEMPORADA.get(labor, (1, 12))
+    return desde <= fecha.month <= hasta if desde <= hasta else (fecha.month >= desde or fecha.month <= hasta)
+
+
+def temporada_de(labor, fecha):
+    """Picado y poda: de abril a marzo ("2026-27"); las demas, el anio."""
+    inicio = INICIO_TEMPORADA.get(labor, 1)
+    if inicio > 1:
+        anio = fecha.year if fecha.month >= inicio else fecha.year - 1
+        return f"{anio}-{(anio + 1) % 100:02d}"
+    return str(fecha.year)
+
+
+def labor_del_dia(unidad, fecha, campo):
+    """Labor de la maquina ese dia segun la temporada:
+    - Shacker SBS: ene-may cosecha; sep-nov raleo; jun-ago y dic "Revisar labor".
+    - Tractor de PICADO en ene-may en un campo donde ya paso un Shacker de
+      Suelo o el Shaker Orchard Rite (remecido) desde el 1 de enero:
+      recoleccion (tractor con recogedora). Los tractores de PODA siempre
+      son poda (regla del usuario 26-oct-2026).
+    - Las demas, su labor de config.json."""
+    base = labor_de(unidad)
+    if base == "Cosecha con recibidor":
+        if en_temporada(base, fecha):
+            return base
+        if en_temporada(LABOR_RALEO, fecha):
+            return LABOR_RALEO
+        return LABOR_REVISAR
+    if base == "Picado" and en_temporada(LABOR_RECOLECCION_TRACTOR, fecha):
+        inicio = SHAKERS_POR_CAMPO.get(f"{campo}||{fecha.year}")
+        if inicio and inicio <= fecha.isoformat():
+            return LABOR_RECOLECCION_TRACTOR
+    return base
+
+
+def clave_labor(labor, fecha, unidad=None, repaso=0):
+    """Clave de memoria y avance: "Picado|2026-27", "Raleo|2026|repaso1",
+    "Revisar labor|Cosecha con recibidor|2026"; el barrido queda "Barrido"."""
+    if labor == LABOR_CON_PASADAS:
+        return labor
+    if labor == LABOR_REVISAR:
+        return f"{labor}|{labor_de(unidad)}|{fecha.year}"
+    clave = f"{labor}|{temporada_de(labor, fecha)}"
+    return f"{clave}|repaso{repaso}" if repaso else clave
+
+
+def labor_visible(clave):
+    return clave.split("|")[0]
+
+
+def temporada_de_clave(clave):
+    partes = clave.split("|")
+    if partes[0] == LABOR_REVISAR:
+        return partes[2] if len(partes) > 2 else None
+    return partes[1] if len(partes) > 1 else None
+
+
+def repaso_de_clave(clave):
+    m = re.search(r"\|repaso(\d+)$", clave)
+    return int(m.group(1)) if m else 0
+
+
+def regla_de(clave):
+    """Labor cuyas reglas de calculo usa la clave (patron, entrehilera)."""
+    partes = clave.split("|")
+    if partes[0] == LABOR_REVISAR and len(partes) > 1:
+        return partes[1]
+    return REGLA_DE_LABOR.get(partes[0], partes[0])
+
+
 # Trabajo que el usuario confirmo en terreno que no fue trabajo (ej. vueltas de
 # cabecera y esquinas cortadas al trabajar la geocerca vecina): esos dias, esas
 # maquinas no cuentan en esas geocercas. Con GPS de un punto cada 30-60 s no se
@@ -151,9 +269,10 @@ if MODO_NUBE:
         FECHA_INICIO = datetime.strptime(fecha_manual_inicio, "%Y-%m-%d")
         FECHA_FIN = datetime.strptime(fecha_manual_fin, "%Y-%m-%d")
     else:
-        FECHA_INICIO = FECHA_FIN = datetime.utcnow() - timedelta(days=1)
-        FECHA_INICIO = FECHA_INICIO.replace(hour=0, minute=0, second=0, microsecond=0)
-        FECHA_FIN = FECHA_FIN.replace(hour=0, minute=0, second=0, microsecond=0)
+        # Ayer en hora de Chile (el dia va de 00:00 a 24:00 de Chile).
+        from zoneinfo import ZoneInfo
+        ayer_chile = datetime.now(ZoneInfo(CONFIG.get("zona_horaria", "America/Santiago"))).date() - timedelta(days=1)
+        FECHA_INICIO = FECHA_FIN = datetime(ayer_chile.year, ayer_chile.month, ayer_chile.day)
 else:
     FECHA_INICIO = datetime.strptime(CONFIG["fecha_inicio"], "%Y-%m-%d")
     FECHA_FIN = datetime.strptime(CONFIG["fecha_fin"], "%Y-%m-%d")
@@ -329,14 +448,19 @@ def wialon_login(token):
     return data["eid"]
 
 
+def inicio_dia_chile(dia):
+    """00:00 de Chile de ese dia, en hora unix (con el cambio de horario)."""
+    return datetime(dia.year, dia.month, dia.day, tzinfo=ZONA_HORARIA).timestamp()
+
+
 def obtener_mensajes(sid, unit_id, dia):
-    """Descarga los mensajes GPS de una unidad para un dia completo (UTC)."""
-    desde = dia
-    hasta = dia + timedelta(days=1)
+    """Descarga los mensajes GPS de una unidad para un dia completo en hora de
+    Chile: de 00:00 a 24:00 (el dia del cambio de horario dura 23 o 25 h)."""
+    siguiente = dia + timedelta(days=1)
     params = json.dumps({
         "itemId": unit_id,
-        "timeFrom": int(desde.replace(tzinfo=timezone.utc).timestamp()),
-        "timeTo": int(hasta.replace(tzinfo=timezone.utc).timestamp()),
+        "timeFrom": int(inicio_dia_chile(dia)),
+        "timeTo": int(inicio_dia_chile(siguiente)) - 1,
         "flags": 0,
         "flagsMask": 0,
         "loadCount": 0xFFFFFFFF,
@@ -1034,7 +1158,7 @@ def detectar_trabajo_fuera(unidad, fecha_str, puntos, dentro_ids):
         alertas.append({
             "fecha": fecha_str,
             "maquina": unidad["nombre"],
-            "labor": labor_de(unidad),
+            "labor": labor_efectiva(unidad, fecha_str),
             "horas": round(segundos / 3600, 2),
             "pasadas": len(cuentan),
             "lineas": lineas,
@@ -1828,28 +1952,28 @@ NEGRO_GEOCERCA = "ff000000"
 
 def avance_total_por_geocerca(unidades_procesadas, geocercas, estado_avance):
     """
-    Avance de cada geocerca POR LABOR. Dentro de una labor se unen las
-    maquinas (lo repetido cuenta una vez); entre labores se cuenta aparte.
-    El avance nunca baja: se usa el maximo alcanzado. En la labor de barrido
-    se informan las pasadas completas y el % de la pasada en curso.
+    Avance de cada geocerca POR LABOR y TEMPORADA (clave "labor|temporada").
+    Dentro de una clave se unen las maquinas (lo repetido cuenta una vez). Se
+    publica la temporada mas reciente de cada labor, con su repaso en curso si
+    lo hay. El avance nunca baja. En barrido: pasadas completas y % en curso.
+    "Revisar labor" no se publica como avance (va en las alarmas).
     Devuelve {nombre_geocerca: {"area_total_ha", "labores": {labor: {...}}}}.
     """
     trabajos = {}
     for nombre_maquina, hileras_por_geocerca, _ in unidades_procesadas:
-        labor = LABOR_POR_MAQUINA.get(nombre_maquina, "Sin labor")
-        for nombre_geo, (referencia, hileras, _) in hileras_por_geocerca.items():
-            if referencia is not None and hileras:
-                trabajos.setdefault((nombre_geo, labor), []).append((nombre_maquina, referencia, hileras))
+        for (nombre_geo, clave), (referencia, hileras, _) in hileras_por_geocerca.items():
+            if referencia is not None and hileras and labor_visible(clave) != LABOR_REVISAR:
+                trabajos.setdefault((nombre_geo, clave), []).append((nombre_maquina, referencia, hileras))
 
     geos = {g["nombre"]: g for g in geocercas}
-    avance = {}
-    for (nombre_geo, labor), lista in sorted(trabajos.items()):
+    calculado = {}
+    for (nombre_geo, clave), lista in sorted(trabajos.items()):
         geo = geos.get(nombre_geo)
         if geo is None:
             continue
-        estado = estado_avance_de(estado_avance, nombre_geo, labor)
+        estado = estado_avance_de(estado_avance, nombre_geo, clave)
         info = {"maquinas": sorted({m for m, _, _ in lista})}
-        if labor == LABOR_CON_PASADAS:
+        if clave == LABOR_CON_PASADAS:
             completas = len(estado["pasadas"])
             en_curso = estado["fraccion_en_curso"]
             # Con la primera pasada cerrada, la linea de barrido queda en 100 %
@@ -1873,7 +1997,7 @@ def avance_total_por_geocerca(unidades_procesadas, geocercas, estado_avance):
                 }
         else:
             fraccion = max(estado["max_fraccion"], fraccion_trabajada(
-                geo, celdas_trabajadas(geo, [(ref, hs, m) for m, ref, hs in lista], labor)))
+                geo, celdas_trabajadas(geo, [(ref, hs, m) for m, ref, hs in lista], regla_de(clave))))
             if fraccion >= UMBRAL_CIERRE_PORCENTAJE:
                 fraccion = 1.0  # cuartel completo: area total
             estado["max_fraccion"] = fraccion
@@ -1881,8 +2005,29 @@ def avance_total_por_geocerca(unidades_procesadas, geocercas, estado_avance):
                 "trabajado_ha": round(fraccion * geo["area_ha"], 4),
                 "porcentaje": round(fraccion * 100, 1),
                 "completo": bool(fraccion >= UMBRAL_CIERRE_PORCENTAJE),
+                "temporada": temporada_de_clave(clave),
             })
-        entrada = avance.setdefault(nombre_geo, {"area_total_ha": round(geo["area_ha"], 4), "labores": {}})
+            if estado.get("fecha_completo"):
+                info["fecha_completo"] = estado["fecha_completo"]
+        calculado[(nombre_geo, clave)] = info
+
+    avance = {}
+    for (nombre_geo, clave), info in calculado.items():
+        labor, repaso = labor_visible(clave), repaso_de_clave(clave)
+        if repaso:
+            continue
+        entrada = avance.setdefault(nombre_geo, {"area_total_ha": round(geos[nombre_geo]["area_ha"], 4), "labores": {}})
+        previa = entrada["labores"].get(labor)
+        if previa and (previa.get("temporada") or "") > (info.get("temporada") or ""):
+            continue  # se publica la temporada mas reciente
+        info = dict(info)
+        # Repaso en curso de esa temporada (labor repetida en el mismo cuartel).
+        repasos = sorted((repaso_de_clave(c), i) for (g, c), i in calculado.items()
+                         if g == nombre_geo and repaso_de_clave(c) and c.rsplit("|", 1)[0] == clave)
+        if repasos:
+            n, ri = repasos[-1]
+            info["repaso"] = {"repasos_completos": sum(1 for _, i in repasos if i["completo"]),
+                              "numero": n, "trabajado_ha": ri["trabajado_ha"], "porcentaje": ri["porcentaje"]}
         entrada["labores"][labor] = info
     return avance
 
@@ -1928,11 +2073,11 @@ def exportar_kml(ruta_salida, unidades_procesadas, geocercas, avance_total):
         nombre_unidad_seguro = escapar_xml(nombre_unidad)
         partes.append(f'<Folder><name>{nombre_unidad_seguro}</name>')
 
-        for nombre_geo, (referencia, hileras, area_acumulada_ha) in hileras_por_geocerca.items():
+        for (nombre_geo, clave), (referencia, hileras, area_acumulada_ha) in hileras_por_geocerca.items():
             if referencia is None:
                 continue
             geo = next((g for g in geocercas if g["nombre"] == nombre_geo), None)
-            geocerca_completa = labor_completa(avance_total, nombre_geo, LABOR_POR_MAQUINA.get(nombre_unidad))
+            geocerca_completa = labor_completa(avance_total, nombre_geo, labor_visible(clave))
             _, cruzadas = filtrar_hileras_regulares(hileras)
             ids_cruzadas = {h.id for h in cruzadas}
             contorno_m = [punto_a_metros(p, referencia) for p in geo["contorno"]] if geo else []
@@ -2009,7 +2154,142 @@ def cargar_estado(unit_id, nombre_geocerca, labor):
     return referencia, hileras, area_acumulada_ha
 
 
+# Indice de claves (labor|temporada) que tiene en memoria cada maquina y
+# geocerca: {"unit_id": {geocerca: [claves]}} (memoria_hileras/_claves.json).
+RUTA_CLAVES = os.path.join(CARPETA_MEMORIA, "_claves.json")
+CLAVES = {}
+RUTA_TEMPORADAS = os.path.join(CARPETA_MEMORIA, "_temporadas.json")
+RUTA_ALARMAS = os.path.join(CARPETA_DATOS, "alarmas.json")
+
+
+def cargar_claves():
+    CLAVES.clear()
+    if os.path.exists(RUTA_CLAVES):
+        with open(RUTA_CLAVES, "r", encoding="utf-8") as f:
+            CLAVES.update(json.load(f))
+    if os.path.exists(RUTA_TEMPORADAS):
+        with open(RUTA_TEMPORADAS, "r", encoding="utf-8") as f:
+            SHAKERS_POR_CAMPO.update(json.load(f).get("shakers_por_campo", {}))
+
+
+_TEMPORADAS_LEIDAS = []
+
+
+def labor_efectiva(unidad, fecha, lugar=None):
+    """Labor del dia (pedido del usuario 27-oct-2026: en todas partes): la del
+    calendario de temporadas (config.json -> calendario_labores) y lo que paso
+    en el campo (Raleo, "Revisar labor", Recoleccion con tractor...). lugar =
+    geocerca o campo (para la recoleccion con tractor); fecha = date o texto."""
+    if not _TEMPORADAS_LEIDAS:
+        _TEMPORADAS_LEIDAS.append(True)
+        if os.path.exists(RUTA_TEMPORADAS) and not SHAKERS_POR_CAMPO:
+            with open(RUTA_TEMPORADAS, "r", encoding="utf-8") as f:
+                SHAKERS_POR_CAMPO.update(json.load(f).get("shakers_por_campo", {}))
+    if isinstance(fecha, str):
+        fecha = date.fromisoformat(fecha[:10])
+    try:
+        return labor_del_dia(unidad, fecha, raiz_campo(lugar) if lugar else "")
+    except Exception:
+        return labor_de(unidad)
+
+
+def guardar_claves():
+    with open(RUTA_CLAVES, "w", encoding="utf-8") as f:
+        json.dump(CLAVES, f, ensure_ascii=False)
+    with open(RUTA_TEMPORADAS, "w", encoding="utf-8") as f:
+        json.dump({"shakers_por_campo": SHAKERS_POR_CAMPO}, f, ensure_ascii=False, indent=1)
+
+
+def claves_de(unit_id, nombre_geocerca):
+    return CLAVES.get(str(unit_id), {}).get(nombre_geocerca, [])
+
+
+def alarmas_trabajo_sin_ha():
+    """Alarma "Trabajo sin hectareas" (pedido del usuario 26-oct-2026): una
+    maquina trabajo 1 h o mas en un dia dentro de una geocerca en uso (no el
+    patio CYH) y le da 0 ha. Con el motivo: cuartel ya completo en la
+    temporada, Revisar labor (SBS fuera de cosecha y raleo), fuera de
+    temporada, o pasadas que no cuentan. Usa las horas del tablero de la flota
+    (sus 30 dias) y reemplaza las de esos dias en alarmas.json."""
+    if not os.path.exists(RUTA_FLOTA):
+        return
+    with open(RUTA_FLOTA, "r", encoding="utf-8") as f:
+        flota = json.load(f)
+    en_uso = set()
+    if os.path.exists(RUTA_GEOCERCAS_WEB):
+        with open(RUTA_GEOCERCAS_WEB, "r", encoding="utf-8") as f:
+            en_uso = set(json.load(f))
+    ha = {}
+    historico = cargar_historico()
+    for r in historico:
+        k = (r["maquina"], r["fecha"], r["cuartel"])
+        ha[k] = ha.get(k, 0.0) + r["area_trabajada_ha"]
+    # Solo dias ya calculados (hoy todavia no tiene hectareas).
+    ultimo = max((r["fecha"] for r in historico), default="")
+    avance = cargar_estado_avance()
+    unidades = {u["nombre"]: u for u in UNIDADES}
+    nuevas, fechas = [], set()
+    for m in flota.get("maquinas", []):
+        u = unidades.get(m["nombre"])
+        if not u:
+            continue
+        for d in m.get("dias", []):
+            if d["fecha"] > ultimo:
+                continue
+            fechas.add(d["fecha"])
+            for g, h in (d.get("horas_geocercas") or {}).items():
+                if h < 1 or g == GEOCERCA_PATIO or (en_uso and g not in en_uso) or ha.get((m["nombre"], d["fecha"], g), 0) > 0:
+                    continue
+                dia = date.fromisoformat(d["fecha"])
+                labor = labor_del_dia(u, dia, raiz_campo(g))
+                if labor == LABOR_REVISAR:
+                    motivo = "Revisar labor: Shacker SBS fuera de cosecha y raleo (no suma hasta definir la labor)"
+                elif labor == LABOR_CON_PASADAS:
+                    motivo = "barrido sin pasada nueva (pasadas sueltas, giros o día sin trabajo)"
+                else:
+                    est = avance.get(clave_avance(g, clave_labor(labor, dia, u))) or {}
+                    if est.get("max_fraccion", 0) >= 1.0 and est.get("fecha_completo", d["fecha"]) < d["fecha"]:
+                        motivo = (f"cuartel ya completo en la temporada {temporada_de(labor, dia)}"
+                                  + (f" (completo el {est['fecha_completo']})" if est.get("fecha_completo") else ""))
+                    elif not en_temporada(labor, dia):
+                        motivo = "fuera de temporada"
+                    else:
+                        motivo = "pasadas que no cuentan (traslado, giros, pasadas sueltas o solo por el borde)"
+                nuevas.append({"fecha": d["fecha"], "maquina": m["nombre"], "cuartel": g, "labor": labor,
+                               "tipo": "Trabajo sin hectáreas", "ha": 0.0, "horas": round(h, 1), "motivo": motivo,
+                               "temporada": temporada_de(labor, dia) if labor not in (LABOR_CON_PASADAS,) else None})
+    previas = []
+    if os.path.exists(RUTA_ALARMAS):
+        with open(RUTA_ALARMAS, "r", encoding="utf-8") as f:
+            previas = json.load(f)
+    previas = [a for a in previas if not (a["tipo"] == "Trabajo sin hectáreas" and a["fecha"] in fechas)]
+    with open(RUTA_ALARMAS, "w", encoding="utf-8") as f:
+        json.dump(sorted(previas + nuevas, key=lambda a: (a["fecha"], a["maquina"])), f, ensure_ascii=False, indent=1)
+    print(f"Alarmas 'Trabajo sin hectareas': {len(nuevas)} en los {len(fechas)} dias del tablero.")
+
+
+def guardar_alarmas(nuevas, desde_fecha=None):
+    """docs/datos/alarmas.json: fuera de temporada, revisar labor y repasos.
+    Las del periodo recalculado se reemplazan; las anteriores se mantienen."""
+    previas = []
+    if os.path.exists(RUTA_ALARMAS):
+        with open(RUTA_ALARMAS, "r", encoding="utf-8") as f:
+            previas = json.load(f)
+    if desde_fecha:
+        previas = [a for a in previas if a["fecha"] < desde_fecha]
+    vistas = {(a["fecha"], a["maquina"], a["cuartel"], a["tipo"]) for a in previas}
+    for a in nuevas:
+        if (a["fecha"], a["maquina"], a["cuartel"], a["tipo"]) not in vistas:
+            previas.append(a)
+            vistas.add((a["fecha"], a["maquina"], a["cuartel"], a["tipo"]))
+    with open(RUTA_ALARMAS, "w", encoding="utf-8") as f:
+        json.dump(sorted(previas, key=lambda a: (a["fecha"], a["maquina"])), f, ensure_ascii=False, indent=1)
+
+
 def guardar_estado(unit_id, nombre_geocerca, labor, referencia, hileras, area_acumulada_ha):
+    lista = CLAVES.setdefault(str(unit_id), {}).setdefault(nombre_geocerca, [])
+    if labor not in lista:
+        lista.append(labor)
     ruta = ruta_memoria(unit_id, nombre_geocerca, labor)
     data = {
         "referencia": list(referencia) if referencia else None,
@@ -2034,6 +2314,7 @@ def guardar_estado_avance(estado):
 
 
 def cargar_estilos():
+    cargar_claves()
     ESTILOS.clear()
     ESTILOS_CAMPO.clear()
     INTERVALOS_GPS.clear()
@@ -2048,6 +2329,7 @@ def cargar_estilos():
 
 
 def guardar_estilos():
+    guardar_claves()
     with open(RUTA_ESTILOS, "w", encoding="utf-8") as f:
         json.dump({"por_dia": ESTILOS, "por_campo": ESTILOS_CAMPO, "intervalo_gps": INTERVALOS_GPS},
                   f, ensure_ascii=False, indent=0, sort_keys=True)
@@ -2223,7 +2505,8 @@ def guardar_historico(registros):
 
 def actualizar_historico(df_resumen):
     historico = cargar_historico()
-    indice = {(r["fecha"], r["maquina"], r["cuartel"], r.get("labor")): i for i, r in enumerate(historico)}
+    indice = {(r["fecha"], r["maquina"], r["cuartel"], r.get("labor") + (f"|repaso{r['repaso']}" if r.get("repaso") else "")): i
+              for i, r in enumerate(historico)}
 
     for _, fila in df_resumen.iterrows():
         registro = {
@@ -2235,7 +2518,16 @@ def actualizar_historico(df_resumen):
             "area_total_ha": float(fila["Área real del cuartel (ha)"]),
             "area_trabajada_ha": float(fila["Hectáreas trabajadas del cuartel"]),
         }
+        # Temporada de la labor; repaso y alarma solo cuando corresponden.
+        if fila.get("Temporada") is not None and str(fila.get("Temporada")) != "nan":
+            registro["temporada"] = str(fila["Temporada"])
+        if fila.get("Repaso") and str(fila.get("Repaso")) != "nan" and int(fila["Repaso"]):
+            registro["repaso"] = int(fila["Repaso"])
+        if fila.get("Alarma") and str(fila.get("Alarma")) != "nan":
+            registro["alarma"] = str(fila["Alarma"])
         clave = (registro["fecha"], registro["maquina"], registro["cuartel"], registro["labor"])
+        if registro.get("repaso"):
+            clave = clave[:3] + (f"{registro['labor']}|repaso{registro['repaso']}",)
         if clave in indice:
             historico[indice[clave]] = registro
         else:
@@ -2273,42 +2565,47 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
     filas_detalle = []
     diagnostico = {geo["nombre"]: 0 for geo in geocercas}  # puntos totales vistos por geocerca
     descartados = {u["id"]: [] for u in UNIDADES}
-    estado = {}  # (unit_id, nombre_geo) -> [referencia, hileras, area_acreditada_ha]
+    estado = {}  # (unit_id, nombre_geo, clave) -> [referencia, hileras, area_acreditada_ha]
 
-    def estado_de(unidad, geo):
-        clave = (unidad["id"], geo["nombre"])
-        if clave not in estado:
-            estado[clave] = list(cargar_estado(unidad["id"], geo["nombre"], labor_de(unidad)))
-        return estado[clave]
+    def estado_de(unidad, geo, clave):
+        k = (unidad["id"], geo["nombre"], clave)
+        if k not in estado:
+            estado[k] = list(cargar_estado(unidad["id"], geo["nombre"], clave))
+        return estado[k]
 
-    marcas = {}  # (unit_id, nombre_geo) -> marcas de esa maquina (se recalculan si trabaja)
-    cobertura = {}  # (nombre_geo, labor) -> celdas trabajadas actuales de esa labor
+    marcas = {}  # (unit_id, nombre_geo, clave) -> marcas de esa maquina (se recalculan si trabaja)
+    cobertura = {}  # (nombre_geo, clave) -> celdas trabajadas actuales de esa labor y temporada
 
-    def cobertura_actual(geo, labor):
-        clave_cobertura = (geo["nombre"], labor)
+    def con_memoria(u, geo, clave):
+        return (u["id"], geo["nombre"], clave) in estado or clave in claves_de(u["id"], geo["nombre"])
+
+    def cobertura_actual(geo, clave):
+        """Union de las celdas de todas las maquinas con esa clave (labor|temporada)."""
+        clave_cobertura = (geo["nombre"], clave)
+        regla = regla_de(clave)
         if clave_cobertura not in cobertura:
-            lista = []
+            lista, trabajos = [], []
             for u in UNIDADES:
-                if labor_de(u) != labor:
+                if not con_memoria(u, geo, clave):
                     continue
-                clave = (u["id"], geo["nombre"])
-                if clave not in marcas:
-                    referencia, hileras, _ = estado_de(u, geo)
-                    marcas[clave] = marcar_trabajo_maquina(geo, referencia, hileras, labor,
-                                                           separacion_vecinas_de(u["nombre"], hileras), u["nombre"])
-                lista.append(marcas[clave])
+                k = (u["id"], geo["nombre"], clave)
+                referencia, hileras, _ = estado_de(u, geo, clave)
+                if k not in marcas:
+                    marcas[k] = marcar_trabajo_maquina(geo, referencia, hileras, regla,
+                                                       separacion_vecinas_de(u["nombre"], hileras), u["nombre"])
+                lista.append(marcas[k])
+                trabajos.append((referencia, hileras))
             cobertura[clave_cobertura] = unir_trabajos(geo, lista)
-            if labor in LABORES_HUECO_ENTREHILERA:
-                cobertura[clave_cobertura] |= relleno_recibidor(geo, [
-                    estado_de(u, geo)[:2] for u in UNIDADES if labor_de(u) == labor])
+            if regla in LABORES_HUECO_ENTREHILERA:
+                cobertura[clave_cobertura] |= relleno_recibidor(geo, trabajos)
         return cobertura[clave_cobertura]
 
     indice = indice_geocercas(geocercas)
     geocercas_por_nombre = {g["nombre"]: g for g in geocercas}
     indice_referencia = indice if geocercas_referencia is geocercas else indice_geocercas(geocercas_referencia)
     # Solo trabajo reciente: en un recalculo del año no se detecta en dias viejos.
-    desde_alertas = (datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
-                     - timedelta(days=DIAS_ALERTAS))
+    hoy_chile = datetime.now(ZONA_HORARIA).date()
+    desde_alertas = datetime(hoy_chile.year, hoy_chile.month, hoy_chile.day) - timedelta(days=DIAS_ALERTAS)
     dia = fecha_inicio
     while dia <= fecha_fin:
         fecha_str = dia.strftime("%Y-%m-%d")
@@ -2355,12 +2652,22 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                     hora_entrada = min((p["t"] for p in puntos_geo if p["t"] is not None), default=0)
                     entradas[nombre_geo].append((hora_entrada, unidad, puntos_geo))
 
+        # Campos donde un shaker de suelo (remecido) trabajo hoy (ene-may):
+        # desde ese dia, un tractor de picado ahi es recoleccion.
+        if 1 <= dia.month <= 5:
+            for nombre_geo, lista in entradas.items():
+                if any(labor_de(u) in LABORES_SHAKER for _, u, _ in lista):
+                    clave_campo = f"{raiz_campo(nombre_geo)}||{dia.year}"
+                    if clave_campo not in SHAKERS_POR_CAMPO or SHAKERS_POR_CAMPO[clave_campo] > fecha_str:
+                        SHAKERS_POR_CAMPO[clave_campo] = fecha_str
+
         for geo in geocercas:
             barrido_hoy = []  # [(unidad, tramos, hileras, ids_antes, n_puntos)] de las barredoras
 
-            def registrar(unidad, labor, hileras, ids_antes, n_puntos, area_trabajada_ha, resumen_avance):
-                clave = (unidad["id"], geo["nombre"])
-                estado[clave][2] += area_trabajada_ha
+            def registrar(unidad, clave, hileras, ids_antes, n_puntos, area_trabajada_ha, resumen_avance, alarma=None):
+                k = (unidad["id"], geo["nombre"], clave)
+                labor = labor_visible(clave)
+                estado[k][2] += area_trabajada_ha
                 alineadas, _ = filtrar_hileras_regulares(hileras)
                 if round(area_trabajada_ha, 2) > 0:
                     for h in alineadas:
@@ -2379,23 +2686,111 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                         "Labor": labor,
                         "Cuartel": geo["nombre"],
                         "N° hileras conocidas": len(alineadas),
-                        "Área acumulada trabajada (ha)": round(estado[clave][2], 2),
+                        "Área acumulada trabajada (ha)": round(estado[k][2], 2),
                         "Área real del cuartel (ha)": round(geo["area_ha"], 2),
                         "Hectáreas trabajadas del cuartel": round(area_trabajada_ha, 2),
+                        "Temporada": temporada_de_clave(clave),
+                        "Repaso": repaso_de_clave(clave),
+                        "Alarma": alarma,
                     })
+                    if alarma:
+                        ALARMAS.append({"fecha": fecha_str, "maquina": unidad["nombre"], "cuartel": geo["nombre"],
+                                        "labor": labor, "tipo": alarma, "ha": round(area_trabajada_ha, 2),
+                                        "temporada": temporada_de_clave(clave)})
                 else:
                     print(
-                        f"  [sin avance nuevo] {fecha_str} - {unidad['nombre']} ({labor}) - {geo['nombre']}: "
+                        f"  [sin avance nuevo] {fecha_str} - {unidad['nombre']} ({clave}) - {geo['nombre']}: "
                         f"{n_puntos} puntos, {len(hileras)} hileras conocidas, {resumen_avance}"
                     )
-                guardar_estado(unidad["id"], geo["nombre"], labor, *estado[clave])
+                guardar_estado(unidad["id"], geo["nombre"], clave, *estado[k])
 
+            def trabaja_hileras(puntos_geo, clave_base):
+                """Repaso (regla del usuario 22-oct-2026): al menos
+                MINIMO_PASADAS_REPASO pasadas del dia, en hileras distintas una
+                al lado de la otra, van por hileras YA PASADAS esa temporada (por
+                cualquier maquina de la labor). Si van por hileras nuevas es
+                terminar el trabajo (ej. las saltadas de un patron ancho) y no
+                es repaso; pasadas por la misma linea son un traslado."""
+                ref0 = geo["contorno"][0]
+                hileras_prueba = []
+                procesar_puntos(puntos_geo, ref0, hileras_prueba, [], fecha_str)
+                hoy, _ = filtrar_hileras_regulares(hileras_prueba)
+                if len(hoy) < MINIMO_PASADAS_REPASO:
+                    return False
+                # Hileras ya pasadas esa temporada, en el mismo sistema de metros.
+                base = []
+                for u in UNIDADES:
+                    if not con_memoria(u, geo, clave_base):
+                        continue
+                    ref_u, hs_u, _ = estado_de(u, geo, clave_base)
+                    if ref_u is None:
+                        continue
+                    for h in filtrar_hileras_regulares(hs_u)[0]:
+                        a = punto_a_metros(metros_a_punto((h.origen[0] + h.direccion[0] * h.min_proy,
+                                                           h.origen[1] + h.direccion[1] * h.min_proy), ref_u), ref0)
+                        b = punto_a_metros(metros_a_punto((h.origen[0] + h.direccion[0] * h.max_proy,
+                                                           h.origen[1] + h.direccion[1] * h.max_proy), ref_u), ref0)
+                        largo = math.hypot(b[0] - a[0], b[1] - a[1])
+                        if largo >= 1:
+                            base.append((a, ((b[0] - a[0]) / largo, (b[1] - a[1]) / largo), largo))
+                coinciden = []
+                for h in hoy:
+                    medio = (h.origen[0] + h.direccion[0] * (h.min_proy + h.max_proy) / 2,
+                             h.origen[1] + h.direccion[1] * (h.min_proy + h.max_proy) / 2)
+                    for a, d, largo in base:
+                        paralelo = abs(h.direccion[0] * d[0] + h.direccion[1] * d[1]) >= math.cos(math.radians(TOLERANCIA_ANGULO_GRADOS))
+                        rel = (medio[0] - a[0], medio[1] - a[1])
+                        lateral = abs(rel[0] * -d[1] + rel[1] * d[0])
+                        a_lo_largo = rel[0] * d[0] + rel[1] * d[1]
+                        if paralelo and lateral < TOLERANCIA_MISMA_HILERA_M and -10 <= a_lo_largo <= largo + 10:
+                            coinciden.append(h)
+                            break
+                if len(coinciden) < MINIMO_PASADAS_REPASO:
+                    return False
+                ref = hilera_referencia(coinciden)
+                laterales = sorted((h.origen[0] - ref.origen[0]) * -ref.direccion[1]
+                                   + (h.origen[1] - ref.origen[1]) * ref.direccion[0] for h in coinciden)
+                lineas = 1 + sum(1 for a, b in zip(laterales, laterales[1:]) if b - a >= TOLERANCIA_MISMA_HILERA_M)
+                return lineas >= MINIMO_PASADAS_REPASO
+
+            campo = raiz_campo(geo["nombre"])
             for _, unidad, puntos_geo in sorted(entradas[geo["nombre"]], key=lambda e: e[0]):
-                labor = labor_de(unidad)
-                referencia, hileras, _ = estado_de(unidad, geo)
+                labor = labor_del_dia(unidad, dia.date() if hasattr(dia, "date") else dia, campo)
+                fecha_dia = dia.date() if hasattr(dia, "date") else dia
+                clave = clave_labor(labor, fecha_dia, unidad)
+                alarma = None
+                if labor == LABOR_REVISAR:
+                    alarma = "Revisar labor"
+                elif labor != LABOR_CON_PASADAS and not en_temporada(labor, fecha_dia):
+                    alarma = "Fuera de temporada"
+                if labor not in (LABOR_CON_PASADAS, LABOR_REVISAR) + LABORES_SIN_REPASO:
+                    # Labor repetida en la temporada: el cuartel ya estaba completo
+                    # (antes de hoy) y hoy trabaja de verdad sus hileras -> REPASO.
+                    base_avance = estado_avance_de(estado_avance, geo["nombre"], clave)
+                    if base_avance["max_fraccion"] >= 1.0 and base_avance.get("fecha_completo", fecha_str) < fecha_str:
+                        # Recoleccion despues de un repaso de remecido en el cuartel
+                        # (posterior a completar la recoleccion): repaso real.
+                        remecido = estado_avance.get(clave_avance(geo["nombre"], clave_labor("Remecido de suelo", fecha_dia))) or {}
+                        tras_remecido = (labor in LABORES_RECOLECCION and remecido.get("fecha_ultimo_repaso")
+                                         and base_avance.get("fecha_completo", fecha_str) < remecido["fecha_ultimo_repaso"] <= fecha_str)
+                        if not tras_remecido and not trabaja_hileras(puntos_geo, clave):
+                            # Hileras nuevas (terminar el trabajo, ej. las saltadas de un patron
+                            # ancho) o solo cruza: sigue en la temporada, sin sumar mas alla del 100 %.
+                            print(f"  [no es repaso: hileras nuevas o solo cruza] {fecha_str} - {unidad['nombre']} - {geo['nombre']}")
+                        else:
+                            n = base_avance.get("repasos", 0) or 1
+                            while estado_avance_de(estado_avance, geo["nombre"], clave + f"|repaso{n}").get(
+                                    "fecha_completo", fecha_str) < fecha_str:
+                                n += 1
+                            base_avance["repasos"] = n
+                            if labor == "Remecido de suelo":
+                                base_avance["fecha_ultimo_repaso"] = fecha_str
+                            clave = clave + f"|repaso{n}"
+                            alarma = "Repaso" + (f" ({alarma.lower()})" if alarma else "")
+                referencia, hileras, _ = estado_de(unidad, geo, clave)
                 if referencia is None:
                     referencia = puntos_geo[0]["punto"]
-                    estado[(unidad["id"], geo["nombre"])][0] = referencia
+                    estado[(unidad["id"], geo["nombre"], clave)][0] = referencia
                 ids_antes = {h.id for h in hileras}
                 tramos_hoy = []
 
@@ -2403,25 +2798,38 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
                     puntos_geo, referencia, hileras, descartados[unidad["id"]], fecha_str, tramos_hoy
                 )
                 if not hileras_tocadas_hoy:
-                    guardar_estado(unidad["id"], geo["nombre"], labor, *estado[(unidad["id"], geo["nombre"])])
+                    guardar_estado(unidad["id"], geo["nombre"], clave, *estado[(unidad["id"], geo["nombre"], clave)])
                     continue
-                marcas.pop((unidad["id"], geo["nombre"]), None)
-                cobertura.pop((geo["nombre"], labor), None)
-                if labor == LABOR_CON_PASADAS:
+                marcas.pop((unidad["id"], geo["nombre"], clave), None)
+                cobertura.pop((geo["nombre"], clave), None)
+                if clave == LABOR_CON_PASADAS:
                     # Se procesa al final, con todas las barredoras del dia juntas.
                     barrido_hoy.append((unidad, tramos_hoy, hileras, ids_antes, len(puntos_geo)))
                     continue
+                fraccion = fraccion_trabajada(geo, cobertura_actual(geo, clave))
+                if labor == LABOR_REVISAR:
+                    # Se calcula y se avisa, pero no suma a ningun avance ni al
+                    # historial hasta que el usuario diga cual fue la labor.
+                    rev = estado_avance_de(estado_avance, geo["nombre"], clave)
+                    nuevo_ha = max(0.0, fraccion - rev["max_fraccion"]) * geo["area_ha"]
+                    rev["max_fraccion"] = max(rev["max_fraccion"], fraccion)
+                    guardar_estado(unidad["id"], geo["nombre"], clave, *estado[(unidad["id"], geo["nombre"], clave)])
+                    if round(nuevo_ha, 2) > 0:
+                        ALARMAS.append({"fecha": fecha_str, "maquina": unidad["nombre"], "cuartel": geo["nombre"],
+                                        "labor": LABOR_REVISAR, "tipo": "Revisar labor", "ha": round(nuevo_ha, 2),
+                                        "temporada": temporada_de_clave(clave), "no_suma": True})
+                    continue
                 # El avance nunca baja: solo se acredita lo que supera el maximo.
-                avance = estado_avance_de(estado_avance, geo["nombre"], labor)
-                fraccion = fraccion_trabajada(geo, cobertura_actual(geo, labor))
+                avance = estado_avance_de(estado_avance, geo["nombre"], clave)
                 if fraccion >= UMBRAL_CIERRE_PORCENTAJE:
                     # Cuartel completo: se cuenta su area total; la diferencia
                     # se acredita el dia en que se completo (regla del usuario).
                     fraccion = 1.0
+                    avance.setdefault("fecha_completo", fecha_str)
                 area_trabajada_ha = max(0.0, fraccion - avance["max_fraccion"]) * geo["area_ha"]
                 avance["max_fraccion"] = max(avance["max_fraccion"], fraccion)
-                registrar(unidad, labor, hileras, ids_antes, len(puntos_geo), area_trabajada_ha,
-                          f"avance {avance['max_fraccion'] * 100:.1f}%")
+                registrar(unidad, clave, hileras, ids_antes, len(puntos_geo), area_trabajada_ha,
+                          f"avance {avance['max_fraccion'] * 100:.1f}%", alarma)
 
             if barrido_hoy:
                 avance = estado_avance_de(estado_avance, geo["nombre"], LABOR_CON_PASADAS)
@@ -2443,13 +2851,15 @@ def generar_reporte(sid, geocercas, estado_avance, fecha_inicio=None, fecha_fin=
 
     # Incluye tambien los cuarteles trabajados antes de este periodo (memoria),
     # para que sigan apareciendo en los mapas y en la geometria de la web.
+    # {(geocerca, clave): (referencia, hileras, area)} por maquina.
     resultado_por_unidad = []
     for unidad in UNIDADES:
         hileras_por_geocerca = {}
         for geo in geocercas:
-            referencia, hileras, area_acreditada_ha = estado_de(unidad, geo)
-            if referencia is not None and hileras:
-                hileras_por_geocerca[geo["nombre"]] = (referencia, hileras, area_acreditada_ha)
+            for clave in claves_de(unidad["id"], geo["nombre"]):
+                referencia, hileras, area_acreditada_ha = estado_de(unidad, geo, clave)
+                if referencia is not None and hileras:
+                    hileras_por_geocerca[(geo["nombre"], clave)] = (referencia, hileras, area_acreditada_ha)
         resultado_por_unidad.append((unidad["nombre"], hileras_por_geocerca, descartados[unidad["id"]]))
 
     return pd.DataFrame(filas_resumen), pd.DataFrame(filas_detalle), resultado_por_unidad, diagnostico, extra
@@ -3022,7 +3432,8 @@ def construir_flota(sid, geocercas, patio):
                 donde = f"en {lugar_actual}" if lugar_actual else "fuera de geocercas"
                 texto = f"Detenida {donde} desde el {fmt(mov)}" if mov else f"Detenida {donde}"
         maquinas.append({
-            "nombre": nombre, "labor": labor_de(unidad), "grupo": NOMBRES_GRUPOS_FLOTA[orden_flota(nombre)[0]],
+            "nombre": nombre, "labor": labor_efectiva(unidad, datetime.now(ZONA_HORARIA).date(), lugar_actual),
+            "grupo": NOMBRES_GRUPOS_FLOTA[orden_flota(nombre)[0]],
             "estado": estado, "texto": texto,
             "ultima_conexion": datetime.fromtimestamp(t_ultimo, ZONA_HORARIA).strftime("%d-%m-%Y %H:%M") if t_ultimo else None,
             "ubicacion": lugar_actual or ("Fuera de geocercas" if lon is not None else None),
@@ -3089,10 +3500,11 @@ def limpiar_resultados_desde(seleccion, desde):
     guardar_historico(quedan)
     estado_avance = cargar_estado_avance()
     for geo in seleccion:
-        for labor in sorted({labor_de(u) for u in UNIDADES}):
+        claves = sorted({c for u in UNIDADES for c in claves_de(u["id"], geo["nombre"])})
+        for labor in claves:  # cada clave labor|temporada (y repaso)
             trabajos = []
             for u in UNIDADES:
-                if labor_de(u) != labor:
+                if labor not in claves_de(u["id"], geo["nombre"]):
                     continue
                 referencia, hileras, _ = cargar_estado(u["id"], geo["nombre"], labor)
                 if referencia is None:
@@ -3102,11 +3514,14 @@ def limpiar_resultados_desde(seleccion, desde):
                     h.fechas = {f for f in h.fechas if f < fecha}
                 if hileras:
                     area = sum(r["area_trabajada_ha"] for r in quedan if r["cuartel"] == geo["nombre"]
-                               and r["maquina"] == u["nombre"] and r["labor"] == labor)
+                               and r["maquina"] == u["nombre"] and r["labor"] == labor_visible(labor)
+                               and (r.get("temporada") or None) == temporada_de_clave(labor)
+                               and (r.get("repaso") or 0) == repaso_de_clave(labor))
                     guardar_estado(u["id"], geo["nombre"], labor, referencia, hileras, area)
                     trabajos.append((referencia, hileras, u["nombre"]))
                 else:
                     os.remove(ruta_memoria(u["id"], geo["nombre"], labor))
+                    claves_de(u["id"], geo["nombre"]).remove(labor)
             clave = clave_avance(geo["nombre"], labor)
             if clave not in estado_avance:
                 continue
@@ -3125,7 +3540,10 @@ def limpiar_resultados_desde(seleccion, desde):
                 if not (e["pasadas"] or e["en_curso"] or e["sueltas"]):
                     del estado_avance[clave]
             elif trabajos:
-                estado_avance[clave]["max_fraccion"] = fraccion_trabajada(geo, celdas_trabajadas(geo, trabajos, labor))
+                estado_avance[clave]["max_fraccion"] = fraccion_trabajada(
+                    geo, celdas_trabajadas(geo, trabajos, regla_de(labor)))
+                if (estado_avance[clave].get("fecha_completo") or "") >= fecha:
+                    estado_avance[clave].pop("fecha_completo", None)
             else:
                 del estado_avance[clave]
     guardar_estado_avance(estado_avance)
@@ -3134,14 +3552,15 @@ def limpiar_resultados_desde(seleccion, desde):
 
 
 def resultado_desde_memoria(geocercas):
-    """[(maquina, {geocerca: (referencia, hileras, area)}, [])] de la memoria."""
+    """[(maquina, {(geocerca, clave): (referencia, hileras, area)}, [])] de la memoria."""
     resultado = []
     for unidad in UNIDADES:
         por_geocerca = {}
         for geo in geocercas:
-            referencia, hileras, area = cargar_estado(unidad["id"], geo["nombre"], labor_de(unidad))
-            if referencia is not None and hileras:
-                por_geocerca[geo["nombre"]] = (referencia, hileras, area)
+            for clave in claves_de(unidad["id"], geo["nombre"]):
+                referencia, hileras, area = cargar_estado(unidad["id"], geo["nombre"], clave)
+                if referencia is not None and hileras:
+                    por_geocerca[(geo["nombre"], clave)] = (referencia, hileras, area)
         resultado.append((unidad["nombre"], por_geocerca, []))
     return resultado
 
@@ -3192,6 +3611,7 @@ def main():
         patio = next((g for g in obtener_geocercas(sid, filtrar=False)
                       if g["nombre"].strip().lower() == GEOCERCA_PATIO.strip().lower()), None)
         construir_flota(sid, geocercas, patio)
+        alarmas_trabajo_sin_ha()
         return
 
     print("Descargando geocercas (cuarteles reales)...")
@@ -3261,6 +3681,7 @@ def main():
         # recuperar sus 30 dias en todas las labores en la corrida diaria.
         guardar_geocercas_conocidas(geocercas)
     guardar_estilos()
+    guardar_alarmas(ALARMAS, None if RECUPERAR_GEOCERCAS else FECHA_INICIO.strftime("%Y-%m-%d"))
 
     if LABORES_RECALCULO or RECUPERAR_GEOCERCAS:
         print("Recalculo parcial: el panel de maquinas no se modifica.")
@@ -3334,11 +3755,12 @@ def main():
         if not hileras_por_geocerca:
             continue
         cuarteles_json = {}
-        for nombre_geo, (referencia, hileras, area_acumulada_ha) in hileras_por_geocerca.items():
+        for k_clave, ((nombre_geo, clave), (referencia, hileras, area_acumulada_ha)) in enumerate(
+                sorted(hileras_por_geocerca.items(), key=lambda x: (x[0][0], x[0][1]))):
             if referencia is None:
                 continue
             geo = geocercas_por_nombre.get(nombre_geo)
-            labor = LABOR_POR_MAQUINA.get(nombre_unidad, "Sin labor")
+            labor = labor_visible(clave)
             completo = labor_completa(avance_total, nombre_geo, labor)
             _, cruzadas = filtrar_hileras_regulares(hileras)
             ids_cruzadas = {h.id for h in cruzadas}
@@ -3355,7 +3777,8 @@ def main():
                 if not all(math.isfinite(v) for v in (lon1, lat1, lon2, lat2)):
                     continue
                 fila = {
-                    "id": h.id, "p1": [lon1, lat1], "p2": [lon2, lat2],
+                    # Varias temporadas en el mismo cuartel: ids distintos.
+                    "id": h.id + 100000 * k_clave, "p1": [lon1, lat1], "p2": [lon2, lat2],
                     "fechas": sorted(h.fechas),
                     "completa": bool(contorno_m) and bool(hilera_llega_a_los_bordes(h, contorno_m)),
                     "cuenta": bool(h.id not in ids_cruzadas),
@@ -3375,11 +3798,12 @@ def main():
                     fila["tramos_aprox"] = True
                 filas.append(fila)
             if filas:
+                previo = cuarteles_json.get(nombre_geo)
                 cuarteles_json[nombre_geo] = {
                     "labor": labor,
                     "completo": bool(completo),
                     "contorno": geo["contorno"] if geo else [],
-                    "hileras": filas,
+                    "hileras": (previo["hileras"] if previo else []) + filas,
                 }
         if cuarteles_json:
             ruta_geo = os.path.join(carpeta_geometria, f"{slug(nombre_unidad)}.json")
@@ -3391,6 +3815,7 @@ def main():
         # La sesion de Wialon vence tras 5 min sin uso, y armar avance, mapas y
         # geometria puede tardar mas: se vuelve a conectar antes del tablero.
         construir_flota(wialon_login(TOKEN), geocercas, patio)
+        alarmas_trabajo_sin_ha()
     if es_corrida_de_la_noche():
         with open(RUTA_ULTIMA_CORRIDA, "w", encoding="utf-8") as f:
             json.dump({"dia_procesado": FECHA_FIN.strftime("%Y-%m-%d"),

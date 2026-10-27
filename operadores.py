@@ -215,7 +215,7 @@ def construir(ctx, oper):
     for (m, fecha), j in sorted(jornadas.items(), key=lambda x: x[0][1]):
         if j["ha"] <= 0 and j.get("ha_sin", 0) <= 0 and j["horas"] + j.get("horas_sin", 0) < HORAS_DIA_TRABAJADO:
             continue  # no es dia trabajado: no cuenta en los promedios
-        labor = j["labor"] or rv.labor_visible(rh.labor_de(unidades[m]) if m in unidades else "", fecha)
+        labor = j["labor"] or (rh.labor_efectiva(unidades[m], fecha) if m in unidades else "")
         temporada = etiqueta_temporada(labor, date.fromisoformat(fecha))
         campos = sorted({rv.CAMPO(c) for c in j["cuarteles"]})
         fila = {"fecha": fecha, "maquina": m, "labor": labor, "temporada": temporada, "campos": campos,

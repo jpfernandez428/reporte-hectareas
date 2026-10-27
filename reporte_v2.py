@@ -49,14 +49,13 @@ RUTA_V2 = os.path.join(rh.CARPETA_DATOS, "reporte_v2.json")
 
 
 def temporada_inicio(labor, dia):
-    """Inicio de la temporada en curso de la labor (reglas del 21-oct-2026)."""
-    if labor in ("Picado", "Poda"):
-        return date(dia.year if dia.month >= 4 else dia.year - 1, 4, 1)
+    """Inicio de la temporada en curso de la labor, segun el calendario de
+    config.json -> calendario_labores (poda y picado desde abril, raleo desde
+    septiembre, las demas desde enero)."""
     if labor == rh.LABOR_CON_PASADAS:
         return date(dia.year, 1, 1)
-    if labor == "Raleo":
-        return date(dia.year, 9, 1)
-    return date(dia.year, 1, 1)
+    mes = rh.INICIO_TEMPORADA.get(labor) or (rh.MESES_TEMPORADA.get(labor, (1, 12))[0] if labor == rh.LABOR_RALEO else 1)
+    return date(dia.year if dia.month >= mes else dia.year - 1, mes, 1)
 
 
 def labor_visible(labor, fecha):
@@ -187,7 +186,7 @@ def trabajo_por_campo(ctx):
         if t["maquina"] in NO_CYH or t["fecha"] > ctx.fa or t.get("estado") == "ninguno":
             continue
         u = ctx.unidades.get(t["maquina"])
-        labor = labor_visible(rh.labor_de(u) if u else t.get("labor", ""), t["fecha"])
+        labor = labor_visible(rh.labor_efectiva(u, t["fecha"], t.get("campo")) if u else t.get("labor", ""), t["fecha"])
         if t["fecha"] < temporada_inicio(labor, ctx.ayer).isoformat():
             continue
         campo = t.get("campo")
@@ -235,7 +234,7 @@ def operacion(ctx, trabajo, usuario=None):
         g = ctx.gps(nombre)
         p = plan["maquinas"].get(nombre)
         u = ctx.unidades[nombre]
-        base = {"maquina": nombre, "labor": rh.labor_de(u), "grupo": rh.NOMBRES_GRUPOS_FLOTA[rh.orden_flota(nombre)[0]],
+        base = {"maquina": nombre, "labor": rh.labor_efectiva(u, ctx.ayer, (p or {}).get("campo")), "grupo": rh.NOMBRES_GRUPOS_FLOTA[rh.orden_flota(nombre)[0]],
                 "operador": (p or {}).get("operador", ""), "campo_planilla": (p or {}).get("campo", "").strip(),
                 "gps": g["lugar"], "dias_sin_senal": g["dias_sin_senal"], "mapa": g["mapa"],
                 "no_cyh": nombre in NO_CYH, "gps_texto": texto_gps(ctx, nombre, usuario),
@@ -591,7 +590,8 @@ def datos_pagina_v2(datos, ctx, trabajo, oper):
         "pagina": PAGINA,
         "gps_maquinas": gps_maquinas,
         # Maquinas activas en el orden fijo de la flota (filas de la pagina Operacion).
-        "unidades": [{"maquina": m, "labor": labor_visible(rh.labor_de(ctx.unidades[m]), datetime.now(ZONA).date().isoformat()),
+        "unidades": [{"maquina": m, "labor": rh.labor_efectiva(ctx.unidades[m], datetime.now(ZONA).date(),
+                                                               (ctx.planilla.get("maquinas", {}).get(m) or {}).get("campo")),
                       "grupo": rh.NOMBRES_GRUPOS_FLOTA[rh.orden_flota(m)[0]]} for m in sorted(ctx.unidades, key=rh.orden_flota)],
         "operacion_actualizada": ctx.planilla.get("actualizado"),
         # "Desde" automatico (llegada al campo actual segun el GPS) de cada maquina en un campo.

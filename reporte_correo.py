@@ -329,9 +329,9 @@ def fechas_completado(historico):
         area[r["cuartel"]] = max(area.get(r["cuartel"], 0), r["area_total_ha"])
     acumulado, completos = {}, {}
     for r in sorted(historico, key=lambda r: r["fecha"]):
-        if r["labor"] == rh.LABOR_CON_PASADAS:
-            continue
-        k = (r["cuartel"], r["labor"])
+        if r["labor"] == rh.LABOR_CON_PASADAS or r.get("repaso"):
+            continue  # cada temporada parte de cero; los repasos van aparte
+        k = (r["cuartel"], r["labor"], r.get("temporada"))
         acumulado[k] = acumulado.get(k, 0) + r["area_trabajada_ha"]
         if k not in completos and acumulado[k] >= rh.UMBRAL_CIERRE_PORCENTAJE * area[r["cuartel"]] - 1e-6:
             completos[k] = r["fecha"]
@@ -394,7 +394,7 @@ def rendimientos(flota, historico, avance):
     el promedio de la flota en su labor (con la misma regla).
     {maquina: (ha_h, fuente, dias, horas)}"""
     dias = {d["fecha"] for m in flota.get("maquinas", []) for d in m.get("dias", [])}
-    completos = {(c, l, f) for (c, l), f in fechas_completado(historico).items()}
+    completos = {(c, l, f) for (c, l, _), f in fechas_completado(historico).items()}
     for cuartel, info in avance.items():
         for f in ((info.get("labores") or {}).get(rh.LABOR_CON_PASADAS) or {}).get("cierres") or []:
             completos.add((cuartel, rh.LABOR_CON_PASADAS, f))
@@ -476,7 +476,10 @@ def datos_reporte(sid, usuario, ayer):
                                or any(h >= rh.HORAS_MINIMAS_ALERTA for h in horas_geo.values()))
             fila["se_movio"] = fila["trabajo"] or bool(horas_geo)
             filas[fecha] = fila
-        maquinas.append({"nombre": nombre, "labor": rh.labor_de(unidad), "rendimiento": rend.get(nombre),
+        # Labor del dia de ayer: la del historial (Raleo, Recoleccion con tractor...) o la del calendario.
+        labores_ayer = [r["labor"] for r in historico if r["maquina"] == nombre and r["fecha"] == fechas[-1]]
+        labor_ayer = max(set(labores_ayer), key=labores_ayer.count) if labores_ayer else rh.labor_efectiva(unidad, fechas[-1], mf.get("ubicacion"))
+        maquinas.append({"nombre": nombre, "labor": labor_ayer, "rendimiento": rend.get(nombre),
                          "grupo": rh.NOMBRES_GRUPOS_FLOTA[rh.orden_flota(nombre)[0]],
                          "ubicacion": mf.get("ubicacion"), "ultima_conexion": mf.get("ultima_conexion"),
                          "dias": filas})
@@ -516,7 +519,7 @@ def datos_reporte(sid, usuario, ayer):
             c = campos.setdefault(nombre_campo(r["cuartel"]), {"labores": set(), "ha": 0.0, "terminados": set()})
             c["labores"].add(r["labor"])
             c["ha"] += r["area_trabajada_ha"]
-    for (cuartel, labor), fecha in completos.items():
+    for (cuartel, labor, _), fecha in completos.items():
         if fecha in fechas and nombre_campo(cuartel) in campos:
             campos[nombre_campo(cuartel)]["terminados"].add((cuartel, labor))
     for cuartel, info in avance.items():
@@ -525,8 +528,13 @@ def datos_reporte(sid, usuario, ayer):
             campos[nombre_campo(cuartel)]["terminados"].add((cuartel, rh.LABOR_CON_PASADAS))
 
     sin_geocerca = trabajo_sin_geocerca(maquinas, fechas, geocercas, usuario)
+    alarmas = []
+    if os.path.exists(rh.RUTA_ALARMAS):
+        with open(rh.RUTA_ALARMAS, "r", encoding="utf-8") as f:
+            alarmas = [a for a in json.load(f) if a["fecha"] in fechas]
 
     return {"ayer": ayer, "dias": dias, "flota": flota, "maquinas": maquinas, "sin_geocerca": sin_geocerca,
+            "alarmas_labor": alarmas,
             "camionetas": [v for v in vehiculos if v["tipo"] != "camion"],
             "camiones": [v for v in vehiculos if v["tipo"] == "camion"], "campos": campos}
 
@@ -721,6 +729,14 @@ def armar_html(datos):
             coords = f"{float(q.group(1)):.5f}, {float(q.group(2)):.5f}" if q else ""
             alertas.append(f'<b>Trabajo sin geocerca</b>: {escape(m["nombre"])} – {num(s["horas"])} h '
                            f'(~{num(s["ha_est"])} ha estimadas) en {coords} · {enlace("ver mapa", s["mapa"], ROJO)}')
+    for a in datos.get("alarmas_labor", []):
+        if a["fecha"] == fa and a["tipo"] == "Trabajo sin hectáreas":
+            alertas.append(f'<b>Trabajo sin hectáreas</b>: {escape(a["maquina"])} – {num(a.get("horas", 0))} h en '
+                           f'{escape(a["cuartel"])} ({escape(a["labor"])}) y 0 ha: {escape(a.get("motivo", ""))}')
+        elif a["fecha"] == fa:
+            alertas.append(f'<b>Alarma de labor ({escape(a["tipo"])})</b>: {escape(a["maquina"])} – {escape(a["labor"])} en '
+                           f'{escape(a["cuartel"])}, {num(a["ha"], 2)} ha'
+                           + (" (no suma hasta definir la labor)" if a.get("no_suma") else ""))
     filas_html.append(titulo("Alertas"))
     if alertas:
         filas_html.append('<tr><td style="padding:4px 0;"><table role="presentation" width="100%" cellpadding="0" '
@@ -928,6 +944,19 @@ def armar_html(datos):
             '</table></td></tr></table></body></html>')
 
 
+def alarmas_labor_txt(datos, fecha):
+    """Fuera de temporada, repasos y "Revisar labor" de ese dia, en una linea."""
+    lista = [a for a in datos.get("alarmas_labor", []) if a["fecha"] == fecha]
+    if not lista:
+        return "ninguna"
+    partes = [(f'{escape(a["maquina"])}: trabajo sin hectáreas ({escape(a["cuartel"])}, {num(a.get("horas", 0))} h: '
+               f'{escape(a.get("motivo", ""))})') if a["tipo"] == "Trabajo sin hectáreas" else
+              (f'{escape(a["maquina"])}: {escape(a["tipo"].lower())} ({escape(a["labor"])}, {escape(a["cuartel"])}, '
+               f'{"~" if a.get("no_suma") else ""}{num(a["ha"], 2)} ha{" sin sumar" if a.get("no_suma") else ""})')
+              for a in lista[:4]]
+    return "; ".join(partes) + (f" y {len(lista) - 4} más" if len(lista) > 4 else "")
+
+
 def boton_detalle(ancla):
     url = f"{URL_PAGINA}reporte.html#{ancla}"
     return (f'<tr><td align="right" style="padding:6px 0 2px 0;"><a href="{url}" style="display:inline-block;'
@@ -983,6 +1012,8 @@ def armar_html_corto(datos):
     sin_geo = [(m, d) for m, d in hoy_m if d["sin_geocerca"]]
     texto = ", ".join(f'{escape(m["nombre"])} (~{num(d["ha_sin"])} ha)' for m, d in sin_geo)
     filas.append(linea(f'<b style="color:{ROJO if sin_geo else TEXTO};">Trabajo sin geocerca:</b> {texto or "ninguno"}'))
+    filas.append(linea(f'<b style="color:{ROJO if alarmas_labor_txt(datos, fa) != "ninguna" else TEXTO};">'
+                       f'Alarmas de labor:</b> {alarmas_labor_txt(datos, fa)}'))
     filas.append(boton_detalle("sin-geocerca"))
 
     # Maquinas ayer
@@ -1163,6 +1194,7 @@ def datos_pagina(datos):
                                       "mapa": x["mapa"]}
                                      for m in datos["maquinas"] for x in m["dias"][fa]["sin_geocerca"]]},
         "maquinas": maquinas,
+        "alarmas_labor": datos.get("alarmas_labor", []),
         "camionetas": [vehiculo(v) for v in datos["camionetas"]],
         "camion": [vehiculo(v) for v in datos["camiones"]],
         "semana": semana,
