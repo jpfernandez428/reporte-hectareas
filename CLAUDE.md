@@ -1259,6 +1259,38 @@ Registro:
     Hectáreas (index.html) · Flota (index.html#flota), con la página actual
     destacada; en el celular caben las 5 en una línea. `reporte.html` (la
     antigua, la usa el correo diario actual) NO va en el menú y no se tocó.
+  - **Rama dia-chile pasada a main (27-oct-2026, aprobado por el usuario)**:
+    día de Chile, temporadas por labor (calendario editable en `config.json` →
+    `calendario_labores`), Raleo, "Revisar labor", recolección con tractor solo
+    tras Shacker de Suelo / Orchard Rite, poda y picado sin repaso, recolección
+    con repaso tras repaso de remecido, alarma "Trabajo sin hectáreas". Datos
+    calculados (memoria, geometría, historial, avance, alarmas, KML) tomados
+    exactamente de la rama; el resto de main. El 26-oct se recalculó en main con
+    las reglas nuevas (corrida manual). **Labor del día en todas partes**:
+    `rh.labor_efectiva(unidad, fecha, lugar)` (alertas sin geocerca, tablero de
+    la flota, correo —labor de ayer: la del historial de ese día—, reporte2,
+    Operación, Operadores); `reporte_v2.temporada_inicio` lee el calendario.
+    Sin "Marcha blanca" (`correo_marcha_blanca: false`). Correo de prueba del
+    26-oct enviado a `CORREO_PRUEBA` el 27-oct. **Volver atrás**: etiqueta git
+    `antes-de-dia-chile` (main justo antes de la fusión); se revierte el commit
+    de la fusión (`git revert -m 1 fd753ef0`) y queda como antes (código y
+    datos), sin perder los commits posteriores del tablero.
+  - **Guardar al instante con Cloudflare D1 (27-oct-2026)**: D1 (base SQLite
+    con una sola copia principal: lo guardado se ve al tiro desde cualquier
+    celular; KV puede tardar hasta 1 min). Worker: `GET /version` (las páginas
+    lo consultan cada 3 s), `GET /estado` (operación, últimos 100 cambios,
+    copias pendientes y acciones), `POST /operacion` y `POST /confirmar` con
+    PIN guardan en D1 al instante (tablas `operacion`, `cambios`, `acciones`,
+    `meta`; se crean solas y la primera vez se carga `operacion.json` publicado)
+    y dejan la copia a GitHub en la cola `copias` (operacion.yml /
+    confirmar.yml), que se lanza al tiro y se reintenta en cada consulta si
+    GitHub falla. Sin el binding `DB` todo sigue como antes (solo GitHub). En
+    `app.html`: "✓ guardado" apenas responde Cloudflare; si no responde, el
+    cambio queda en el aparato ("sin enviar (se enviará solo)", aviso rojo) y
+    se reintenta cada 15 s; PIN incorrecto → vuelve a como estaba. GitHub sigue
+    guardando historial, foto diaria y `operacion.json` para Historial,
+    reportes y correo. Probado con SQLite en el navegador (guardar 24 ms, otro
+    celular lo ve en 0,5 s, GitHub caído y de vuelta, PIN malo).
   - **REORGANIZACIÓN en una sola app "Flota C&H" (pedido del usuario
     26-oct-2026; por etapas, mostrando cada una antes de seguir)**: una
     dirección, `docs/app.html`, con secciones `#operacion`, `#ayer`, `#flota`,

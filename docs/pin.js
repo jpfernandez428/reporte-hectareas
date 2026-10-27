@@ -40,7 +40,7 @@ async function enviarConPin(url, cuerpo, boton) {
   if (!pin) return { ok: false, j: { error: 'sin PIN' }, cancelado: true };
   const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...cuerpo, pin }) });
   const j = await r.json().catch(() => ({}));
-  if (r.status === 403 && j.error === 'pin') { recordarPin(''); return { ok: false, j, pinMalo: true }; }
-  return { ok: r.ok, j };
+  if (r.status === 403 && j.error === 'pin') { recordarPin(''); return { ok: false, j, pinMalo: true, status: r.status }; }
+  return { ok: r.ok, j, status: r.status };
 }
 const textoError = res => res.pinMalo ? 'PIN incorrecto: no se guardó nada.' : res.cancelado ? 'Sin PIN no se guarda.' : 'No se pudo guardar (' + ((res.j && res.j.error) || 'error') + ').';

@@ -60,7 +60,7 @@ async function lanzar(env, tarea) {
 const ORIGEN_PAGINA = 'https://jpfernandez428.github.io';
 const CORS = {
   'Access-Control-Allow-Origin': ORIGEN_PAGINA,
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
@@ -87,7 +87,7 @@ function responder(estado, cuerpo) {
   return new Response(JSON.stringify(cuerpo), { status: estado, headers: { ...CORS, 'Content-Type': 'application/json' } });
 }
 
-async function confirmar(datos, env) {
+async function confirmar(datos, env, ctx) {
   const accion = String(datos.accion || '');
   const inputs = { accion };
   if (accion === 'campo' || accion === 'ninguno') {
@@ -121,19 +121,106 @@ async function confirmar(datos, env) {
   } else {
     return responder(400, { error: 'accion' });
   }
-  await lanzar(env, { workflow: 'confirmar.yml', inputs });
-  return responder(200, { ok: true });
+  let db = null;
+  try { db = await base(env); } catch (e) { db = null; }
+  if (!db) {
+    await lanzar(env, { workflow: 'confirmar.yml', inputs });
+    return responder(200, { ok: true, d1: false });
+  }
+  // Queda registrado al instante en D1 (las paginas lo muestran) y se copia a GitHub desde la cola.
+  const id = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  await db.batch([
+    db.prepare('INSERT INTO acciones (id, ts, tipo, datos) VALUES (?, ?, ?, ?)').bind(id, Date.now(), accion, JSON.stringify(inputs)),
+    db.prepare('INSERT OR REPLACE INTO copias (id, ts, workflow, inputs) VALUES (?, ?, ?, ?)').bind(id, Date.now(), 'confirmar.yml', JSON.stringify(inputs)),
+    db.prepare("UPDATE meta SET v = CAST(CAST(v AS INTEGER) + 1 AS TEXT) WHERE k = 'version'"),
+  ]);
+  ctx.waitUntil(copiarPendientes(env, db, id).catch(() => {}));  // copia a GitHub al tiro
+  return responder(200, { ok: true, d1: true, id, copia: id });
 }
 
-// Pagina Operacion: "Guardar cambios" manda las filas cambiadas; el Worker
-// valida y lanza operacion.yml (el PIN nunca se manda a GitHub).
-async function guardarOperacion(datos, env) {
+// ---------------------------------------------------------------------------
+// Base de datos D1 (binding "DB", pedido del usuario 27-oct-2026): guardar al
+// INSTANTE. D1 tiene una sola copia principal: lo guardado se ve al tiro en la
+// siguiente lectura desde cualquier celular (KV puede tardar hasta 1 min).
+// Las tablas se crean solas; la primera vez se carga la operacion publicada.
+// Cada guardado se copia a GitHub (operacion.yml / confirmar.yml) desde una
+// cola que se reintenta sola si GitHub falla. Sin DB, todo sigue como antes
+// (solo GitHub).
+// ---------------------------------------------------------------------------
+const URL_OPERACION_PUBLICADA = 'https://jpfernandez428.github.io/reporte-hectareas/datos/operacion.json';
+const CAMPOS_FILA = ['implemento', 'operador', 'campo', 'desde', 'destino'];
+const NOMBRES_CAMPO = { implemento: 'Implemento', operador: 'Operador', campo: 'Campo', desde: 'Desde', destino: 'Próximo destino' };
+let BASE_LISTA = false;
+
+async function base(env) {
+  if (!env.DB) return null;
+  if (!BASE_LISTA) {
+    await env.DB.batch([
+      env.DB.prepare('CREATE TABLE IF NOT EXISTS operacion (maquina TEXT PRIMARY KEY, implemento TEXT, operador TEXT, campo TEXT, desde TEXT, destino TEXT)'),
+      env.DB.prepare('CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY, v TEXT)'),
+      env.DB.prepare('CREATE TABLE IF NOT EXISTS cambios (n INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER, guardado TEXT, maquina TEXT, cambio TEXT, antes TEXT, despues TEXT)'),
+      env.DB.prepare('CREATE TABLE IF NOT EXISTS copias (id TEXT PRIMARY KEY, ts INTEGER, workflow TEXT, inputs TEXT, intentos INTEGER DEFAULT 0, ok INTEGER DEFAULT 0, error TEXT)'),
+      env.DB.prepare('CREATE TABLE IF NOT EXISTS acciones (id TEXT PRIMARY KEY, ts INTEGER, tipo TEXT, datos TEXT)'),
+    ]);
+    const sembrado = await env.DB.prepare("SELECT v FROM meta WHERE k = 'sembrado'").first();
+    if (!sembrado) {
+      // Primera vez: la operacion publicada en GitHub pasa a la base.
+      const r = await fetch(URL_OPERACION_PUBLICADA + '?x=' + Date.now(), { cf: { cacheTtl: 0 } });
+      if (!r.ok) throw new Error('no se pudo leer la operacion publicada');
+      const op = await r.json();
+      const filas = Object.entries(op.maquinas || {}).map(([m, x]) => env.DB.prepare(
+        'INSERT OR REPLACE INTO operacion (maquina, implemento, operador, campo, desde, destino) VALUES (?, ?, ?, ?, ?, ?)')
+        .bind(m, x.implemento || '', x.operador || '', x.campo || '', x.desde || '', x.destino || ''));
+      await env.DB.batch([...filas,
+        env.DB.prepare("INSERT OR REPLACE INTO meta (k, v) VALUES ('version', '1')"),
+        env.DB.prepare("INSERT OR REPLACE INTO meta (k, v) VALUES ('actualizado', ?)").bind(op.actualizado || ''),
+        env.DB.prepare("INSERT OR REPLACE INTO meta (k, v) VALUES ('sembrado', ?)").bind(String(Date.now()))]);
+    }
+    BASE_LISTA = true;
+  }
+  return env.DB;
+}
+
+const horaChileLarga = t => new Intl.DateTimeFormat('es-CL', { timeZone: 'America/Santiago', day: '2-digit', month: '2-digit', year: 'numeric',
+  hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date(t)).replace(/\//g, '-').replace(',', '');
+
+async function estadoBase(db) {
+  const [filas, v, act, cambios, pend] = await Promise.all([
+    db.prepare('SELECT * FROM operacion').all(),
+    db.prepare("SELECT v FROM meta WHERE k = 'version'").first(),
+    db.prepare("SELECT v FROM meta WHERE k = 'actualizado'").first(),
+    db.prepare('SELECT ts, guardado, maquina, cambio, antes, despues FROM cambios ORDER BY n DESC LIMIT 100').all(),
+    db.prepare('SELECT COUNT(*) AS n FROM copias WHERE ok = 0').first(),
+  ]);
+  const maquinas = {};
+  for (const f of filas.results) maquinas[f.maquina] = Object.fromEntries(CAMPOS_FILA.map(k => [k, f[k] || '']));
+  return { ok: true, d1: true, version: Number((v && v.v) || 0), actualizado: (act && act.v) || '', maquinas,
+           cambios: cambios.results, copias_pendientes: (pend && pend.n) || 0 };
+}
+
+// Copias a GitHub pendientes (se reintentan en cada consulta, como maximo 1 por minuto cada una).
+async function copiarPendientes(env, db, soloId) {
+  const lista = soloId
+    ? (await db.prepare('SELECT * FROM copias WHERE id = ?').bind(soloId).all()).results
+    : (await db.prepare('SELECT * FROM copias WHERE ok = 0 AND ts < ? ORDER BY ts LIMIT 5').bind(Date.now() - 60000).all()).results;
+  for (const c of lista) {
+    try {
+      await lanzar(env, { workflow: c.workflow, inputs: JSON.parse(c.inputs) });
+      await db.prepare('UPDATE copias SET ok = 1, intentos = intentos + 1, error = NULL WHERE id = ?').bind(c.id).run();
+    } catch (e) {
+      await db.prepare('UPDATE copias SET intentos = intentos + 1, ts = ?, error = ? WHERE id = ?').bind(Date.now(), String(e.message || e).slice(0, 300), c.id).run();
+    }
+  }
+}
+
+// Pagina Operacion: "Guardar" manda las filas (completas) que cambiaron.
+async function guardarOperacion(datos, env, ctx) {
   const cambios = Array.isArray(datos.cambios) ? datos.cambios : null;
   if (!cambios || !cambios.length || cambios.length > 150) return responder(400, { error: 'cambios' });
   const limpio = [];
   for (const c of cambios) {
     const fila = {};
-    for (const k of ['maquina', 'implemento', 'operador', 'campo', 'desde', 'destino']) {
+    for (const k of ['maquina', ...CAMPOS_FILA]) {
       const v = String((c && c[k]) || '').trim();
       if (v.length > 80) return responder(400, { error: k });
       fila[k] = v;
@@ -144,17 +231,60 @@ async function guardarOperacion(datos, env) {
   }
   const texto = JSON.stringify(limpio);
   if (texto.length > 60000) return responder(400, { error: 'demasiados cambios' });
-  // Id del guardado (la pagina lo usa para pasar de "sincronizando…" a "✓ guardado")
-  // y hora en que el Worker lo recibio (medicion del tiempo hasta quedar publicado).
-  const id = /^[a-z0-9]{8,40}$/.test(String(datos.id || '')) ? String(datos.id) : '';
-  await lanzar(env, { workflow: 'operacion.yml', inputs: { cambios: texto, id, recibido: String(Date.now()) } });
-  return responder(200, { ok: true });
+  const id = /^[a-z0-9]{8,40}$/.test(String(datos.id || '')) ? String(datos.id) : 'w' + Date.now().toString(36);
+  const recibido = Date.now();
+  const copia = { workflow: 'operacion.yml', inputs: { cambios: texto, id, recibido: String(recibido) } };
+  let db = null;
+  try { db = await base(env); } catch (e) { db = null; }
+  if (!db) {
+    // Sin base de datos: como antes (solo GitHub, 1 a 3 minutos).
+    await lanzar(env, copia);
+    return responder(200, { ok: true, d1: false });
+  }
+  // 1) Guardar al instante en D1 (con el historial de cambios).
+  const actuales = {};
+  for (const r of (await db.prepare(`SELECT * FROM operacion WHERE maquina IN (${limpio.map(() => '?').join(',')})`).bind(...limpio.map(f => f.maquina)).all()).results) actuales[r.maquina] = r;
+  const sentencias = [];
+  for (const f of limpio) {
+    const antes = actuales[f.maquina] || {};
+    if (f.campo !== (antes.campo || '') && f.desde === (antes.desde || '')) f.desde = '';  // cambio de campo: Desde automatico
+    for (const k of CAMPOS_FILA) {
+      const a = antes[k] || '', d = f[k] || '';
+      if (a !== d) sentencias.push(db.prepare('INSERT INTO cambios (ts, guardado, maquina, cambio, antes, despues) VALUES (?, ?, ?, ?, ?, ?)')
+        .bind(recibido, id, f.maquina, NOMBRES_CAMPO[k], k === 'desde' ? (a || 'automática') : a, k === 'desde' ? (d || 'automática') : d));
+    }
+    sentencias.push(db.prepare('INSERT OR REPLACE INTO operacion (maquina, implemento, operador, campo, desde, destino) VALUES (?, ?, ?, ?, ?, ?)')
+      .bind(f.maquina, f.implemento, f.operador, f.campo, f.desde, f.destino));
+  }
+  sentencias.push(db.prepare("UPDATE meta SET v = CAST(CAST(v AS INTEGER) + 1 AS TEXT) WHERE k = 'version'"));
+  sentencias.push(db.prepare("INSERT OR REPLACE INTO meta (k, v) VALUES ('actualizado', ?)").bind(horaChileLarga(recibido)));
+  sentencias.push(db.prepare('INSERT OR REPLACE INTO copias (id, ts, workflow, inputs) VALUES (?, ?, ?, ?)')
+    .bind(id, recibido, copia.workflow, JSON.stringify({ ...copia.inputs, cambios: JSON.stringify(limpio) })));
+  await db.batch(sentencias);
+  // 2) Copia a GitHub (historial, reportes, correo) sin hacer esperar a la pagina.
+  ctx.waitUntil(copiarPendientes(env, db, id));
+  return responder(200, { ...(await estadoBase(db)), id });
 }
 
 export default {
-  async fetch(peticion, env) {
+  async fetch(peticion, env, ctx) {
     const url = new URL(peticion.url);
     if (peticion.method === 'OPTIONS') return new Response(null, { headers: CORS });
+    // Lecturas de la base (abiertas, como los datos publicados): version (cada 3 s) y estado completo.
+    if (peticion.method === 'GET' && (url.pathname === '/version' || url.pathname === '/estado')) {
+      try {
+        const db = await base(env);
+        if (!db) return responder(200, { ok: true, d1: false });
+        if (url.pathname === '/version') {
+          const v = await db.prepare("SELECT v FROM meta WHERE k = 'version'").first();
+          return responder(200, { ok: true, d1: true, version: Number((v && v.v) || 0) });
+        }
+        ctx.waitUntil(copiarPendientes(env, db).catch(() => {}));  // reintenta copias a GitHub atrasadas
+        const e = await estadoBase(db);
+        e.acciones = (await db.prepare('SELECT a.id, a.ts, a.tipo, a.datos, c.ok AS copiado FROM acciones a LEFT JOIN copias c ON c.id = a.id ORDER BY a.ts DESC LIMIT 50').all()).results;
+        return responder(200, e);
+      } catch (e) { return responder(503, { ok: false, error: 'base de datos: ' + String(e.message || e) }); }
+    }
     // Prueba a mano (GET /probar?hora=00:30 | 07:30 | 09:00 | planilla): lanza esa tarea al
     // tiro y muestra la respuesta de GitHub. Es inofensivo: la corrida no
     // repite un dia ya procesado y el correo no sale dos veces el mismo dia.
@@ -179,8 +309,8 @@ export default {
       const sinPin = await revisarPin(datos, env);
       if (sinPin) return sinPin;
       try {
-        if (url.pathname === '/confirmar') return await confirmar(datos, env);
-        if (url.pathname === '/operacion') return await guardarOperacion(datos, env);
+        if (url.pathname === '/confirmar') return await confirmar(datos, env, ctx);
+        if (url.pathname === '/operacion') return await guardarOperacion(datos, env, ctx);
         // Boton "Actualizar" de reporte2.html: rearma con la pagina Operacion.
         await lanzar(env, { workflow: 'planilla.yml', inputs: { origen: 'boton' } });
         return responder(200, { ok: true });
