@@ -90,6 +90,9 @@ class Contexto:
             list(self.unidades), rh.CONFIG.get("equivalencias_campos", {}))
         self.confirmadas = rh.CONFIG.get("maquinas_confirmadas", {})
         self.comunas = {}  # maquina -> comuna ya conocida (al rearmar sin Wialon)
+        self.comunas_pos = {}  # "lat,lon" (2 decimales, ~1 km) -> comuna (direcciones de Wialon, solo lectura)
+        self.usuario = None    # sesion de Wialon (solo para las comunas), si la hay
+        self._geos = None
         self.por_maquina = {m["nombre"]: m for m in self.flota.get("maquinas", [])}
 
     def campos_wialon(self, nombre_planilla):
@@ -123,6 +126,43 @@ def hace(segundos):
     return f"{round(h)} h" if round(h) < 48 else f"{round(h / 24)} días"
 
 
+def comuna_en(ctx, lat, lon, usuario=None):
+    """Comuna de un punto (direcciones de Wialon, solo lectura), guardada por
+    posicion (~1 km) para no repetir la consulta ni dejar una comuna vieja."""
+    k = f"{lat:.2f},{lon:.2f}"
+    if k not in ctx.comunas_pos and (usuario or ctx.usuario):
+        try:
+            ctx.comunas_pos[k] = rc.localidad(rc.direccion(usuario or ctx.usuario, lon, lat)) or ""
+        except Exception:
+            return ""
+    return ctx.comunas_pos.get(k, "")
+
+
+def campos_cercanos(ctx, lat, lon, n=3):
+    """Los n campos mas cercanos al punto (distancia al borde del cuartel mas
+    cercano de cada campo, en km), para las sugerencias de Operacion."""
+    import math
+    if ctx._geos is None:
+        ctx._geos = []
+        with open(rh.RUTA_GEOCERCAS_WEB, "r", encoding="utf-8") as f:
+            for nombre, g in json.load(f).items():
+                c = [tuple(p) for p in g["contorno"]]
+                ctx._geos.append((nombre, c, (min(p[0] for p in c), min(p[1] for p in c), max(p[0] for p in c), max(p[1] for p in c))))
+    punto = (lon, lat)
+    def a_caja(b):  # distancia aproximada (m) a la caja del cuartel
+        dx = max(b[0] - lon, 0, lon - b[2]) * 111320 * math.cos(math.radians(lat))
+        dy = max(b[1] - lat, 0, lat - b[3]) * 110540
+        return math.hypot(dx, dy)
+    candidatos = sorted(ctx._geos, key=lambda g: a_caja(g[2]))[:60]
+    mejor = {}
+    for nombre, c, _ in candidatos:
+        d = 0.0 if rh.punto_en_poligono(punto, c) else min(sg.distancia_segmento(punto, c[i], c[(i + 1) % len(c)]) for i in range(len(c)))
+        campo = CAMPO(nombre)
+        if campo not in mejor or d < mejor[campo]:
+            mejor[campo] = d
+    return [{"campo": k, "km": round(v / 1000, 1)} for k, v in sorted(mejor.items(), key=lambda x: x[1])[:n]]
+
+
 def texto_gps(ctx, maquina, usuario=None):
     """Lo que dice el GPS, siempre (regla del 23-oct-2026): "detenido sin
     geocerca en <comuna>, desde hace 5 h" / "en movimiento en Candelaria" /
@@ -134,9 +174,7 @@ def texto_gps(ctx, maquina, usuario=None):
         return f"sin señal desde el {m.get('ultima_conexion')}"
     q = re.search(r"q=([-\d.]+),([-\d.]+)", m.get("mapa") or "")
     if g["lugar"] == "fuera de geocercas":
-        comuna = ctx.comunas.get(maquina)
-        if q and usuario:
-            comuna = rc.localidad(rc.direccion(usuario, float(q.group(2)), float(q.group(1))))
+        comuna = (comuna_en(ctx, float(q.group(1)), float(q.group(2)), usuario) if q else "") or ctx.comunas.get(maquina)
         lugar = f"sin geocerca en {comuna}" if comuna else "sin geocerca"
     else:
         lugar = f"en {g['lugar']}"
@@ -583,12 +621,18 @@ def datos_pagina_v2(datos, ctx, trabajo, oper):
         g = ctx.gps(m)
         gps_maquinas.setdefault(m, {})
         gps_maquinas[m]["lugar"] = g["lugar"]
+        q = re.search(r"q=([-\d.]+),([-\d.]+)", g["mapa"] or "")
+        if q and g["lugar"] != "CYH":
+            lat, lon = float(q.group(1)), float(q.group(2))
+            gps_maquinas[m].update({"lat": lat, "lon": lon, "comuna": comuna_en(ctx, lat, lon),
+                                    "cercanos": campos_cercanos(ctx, lat, lon)})
         gps_maquinas[m]["dias_sin_senal"] = g["dias_sin_senal"]
         gps_maquinas[m]["trabajo_ayer"] = any(r["maquina"] == m and r["fecha"] == ctx.fa and r["area_trabajada_ha"] > 0 for r in ctx.historico) \
             or any(d["fecha"] == ctx.fa and (d.get("horas_geocercas") or d.get("sin_geocerca")) for d in ctx.por_maquina.get(m, {}).get("dias", []))
     return {
         "pagina": PAGINA,
         "gps_maquinas": gps_maquinas,
+        "comunas_pos": ctx.comunas_pos,
         # Maquinas activas en el orden fijo de la flota (filas de la pagina Operacion).
         "unidades": [{"maquina": m, "labor": rh.labor_efectiva(ctx.unidades[m], datetime.now(ZONA).date(),
                                                                (ctx.planilla.get("maquinas", {}).get(m) or {}).get("campo")),
@@ -621,6 +665,9 @@ def preparar(sid, usuario, ayer, publicar, planilla=None):
     """Correo v2 (cuerpo), PDF (detalle completo, el de siempre) y datos de la pagina."""
     corto, ruta_pdf, datos = rc.preparar_reporte(sid, usuario, ayer, publicar=False)
     ctx = Contexto(ayer, planilla)
+    ctx.usuario = usuario
+    previo = (leer_json(RUTA_V2) or {}).get("v2") or {}
+    ctx.comunas_pos.update(previo.get("comunas_pos") or {})
     trabajo = trabajo_por_campo(ctx)
     oper = operacion(ctx, trabajo, usuario)
     html = armar_html_v2(datos, ctx, trabajo, oper)
@@ -692,6 +739,8 @@ def rearmar_pagina(solo_si_cambio=False, base_nueva=False, usuario=None):
     if solo_si_cambio and previo.get("planilla_huella") == huella_planilla(ctx.planilla) and not nuevos_operadores:
         print("La planilla no cambio: no se rearma.")
         return False
+    ctx.usuario = usuario
+    ctx.comunas_pos.update(previo.get("comunas_pos") or {})
     for x in previo.get("operacion", []) + previo.get("no_en_planilla", []) + previo.get("gps_apagado", []):
         c = re.search(r"sin geocerca en (.+?)(?:,|$)", x.get("gps_texto") or "")
         if c:

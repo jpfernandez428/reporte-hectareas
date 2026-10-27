@@ -98,6 +98,13 @@
   .sug { display: flex; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid #f0f2f0; }
   .sug:first-child { border-top: 0; }
   .sug .txt { flex: 1; font-size: 14px; } .sug .txt small { display: block; color: var(--gris); font-size: 12px; }
+  .sug { flex-wrap: wrap; }
+  .sug .botones { display: flex; flex-direction: column; gap: 6px; flex: none; }
+  .sug button.sec { background: #fff; color: var(--verde); border: 1px solid var(--verde); }
+  .ubic { width: 100%; margin-top: 6px; }
+  .ubic iframe { width: 100%; height: 150px; border: 0; border-radius: 8px; background: #eef1ee; }
+  .ubic .lugar { font-size: 13px; margin-top: 4px; }
+  .ubic .lugar a { font-weight: 700; }
   .sug button { flex: none; padding: 9px 12px; border-radius: 8px; border: 0; background: var(--verde); color: #fff; font-weight: 700; cursor: pointer; }
   /* Tabla (vista actual) */
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -443,6 +450,25 @@ async function guardarDato(m, k, boton) {
 }
 
 // ---------------------------------------------------------------------------
+// Donde esta la maquina: mapa chico, "Ver en el mapa", comuna y campos cercanos
+// (pedido del usuario 27-oct-2026; tambien para las Preguntas rapidas de lugar).
+// ---------------------------------------------------------------------------
+const kmTxt = km => km < 0.1 ? 'dentro o al lado de' : `a ${String(km).replace('.', ',')} km de`;
+function ubicacionHtml(m, conMapa) {
+  const g = gpsDe(m);
+  if (g.lat == null) return '';
+  const d = 0.012;
+  const mapa = conMapa ? `<iframe loading="lazy" title="Ubicación de ${esc(m)}" src="https://www.openstreetmap.org/export/embed.html?bbox=${g.lon - d},${g.lat - d * 0.7},${g.lon + d},${g.lat + d * 0.7}&layer=mapnik&marker=${g.lat},${g.lon}"></iframe>` : '';
+  const cerca = (g.cercanos || []).map(c => `${kmTxt(c.km)} ${esc(nombreCampo(campoDeLugar(c.campo)))}`).join(' · ');
+  return `<div class="ubic">${mapa}<div class="lugar">${g.comuna ? esc(g.comuna) + ' · ' : ''}${cerca}${g.mapa ? ` · <a href="${esc(g.mapa)}" target="_blank" rel="noopener">Ver en el mapa</a>` : ''}</div></div>`;
+}
+// Campo a menos de 2 km del GPS (para proponerlo directo), o null.
+function campoCercano(m) {
+  const c = (gpsDe(m).cercanos || [])[0];
+  return c && c.km < 2 ? campoDeLugar(c.campo) : null;
+}
+
+// ---------------------------------------------------------------------------
 // Sugerencias del GPS (para aprobar con un toque)
 // ---------------------------------------------------------------------------
 function campoDeLugar(lugar) {
@@ -473,8 +499,17 @@ function sugerencias() {
                    boton: `Mover a ${nombreCampo(destino)}`, fn: b => moverACampo(m, b, destino) });
     }
     else if ((esTaller(v.campo) || !v.campo) && g.lugar === 'fuera de geocercas' && g.dias_sin_senal != null && g.dias_sin_senal < 2 && !noEsDeCYH(m)) {
-      lista.push({ m, texto: `${m} está fuera de CYH según el GPS`, sub: `Anotada en ${v.campo ? 'Taller' : '(sin campo)'} · ${g.gps || ''}`,
-                   boton: 'Mover a campo…', fn: b => moverACampo(m, b) });
+      const cerca = campoCercano(m);
+      lista.push({ m, texto: `${m} está fuera de CYH según el GPS`, sub: `Anotada en ${v.campo ? 'Taller' : '(sin campo)'} · ${g.gps || ''}`, mapa: true,
+                   boton: cerca ? `¿Mover a ${nombreCampo(cerca)}?` : 'Mover a campo…', fn: b => moverACampo(m, b, cerca || undefined),
+                   otro: cerca ? (b => moverACampo(m, b)) : null });
+    } else if (enCampo && g.lugar === 'fuera de geocercas' && g.dias_sin_senal != null && g.dias_sin_senal < 2) {
+      // Sin geocerca a menos de 2 km de OTRO campo (y no cerca del anotado).
+      const cerca = campoCercano(m);
+      if (cerca && !calzaCampo(v.campo, cerca) && !(g.cercanos || []).some(c => c.km < 2 && calzaCampo(v.campo, c.campo))) {
+        lista.push({ m, texto: `${m} está cerca de ${nombreCampo(cerca)}`, sub: `Anotada en ${nombreCampo(v.campo)} · ${g.gps || ''}`, mapa: true,
+                     boton: `¿Mover a ${nombreCampo(cerca)}?`, fn: b => moverACampo(m, b, cerca), otro: b => moverACampo(m, b) });
+      }
     }
     if (enCampo && !v.operador && g.trabajo_ayer) {
       lista.push({ m, texto: `${m} trabajó ayer sin operador`, sub: `En ${nombreCampo(v.campo)}`, boton: 'Elegir operador…', fn: b => cambiarOperador(m, b) });
@@ -526,7 +561,8 @@ function vistaPorCampo() {
     const items = us.map(u => {
       const m = u.maquina, v = valorDe(m), g = gpsDe(m);
       return `<button type="button" class="maq-item${UI.sel === m ? ' sel' : ''}" data-m="${esc(m)}"><span class="punto p-${esc(g.estado || 'sin_senal')}"></span>` +
-        `<span class="nom">${esc(m)}<small>${esc(v.operador || 'sin operador')}${v.implemento ? ' · ' + esc(v.implemento) : ''}</small>${estadoSinc(m)}</span></button>`;
+        `<span class="nom">${esc(m)}<small>${esc(v.operador || 'sin operador')}${v.implemento ? ' · ' + esc(v.implemento) : ''}</small>` +
+        `${g.lugar === 'fuera de geocercas' && g.lat != null ? `<small>📍 ${esc([g.comuna, ...(g.cercanos || []).slice(0, 1).map(c => kmTxt(c.km) + ' ' + nombreCampo(campoDeLugar(c.campo)))].filter(Boolean).join(' · '))}</small>` : ''}${estadoSinc(m)}</span></button>`;
     }).join('');
     // Taller y "sin campo" van plegados (son largos); se abren solos al buscar o si hay algo sincronizando.
     const plegar = k.startsWith('~') && !UI.q.trim() && !us.some(u => pendienteDe(u.maquina) || resultadoDe(u.maquina));
@@ -539,9 +575,11 @@ function panelMaquina(m) {
   if (!m || !OP.maquinas[m]) return '<div class="vacio">Toca una máquina para moverla, cambiar su operador o devolverla al taller.</div>';
   const v = valorDe(m), g = gpsDe(m), u = unidades().find(x => x.maquina === m) || {};
   const auto = desdeAuto(m), taller = esTaller(v.campo);
+  const cerca = campoCercano(m), proponer = cerca && !calzaCampo(v.campo, cerca) && clave(cerca) !== clave(v.campo);
   return `<div class="panel"><h3>${esc(m)}</h3><div class="labor">${esc(u.labor || '')} ${estadoSinc(m)}</div>
     <div class="acciones-grandes">
-      <button type="button" onclick="moverACampo('${esc(m)}', this)">Mover a campo</button>
+      ${proponer ? `<button type="button" onclick="moverACampo('${esc(m)}', this, ${esc(JSON.stringify(cerca))})">¿Mover a ${esc(nombreCampo(cerca))}?</button>` : ''}
+      <button type="button"${proponer ? ' class="sec"' : ''} onclick="moverACampo('${esc(m)}', this)">${proponer ? 'Mover a otro campo…' : 'Mover a campo'}</button>
       <button type="button" class="sec" onclick="cambiarOperador('${esc(m)}', this)">Cambiar operador</button>
       <button type="button" class="sec" onclick="volverATaller('${esc(m)}', this)"${taller ? ' disabled' : ''}>Volver a taller</button>
     </div>
@@ -550,16 +588,19 @@ function panelMaquina(m) {
     ${taller ? '' : `<div class="dato"><span>Desde</span><span><input type="date" id="dato-desde" value="${esc(v.desde || auto)}" onchange="guardarDato('${esc(m)}', 'desde', this)"><br><span class="desde-txt">${v.desde ? 'puesta a mano' : (auto ? 'automática (GPS)' : 'sin dato del GPS')}</span></span></div>`}
     <div class="dato"><span>Próximo destino</span><input id="dato-destino" value="${esc(v.destino)}" maxlength="80" onchange="guardarDato('${esc(m)}', 'destino', this)"></div>
     <div class="dato"><span>Implemento</span><input id="dato-implemento" value="${esc(v.implemento)}" maxlength="80" onchange="guardarDato('${esc(m)}', 'implemento', this)"></div>
-    <div class="dato" style="display:block"><span>GPS</span><div style="margin-top:4px">${gpsChip(m)}</div><div class="nota" style="margin-top:3px">${esc(g.gps || '')}${g.mapa ? ` · <a href="${esc(g.mapa)}" target="_blank" rel="noopener">ver en el mapa</a>` : ''}</div></div>
+    <div class="dato" style="display:block"><span>GPS</span><div style="margin-top:4px">${gpsChip(m)}</div><div class="nota" style="margin-top:3px">${esc(g.gps || '')}${g.lat == null && g.mapa ? ` · <a href="${esc(g.mapa)}" target="_blank" rel="noopener">Ver en el mapa</a>` : ''}</div>${ubicacionHtml(m, true)}</div>
   </div>`;
 }
 
 function vistaSugerencias() {
   const s = sugerencias();
   if (!s.length) return '<div class="vacio">Sin sugerencias: lo anotado calza con el GPS.</div>';
-  return s.map((x, i) => `<div class="sug"><div class="txt"><b>${esc(x.texto)}</b><small>${esc(x.sub)}</small></div><button type="button" onclick="aplicarSugerencia(${i}, this)">${esc(x.boton)}</button></div>`).join('');
+  return s.map((x, i) => `<div class="sug"><div class="txt"><b>${esc(x.texto)}</b><small>${esc(x.sub)}</small></div>` +
+    `<div class="botones"><button type="button" onclick="aplicarSugerencia(${i}, this)">${esc(x.boton)}</button>` +
+    `${x.otro ? `<button type="button" class="sec" onclick="aplicarSugerencia(${i}, this, true)">Mover a otro campo…</button>` : ''}</div>` +
+    `${x.mapa ? ubicacionHtml(x.m, true) : ''}</div>`).join('');
 }
-function aplicarSugerencia(i, boton) { const s = sugerencias()[i]; if (s) s.fn(boton); }
+function aplicarSugerencia(i, boton, otro) { const s = sugerencias()[i]; if (s) (otro ? s.otro : s.fn)(boton); }
 
 // Vista Tabla (la anterior de la pagina Operacion): edicion en la tabla y "Guardar cambios".
 function opcionesSelect(tipo, actual) {

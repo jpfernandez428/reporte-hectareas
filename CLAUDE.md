@@ -1327,6 +1327,18 @@ Registro:
       fuera de geocercas), `dias_sin_senal`, `trabajo_ayer`; `v2.unidades`
       con la labor efectiva del día (SBS en sep–nov = Raleo). Historial de
       cambios con buscador y tiempos de guardado; "Descargar Excel".
+  - **Dónde está la máquina (27-oct-2026)**: en las Sugerencias, en la hoja o
+    panel de cada máquina y en las tarjetas (línea 📍): mapa chico
+    (OpenStreetMap, sin clave) con el punto, "Ver en el mapa" (Google Maps), la
+    comuna (direcciones de Wialon, solo lectura; `reporte_v2.comuna_en`, guardada
+    por posición ~1 km en `v2.comunas_pos`) y los 3 campos más cercanos con su
+    distancia al borde del cuartel más cercano (`reporte_v2.campos_cercanos`,
+    contornos de `geocercas.json`; en `v2.gps_maquinas[m]`: `lat`, `lon`,
+    `comuna`, `cercanos`). Si hay un campo a menos de 2 km se propone directo
+    ("¿Mover a MGH Nancagua?") además de "Mover a otro campo…". Sugerencia
+    nueva: anotada en un campo y sin geocerca a < 2 km de OTRO campo. Las
+    Preguntas rápidas de lugar (etapa 4) deben usar el mismo bloque
+    (`ubicacionHtml` de app.html).
   - **PIN para guardar (26-oct-2026)**: un solo PIN, secreto `PIN_EDICION` del
     Worker (lo carga el usuario; nunca en el código, el repositorio ni el
     chat). Lo exigen `/confirmar`, `/planilla` (Actualizar) y `/operacion`; el
