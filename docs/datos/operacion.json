@@ -1,5 +1,5 @@
 {
- "actualizado": "27-10-2026 08:17",
+ "actualizado": "27-10-2026 08:18",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -236,7 +236,7 @@
   "Shacker SBS 9": {
    "implemento": "Shaker",
    "operador": "Gaston H",
-   "campo": "Viejo nerquihue (mascaró)",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
@@ -546,6 +546,12 @@
    "id": "mvqlcmvq7h94wu",
    "recibido": "1793099844861",
    "aplicado": 1793099872430,
+   "cambios": 1
+  },
+  {
+   "id": "mvqlddlrfd9dhr",
+   "recibido": "1793099879308",
+   "aplicado": 1793099905178,
    "cambios": 1
   }
  ]
