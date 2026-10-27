@@ -1655,6 +1655,59 @@
 },
 "campo": "torretagle",
 "estado": "asignado"
+},
+{
+"fecha": "2026-10-26",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -34.308667,
+"lon": -71.423847,
+"horas": 1.34,
+"mapa": "https://www.google.com/maps?q=-34.308667,-71.423847",
+"ha": 1.68,
+"comuna": "Pichidegua",
+"opciones": [
+"torretagle"
+],
+"distancias_km": {
+"torretagle": 0.5
+},
+"campo": "torretagle",
+"estado": "confirmado"
+},
+{
+"fecha": "2026-10-26",
+"maquina": "Tractor 7 Kubota 95",
+"labor": "Picado",
+"lat": -34.720911,
+"lon": -71.606034,
+"horas": 1.86,
+"mapa": "https://www.google.com/maps?q=-34.720911,-71.606034",
+"ha": 2.33,
+"comuna": "Lolol",
+"opciones": [],
+"distancias_km": {},
+"campo": "Agr Santa Berta",
+"estado": "confirmado"
+},
+{
+"fecha": "2026-10-26",
+"maquina": "Tractor 9 Deutz Fahr 115",
+"labor": "Poda",
+"lat": -33.463577,
+"lon": -71.169164,
+"horas": 1.09,
+"mapa": "https://www.google.com/maps?q=-33.463577,-71.169164",
+"ha": 1.2,
+"comuna": "María Pinto",
+"opciones": [
+"Santa Ana"
+],
+"distancias_km": {
+"Santa Ana": 0.3
+},
+"campo": "Santa Ana",
+"estado": "confirmado"
 }
 ]
 }
