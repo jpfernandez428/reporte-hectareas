@@ -68,5 +68,13 @@
   "cambio": "Desde",
   "antes": "automática",
   "despues": "2026-10-26 (restaurada: la había borrado el cambio a 'Desde automático' de las 13:51)"
+ },
+ {
+  "fecha": "27-10-2026 08:17",
+  "maquina": "Shacker SBS 4",
+  "cambio": "Operador",
+  "antes": "Victor Ibarra",
+  "despues": "Gaston H",
+  "id": "mvqlcmvq7h94wu"
  }
 ]

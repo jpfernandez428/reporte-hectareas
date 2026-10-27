@@ -1,5 +1,5 @@
 {
- "actualizado": "26-10-2026 13:52",
+ "actualizado": "27-10-2026 08:17",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -200,7 +200,7 @@
   },
   "Shacker SBS 4": {
    "implemento": "Shaker",
-   "operador": "Victor Ibarra",
+   "operador": "Gaston H",
    "campo": "CK2",
    "desde": "2026-10-26",
    "destino": ""
@@ -541,6 +541,12 @@
    "recibido": "1793033514051",
    "aplicado": 1793033543698,
    "cambios": 0
+  },
+  {
+   "id": "mvqlcmvq7h94wu",
+   "recibido": "1793099844861",
+   "aplicado": 1793099872430,
+   "cambios": 1
   }
  ]
 }
