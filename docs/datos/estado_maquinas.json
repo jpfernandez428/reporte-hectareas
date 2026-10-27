@@ -1131,7 +1131,7 @@
   {
    "fecha": "2026-10-26",
    "maquina": "Shacker SBS 4",
-   "labor": "Cosecha con recibidor",
+   "labor": "Raleo",
    "horas": 0.49,
    "pasadas": 31,
    "lineas": 14,
@@ -1271,7 +1271,7 @@
   {
    "fecha": "2026-10-26",
    "maquina": "Shacker SBS 10",
-   "labor": "Cosecha con recibidor",
+   "labor": "Raleo",
    "horas": 0.14,
    "pasadas": 6,
    "lineas": 3,
