@@ -140,7 +140,7 @@ function areaSinRepetir(cs) {
 function sinGeocercaInforme(campos, desde, hasta) {
   if (typeof sinGeocerca === 'undefined' || !sinGeocerca) return [];
   const nombres = new Set(campos.map(c => c.nombre));
-  return sinGeocerca.trabajos.filter(t => t.fecha >= desde && t.fecha <= hasta &&
+  return sinGeocerca.trabajos.filter(t => t.estado !== 'resuelto' && t.fecha >= desde && t.fecha <= hasta &&
     (nombres.has(t.campo) || (t.estado === 'probable' && !t.campo && (t.opciones || []).some(o => nombres.has(o)))))
     .sort((a, b) => a.fecha.localeCompare(b.fecha) || a.maquina.localeCompare(b.maquina))
     .map(t => ({ ...t, campoTxt: t.estado === 'probable'

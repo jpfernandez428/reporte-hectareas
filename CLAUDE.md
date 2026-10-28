@@ -958,6 +958,27 @@ Registro:
     (solo esas máquinas en esos campos); se aplica en totales, tabla, avance
     por cuartel, mapa KML, filtros combinados, y el informe se abre con los
     campos y fechas del filtro.
+- **Trabajo sin geocerca ya cubierto por una geocerca = "resuelto" (regla
+  permanente del usuario, 28-oct-2026)**: en cada corrida (paso
+  `sin_geocerca.py` de la noche, al recuperar geocercas nuevas y en cada
+  confirmación) todo trabajo guardado en `sin_geocerca.json` se compara con
+  las geocercas en uso (`sin_geocerca.resolver`): si el 90 % o más de sus
+  pasadas (`muestras`, guardadas desde el 28-oct; antes, el punto central)
+  cae dentro, pasa a estado "resuelto" (`resuelto_en`, `fecha_resuelto`,
+  `estado_anterior`, `campo_anterior`) y deja de sumarse en las ~ha estimadas
+  (Historial e informe), Trabajo por campo, Operadores, Operación y Preguntas
+  rápidas (`reporte_v2.Contexto` los descarta), pero queda como registro. Si
+  cae entre el 10 y el 90 %, queda sin geocerca solo la parte de afuera (horas
+  y ~ha en proporción; `ha_original`, `horas_original`, `parte_resuelta`).
+  Los lugares confirmados que quedan dentro de una geocerca pasan a
+  `resuelto: "ya tiene geocerca: <g>"` (no cuentan como "por crear" y su
+  regla deja de aplicarse). El correo y "Ayer" no necesitan cambio: el
+  tablero de la flota rearma cada día con las alertas vigentes. Aplicado el
+  28-oct-2026 (aprobado por el usuario): 14 trabajos (Tractores 10 y 13 en
+  Aurora 30–33 del 8 al 21-oct, 35,3 ha, y Barredora 6 en Puerto Lampa 6 el
+  15-oct, 3,5 ha) y 2 lugares confirmados (Puerto Lampa 6, Aurora 32).
+  Historial de Aurora 25-sep al 28-oct, Tractores 10 y 13: 77,50 ha, sin
+  "+ ~ha estimadas".
 - **Trabajo sin geocerca por campo (reglas del usuario 21-oct-2026)**:
   - `sin_geocerca.py` (paso de la corrida de la noche, después del programa):
     guarda TODO el trabajo sin geocerca en `docs/datos/sin_geocerca.json`

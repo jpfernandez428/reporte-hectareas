@@ -82,7 +82,8 @@ class Contexto:
         self.sin_geo = []
         if os.path.exists(sg.RUTA):
             with open(sg.RUTA, "r", encoding="utf-8") as f:
-                self.sin_geo = json.load(f).get("trabajos", [])
+                # Los "resuelto" ya caen en una geocerca (sus ha estan en el historial): no se suman.
+                self.sin_geo = [t for t in json.load(f).get("trabajos", []) if t.get("estado") != "resuelto"]
         with open(rh.RUTA_GEOCERCAS_WEB, "r", encoding="utf-8") as f:
             self.campos = sorted({CAMPO(n) for n in json.load(f)})
         self.unidades = {u["nombre"]: u for u in rh.UNIDADES}

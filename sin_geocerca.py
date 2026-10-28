@@ -122,7 +122,63 @@ def campo_de_la_operacion():
         return {}
 
 
-def main(con_direcciones=True):
+FRACCION_RESUELTO = 0.9   # pasadas dentro de geocercas en uso para "resuelto" completo
+FRACCION_PARCIAL = 0.1    # desde aqui, solo queda sin geocerca la parte de afuera
+
+
+def dentro_de_geocercas(puntos, geos):
+    """{geocerca: n de puntos dentro} y total de puntos dentro."""
+    cuenta, total = {}, 0
+    for lon, lat in puntos:
+        for g in geos.values():
+            x1, y1, x2, y2 = g["bbox"]
+            if x1 <= lon <= x2 and y1 <= lat <= y2 and rh.punto_en_poligono((lon, lat), g["contorno"]):
+                cuenta[g["nombre"]] = cuenta.get(g["nombre"], 0) + 1
+                total += 1
+                break
+    return cuenta, total
+
+
+def resolver(trabajos, geos, hoy, reglas=None):
+    """Regla permanente (usuario 28-oct-2026): el trabajo sin geocerca cuyas
+    pasadas caen dentro de geocercas en uso (por ejemplo, creadas despues) pasa
+    a "resuelto: ahora en <geocerca>" y deja de sumarse en las ~ha estimadas,
+    alertas, correo, Operadores, Trabajo por campo y Preguntas (queda como
+    registro). Si una geocerca cubre solo una parte, queda sin geocerca solo la
+    parte de afuera (horas y ~ha en proporcion). Lo mismo con los lugares
+    confirmados que quedaron dentro de una geocerca. Devuelve los cambios."""
+    cambios = []
+    for t in trabajos:
+        if t.get("estado") == "resuelto":
+            continue
+        puntos = [tuple(p) for p in (t.get("muestras") or [])] or [(t["lon"], t["lat"])]
+        cuenta, total = dentro_de_geocercas(puntos, geos)
+        f = total / len(puntos)
+        if f < FRACCION_PARCIAL:
+            continue
+        donde = sorted(cuenta, key=lambda g: -cuenta[g])
+        if f >= FRACCION_RESUELTO:
+            cambios.append(("resuelto", t, donde, f))
+            t["estado_anterior"], t["campo_anterior"] = t.get("estado"), t.get("campo")
+            t["estado"], t["resuelto_en"], t["fecha_resuelto"] = "resuelto", donde, hoy
+        elif not t.get("parte_resuelta") or f > t["parte_resuelta"]:
+            cambios.append(("parcial", t, donde, f))
+            t.setdefault("ha_original", t["ha"]); t.setdefault("horas_original", t["horas"])
+            t["ha"] = round(t["ha_original"] * (1 - f), 2)
+            t["horas"] = round(t["horas_original"] * (1 - f), 2)
+            t["parte_resuelta"], t["resuelto_en"], t["fecha_resuelto"] = round(f, 2), donde, hoy
+    for r in reglas or []:
+        if r.get("resuelto"):
+            continue
+        cuenta, total = dentro_de_geocercas([(r["lon"], r["lat"])], geos)
+        if total:
+            g = next(iter(cuenta))
+            cambios.append(("lugar", r, [g], 1.0))
+            r["resuelto"], r["fecha_resuelto"] = f"ya tiene geocerca: {g}", hoy
+    return cambios
+
+
+def main(con_direcciones=True, solo_revisar=False):
     geos, flota, alertas, historico, avance = cargar_entrada()
     cuarteles_por_campo = {}
     for g in geos.values():
@@ -180,9 +236,12 @@ def main(con_direcciones=True):
         clave = (a["fecha"], a["maquina"], round(a["lat"], 4), round(a["lon"], 4))
         ha_h = (rend.get(a["maquina"]) or (None,))[0]
         t = por_clave.get(clave, {})
+        if t.get("estado") == "resuelto" or t.get("parte_resuelta"):
+            continue  # ya resuelto (o en parte) por una geocerca: no se vuelve a sumar
         t.update({"fecha": a["fecha"], "maquina": a["maquina"], "labor": a["labor"], "lat": a["lat"],
                   "lon": a["lon"], "horas": round(a["horas"], 2), "mapa": a["mapa"],
-                  "ha": round(a["horas"] * ha_h, 2) if ha_h else round(a["ha_aprox"], 2)})
+                  "ha": round(a["horas"] * ha_h, 2) if ha_h else round(a["ha_aprox"], 2),
+                  "muestras": [[round(x, 6), round(y, 6)] for x, y in a.get("muestras", [])][:60]})
         por_clave[clave] = t
 
     operacion = campo_de_la_operacion()
@@ -192,11 +251,30 @@ def main(con_direcciones=True):
             _, usuario = rc.login()
         except Exception as e:
             print(f"Sin direcciones de Wialon ({e}).")
+    # Pasadas de las alertas aun vigentes para los trabajos guardados sin ellas.
+    muestras = {(a["fecha"], a["maquina"], round(a["lat"], 4), round(a["lon"], 4)): a.get("muestras", []) for a in alertas}
+    for k, t in por_clave.items():
+        if not t.get("muestras") and muestras.get(k):
+            t["muestras"] = [[round(x, 6), round(y, 6)] for x, y in muestras[k]][:60]
+    from datetime import datetime as _dt
+    hoy = _dt.now(rh.ZONA_HORARIA).date().isoformat()
+    reglas = [dict(r) for r in rh.CONFIG.get("lugares_confirmados", [])]
+    cambios = resolver(list(por_clave.values()), geos, hoy, reglas)
+    if solo_revisar:
+        return cambios
+    if any(c[0] == "lugar" for c in cambios):
+        import confirmar
+        confirmar.guardar_reglas(reglas)
+        rh.CONFIG["lugares_confirmados"] = reglas
     for t in por_clave.values():
+        if t.get("estado") == "resuelto":
+            continue
         punto = (t["lon"], t["lat"])
         if usuario and not t.get("comuna"):
             t["comuna"] = rc.localidad(rc.direccion(usuario, *punto))
         regla = regla_confirmada(punto)
+        if regla and regla.get("resuelto"):
+            regla = None  # el lugar ya tiene geocerca
         cercanos = campos_cercanos(punto, cuarteles_por_campo)
         t["opciones"] = sorted(cercanos, key=lambda c: cercanos[c][0])
         t["distancias_km"] = {c: round(cercanos[c][0] / 1000, 1) for c in t["opciones"]}

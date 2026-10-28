@@ -720,7 +720,8 @@ function trabajosSinGeocercaFiltrados() {
   const desde = document.getElementById('filtroDesde').value, hasta = document.getElementById('filtroHasta').value;
   const maquinas = maquinasSeleccionadas(), campos = camposSeleccionados();
   const nombres = new Set(campos.map(id => (listaCampos.find(o => o.valor === id) || {}).texto));
-  return sinGeocerca.trabajos.filter(t =>
+  // "resuelto" = ya cae dentro de una geocerca (sus ha estan en el historial): no se suma (regla 28-oct-2026).
+  return sinGeocerca.trabajos.filter(t => t.estado !== 'resuelto' &&
     (!desde || t.fecha >= desde) && (!hasta || t.fecha <= hasta) &&
     (!maquinas.length || maquinas.includes(t.maquina)) &&
     (!campos.length || nombres.has(t.campo) || (t.estado === 'probable' && !t.campo && (t.opciones || []).some(o => nombres.has(o)))));
@@ -795,9 +796,9 @@ function renderSinGeocerca() {
   }
   // Lugares confirmados: lista de geocercas por crear en Wialon, con deshacer.
   const reglas = (sinGeocerca.lugares_confirmados || []).slice().sort((a, b) => b.fecha.localeCompare(a.fecha));
-  html += `<details class="sg"><summary>Lugares confirmados · geocercas por crear en Wialon: ${reglas.filter(r => r.campo).length}</summary>` +
+  html += `<details class="sg"><summary>Lugares confirmados · geocercas por crear en Wialon: ${reglas.filter(r => r.campo && !r.resuelto).length}</summary>` +
     (reglas.length ? '<div style="overflow-x:auto"><table><thead><tr><th>Confirmado</th><th>Campo</th><th>Lugar</th><th></th></tr></thead><tbody>' +
-      reglas.map(r => `<tr><td>${escaparXml(r.fecha)}</td><td>${r.campo ? escaparXml(r.campo) : '<i>ningún campo</i>'}</td>` +
+      reglas.map(r => `<tr><td>${escaparXml(r.fecha)}</td><td>${r.campo ? escaparXml(r.campo) : '<i>ningún campo</i>'}${r.resuelto ? `<br><small style="color:#1f6b34">✓ resuelto: ${escaparXml(r.resuelto)}</small>` : ''}</td>` +
         `<td><a href="https://www.google.com/maps?q=${r.lat},${r.lon}" target="_blank" rel="noopener">mapa</a></td>` +
         `<td><div class="sg-botones"><button type="button" class="secundario" onclick='enviarConfirmacion({accion:"deshacer", id:"${r.id}"}, this)'>Deshacer</button></div></td></tr>`).join('') +
       '</tbody></table></div>' : '<div class="vacio">Todavía no hay lugares confirmados.</div>') + '</details>';
