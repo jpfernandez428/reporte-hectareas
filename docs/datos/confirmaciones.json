@@ -130,5 +130,13 @@
   "accion": "borrar equivalencia operador",
   "nombre": "Prueba Op",
   "operador": "Pirincho"
+ },
+ {
+  "fecha": "2026-10-28 16:07",
+  "accion": "campo",
+  "id": "20261028160757",
+  "lat": -34.306643,
+  "lon": -71.422066,
+  "campo": "torretagle"
  }
 ]

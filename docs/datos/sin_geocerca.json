@@ -55,6 +55,13 @@
 "lon": -71.165423,
 "campo": "Santa Ana",
 "fecha": "2026-10-22 18:04"
+},
+{
+"id": "20261028160757",
+"lat": -34.306643,
+"lon": -71.422066,
+"campo": "torretagle",
+"fecha": "2026-10-28 16:07"
 }
 ],
 "trabajos": [
@@ -5228,7 +5235,7 @@
 "torretagle": 0.2
 },
 "campo": "torretagle",
-"estado": "probable",
+"estado": "confirmado",
 "comuna": "Pichidegua",
 "muestras": [
 [
@@ -5774,7 +5781,7 @@
 "torretagle": 0.2
 },
 "campo": "torretagle",
-"estado": "asignado",
+"estado": "confirmado",
 "comuna": "Pichidegua",
 "muestras": [
 [
@@ -6972,7 +6979,7 @@
 "torretagle": 0.1
 },
 "campo": "torretagle",
-"estado": "asignado",
+"estado": "confirmado",
 "comuna": "Pichidegua",
 "muestras": [
 [
@@ -10632,7 +10639,7 @@
 "torretagle": 0.1
 },
 "campo": "torretagle",
-"estado": "asignado",
+"estado": "confirmado",
 "muestras": [
 [
 -71.416938,
