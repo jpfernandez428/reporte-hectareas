@@ -106,6 +106,9 @@
   .ubic { width: 100%; margin-top: 6px; }
   .ubic iframe { width: 100%; height: 150px; border: 0; border-radius: 8px; background: #eef1ee; }
   .ubic .lugar { font-size: 13px; margin-top: 4px; }
+  #gpsBarra { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px; }
+  #gpsBarra .gps-btn { padding: 4px 10px; font-size: 13px; }
+  #gpsBarra .gps-err { color: var(--rojo); font-weight: 600; }
   .ubic .lugar a { font-weight: 700; }
   .sug button { flex: none; padding: 9px 12px; border-radius: 8px; border: 0; background: var(--verde); color: #fff; font-weight: 700; cursor: pointer; }
   /* Tabla (vista actual) */
@@ -180,7 +183,143 @@ function nombreCampo(c) {
 const equivalenciaDe = c => (Object.entries(CAMPOS.equivalencias || {}).find(([k]) => clave(k) === clave(c)) || [null, []])[1];
 const equivalentes = c => Object.keys(CAMPOS.equivalencias || {}).filter(k => (CAMPOS.equivalencias[k] || []).includes(c));
 const desdeAuto = m => (V && V.desde_auto && V.desde_auto[m]) || '';
-const gpsDe = m => (V && V.gps_maquinas && V.gps_maquinas[m]) || {};
+const gpsBase = m => (V && V.gps_maquinas && V.gps_maquinas[m]) || {};
+
+// ---------------------------------------------------------------------------
+// GPS al momento (pedido del usuario 29-oct-2026): al abrir la app y con el boton
+// "Actualizar GPS", el Worker consulta a Wialon (solo lectura; el token es un
+// secreto del Worker) la ultima posicion de las maquinas, como maximo una vez
+// cada 2 min. El lugar (CYH, campo o sin geocerca) y los campos cercanos se
+// calculan aqui con los contornos publicados (flota.json -> patio,
+// geocercas.json). Siempre se muestra la hora de la posicion. Una maquina en
+// traslado (20 km/h o mas en sus ultimos 15 min: va en camion o por camino) no
+// genera sugerencias de mover hasta que se detenga.
+// ---------------------------------------------------------------------------
+const GPS_CADA_MS = 2 * 60 * 1000;
+let VIVO = null, VIVO_PEDIDO = 0, VIVO_CONSULTANDO = false, VIVO_ERROR = '', GEO = null, MEMO_GPS = new Map();
+const horaPos = ts => { const f = fechaChile(ts * 1000); return f.slice(0, 10) === fechaChile(Date.now()).slice(0, 10) ? f.slice(11) : `${f.slice(11)} del ${f.slice(0, 5)}`; };
+function metros(lat1, lon1, lat2, lon2) {
+  const k = Math.cos(lat1 * Math.PI / 180) * 111320;
+  return [(lon2 - lon1) * k, (lat2 - lat1) * 110540];
+}
+function dentro(lon, lat, pol) {
+  let d = false;
+  for (let i = 0, j = pol.length - 1; i < pol.length; j = i++) {
+    const [xi, yi] = pol[i], [xj, yj] = pol[j];
+    if ((yi > lat) !== (yj > lat) && lon < (xj - xi) * (lat - yi) / (yj - yi + 1e-15) + xi) d = !d;
+  }
+  return d;
+}
+function distanciaPoligono(lat, lon, pol) {
+  if (dentro(lon, lat, pol)) return 0;
+  let mejor = Infinity;
+  for (let i = 0, j = pol.length - 1; i < pol.length; j = i++) {
+    const [ax, ay] = metros(lat, lon, pol[j][1], pol[j][0]), [bx, by] = metros(lat, lon, pol[i][1], pol[i][0]);
+    const dx = bx - ax, dy = by - ay, l = dx * dx + dy * dy;
+    const u = l ? Math.max(0, Math.min(1, -(ax * dx + ay * dy) / l)) : 0;
+    mejor = Math.min(mejor, Math.hypot(ax + u * dx, ay + u * dy));
+  }
+  return mejor;
+}
+async function cargarGeo() {
+  if (GEO) return;
+  try {
+    const g = await (await fetch('datos/geocercas.json', { cache: 'no-store' })).json();
+    GEO = Object.entries(g).filter(([, v]) => (v.contorno || []).length > 2).map(([n, v]) => {
+      const xs = v.contorno.map(p => p[0]), ys = v.contorno.map(p => p[1]);
+      return { nombre: n, campo: window.Agenda ? Agenda.campoDeCuartel(n) : n, contorno: v.contorno, bbox: [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)] };
+    });
+    MEMO_GPS.clear();
+  } catch (e) { /* sin red: el lugar queda sin calcular */ }
+}
+// Lugar de un punto: 'CYH', el campo de la geocerca, 'fuera de geocercas', o null si falta el contorno.
+function lugarEn(lat, lon, base) {
+  const patio = FLOTA && FLOTA.patio;
+  if (patio ? dentro(lon, lat, patio) : (base.lugar === 'CYH' && base.lat != null && Math.hypot(...metros(lat, lon, base.lat, base.lon)) < 300)) return 'CYH';
+  if (!GEO) return null;
+  const g = GEO.find(x => lon >= x.bbox[0] && lon <= x.bbox[2] && lat >= x.bbox[1] && lat <= x.bbox[3] && dentro(lon, lat, x.contorno));
+  return g ? g.campo : 'fuera de geocercas';
+}
+function cercanosEn(lat, lon) {
+  if (!GEO) return [];
+  const por = new Map();
+  for (const x of GEO) {
+    const [cx, cy] = metros(lat, lon, Math.max(x.bbox[1], Math.min(lat, x.bbox[3])), Math.max(x.bbox[0], Math.min(lon, x.bbox[2])));
+    const caja = Math.hypot(cx, cy);
+    if (caja > 15000 || caja >= (por.get(x.campo) ?? Infinity)) continue;
+    por.set(x.campo, Math.min(por.get(x.campo) ?? Infinity, distanciaPoligono(lat, lon, x.contorno)));
+  }
+  return [...por].sort((a, b) => a[1] - b[1]).slice(0, 3).map(([campo, d]) => ({ campo, km: Math.round(d / 100) / 10 }));
+}
+// Comuna de una direccion de Wialon (igual que reporte_correo.localidad): sin pais, region ni calle.
+const REGIONES = ['region', 'región', 'metropolitana', 'libertador', 'maule', 'valparaiso', 'valparaíso', 'biobio', 'biobío', 'nuble', 'ñuble', 'araucania', 'araucanía', 'coquimbo', 'los lagos', 'los rios', 'los ríos'];
+function comunaDe(texto) {
+  let p = String(texto || '').split(',').map(x => x.trim()).filter(x => x && x.toLowerCase() !== 'chile' && !REGIONES.some(r => x.toLowerCase().startsWith(r)));
+  if (p.length >= 2) p = p.slice(1);
+  p = p.filter(x => !/\d/.test(x));
+  return p.length ? p[p.length - 1] : '';
+}
+// Hora de la posicion del tablero (cada 4 h) cuando no hay GPS al momento.
+function horaTablero(m) {
+  const f = FLOTA && (FLOTA.maquinas || []).find(x => x.nombre === m);
+  return f && f.ultima_conexion ? f.ultima_conexion : '';
+}
+function gpsDe(m) {
+  const b = gpsBase(m), x = VIVO && VIVO.maquinas && VIVO.maquinas[m];
+  if (!x) {
+    const h = horaTablero(m);
+    return h ? { ...b, hora: h.slice(11) + (h.slice(0, 5) === fechaChile(Date.now()).slice(0, 5) ? '' : ` del ${h.slice(0, 5)}`), gps: `${b.gps || ''} · posición de las ${h.slice(11)}${h.slice(0, 5) === fechaChile(Date.now()).slice(0, 5) ? '' : ' del ' + h.slice(0, 5)} (tablero)` } : b;
+  }
+  const memo = MEMO_GPS.get(m);
+  if (memo && memo.t === x.t && memo.campo === valorDe(m).campo) return memo.g;
+  const lugar = lugarEn(x.lat, x.lon, b);
+  const mismo = b.lat != null && Math.hypot(...metros(x.lat, x.lon, b.lat, b.lon)) < 300;
+  const g = { ...b, lat: x.lat, lon: x.lon, mapa: `https://www.google.com/maps?q=${x.lat.toFixed(6)},${x.lon.toFixed(6)}`, vivo: true,
+              traslado: !!x.traslado, v: x.v, hora: horaPos(x.t), dias_sin_senal: Math.floor((Date.now() / 1000 - x.t) / 86400) };
+  g.lugar = lugar || (mismo ? b.lugar : null);  // sin los contornos y lejos de lo anterior: no se sabe (no sugiere)
+  if (!mismo) { g.comuna = comunaDe(x.dir); g.cercanos = cercanosEn(x.lat, x.lon); }
+  const c0 = (g.cercanos || [])[0];
+  const donde = g.lugar === 'CYH' ? 'en CYH' : g.lugar === 'fuera de geocercas' ? `sin geocerca${g.comuna ? ' en ' + g.comuna : ''}${c0 ? ', ' + kmTxt(c0.km) + ' ' + nombreCampo(campoDeLugar(c0.campo)) : ''}`
+    : g.lugar ? 'en ' + nombreCampo(campoDeLugar(g.lugar)) : '';
+  g.gps = `${g.traslado ? `en traslado (${Math.max(x.v || 0, x.vmax || 0)} km/h)` : (x.v || 0) > 0 ? 'en movimiento' : 'detenido'} ${donde} · posición de las ${g.hora}`.replace(/  +/g, ' ');
+  // El color de la maquina con la posicion nueva (lo demas, como lo dejo la corrida).
+  const v = valorDe(m), enCampo = v.campo && !esTaller(v.campo);
+  if (g.traslado) Object.assign(g, { estado: 'sin_geocerca', texto: 'en traslado' });
+  else if (g.lugar === 'CYH') Object.assign(g, esTaller(v.campo) ? { estado: 'ok', texto: 'GPS calza (CYH)' } : { estado: 'confirmar', texto: `Confirmar · GPS en CYH` });
+  else if (g.lugar && g.lugar !== 'fuera de geocercas') Object.assign(g, calzaCampo(v.campo, g.lugar) || clave(v.campo) === clave(g.lugar) ? { estado: 'ok', texto: 'GPS calza' } : { estado: 'confirmar', texto: `Confirmar · GPS en ${nombreCampo(campoDeLugar(g.lugar))}` });
+  else if (g.lugar === 'fuera de geocercas' && !enCampo && b.estado === 'ok') Object.assign(g, { estado: 'confirmar', texto: 'Confirmar · GPS fuera de CYH' });
+  MEMO_GPS.set(m, { t: x.t, campo: v.campo, g });
+  return g;
+}
+// Va en camion o por camino (o, sin GPS al momento, el tablero la vio en movimiento fuera de geocercas):
+// no se sugiere moverla hasta que se detenga.
+function enCamino(m) {
+  const g = gpsDe(m);
+  return g.vivo ? g.traslado : (/^en movimiento/.test(gpsBase(m).gps || '') && gpsBase(m).lugar === 'fuera de geocercas');
+}
+async function actualizarGps(aMano) {
+  const espera = VIVO_PEDIDO + GPS_CADA_MS - Date.now();
+  if (VIVO_CONSULTANDO) return;
+  if (espera > 0) {
+    if (aMano) { VIVO_ERROR = `Se puede volver a consultar en ${Math.ceil(espera / 1000)} s (máximo una vez cada 2 min).`; pintarGps(); }
+    return;
+  }
+  VIVO_CONSULTANDO = true; VIVO_ERROR = ''; pintarGps();
+  const control = new AbortController(), reloj = setTimeout(() => control.abort(), 20000);
+  try {
+    const [r] = await Promise.all([fetch(WORKER + '/gps', { cache: 'no-store', signal: control.signal }).then(x => x.status === 404 ? { ok: false, error: 'sin_ruta' } : x.json()), cargarGeo(), FLOTA ? null : cargarFlota()]);
+    VIVO_PEDIDO = r && r.intento ? r.intento : Date.now();
+    if (r && r.maquinas) { VIVO = r; MEMO_GPS.clear(); }
+    if (!r || !r.ok) VIVO_ERROR = !r ? 'Sin respuesta.' : r.error === 'sin_ruta' ? 'Falta pegar el Worker nuevo en Cloudflare.' : /WIALON_TOKEN/.test(r.error || '') ? 'Falta cargar el token de Wialon en Cloudflare.' : 'Wialon no respondió' + (VIVO ? ': se muestra la consulta anterior.' : '.');
+  } catch (e) { VIVO_PEDIDO = Date.now(); VIVO_ERROR = 'No se pudo consultar el GPS (sin señal o Cloudflare no respondió).'; }
+  finally { clearTimeout(reloj); VIVO_CONSULTANDO = false; }
+  if (seccion() === 'operacion' && !escribiendo() && !document.querySelector('#capa .selector')) dibujar(); else pintarGps();
+}
+function textoGps() {
+  const base = VIVO && VIVO.consultado ? `GPS al momento: consultado a las ${horaPos(VIVO.consultado / 1000)}` : `GPS del tablero${FLOTA && FLOTA.actualizado ? ' de las ' + esc(FLOTA.actualizado.slice(11)) : V && V.actualizado ? ' de ' + esc(V.actualizado) : ''} (cada 4 h)`;
+  return `${base} <button type="button" class="boton-sec gps-btn" onclick="actualizarGps(true)"${VIVO_CONSULTANDO ? ' disabled' : ''}>${VIVO_CONSULTANDO ? 'Consultando…' : 'Actualizar GPS'}</button>${VIVO_ERROR ? ` <span class="gps-err">${esc(VIVO_ERROR)}</span>` : ''}`;
+}
+function pintarGps() { const el = document.getElementById('gpsBarra'); if (el) el.innerHTML = textoGps(); }
 const duracion = s => s < 60 ? `${Math.round(s)} s` : `${Math.floor(s / 60)} min ${String(Math.round(s % 60)).padStart(2, '0')} s`;
 function unidades() {
   if (V && V.unidades) return V.unidades.filter(u => OP.maquinas[u.maquina]);
@@ -469,7 +608,8 @@ function ubicacionHtml(m, conMapa) {
   const d = 0.012;
   const mapa = conMapa ? `<iframe loading="lazy" title="Ubicación de ${esc(m)}" src="https://www.openstreetmap.org/export/embed.html?bbox=${g.lon - d},${g.lat - d * 0.7},${g.lon + d},${g.lat + d * 0.7}&layer=mapnik&marker=${g.lat},${g.lon}"></iframe>` : '';
   const cerca = (g.cercanos || []).map(c => `${kmTxt(c.km)} ${esc(nombreCampo(campoDeLugar(c.campo)))}`).join(' · ');
-  return `<div class="ubic">${mapa}<div class="lugar">${g.comuna ? esc(g.comuna) + ' · ' : ''}${cerca}${g.mapa ? ` · <a href="${esc(g.mapa)}" target="_blank" rel="noopener">Ver en el mapa</a>` : ''}</div></div>`;
+  const partes = [g.comuna ? esc(g.comuna) : '', cerca, g.hora ? 'posición de las ' + esc(g.hora) : '', g.mapa ? `<a href="${esc(g.mapa)}" target="_blank" rel="noopener">Ver en el mapa</a>` : ''];
+  return `<div class="ubic">${mapa}<div class="lugar">${partes.filter(Boolean).join(' · ')}</div></div>`;
 }
 // Campo a menos de 2 km del GPS (para proponerlo directo), o null.
 function campoCercano(m) {
@@ -498,10 +638,11 @@ function sugerencias() {
   for (const u of unidades()) {
     const m = u.maquina, v = valorDe(m), g = gpsDe(m);
     if (pendienteDe(m) || !g.lugar || (g.lugar !== 'CYH' && g.dias_sin_senal != null && g.dias_sin_senal >= 2)) continue;
+    if (enCamino(m)) continue;  // va en traslado: se sugiere cuando se detenga
     const enCampo = v.campo && !esTaller(v.campo);
     const lugarCampo = g.lugar !== 'CYH' && g.lugar !== 'fuera de geocercas';
     if (enCampo && g.lugar === 'CYH') {
-      lista.push({ m, texto: `${m} está en CYH según el GPS`, sub: `Anotada en ${nombreCampo(v.campo)}`, boton: 'Volver a taller', fn: b => volverATaller(m, b) });
+      lista.push({ m, texto: `${m} está en CYH según el GPS`, sub: `Anotada en ${nombreCampo(v.campo)}${g.hora ? ' · posición de las ' + g.hora : ''}`, boton: 'Volver a taller', fn: b => volverATaller(m, b) });
     } else if (lugarCampo && !calzaCampo(v.campo, g.lugar) && (enCampo || esTaller(v.campo) || !v.campo)) {
       const destino = campoDeLugar(g.lugar);
       lista.push({ m, texto: `${m} vista en ${nombreCampo(destino)}`, sub: `Anotada en ${v.campo ? nombreCampo(v.campo) : '(sin anotar)'} · ${g.gps || ''}`,
@@ -576,7 +717,7 @@ function vistaPorCampo() {
       const m = u.maquina, v = valorDe(m), g = gpsDe(m);
       return `<button type="button" class="maq-item${UI.sel === m ? ' sel' : ''}" data-m="${esc(m)}"><span class="punto p-${esc(g.estado || 'sin_senal')}"></span>` +
         `<span class="nom">${esc(m)}<small>${esc(v.operador || 'sin operador')}${v.implemento ? ' · ' + esc(v.implemento) : ''}</small>` +
-        `${g.lugar === 'fuera de geocercas' && g.lat != null ? `<small>📍 ${esc([g.comuna, ...(g.cercanos || []).slice(0, 1).map(c => kmTxt(c.km) + ' ' + nombreCampo(campoDeLugar(c.campo)))].filter(Boolean).join(' · '))}</small>` : ''}${estadoSinc(m)}</span></button>`;
+        `${g.traslado ? `<small>🚚 ${esc(g.gps)}</small>` : g.lugar === 'fuera de geocercas' && g.lat != null ? `<small>📍 ${esc([g.comuna, ...(g.cercanos || []).slice(0, 1).map(c => kmTxt(c.km) + ' ' + nombreCampo(campoDeLugar(c.campo))), g.hora].filter(Boolean).join(' · '))}</small>` : ''}${estadoSinc(m)}</span></button>`;
     }).join('');
     // Taller y "sin campo" van plegados (son largos); se abren solos al buscar o si hay algo sincronizando.
     const plegar = k.startsWith('~') && !UI.q.trim() && !us.some(u => pendienteDe(u.maquina) || resultadoDe(u.maquina));
@@ -606,10 +747,15 @@ function panelMaquina(m) {
   </div>`;
 }
 
+function notaTraslado() {
+  const ms = unidades().map(u => u.maquina).filter(m => enCamino(m) && !pendienteDe(m));
+  const det = g => g.vivo ? `${Math.max(g.v || 0, (VIVO.maquinas[g.m] || {}).vmax || 0)} km/h${g.comuna ? ', en ' + g.comuna : ''}, ${g.hora}` : `en movimiento según el tablero${g.hora ? ', ' + g.hora : ''}`;
+  return ms.length ? `<p class="nota">🚚 En traslado (se sugerirá cuando se detenga): ${ms.map(m => `${esc(m)} (${esc(det({ ...gpsDe(m), m }))})`).join(' · ')}</p>` : '';
+}
 function vistaSugerencias() {
   const s = sugerencias();
-  if (!s.length) return '<div class="vacio">Sin sugerencias: lo anotado calza con el GPS.</div>';
-  return s.map((x, i) => `<div class="sug"><div class="txt"><b>${esc(x.texto)}</b><small>${esc(x.sub)}</small></div>` +
+  if (!s.length) return '<div class="vacio">Sin sugerencias: lo anotado calza con el GPS.</div>' + notaTraslado();
+  return notaTraslado() + s.map((x, i) => `<div class="sug"><div class="txt"><b>${esc(x.texto)}</b><small>${esc(x.sub)}</small></div>` +
     `<div class="botones"><button type="button" onclick="aplicarSugerencia(${i}, this)">${esc(x.boton)}</button>` +
     `${x.otro ? `<button type="button" class="sec" onclick="aplicarSugerencia(${i}, this, true)">Mover a otro campo…</button>` : ''}</div>` +
     `${x.mapa ? ubicacionHtml(x.m, true) : ''}</div>`).join('');
@@ -692,7 +838,8 @@ function dibujarOperacion() {
     : UI.pestana === 'sugerencias' ? `<section><h2>Sugerencias del GPS</h2>${vistaSugerencias()}<p class="nota">Se aprueban con un toque (piden el PIN la primera vez en este aparato). Vienen de lo que ve el GPS ahora (máquina vista en otro campo, en CYH estando anotada en un campo, o trabajando sin operador) y de la Agenda (mover las máquinas el día de inicio, marcar terminado, avisos).</p></section>`
     : UI.vista === 'tabla' ? vistaTabla()
     : `<div class="op-layout"><div>${vistaPorCampo()}</div>${ancho ? `<div class="panel-lateral"><section>${panelMaquina(UI.sel)}</section><section><h2>Sugerencias del GPS (${s})</h2>${vistaSugerencias()}</section></div>` : ''}</div>`;
-  return `<h1>Operación</h1><div class="sub">¿Quién va a dónde? · Guardado por última vez: ${esc(OP.actualizado || '')}${D1 ? ' · al instante (Cloudflare)' : ''}${V && V.actualizado ? ' · GPS de ' + esc(V.actualizado) : ''}</div>
+  return `<h1>Operación</h1><div class="sub">¿Quién va a dónde? · Guardado por última vez: ${esc(OP.actualizado || '')}${D1 ? ' · al instante (Cloudflare)' : ''}</div>
+    <div class="sub" id="gpsBarra">${textoGps()}</div>
     <div id="avisoCF"></div>
     <div class="barra-op">
       <span class="seg">${segP('maquinas', 'Máquinas')}${segP('agenda', `Agenda${nAg ? `<span class="cuenta">${nAg}</span>` : ''}`)}${segP('sugerencias', `Sugerencias${s ? `<span class="cuenta">${s}</span>` : ''}`)}</span>
@@ -865,7 +1012,8 @@ let eraAncho = innerWidth >= 1000;
 window.addEventListener('resize', () => { const a = innerWidth >= 1000; if (OP && a !== eraAncho) { eraAncho = a; dibujar(); } });
 const escribiendo = () => { const f = document.activeElement; return f && /INPUT|SELECT|TEXTAREA/.test(f.tagName); };
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
-if (ruta()) cargar().then(() => { dibujar(); if (PEND.length) vigilar(); });
+if (ruta()) cargar().then(() => { dibujar(); if (PEND.length) vigilar(); actualizarGps(); });
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && OP) actualizarGps(); });
 setInterval(() => { if (OP && seccion() === 'operacion' && document.visibilityState === 'visible' && !vigilando && !escribiendo() && !document.querySelector('#capa .selector')) dibujar(); }, 60000);
 </script>
 </body>

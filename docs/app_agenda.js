@@ -5,8 +5,10 @@
 // confirmar -> confirmado -> en curso -> terminado), notas, y las maquinas y
 // operadores exactos cuando se asignan.
 // - Termino automatico: hectareas ÷ rendimiento real (ha por dia trabajado de
-//   esas maquinas en esa labor, temporada; reporte_v2.json -> trabajo_campo),
-//   en dias de lunes a sabado. Con el avance real (hectareas del historial y
+//   esas maquinas en esa labor, temporada; reporte_v2.json -> trabajo_campo)
+//   = dias trabajados; se pasan a dias de calendario (todos, tambien domingos:
+//   la maquina queda en el campo) con el ritmo real de la maquina (que parte de
+//   los dias que esta en un campo trabaja; flota.json). Con el avance real (hectareas del historial y
 //   ~ha sin geocerca del campo desde el inicio) la fecha se corre sola y avisa
 //   "atrasado X dias". Se puede poner a mano.
 // - Vistas Mes, Semana y Por maquina; avisos (parte en 2 dias o menos sin
@@ -31,12 +33,8 @@
   const dmLargo = f => f ? `${DIAS_CORTOS[diaSemana(f)]} ${dm(f)}` : '';
   const num = (v, d = 1) => Number(v || 0).toLocaleString('es-CL', { minimumFractionDigits: d, maximumFractionDigits: d });
   const haDe = t => Number(String(t.ha || '').replace(',', '.')) || 0;
-  // n dias de trabajo (lunes a sabado) contando desde f si es dia de trabajo; devuelve el ultimo.
-  function finTrabajo(f, n) {
-    let d = f, k = 0;
-    if (n <= 0) return f;
-    for (;;) { if (diaSemana(d) !== 6) { k++; if (k >= n) return d; } d = mas(d, 1); }
-  }
+  // Ultimo dia de n dias de calendario contando desde f (incluido).
+  const finCalendario = (f, n) => mas(f, Math.max(1, n) - 1);
 
   const estilo = document.createElement('style');
   estilo.textContent = `
@@ -155,6 +153,43 @@
     const n = cantidadNecesaria(t);
     return n && prom ? { tasa: n * prom, base: `${n} × promedio de ${t.labor} (${num(prom, 2)} ha/día)` } : null;
   }
+  // Ritmo real (regla del usuario 29-oct-2026): de los dias que la maquina esta en
+  // un campo, que parte trabaja (domingos, lluvia o esperas no se trabajan, pero
+  // la maquina sigue ahi). flota.json, 30 dias: en cada estadia fuera de CYH,
+  // desde su primer hasta su ultimo dia trabajado. Con menos de 5 dias, el
+  // promedio de su labor (o de toda la flota).
+  const DIAS_MIN_RITMO = 5;
+  const trabajoDia = d => Object.values(d.horas_geocercas || {}).reduce((a, b) => a + b, 0) + (d.sin_geocerca || []).reduce((a, x) => a + (x.horas || 0), 0) >= 1 ||
+    Object.values(d.ha || {}).reduce((a, b) => a + b, 0) >= 0.1;
+  function diasRitmo(m) {
+    const f = typeof FLOTA !== 'undefined' && FLOTA && (FLOTA.maquinas || []).find(x => x.nombre === m);
+    if (!f) return null;
+    let trab = 0, total = 0, estadia = [], lugar = null;
+    const cerrar = () => { const i = estadia.indexOf(true), j = estadia.lastIndexOf(true); if (i >= 0) { total += j - i + 1; trab += estadia.slice(i, j + 1).filter(Boolean).length; } estadia = []; };
+    for (const d of (f.dias || []).filter(x => x.completo).sort((a, b) => a.fecha.localeCompare(b.fecha))) {
+      if (d.fin) lugar = d.fin.lugar;
+      const w = trabajoDia(d);
+      if (!w && lugar === 'CYH') { cerrar(); continue; }
+      estadia.push(w);
+      if (lugar === 'CYH') cerrar();  // trabajo y volvio a CYH ese dia
+    }
+    cerrar();
+    return total ? { trab, total } : null;
+  }
+  function ritmoLabor(labor) {
+    const us = ((V && V.unidades) || []).filter(u => !labor || u.labor === labor).map(u => diasRitmo(u.maquina)).filter(x => x && x.total >= DIAS_MIN_RITMO);
+    return us.length ? us.reduce((a, x) => a + x.trab / x.total, 0) / us.length : null;
+  }
+  function ritmoTrabajo(t) {
+    const prom = ritmoLabor(t.labor) || ritmoLabor('') || 6 / 7;
+    const ms = t.maquinas || [];
+    if (!ms.length) return { ritmo: prom, base: `promedio de ${t.labor || 'la flota'}` };
+    const v = ms.map(m => { const d = diasRitmo(m); return d && d.total >= DIAS_MIN_RITMO ? d.trab / d.total : prom; });
+    return { ritmo: v.reduce((a, b) => a + b, 0) / v.length, base: ms.length === 1 ? 'de esa máquina' : 'promedio de las asignadas' };
+  }
+  // Dias trabajados -> dias de calendario en el campo.
+  const diasCampo = (diasTrab, ri) => Math.ceil(diasTrab / Math.max(0.2, Math.min(1, ri.ritmo)) - 1e-9);
+
   function avance(t) {
     let ha = 0, sin = 0;
     const dias = new Set(), q = new Set(t.cuarteles || []);
@@ -174,14 +209,15 @@
   const enElCampo = (t, m) => { const g = gpsDe(m); return g.lugar && calzaCampo(t.campo, g.lugar) || (g.lugar && clave(g.lugar) === clave(t.campo)); };
 
   function calc(t) {
-    const h = hoy(), prog = haDe(t), av = avance(t), tr = tasaTrabajo(t);
+    const h = hoy(), prog = haDe(t), av = avance(t), tr = tasaTrabajo(t), ri = ritmoTrabajo(t);
     const hecho = av.ha + av.sin;
-    const auto = tr && prog ? finTrabajo(t.inicio, Math.max(1, Math.ceil(prog / tr.tasa))) : '';
+    const diasTrab = tr && prog ? Math.max(1, Math.ceil(prog / tr.tasa - 1e-9)) : 0;
+    const auto = diasTrab ? finCalendario(t.inicio, diasCampo(diasTrab, ri)) : '';
     const plan = t.termino || auto || t.termino_previsto || t.inicio;
     let estimado = plan, atraso = 0;
     if (t.estado !== 'terminado' && h > t.inicio) {
       const resta = Math.max(0, prog - hecho);
-      if (prog && tr && resta > 0) estimado = finTrabajo(h, Math.ceil(resta / tr.tasa));
+      if (prog && tr && resta > 0) estimado = finCalendario(h, diasCampo(Math.ceil(resta / tr.tasa - 1e-9), ri));
       else if (prog && resta > 0 && h > plan) estimado = h;
       if (estimado > plan) atraso = entre(plan, estimado);
     }
@@ -192,9 +228,12 @@
     const nec = cantidadNecesaria(t), nm = (t.maquinas || []).length, no = (t.operadores || []).length;
     const faltanMaq = Math.max(0, nec - nm) || (!nec && !nm ? 1 : 0), faltanOp = Math.max(0, Math.max(nm, nec) - no);
     const pct = prog ? hecho / prog : 0;
-    return { prog, hecho, ha: av.ha, sin: av.sin, dias: av.dias, tasa: tr, auto, plan, fin, atraso, estado, faltanMaq, faltanOp,
+    return { prog, hecho, ha: av.ha, sin: av.sin, dias: av.dias, tasa: tr, ritmo: ri, diasTrab, diasCal: diasTrab ? diasCampo(diasTrab, ri) : 0, auto, plan, fin, atraso, estado, faltanMaq, faltanOp,
              falta: faltanMaq > 0 || faltanOp > 0, pct, listo: estado !== 'terminado' && ((prog && pct >= 0.95) || h > fin) };
   }
+  const pctTxt = r => `${Math.round(r * 100)} %`;
+  const explicar = c => esc(`${num(c.prog, 1)} ha ÷ ${num(c.tasa.tasa, 2)} ha por día trabajado (${c.tasa.base}) = ${c.diasTrab} día${c.diasTrab === 1 ? '' : 's'} trabajado${c.diasTrab === 1 ? '' : 's'}; ` +
+    `trabaja el ${pctTxt(c.ritmo.ritmo)} de los días que está en un campo (${c.ritmo.base}) = ${c.diasCal} día${c.diasCal === 1 ? '' : 's'} en el campo`);
   const colorDe = (t, c) => c.estado === 'terminado' ? 'terminado' : c.estado === 'en_curso' ? 'en_curso' : (c.estado === 'por_confirmar' || c.falta) ? 'amarillo' : 'confirmado';
 
   // Choques: la misma maquina u operador en dos trabajos que se cruzan en fechas.
@@ -331,7 +370,7 @@
         <span class="ag-nav"><button type="button" onclick="Agenda.mover(-1)" aria-label="Anterior">‹</button><b>${titulo}</b><button type="button" onclick="Agenda.mover(1)" aria-label="Siguiente">›</button><button type="button" onclick="Agenda.irHoy()">Hoy</button></span>
         <button type="button" class="ag-nuevo" onclick="Agenda.editar()">+ Nuevo trabajo</button></div>
       ${cuerpo}${vacia}
-      <p class="nota">Colores: <b style="color:#1a5fb4">azul</b> en curso · <b style="color:#1f6b34">verde</b> confirmado · <b style="color:#8a6a00">amarillo</b> por confirmar o falta asignar · gris terminado. Término aproximado: hectáreas ÷ rendimiento real (ha por día trabajado de esas máquinas en esa labor, temporada), de lunes a sábado; con el avance real se corre solo.</p>
+      <p class="nota">Colores: <b style="color:#1a5fb4">azul</b> en curso · <b style="color:#1f6b34">verde</b> confirmado · <b style="color:#8a6a00">amarillo</b> por confirmar o falta asignar · gris terminado. Término aproximado: hectáreas ÷ rendimiento real (ha por día trabajado de esas máquinas en esa labor, temporada) = días trabajados, pasados a días en el campo (todos, también domingos) con el ritmo real de la máquina (qué parte de los días que está en un campo trabaja); con el avance real se corre solo.</p>
       ${historialHtml()}</section>`;
   }
 
@@ -360,7 +399,7 @@
       <div><span class="est">${ESTADOS[c.estado]}${c.estado !== t.estado ? ' (según el GPS)' : ''}</span>${c.atraso ? ` <span class="ag-chip ro">atrasado ${c.atraso} día${c.atraso === 1 ? '' : 's'}</span>` : ''}${p ? ' <span class="ag-chip am">sin enviar</span>' : ''}</div>
       <div class="dato"><span>Fechas</span><b>${dmLargo(t.inicio)} al ~${dmLargo(c.fin)}</b></div>
       ${c.atraso ? `<div class="dato"><span>Programado</span><span>hasta ${dmLargo(c.plan)}</span></div>` : ''}
-      <div class="dato"><span>Término</span><span>${t.termino ? 'puesto a mano' : c.auto ? `automático (${c.tasa ? num(c.tasa.tasa, 2) + ' ha/día: ' + esc(c.tasa.base) : ''})` : 'sin rendimiento: ponlo a mano'}</span></div>
+      <div class="dato"><span>Término</span><span>${t.termino ? 'puesto a mano' : c.auto ? `automático: ${explicar(c)}` : 'sin rendimiento: ponlo a mano'}</span></div>
       <div class="dato"><span>Hectáreas</span><b>${num(c.ha, 2)}${c.sin ? ` <span style="color:var(--rojo)">+ ~${num(c.sin)}</span>` : ''} de ${c.prog ? num(c.prog, 2) : '?'} ha${c.prog ? ` (${Math.round(c.pct * 100)} %)` : ''}</b></div>
       ${(t.cuarteles || []).length ? `<div class="dato"><span>Cuarteles</span><span>${esc(t.cuarteles.join(', '))}</span></div>` : ''}
       <div class="dato"><span>Se necesita</span><span>${esc((t.necesita || []).map(x => `${x.cantidad} ${x.tipo}`).join(', ') || '—')}</span></div>
@@ -395,7 +434,7 @@
       <label class="fila"><span>Labor</span><select onchange="Agenda.dato('labor', this.value)"><option value="">(elegir)</option>${opLab}</select></label>
       <div class="dos"><label class="fila"><span>Inicio</span><input type="date" value="${esc(b.inicio)}" onchange="Agenda.dato('inicio', this.value)"></label>
         <label class="fila"><span>Término (a mano)</span><input type="date" value="${esc(b.termino)}" onchange="Agenda.dato('termino', this.value)"></label></div>
-      <p class="nota" style="margin-top:-4px">${c && c.auto ? `Automático: ~${dmLargo(c.auto)} (${num(c.tasa.tasa, 2)} ha/día · ${esc(c.tasa.base)}). Déjalo vacío para usar el automático.` : 'Automático: falta campo, labor, hectáreas o el rendimiento de las máquinas; puedes ponerlo a mano.'}</p>
+      <p class="nota" style="margin-top:-4px">${c && c.auto ? `Automático: ~${dmLargo(c.auto)} (${explicar(c)}). Déjalo vacío para usar el automático.` : 'Automático: falta campo, labor, hectáreas o el rendimiento de las máquinas; puedes ponerlo a mano.'}</p>
       <div class="dos"><label class="fila"><span>Hectáreas</span><input inputmode="decimal" value="${esc(b.ha)}" placeholder="ej. 25" onchange="Agenda.dato('ha', this.value.trim())"></label>
         <label class="fila"><span>Cuarteles</span><button type="button" class="elegido" onclick="Agenda.cuarteles()">${b.cuarteles.length ? b.cuarteles.length + ' elegidos' : '<span style="color:var(--gris)">Elegir…</span>'}<span>▾</span></button></label></div>
       <div class="fila"><span>Qué se necesita</span>
@@ -585,7 +624,7 @@
       if (c.estado === 'terminado' || t.inicio > h) continue;
       const destino = campoDeLugar(t.campo) || t.campo;
       for (const m of t.maquinas || []) {
-        if (!OP.maquinas[m] || calzaCampo(valorDe(m).campo, t.campo) || clave(valorDe(m).campo) === clave(destino) || h > c.fin) continue;
+        if (!OP.maquinas[m] || calzaCampo(valorDe(m).campo, t.campo) || clave(valorDe(m).campo) === clave(destino) || h > c.fin || enCamino(m)) continue;
         r.push({ m, texto: `¿Mover ${m} a ${nombreCampo(destino)}?`, sub: `Agenda: ${nombreT(t)} desde el ${dmLargo(t.inicio)}`, boton: `Mover a ${nombreCampo(destino)}`, fn: b => moverACampo(m, b, destino) });
       }
       if (c.listo) r.push({ m: '', texto: `¿Marcar terminado: ${nombreT(t)}?`, sub: c.prog && c.pct >= 0.95 ? `Van ${num(c.hecho)} de ${num(c.prog)} ha (${Math.round(c.pct * 100)} %)` : `Pasó la fecha de término (~${dmLargo(c.fin)})`,
@@ -595,7 +634,7 @@
   }
 
   window.Agenda = {
-    html, sugerencias, avisos: () => avisos(), desdeD1, desdePublicado,
+    html, sugerencias, campoDeCuartel, _ritmo: diasRitmo, avisos: () => avisos(), desdeD1, desdePublicado,
     abrir: id => detalle(id), cerrar, editar, dato, elegirCampo, necesita, cuarteles, listoCuarteles,
     volverFormulario: () => pintarFormulario(), guardarBorrador, fechas, guardarFechas, asignar, agregar, quitar, terminar, borrar,
     vista(v) { AG.vista = v; escribirLS('agenda_vista', v); refrescar(); },

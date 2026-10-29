@@ -732,7 +732,9 @@ Registro:
   dos veces (verano UTC-3 / invierno UTC-4) y el Worker lanza solo el que
   calza con la hora de Chile. Secreto del Worker: `GITHUB_TOKEN` (token
   fine-grained solo de este repositorio, Actions: Read and write; lo carga el
-  usuario en Cloudflare, nunca en el chat ni en el repositorio). Los horarios
+  usuario en Cloudflare, nunca en el chat ni en el repositorio); además
+  `PIN_EDICION` y, desde el 29-oct-2026, `WIALON_TOKEN` (solo lectura, para
+  `GET /gps`). Los horarios
   de GitHub siguen activos como respaldo (regla del usuario 20-oct-2026).
 - **Token del Worker sin vencimiento** (el usuario lo creó así el 21-oct-2026):
   no hay aviso de renovación en el correo.
@@ -1374,7 +1376,16 @@ Registro:
       - **Término automático**: ha ÷ rendimiento real = ha por día trabajado de
         cada máquina asignada en esa labor (temporada, `v2.trabajo_campo`; sin
         datos, el promedio de la labor); sin asignar, cantidad necesaria ×
-        promedio de la labor. Días de lunes a sábado. **Avance real**: ha del
+        promedio de la labor. **Días (regla del usuario 29-oct-2026)**: días
+        trabajados necesarios = ha ÷ rendimiento (los días sin trabajo no lo
+        bajan), pasados a días de calendario (TODOS, también domingos: la
+        máquina queda en el campo) con el **ritmo real** de la máquina = días
+        trabajados ÷ días en un campo (`flota.json`, 30 días: en cada estadía
+        fuera de CYH, desde su primer hasta su último día trabajado; día
+        trabajado = ≥ 1 h o ≥ 0,1 ha). Varias máquinas: promedio de sus ritmos;
+        con menos de 5 días o sin asignar, el promedio de la labor (o de la
+        flota). Ej. Barredora 1: 13 de 29 días (45 %) → Candelaria 300 ha =
+        35 días trabajados = 79 días en el campo. **Avance real**: ha del
         historial en ese campo y labor desde el inicio (solo los cuarteles
         elegidos, si hay) + ~ha sin geocerca del campo. Con lo que falta y el
         rendimiento, el término se corre solo y avisa "atrasado X días" frente
@@ -1408,6 +1419,29 @@ Registro:
         junto con los pasos de D1): mientras tanto lo guardado queda en el
         aparato ("sin enviar", aviso amarillo) y se envía solo cada 30 s cuando
         el Worker responda.
+  - **GPS al momento en Operación (29-oct-2026)**: el tablero se arma cada 4 h
+    y la sugerencia del Tractor 16 usó su posición de las 07:34 (en camión cerca
+    de Placilla; iba a Alto Calibre). Ahora el Worker (`GET /gps`) consulta a
+    Wialon SOLO PARA LEER (token/login, core/search_items, messages/load_interval,
+    gis_geocode, core/logout) la última posición de las máquinas de
+    `operacion.json` (las camionetas no salen), al abrir la app (y al volver a
+    ella) o con el botón "Actualizar GPS"; **máximo una consulta a Wialon cada
+    2 min** (en ese plazo responde la anterior, guardada en D1 `meta.gps` y en
+    la memoria del Worker). Secreto del Worker **`WIALON_TOKEN`** (token de solo
+    lectura; nunca en la página ni el repositorio). La app calcula el lugar con
+    los contornos publicados (`flota.json` → `patio` = CYH, lo escribe
+    `construir_flota`; `geocercas.json` → campo y campos cercanos) y la comuna
+    con la dirección de Wialon (`comunaDe`, igual que `localidad`). **Siempre
+    se muestra la hora de la posición** ("posición de las 12:40"; sin GPS al
+    momento, la del tablero). **En traslado** (≥ 20 km/h en sus últimos 15 min:
+    camión o camino; trabajando van más lento; ej. Tractor 16 el 29-oct a
+    56–103 km/h): no se sugiere moverla (ni desde la Agenda) hasta que se
+    detenga; sin GPS al momento, tampoco si el tablero la vio "en movimiento"
+    fuera de geocercas. Sale en una línea "🚚 En traslado" en Sugerencias.
+    Sin el Worker nuevo o sin el token, la app sigue con el tablero y lo dice
+    junto al botón.
+  - **La planilla del Drive ya no se usa** (recordado por el usuario el
+    29-oct-2026): la fuente es la página Operación (`operacion.json`).
   - **Historial: "Acotar" con varias casillas (arreglado 29-oct-2026)**: las
     marcas de "Acotar por máquina/campo" se guardan aparte del dibujo
     (`acotarMarcados` en index.html) y la lista solo se vuelve a dibujar si

@@ -14,6 +14,9 @@
 //   PIN_EDICION   PIN unico para guardar desde las paginas (26-oct-2026): todos
 //                 los guardados (confirmar, equivalencias, actualizar, Operacion,
 //                 Agenda) lo piden; sin el PIN correcto no se guarda nada.
+//   WIALON_TOKEN  token de Wialon de SOLO LECTURA (29-oct-2026) para GET /gps: la
+//                 ultima posicion de las maquinas al abrir la app. Nunca sale del
+//                 Worker (la pagina solo recibe las posiciones).
 
 const REPO = 'jpfernandez428/reporte-hectareas';
 
@@ -346,6 +349,93 @@ async function guardarAgenda(datos, env, ctx) {
   return responder(200, { ...(await estadoBase(db)), id });
 }
 
+// ---------------------------------------------------------------------------
+// GPS al momento (pedido del usuario 29-oct-2026): GET /gps devuelve la ultima
+// posicion de las maquinas de la operacion consultando a Wialon SOLO PARA LEER
+// (token/login, core/search_items, messages/load_interval, core/logout, y el
+// buscador de direcciones gis_geocode para la comuna). Una
+// consulta a Wialon cada 2 min como maximo: en ese plazo responde la ultima
+// consulta (guardada en D1 si esta, y en la memoria del Worker). Las camionetas
+// y el camion no salen (la pagina es publica): solo las maquinas de operacion.json.
+// "traslado": en los 15 min antes de su ultima posicion fue a 20 km/h o mas
+// (en camion o por camino; trabajando en el campo van mas lento).
+// ---------------------------------------------------------------------------
+const WIALON = 'https://hst-api.wialon.com/wialon/ajax.html';
+const GPS_CADA_MS = 2 * 60 * 1000;
+const VELOCIDAD_TRASLADO_KMH = 20, MINUTOS_TRASLADO = 15;
+let GPS_MEMORIA = null;
+
+async function wialon(svc, params, sid) {
+  const cuerpo = new URLSearchParams({ svc, params: JSON.stringify(params) });
+  if (sid) cuerpo.set('sid', sid);
+  const r = await fetch(WIALON, { method: 'POST', body: cuerpo });
+  const d = await r.json();
+  if (d && !Array.isArray(d) && d.error) throw new Error(`Wialon respondio error ${d.error} (${svc})`);
+  return d;
+}
+
+async function consultarWialon(env) {
+  const op = await (await fetch(URL_OPERACION_PUBLICADA, { cf: { cacheTtl: 600 } })).json();
+  const maquinas = new Set(Object.keys(op.maquinas || {}));
+  const login = await wialon('token/login', { token: env.WIALON_TOKEN });
+  const sid = login.eid, uid = login.user && login.user.id;
+  try {
+    const d = await wialon('core/search_items', { spec: { itemsType: 'avl_unit', propName: 'sys_name', propValueMask: '*', sortType: 'sys_name' },
+      force: 1, flags: 0x1 | 0x400, from: 0, to: 0 }, sid);
+    const salida = {}, recientes = [], ahora = Date.now() / 1000;
+    for (const it of d.items || []) {
+      const p = it.pos;
+      if (!maquinas.has(it.nm) || !p || !p.t) continue;
+      salida[it.nm] = { t: p.t, lat: p.y, lon: p.x, v: p.s || 0, traslado: (p.s || 0) >= VELOCIDAD_TRASLADO_KMH };
+      if (ahora - p.t < 60 * 60) recientes.push([it.nm, it.id, p.t]);
+    }
+    if (recientes.length) {
+      const lotes = recientes.map(([, id, t]) => ({ svc: 'messages/load_interval',
+        params: { itemId: id, timeFrom: t - MINUTOS_TRASLADO * 60, timeTo: t, flags: 1, flagsMask: 1, loadCount: 500 } }));
+      const res = await wialon('core/batch', { params: lotes, flags: 0 }, sid);
+      (Array.isArray(res) ? res : []).forEach((x, i) => {
+        const vmax = Math.max(0, ...((x && x.messages) || []).map(m => (m.pos && m.pos.s) || 0));
+        const g = salida[recientes[i][0]];
+        g.vmax = vmax; g.traslado = g.traslado || vmax >= VELOCIDAD_TRASLADO_KMH;
+      });
+    }
+    // Direccion de cada posicion (la pagina saca la comuna), todas en una consulta.
+    const nombres = Object.keys(salida);
+    if (uid && nombres.length) {
+      try {
+        const r = await fetch(`https://geocode-maps.wialon.com/${new URL(WIALON).host}/gis_geocode`, { method: 'POST', body: new URLSearchParams({
+          coords: JSON.stringify(nombres.map(n => ({ lon: salida[n].lon, lat: salida[n].lat }))), flags: '1255211008', uid: String(uid) }) });
+        const dirs = await r.json();
+        if (Array.isArray(dirs)) nombres.forEach((n, i) => { if (dirs[i]) salida[n].dir = String(dirs[i]).slice(0, 200); });
+      } catch (e) { /* sin direcciones: la pagina muestra los campos cercanos */ }
+    }
+    return salida;
+  } finally {
+    await wialon('core/logout', {}, sid).catch(() => {});
+  }
+}
+
+async function gpsAlMomento(env) {
+  if (!env.WIALON_TOKEN) return responder(200, { ok: false, error: 'falta el secreto WIALON_TOKEN en Cloudflare' });
+  const db = env.DB ? await base(env).catch(() => null) : null;
+  let ultimo = GPS_MEMORIA;
+  if (db) {
+    const f = await db.prepare("SELECT v FROM meta WHERE k = 'gps'").first().catch(() => null);
+    if (f && f.v) { const x = JSON.parse(f.v); if (!ultimo || x.intento > ultimo.intento) ultimo = x; }
+  }
+  if (ultimo && Date.now() - ultimo.intento < GPS_CADA_MS) {
+    // Ya se consulto hace menos de 2 min: se responde lo de esa consulta.
+    return responder(ultimo.ok ? 200 : 502, { ...ultimo, guardado: true, proxima: ultimo.intento + GPS_CADA_MS });
+  }
+  const intento = Date.now();
+  let r;
+  try { r = { ok: true, intento, consultado: Date.now(), maquinas: await consultarWialon(env) }; }
+  catch (e) { r = { ...(ultimo && ultimo.ok ? ultimo : {}), ok: false, intento, error: String(e.message || e) }; }
+  GPS_MEMORIA = r;
+  if (db) await db.prepare("INSERT OR REPLACE INTO meta (k, v) VALUES ('gps', ?)").bind(JSON.stringify(r)).run().catch(() => {});
+  return responder(r.ok ? 200 : 502, { ...r, guardado: false, proxima: intento + GPS_CADA_MS });
+}
+
 export default {
   async fetch(peticion, env, ctx) {
     const url = new URL(peticion.url);
@@ -364,6 +454,9 @@ export default {
         e.acciones = (await db.prepare('SELECT a.id, a.ts, a.tipo, a.datos, c.ok AS copiado FROM acciones a LEFT JOIN copias c ON c.id = a.id ORDER BY a.ts DESC LIMIT 50').all()).results;
         return responder(200, e);
       } catch (e) { return responder(503, { ok: false, error: 'base de datos: ' + String(e.message || e) }); }
+    }
+    if (peticion.method === 'GET' && url.pathname === '/gps') {
+      try { return await gpsAlMomento(env); } catch (e) { return responder(502, { ok: false, error: String(e.message || e) }); }
     }
     // Prueba a mano (GET /probar?hora=00:30 | 07:30 | 09:00 | planilla): lanza esa tarea al
     // tiro y muestra la respuesta de GitHub. Es inofensivo: la corrida no

@@ -480,12 +480,12 @@ def armar_html_v2(datos, ctx, trabajo, oper):
         lista.append([escape(f["maquina"]), escape(f["operador"] or "–"), f"{campo}<br>{marca(f['estado'], f['texto'])}{gps}",
                       rc.num(f["promedio"], 2) if f["promedio"] else "–", ayer_txt])
     if lista:
-        filas.append(rc.tabla(["Máquina", "Operador", "Campo (planilla)", "Promedio ha/día", "Ayer ha"], lista,
+        filas.append(rc.tabla(["Máquina", "Operador", "Campo (operación)", "Promedio ha/día", "Ayer ha"], lista,
                               ["l", "l", "l", "r", "r"], None, estilos))
     for a in oper["avisos"]:
         filas.append(rc.linea(f'<b style="color:{rc.ROJO};">{escape(a)}</b>', tam=12))
     if oper["no_en_planilla"]:
-        filas.append(rc.linea(f'<b style="color:{rc.ROJO};">Fuera de CYH y no está en la planilla:</b> ' + ", ".join(
+        filas.append(rc.linea(f'<b style="color:{rc.ROJO};">Fuera de CYH y sin campo en la operación:</b> ' + ", ".join(
             f'{escape(x["maquina"])} ({escape(x["texto"])})' + (" – No es de CYH (por revisar)" if x["no_cyh"] else "")
             for x in oper["no_en_planilla"]), tam=12))
     if oper["gps_apagado"]:

@@ -3459,6 +3459,8 @@ def construir_flota(sid, geocercas, patio):
         "alertas_sin_senal": sorted(sin_senal, key=lambda a: -a["horas"]),
         "sin_geocerca_30_dias": agrupar_alertas(alertas, hoy.isoformat()),
         "maquinas": maquinas,
+        # Contorno del patio CYH: la app reconoce "en CYH" con el GPS al momento (29-oct-2026).
+        "patio": [[round(x, 6), round(y, 6)] for x, y in patio["contorno"]] if patio else None,
     }
     with open(RUTA_FLOTA, "w", encoding="utf-8") as f:
         json.dump(flota, f, ensure_ascii=False)
