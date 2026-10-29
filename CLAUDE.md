@@ -1362,8 +1362,52 @@ Registro:
       Operadores y Trabajo por campo siguen en reporte2.html hasta la etapa 3.
       index.html#flota y reporte2.html siguen publicadas hasta la etapa 5 (el
       correo diario enlaza reporte.html, sin cambios).
-    - **Agenda de trabajos** (pedido del usuario 29-oct-2026): va después de
-      la etapa 2 y antes de la 3; mostrarla al usuario antes de dejarla fija.
+    - **Agenda de trabajos (29-oct-2026, EN PRUEBA: mostrarla al usuario antes
+      de dejarla fija; va antes de la etapa 3)**: pestaña "Agenda" de
+      Operación (`docs/app_agenda.js`). Cada trabajo: campo (lista con buscador
+      y "+ Campo nuevo"), labor, inicio, término (automático o a mano),
+      hectáreas o cuarteles (la suma de sus áreas llena las ha), qué se
+      necesita (tipo y cantidad, ej. 2 Barredoras), estado (Por confirmar →
+      Confirmado → En curso → Terminado), notas; máquinas y operadores exactos
+      después (listas con buscador y "+ nuevo"; mientras falten, "por asignar"
+      en amarillo).
+      - **Término automático**: ha ÷ rendimiento real = ha por día trabajado de
+        cada máquina asignada en esa labor (temporada, `v2.trabajo_campo`; sin
+        datos, el promedio de la labor); sin asignar, cantidad necesaria ×
+        promedio de la labor. Días de lunes a sábado. **Avance real**: ha del
+        historial en ese campo y labor desde el inicio (solo los cuarteles
+        elegidos, si hay) + ~ha sin geocerca del campo. Con lo que falta y el
+        rendimiento, el término se corre solo y avisa "atrasado X días" frente
+        al programado. A mano manda sobre el automático.
+      - **En curso automático** (se muestra, no se guarda): confirmado o por
+        confirmar, desde el inicio, con hectáreas en el campo o una máquina
+        asignada vista ahí por el GPS.
+      - Vistas: **Mes** (lunes a domingo, barras con ← → si siguen en otra
+        semana, ‹ ›; azul en curso, verde confirmado, amarillo por confirmar o
+        falta asignar, gris terminado), **Semana** (lista por día; la de entrada
+        en el celular) y **Por máquina** (14 días; máquinas, "por asignar" y
+        operadores; rojo "2+" si están en dos trabajos a la vez). Al tocar:
+        detalle (fechas, ha hechas / programadas, máquinas, operadores) con
+        Editar, Mover fechas, Asignar y Marcar terminado.
+      - **Avisos** (arriba de la Agenda, número en la pestaña y en
+        Sugerencias): parte en 2 días o menos con algo sin asignar, choques de
+        máquina u operador, atrasados. **Sugerencias**: desde el día de inicio,
+        "¿Mover <máquina> a <campo>?" para las asignadas que no están anotadas
+        ahí; "¿Marcar terminado?" con 95 % de las ha o pasada la fecha.
+      - **Correo diario**: sección "Próximos 7 días" al final
+        (`reporte_correo.proximos_7_dias`): trabajos que empiezan o siguen, con
+        lo que falta asignar; no aparece si no hay trabajos y si falla, el
+        correo sale igual (pedido explícito del usuario, aunque el envío diario
+        no se tocaba hasta la etapa 5).
+      - **Guardar** con el PIN: Worker `POST /agenda` (trabajo completo o
+        `{borrar: id}`) → con D1, tabla `agenda` + historial `agenda_cambios`
+        al instante (`/estado` los devuelve; la primera vez se carga
+        `agenda.json` publicado) → copia a GitHub `agenda.yml` → `agenda.py`
+        (`docs/datos/agenda.json`, `agenda_cambios.json`). Sin D1, solo GitHub.
+        **Requiere pegar el `cloudflare/worker.js` nuevo** (lo hace el usuario
+        junto con los pasos de D1): mientras tanto lo guardado queda en el
+        aparato ("sin enviar", aviso amarillo) y se envía solo cada 30 s cuando
+        el Worker responda.
   - **Historial: "Acotar" con varias casillas (arreglado 29-oct-2026)**: las
     marcas de "Acotar por máquina/campo" se guardan aparte del dibujo
     (`acotarMarcados` en index.html) y la lista solo se vuelve a dibujar si

@@ -969,6 +969,49 @@ def linea(texto, tam=13):
             f'line-height:1.45;">{texto}</td></tr>')
 
 
+def proximos_7_dias(hoy):
+    """Agenda de trabajos (docs/datos/agenda.json, pedido del usuario 29-oct-2026):
+    los trabajos que empiezan o siguen en los proximos 7 dias, con lo que falta
+    asignar. Lista de filas HTML; vacia si no hay trabajos o si algo falla (el
+    correo sale igual)."""
+    try:
+        with open(os.path.join(rh.CARPETA_DATOS, "agenda.json"), encoding="utf-8") as f:
+            trabajos = list(json.load(f).get("trabajos", {}).values())
+    except (OSError, ValueError):
+        return []
+    try:
+        hasta = hoy + timedelta(days=6)
+        lineas = []
+        for t in sorted(trabajos, key=lambda x: (x.get("inicio", ""), x.get("campo", ""))):
+            if t.get("estado") == "terminado" or not t.get("inicio"):
+                continue
+            inicio = date.fromisoformat(t["inicio"])
+            fin = date.fromisoformat(t.get("termino") or t.get("termino_previsto") or t["inicio"])
+            if inicio > hasta or fin < hoy:
+                continue
+            necesita = sum(int(x.get("cantidad") or 0) for x in t.get("necesita", []))
+            maq, ops = t.get("maquinas", []), t.get("operadores", [])
+            faltan = [f"{necesita - len(maq)} máquina{'s' if necesita - len(maq) != 1 else ''}" if necesita > len(maq) else "",
+                      f"{max(len(maq), necesita) - len(ops)} operador{'es' if max(len(maq), necesita) - len(ops) != 1 else ''}"
+                      if max(len(maq), necesita) > len(ops) else ""]
+            faltan = " y ".join(x for x in faltan if x) or ("máquinas" if not maq and not necesita else "")
+            cuando = (f"desde {fecha_corta(inicio)}" if inicio >= hoy else "sigue") + f" hasta ~{fecha_corta(fin)}"
+            pide = ", ".join(f'{x["cantidad"]} {escape(x["tipo"])}' for x in t.get("necesita", []))
+            estado = {"por_confirmar": "por confirmar", "confirmado": "confirmado", "en_curso": "en curso"}.get(t.get("estado"), "")
+            lineas.append(linea(
+                f'<b>{escape(t.get("campo", ""))} · {escape(t.get("labor") or "sin labor")}</b> · {cuando} · {estado}'
+                + (f' · {t["ha"]} ha' if t.get("ha") else "")
+                + (f' · {escape(", ".join(maq))}' if maq else (f" · se necesita {pide}" if pide else ""))
+                + (f' · <b style="color:{ROJO};">falta asignar {faltan}</b>' if faltan else "")))
+        if not lineas:
+            return []
+        return [titulo("Próximos 7 días"), *lineas,
+                linea(enlace("Ver la Agenda", URL_PAGINA + "app.html#operacion"), tam=12)]
+    except Exception as e:  # nunca botar el correo por la Agenda
+        print(f"Aviso: no se pudo armar 'Próximos 7 días' de la Agenda: {e}")
+        return []
+
+
 def armar_html_corto(datos):
     """Cuerpo del correo: corto y resumido; cada seccion con "Ver detalle"
     (la pagina reporte.html) y el detalle completo en el PDF adjunto."""
@@ -1095,6 +1138,8 @@ def armar_html_corto(datos):
     else:
         filas.append(linea("Sin trabajo fuera de geocercas en los últimos 7 días."))
     filas.append(boton_detalle("sin-geocerca"))
+
+    filas.extend(proximos_7_dias(ayer + timedelta(days=1)))
 
     filas.append(parrafo("El detalle completo va en el PDF adjunto. Hectáreas sin geocerca: estimadas con el "
                          "rendimiento real de cada máquina (ha por hora en sus cuarteles con geocerca).", tam=11))

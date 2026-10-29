@@ -1,0 +1,62 @@
+name: Guardar la Agenda de trabajos
+
+# Lo lanza el Worker de Cloudflare (POST /agenda, con el PIN correcto) al
+# guardar un trabajo en la Agenda (seccion Operacion de docs/app.html). Con la
+# base D1 del Worker ya quedo guardado al instante; esto deja la copia en
+# docs/datos/agenda.json y el historial en agenda_cambios.json.
+# Reglas en CLAUDE.md ("Agenda de trabajos").
+run-name: Guardar Agenda ${{ inputs.id }}
+on:
+  workflow_dispatch:
+    inputs:
+      trabajo:
+        description: 'JSON del trabajo completo, o {"borrar": id} (lo arma la pagina)'
+        required: true
+      id:
+        description: 'Id del guardado (lo pone la pagina)'
+        required: false
+        default: ''
+      recibido:
+        description: 'Hora en que el Worker recibio el guardado (ms)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+# Sin grupo de concurrencia (como operacion.yml): cada guardado corre, sobre lo
+# ultimo de main, y se rehace si otro paso sube antes.
+jobs:
+  guardar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar librerias
+        run: pip install -r requirements.txt
+
+      - name: Guardar y subir
+        env:
+          TRABAJO: ${{ inputs.trabajo }}
+          ID_GUARDADO: ${{ inputs.id }}
+          RECIBIDO: ${{ inputs.recibido }}
+        run: |
+          git config user.name "Reporte automatico"
+          git config user.email "actions@users.noreply.github.com"
+          for i in 1 2 3 4 5; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            python3 agenda.py guardar
+            git add docs/datos/agenda.json docs/datos/agenda_cambios.json
+            if git diff --staged --quiet; then echo "Sin cambios."; exit 0; fi
+            git commit -q -m "Agenda: cambios desde la pagina"
+            git push -q && exit 0
+            sleep $((10 * i))
+          done
+          exit 1

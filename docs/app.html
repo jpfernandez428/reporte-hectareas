@@ -15,6 +15,7 @@
 <script src="pin.js"></script>
 <script src="menu.js"></script>
 <script src="app_ayer_flota.js"></script>
+<script src="app_agenda.js"></script>
 <style>
   :root { --verde: #2f6f3e; --verde-f: #eaf3ec; --rojo: #b3261e; --rojo-f: #fdecea; --gris: #5f6b64; --borde: #e3e8e5;
           --amarillo-f: #fff4cc; --azul-f: #dfeafd; }
@@ -142,7 +143,8 @@
 // App "Flota C&H" (reorganizacion pedida por el usuario 26-oct-2026): una sola
 // direccion con secciones #operacion, #ayer, #flota, #historial y #ajustes.
 // Etapa 1: Operacion (reemplaza la planilla del Drive, "Maquinas en operacion"
-// de reporte2 y operacion.html). Etapa 2: Ayer y Flota (app_ayer_flota.js).
+// de reporte2 y operacion.html), con la Agenda de trabajos (app_agenda.js).
+// Etapa 2: Ayer y Flota (app_ayer_flota.js).
 // Historial y Ajustes siguen, por ahora, en las paginas actuales (el menu
 // comun lleva a ellas). Reglas en CLAUDE.md.
 // Datos: datos/operacion.json, operacion_cambios.json, operacion_tiempos.json,
@@ -327,6 +329,7 @@ function aviso(texto, error) {
 function usos(tipo) {
   // Cuantas veces aparece cada valor en la foto diaria y en la operacion de hoy.
   const n = {};
+  if (tipo === 'maquina') return n;
   const sumar = v => { if (v && !esTaller(v)) n[v] = (n[v] || 0) + 1; };
   for (const dia of Object.values(FOTO)) for (const x of Object.values(dia)) sumar(tipo === 'campo' ? x.campo : x.operador);
   for (const m of Object.keys(OP.maquinas)) sumar(valorDe(m)[tipo]);
@@ -349,6 +352,10 @@ function opciones(tipo) {
         lista.push({ valor: c, texto: c, extra: eq.length ? '= ' + eq.map(x => (CAMPOS.nombres_lista || {})[x] || x).join(', ') : 'sin geocerca' });
       }
     }
+  } else if (tipo === 'maquina') {
+    // Maquinas activas (Agenda); "+ Máquina nueva…" para una arrendada o sin GPS.
+    for (const u of unidades()) lista.push({ valor: u.maquina, texto: u.maquina, extra: u.labor || '' });
+    return lista;
   } else {
     for (const o of ((V && V.operadores && V.operadores.lista) || [])) lista.push({ valor: o.operador, texto: o.operador, extra: o.otros_nombres.length ? '= ' + o.otros_nombres.join(', ') : '' });
     for (const m of Object.keys(OP.maquinas)) {
@@ -383,7 +390,7 @@ function elegir(tipo, titulo, actual) {
     const capa = document.getElementById('capa');
     const todos = opciones(tipo);
     const top = todos.filter(o => o.usos > 0).sort((a, b) => b.usos - a.usos).slice(0, 6);
-    const nuevoTxt = tipo === 'campo' ? '+ Campo nuevo…' : '+ Operador nuevo…';
+    const nuevoTxt = tipo === 'campo' ? '+ Campo nuevo…' : tipo === 'maquina' ? '+ Máquina nueva…' : '+ Operador nuevo…';
     capa.innerHTML = `<div class="selector-fondo"><div class="selector" role="dialog" aria-label="${esc(titulo)}">
       <header><b>${esc(titulo)}</b><input type="search" placeholder="Buscar…" autocomplete="off"></header>
       <div class="lista"></div><footer><button type="button" class="boton-sec" data-cerrar>Cancelar</button></footer></div></div>`;
@@ -404,7 +411,7 @@ function elegir(tipo, titulo, actual) {
     async function nuevo() {
       let nombre = entrada.value.trim();
       if (!nombre) {
-        caja.innerHTML = `<div class="pregunta">Escribe el nombre ${tipo === 'campo' ? 'del campo' : 'del operador'} arriba y vuelve a tocar "${nuevoTxt}".</div>` + caja.innerHTML;
+        caja.innerHTML = `<div class="pregunta">Escribe el nombre ${tipo === 'campo' ? 'del campo' : tipo === 'maquina' ? 'de la máquina' : 'del operador'} arriba y vuelve a tocar "${nuevoTxt}".</div>` + caja.innerHTML;
         entrada.focus(); return;
       }
       // Si se parece a uno existente, preguntar si es el mismo.
@@ -415,7 +422,7 @@ function elegir(tipo, titulo, actual) {
       if (!candidatos.length) return fin(nombre);
       caja.innerHTML = `<div class="pregunta">«${esc(nombre)}» se parece a ${candidatos.length > 1 ? 'otros nombres' : 'un nombre'} que ya existe. ¿Es el mismo?<br>` +
         candidatos.map(x => `<button type="button" class="si" data-v="${esc(x.o.valor)}">Sí, es ${esc(x.o.texto)}</button>`).join('') +
-        `<button type="button" data-nuevo-ok>No, es ${tipo === 'campo' ? 'un campo' : 'un operador'} nuevo</button></div>`;
+        `<button type="button" data-nuevo-ok>No, es ${tipo === 'campo' ? 'un campo' : tipo === 'maquina' ? 'una máquina' : 'un operador'} nuevo</button></div>`;
     }
     capa.addEventListener('click', ev => {
       if (ev.target.classList.contains('selector-fondo') || ev.target.closest('[data-cerrar]')) return fin(null);
@@ -516,6 +523,11 @@ function sugerencias() {
     if (enCampo && !v.operador && g.trabajo_ayer) {
       lista.push({ m, texto: `${m} trabajó ayer sin operador`, sub: `En ${nombreCampo(v.campo)}`, boton: 'Elegir operador…', fn: b => cambiarOperador(m, b) });
     }
+  }
+  // Agenda: mover las maquinas asignadas el dia de inicio, marcar terminado y sus avisos.
+  if (window.Agenda) {
+    lista.push(...Agenda.sugerencias());
+    for (const a of Agenda.avisos()) lista.push({ m: '', texto: a.texto.replace(/<[^>]+>/g, ''), sub: 'Aviso de la Agenda', boton: 'Ver en la Agenda', fn: () => { UI.pestana = 'agenda'; dibujar(); Agenda.abrir(a.t.id); } });
   }
   return lista;
 }
@@ -675,21 +687,23 @@ function dibujarOperacion() {
   const segP = (k, t) => `<button type="button" class="${UI.pestana === k ? 'activo' : ''}" onclick="UI.pestana='${k}'; dibujar()">${t}</button>`;
   const fb = (k, t) => `<button type="button" class="${UI.filtro === k ? 'activo' : ''}" onclick="UI.filtro='${k}'; dibujar()">${t} (${contarFiltro(k)})</button>`;
   const ancho = innerWidth >= 1000;
-  const cuerpo = UI.pestana === 'sugerencias' ? `<section><h2>Sugerencias del GPS</h2>${vistaSugerencias()}<p class="nota">Se aprueban con un toque (piden el PIN la primera vez en este aparato). Vienen de lo que ve el GPS ahora: máquina vista en otro campo, en CYH estando anotada en un campo, o trabajando sin operador.</p></section>`
+  const nAg = window.Agenda ? Agenda.avisos().length : 0;
+  const cuerpo = UI.pestana === 'agenda' && window.Agenda ? Agenda.html()
+    : UI.pestana === 'sugerencias' ? `<section><h2>Sugerencias del GPS</h2>${vistaSugerencias()}<p class="nota">Se aprueban con un toque (piden el PIN la primera vez en este aparato). Vienen de lo que ve el GPS ahora (máquina vista en otro campo, en CYH estando anotada en un campo, o trabajando sin operador) y de la Agenda (mover las máquinas el día de inicio, marcar terminado, avisos).</p></section>`
     : UI.vista === 'tabla' ? vistaTabla()
     : `<div class="op-layout"><div>${vistaPorCampo()}</div>${ancho ? `<div class="panel-lateral"><section>${panelMaquina(UI.sel)}</section><section><h2>Sugerencias del GPS (${s})</h2>${vistaSugerencias()}</section></div>` : ''}</div>`;
   return `<h1>Operación</h1><div class="sub">¿Quién va a dónde? · Guardado por última vez: ${esc(OP.actualizado || '')}${D1 ? ' · al instante (Cloudflare)' : ''}${V && V.actualizado ? ' · GPS de ' + esc(V.actualizado) : ''}</div>
     <div id="avisoCF"></div>
     <div class="barra-op">
-      <span class="seg">${segP('maquinas', 'Máquinas')}${segP('sugerencias', `Sugerencias${s ? `<span class="cuenta">${s}</span>` : ''}`)}</span>
+      <span class="seg">${segP('maquinas', 'Máquinas')}${segP('agenda', `Agenda${nAg ? `<span class="cuenta">${nAg}</span>` : ''}`)}${segP('sugerencias', `Sugerencias${s ? `<span class="cuenta">${s}</span>` : ''}`)}</span>
       ${UI.pestana === 'maquinas' ? `<span class="seg">${segV('campo', 'Por campo')}${segV('tabla', 'Tabla')}</span>` : ''}
-      <button type="button" class="boton-sec" onclick="descargarExcel()">Descargar Excel</button>
+      ${UI.pestana !== 'agenda' ? '<button type="button" class="boton-sec" onclick="descargarExcel()">Descargar Excel</button>' : ''}
       ${UI.vista !== 'tabla' || UI.pestana !== 'maquinas' ? '<span id="msg"></span>' : ''}
     </div>
     ${UI.pestana === 'maquinas' ? `<div class="barra-op"><input class="buscador" type="search" placeholder="Buscar máquina, operador o campo" value="${esc(UI.q)}" oninput="UI.q = this.value; redibujarLista()"></div>
       <div class="filtros">${fb('todas', 'Todas')}${fb('campo', 'En campo')}${fb('taller', 'En taller')}${fb('sinop', 'Sin operador')}</div>` : ''}
     <div id="vistaOp">${cuerpo}</div>
-    ${historial()}`;
+    ${UI.pestana === 'agenda' ? '' : historial()}`;
 }
 function redibujarLista() {
   const caja = document.getElementById('vistaOp');
@@ -792,6 +806,7 @@ function aplicarEstado(e) {
   D1 = true; VERSION = e.version;
   OP = { ...(OP || {}), maquinas: e.maquinas, actualizado: e.actualizado || (OP && OP.actualizado) };
   CAMBIOS_D1 = (e.cambios || []).map(c => ({ fecha: fechaChile(c.ts), maquina: c.maquina, cambio: c.cambio, antes: c.antes, despues: c.despues, id: c.guardado, ts: c.ts }));
+  if (window.Agenda) Agenda.desdeD1(e);
 }
 const fechaChile = ts => new Intl.DateTimeFormat('es-CL', { timeZone: 'America/Santiago', day: '2-digit', month: '2-digit', year: 'numeric',
   hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date(ts)).replace(/\//g, '-').replace(',', '');
@@ -809,9 +824,11 @@ setInterval(async () => {
 
 async function cargar(soloOperacion) {
   const leer = (u, def) => fetch(u + '?x=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : def).catch(() => def);
-  const [op, cambios, tiempos, v2, campos, foto] = await Promise.all([leer('datos/operacion.json', null), leer('datos/operacion_cambios.json', []),
+  const [op, cambios, tiempos, v2, campos, foto, agenda, agendaCambios] = await Promise.all([leer('datos/operacion.json', null), leer('datos/operacion_cambios.json', []),
     leer('datos/operacion_tiempos.json', []), soloOperacion && V ? { v2: V } : leer('datos/reporte_v2.json', {}),
-    soloOperacion && CAMPOS.campos.length ? CAMPOS : leer('datos/campos.json', {}), soloOperacion ? { dias: FOTO } : leer('datos/operadores.json', {})]);
+    soloOperacion && CAMPOS.campos.length ? CAMPOS : leer('datos/campos.json', {}), soloOperacion ? { dias: FOTO } : leer('datos/operadores.json', {}),
+    leer('datos/agenda.json', null), leer('datos/agenda_cambios.json', [])]);
+  if (window.Agenda) Agenda.desdePublicado(agenda, agendaCambios);
   if (!op) { if (!OP) document.getElementById('app').innerHTML = '<div class="vacio">Todavía no se carga la operación.</div>'; return; }
   OP = op; CAMBIOS = cambios || []; TIEMPOS = tiempos || []; V = (v2 && v2.v2) || V; CAMPOS = campos || CAMPOS; FOTO = (foto && foto.dias) || {};
   if (!soloOperacion && v2 && v2.resumen) FULL = v2;

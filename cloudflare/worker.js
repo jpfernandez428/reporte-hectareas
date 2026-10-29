@@ -12,8 +12,8 @@
 //   GITHUB_TOKEN  token fine-grained solo del repositorio reporte-hectareas,
 //                 permiso Actions: Read and write.
 //   PIN_EDICION   PIN unico para guardar desde las paginas (26-oct-2026): todos
-//                 los guardados (confirmar, equivalencias, actualizar, Operacion)
-//                 lo piden; sin el PIN correcto no se guarda nada.
+//                 los guardados (confirmar, equivalencias, actualizar, Operacion,
+//                 Agenda) lo piden; sin el PIN correcto no se guarda nada.
 
 const REPO = 'jpfernandez428/reporte-hectareas';
 
@@ -161,6 +161,8 @@ async function base(env) {
       env.DB.prepare('CREATE TABLE IF NOT EXISTS cambios (n INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER, guardado TEXT, maquina TEXT, cambio TEXT, antes TEXT, despues TEXT)'),
       env.DB.prepare('CREATE TABLE IF NOT EXISTS copias (id TEXT PRIMARY KEY, ts INTEGER, workflow TEXT, inputs TEXT, intentos INTEGER DEFAULT 0, ok INTEGER DEFAULT 0, error TEXT)'),
       env.DB.prepare('CREATE TABLE IF NOT EXISTS acciones (id TEXT PRIMARY KEY, ts INTEGER, tipo TEXT, datos TEXT)'),
+      env.DB.prepare('CREATE TABLE IF NOT EXISTS agenda (id TEXT PRIMARY KEY, datos TEXT, ts INTEGER)'),
+      env.DB.prepare('CREATE TABLE IF NOT EXISTS agenda_cambios (n INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER, guardado TEXT, trabajo TEXT, cambio TEXT, antes TEXT, despues TEXT)'),
     ]);
     const sembrado = await env.DB.prepare("SELECT v FROM meta WHERE k = 'sembrado'").first();
     if (!sembrado) {
@@ -176,6 +178,15 @@ async function base(env) {
         env.DB.prepare("INSERT OR REPLACE INTO meta (k, v) VALUES ('actualizado', ?)").bind(op.actualizado || ''),
         env.DB.prepare("INSERT OR REPLACE INTO meta (k, v) VALUES ('sembrado', ?)").bind(String(Date.now()))]);
     }
+    const agendaSembrada = await env.DB.prepare("SELECT v FROM meta WHERE k = 'agenda_sembrada'").first();
+    if (!agendaSembrada) {
+      // Primera vez con la Agenda: los trabajos publicados en GitHub pasan a la base.
+      const r = await fetch(URL_AGENDA_PUBLICADA + '?x=' + Date.now(), { cf: { cacheTtl: 0 } });
+      const ag = r.ok ? await r.json() : { trabajos: {} };
+      const filas = Object.values(ag.trabajos || {}).map(t => env.DB.prepare('INSERT OR REPLACE INTO agenda (id, datos, ts) VALUES (?, ?, ?)')
+        .bind(t.id, JSON.stringify(t), Date.now()));
+      await env.DB.batch([...filas, env.DB.prepare("INSERT OR REPLACE INTO meta (k, v) VALUES ('agenda_sembrada', ?)").bind(String(Date.now()))]);
+    }
     BASE_LISTA = true;
   }
   return env.DB;
@@ -185,17 +196,20 @@ const horaChileLarga = t => new Intl.DateTimeFormat('es-CL', { timeZone: 'Americ
   hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date(t)).replace(/\//g, '-').replace(',', '');
 
 async function estadoBase(db) {
-  const [filas, v, act, cambios, pend] = await Promise.all([
+  const [filas, v, act, cambios, pend, agenda, agendaCambios] = await Promise.all([
     db.prepare('SELECT * FROM operacion').all(),
     db.prepare("SELECT v FROM meta WHERE k = 'version'").first(),
     db.prepare("SELECT v FROM meta WHERE k = 'actualizado'").first(),
     db.prepare('SELECT ts, guardado, maquina, cambio, antes, despues FROM cambios ORDER BY n DESC LIMIT 100').all(),
     db.prepare('SELECT COUNT(*) AS n FROM copias WHERE ok = 0').first(),
+    db.prepare('SELECT datos FROM agenda').all(),
+    db.prepare('SELECT ts, guardado, trabajo, cambio, antes, despues FROM agenda_cambios ORDER BY n DESC LIMIT 100').all(),
   ]);
   const maquinas = {};
   for (const f of filas.results) maquinas[f.maquina] = Object.fromEntries(CAMPOS_FILA.map(k => [k, f[k] || '']));
   return { ok: true, d1: true, version: Number((v && v.v) || 0), actualizado: (act && act.v) || '', maquinas,
-           cambios: cambios.results, copias_pendientes: (pend && pend.n) || 0 };
+           cambios: cambios.results, copias_pendientes: (pend && pend.n) || 0,
+           agenda: agenda.results.map(r => JSON.parse(r.datos)), agenda_cambios: agendaCambios.results };
 }
 
 // Copias a GitHub pendientes (se reintentan en cada consulta, como maximo 1 por minuto cada una).
@@ -266,6 +280,72 @@ async function guardarOperacion(datos, env, ctx) {
   return responder(200, { ...(await estadoBase(db)), id });
 }
 
+// ---------------------------------------------------------------------------
+// Agenda de trabajos (pedido del usuario 29-oct-2026): la pagina manda el
+// trabajo completo (crear o editar) o {borrar: id}. Con D1 queda al instante,
+// con su historial de cambios; la copia a GitHub va por agenda.yml (agenda.py).
+// ---------------------------------------------------------------------------
+const URL_AGENDA_PUBLICADA = 'https://jpfernandez428.github.io/reporte-hectareas/datos/agenda.json';
+const ESTADOS_AGENDA = ['por_confirmar', 'confirmado', 'en_curso', 'terminado'];
+const NOMBRES_AGENDA = { campo: 'Campo', labor: 'Labor', inicio: 'Inicio', termino: 'Término (a mano)', ha: 'Hectáreas',
+  cuarteles: 'Cuarteles', necesita: 'Qué se necesita', estado: 'Estado', notas: 'Notas', maquinas: 'Máquinas', operadores: 'Operadores' };
+const textoCorto = (v, largo) => String(v ?? '').replace(/\s+/g, ' ').trim().slice(0, largo);
+const fechaOk = v => !v || /^\d{4}-\d{2}-\d{2}$/.test(v);
+// Trabajo limpio (mismas reglas que agenda.py) o null si no sirve.
+function limpiarTrabajo(t) {
+  if (!t || typeof t !== 'object' || !/^[a-z0-9]{6,30}$/.test(String(t.id || ''))) return null;
+  const lista = (v, largo) => (Array.isArray(v) ? v : []).slice(0, 30).map(x => textoCorto(x, largo)).filter(Boolean);
+  const r = {
+    id: String(t.id), campo: textoCorto(t.campo, 80), labor: textoCorto(t.labor, 60),
+    inicio: textoCorto(t.inicio, 10), termino: textoCorto(t.termino, 10), termino_previsto: textoCorto(t.termino_previsto, 10),
+    ha: textoCorto(t.ha, 10), cuarteles: lista(t.cuarteles, 80),
+    necesita: (Array.isArray(t.necesita) ? t.necesita : []).slice(0, 10).map(x => ({ tipo: textoCorto(x && x.tipo, 40), cantidad: Math.max(1, Math.min(50, parseInt(x && x.cantidad, 10) || 1)) })).filter(x => x.tipo),
+    estado: ESTADOS_AGENDA.includes(t.estado) ? t.estado : 'por_confirmar', notas: textoCorto(t.notas, 1000),
+    maquinas: lista(t.maquinas, 80), operadores: lista(t.operadores, 80), creado: textoCorto(t.creado, 20),
+  };
+  if (!r.campo || !r.inicio || !fechaOk(r.inicio) || !fechaOk(r.termino) || !fechaOk(r.termino_previsto)) return null;
+  if (r.ha && !/^\d{1,5}([.,]\d{1,2})?$/.test(r.ha)) return null;
+  return r;
+}
+const textoAgenda = (k, v) => Array.isArray(v) ? (k === 'necesita' ? v.map(x => `${x.cantidad} ${x.tipo}`).join(', ') : v.join(', ')) : String(v || '');
+
+async function guardarAgenda(datos, env, ctx) {
+  const id = /^[a-z0-9]{8,40}$/.test(String(datos.id || '')) ? String(datos.id) : 'a' + Date.now().toString(36);
+  const borrar = datos.borrar ? String(datos.borrar) : '';
+  const trabajo = borrar ? null : limpiarTrabajo(datos.trabajo);
+  if (borrar ? !/^[a-z0-9]{6,30}$/.test(borrar) : !trabajo) return responder(400, { error: 'trabajo' });
+  const recibido = Date.now();
+  const copia = { workflow: 'agenda.yml', inputs: { trabajo: borrar ? JSON.stringify({ borrar }) : JSON.stringify(trabajo), id, recibido: String(recibido) } };
+  let db = null;
+  try { db = await base(env); } catch (e) { db = null; }
+  if (!db) {
+    await lanzar(env, copia);
+    return responder(200, { ok: true, d1: false });
+  }
+  const tid = borrar || trabajo.id;
+  const fila = await db.prepare('SELECT datos FROM agenda WHERE id = ?').bind(tid).first();
+  const antes = fila ? JSON.parse(fila.datos) : null;
+  const nombre = t => `${t.campo} · ${t.labor || 'sin labor'}`;
+  const sentencias = [];
+  const anotar = (cambio, a, d) => sentencias.push(db.prepare('INSERT INTO agenda_cambios (ts, guardado, trabajo, cambio, antes, despues) VALUES (?, ?, ?, ?, ?, ?)')
+    .bind(recibido, id, nombre(trabajo || antes || { campo: tid }), cambio, a, d));
+  if (borrar) {
+    if (antes) { anotar('Borrado', nombre(antes), ''); sentencias.push(db.prepare('DELETE FROM agenda WHERE id = ?').bind(tid)); }
+  } else {
+    if (!antes) anotar('Creado', '', `${trabajo.inicio}${trabajo.ha ? ' · ' + trabajo.ha + ' ha' : ''}`);
+    else for (const k of Object.keys(NOMBRES_AGENDA)) {
+      const a = textoAgenda(k, antes[k]), d = textoAgenda(k, trabajo[k]);
+      if (a !== d) anotar(NOMBRES_AGENDA[k], a, d);
+    }
+    sentencias.push(db.prepare('INSERT OR REPLACE INTO agenda (id, datos, ts) VALUES (?, ?, ?)').bind(trabajo.id, JSON.stringify(trabajo), recibido));
+  }
+  sentencias.push(db.prepare("UPDATE meta SET v = CAST(CAST(v AS INTEGER) + 1 AS TEXT) WHERE k = 'version'"));
+  sentencias.push(db.prepare('INSERT OR REPLACE INTO copias (id, ts, workflow, inputs) VALUES (?, ?, ?, ?)').bind(id, recibido, copia.workflow, JSON.stringify(copia.inputs)));
+  await db.batch(sentencias);
+  ctx.waitUntil(copiarPendientes(env, db, id));
+  return responder(200, { ...(await estadoBase(db)), id });
+}
+
 export default {
   async fetch(peticion, env, ctx) {
     const url = new URL(peticion.url);
@@ -302,7 +382,7 @@ export default {
       }
     }
     // Guardados desde las paginas: solo desde la pagina publicada y con el PIN.
-    if (peticion.method === 'POST' && ['/confirmar', '/planilla', '/operacion'].includes(url.pathname)) {
+    if (peticion.method === 'POST' && ['/confirmar', '/planilla', '/operacion', '/agenda'].includes(url.pathname)) {
       if ((peticion.headers.get('Origin') || '') !== ORIGEN_PAGINA) return responder(403, { error: 'origen' });
       const datos = await leerCuerpo(peticion);
       if (!datos) return responder(400, { error: 'JSON invalido' });
@@ -311,6 +391,7 @@ export default {
       try {
         if (url.pathname === '/confirmar') return await confirmar(datos, env, ctx);
         if (url.pathname === '/operacion') return await guardarOperacion(datos, env, ctx);
+        if (url.pathname === '/agenda') return await guardarAgenda(datos, env, ctx);
         // Boton "Actualizar" de reporte2.html: rearma con la pagina Operacion.
         await lanzar(env, { workflow: 'planilla.yml', inputs: { origen: 'boton' } });
         return responder(200, { ok: true });
