@@ -14,6 +14,7 @@
 <link rel="icon" type="image/png" href="icono-192.png">
 <script src="pin.js"></script>
 <script src="menu.js"></script>
+<script src="app_ayer_flota.js"></script>
 <style>
   :root { --verde: #2f6f3e; --verde-f: #eaf3ec; --rojo: #b3261e; --rojo-f: #fdecea; --gris: #5f6b64; --borde: #e3e8e5;
           --amarillo-f: #fff4cc; --azul-f: #dfeafd; }
@@ -141,8 +142,9 @@
 // App "Flota C&H" (reorganizacion pedida por el usuario 26-oct-2026): una sola
 // direccion con secciones #operacion, #ayer, #flota, #historial y #ajustes.
 // Etapa 1: Operacion (reemplaza la planilla del Drive, "Maquinas en operacion"
-// de reporte2 y operacion.html). Las demas secciones siguen, por ahora, en las
-// paginas actuales (el menu comun lleva a ellas). Reglas en CLAUDE.md.
+// de reporte2 y operacion.html). Etapa 2: Ayer y Flota (app_ayer_flota.js).
+// Historial y Ajustes siguen, por ahora, en las paginas actuales (el menu
+// comun lleva a ellas). Reglas en CLAUDE.md.
 // Datos: datos/operacion.json, operacion_cambios.json, operacion_tiempos.json,
 // reporte_v2.json (GPS, maquinas activas, operadores, Desde automatico),
 // campos.json (campos de Wialon y equivalencias) y operadores.json (foto diaria).
@@ -307,7 +309,7 @@ async function vigilar() {
         } catch (e) { /* sin API: se sigue esperando */ }
       }
       escribirLS(CLAVE_PEND, PEND);
-      if (!escribiendo()) dibujar();
+      if (!escribiendo() && seccion() === 'operacion') dibujar();
       const malos = RES.filter(x => !x.ok && vigilados.has(x.id));
       if (malos.length) aviso('No se guardó: ' + malos.map(x => x.error).join(', '), true);
       else if (!PEND.length) aviso('✓ Guardado.', false);
@@ -705,8 +707,25 @@ function abrirHoja(m) {
 }
 function cerrarHoja() { UI.sel = null; document.getElementById('capa').innerHTML = ''; }
 
+// Ayer y Flota se vuelven a dibujar solo si cambiaron sus datos o se entro a la
+// seccion (asi no se cierra lo desplegado); Operacion, siempre.
+let pintado = '';
 function dibujar() {
-  const app = document.getElementById('app');
+  const app = document.getElementById('app'), sec = seccion();
+  if (sec === 'ayer' || sec === 'flota') {
+    const datos = sec === 'ayer' ? FULL : FLOTA;
+    if (sec === 'flota' && !FLOTA) { if (pintado !== 'flota:cargando') { pintado = 'flota:cargando'; app.innerHTML = '<div class="vacio">Cargando la flota…</div>'; cargarFlota().then(dibujar); } return; }
+    if (sec === 'ayer' && !FULL) { app.innerHTML = '<div class="vacio">Cargando…</div>'; return; }
+    const firma = sec + ':' + (sec === 'ayer' ? (FULL.v2 && FULL.v2.actualizado) + '|' + FULL.generado : FLOTA.actualizado);
+    if (firma === pintado) return;
+    pintado = firma;
+    const modulo = sec === 'ayer' ? window.SeccionAyer : window.SeccionFlota;
+    if (sec === 'ayer') modulo._full = FULL;
+    app.innerHTML = modulo.html(datos);
+    modulo.despues(app);
+    return;
+  }
+  pintado = '';
   if (!OP) return;
   app.innerHTML = dibujarOperacion();
   avisoCF(false);
@@ -785,7 +804,7 @@ async function leerD1(ruta) {
 setInterval(async () => {
   if (!D1 || document.visibilityState !== 'visible' || escribiendo() || document.querySelector('#capa .selector')) return;
   const v = await leerD1('/version');
-  if (v && v.d1 && v.version !== VERSION) { aplicarEstado(await leerD1('/estado')); dibujar(); }
+  if (v && v.d1 && v.version !== VERSION) { aplicarEstado(await leerD1('/estado')); if (seccion() === 'operacion') dibujar(); }
 }, 3000);
 
 async function cargar(soloOperacion) {
@@ -795,24 +814,42 @@ async function cargar(soloOperacion) {
     soloOperacion && CAMPOS.campos.length ? CAMPOS : leer('datos/campos.json', {}), soloOperacion ? { dias: FOTO } : leer('datos/operadores.json', {})]);
   if (!op) { if (!OP) document.getElementById('app').innerHTML = '<div class="vacio">Todavía no se carga la operación.</div>'; return; }
   OP = op; CAMBIOS = cambios || []; TIEMPOS = tiempos || []; V = (v2 && v2.v2) || V; CAMPOS = campos || CAMPOS; FOTO = (foto && foto.dias) || {};
+  if (!soloOperacion && v2 && v2.resumen) FULL = v2;
   // La operacion al instante viene de Cloudflare (D1); si no responde, queda lo publicado en GitHub.
   const e = await leerD1('/estado');
   if (e && e.d1) aplicarEstado(e); else D1 = false;
 }
-const SECCIONES_FUERA = { ayer: 'reporte2.html', flota: 'index.html#flota', historial: 'index.html', ajustes: 'reporte2.html#equivalencias' };
+// Ayer (reporte_v2.json completo) y Flota (flota.json, se baja al entrar a Flota).
+let FULL = null, FLOTA = null;
+async function cargarFlota() {
+  try { const r = await fetch('datos/flota.json?x=' + Date.now(), { cache: 'no-store' }); if (r.ok) FLOTA = await r.json(); } catch (e) { /* sin red: queda lo anterior */ }
+  if (!FLOTA) FLOTA = null;
+}
+const SECCIONES_FUERA = { historial: 'index.html', ajustes: 'reporte2.html#equivalencias' };
+const SECCIONES = ['operacion', 'ayer', 'flota'];
+const seccion = () => { const s = (location.hash || '#operacion').slice(1); return SECCIONES.includes(s) ? s : 'operacion'; };
 function ruta() {
   const s = (location.hash || '#operacion').slice(1);
   if (SECCIONES_FUERA[s]) { location.replace(SECCIONES_FUERA[s]); return false; }
   return true;
 }
-window.addEventListener('hashchange', () => { if (ruta()) dibujar(); });
+window.addEventListener('hashchange', () => { if (ruta()) { cerrarHoja(); dibujar(); window.scrollTo(0, 0); } });
+// Ayer y Flota se actualizan solas cada 5 min con la app abierta (y al volver a la app).
+async function refrescarSeccion() {
+  const sec = seccion();
+  if (document.visibilityState !== 'visible') return;
+  if (sec === 'flota') { await cargarFlota(); dibujar(); }
+  else if (sec === 'ayer') { const r = await fetch('datos/reporte_v2.json?x=' + Date.now(), { cache: 'no-store' }).then(x => x.ok ? x.json() : null).catch(() => null); if (r && r.resumen) { FULL = r; V = r.v2 || V; } dibujar(); }
+}
+setInterval(refrescarSeccion, 5 * 60 * 1000);
+document.addEventListener('visibilitychange', refrescarSeccion);
 // Solo se redibuja al cruzar el ancho del computador (el teclado del celular tambien cambia el alto).
 let eraAncho = innerWidth >= 1000;
 window.addEventListener('resize', () => { const a = innerWidth >= 1000; if (OP && a !== eraAncho) { eraAncho = a; dibujar(); } });
 const escribiendo = () => { const f = document.activeElement; return f && /INPUT|SELECT|TEXTAREA/.test(f.tagName); };
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 if (ruta()) cargar().then(() => { dibujar(); if (PEND.length) vigilar(); });
-setInterval(() => { if (OP && document.visibilityState === 'visible' && !vigilando && !escribiendo() && !document.querySelector('#capa .selector')) dibujar(); }, 60000);
+setInterval(() => { if (OP && seccion() === 'operacion' && document.visibilityState === 'visible' && !vigilando && !escribiendo() && !document.querySelector('#capa .selector')) dibujar(); }, 60000);
 </script>
 </body>
 </html>

@@ -5,19 +5,20 @@
 // (mismo sitio), asi que en el celular no se sale de la app.
 (function () {
   // Reorganizacion (26-oct-2026): una sola app con 5 secciones. Mientras se
-  // construyen por etapas, Ayer, Flota, Historial y Ajustes llevan a las
-  // paginas actuales (reporte2.html e index.html).
+  // construyen por etapas, Historial y Ajustes llevan a las paginas actuales
+  // (index.html y reporte2.html); Operacion, Ayer y Flota ya estan en app.html.
   const ITEMS = [
     { id: 'operacion', texto: 'Operación', href: 'app.html#operacion' },
-    { id: 'ayer', texto: 'Ayer', href: 'reporte2.html' },
-    { id: 'flota', texto: 'Flota (GPS)', href: 'index.html#flota' },
+    { id: 'ayer', texto: 'Ayer', href: 'app.html#ayer' },
+    { id: 'flota', texto: 'Flota (GPS)', href: 'app.html#flota' },
     { id: 'historial', texto: 'Historial', href: 'index.html' },
     { id: 'ajustes', texto: 'Ajustes', href: 'reporte2.html#equivalencias' },
   ];
   const pagina = () => (location.pathname.split('/').pop() || 'index.html');
   function actual() {
     const p = pagina(), h = location.hash;
-    if (p === 'app.html' || p === 'operacion.html') return 'operacion';
+    if (p === 'app.html') return ['#ayer', '#flota', '#historial', '#ajustes'].includes(h) ? h.slice(1) : 'operacion';
+    if (p === 'operacion.html') return 'operacion';
     if (p === 'reporte2.html') return h === '#equivalencias' ? 'ajustes' : 'ayer';
     if (p === 'index.html') return h === '#flota' ? 'flota' : 'historial';
     return '';
@@ -72,7 +73,11 @@
       const destino = a.getAttribute('href').split('#'), mismaPagina = destino[0] === pagina();
       if (!mismaPagina) return;
       ev.preventDefault();
-      if (pagina() === 'index.html' && typeof window.mostrarVista === 'function') {
+      if (pagina() === 'app.html') {
+        // Secciones de la app: el cambio de #seccion lo dibuja app.html (hashchange).
+        if (location.hash !== '#' + destino[1]) location.hash = destino[1];
+        window.scrollTo(0, 0);
+      } else if (pagina() === 'index.html' && typeof window.mostrarVista === 'function') {
         window.mostrarVista(destino[1] === 'flota' ? 'flota' : 'reporte');
       } else if (destino[1]) {
         const el = document.getElementById(destino[1]);

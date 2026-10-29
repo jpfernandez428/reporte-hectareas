@@ -3,10 +3,10 @@
 // Siempre intenta la red primero; sin red responde lo guardado (los datos con
 // el encabezado X-Desde-Cache para que la pagina avise "sin conexion").
 // Solo maneja estos archivos: el resto (index.html, mapas, etc.) pasa directo.
-const CACHE_APP = 'flota-app-v5';
+const CACHE_APP = 'flota-app-v6';
 const CACHE_DATOS = 'flota-datos-v2';
-const APP = ['app.html', 'reporte2.html', 'operacion.html', 'pin.js', 'menu.js', 'manifest.webmanifest', 'icono-192.png', 'icono-512.png', 'apple-touch-icon.png'];
-const DATOS = ['datos/reporte_v2.json', 'datos/campos.json', 'datos/confirmaciones.json', 'datos/operacion.json', 'datos/operacion_cambios.json', 'datos/operacion_tiempos.json', 'datos/operadores.json'];
+const APP = ['app.html', 'reporte2.html', 'operacion.html', 'pin.js', 'menu.js', 'app_ayer_flota.js', 'manifest.webmanifest', 'icono-192.png', 'icono-512.png', 'apple-touch-icon.png'];
+const DATOS = ['datos/reporte_v2.json', 'datos/campos.json', 'datos/confirmaciones.json', 'datos/operacion.json', 'datos/operacion_cambios.json', 'datos/operacion_tiempos.json', 'datos/operadores.json', 'datos/flota.json'];
 
 self.addEventListener('install', ev => {
   ev.waitUntil(caches.open(CACHE_APP).then(c => c.addAll(APP)).then(() => self.skipWaiting()));

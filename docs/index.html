@@ -468,6 +468,11 @@ function tablaAvance(filas, umbral) {
 const sinTildes = t => t.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 let modoFiltro = 'maquina';
 let listaMaquinas = [], listaCampos = [];  // [{valor, texto, busqueda}]
+// Marcas de "Acotar", guardadas aparte del dibujo: una opcion que desaparece
+// un momento (ej. al cambiar las fechas) vuelve marcada, y marcar una casilla
+// no vuelve a dibujar la lista (asi no se pierden las otras marcas).
+const acotarMarcados = new Set();
+let firmaAcotar = null;
 
 function poblarFiltroMaquinas() {
   listaMaquinas = [...new Set(datos.map(d => d.maquina))]
@@ -497,7 +502,14 @@ function poblarFiltroMaquinas() {
 
 const casilla = (tipo, o, marcado) =>
   `<label class="opcion" data-busqueda="${escaparXml(o.busqueda)}" style="display:block;font-weight:normal;font-size:13px;padding:2px 0;">` +
-  `<input type="checkbox" data-tipo="${tipo}" value="${escaparXml(o.valor)}"${marcado ? ' checked' : ''} onchange="aplicarFiltros()"> ${escaparXml(o.texto)}</label>`;
+  `<input type="checkbox" data-tipo="${tipo}" value="${escaparXml(o.valor)}"${marcado ? ' checked' : ''} onchange="cambioCasilla(this)"> ${escaparXml(o.texto)}</label>`;
+
+function cambioCasilla(caja) {
+  if (caja.closest('#filtroAcotarBox')) {
+    if (caja.checked) acotarMarcados.add(caja.value); else acotarMarcados.delete(caja.value);
+  }
+  aplicarFiltros();
+}
 
 function dibujarListaPrincipal() {
   const lista = modoFiltro === 'maquina' ? listaMaquinas : listaCampos;
@@ -509,6 +521,7 @@ function dibujarListaPrincipal() {
 
 function cambiarModoFiltro(modo) {
   modoFiltro = modo;
+  acotarMarcados.clear();
   document.querySelectorAll('#modoFiltro button').forEach(b => b.classList.toggle('activo', b.dataset.modo === modo));
   dibujarListaPrincipal();  // al cambiar de modo se parte de cero
   aplicarFiltros();
@@ -520,9 +533,12 @@ function dibujarAcotar() {
   const otro = modoFiltro === 'maquina' ? 'campo' : 'maquina';
   const principales = [...document.querySelectorAll(`#filtroMaquinaBox input[data-tipo=${modoFiltro}]:checked`)].map(c => c.value);
   const caja = document.getElementById('filtroAcotar');
-  if (!principales.length) { caja.hidden = true; document.getElementById('filtroAcotarBox').innerHTML = ''; return; }
-  const marcados = new Set([...document.querySelectorAll(`#filtroAcotarBox input:checked`)].map(c => c.value));
+  if (!principales.length) { caja.hidden = true; document.getElementById('filtroAcotarBox').innerHTML = ''; firmaAcotar = null; return; }
   const desde = document.getElementById('filtroDesde').value, hasta = document.getElementById('filtroHasta').value;
+  // Solo se vuelve a dibujar si cambio lo que define la lista (no al marcar en ella).
+  const firma = JSON.stringify([modoFiltro, principales, desde, hasta]);
+  if (firma === firmaAcotar) return;
+  firmaAcotar = firma;
   const presentes = new Set();
   for (const d of datos) {
     if ((desde && d.fecha < desde) || (hasta && d.fecha > hasta)) continue;
@@ -534,8 +550,10 @@ function dibujarAcotar() {
   caja.hidden = false;
   document.getElementById('filtroAcotarTitulo').textContent = otro === 'maquina'
     ? `Acotar por máquina (${lista.length} trabajaron ahí):` : `Acotar por campo (${lista.length} donde trabajó):`;
-  document.getElementById('filtroAcotarBox').innerHTML = lista.map(o => casilla(otro, o, marcados.has(o.valor))).join('')
+  const box = document.getElementById('filtroAcotarBox'), scroll = box.scrollTop;
+  box.innerHTML = lista.map(o => casilla(otro, o, acotarMarcados.has(o.valor))).join('')
     || '<span style="font-size:12px;color:#888;">Sin trabajo en esas fechas.</span>';
+  box.scrollTop = scroll;
 }
 
 function filtrarListaMaquinas() {
@@ -548,7 +566,10 @@ function filtrarListaMaquinas() {
 function marcarTodas(valor) {
   // "Todas" marca toda la lista principal; "Ninguna" desmarca todo.
   document.querySelectorAll('#filtroMaquinaBox input[type=checkbox]').forEach(c => { c.checked = valor; });
-  if (!valor) document.querySelectorAll('#filtroAcotarBox input[type=checkbox]').forEach(c => { c.checked = false; });
+  if (!valor) {
+    document.querySelectorAll('#filtroAcotarBox input[type=checkbox]').forEach(c => { c.checked = false; });
+    acotarMarcados.clear();
+  }
   aplicarFiltros();
 }
 

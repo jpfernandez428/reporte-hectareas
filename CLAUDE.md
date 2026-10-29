@@ -1348,6 +1348,28 @@ Registro:
       fuera de geocercas), `dias_sin_senal`, `trabajo_ayer`; `v2.unidades`
       con la labor efectiva del día (SBS en sep–nov = Raleo). Historial de
       cambios con buscador y tiempos de guardado; "Descargar Excel".
+    - **Etapa 2 (29-oct-2026, en revisión): Ayer y Flota** en `app.html`
+      (`docs/app_ayer_flota.js`, cargado por app.html; el menú común ya lleva a
+      `app.html#ayer` y `app.html#flota`). **Ayer** (datos `reporte_v2.json`):
+      resumen de ayer, alertas (GPS sin señal, trabajo sin geocerca ayer,
+      alarmas de labor del día), máquinas que trabajaron ayer (con operador y
+      buscador), camionetas y camión (ayer en la línea, 7 días al tocar) y
+      últimos 7 días (con avance por campo). **Flota** (datos `flota.json`, se
+      baja al entrar): el tablero de siempre (GPS sin señal, conteo por color
+      —al tocarlo filtra—, buscador, detalle de 30 días al tocar una máquina,
+      sin geocerca 30 días). Cada dato en un solo lugar: lo de hoy (máquinas
+      en operación) va en Operación; el día a día de cada máquina, en Flota;
+      Operadores y Trabajo por campo siguen en reporte2.html hasta la etapa 3.
+      index.html#flota y reporte2.html siguen publicadas hasta la etapa 5 (el
+      correo diario enlaza reporte.html, sin cambios).
+    - **Agenda de trabajos** (pedido del usuario 29-oct-2026): va después de
+      la etapa 2 y antes de la 3; mostrarla al usuario antes de dejarla fija.
+  - **Historial: "Acotar" con varias casillas (arreglado 29-oct-2026)**: las
+    marcas de "Acotar por máquina/campo" se guardan aparte del dibujo
+    (`acotarMarcados` en index.html) y la lista solo se vuelve a dibujar si
+    cambian lo elegido arriba o las fechas: marcar una casilla ya no pierde
+    las otras, y una opción que desaparece un momento (ej. "Ayer" y luego
+    "Año") vuelve marcada. Igual en "Por campo" y con filtros combinados.
   - **Dónde está la máquina (27-oct-2026)**: en las Sugerencias, en la hoja o
     panel de cada máquina y en las tarjetas (línea 📍): mapa chico
     (OpenStreetMap, sin clave) con el punto, "Ver en el mapa" (Google Maps), la
@@ -1421,6 +1443,11 @@ Registro:
   4. Barrido: las rescatadas se suman a la pasada en curso del día del
      rescate (el repaso), nunca a una pasada ya cerrada.
   - Los días de `trabajo_descartado` nunca rescatan pendientes.
+- **Foto diaria de operadores del 23, 24 y 25-oct-2026** (pedido del usuario
+  29-oct-2026): completarla en `operadores.json` como aproximada (≈), con las
+  lecturas del 22 y el 26-oct y lo que muestre el GPS esos días.
+- **Mapas satelitales** en el informe PDF y en el Historial (prioridad baja,
+  pedido del usuario 29-oct-2026).
 - Longaví 8 y 5: los casos de calibración son del día 27-06 solo; en el año
   completo el Tractor 11 ya había trabajado esos cuarteles antes, así que se
   verifican solo con la prueba de ese día (2,55 ha y 0 ha).
