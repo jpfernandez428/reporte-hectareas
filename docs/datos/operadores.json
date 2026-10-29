@@ -232,6 +232,68 @@
     "implemento": "ESTRELLA",
     "operador": "Carlos ayala"
    }
+  },
+  "2026-10-29": {
+   "Barredora 1": {
+    "campo": "Candelaria",
+    "implemento": "",
+    "operador": "Alberto"
+   },
+   "Barredora 23": {
+    "campo": "Candelaria",
+    "implemento": "",
+    "operador": "Moises"
+   },
+   "Shacker SBS 10": {
+    "campo": "Agricola Principio (Cancura)",
+    "implemento": "Shaker",
+    "operador": "Pirincho"
+   },
+   "Shacker SBS 4": {
+    "campo": "CK2",
+    "implemento": "Shaker",
+    "operador": "Gaston H"
+   },
+   "Shacker SBS 5": {
+    "campo": "mercofrut",
+    "implemento": "Shaker",
+    "operador": "Carlos S"
+   },
+   "Shacker SBS 6": {
+    "campo": "juan valenzuela",
+    "implemento": "Shaker",
+    "operador": "Sebastian I"
+   },
+   "Shacker SBS 7": {
+    "campo": "MGH",
+    "implemento": "Shaker",
+    "operador": "Cristian Muñoz"
+   },
+   "Shacker SBS 8": {
+    "campo": "mercofrut",
+    "implemento": "Shaker",
+    "operador": "jorge mella"
+   },
+   "Shacker SBS 9": {
+    "campo": "Taller",
+    "implemento": "Shaker",
+    "operador": "Gaston H"
+   },
+   "Tractor 16 Kubota 108": {
+    "campo": "Taller",
+    "implemento": "PICKER R",
+    "operador": "Jonathan"
+   },
+   "Tractor 17 Kubota 108": {
+    "campo": "Alto Calibre",
+    "implemento": "PICKER R",
+    "operador": "Beño"
+   },
+   "Tractor 9 Deutz Fahr 115": {
+    "campo": "santa ana",
+    "implemento": "ESTRELLA",
+    "operador": "Carlos ayala"
+   }
   }
  }
 }
