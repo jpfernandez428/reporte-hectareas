@@ -92,5 +92,13 @@
   "antes": "Torretagle",
   "despues": "Taller",
   "id": "mvs0h6mg7qgcpo"
+ },
+ {
+  "fecha": "29-10-2026 12:42",
+  "maquina": "Tractor 16 Kubota 108",
+  "cambio": "Campo",
+  "antes": "Taller",
+  "despues": "Alto Calibre",
+  "id": "mvtpodagwp1ceu"
  }
 ]
