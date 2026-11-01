@@ -9014,6 +9014,15 @@
           "porcentaje": 79.3,
           "completo": false,
           "temporada": "2026"
+        },
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 4"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026"
         }
       }
     },
@@ -9034,10 +9043,11 @@
           "maquinas": [
             "Shacker SBS 4"
           ],
-          "trabajado_ha": 0.4266,
-          "porcentaje": 21.6,
-          "completo": false,
-          "temporada": "2026"
+          "trabajado_ha": 1.9715,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026",
+          "fecha_completo": "2026-10-31"
         }
       }
     },
@@ -9057,10 +9067,11 @@
           "maquinas": [
             "Shacker SBS 4"
           ],
-          "trabajado_ha": 0.2789,
-          "porcentaje": 24.9,
-          "completo": false,
-          "temporada": "2026"
+          "trabajado_ha": 1.1199,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026",
+          "fecha_completo": "2026-10-31"
         }
       }
     },
@@ -13477,8 +13488,8 @@
             "Shacker SBS 5",
             "Shacker SBS 8"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 0.9818,
+          "porcentaje": 29.4,
           "completo": false,
           "temporada": "2026"
         }
@@ -13500,8 +13511,8 @@
           "maquinas": [
             "Shacker SBS 5"
           ],
-          "trabajado_ha": 0.1077,
-          "porcentaje": 2.2,
+          "trabajado_ha": 1.6796,
+          "porcentaje": 34.2,
           "completo": false,
           "temporada": "2026"
         }

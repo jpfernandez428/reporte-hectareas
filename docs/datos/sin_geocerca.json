@@ -11466,7 +11466,7 @@
 "lon": -71.331234,
 "horas": 3.41,
 "mapa": "https://www.google.com/maps?q=-34.726204,-71.331234",
-"ha": 5.14,
+"ha": 5.23,
 "comuna": "Chépica",
 "opciones": [
 "CK2"
@@ -12637,7 +12637,7 @@
 "lon": -71.280419,
 "horas": 4.08,
 "mapa": "https://www.google.com/maps?q=-34.677442,-71.280419",
-"ha": 6.15,
+"ha": 6.26,
 "muestras": [
 [
 -71.2808,
@@ -12956,7 +12956,7 @@
 "lon": -71.280377,
 "horas": 1.4,
 "mapa": "https://www.google.com/maps?q=-34.678041,-71.280377",
-"ha": 2.11,
+"ha": 2.15,
 "muestras": [
 [
 -71.280258,
@@ -13005,7 +13005,7 @@
 "lon": -71.283853,
 "horas": 4.74,
 "mapa": "https://www.google.com/maps?q=-34.684247,-71.283853",
-"ha": 7.15,
+"ha": 7.27,
 "muestras": [
 [
 -71.283102,
@@ -13162,6 +13162,120 @@
 "Rocío Molina": 0.1,
 "Camilo del Real": 1.4,
 "Camilo Del Real": 1.7
+},
+"campo": null,
+"estado": "probable"
+},
+{
+"fecha": "2026-10-31",
+"maquina": "Shacker SBS 9",
+"labor": "Raleo",
+"lat": -34.678291,
+"lon": -71.280509,
+"horas": 1.72,
+"mapa": "https://www.google.com/maps?q=-34.678291,-71.280509",
+"ha": 2.64,
+"muestras": [
+[
+-71.280407,
+-34.678113
+],
+[
+-71.280447,
+-34.678242
+],
+[
+-71.280367,
+-34.678375
+],
+[
+-71.280447,
+-34.6783
+],
+[
+-71.28062,
+-34.678317
+],
+[
+-71.280568,
+-34.678292
+],
+[
+-71.280575,
+-34.678398
+],
+[
+-71.280522,
+-34.678445
+]
+],
+"comuna": "Chépica",
+"opciones": [
+"Rocío Molina",
+"PALENA SAN GREGORIO",
+"MGH Nancagua"
+],
+"distancias_km": {
+"Rocío Molina": 0.9,
+"PALENA SAN GREGORIO": 1.6,
+"MGH Nancagua": 1.7
+},
+"campo": null,
+"estado": "probable"
+},
+{
+"fecha": "2026-10-31",
+"maquina": "Shacker SBS 9",
+"labor": "Raleo",
+"lat": -34.675476,
+"lon": -71.284244,
+"horas": 1.5,
+"mapa": "https://www.google.com/maps?q=-34.675476,-71.284244",
+"ha": 2.3,
+"muestras": [
+[
+-71.284325,
+-34.67529
+],
+[
+-71.283878,
+-34.675495
+],
+[
+-71.284435,
+-34.67532
+],
+[
+-71.284145,
+-34.675487
+],
+[
+-71.284457,
+-34.67541
+],
+[
+-71.283783,
+-34.675712
+],
+[
+-71.284512,
+-34.67548
+],
+[
+-71.284022,
+-34.675688
+]
+],
+"comuna": "Santa Cruz",
+"opciones": [
+"Rocío Molina",
+"MGH Nancagua",
+"PALENA SAN GREGORIO"
+],
+"distancias_km": {
+"Rocío Molina": 1.0,
+"MGH Nancagua": 1.7,
+"PALENA SAN GREGORIO": 1.9
 },
 "campo": null,
 "estado": "probable"
