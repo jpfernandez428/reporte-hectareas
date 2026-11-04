@@ -1012,6 +1012,185 @@ def proximos_7_dias(hoy):
         return []
 
 
+# "Campos en curso" (pedido del usuario 4-nov-2026): justo despues del Resumen de
+# ayer. Mientras el usuario no lo apruebe solo sale en la prueba y la vista previa
+# (config.json -> correo_campos_en_curso: true lo agrega al envio diario).
+CAMPOS_EN_CURSO_DIARIO = rh.CONFIG.get("correo_campos_en_curso", False)
+DIAS_CAMPOS_EN_CURSO = 7      # trabajo en los ultimos 7 dias
+DIAS_CORTE_ESTADIA = 7        # sin Desde: la estadia parte en el primer dia trabajado sin cortes de mas de 7 dias
+
+
+def barra_pct(pct, ancho=70):
+    """Barrita de avance (tablas: se ve igual en Gmail y Outlook)."""
+    lleno = max(0, min(ancho, round(ancho * pct)))
+    celda = lambda w, color: (f'<td width="{w}" height="7" style="width:{w}px;height:7px;background:{color};'
+                              f'font-size:1px;line-height:1px;">&nbsp;</td>') if w else ""
+    return (f'<table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-top:3px;">'
+            f'<tr>{celda(lleno, VERDE)}{celda(ancho - lleno, "#E3E8E5")}</tr></table>')
+
+
+def datos_campos_en_curso(ayer):
+    """Una fila por campo + labor con maquinas en la Operacion o trabajo en los
+    ultimos 7 dias: maquinas, dias en el campo y trabajados, ha de ayer, lo que
+    llevamos, y si la Agenda tiene las ha aprox. del trabajo, lo que queda
+    (~ha y ~dias al ritmo actual = ha por dia en el campo)."""
+    import reporte_v2 as rv  # aqui: reporte_v2 importa este archivo
+    fa = ayer.isoformat()
+    desde7 = (ayer - timedelta(days=DIAS_CAMPOS_EN_CURSO - 1)).isoformat()
+    ctx = rv.Contexto(ayer)
+    trabajo = rv.trabajo_por_campo(ctx)
+    try:
+        with open(rv.RUTA_V2, encoding="utf-8") as f:
+            desde_auto = (json.load(f).get("v2") or {}).get("desde_auto") or {}
+    except (OSError, ValueError):
+        desde_auto = {}
+    try:
+        with open(os.path.join(rh.CARPETA_DATOS, "agenda.json"), encoding="utf-8") as f:
+            agenda = [t for t in json.load(f).get("trabajos", {}).values() if t.get("estado") != "terminado"]
+    except (OSError, ValueError):
+        agenda = []
+    nombres = {}
+    try:
+        with open(os.path.join(rh.CARPETA_DATOS, "campos.json"), encoding="utf-8") as f:
+            nombres = json.load(f).get("nombres_lista", {})
+    except (OSError, ValueError):
+        pass
+
+    # Campo de la Operacion -> grupo (un campo de Wialon, o el nombre anotado si son varios o ninguno).
+    grupo_de = {}
+    def grupo(nombre_operacion):
+        wc = ctx.campos_wialon(nombre_operacion)
+        g = wc[0] if len(wc) == 1 else nombre_operacion.strip()
+        for c in wc:
+            grupo_de.setdefault(c, g)
+        return g
+    filas = {}
+    def fila(g, labor):
+        return filas.setdefault((g, labor), {"campo": g, "labor": labor, "maquinas": set(), "trabajaron": set(), "desdes": [], "por_dia": {}})
+
+    for m, p in ctx.planilla["maquinas"].items():
+        if p["en_cyh"] or not (p.get("campo") or "").strip() or m in rv.NO_CYH:
+            continue
+        g = grupo(p["campo"])
+        recientes = [t for t in trabajo if t["maquina"] == m and grupo_de.get(t["campo"], t["campo"]) == g]
+        if recientes:
+            labor = max(recientes, key=lambda t: t["detalle"][0]["fecha"])["labor"]
+        else:
+            u = ctx.unidades.get(m)
+            labor = rv.labor_visible(rh.labor_efectiva(u, fa, None), fa) if u else ""
+        f = fila(g, labor)
+        f["maquinas"].add(m)
+        d = p.get("desde") or desde_auto.get(m)
+        if d:
+            f["desdes"].append(d)
+    for t in trabajo:
+        g = grupo_de.get(t["campo"], t["campo"])
+        if (g, t["labor"]) not in filas and not any(d["fecha"] >= desde7 for d in t["detalle"]):
+            continue
+        f = fila(g, t["labor"])
+        if any(d["fecha"] >= desde7 for d in t["detalle"]):
+            f["trabajaron"].add(t["maquina"])
+        for d in t["detalle"]:
+            x = f["por_dia"].setdefault(d["fecha"], {"ha": 0.0, "sin": 0.0, "cuarteles": {}})
+            for c in d["cuarteles"]:
+                x["ha"] += c["ha"]
+                x["cuarteles"][c["cuartel"]] = x["cuarteles"].get(c["cuartel"], 0) + c["ha"]
+            x["sin"] += d["sin"] or 0
+
+    salida = []
+    for f in filas.values():
+        trabajados = sorted(d for d, x in f["por_dia"].items() if x["ha"] > 0 or x["sin"] > 0)
+        # Ha aprox. del trabajo: la Agenda (mismo campo y labor, ya empezado o el mas proximo).
+        job = None
+        for t in sorted(agenda, key=lambda t: t.get("inicio", "")):
+            wc = ctx.campos_wialon(t.get("campo", "")) or [t.get("campo", "")]
+            if t.get("labor") == f["labor"] and (f["campo"] in wc or pl_mismo(t.get("campo", ""), f["campo"])) and t.get("ha"):
+                if job is None or t.get("inicio", "") <= fa:
+                    job = t
+        if job:
+            inicio = job["inicio"]
+        elif f["desdes"]:
+            inicio = min(f["desdes"])
+        elif trabajados:
+            inicio = trabajados[-1]
+            for d in reversed(trabajados[:-1]):
+                if (date.fromisoformat(inicio) - date.fromisoformat(d)).days > DIAS_CORTE_ESTADIA:
+                    break
+                inicio = d
+        else:
+            inicio = None
+        cuarteles = set((job or {}).get("cuarteles") or [])
+        def ha_dia(x):
+            return sum(h for c, h in x["cuarteles"].items() if c in cuarteles) if cuarteles else x["ha"]
+        llevamos = sum(ha_dia(x) for d, x in f["por_dia"].items() if inicio and inicio <= d <= fa)
+        llevamos_sin = 0 if cuarteles else sum(x["sin"] for d, x in f["por_dia"].items() if inicio and inicio <= d <= fa)
+        dias_campo = (ayer - date.fromisoformat(inicio)).days + 1 if inicio and inicio <= fa else 0
+        dias_trab = sum(1 for d in trabajados if inicio and inicio <= d <= fa)
+        ayer_x = f["por_dia"].get(fa, {"ha": 0.0, "sin": 0.0, "cuarteles": {}})
+        aprox = float(str(job["ha"]).replace(",", ".")) if job else None
+        hecho = llevamos + llevamos_sin
+        ritmo = hecho / dias_campo if dias_campo and hecho > 0 else None
+        quedan = max(0.0, aprox - hecho) if aprox else None
+        salida.append({"campo": f["campo"], "nombre": nombres.get(f["campo"], f["campo"]), "labor": f["labor"],
+                       "maquinas": sorted(f["maquinas"], key=rh.orden_flota), "inicio": inicio,
+                       "no_anotadas": sorted(f["trabajaron"] - f["maquinas"], key=rh.orden_flota),
+                       "dias_campo": dias_campo, "dias_trab": dias_trab,
+                       "ayer_ha": ayer_x["ha"] if not cuarteles else ha_dia(ayer_x), "ayer_sin": 0 if cuarteles else ayer_x["sin"],
+                       "llevamos": llevamos, "llevamos_sin": llevamos_sin, "aprox": aprox, "quedan": quedan,
+                       "dias_quedan": math.ceil(quedan / ritmo) if quedan and ritmo else (0 if quedan == 0 else None)})
+    return sorted(salida, key=lambda r: (not r["maquinas"], -(r["ayer_ha"] + r["ayer_sin"]), r["nombre"].lower(), r["labor"]))
+
+
+def pl_mismo(a, b):
+    import planilla as pl
+    return pl.mismo_nombre(a, b)
+
+
+def campos_en_curso(ayer):
+    """Filas HTML de "Campos en curso"; vacia si no hay campos o si algo falla
+    (el correo sale igual sin esta parte)."""
+    try:
+        datos = datos_campos_en_curso(ayer)
+        if not datos:
+            return []
+        suave = lambda t: f'<span style="color:{TEXTO_SUAVE};font-size:11px;">{t}</span>'
+        lista = []
+        for r in datos:
+            n = len(r["maquinas"])
+            corto = lambda m: re.sub(r"^(Shacker |Tractor )", lambda x: "T" if x.group(1) == "Tractor " else "", m).split(" Kubota")[0].split(" Deutz")[0].split(" Same")[0]
+            maq = f"{n} máq." if n else ""
+            if not n and r["no_anotadas"]:
+                maq = f'<span style="color:{ROJO};">sin anotar en Operación: {escape(", ".join(corto(m) for m in r["no_anotadas"]))}</span>'
+            maq = maq or "sin máquinas ahora"
+            trab = f'{r["dias_trab"]} trab.'
+            dias = f'<b>{r["dias_campo"]}</b><br>{suave(trab)}' if r["dias_campo"] else "–"
+            ayer_txt = ha_texto(r["ayer_ha"], r["ayer_sin"]) if r["ayer_ha"] or r["ayer_sin"] else "–"
+            hecho = r["llevamos"] + r["llevamos_sin"]
+            sin_txt = f'<span style="color:{ROJO};">{"+" if r["llevamos"] else ""}~{num(r["llevamos_sin"])}</span>' if r["llevamos_sin"] else ""
+            hecho_txt = (num(r["llevamos"], 1) + (" " + sin_txt if sin_txt else "")) if r["llevamos"] or not sin_txt else sin_txt
+            if r["aprox"]:
+                pct = hecho / r["aprox"]
+                llevamos = f'{hecho_txt} de {num(r["aprox"], 0)} ha <b>({round(pct * 100)} %)</b>{barra_pct(pct)}'
+                quedan = (f'~{num(r["quedan"], 0)} ha<br>{suave("~" + str(r["dias_quedan"]) + " días" if r["dias_quedan"] is not None else "sin ritmo aún")}'
+                          if r["quedan"] else f'<b style="color:{VERDE};">listo</b>')
+            else:
+                llevamos = f"{hecho_txt} ha" if hecho else "–"
+                quedan = suave("sin ha aprox.")
+            lista.append([f'<b>{escape(r["nombre"])} · {escape(r["labor"] or "sin labor")}</b><br>{suave(maq)}',
+                          dias, ayer_txt, llevamos, quedan])
+        return [titulo("Campos en curso"),
+                tabla(["Campo · labor", "Días", "Ayer (ha)", "Llevamos", "Quedan"], lista, "lrrll"),
+                parrafo("Días en el campo desde la llegada (Desde de Operación o el inicio en la Agenda) y, abajo, los días "
+                        "trabajados. Llevamos: ha desde la llegada (~ = estimadas sin geocerca). Quedan: ha aprox. de la "
+                        "Agenda menos lo hecho, y días al ritmo actual (ha por día en el campo).", tam=11),
+                f'<tr><td align="right" style="padding:6px 0 2px 0;"><a href="{URL_PAGINA}app.html#operacion" '
+                f'style="display:inline-block;padding:8px 14px;background:{VERDE};border-radius:5px;font-family:{FUENTE};'
+                f'font-size:13px;font-weight:bold;color:#ffffff;text-decoration:none;">Ver avance en la app &rsaquo;</a></td></tr>']
+    except Exception as e:  # nunca botar el correo por esta parte
+        print(f"Aviso: no se pudo armar 'Campos en curso': {e}")
+        return []
+
+
 def armar_html_corto(datos):
     """Cuerpo del correo: corto y resumido; cada seccion con "Ver detalle"
     (la pagina reporte.html) y el detalle completo en el PDF adjunto."""
@@ -1046,6 +1225,10 @@ def armar_html_corto(datos):
     filas.append(linea(f'<b>{num(km(camionetas, fa), 0)} km</b> camionetas ({movidas} de {len(camionetas)} se movieron)'
                        + (f" · {km_camion}" if km_camion else "")))
     filas.append(boton_detalle("resumen"))
+
+    # Campos en curso (en prueba hasta que el usuario lo apruebe)
+    if CAMPOS_EN_CURSO_DIARIO or os.environ.get("MODO_CORREO", "") in ("prueba", "vista_previa"):
+        filas.extend(campos_en_curso(ayer))
 
     # Alertas en 2 lineas
     filas.append(titulo("Alertas"))

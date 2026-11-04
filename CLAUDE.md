@@ -1442,6 +1442,22 @@ Registro:
     junto al botón.
   - **La planilla del Drive ya no se usa** (recordado por el usuario el
     29-oct-2026): la fuente es la página Operación (`operacion.json`).
+  - **Correo diario: "Campos en curso" (pedido del usuario 4-nov-2026; EN PRUEBA:
+    solo sale en `modo` `prueba` y `vista_previa` hasta que el usuario la apruebe;
+    `config.json` → `correo_campos_en_curso: true` la agrega al envío diario)**:
+    justo después del Resumen de ayer (`reporte_correo.campos_en_curso`). Una fila
+    por campo + labor con máquinas en Operación (fuera de Taller) o trabajo en los
+    últimos 7 días (`reporte_v2.trabajo_por_campo`: historial + sin geocerca
+    asignado). Columnas: Campo · labor (N° de máquinas de Operación; si no hay y
+    alguien trabajó ahí: "sin anotar en Operación: SBS 11" en rojo) | Días en el
+    campo desde la llegada (inicio del trabajo en la Agenda; si no, el "Desde" más
+    antiguo de sus máquinas, a mano o automático; si no, el primer día trabajado
+    sin cortes de más de 7 días) y días trabajados | Ayer (ha, ~ sin geocerca) |
+    Llevamos desde la llegada, "X de Y ha (Z %)" con barrita si hay ha aprox. |
+    Quedan ~ha y ~días al ritmo actual (ha por día en el campo). **Ha aprox. =
+    las del trabajo de la Agenda** (mismo campo y labor; si eligió cuarteles,
+    solo esos); sin eso, "sin ha aprox.". Botón "Ver avance en la app"
+    (`app.html#operacion`). Si falla, el correo sale sin esta parte.
   - **Historial: "Acotar" con varias casillas (arreglado 29-oct-2026)**: las
     marcas de "Acotar por máquina/campo" se guardan aparte del dibujo
     (`acotarMarcados` en index.html) y la lista solo se vuelve a dibujar si
