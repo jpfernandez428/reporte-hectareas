@@ -15,6 +15,10 @@ uno sin geocerca), desde (dia en que llego al campo) y proximo destino.
 Uso:
   python3 operacion.py cargar      (UNA vez: copia la planilla del Drive de hoy)
   python3 operacion.py guardar     (CAMBIOS = JSON de la pagina, via el Worker)
+Cada fila puede traer "origen" (App o Planilla: la planilla de Google "Operación
+CYH", 4-nov-2026), que queda en el historial. Un elemento {"ha_aprox": [{campo,
+labor, ha}]} reemplaza las ha aprox. por campo + labor (pestaña Campos de la
+planilla; las usa "Campos en curso" del correo).
 Despues de guardar se rearman los datos de reporte2 (reporte_v2.json) con lo
 ya publicado, sin bajar GPS de Wialon.
 """
@@ -115,6 +119,10 @@ def guardar(cambios_json, id_guardado="", recibido=""):
     fecha = ahora()
     n = 0
     for c in cambios:
+        origen = limpiar(c.get("origen"), 20) or "App"
+        if isinstance(c.get("ha_aprox"), list):
+            n += guardar_ha(datos, c["ha_aprox"], historial, fecha, id_guardado, origen)
+            continue
         m = limpiar(c.get("maquina"))
         if m not in validas:
             print(f"Maquina desconocida, se ignora: {m!r}")
@@ -135,7 +143,7 @@ def guardar(cambios_json, id_guardado="", recibido=""):
                 if k == "desde":
                     antes, despues = antes or "automática", despues or "automática"
                 historial.append({"fecha": fecha, "maquina": m, "cambio": NOMBRES[k], "antes": antes, "despues": despues,
-                                  "id": id_guardado})
+                                  "id": id_guardado, "origen": origen})
                 n += 1
         fila.update(nuevo)
     datos["actualizado"] = fecha
@@ -146,6 +154,26 @@ def guardar(cambios_json, id_guardado="", recibido=""):
     escribir(RUTA, datos)
     escribir(RUTA_CAMBIOS, historial)
     print(f"Operacion guardada: {n} cambios.")
+
+
+def guardar_ha(datos, filas, historial, fecha, id_guardado, origen):
+    """Pestaña Campos: {campo|labor: {campo, labor, ha}} completo (reemplaza lo anterior)."""
+    nuevo = {}
+    for x in filas[:300]:
+        campo, labor = limpiar((x or {}).get("campo")), limpiar((x or {}).get("labor"), 60)
+        ha = limpiar((x or {}).get("ha"), 10).replace(",", ".")
+        if campo and (not ha or re.fullmatch(r"\d{1,5}(\.\d{1,2})?", ha)):
+            nuevo[f"{campo}|{labor}"] = {"campo": campo, "labor": labor, "ha": ha}
+    antes = datos.get("ha_aprox") or {}
+    n = 0
+    for k in sorted(set(antes) | set(nuevo)):
+        a, d = (antes.get(k) or {}).get("ha", ""), (nuevo.get(k) or {}).get("ha", "")
+        if a != d:
+            historial.append({"fecha": fecha, "maquina": k.replace("|", " · ").rstrip(" ·"), "cambio": "Ha aprox.",
+                              "antes": a, "despues": d, "id": id_guardado, "origen": origen})
+            n += 1
+    datos["ha_aprox"] = nuevo
+    return n
 
 
 def medir(id_guardado, recibido):

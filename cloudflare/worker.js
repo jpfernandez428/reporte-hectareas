@@ -17,6 +17,12 @@
 //   WIALON_TOKEN  token de Wialon de SOLO LECTURA (29-oct-2026) para GET /gps: la
 //                 ultima posicion de las maquinas al abrir la app. Nunca sale del
 //                 Worker (la pagina solo recibe las posiciones).
+//
+// Planilla de Google "Operación CYH" (4-nov-2026): no necesita secretos nuevos. Su
+// Apps Script manda las celdas editadas a POST /hoja con el PIN, y registra aqui
+// (con el PIN) la direccion de su aplicacion web y una clave al azar que el mismo
+// genera; quedan en D1 (meta planilla_url / planilla_clave) y el Worker las usa
+// para escribir en la planilla cada guardado de la app.
 
 const REPO = 'jpfernandez428/reporte-hectareas';
 
@@ -166,7 +172,11 @@ async function base(env) {
       env.DB.prepare('CREATE TABLE IF NOT EXISTS acciones (id TEXT PRIMARY KEY, ts INTEGER, tipo TEXT, datos TEXT)'),
       env.DB.prepare('CREATE TABLE IF NOT EXISTS agenda (id TEXT PRIMARY KEY, datos TEXT, ts INTEGER)'),
       env.DB.prepare('CREATE TABLE IF NOT EXISTS agenda_cambios (n INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER, guardado TEXT, trabajo TEXT, cambio TEXT, antes TEXT, despues TEXT)'),
+      env.DB.prepare('CREATE TABLE IF NOT EXISTS ha_aprox (clave TEXT PRIMARY KEY, campo TEXT, labor TEXT, ha TEXT, ts INTEGER, origen TEXT)'),
+      env.DB.prepare('CREATE TABLE IF NOT EXISTS conflictos (n INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER, maquina TEXT, cambio TEXT, otro_valor TEXT, otro_origen TEXT, otro_ts INTEGER, valor TEXT, origen TEXT, revisado INTEGER DEFAULT 0)'),
     ]);
+    // Origen de cada cambio (App o Planilla, 4-nov-2026); falla sin dano si la columna ya existe.
+    await env.DB.prepare('ALTER TABLE cambios ADD COLUMN origen TEXT').run().catch(() => {});
     const sembrado = await env.DB.prepare("SELECT v FROM meta WHERE k = 'sembrado'").first();
     if (!sembrado) {
       // Primera vez: la operacion publicada en GitHub pasa a la base.
@@ -199,20 +209,26 @@ const horaChileLarga = t => new Intl.DateTimeFormat('es-CL', { timeZone: 'Americ
   hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date(t)).replace(/\//g, '-').replace(',', '');
 
 async function estadoBase(db) {
-  const [filas, v, act, cambios, pend, agenda, agendaCambios] = await Promise.all([
+  const [filas, v, act, cambios, pend, agenda, agendaCambios, ha, conflictos, hoja] = await Promise.all([
     db.prepare('SELECT * FROM operacion').all(),
     db.prepare("SELECT v FROM meta WHERE k = 'version'").first(),
     db.prepare("SELECT v FROM meta WHERE k = 'actualizado'").first(),
-    db.prepare('SELECT ts, guardado, maquina, cambio, antes, despues FROM cambios ORDER BY n DESC LIMIT 100').all(),
+    db.prepare('SELECT ts, guardado, maquina, cambio, antes, despues, origen FROM cambios ORDER BY n DESC LIMIT 100').all(),
     db.prepare('SELECT COUNT(*) AS n FROM copias WHERE ok = 0').first(),
     db.prepare('SELECT datos FROM agenda').all(),
     db.prepare('SELECT ts, guardado, trabajo, cambio, antes, despues FROM agenda_cambios ORDER BY n DESC LIMIT 100').all(),
+    db.prepare('SELECT campo, labor, ha, ts, origen FROM ha_aprox ORDER BY campo, labor').all(),
+    db.prepare('SELECT * FROM conflictos WHERE revisado = 0 ORDER BY n DESC LIMIT 30').all(),
+    db.prepare("SELECT k, v FROM meta WHERE k IN ('planilla_url', 'planilla_envio')").all(),
   ]);
+  const h = Object.fromEntries(hoja.results.map(r => [r.k, r.v]));
   const maquinas = {};
   for (const f of filas.results) maquinas[f.maquina] = Object.fromEntries(CAMPOS_FILA.map(k => [k, f[k] || '']));
   return { ok: true, d1: true, version: Number((v && v.v) || 0), actualizado: (act && act.v) || '', maquinas,
            cambios: cambios.results, copias_pendientes: (pend && pend.n) || 0,
-           agenda: agenda.results.map(r => JSON.parse(r.datos)), agenda_cambios: agendaCambios.results };
+           agenda: agenda.results.map(r => JSON.parse(r.datos)), agenda_cambios: agendaCambios.results,
+           ha_aprox: ha.results, conflictos: conflictos.results,
+           planilla: { conectada: !!h.planilla_url, envio: h.planilla_envio ? JSON.parse(h.planilla_envio) : null } };
 }
 
 // Copias a GitHub pendientes (se reintentan en cada consulta, como maximo 1 por minuto cada una).
@@ -231,44 +247,65 @@ async function copiarPendientes(env, db, soloId) {
 }
 
 // Pagina Operacion: "Guardar" manda las filas (completas) que cambiaron.
-async function guardarOperacion(datos, env, ctx) {
+// origen: 'App' (la app) o 'Planilla' (la planilla de Google, via POST /hoja).
+async function guardarOperacion(datos, env, ctx, origen = 'App') {
+  const r = await aplicarOperacion(datos, env, ctx, origen);
+  return responder(r.estado || 200, r.cuerpo);
+}
+async function aplicarOperacion(datos, env, ctx, origen) {
+  const mal = error => ({ estado: 400, cuerpo: { error } });
   const cambios = Array.isArray(datos.cambios) ? datos.cambios : null;
-  if (!cambios || !cambios.length || cambios.length > 150) return responder(400, { error: 'cambios' });
+  if (!cambios || !cambios.length || cambios.length > 150) return mal('cambios');
   const limpio = [];
   for (const c of cambios) {
     const fila = {};
     for (const k of ['maquina', ...CAMPOS_FILA]) {
       const v = String((c && c[k]) || '').trim();
-      if (v.length > 80) return responder(400, { error: k });
+      if (v.length > 80) return mal(k);
       fila[k] = v;
     }
-    if (!fila.maquina) return responder(400, { error: 'maquina' });
-    if (fila.desde && !/^\d{4}-\d{2}-\d{2}$/.test(fila.desde)) return responder(400, { error: 'desde' });
+    if (!fila.maquina) return mal('maquina');
+    if (fila.desde && !/^\d{4}-\d{2}-\d{2}$/.test(fila.desde)) return mal('desde');
     limpio.push(fila);
   }
   const texto = JSON.stringify(limpio);
-  if (texto.length > 60000) return responder(400, { error: 'demasiados cambios' });
+  if (texto.length > 60000) return mal('demasiados cambios');
   const id = /^[a-z0-9]{8,40}$/.test(String(datos.id || '')) ? String(datos.id) : 'w' + Date.now().toString(36);
   const recibido = Date.now();
-  const copia = { workflow: 'operacion.yml', inputs: { cambios: texto, id, recibido: String(recibido) } };
+  const copia = { workflow: 'operacion.yml', inputs: { cambios: JSON.stringify(limpio.map(f => ({ ...f, origen }))), id, recibido: String(recibido) } };
   let db = null;
   try { db = await base(env); } catch (e) { db = null; }
   if (!db) {
     // Sin base de datos: como antes (solo GitHub, 1 a 3 minutos).
     await lanzar(env, copia);
-    return responder(200, { ok: true, d1: false });
+    return { cuerpo: { ok: true, d1: false, filas: Object.fromEntries(limpio.map(f => [f.maquina, f])) } };
   }
-  // 1) Guardar al instante en D1 (con el historial de cambios).
+  // 1) Guardar al instante en D1 (con el historial de cambios y su origen).
+  const marcas = limpio.map(() => '?').join(',');
   const actuales = {};
-  for (const r of (await db.prepare(`SELECT * FROM operacion WHERE maquina IN (${limpio.map(() => '?').join(',')})`).bind(...limpio.map(f => f.maquina)).all()).results) actuales[r.maquina] = r;
+  for (const r of (await db.prepare(`SELECT * FROM operacion WHERE maquina IN (${marcas})`).bind(...limpio.map(f => f.maquina)).all()).results) actuales[r.maquina] = r;
+  // Ultimo cambio de cada dato en los 2 min anteriores (para avisar si el otro lado lo cambio recien).
+  const recientes = {};
+  for (const r of (await db.prepare(`SELECT maquina, cambio, ts, origen, despues FROM cambios WHERE ts > ? AND maquina IN (${marcas}) ORDER BY n`)
+    .bind(recibido - MS_CONFLICTO, ...limpio.map(f => f.maquina)).all()).results) recientes[r.maquina + '|' + r.cambio] = r;
   const sentencias = [];
+  let nConflictos = 0;
   for (const f of limpio) {
     const antes = actuales[f.maquina] || {};
     if (f.campo !== (antes.campo || '') && f.desde === (antes.desde || '')) f.desde = '';  // cambio de campo: Desde automatico
     for (const k of CAMPOS_FILA) {
       const a = antes[k] || '', d = f[k] || '';
-      if (a !== d) sentencias.push(db.prepare('INSERT INTO cambios (ts, guardado, maquina, cambio, antes, despues) VALUES (?, ?, ?, ?, ?, ?)')
-        .bind(recibido, id, f.maquina, NOMBRES_CAMPO[k], k === 'desde' ? (a || 'automática') : a, k === 'desde' ? (d || 'automática') : d));
+      if (a === d) continue;
+      const ta = k === 'desde' ? (a || 'automática') : a, td = k === 'desde' ? (d || 'automática') : d;
+      sentencias.push(db.prepare('INSERT INTO cambios (ts, guardado, maquina, cambio, antes, despues, origen) VALUES (?, ?, ?, ?, ?, ?, ?)')
+        .bind(recibido, id, f.maquina, NOMBRES_CAMPO[k], ta, td, origen));
+      const u = recientes[f.maquina + '|' + NOMBRES_CAMPO[k]];
+      if (u && (u.origen || 'App') !== origen && u.despues !== td) {
+        // Mismo dato cambiado en la app y en la planilla en menos de 2 min: gana este (el ultimo), con aviso.
+        nConflictos++;
+        sentencias.push(db.prepare('INSERT INTO conflictos (ts, maquina, cambio, otro_valor, otro_origen, otro_ts, valor, origen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+          .bind(recibido, f.maquina, NOMBRES_CAMPO[k], u.despues, u.origen || 'App', u.ts, td, origen));
+      }
     }
     sentencias.push(db.prepare('INSERT OR REPLACE INTO operacion (maquina, implemento, operador, campo, desde, destino) VALUES (?, ?, ?, ?, ?, ?)')
       .bind(f.maquina, f.implemento, f.operador, f.campo, f.desde, f.destino));
@@ -276,11 +313,121 @@ async function guardarOperacion(datos, env, ctx) {
   sentencias.push(db.prepare("UPDATE meta SET v = CAST(CAST(v AS INTEGER) + 1 AS TEXT) WHERE k = 'version'"));
   sentencias.push(db.prepare("INSERT OR REPLACE INTO meta (k, v) VALUES ('actualizado', ?)").bind(horaChileLarga(recibido)));
   sentencias.push(db.prepare('INSERT OR REPLACE INTO copias (id, ts, workflow, inputs) VALUES (?, ?, ?, ?)')
-    .bind(id, recibido, copia.workflow, JSON.stringify({ ...copia.inputs, cambios: JSON.stringify(limpio) })));
+    .bind(id, recibido, copia.workflow, JSON.stringify({ ...copia.inputs, cambios: JSON.stringify(limpio.map(f => ({ ...f, origen }))) })));
   await db.batch(sentencias);
   // 2) Copia a GitHub (historial, reportes, correo) sin hacer esperar a la pagina.
   ctx.waitUntil(copiarPendientes(env, db, id));
-  return responder(200, { ...(await estadoBase(db)), id });
+  // 3) Lo guardado en la app se escribe en la planilla de Google (en segundos).
+  if (origen === 'App') ctx.waitUntil(enviarAPlanilla(env, db, limpio, recibido, origen).catch(() => {}));
+  return { cuerpo: { ...(await estadoBase(db)), id, conflictos_nuevos: nConflictos, filas: Object.fromEntries(limpio.map(f => [f.maquina, f])),
+                     ultima: `${horaChileLarga(recibido)} · ${origen}` } };
+}
+
+// ---------------------------------------------------------------------------
+// Planilla de Google "Operación CYH" sincronizada en los dos sentidos (pedido del
+// usuario 4-nov-2026).
+//   Planilla -> App: el Apps Script de la planilla manda cada celda editada a
+//     POST /hoja (tipo 'operacion': [{maquina, k, valor}]; tipo 'ha': la pestaña
+//     Campos completa), con el PIN guardado en las propiedades del script.
+//   App -> Planilla: cada guardado de la app se manda a la aplicacion web del
+//     script (direccion y clave que el script registra con tipo 'registrar').
+//   Gana el ultimo cambio; si el mismo dato se cambio en los dos lados en menos
+//   de 2 min queda un aviso en la app (tabla conflictos). El historial guarda el
+//   origen (App / Planilla).
+// ---------------------------------------------------------------------------
+const MS_CONFLICTO = 2 * 60 * 1000;
+
+async function desdeHoja(datos, env, ctx) {
+  const tipo = String(datos.tipo || '');
+  if (tipo === 'registrar') {
+    const url = String(datos.url || ''), clave = String(datos.clave || '');
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/[\w-]{20,200}\/exec$/.test(url)) return responder(400, { error: 'url de la aplicación web (debe terminar en /exec)' });
+    if (!/^[A-Za-z0-9]{32,100}$/.test(clave)) return responder(400, { error: 'clave' });
+    const db = await base(env).catch(() => null);
+    if (!db) return responder(503, { error: 'falta la base D1 (binding DB) en Cloudflare' });
+    await db.batch([db.prepare("INSERT OR REPLACE INTO meta (k, v) VALUES ('planilla_url', ?)").bind(url),
+                    db.prepare("INSERT OR REPLACE INTO meta (k, v) VALUES ('planilla_clave', ?)").bind(clave)]);
+    return responder(200, { ok: true });
+  }
+  if (tipo === 'ha') return guardarHa(datos, env, ctx);
+  if (tipo !== 'operacion') return responder(400, { error: 'tipo' });
+  // Celdas editadas -> filas completas (con lo que hay ahora en los demas datos de la maquina).
+  const cambios = Array.isArray(datos.cambios) ? datos.cambios.slice(0, 500) : [];
+  if (!cambios.length) return responder(400, { error: 'cambios' });
+  const db = await base(env).catch(() => null);
+  const actual = {};
+  if (db) for (const r of (await db.prepare('SELECT * FROM operacion').all()).results) actual[r.maquina] = r;
+  else Object.assign(actual, (await (await fetch(URL_OPERACION_PUBLICADA + '?x=' + Date.now(), { cf: { cacheTtl: 0 } })).json()).maquinas || {});
+  const filas = {};
+  for (const c of cambios) {
+    const m = String((c && c.maquina) || '').trim(), k = String((c && c.k) || '');
+    if (!actual[m]) return responder(400, { error: `máquina desconocida: ${m.slice(0, 80)}` });
+    if (!CAMPOS_FILA.includes(k)) return responder(400, { error: 'columna' });
+    filas[m] = filas[m] || { maquina: m, ...Object.fromEntries(CAMPOS_FILA.map(x => [x, actual[m][x] || ''])) };
+    filas[m][k] = String(c.valor ?? '').trim();
+  }
+  return guardarOperacion({ cambios: Object.values(filas), id: datos.id }, env, ctx, 'Planilla');
+}
+
+// Pestaña "Campos" de la planilla: campo + labor -> ha aprox. (llega completa y reemplaza todo).
+async function guardarHa(datos, env, ctx) {
+  const lista = Array.isArray(datos.filas) ? datos.filas : null;
+  if (!lista || lista.length > 300) return responder(400, { error: 'filas' });
+  const nuevo = {};
+  for (const x of lista) {
+    const campo = textoCorto(x && x.campo, 80), labor = textoCorto(x && x.labor, 60), ha = textoCorto(x && x.ha, 10).replace(',', '.');
+    if (!campo) continue;
+    if (ha && !/^\d{1,5}(\.\d{1,2})?$/.test(ha)) return responder(400, { error: `ha de ${campo}` });
+    nuevo[campo + '|' + labor] = { campo, labor, ha };
+  }
+  const id = /^[a-z0-9]{8,40}$/.test(String(datos.id || '')) ? String(datos.id) : 'h' + Date.now().toString(36);
+  const recibido = Date.now();
+  const copia = { workflow: 'operacion.yml', inputs: { cambios: JSON.stringify([{ ha_aprox: Object.values(nuevo), origen: 'Planilla' }]), id, recibido: String(recibido) } };
+  if (copia.inputs.cambios.length > 60000) return responder(400, { error: 'demasiadas filas' });
+  const db = await base(env).catch(() => null);
+  if (!db) { await lanzar(env, copia); return responder(200, { ok: true, d1: false }); }
+  const antes = {};
+  for (const r of (await db.prepare('SELECT * FROM ha_aprox').all()).results) antes[r.clave] = r;
+  const sentencias = [db.prepare('DELETE FROM ha_aprox')];
+  const nombre = k => k.replace('|', ' · ').replace(/ · $/, '');
+  for (const [k, x] of Object.entries(nuevo)) {
+    const a = antes[k];
+    sentencias.push(db.prepare('INSERT INTO ha_aprox (clave, campo, labor, ha, ts, origen) VALUES (?, ?, ?, ?, ?, ?)')
+      .bind(k, x.campo, x.labor, x.ha, a && a.ha === x.ha ? a.ts : recibido, a && a.ha === x.ha ? a.origen : 'Planilla'));
+    if ((a ? a.ha : '') !== x.ha) sentencias.push(db.prepare('INSERT INTO cambios (ts, guardado, maquina, cambio, antes, despues, origen) VALUES (?, ?, ?, ?, ?, ?, ?)')
+      .bind(recibido, id, nombre(k), 'Ha aprox.', a ? a.ha : '', x.ha, 'Planilla'));
+  }
+  for (const k of Object.keys(antes)) if (!nuevo[k] && antes[k].ha) sentencias.push(db.prepare('INSERT INTO cambios (ts, guardado, maquina, cambio, antes, despues, origen) VALUES (?, ?, ?, ?, ?, ?, ?)')
+    .bind(recibido, id, nombre(k), 'Ha aprox.', antes[k].ha, '', 'Planilla'));
+  sentencias.push(db.prepare("UPDATE meta SET v = CAST(CAST(v AS INTEGER) + 1 AS TEXT) WHERE k = 'version'"));
+  sentencias.push(db.prepare('INSERT OR REPLACE INTO copias (id, ts, workflow, inputs) VALUES (?, ?, ?, ?)').bind(id, recibido, copia.workflow, JSON.stringify(copia.inputs)));
+  await db.batch(sentencias);
+  ctx.waitUntil(copiarPendientes(env, db, id));
+  return responder(200, { ok: true, d1: true, id, ultima: `${horaChileLarga(recibido)} · Planilla` });
+}
+
+// App -> Planilla: escribe las filas guardadas en la aplicacion web del Apps Script.
+async function enviarAPlanilla(env, db, filas, ts, origen) {
+  const m = Object.fromEntries((await db.prepare("SELECT k, v FROM meta WHERE k IN ('planilla_url', 'planilla_clave')").all()).results.map(r => [r.k, r.v]));
+  if (!m.planilla_url || !m.planilla_clave) return;
+  let envio;
+  try {
+    const r = await fetch(m.planilla_url, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, redirect: 'follow',
+      body: JSON.stringify({ clave: m.planilla_clave, filas, ultima: `${horaChileLarga(ts)} · ${origen}` }) });
+    const t = await r.text();
+    envio = { ts: Date.now(), ok: r.ok && t.includes('"ok":true'), error: r.ok && t.includes('"ok":true') ? '' : `${r.status} ${t.slice(0, 150)}` };
+  } catch (e) { envio = { ts: Date.now(), ok: false, error: String(e.message || e).slice(0, 150) }; }
+  await db.prepare("INSERT OR REPLACE INTO meta (k, v) VALUES ('planilla_envio', ?)").bind(JSON.stringify(envio)).run();
+}
+
+// Aviso de conflicto revisado en la app ({n} o {todos: true}).
+async function conflictoRevisado(datos, env) {
+  const db = await base(env).catch(() => null);
+  if (!db) return responder(503, { error: 'sin base D1' });
+  const n = Number(datos.n);
+  await db.batch([datos.todos ? db.prepare('UPDATE conflictos SET revisado = 1') : db.prepare('UPDATE conflictos SET revisado = 1 WHERE n = ?').bind(Number.isInteger(n) ? n : -1),
+                  db.prepare("UPDATE meta SET v = CAST(CAST(v AS INTEGER) + 1 AS TEXT) WHERE k = 'version'")]);
+  return responder(200, await estadoBase(db));
 }
 
 // ---------------------------------------------------------------------------
@@ -415,7 +562,7 @@ async function consultarWialon(env) {
   }
 }
 
-async function gpsAlMomento(env) {
+async function gpsAlMomento(env, soloGuardado) {
   if (!env.WIALON_TOKEN) return responder(200, { ok: false, error: 'falta el secreto WIALON_TOKEN en Cloudflare' });
   const db = env.DB ? await base(env).catch(() => null) : null;
   let ultimo = GPS_MEMORIA;
@@ -423,6 +570,7 @@ async function gpsAlMomento(env) {
     const f = await db.prepare("SELECT v FROM meta WHERE k = 'gps'").first().catch(() => null);
     if (f && f.v) { const x = JSON.parse(f.v); if (!ultimo || x.intento > ultimo.intento) ultimo = x; }
   }
+  if (soloGuardado) return responder(200, ultimo ? { ...ultimo, guardado: true } : { ok: false, error: 'sin consulta guardada' });
   if (ultimo && Date.now() - ultimo.intento < GPS_CADA_MS) {
     // Ya se consulto hace menos de 2 min: se responde lo de esa consulta.
     return responder(ultimo.ok ? 200 : 502, { ...ultimo, guardado: true, proxima: ultimo.intento + GPS_CADA_MS });
@@ -456,7 +604,8 @@ export default {
       } catch (e) { return responder(503, { ok: false, error: 'base de datos: ' + String(e.message || e) }); }
     }
     if (peticion.method === 'GET' && url.pathname === '/gps') {
-      try { return await gpsAlMomento(env); } catch (e) { return responder(502, { ok: false, error: String(e.message || e) }); }
+      // ?guardado=1 (la planilla): solo la ultima consulta, sin preguntar a Wialon.
+      try { return await gpsAlMomento(env, url.searchParams.get('guardado') === '1'); } catch (e) { return responder(502, { ok: false, error: String(e.message || e) }); }
     }
     // Prueba a mano (GET /probar?hora=00:30 | 07:30 | 09:00 | planilla): lanza esa tarea al
     // tiro y muestra la respuesta de GitHub. Es inofensivo: la corrida no
@@ -474,8 +623,16 @@ export default {
         return new Response(`ERROR: ${e.message}. ${token}.`, { status: 502 });
       }
     }
+    // Planilla de Google (Apps Script, sin Origin de navegador): con el PIN.
+    if (peticion.method === 'POST' && url.pathname === '/hoja') {
+      const datos = await leerCuerpo(peticion);
+      if (!datos) return responder(400, { error: 'JSON invalido' });
+      const sinPin = await revisarPin(datos, env);
+      if (sinPin) return sinPin;
+      try { return await desdeHoja(datos, env, ctx); } catch (e) { return responder(502, { error: String(e.message || e) }); }
+    }
     // Guardados desde las paginas: solo desde la pagina publicada y con el PIN.
-    if (peticion.method === 'POST' && ['/confirmar', '/planilla', '/operacion', '/agenda'].includes(url.pathname)) {
+    if (peticion.method === 'POST' && ['/confirmar', '/planilla', '/operacion', '/agenda', '/conflicto'].includes(url.pathname)) {
       if ((peticion.headers.get('Origin') || '') !== ORIGEN_PAGINA) return responder(403, { error: 'origen' });
       const datos = await leerCuerpo(peticion);
       if (!datos) return responder(400, { error: 'JSON invalido' });
@@ -485,6 +642,7 @@ export default {
         if (url.pathname === '/confirmar') return await confirmar(datos, env, ctx);
         if (url.pathname === '/operacion') return await guardarOperacion(datos, env, ctx);
         if (url.pathname === '/agenda') return await guardarAgenda(datos, env, ctx);
+        if (url.pathname === '/conflicto') return await conflictoRevisado(datos, env);
         // Boton "Actualizar" de reporte2.html: rearma con la pagina Operacion.
         await lanzar(env, { workflow: 'planilla.yml', inputs: { origen: 'boton' } });
         return responder(200, { ok: true });

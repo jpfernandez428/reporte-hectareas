@@ -1049,6 +1049,12 @@ def datos_campos_en_curso(ayer):
             agenda = [t for t in json.load(f).get("trabajos", {}).values() if t.get("estado") != "terminado"]
     except (OSError, ValueError):
         agenda = []
+    # Ha aprox. de la pestaña "Campos" de la planilla de Google (operacion.json -> ha_aprox, 4-nov-2026).
+    try:
+        with open(os.path.join(rh.CARPETA_DATOS, "operacion.json"), encoding="utf-8") as f:
+            ha_planilla = [x for x in (json.load(f).get("ha_aprox") or {}).values() if x.get("ha")]
+    except (OSError, ValueError):
+        ha_planilla = []
     nombres = {}
     try:
         with open(os.path.join(rh.CARPETA_DATOS, "campos.json"), encoding="utf-8") as f:
@@ -1128,6 +1134,11 @@ def datos_campos_en_curso(ayer):
         dias_trab = sum(1 for d in trabajados if inicio and inicio <= d <= fa)
         ayer_x = f["por_dia"].get(fa, {"ha": 0.0, "sin": 0.0, "cuarteles": {}})
         aprox = float(str(job["ha"]).replace(",", ".")) if job else None
+        # La planilla (pestaña Campos) manda sobre la Agenda para el total aprox. del campo + labor.
+        hp = next((x for x in ha_planilla if pl_mismo(x.get("labor", ""), f["labor"]) and
+                   (f["campo"] in (ctx.campos_wialon(x["campo"]) or [x["campo"]]) or pl_mismo(x["campo"], f["campo"]))), None)
+        if hp and not cuarteles:
+            aprox = float(hp["ha"])
         hecho = llevamos + llevamos_sin
         ritmo = hecho / dias_campo if dias_campo and hecho > 0 else None
         quedan = max(0.0, aprox - hecho) if aprox else None

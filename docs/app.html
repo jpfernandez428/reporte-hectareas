@@ -118,6 +118,14 @@
   td input, td select { width: 100%; padding: 5px; font-size: 14px; border: 1px solid #ccc; border-radius: 6px; background: #fff; }
   tr.cambiada td { background: var(--amarillo-f); } tr.guardando td { background: #eef5ff; } tr.fallo td { background: var(--rojo-f); }
   .grupo td { font-size: 12px; font-weight: 700; color: var(--verde); text-transform: uppercase; padding-top: 12px; }
+  .grupo-btn { border: 0; background: none; padding: 4px 0; font: inherit; color: var(--verde); font-weight: 700; cursor: pointer; text-align: left; }
+  .tipos { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; align-items: center; font-size: 13px; }
+  .tipos .grupo-btn { border: 1px solid #cfe0d1; border-radius: 999px; padding: 4px 10px; background: #fff; font-size: 13px; }
+  .tipos .grupo-btn.abierto { background: var(--verde-f); }
+  .conflicto { background: #fff4cc; border-left: 4px solid #d4a017; padding: 8px 10px; margin: 0 0 8px; font-size: 14px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .conflicto span { flex: 1; min-width: 200px; }
+  .origen { font-size: 11px; font-weight: 700; border-radius: 4px; padding: 1px 5px; background: #eef1ee; color: var(--gris); }
+  .origen.o-Planilla { background: #e3f0ff; color: #1a5fa8; }
   .barra-guardar { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--borde); z-index: 20;
                    padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); display: flex; gap: 8px; align-items: center; }
   .barra-guardar .guardar { background: var(--verde); color: #fff; border: 0; border-radius: 8px; padding: 10px 16px; font-weight: 700; font-size: 15px; }
@@ -665,12 +673,56 @@ function sugerencias() {
       lista.push({ m, texto: `${m} trabajó ayer sin operador`, sub: `En ${nombreCampo(v.campo)}`, boton: 'Elegir operador…', fn: b => cambiarOperador(m, b) });
     }
   }
+  lista.push(...nombresDeLaPlanilla());
   // Agenda: mover las maquinas asignadas el dia de inicio, marcar terminado y sus avisos.
   if (window.Agenda) {
     lista.push(...Agenda.sugerencias());
     for (const a of Agenda.avisos()) lista.push({ m: '', texto: a.texto.replace(/<[^>]+>/g, ''), sub: 'Aviso de la Agenda', boton: 'Ver en la Agenda', fn: () => { UI.pestana = 'agenda'; dibujar(); Agenda.abrir(a.t.id); } });
   }
   return lista;
+}
+
+// Nombre nuevo escrito en la planilla de Google (operador o campo que el sistema no
+// conoce) parecido a uno existente: "¿Es el mismo?" (4-nov-2026). "No, es nuevo"
+// se recuerda en este aparato.
+let NOMBRES_OK = leerLS('nombres_nuevos_ok', []);
+function nombreNuevoOk(v) { NOMBRES_OK = [...new Set([...NOMBRES_OK, clave(v)])]; escribirLS('nombres_nuevos_ok', NOMBRES_OK); dibujar(); }
+function nombresDeLaPlanilla() {
+  const salida = [];
+  const conocidos = {
+    operador: ((V && V.operadores && V.operadores.lista) || []).flatMap(o => [o.operador, ...(o.otros_nombres || [])].map(n => ({ valor: o.operador, texto: n }))),
+    campo: opciones('campo').filter(o => o.extra !== 'sin geocerca').concat(Object.keys(CAMPOS.equivalencias || {}).map(k => ({ valor: k, texto: k }))),
+  };
+  for (const m of Object.keys(OP.maquinas)) {
+    for (const [k, nom] of [['operador', 'Operador'], ['campo', 'Campo']]) {
+      const val = valorDe(m)[k];
+      if (!val || esTaller(val) || NOMBRES_OK.includes(clave(val))) continue;
+      const ultimo = CAMBIOS_D1.find(c => c.maquina === m && c.cambio === nom);  // el mas reciente primero
+      if (!ultimo || ultimo.origen !== 'Planilla' || ultimo.despues !== val) continue;
+      const lista = conocidos[k];
+      if (lista.some(o => clave(o.texto) === clave(val) || clave(o.valor) === clave(val))) continue;
+      const mejor = lista.map(o => ({ o, p: Math.max(parecido(val, o.texto), k === 'operador' && mismoPrimerNombre(val, o.texto) ? 0.8 : 0) }))
+        .filter(x => x.p >= 0.75).sort((a, b) => b.p - a.p)[0];
+      if (!mejor) continue;
+      const bueno = mejor.o.valor, txt = k === 'campo' ? nombreCampo(bueno) : bueno;
+      salida.push({ m, texto: `${m}: «${val}» (escrito en la planilla) ¿es ${txt}?`, sub: `${nom} nuevo, parecido a uno que ya existe`,
+        boton: `Sí, es ${txt}`, fn: b => guardarFilas([filaCompleta(m, { [k]: bueno })], b),
+        otro: () => nombreNuevoOk(val), otroTexto: `No, es ${k === 'campo' ? 'un campo' : 'un operador'} nuevo` });
+    }
+  }
+  return salida;
+}
+
+// Mismo dato cambiado en la app y en la planilla en menos de 2 min (gana el ultimo).
+function conflictosHtml() {
+  if (!CONFLICTOS.length) return '';
+  const h = ts => fechaChile(ts).slice(11);
+  return CONFLICTOS.map(c => `<div class="conflicto"><span>⚠ <b>${esc(c.maquina)} · ${esc(c.cambio)}</b>: ${esc(c.otro_origen === 'Planilla' ? 'la planilla' : 'la app')} puso «${esc(c.otro_valor || '—')}» (${h(c.otro_ts)}) y ${esc(c.origen === 'Planilla' ? 'la planilla' : 'la app')} «${esc(c.valor || '—')}» (${h(c.ts)}). Quedó «${esc(c.valor || '—')}» (el último). Revísalo.</span>` +
+    `<button type="button" class="boton-sec" onclick="conflictoRevisado(${Number(c.n)}, this)">Revisado</button></div>`).join('');
+}
+async function conflictoRevisado(n, boton) {
+  const res = await enviarConPin(WORKER + '/conflicto', { n }, boton).catch(() => ({ ok: false, j: { error: 'sin conexión' } }));
+  if (res.ok) { aplicarEstado(res.j); dibujar(); } else aviso(textoError(res), true);
 }
 
 // ---------------------------------------------------------------------------
@@ -698,18 +750,58 @@ function contarFiltro(k) {
   UI.filtro = f0; UI.q = q0; return n;
 }
 
-function vistaPorCampo() {
-  const grupos = new Map();
+// ---------------------------------------------------------------------------
+// Agrupado por tipo de maquina (pedido del usuario 4-nov-2026): cada grupo
+// muestra de entrada solo las maquinas fuera de CYH (GPS o anotadas en un campo)
+// o con algun aviso; "Barredoras (3 de 25) ▸" despliega todas (se recuerda en
+// este aparato). Al buscar, o con los filtros En taller / Sin operador, salen
+// todas las que coinciden.
+// ---------------------------------------------------------------------------
+const NOMBRE_GRUPO = { 'Shacker SBS': 'Shakers SBS', 'Shacker de Suelo': 'Shakers de Suelo' };
+const nombreGrupo = g => NOMBRE_GRUPO[g] || g || 'Otras';
+let GRUPOS_ABIERTOS = leerLS('op_grupos_abiertos', {}), AVISOS_M = new Set();
+function alternarGrupo(g) { GRUPOS_ABIERTOS[g] = !GRUPOS_ABIERTOS[g]; escribirLS('op_grupos_abiertos', GRUPOS_ABIERTOS); redibujarLista(); }
+const ocultando = () => !UI.q.trim() && (UI.filtro === 'todas' || UI.filtro === 'campo');
+function aLaVista(m) {
+  const v = valorDe(m), g = gpsDe(m), r = resultadoDe(m);
+  // GPS fuera de CYH solo si dio senal en los ultimos 7 dias (una posicion de hace meses no cuenta).
+  const gpsFuera = g.lugar && g.lugar !== 'CYH' && (g.vivo || (g.dias_sin_senal != null && g.dias_sin_senal < 7));
+  return (v.campo && !esTaller(v.campo)) || gpsFuera || AVISOS_M.has(m) || !!pendienteDe(m) || cambiada(m) || !!(r && !r.ok)
+    || CONFLICTOS.some(c => c.maquina === m) || UI.sel === m;
+}
+// Unidades que pasan el filtro, por tipo (en el orden fijo): [{grupo, todas, visibles}]
+function porTipo() {
+  const grupos = [];
   for (const u of unidades()) {
     if (!pasa(u.maquina)) continue;
+    let g = grupos[grupos.length - 1];
+    if (!g || g.grupo !== (u.grupo || '')) grupos.push(g = { grupo: u.grupo || '', todas: [], visibles: [] });
+    g.todas.push(u);
+    if (aLaVista(u.maquina)) g.visibles.push(u);
+  }
+  for (const g of grupos) g.mostrar = !ocultando() || GRUPOS_ABIERTOS[g.grupo] ? g.todas : g.visibles;
+  return grupos;
+}
+function botonTipo(g) {
+  if (!ocultando()) return `<span class="grupo-btn">${esc(nombreGrupo(g.grupo))} (${g.todas.length})</span>`;
+  const abierto = !!GRUPOS_ABIERTOS[g.grupo];
+  return `<button type="button" class="grupo-btn${abierto ? ' abierto' : ''}" onclick='alternarGrupo(${esc(JSON.stringify(g.grupo))})'>${esc(nombreGrupo(g.grupo))} (${g.visibles.length} de ${g.todas.length}) ${abierto ? '▾' : '▸'}</button>`;
+}
+
+function vistaPorCampo() {
+  const tipos = porTipo(), mostrar = new Set(tipos.flatMap(g => g.mostrar.map(u => u.maquina)));
+  const grupos = new Map();
+  for (const u of unidades()) {
+    if (!mostrar.has(u.maquina)) continue;
     const v = valorDe(u.maquina);
     const k = esTaller(v.campo) ? '~taller' : !v.campo ? '~~sin' : (opciones('campo').find(o => clave(o.valor) === clave(v.campo)) || { valor: v.campo }).valor;
     if (!grupos.has(k)) grupos.set(k, []);
     grupos.get(k).push(u);
   }
   const orden = [...grupos.keys()].sort((a, b) => (a.startsWith('~') - b.startsWith('~')) || (a === '~taller') - (b === '~taller') || nombreCampo(a).localeCompare(nombreCampo(b), 'es'));
-  if (!orden.length) return '<div class="vacio">Ninguna máquina para este filtro.</div>';
-  return `<div class="campos">${orden.map(k => {
+  const barra = tipos.length ? `<div class="tipos">${ocultando() ? '<span class="nota" style="margin:0">Por tipo (las de CYH sin avisos quedan ocultas):</span>' : ''}${tipos.map(botonTipo).join('')}</div>` : '';
+  if (!orden.length) return barra + '<div class="vacio">Ninguna máquina para este filtro.</div>';
+  return barra + `<div class="campos">${orden.map(k => {
     const us = grupos.get(k), taller = k === '~taller';
     const titulo = taller ? 'Taller (CYH)' : k === '~~sin' ? 'Sin campo anotado' : nombreCampo(k);
     const calzan = us.filter(u => gpsDe(u.maquina).estado === 'ok').length;
@@ -720,7 +812,7 @@ function vistaPorCampo() {
         `${g.traslado ? `<small>🚚 ${esc(g.gps)}</small>` : g.lugar === 'fuera de geocercas' && g.lat != null ? `<small>📍 ${esc([g.comuna, ...(g.cercanos || []).slice(0, 1).map(c => kmTxt(c.km) + ' ' + nombreCampo(campoDeLugar(c.campo))), g.hora].filter(Boolean).join(' · '))}</small>` : ''}${estadoSinc(m)}</span></button>`;
     }).join('');
     // Taller y "sin campo" van plegados (son largos); se abren solos al buscar o si hay algo sincronizando.
-    const plegar = k.startsWith('~') && !UI.q.trim() && !us.some(u => pendienteDe(u.maquina) || resultadoDe(u.maquina));
+    const plegar = k.startsWith('~') && !UI.q.trim() && !ocultando() && !us.some(u => pendienteDe(u.maquina) || resultadoDe(u.maquina));
     return `<div class="campo-card${taller ? ' taller' : ''}"><header><b>${esc(titulo)}</b><small>${us.length} máq.${taller ? '' : ` · ${calzan} ✓ GPS`}</small></header>` +
       (plegar ? `<details><summary class="ver-mas">Ver ${us.length} máquinas</summary>${items}</details>` : items) + '</div>';
   }).join('')}</div>`;
@@ -757,7 +849,7 @@ function vistaSugerencias() {
   if (!s.length) return '<div class="vacio">Sin sugerencias: lo anotado calza con el GPS.</div>' + notaTraslado();
   return notaTraslado() + s.map((x, i) => `<div class="sug"><div class="txt"><b>${esc(x.texto)}</b><small>${esc(x.sub)}</small></div>` +
     `<div class="botones"><button type="button" onclick="aplicarSugerencia(${i}, this)">${esc(x.boton)}</button>` +
-    `${x.otro ? `<button type="button" class="sec" onclick="aplicarSugerencia(${i}, this, true)">Mover a otro campo…</button>` : ''}</div>` +
+    `${x.otro ? `<button type="button" class="sec" onclick="aplicarSugerencia(${i}, this, true)">${esc(x.otroTexto || 'Mover a otro campo…')}</button>` : ''}</div>` +
     `${x.mapa ? ubicacionHtml(x.m, true) : ''}</div>`).join('');
 }
 function aplicarSugerencia(i, boton, otro) { const s = sugerencias()[i]; if (s) (otro ? s.otro : s.fn)(boton); }
@@ -771,11 +863,11 @@ function opcionesSelect(tipo, actual) {
     `<option value="__nuevo">${tipo === 'campo' ? 'Otro campo…' : 'Nuevo operador…'}</option>`;
 }
 function vistaTabla() {
-  let html = '', grupo = null;
-  for (const u of unidades()) {
-    if (!pasa(u.maquina)) continue;
+  let html = '';
+  for (const g of porTipo()) {
+  html += `<tr class="grupo"><td colspan="7">${botonTipo(g)}</td></tr>`;
+  for (const u of g.mostrar) {
     const m = u.maquina, v = valorDe(m), r = resultadoDe(m), auto = desdeAuto(m);
-    if (u.grupo && u.grupo !== grupo) { grupo = u.grupo; html += `<tr class="grupo"><td colspan="7">${esc(grupo)}</td></tr>`; }
     const clase = pendienteDe(m) ? 'guardando' : cambiada(m) ? 'cambiada' : (r && !r.ok) ? 'fallo' : '';
     html += `<tr class="fila ${clase}" data-m="${esc(m)}"><td><b>${esc(m)}</b><br><small>${esc(u.labor)}</small><br>${estadoSinc(m)}</td>
       <td data-label="Implemento"><input data-k="implemento" value="${esc(v.implemento)}" maxlength="80"></td>
@@ -784,6 +876,7 @@ function vistaTabla() {
       <td data-label="Desde"><input data-k="desde" type="date" value="${esc(v.desde || auto)}"><br><span class="desde-txt">${v.campo && !esTaller(v.campo) ? (v.desde ? 'puesta a mano' : (auto ? 'automática (GPS)' : 'sin dato')) : ''}</span></td>
       <td data-label="Próximo destino"><input data-k="destino" value="${esc(v.destino)}" maxlength="80"></td>
       <td data-label="GPS">${gpsChip(m)}<div class="nota" style="margin:2px 0 0">${esc(gpsDe(m).gps || '')}</div></td></tr>`;
+  }
   }
   const n = Object.keys(editado).filter(cambiada).length;
   return `<div style="overflow-x:auto"><table class="tabla-op"><thead><tr><th>Máquina</th><th>Implemento</th><th>Operador</th><th>Campo</th><th>Desde</th><th>Próximo destino</th><th>GPS</th></tr></thead><tbody>${html || '<tr><td colspan="7" class="vacio">Ninguna máquina para este filtro.</td></tr>'}</tbody></table></div>
@@ -804,11 +897,11 @@ function historial() {
   const q = sinT(UI.qHist.trim());
   const enRepo = new Set(CAMBIOS.map(c => (c.id || '') + '|' + c.maquina + '|' + c.cambio));
   const todos = CAMBIOS.concat(CAMBIOS_D1.filter(c => !enRepo.has((c.id || '') + '|' + c.maquina + '|' + c.cambio)).reverse());
-  const filas = todos.slice().reverse().filter(c => !q || sinT([c.fecha, c.maquina, c.cambio, c.antes, c.despues].join(' ')).includes(q)).slice(0, 300).map(c => {
+  const filas = todos.slice().reverse().filter(c => !q || sinT([c.fecha, c.maquina, c.cambio, c.antes, c.despues, c.origen].join(' ')).includes(q)).slice(0, 300).map(c => {
     const t = c.id && tiempo[c.id];
     const pub = !c.id ? '–' : (!t && c.ts) ? 'guardado al instante · copiando a GitHub…' : !t ? 'midiendo…' : t.segundos == null ? '<b style="color:var(--rojo)">no se vio en 20 min</b>' : t.segundos > 600 ? `<b style="color:var(--rojo)">${duracion(t.segundos)} ⚠</b>` : duracion(t.segundos);
     return `<tr class="hist"><td data-label="Fecha">${esc(c.fecha)}</td><td data-label="Máquina">${esc(c.maquina)}</td><td data-label="Qué cambió">${esc(c.cambio)}</td>` +
-      `<td data-label="Antes → después">${esc(c.antes || '—')} → <b>${esc(c.despues || '—')}</b></td><td data-label="Quedó publicado en">${pub}</td></tr>`;
+      `<td data-label="Antes → después">${esc(c.antes || '—')} → <b>${esc(c.despues || '—')}</b></td><td data-label="Origen"><span class="origen o-${esc(c.origen || 'App')}">${esc(c.origen || (c.id ? 'App' : '–'))}</span></td><td data-label="Quedó publicado en">${pub}</td></tr>`;
   }).join('');
   const semana = TIEMPOS.filter(t => t.recibido && Date.now() - t.recibido < 7 * 86400000);
   const seg = semana.filter(t => t.segundos != null).map(t => t.segundos).sort((a, b) => a - b);
@@ -818,8 +911,8 @@ function historial() {
       (seg.length ? ` · mediana ${duracion(seg[Math.floor(seg.length / 2)])} · máximo ${duracion(seg[seg.length - 1])}` : '') +
       (lentos.length ? ` · <b style="color:var(--rojo)">${lentos.length} demoraron más de 10 min</b>` : '') : '<span class="nota">Todavía no hay guardados medidos.</span>'}</p>
     <input class="buscador" style="width:100%;margin-bottom:8px" type="search" placeholder="Buscar en el historial (máquina, operador, campo…)" value="${esc(UI.qHist)}" oninput="UI.qHist = this.value; document.getElementById('cuerpoHist').innerHTML = filasHistorial()">
-    <div style="overflow-x:auto"><table id="historial"><thead><tr><th>Fecha y hora</th><th>Máquina</th><th>Qué cambió</th><th>Antes → después</th><th>Quedó publicado en</th></tr></thead>
-    <tbody id="cuerpoHist">${filas || '<tr><td colspan="5" class="vacio">Sin cambios.</td></tr>'}</tbody></table></div>
+    <div style="overflow-x:auto"><table id="historial"><thead><tr><th>Fecha y hora</th><th>Máquina</th><th>Qué cambió</th><th>Antes → después</th><th>Origen</th><th>Quedó publicado en</th></tr></thead>
+    <tbody id="cuerpoHist">${filas || '<tr><td colspan="6" class="vacio">Sin cambios.</td></tr>'}</tbody></table></div>
     ${lentos.length ? `<div class="aviso-lento" style="margin-top:8px">⚠ En los últimos 7 días ${lentos.length} guardado${lentos.length === 1 ? '' : 's'} demoró más de 10 minutos en quedar publicado.</div>` : ''}</section>`;
 }
 function filasHistorial() {
@@ -828,7 +921,8 @@ function filasHistorial() {
 }
 
 function dibujarOperacion() {
-  const s = sugerencias().length;
+  const sl = sugerencias(), s = sl.length;
+  AVISOS_M = new Set(sl.map(x => x.m).filter(Boolean));
   const segV = (k, t) => `<button type="button" class="${UI.vista === k ? 'activo' : ''}" onclick="UI.vista='${k}'; escribirLS('op_vista', '${k}'); dibujar()">${t}</button>`;
   const segP = (k, t) => `<button type="button" class="${UI.pestana === k ? 'activo' : ''}" onclick="UI.pestana='${k}'; dibujar()">${t}</button>`;
   const fb = (k, t) => `<button type="button" class="${UI.filtro === k ? 'activo' : ''}" onclick="UI.filtro='${k}'; dibujar()">${t} (${contarFiltro(k)})</button>`;
@@ -841,6 +935,7 @@ function dibujarOperacion() {
   return `<h1>Operación</h1><div class="sub">¿Quién va a dónde? · Guardado por última vez: ${esc(OP.actualizado || '')}${D1 ? ' · al instante (Cloudflare)' : ''}</div>
     <div class="sub" id="gpsBarra">${textoGps()}</div>
     <div id="avisoCF"></div>
+    ${conflictosHtml()}
     <div class="barra-op">
       <span class="seg">${segP('maquinas', 'Máquinas')}${segP('agenda', `Agenda${nAg ? `<span class="cuenta">${nAg}</span>` : ''}`)}${segP('sugerencias', `Sugerencias${s ? `<span class="cuenta">${s}</span>` : ''}`)}</span>
       ${UI.pestana === 'maquinas' ? `<span class="seg">${segV('campo', 'Por campo')}${segV('tabla', 'Tabla')}</span>` : ''}
@@ -931,7 +1026,7 @@ function descargarExcel() {
     });
     const hoja = XLSX.utils.aoa_to_sheet([['Máquina', 'Labor', 'Implemento', 'Operador', 'Campo', 'Desde', 'Próximo destino', 'GPS'], ...filas]);
     hoja['!cols'] = [{ wch: 30 }, { wch: 18 }, { wch: 18 }, { wch: 20 }, { wch: 28 }, { wch: 14 }, { wch: 22 }, { wch: 50 }];
-    const hist = XLSX.utils.aoa_to_sheet([['Fecha y hora', 'Máquina', 'Qué cambió', 'Antes', 'Después'], ...CAMBIOS.slice().reverse().map(c => [c.fecha, c.maquina, c.cambio, c.antes, c.despues])]);
+    const hist = XLSX.utils.aoa_to_sheet([['Fecha y hora', 'Máquina', 'Qué cambió', 'Antes', 'Después', 'Origen'], ...CAMBIOS.slice().reverse().map(c => [c.fecha, c.maquina, c.cambio, c.antes, c.despues, c.origen || 'App'])]);
     const libro = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(libro, hoja, 'Operación'); XLSX.utils.book_append_sheet(libro, hist, 'Historial');
     XLSX.writeFile(libro, `Operacion_${new Date().toISOString().slice(0, 10)}.xlsx`);
@@ -947,12 +1042,13 @@ function descargarExcel() {
 // Carga y secciones (#operacion; las demas, por ahora, en las paginas actuales)
 // ---------------------------------------------------------------------------
 // Estado de la base de Cloudflare (D1): operacion al instante para todos los celulares.
-let D1 = false, VERSION = null, CAMBIOS_D1 = [];
+let D1 = false, VERSION = null, CAMBIOS_D1 = [], CONFLICTOS = [], PLANILLA = null;
 function aplicarEstado(e) {
   if (!e || !e.d1) return;
   D1 = true; VERSION = e.version;
   OP = { ...(OP || {}), maquinas: e.maquinas, actualizado: e.actualizado || (OP && OP.actualizado) };
-  CAMBIOS_D1 = (e.cambios || []).map(c => ({ fecha: fechaChile(c.ts), maquina: c.maquina, cambio: c.cambio, antes: c.antes, despues: c.despues, id: c.guardado, ts: c.ts }));
+  CAMBIOS_D1 = (e.cambios || []).map(c => ({ fecha: fechaChile(c.ts), maquina: c.maquina, cambio: c.cambio, antes: c.antes, despues: c.despues, id: c.guardado, ts: c.ts, origen: c.origen || 'App' }));
+  CONFLICTOS = e.conflictos || []; PLANILLA = e.planilla || null;
   if (window.Agenda) Agenda.desdeD1(e);
 }
 const fechaChile = ts => new Intl.DateTimeFormat('es-CL', { timeZone: 'America/Santiago', day: '2-digit', month: '2-digit', year: 'numeric',

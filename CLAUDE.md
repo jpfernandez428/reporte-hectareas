@@ -1458,6 +1458,39 @@ Registro:
     las del trabajo de la Agenda** (mismo campo y labor; si eligió cuarteles,
     solo esos); sin eso, "sin ha aprox.". Botón "Ver avance en la app"
     (`app.html#operacion`). Si falla, el correo sale sin esta parte.
+  - **Operación agrupada por tipo (4-nov-2026)**: en Tabla y Por campo, grupos en el
+    orden fijo (Barredoras, Shakers SBS, Tractores, Shakers de Suelo, …). De entrada
+    cada grupo muestra solo las máquinas fuera de CYH (anotadas en un campo, o GPS
+    fuera de CYH con señal en los últimos 7 días) o con algún aviso (sugerencia,
+    guardado pendiente o fallido, conflicto con la planilla); "Barredoras (3 de 25) ▸"
+    despliega todas y se recuerda en el aparato (`op_grupos_abiertos`). Al buscar, o
+    con los filtros En taller / Sin operador, salen todas las que coinciden. En Por
+    campo los botones por tipo van arriba de las tarjetas.
+  - **Planilla de Google "Operación CYH" sincronizada con Operación (4-nov-2026)**:
+    https://docs.google.com/spreadsheets/d/1QmB_QaA8VA9N1tOQ3RU0_Kj7MrXQ3hoqR3sfWPvCitk
+    (el Excel antiguo "Maquinas en Operacion" queda solo de respaldo). Pestañas
+    Operación (Máquina | Implemento | Operador | Campo | Desde | Próximo destino | GPS
+    | Última modificación con App/Planilla), Campos (campo + labor | Ha aprox.) y
+    Listas (oculta: operadores con sus otros nombres; Taller + campos de Wialon +
+    nombres de las equivalencias). Código: `cloudflare/planilla_apps_script.gs` (se
+    pega entero en Extensiones → Apps Script). Planilla → App: activador "al editar"
+    → Worker `POST /hoja` (sin Origin, con el PIN de las Propiedades del script);
+    Desde vacío = automático (nota en la celda); las columnas Máquina, GPS y Última
+    modificación se deshacen si se editan. App → Planilla: cada guardado de la app
+    (origen App) se manda a la Aplicación web del script (`doPost`) con una clave al
+    azar que el script genera y registra en el Worker (`tipo: registrar`, guarda
+    `planilla_url` y `planilla_clave` en D1 `meta`; sin secretos nuevos en
+    Cloudflare). Cada 5 min el script reintenta lo pendiente, trae todo desde
+    `/estado`, la columna GPS (`v2.gps_maquinas` + `/gps?guardado=1`, que no consulta
+    a Wialon) y las listas. Gana el último cambio; mismo dato cambiado en los dos
+    lados en menos de 2 min → tabla D1 `conflictos` y aviso amarillo en Operación con
+    "Revisado" (`POST /conflicto`). Historial con origen (D1 `cambios.origen`,
+    `operacion_cambios.json` → `origen`, columna "Origen" en la app y el Excel).
+    Nombre nuevo escrito en la planilla y parecido a uno existente → sugerencia
+    "¿es X?" en la app ("No, es nuevo" se recuerda en el aparato). Ha aprox. de la
+    pestaña Campos: D1 `ha_aprox` → `operacion.json` → `ha_aprox` (`operacion.py`,
+    elemento `{"ha_aprox": [...]}`); "Campos en curso" del correo las usa antes que
+    la Agenda.
   - **Historial: "Acotar" con varias casillas (arreglado 29-oct-2026)**: las
     marcas de "Acotar por máquina/campo" se guardan aparte del dibujo
     (`acotarMarcados` en index.html) y la lista solo se vuelve a dibujar si
