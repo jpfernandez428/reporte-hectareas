@@ -108,5 +108,13 @@
   "antes": "Candelaria",
   "despues": "Taller",
   "id": "mw27d6i7rkkoaa"
+ },
+ {
+  "fecha": "04-11-2026 11:20",
+  "maquina": "Barredora 6",
+  "cambio": "Campo",
+  "antes": "Puerto Lampa",
+  "despues": "Taller",
+  "id": "mw27dpga12cixm"
  }
 ]

@@ -1,5 +1,5 @@
 {
- "actualizado": "04-11-2026 11:19",
+ "actualizado": "04-11-2026 11:20",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -40,7 +40,7 @@
   "Barredora 6": {
    "implemento": "",
    "operador": "",
-   "campo": "Puerto Lampa",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
@@ -576,6 +576,12 @@
    "id": "mw27d6i7rkkoaa",
    "recibido": "1793801950076",
    "aplicado": 1793801978330,
+   "cambios": 1
+  },
+  {
+   "id": "mw27dpga12cixm",
+   "recibido": "1793801974570",
+   "aplicado": 1793802001833,
    "cambios": 1
   }
  ]
