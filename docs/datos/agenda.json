@@ -1,4 +1,34 @@
 {
- "actualizado": "",
- "trabajos": {}
+ "actualizado": "04-11-2026 12:35",
+ "trabajos": {
+  "mvuyvvp9dmgm": {
+   "id": "mvuyvvp9dmgm",
+   "campo": "ojeda",
+   "labor": "Poda",
+   "inicio": "2026-11-04",
+   "termino": "2026-11-30",
+   "termino_previsto": "2026-11-30",
+   "ha": "34",
+   "cuarteles": [],
+   "necesita": [
+    {
+     "tipo": "Podadora",
+     "cantidad": 1
+    }
+   ],
+   "estado": "por_confirmar",
+   "notas": "",
+   "maquinas": [],
+   "operadores": [],
+   "creado": "2026-10-30"
+  }
+ },
+ "guardados": [
+  {
+   "id": "mvuywyqlv1zng",
+   "recibido": "1793806502326",
+   "aplicado": 1793806531932,
+   "cambios": 1
+  }
+ ]
 }
