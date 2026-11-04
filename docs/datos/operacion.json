@@ -159,7 +159,7 @@
   "Barredora 23": {
    "implemento": "",
    "operador": "Moises",
-   "campo": "Candelaria",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
@@ -582,6 +582,12 @@
    "id": "mw27dpga12cixm",
    "recibido": "1793801974570",
    "aplicado": 1793802001833,
+   "cambios": 1
+  },
+  {
+   "id": "mw27dqrh7ghk5r",
+   "recibido": "1793801976235",
+   "aplicado": 1793802006095,
    "cambios": 1
   }
  ]
