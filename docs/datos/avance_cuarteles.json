@@ -12665,8 +12665,8 @@
           "maquinas": [
             "Shacker SBS 6"
           ],
-          "trabajado_ha": 11.954,
-          "porcentaje": 33.4,
+          "trabajado_ha": 16.3945,
+          "porcentaje": 45.8,
           "completo": false,
           "temporada": "2026"
         }
@@ -12849,8 +12849,8 @@
           "maquinas": [
             "Shacker SBS 10"
           ],
-          "trabajado_ha": 1.0357,
-          "porcentaje": 15.3,
+          "trabajado_ha": 2.5727,
+          "porcentaje": 37.9,
           "completo": false,
           "temporada": "2026"
         }
@@ -12863,8 +12863,8 @@
           "maquinas": [
             "Shacker SBS 10"
           ],
-          "trabajado_ha": 0.1134,
-          "porcentaje": 2.7,
+          "trabajado_ha": 1.0693,
+          "porcentaje": 25.5,
           "completo": false,
           "temporada": "2026"
         }
@@ -13385,8 +13385,8 @@
             "Shacker SBS 5",
             "Shacker SBS 8"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 0.8445,
+          "porcentaje": 75.9,
           "completo": false,
           "temporada": "2026"
         }
@@ -13409,8 +13409,8 @@
             "Shacker SBS 5",
             "Shacker SBS 8"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 6.1749,
+          "porcentaje": 92.8,
           "completo": false,
           "temporada": "2026"
         }
@@ -13427,6 +13427,16 @@
           "porcentaje": 60.5,
           "completo": false,
           "temporada": "2026"
+        },
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 5",
+            "Shacker SBS 8"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026"
         }
       }
     },
@@ -13439,6 +13449,15 @@
           ],
           "trabajado_ha": 5.798,
           "porcentaje": 57.2,
+          "completo": false,
+          "temporada": "2026"
+        },
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
           "completo": false,
           "temporada": "2026"
         }
@@ -13511,6 +13530,15 @@
           "porcentaje": 43.6,
           "completo": false,
           "temporada": "2026"
+        },
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 5"
+          ],
+          "trabajado_ha": 0.1954,
+          "porcentaje": 2.1,
+          "completo": false,
+          "temporada": "2026"
         }
       }
     },
@@ -13523,6 +13551,15 @@
           ],
           "trabajado_ha": 2.693,
           "porcentaje": 60.7,
+          "completo": false,
+          "temporada": "2026"
+        },
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 5"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
           "completo": false,
           "temporada": "2026"
         }
@@ -13545,8 +13582,8 @@
             "Shacker SBS 5",
             "Shacker SBS 8"
           ],
-          "trabajado_ha": 1.1506,
-          "porcentaje": 34.5,
+          "trabajado_ha": 1.1575,
+          "porcentaje": 34.7,
           "completo": false,
           "temporada": "2026"
         }
@@ -17077,6 +17114,20 @@
         }
       }
     },
+    "Santa Graciela 5": {
+      "area_total_ha": 9.8863,
+      "labores": {
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 11"
+          ],
+          "trabajado_ha": 0.9415,
+          "porcentaje": 9.5,
+          "completo": false,
+          "temporada": "2026"
+        }
+      }
+    },
     "Santa Graciela 6": {
       "area_total_ha": 3.3505,
       "labores": {
@@ -17084,10 +17135,11 @@
           "maquinas": [
             "Shacker SBS 11"
           ],
-          "trabajado_ha": 1.3232,
-          "porcentaje": 39.5,
-          "completo": false,
-          "temporada": "2026"
+          "trabajado_ha": 3.3505,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026",
+          "fecha_completo": "2026-11-03"
         }
       }
     },
@@ -17100,6 +17152,34 @@
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026"
+        }
+      }
+    },
+    "Santa Graciela 8": {
+      "area_total_ha": 2.9391,
+      "labores": {
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 11"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026"
+        }
+      }
+    },
+    "Santa Graciela 9": {
+      "area_total_ha": 3.1643,
+      "labores": {
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 11"
+          ],
+          "trabajado_ha": 1.3226,
+          "porcentaje": 41.8,
           "completo": false,
           "temporada": "2026"
         }
