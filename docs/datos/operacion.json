@@ -1,11 +1,11 @@
 {
- "actualizado": "29-10-2026 12:42",
+ "actualizado": "04-11-2026 11:19",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
    "implemento": "",
    "operador": "Alberto",
-   "campo": "Candelaria",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
@@ -570,6 +570,12 @@
    "id": "mvtpodagwp1ceu",
    "recibido": "1793288509756",
    "aplicado": 1793288538082,
+   "cambios": 1
+  },
+  {
+   "id": "mw27d6i7rkkoaa",
+   "recibido": "1793801950076",
+   "aplicado": 1793801978330,
    "cambios": 1
   }
  ]
