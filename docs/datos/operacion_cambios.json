@@ -156,5 +156,13 @@
   "antes": "Agricola Principio (Cancura)",
   "despues": "La Estrella",
   "id": "mw27g66uyqzybn"
+ },
+ {
+  "fecha": "04-11-2026 11:23",
+  "maquina": "Podadora 1",
+  "cambio": "Campo",
+  "antes": "Taller",
+  "despues": "el quillay",
+  "id": "mw27hyskthjaqi"
  }
 ]
