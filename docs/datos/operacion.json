@@ -236,7 +236,7 @@
   "Shacker SBS 9": {
    "implemento": "Shaker",
    "operador": "Gaston H",
-   "campo": "kunako",
+   "campo": "Rocío Molina",
    "desde": "",
    "destino": ""
   },
@@ -612,6 +612,12 @@
    "id": "mw27hyskthjaqi",
    "recibido": "1793802173253",
    "aplicado": 1793802206328,
+   "cambios": 1
+  },
+  {
+   "id": "mw27i6afc8okwi",
+   "recibido": "1793802184260",
+   "aplicado": 1793802210889,
    "cambios": 1
   }
  ]
