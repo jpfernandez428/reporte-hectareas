@@ -18,7 +18,9 @@
    ],
    "estado": "por_confirmar",
    "notas": "",
-   "maquinas": [],
+   "maquinas": [
+    "autopropulsada"
+   ],
    "operadores": [],
    "creado": "2026-10-30"
   }
@@ -28,6 +30,12 @@
    "id": "mvuywyqlv1zng",
    "recibido": "1793806502326",
    "aplicado": 1793806531932,
+   "cambios": 1
+  },
+  {
+   "id": "mvuyxqq4ql95g",
+   "recibido": "1793806504723",
+   "aplicado": 1793806535545,
    "cambios": 1
   }
  ]
