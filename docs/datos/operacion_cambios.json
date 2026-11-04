@@ -140,5 +140,13 @@
   "antes": "2026-10-26",
   "despues": "automática",
   "id": "mw27f2sfbi5xk3"
+ },
+ {
+  "fecha": "04-11-2026 11:21",
+  "maquina": "Shacker SBS 9",
+  "cambio": "Campo",
+  "antes": "Taller",
+  "despues": "kunako",
+  "id": "mw27ff62lcmm8k"
  }
 ]

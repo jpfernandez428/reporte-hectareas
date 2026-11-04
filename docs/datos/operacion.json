@@ -236,7 +236,7 @@
   "Shacker SBS 9": {
    "implemento": "Shaker",
    "operador": "Gaston H",
-   "campo": "Taller",
+   "campo": "kunako",
    "desde": "",
    "destino": ""
   },
@@ -595,6 +595,12 @@
    "recibido": "1793802038524",
    "aplicado": 1793802079353,
    "cambios": 2
+  },
+  {
+   "id": "mw27ff62lcmm8k",
+   "recibido": "1793802054587",
+   "aplicado": 1793802082667,
+   "cambios": 1
   }
  ]
 }
