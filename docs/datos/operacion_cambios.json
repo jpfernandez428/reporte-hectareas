@@ -148,5 +148,13 @@
   "antes": "Taller",
   "despues": "kunako",
   "id": "mw27ff62lcmm8k"
+ },
+ {
+  "fecha": "04-11-2026 11:21",
+  "maquina": "Shacker SBS 10",
+  "cambio": "Campo",
+  "antes": "Agricola Principio (Cancura)",
+  "despues": "La Estrella",
+  "id": "mw27g66uyqzybn"
  }
 ]
