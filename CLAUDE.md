@@ -1468,9 +1468,20 @@ Registro:
     campo los botones por tipo van arriba de las tarjetas.
   - **Planilla de Google "Operación CYH" sincronizada con Operación (4-nov-2026)**:
     https://docs.google.com/spreadsheets/d/1QmB_QaA8VA9N1tOQ3RU0_Kj7MrXQ3hoqR3sfWPvCitk
-    (el Excel antiguo "Maquinas en Operacion" queda solo de respaldo). Pestañas
-    Operación (Máquina | Implemento | Operador | Campo | Desde | Próximo destino | GPS
-    | Última modificación con App/Planilla), Campos (campo + labor | Ha aprox.) y
+    (el Excel antiguo "Maquinas en Operacion" queda solo de respaldo). **Vista
+    rehecha el 5-nov-2026 (aprobada por el usuario)**: pestaña Operación con las
+    columnas de la planilla antigua: Máquina | Implemento | Operador | Campo |
+    Ubicación (CYH, campo o comuna según el GPS) | Fecha término (de la Agenda: a
+    mano o la calculada al guardar) | Destino | Calza GPS ("✅ calza", "⚠ sin
+    geocerca", "⚠ sin señal X días", "⚠ sin GPS", "❌ GPS en CYH", "❌ GPS afuera",
+    "❌ GPS en <campo>"). Dos grupos con título: "🟢 EN OPERACIÓN (fuera de CYH)"
+    (campo distinto de Taller) y "⚪ RESTO (Taller / CYH)"; en cada uno tractores,
+    shakers SBS, Orchard Rite, shakers de suelo, recogedoras, podadora y al final
+    barredoras. Al cambiar el campo la fila sube o baja sola (se redibuja la hoja);
+    cambiar el campo desde la planilla deja el Desde de la app en automático.
+    Máquina, Ubicación, Fecha término y Calza GPS en gris, protegidas con aviso; si se
+    editan (o los títulos) se redibuja. "Última modificación" va en la pestaña
+    Registro (y el historial en D1). Pestañas Campos (campo + labor | Ha aprox.) y
     Listas (oculta: operadores con sus otros nombres; Taller + campos de Wialon +
     nombres de las equivalencias). Código: `cloudflare/planilla_apps_script.gs` (se
     pega entero en Extensiones → Apps Script). Planilla → App: activador "al editar"
