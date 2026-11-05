@@ -181,5 +181,14 @@
   "despues": "Taller",
   "id": "mw3i119go9tu7g",
   "origen": "App"
+ },
+ {
+  "fecha": "05-11-2026 09:06",
+  "maquina": "Podadora 1",
+  "cambio": "Operador",
+  "antes": "",
+  "despues": "Victor Ibarra",
+  "id": "mw3i184x6jfdsu",
+  "origen": "App"
  }
 ]

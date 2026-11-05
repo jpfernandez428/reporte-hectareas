@@ -1,5 +1,5 @@
 {
- "actualizado": "05-11-2026 09:05",
+ "actualizado": "05-11-2026 09:06",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -529,7 +529,7 @@
   },
   "Podadora 1": {
    "implemento": "ESTRELLA",
-   "operador": "",
+   "operador": "Victor Ibarra",
    "campo": "el quillay",
    "desde": "",
    "destino": ""
@@ -648,6 +648,12 @@
    "id": "mw3i119go9tu7g",
    "recibido": "1793880325150",
    "aplicado": 1793880352354,
+   "cambios": 1
+  },
+  {
+   "id": "mw3i184x6jfdsu",
+   "recibido": "1793880334093",
+   "aplicado": 1793880361611,
    "cambios": 1
   }
  ]
