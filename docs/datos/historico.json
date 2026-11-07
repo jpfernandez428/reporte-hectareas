@@ -57820,5 +57820,65 @@
     "area_total_ha": 4.51,
     "area_trabajada_ha": 0.39,
     "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-06",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "La Estrella 18",
+    "labor": "Raleo",
+    "n_hileras": 48,
+    "area_total_ha": 4.89,
+    "area_trabajada_ha": 3.8,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-06",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "MERCOFRUT 2",
+    "labor": "Raleo",
+    "n_hileras": 9,
+    "area_total_ha": 3.34,
+    "area_trabajada_ha": 0.01,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-06",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "MERCOFRUT 12",
+    "labor": "Raleo",
+    "n_hileras": 21,
+    "area_total_ha": 6.66,
+    "area_trabajada_ha": 0.11,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-06",
+    "maquina": "Shacker SBS 5",
+    "cuartel": "MERCOFRUT 12",
+    "labor": "Raleo",
+    "n_hileras": 49,
+    "area_total_ha": 6.66,
+    "area_trabajada_ha": 1.92,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-06",
+    "maquina": "Shacker SBS 5",
+    "cuartel": "MERCOFRUT 13",
+    "labor": "Raleo",
+    "n_hileras": 37,
+    "area_total_ha": 10.14,
+    "area_trabajada_ha": 0.53,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-06",
+    "maquina": "Shacker SBS 8",
+    "cuartel": "MERCOFRUT 13",
+    "labor": "Raleo",
+    "n_hileras": 17,
+    "area_total_ha": 10.14,
+    "area_trabajada_ha": 0.07,
+    "temporada": "2026"
   }
 ]
