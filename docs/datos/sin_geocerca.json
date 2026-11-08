@@ -4325,7 +4325,7 @@
 "lon": -71.611618,
 "horas": 2.35,
 "mapa": "https://www.google.com/maps?q=-33.693451,-71.611618",
-"ha": 1.46,
+"ha": 0.41,
 "opciones": [
 "Avoamerica"
 ],
@@ -4486,7 +4486,7 @@
 "lon": -71.422087,
 "horas": 3.05,
 "mapa": "https://www.google.com/maps?q=-34.309437,-71.422087",
-"ha": 1.89,
+"ha": 0.53,
 "opciones": [
 "torretagle"
 ],
@@ -4671,7 +4671,7 @@
 "lon": -71.611668,
 "horas": 2.01,
 "mapa": "https://www.google.com/maps?q=-33.693442,-71.611668",
-"ha": 1.25,
+"ha": 0.35,
 "opciones": [
 "Avoamerica"
 ],
@@ -4848,7 +4848,7 @@
 "lon": -71.611074,
 "horas": 2.45,
 "mapa": "https://www.google.com/maps?q=-33.693383,-71.611074",
-"ha": 1.52,
+"ha": 0.42,
 "opciones": [
 "Avoamerica"
 ],
@@ -5037,7 +5037,7 @@
 "lon": -71.419978,
 "horas": 4.69,
 "mapa": "https://www.google.com/maps?q=-34.308756,-71.419978",
-"ha": 2.91,
+"ha": 0.81,
 "opciones": [
 "torretagle"
 ],
@@ -5234,7 +5234,7 @@
 "lon": -71.422066,
 "horas": 2.29,
 "mapa": "https://www.google.com/maps?q=-34.306643,-71.422066",
-"ha": 1.42,
+"ha": 0.4,
 "opciones": [
 "torretagle"
 ],
@@ -5303,7 +5303,7 @@
 "lon": -71.421114,
 "horas": 1.35,
 "mapa": "https://www.google.com/maps?q=-34.306817,-71.421114",
-"ha": 0.84,
+"ha": 0.23,
 "opciones": [
 "torretagle"
 ],
@@ -5591,7 +5591,7 @@
 "lon": -71.60647,
 "horas": 2.6,
 "mapa": "https://www.google.com/maps?q=-33.679610,-71.606470",
-"ha": 1.61,
+"ha": 0.45,
 "opciones": [
 "Avoamerica"
 ],
@@ -5780,7 +5780,7 @@
 "lon": -71.422158,
 "horas": 5.15,
 "mapa": "https://www.google.com/maps?q=-34.305652,-71.422158",
-"ha": 3.2,
+"ha": 0.89,
 "opciones": [
 "torretagle"
 ],
@@ -6041,7 +6041,7 @@
 "lon": -71.606188,
 "horas": 2.11,
 "mapa": "https://www.google.com/maps?q=-33.679652,-71.606188",
-"ha": 1.31,
+"ha": 0.36,
 "opciones": [
 "Avoamerica"
 ],
@@ -6238,7 +6238,7 @@
 "lon": -71.606108,
 "horas": 2.5,
 "mapa": "https://www.google.com/maps?q=-33.679609,-71.606108",
-"ha": 1.55,
+"ha": 0.43,
 "opciones": [
 "Avoamerica"
 ],
@@ -6978,7 +6978,7 @@
 "lon": -71.422154,
 "horas": 4.11,
 "mapa": "https://www.google.com/maps?q=-34.304418,-71.422154",
-"ha": 2.55,
+"ha": 0.71,
 "opciones": [
 "torretagle"
 ],
@@ -7231,7 +7231,7 @@
 "lon": -71.604765,
 "horas": 2.28,
 "mapa": "https://www.google.com/maps?q=-34.719511,-71.604765",
-"ha": 1.42,
+"ha": 0.39,
 "opciones": [],
 "distancias_km": {},
 "campo": "Agr Santa Berta",
@@ -7975,7 +7975,7 @@
 "lon": -71.422348,
 "horas": 1.92,
 "mapa": "https://www.google.com/maps?q=-34.310555,-71.422348",
-"ha": 1.19,
+"ha": 0.33,
 "opciones": [
 "torretagle"
 ],
@@ -8184,7 +8184,7 @@
 "lon": -71.243775,
 "horas": 1.03,
 "mapa": "https://www.google.com/maps?q=-32.710324,-71.243775",
-"ha": 0.64,
+"ha": 0.18,
 "opciones": [],
 "distancias_km": {},
 "campo": "Alto Calibre",
@@ -8305,7 +8305,7 @@
 "lon": -71.605222,
 "horas": 5.27,
 "mapa": "https://www.google.com/maps?q=-34.718322,-71.605222",
-"ha": 3.27,
+"ha": 0.91,
 "opciones": [],
 "distancias_km": {},
 "campo": "Agr Santa Berta",
@@ -8708,7 +8708,7 @@
 "lon": -71.421348,
 "horas": 3.49,
 "mapa": "https://www.google.com/maps?q=-34.309940,-71.421348",
-"ha": 2.17,
+"ha": 0.6,
 "opciones": [
 "torretagle"
 ],
@@ -9230,7 +9230,7 @@
 "lon": -71.422425,
 "horas": 2.4,
 "mapa": "https://www.google.com/maps?q=-34.308557,-71.422425",
-"ha": 1.49,
+"ha": 0.41,
 "opciones": [
 "torretagle"
 ],
@@ -9509,7 +9509,7 @@
 "lon": -71.421652,
 "horas": 3.37,
 "mapa": "https://www.google.com/maps?q=-34.314479,-71.421652",
-"ha": 2.09,
+"ha": 0.58,
 "opciones": [
 "torretagle"
 ],
@@ -9670,7 +9670,7 @@
 "lon": -71.605241,
 "horas": 3.09,
 "mapa": "https://www.google.com/maps?q=-34.719736,-71.605241",
-"ha": 1.92,
+"ha": 0.53,
 "opciones": [],
 "distancias_km": {},
 "campo": "Agr Santa Berta",
@@ -9952,7 +9952,7 @@
 "lon": -71.421826,
 "horas": 2.73,
 "mapa": "https://www.google.com/maps?q=-34.312174,-71.421826",
-"ha": 1.7,
+"ha": 0.47,
 "opciones": [
 "torretagle"
 ],
@@ -10133,7 +10133,7 @@
 "lon": -71.244854,
 "horas": 1.64,
 "mapa": "https://www.google.com/maps?q=-32.710451,-71.244854",
-"ha": 1.02,
+"ha": 0.28,
 "opciones": [],
 "distancias_km": {},
 "campo": "Alto Calibre",
@@ -10330,7 +10330,7 @@
 "lon": -71.606503,
 "horas": 2.5,
 "mapa": "https://www.google.com/maps?q=-34.718551,-71.606503",
-"ha": 1.55,
+"ha": 0.43,
 "opciones": [],
 "distancias_km": {},
 "campo": "Agr Santa Berta",
@@ -10568,7 +10568,7 @@
 "lon": -71.423636,
 "horas": 1.61,
 "mapa": "https://www.google.com/maps?q=-34.309998,-71.423636",
-"ha": 1.0,
+"ha": 0.28,
 "comuna": "Pichidegua",
 "opciones": [
 "torretagle"
@@ -10637,7 +10637,7 @@
 "lon": -71.421722,
 "horas": 3.61,
 "mapa": "https://www.google.com/maps?q=-34.305824,-71.421722",
-"ha": 2.24,
+"ha": 0.62,
 "comuna": "Pichidegua",
 "opciones": [
 "torretagle"
@@ -10862,7 +10862,7 @@
 "lon": -71.423847,
 "horas": 1.34,
 "mapa": "https://www.google.com/maps?q=-34.308667,-71.423847",
-"ha": 0.83,
+"ha": 0.23,
 "comuna": "Pichidegua",
 "opciones": [
 "torretagle"
@@ -10983,7 +10983,7 @@
 "lon": -71.606034,
 "horas": 1.86,
 "mapa": "https://www.google.com/maps?q=-34.720911,-71.606034",
-"ha": 1.16,
+"ha": 0.32,
 "comuna": "Lolol",
 "opciones": [],
 "distancias_km": {},
@@ -11473,7 +11473,7 @@
 "lon": -71.331234,
 "horas": 3.41,
 "mapa": "https://www.google.com/maps?q=-34.726204,-71.331234",
-"ha": 5.01,
+"ha": 5.05,
 "comuna": "Chépica",
 "opciones": [
 "CK2"
@@ -11690,7 +11690,7 @@
 "lon": -71.419673,
 "horas": 1.55,
 "mapa": "https://www.google.com/maps?q=-34.309085,-71.419673",
-"ha": 0.96,
+"ha": 0.27,
 "comuna": "Pichidegua",
 "opciones": [
 "torretagle"
@@ -12644,7 +12644,7 @@
 "lon": -71.280419,
 "horas": 4.08,
 "mapa": "https://www.google.com/maps?q=-34.677442,-71.280419",
-"ha": 5.99,
+"ha": 6.05,
 "muestras": [
 [
 -71.2808,
@@ -12789,7 +12789,7 @@
 "lon": -71.242067,
 "horas": 1.36,
 "mapa": "https://www.google.com/maps?q=-32.701191,-71.242067",
-"ha": 0.84,
+"ha": 0.23,
 "muestras": [
 [
 -71.240865,
@@ -12963,7 +12963,7 @@
 "lon": -71.280377,
 "horas": 1.4,
 "mapa": "https://www.google.com/maps?q=-34.678041,-71.280377",
-"ha": 2.06,
+"ha": 2.08,
 "muestras": [
 [
 -71.280258,
@@ -13012,7 +13012,7 @@
 "lon": -71.283853,
 "horas": 4.74,
 "mapa": "https://www.google.com/maps?q=-34.684247,-71.283853",
-"ha": 6.96,
+"ha": 7.03,
 "muestras": [
 [
 -71.283102,
@@ -13181,7 +13181,7 @@
 "lon": -71.280509,
 "horas": 1.72,
 "mapa": "https://www.google.com/maps?q=-34.678291,-71.280509",
-"ha": 2.53,
+"ha": 2.55,
 "muestras": [
 [
 -71.280407,
@@ -13238,7 +13238,7 @@
 "lon": -71.284244,
 "horas": 1.5,
 "mapa": "https://www.google.com/maps?q=-34.675476,-71.284244",
-"ha": 2.2,
+"ha": 2.22,
 "muestras": [
 [
 -71.284325,
@@ -13295,7 +13295,7 @@
 "lon": -71.284744,
 "horas": 2.68,
 "mapa": "https://www.google.com/maps?q=-34.675728,-71.284744",
-"ha": 3.94,
+"ha": 3.97,
 "muestras": [
 [
 -71.284677,
@@ -13368,7 +13368,7 @@
 "lon": -71.284963,
 "horas": 4.83,
 "mapa": "https://www.google.com/maps?q=-34.676538,-71.284963",
-"ha": 7.09,
+"ha": 7.16,
 "muestras": [
 [
 -71.285198,
@@ -13505,7 +13505,7 @@
 "lon": -71.242174,
 "horas": 1.21,
 "mapa": "https://www.google.com/maps?q=-32.700858,-71.242174",
-"ha": 0.75,
+"ha": 0.21,
 "muestras": [
 [
 -71.24267,
@@ -13659,7 +13659,7 @@
 "lon": -71.241354,
 "horas": 3.41,
 "mapa": "https://www.google.com/maps?q=-32.700699,-71.241354",
-"ha": 2.12,
+"ha": 0.59,
 "muestras": [
 [
 -71.242032,
@@ -14030,7 +14030,7 @@
 "lon": -71.285698,
 "horas": 4.57,
 "mapa": "https://www.google.com/maps?q=-34.677537,-71.285698",
-"ha": 6.71,
+"ha": 6.77,
 "muestras": [
 [
 -71.285442,
@@ -14222,7 +14222,7 @@
 "lon": -71.285528,
 "horas": 4.41,
 "mapa": "https://www.google.com/maps?q=-34.677587,-71.285528",
-"ha": 6.48,
+"ha": 6.54,
 "muestras": [
 [
 -71.285023,
@@ -14332,7 +14332,7 @@
 "lon": -71.242511,
 "horas": 1.77,
 "mapa": "https://www.google.com/maps?q=-32.703780,-71.242511",
-"ha": 1.1,
+"ha": 0.31,
 "muestras": [
 [
 -71.23858,
@@ -14800,7 +14800,7 @@
 "lon": -71.28611,
 "horas": 2.68,
 "mapa": "https://www.google.com/maps?q=-34.678374,-71.286110",
-"ha": 3.94,
+"ha": 3.97,
 "muestras": [
 [
 -71.286413,
@@ -14920,7 +14920,7 @@
 "lon": -71.286109,
 "horas": 1.98,
 "mapa": "https://www.google.com/maps?q=-34.678355,-71.286109",
-"ha": 2.91,
+"ha": 2.93,
 "muestras": [
 [
 -71.28569,
@@ -14976,7 +14976,7 @@
 "lon": -71.243228,
 "horas": 1.68,
 "mapa": "https://www.google.com/maps?q=-32.703208,-71.243228",
-"ha": 1.04,
+"ha": 0.29,
 "muestras": [
 [
 -71.238355,
