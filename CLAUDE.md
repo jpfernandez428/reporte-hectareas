@@ -938,6 +938,28 @@ defecto, envío real solo cuando el usuario diga "lánzalo".
   arriba o filtros En taller / Sin operador se ve todo como antes. Reemplaza los
   botones por tipo "Barredoras (1 de 25) ▸". "Pasar las N a Taller" en Sin campo
   anotado (el usuario pidió pasar todas a Taller el 10-nov-2026).
+- **Etapa 2 – Correos de los clientes (publicada el 10-nov-2026)**:
+  - Una fila por campo: **Campo · Cliente (empresa) · Contacto 1 – Nombre ·
+    Contacto 1 – Correo · Contacto 2 – Nombre · Contacto 2 – Correo · Última
+    modificación** (contacto 2 opcional; un correo por casilla, validado en la
+    app, en Google y en el Worker). El reporte de ese campo va **Para** los
+    correos de los dos contactos, con jpfernandez@cosechamecanizada.cl en CC.
+  - **PRIVADO**: solo en D1 (tablas `clientes` y `clientes_cambios`) y en la
+    planilla. Nunca en GitHub ni en `docs/datos`; `/estado` no los muestra.
+    Worker: `POST /clientes` (app, con PIN: `leer`, `guardar`, `borrar`),
+    `POST /hoja` tipos `clientes_leer` y `clientes` (planilla, con PIN),
+    `GET /clientes` con `Authorization: Bearer <CLAVE_CLIENTES>` (el correo
+    diario; secreto `CLAVE_CLIENTES` en Cloudflare y en GitHub). Un campo se
+    identifica sin mayúsculas, tildes ni espacios; todo vacío = se borra.
+    App → planilla: `enviarAPlanilla(..., 'clientes')`, el script relee la lista.
+  - App: pestaña "Correos clientes" de Operación (`docs/app_clientes.js`): campos
+    con máquinas en Operación y campos con trabajo ayer (`v2.trabajo_campo`,
+    `ayer_ha` o `ayer_sin` > 0; un campo de Wialon se agrupa con su nombre de la
+    planilla si se usa, ej. MGH Nancagua → MGH), con sus máquinas; sin correo =
+    rojo "Falta correo del cliente: este campo no recibirá reporte" y contador
+    en la pestaña. Se leen con el PIN (nada queda en el aparato).
+  - Planilla: pestaña "Correos clientes" (`dibujarClientes`, `enviarClientes`),
+    filas sin correo en rojo con nota de las máquinas; columna G protegida.
 
 ## Pendientes
 

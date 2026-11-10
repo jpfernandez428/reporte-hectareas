@@ -17,6 +17,9 @@
 //   WIALON_TOKEN  token de Wialon de SOLO LECTURA (29-oct-2026) para GET /gps: la
 //                 ultima posicion de las maquinas al abrir la app. Nunca sale del
 //                 Worker (la pagina solo recibe las posiciones).
+//   CLAVE_CLIENTES clave al azar (10-nov-2026) para que el correo diario de GitHub
+//                 lea los correos de los clientes (GET /clientes); la misma va como
+//                 secreto CLAVE_CLIENTES en GitHub.
 //
 // Planilla de Google "Operación CYH" (4-nov-2026): no necesita secretos nuevos. Su
 // Apps Script manda las celdas editadas a POST /hoja con el PIN, y registra aqui
@@ -173,6 +176,8 @@ async function base(env) {
       env.DB.prepare('CREATE TABLE IF NOT EXISTS agenda (id TEXT PRIMARY KEY, datos TEXT, ts INTEGER)'),
       env.DB.prepare('CREATE TABLE IF NOT EXISTS agenda_cambios (n INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER, guardado TEXT, trabajo TEXT, cambio TEXT, antes TEXT, despues TEXT)'),
       env.DB.prepare('CREATE TABLE IF NOT EXISTS ha_aprox (clave TEXT PRIMARY KEY, campo TEXT, labor TEXT, ha TEXT, ts INTEGER, origen TEXT)'),
+      env.DB.prepare('CREATE TABLE IF NOT EXISTS clientes (clave TEXT PRIMARY KEY, campo TEXT, cliente TEXT, nombre1 TEXT, correo1 TEXT, nombre2 TEXT, correo2 TEXT, ts INTEGER, origen TEXT)'),
+      env.DB.prepare('CREATE TABLE IF NOT EXISTS clientes_cambios (n INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER, campo TEXT, cambio TEXT, antes TEXT, despues TEXT, origen TEXT)'),
       env.DB.prepare('CREATE TABLE IF NOT EXISTS conflictos (n INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER, maquina TEXT, cambio TEXT, otro_valor TEXT, otro_origen TEXT, otro_ts INTEGER, valor TEXT, origen TEXT, revisado INTEGER DEFAULT 0)'),
     ]);
     // Origen de cada cambio (App o Planilla, 4-nov-2026); falla sin dano si la columna ya existe.
@@ -350,6 +355,12 @@ async function desdeHoja(datos, env, ctx) {
     return responder(200, { ok: true });
   }
   if (tipo === 'ha') return guardarHa(datos, env, ctx);
+  if (tipo === 'clientes_leer') {
+    const db = await base(env).catch(() => null);
+    if (!db) return responder(503, { error: 'falta la base D1 (binding DB) en Cloudflare' });
+    return responder(200, { ok: true, clientes: await leerClientes(db) });
+  }
+  if (tipo === 'clientes') { const r = await guardarClientes(env, ctx, datos.filas, 'Planilla'); return responder(r.estado || 200, r.cuerpo); }
   if (tipo !== 'operacion') return responder(400, { error: 'tipo' });
   // Celdas editadas -> filas completas (con lo que hay ahora en los demas datos de la maquina).
   const cambios = Array.isArray(datos.cambios) ? datos.cambios.slice(0, 500) : [];
@@ -407,17 +418,104 @@ async function guardarHa(datos, env, ctx) {
 }
 
 // App -> Planilla: escribe las filas guardadas en la aplicacion web del Apps Script.
-async function enviarAPlanilla(env, db, filas, ts, origen) {
+async function enviarAPlanilla(env, db, filas, ts, origen, tipo = 'operacion') {
   const m = Object.fromEntries((await db.prepare("SELECT k, v FROM meta WHERE k IN ('planilla_url', 'planilla_clave')").all()).results.map(r => [r.k, r.v]));
   if (!m.planilla_url || !m.planilla_clave) return;
   let envio;
   try {
     const r = await fetch(m.planilla_url, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, redirect: 'follow',
-      body: JSON.stringify({ clave: m.planilla_clave, filas, ultima: `${horaChileLarga(ts)} · ${origen}` }) });
+      body: JSON.stringify({ clave: m.planilla_clave, tipo, filas, ultima: `${horaChileLarga(ts)} · ${origen}` }) });
     const t = await r.text();
     envio = { ts: Date.now(), ok: r.ok && t.includes('"ok":true'), error: r.ok && t.includes('"ok":true') ? '' : `${r.status} ${t.slice(0, 150)}` };
   } catch (e) { envio = { ts: Date.now(), ok: false, error: String(e.message || e).slice(0, 150) }; }
   await db.prepare("INSERT OR REPLACE INTO meta (k, v) VALUES ('planilla_envio', ?)").bind(JSON.stringify(envio)).run();
+}
+
+// ---------------------------------------------------------------------------
+// Correos de los clientes (pedido del usuario 10-nov-2026). PRIVADOS: viven solo
+// en D1 y en la planilla "Operación CYH"; nunca en GitHub ni en lo publicado, y
+// GET /estado (abierto) no los muestra.
+//   POST /clientes (la app, con PIN): {accion: 'leer'} | {accion: 'guardar',
+//     campo, cliente, nombre1, correo1, nombre2, correo2} | {accion: 'borrar', campo}.
+//   POST /hoja (la planilla, con PIN): tipo 'clientes_leer' | tipo 'clientes'
+//     {filas: [{campo, cliente, nombre1, correo1, nombre2, correo2}]}.
+//   GET /clientes con "Authorization: Bearer <CLAVE_CLIENTES>": el correo diario.
+// Una fila por campo: cliente (empresa) y hasta 2 contactos (nombre y correo; el 2
+// es opcional). El reporte va a los correos de los dos. Un campo se identifica sin
+// mayusculas, tildes ni espacios ("mercofrut" = MERCOFRUT). Todo vacio = se borra.
+// ---------------------------------------------------------------------------
+const claveCampo = t => String(t || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+const RE_CORREO = /^[^\s@,;<>"'()]+@[^\s@,;<>"'()]+\.[a-z]{2,}$/i;
+const DATOS_CLIENTE = { cliente: 'Cliente', nombre1: 'Contacto 1 – Nombre', correo1: 'Contacto 1 – Correo', nombre2: 'Contacto 2 – Nombre', correo2: 'Contacto 2 – Correo' };
+function limpiarCliente(x) {
+  const campo = String((x && x.campo) || '').trim();
+  if (!campo || campo.length > 80 || !claveCampo(campo)) return { error: 'campo' };
+  const l = { campo };
+  for (const k of Object.keys(DATOS_CLIENTE)) {
+    let v = String((x && x[k]) || '').trim();
+    if (k.startsWith('correo')) {
+      v = v.toLowerCase();
+      if (v && (v.length > 120 || !RE_CORREO.test(v))) return { error: `${DATOS_CLIENTE[k]} no válido: ${v.slice(0, 60)}` };
+    } else if (v.length > 120) return { error: `${DATOS_CLIENTE[k]}: muy largo` };
+    l[k] = v;
+  }
+  return l;
+}
+async function leerClientes(db) {
+  return (await db.prepare('SELECT campo, cliente, nombre1, correo1, nombre2, correo2, ts, origen FROM clientes ORDER BY campo').all()).results
+    .map(r => ({ ...r, correos: [r.correo1, r.correo2].filter(Boolean).join(', ') }));
+}
+// Guarda (o borra) filas; devuelve {estado, cuerpo}. origen: 'App' o 'Planilla'.
+async function guardarClientes(env, ctx, filas, origen) {
+  const db = await base(env).catch(() => null);
+  if (!db) return { estado: 503, cuerpo: { error: 'falta la base D1 (binding DB) en Cloudflare' } };
+  if (!Array.isArray(filas) || !filas.length || filas.length > 100) return { estado: 400, cuerpo: { error: 'filas' } };
+  const ts = Date.now(), sentencias = [], enviar = [];
+  for (const x of filas) {
+    const l = limpiarCliente(x);
+    if (l.error) return { estado: 400, cuerpo: { error: l.error } };
+    const k = claveCampo(l.campo);
+    const a = (await db.prepare('SELECT * FROM clientes WHERE clave = ?').bind(k).first()) || null;
+    const campo = a ? a.campo : l.campo;  // se mantiene como se escribio la primera vez
+    let cambio = false;
+    for (const d of Object.keys(DATOS_CLIENTE)) {
+      const antes = (a && a[d]) || '', despues = l[d] || '';
+      if (antes === despues) continue;
+      cambio = true;
+      sentencias.push(db.prepare('INSERT INTO clientes_cambios (ts, campo, cambio, antes, despues, origen) VALUES (?, ?, ?, ?, ?, ?)')
+        .bind(ts, campo, DATOS_CLIENTE[d], antes, despues, origen));
+    }
+    if (!cambio) continue;
+    if (Object.keys(DATOS_CLIENTE).every(d => !l[d])) sentencias.push(db.prepare('DELETE FROM clientes WHERE clave = ?').bind(k));
+    else sentencias.push(db.prepare('INSERT OR REPLACE INTO clientes (clave, campo, cliente, nombre1, correo1, nombre2, correo2, ts, origen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')
+      .bind(k, campo, l.cliente, l.nombre1, l.correo1, l.nombre2, l.correo2, ts, origen));
+    enviar.push({ ...l, campo });
+  }
+  if (sentencias.length) await db.batch(sentencias);
+  if (origen === 'App' && sentencias.length) ctx.waitUntil(enviarAPlanilla(env, db, enviar, ts, origen, 'clientes').catch(() => {}));
+  return { cuerpo: { ok: true, clientes: await leerClientes(db), ultima: `${horaChileLarga(ts)} · ${origen}` } };
+}
+async function clientesDesdePagina(datos, env, ctx) {
+  const accion = String(datos.accion || '');
+  if (accion === 'leer') {
+    const db = await base(env).catch(() => null);
+    if (!db) return responder(503, { error: 'falta la base D1 (binding DB) en Cloudflare' });
+    const cambios = (await db.prepare('SELECT ts, campo, cambio, antes, despues, origen FROM clientes_cambios ORDER BY n DESC LIMIT 100').all()).results;
+    return responder(200, { ok: true, clientes: await leerClientes(db), cambios });
+  }
+  if (accion === 'guardar' || accion === 'borrar') {
+    const fila = accion === 'borrar' ? { campo: datos.campo } : Object.fromEntries(['campo', ...Object.keys(DATOS_CLIENTE)].map(k => [k, datos[k]]));
+    const r = await guardarClientes(env, ctx, [fila], 'App');
+    return responder(r.estado || 200, r.cuerpo);
+  }
+  return responder(400, { error: 'accion' });
+}
+// Comparacion en tiempo constante (claves).
+function mismaClave(a, b) {
+  const x = new TextEncoder().encode(String(a)), y = new TextEncoder().encode(String(b));
+  let d = x.length ^ y.length;
+  for (let i = 0; i < y.length; i++) d |= (x[i] || 0) ^ y[i];
+  return d === 0;
 }
 
 // Aviso de conflicto revisado en la app ({n} o {todos: true}).
@@ -607,6 +705,15 @@ export default {
       // ?guardado=1 (la planilla): solo la ultima consulta, sin preguntar a Wialon.
       try { return await gpsAlMomento(env, url.searchParams.get('guardado') === '1'); } catch (e) { return responder(502, { ok: false, error: String(e.message || e) }); }
     }
+    // Correo diario (GitHub): correos de los clientes con la clave secreta CLAVE_CLIENTES.
+    if (peticion.method === 'GET' && url.pathname === '/clientes') {
+      const dada = (peticion.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+      if (!env.CLAVE_CLIENTES) return responder(503, { error: 'falta el secreto CLAVE_CLIENTES en Cloudflare' });
+      if (!dada || !mismaClave(dada, env.CLAVE_CLIENTES)) { await new Promise(r => setTimeout(r, 1000)); return responder(403, { error: 'clave' }); }
+      const db = await base(env).catch(() => null);
+      if (!db) return responder(503, { error: 'falta la base D1 (binding DB) en Cloudflare' });
+      return responder(200, { ok: true, clientes: await leerClientes(db) });
+    }
     // Prueba a mano (GET /probar?hora=00:30 | 07:30 | 09:00 | planilla): lanza esa tarea al
     // tiro y muestra la respuesta de GitHub. Es inofensivo: la corrida no
     // repite un dia ya procesado y el correo no sale dos veces el mismo dia.
@@ -632,7 +739,7 @@ export default {
       try { return await desdeHoja(datos, env, ctx); } catch (e) { return responder(502, { error: String(e.message || e) }); }
     }
     // Guardados desde las paginas: solo desde la pagina publicada y con el PIN.
-    if (peticion.method === 'POST' && ['/confirmar', '/planilla', '/operacion', '/agenda', '/conflicto'].includes(url.pathname)) {
+    if (peticion.method === 'POST' && ['/confirmar', '/planilla', '/operacion', '/agenda', '/conflicto', '/clientes'].includes(url.pathname)) {
       if ((peticion.headers.get('Origin') || '') !== ORIGEN_PAGINA) return responder(403, { error: 'origen' });
       const datos = await leerCuerpo(peticion);
       if (!datos) return responder(400, { error: 'JSON invalido' });
@@ -643,6 +750,7 @@ export default {
         if (url.pathname === '/operacion') return await guardarOperacion(datos, env, ctx);
         if (url.pathname === '/agenda') return await guardarAgenda(datos, env, ctx);
         if (url.pathname === '/conflicto') return await conflictoRevisado(datos, env);
+        if (url.pathname === '/clientes') return await clientesDesdePagina(datos, env, ctx);
         // Boton "Actualizar" de reporte2.html: rearma con la pagina Operacion.
         await lanzar(env, { workflow: 'planilla.yml', inputs: { origen: 'boton' } });
         return responder(200, { ok: true });

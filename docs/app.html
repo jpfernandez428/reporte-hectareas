@@ -16,6 +16,7 @@
 <script src="menu.js"></script>
 <script src="app_ayer_flota.js"></script>
 <script src="app_agenda.js"></script>
+<script src="app_clientes.js"></script>
 <style>
   :root { /* Color de la marca: negro (pedido del usuario 10-nov-2026; antes verde #2f6f3e). --ok = verde de "todo bien". */
           --verde: #161616; --verde-f: #efefef; --ok: #2f6f3e; --rojo: #b3261e; --rojo-f: #fdecea; --gris: #5f6b64; --borde: #e3e8e5;
@@ -1223,7 +1224,10 @@ function dibujarOperacion() {
   const fb = (k, t) => `<button type="button" class="${UI.filtro === k ? 'activo' : ''}" onclick="UI.filtro='${k}'; dibujar()">${t} (${contarFiltro(k)})</button>`;
   const ancho = innerWidth >= 1000;
   const nAg = window.Agenda ? Agenda.avisos().length : 0;
-  const cuerpo = UI.pestana === 'agenda' && window.Agenda ? Agenda.html()
+  if (UI.pestana === 'clientes' && window.Clientes && !Clientes.cargado() && typeof pinGuardado === 'function' && pinGuardado()) setTimeout(() => Clientes.cargar(), 0);
+  const nCli = window.Clientes ? Clientes.nFaltan() : 0;
+  const cuerpo = UI.pestana === 'clientes' && window.Clientes ? Clientes.html()
+    : UI.pestana === 'agenda' && window.Agenda ? Agenda.html()
     : UI.pestana === 'sugerencias' ? `<section><h2>Sugerencias del GPS</h2>${vistaSugerencias()}<p class="nota">Se aprueban con un toque (piden el PIN la primera vez en este aparato). Vienen de lo que ve el GPS ahora (máquina vista en otro campo, en CYH estando anotada en un campo, o trabajando sin operador) y de la Agenda (mover las máquinas el día de inicio, marcar terminado, avisos).</p></section>`
     : UI.vista === 'tabla' ? vistaTabla()
     : `<div class="op-layout"><div>${vistaPorCampo()}</div>${ancho ? `<div class="panel-lateral"><section>${panelMaquina(UI.sel)}</section><section><h2>Sugerencias del GPS (${s})</h2>${vistaSugerencias()}</section></div>` : ''}</div>`;
@@ -1232,15 +1236,15 @@ function dibujarOperacion() {
     <div id="avisoCF"></div>
     ${conflictosHtml()}
     <div class="barra-op">
-      <span class="seg">${segP('maquinas', 'Máquinas')}${segP('agenda', `Agenda${nAg ? `<span class="cuenta">${nAg}</span>` : ''}`)}${segP('sugerencias', `Sugerencias${s ? `<span class="cuenta">${s}</span>` : ''}`)}</span>
+      <span class="seg">${segP('maquinas', 'Máquinas')}${segP('agenda', `Agenda${nAg ? `<span class="cuenta">${nAg}</span>` : ''}`)}${segP('sugerencias', `Sugerencias${s ? `<span class="cuenta">${s}</span>` : ''}`)}${segP('clientes', `Correos clientes${nCli ? `<span class="cuenta">${nCli}</span>` : ''}`)}</span>
       ${UI.pestana === 'maquinas' ? `<span class="seg">${segV('campo', 'Por campo')}${segV('tabla', esCelular() ? 'Lista' : 'Tabla')}</span>` : ''}
-      ${UI.pestana !== 'agenda' ? '<button type="button" class="boton-sec" onclick="descargarExcel()">Descargar Excel</button>' : ''}
+      ${UI.pestana !== 'agenda' && UI.pestana !== 'clientes' ? '<button type="button" class="boton-sec" onclick="descargarExcel()">Descargar Excel</button>' : ''}
       ${UI.vista !== 'tabla' || UI.pestana !== 'maquinas' ? '<span id="msg"></span>' : ''}
     </div>
     ${UI.pestana === 'maquinas' ? `<div class="barra-op"><input class="buscador" type="search" placeholder="Buscar máquina, operador o campo" value="${esc(UI.q)}" oninput="UI.q = this.value; redibujarLista()"></div>
       <div class="filtros">${fb('todas', 'Todas')}${fb('campo', 'En campo')}${fb('taller', 'En taller')}${fb('sinop', 'Sin operador')}</div>` : ''}
     <div id="vistaOp">${cuerpo}</div>
-    ${UI.pestana === 'agenda' ? '' : historial()}`;
+    ${UI.pestana === 'agenda' || UI.pestana === 'clientes' ? '' : historial()}`;
 }
 function redibujarLista() {
   const caja = document.getElementById('vistaOp');

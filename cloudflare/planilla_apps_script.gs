@@ -25,6 +25,10 @@
  *  - Operador y Campo (10-nov-2026): un nombre igual a uno de la lista salvo mayúsculas,
  *    tildes o espacios se cambia solo al de la lista; uno parecido queda en amarillo con
  *    la nota "¿Es X?"; uno nuevo queda en la lista para las próximas veces.
+ *  - Pestaña "Correos clientes" (10-nov-2026): Campo · Cliente (empresa) · Contacto 1 – Nombre ·
+ *    Contacto 1 – Correo · Contacto 2 – Nombre · Contacto 2 – Correo · Última modificación (una fila
+ *    por campo, el contacto 2 es opcional), sincronizada con la app (Cloudflare D1). Campo con máquinas o trabajo ayer y sin correo: fila
+ *    en rojo (no recibirá el reporte diario). Los correos NUNCA van a GitHub.
  *  - Gana el último cambio; si el mismo dato se cambió en los dos lados en menos de
  *    2 min, la app muestra un aviso. El historial guarda el origen (App/Planilla).
  *
@@ -36,7 +40,10 @@
 
 const WORKER = 'https://disparador-reporte.dawn-band-fd6c.workers.dev';
 const DATOS = 'https://jpfernandez428.github.io/reporte-hectareas/datos/';
-const HOJA_OP = 'Operación', HOJA_CAMPOS = 'Campos', HOJA_LISTAS = 'Listas', HOJA_REGISTRO = 'Registro';
+const HOJA_OP = 'Operación', HOJA_CAMPOS = 'Campos', HOJA_LISTAS = 'Listas', HOJA_REGISTRO = 'Registro', HOJA_CLIENTES = 'Correos clientes';
+const ENCABEZADO_CLIENTES = ['Campo', 'Cliente (empresa)', 'Contacto 1 – Nombre', 'Contacto 1 – Correo', 'Contacto 2 – Nombre', 'Contacto 2 – Correo', 'Última modificación'];
+const DATOS_CLIENTE = ['cliente', 'nombre1', 'correo1', 'nombre2', 'correo2'];  // columnas B a F
+const NCLI = ENCABEZADO_CLIENTES.length;
 const ENCABEZADO_OP = ['Máquina', 'Implemento', 'Operador', 'Campo', 'Ubicación', 'Fecha término', 'Destino', 'Calza GPS'];
 const ENCABEZADO_CAMPOS = ['Campo', 'Labor', 'Ha aprox.', 'Última modificación'];
 const ENCABEZADO_REGISTRO = ['Máquina', 'Última modificación'];
@@ -96,13 +103,14 @@ function instalar() {
 function preparar() {
   const op = hoja(HOJA_OP, ENCABEZADO_OP), campos = hoja(HOJA_CAMPOS, ENCABEZADO_CAMPOS);
   const listas = hoja(HOJA_LISTAS, ['Operadores', 'Campos']), registro = hoja(HOJA_REGISTRO, ENCABEZADO_REGISTRO);
+  const clientes = hoja(HOJA_CLIENTES, ENCABEZADO_CLIENTES);
   // La vista anterior (Desde, Próximo destino, GPS, Última modificación) se reemplaza entera.
   op.getRange(1, 1, 1, Math.max(op.getMaxColumns(), NCOL)).clearContent();
   op.getRange(1, 1, 1, NCOL).setValues([ENCABEZADO_OP]);
   if (op.getMaxColumns() > NCOL) op.getRange(1, NCOL + 1, op.getMaxRows(), op.getMaxColumns() - NCOL).clear();
   actualizarListas();
   listas.hideSheet();
-  [op, campos, registro].forEach(h => {
+  [op, campos, registro, clientes].forEach(h => {
     h.setFrozenRows(1);
     h.getRange(1, 1, 1, h.getLastColumn()).setFontWeight('bold').setBackground(COLOR.encabezado).setFontColor('#ffffff');
   });
@@ -114,6 +122,14 @@ function preparar() {
   [[1, 230], [2, 150], [3, 150], [4, 170], [5, 150], [6, 110], [7, 150], [8, 190]].forEach(([c, w]) => op.setColumnWidth(c, w));
   campos.setColumnWidth(1, 200); campos.setColumnWidth(2, 160); campos.setColumnWidth(4, 160);
   registro.setColumnWidth(1, 230); registro.setColumnWidth(2, 200);
+  [[1, 200], [2, 200], [3, 170], [4, 230], [5, 170], [6, 230], [7, 180]].forEach(([c, w]) => clientes.setColumnWidth(c, w));
+  clientes.getRange(2, 1, 1000, 1).setDataValidation(regla(listas, 2));
+  // Correos: Google rechaza uno mal escrito (Cloudflare lo vuelve a revisar).
+  const correo = SpreadsheetApp.newDataValidation().requireTextIsEmail().setAllowInvalid(false)
+    .setHelpText('Escribe un solo correo bien escrito, ej. nombre@empresa.cl').build();
+  [4, 6].forEach(c => clientes.getRange(2, c, 1000, 1).setDataValidation(correo));
+  clientes.getProtections(SpreadsheetApp.ProtectionType.RANGE).filter(x => x.getDescription() === 'Lo escribe la app').forEach(x => x.remove());
+  clientes.getRange('G:G').protect().setDescription('Lo escribe la app').setWarningOnly(true);
   // Protección: Máquina, Ubicación, Fecha término y Calza GPS (y la pestaña Registro) muestran
   // un aviso antes de editarlas; si igual se editan, la hoja se vuelve a dibujar.
   [op, campos, registro].forEach(h => h.getProtections(SpreadsheetApp.ProtectionType.RANGE)
@@ -140,6 +156,7 @@ function alEditar(e) {
   if (!lock.tryLock(20000)) return aviso('La planilla está ocupada: vuelve a editar la celda en unos segundos.');
   try {
     if (nombre === HOJA_CAMPOS) { if (e.range.getRow() >= 2) enviarCampos(e); return; }
+    if (nombre === HOJA_CLIENTES) { enviarClientes(e); return; }
     if (nombre === HOJA_REGISTRO) {
       if (e.range.getNumRows() === 1 && e.range.getNumColumns() === 1) e.range.setValue(e.oldValue === undefined ? '' : e.oldValue);
       return aviso('La pestaña Registro la escribe la app.');
@@ -301,6 +318,11 @@ function doPost(e) {
   const lock = LockService.getScriptLock();
   if (!lock.tryLock(20000)) return json({ ok: false, error: 'ocupado' });
   try {
+    if (d.tipo === 'clientes') {
+      // La app guardó un cliente o sus correos: se vuelve a leer la lista completa y se dibuja.
+      traerClientes();
+      return json({ ok: true });
+    }
     const filas = (Array.isArray(d.filas) ? d.filas : []).filter(f => f && f.maquina);
     const est = estadoGuardado();
     if (est) {
@@ -327,6 +349,7 @@ function sincronizar() {
     reintentarPendientes();
     traerDesdeApp(true);
     actualizarListas();
+    traerClientes();
   } finally { lock.releaseLock(); }
 }
 
@@ -463,6 +486,87 @@ function escribirRegistro(ultima, todas) {
   if (actual.length !== antes.length || actual.some((r, i) => r[0] !== antes[i][0] || r[1] !== antes[i][1])) {
     h.getRange(2, 1, actual.length, 2).setNumberFormat('@').setValues(actual);
   }
+}
+
+// ---------------------------------------------------------------------------
+// Pestaña "Correos clientes" (pedido del usuario 10-nov-2026)
+// ---------------------------------------------------------------------------
+function traerClientes() {
+  const r = llamarWorker({ tipo: 'clientes_leer' });
+  if (!r.ok) { console.log('Correos clientes: ' + r.error); return; }
+  dibujarClientes(r.datos.clientes || []);
+}
+// Nombre "oficial" del campo (igual que la app): el de Wialon si es el mismo, o el de una equivalencia.
+function campoCanon(c, campos) {
+  c = String(c || '').trim();
+  const w = (campos.campos || []).find(x => clave(x) === clave(c));
+  if (w) return w;
+  const e = Object.keys(campos.equivalencias || {}).find(k => clave(k) === clave(c));
+  return e || c;
+}
+function filasClientes(clientes, maquinas, v2, campos) {
+  const por = {}, orden = [];
+  const fila = n => { const k = clave(n); if (!por[k]) { por[k] = { campo: n, maquinas: [], ayer: [], dato: null }; orden.push(k); } return por[k]; };
+  Object.keys(maquinas || {}).forEach(m => { const c = maquinas[m].campo; if (c && !esTaller(c)) fila(campoCanon(c, campos)).maquinas.push(m); });
+  const usados = {}; orden.forEach(k => { usados[k] = true; });
+  (v2.trabajo_campo || []).forEach(t => {
+    if (!((t.ayer_ha || 0) > 0 || (t.ayer_sin || 0) > 0)) return;
+    const k = Object.keys(campos.equivalencias || {}).find(n => (campos.equivalencias[n] || []).indexOf(t.campo) >= 0 && usados[clave(n)]);
+    const f = fila(k || campoCanon(t.campo, campos));
+    if (f.ayer.indexOf(t.maquina) < 0) f.ayer.push(t.maquina);
+  });
+  clientes.forEach(d => { fila(d.campo).dato = d; });
+  return orden.map(k => por[k]).map(f => Object.assign(f, { activo: f.maquinas.length + f.ayer.length > 0,
+    falta: f.maquinas.length + f.ayer.length > 0 && !(f.dato && (f.dato.correo1 || f.dato.correo2)) }))
+    .sort((a, b) => (b.falta - a.falta) || (b.activo - a.activo) || a.campo.localeCompare(b.campo, 'es'));
+}
+function dibujarClientes(clientes) {
+  const est = estadoGuardado() || { maquinas: {} };
+  const v2 = (leerJson(DATOS + 'reporte_v2.json') || {}).v2 || {};
+  const campos = leerJson(DATOS + 'campos.json') || {};
+  const fs = filasClientes(clientes, est.maquinas, v2, campos);
+  const h = hoja(HOJA_CLIENTES, ENCABEZADO_CLIENTES);
+  const valores = fs.map(f => [f.campo].concat(DATOS_CLIENTE.map(k => (f.dato && f.dato[k]) || ''),
+    [f.dato && f.dato.ts ? `${horaChile(f.dato.ts)} · ${f.dato.origen || 'App'}` : '']));
+  const corto = m => m.replace(/^Shacker /, '').replace(/^Tractor (\d+).*/, 'Tractor $1');
+  const notas = fs.map(f => [[f.maquinas.length ? 'En Operación: ' + f.maquinas.map(corto).join(', ') : '',
+    f.ayer.length ? 'Trabajaron ayer: ' + f.ayer.map(corto).join(', ') : '',
+    f.falta ? '⚠ Falta correo del cliente: este campo no recibirá reporte.' : ''].filter(String).join('\n')].concat(Array(NCLI - 1).fill('')));
+  const cols = Array.from({ length: NCLI }, (_, j) => j), ult = NCLI - 1;
+  const fondos = fs.map(f => cols.map(j => f.falta ? '#f4cccc' : j === ult ? COLOR.soloLectura : '#ffffff'));
+  const colores = fs.map(f => cols.map(j => f.falta ? COLOR.mal : j === ult ? COLOR.textoGris : '#1f1f1f'));
+  const p = PropertiesService.getScriptProperties();
+  const firma = Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, JSON.stringify([valores, notas, fondos]), Utilities.Charset.UTF_8));
+  const n = valores.length, antes = Math.max(h.getLastRow() - 1, 0);
+  if (p.getProperty('VISTA_CLIENTES') === firma && antes === n) return;
+  if (antes > 0) h.getRange(2, 1, antes, NCLI).clearContent().clearNote().setBackground(null).setFontColor(null).setFontWeight('normal');
+  if (n) {
+    const r = h.getRange(2, 1, n, NCLI);
+    r.setNumberFormat('@').setValues(valores).setNotes(notas).setBackgrounds(fondos).setFontColors(colores);
+    h.getRange(2, 1, n, 1).setFontWeight('bold');
+  }
+  p.setProperty('VISTA_CLIENTES', firma);
+}
+// Planilla -> App: la fila editada (Campo, Cliente y contactos) se guarda en la app.
+function enviarClientes(e) {
+  const h = e.range.getSheet(), r0 = e.range.getRow(), nr = e.range.getNumRows(), c0 = e.range.getColumn();
+  if (r0 < 2 || c0 + e.range.getNumColumns() - 1 >= NCLI) {
+    // Encabezado o "Última modificación": lo escribe la app.
+    if (e.range.getNumRows() === 1 && e.range.getNumColumns() === 1) e.range.setValue(e.oldValue === undefined ? '' : e.oldValue);
+    if (c0 < NCLI && r0 >= 2) return aviso('No se cambió nada: edita las celdas de Campo a Contacto 2 – Correo.');
+    return aviso('La columna "Última modificación" la escribe la app.');
+  }
+  const vals = h.getRange(r0, 1, nr, NCLI - 1).getValues();
+  const filas = vals.map(v => {
+    const f = { campo: String(v[0] || '').trim() };
+    DATOS_CLIENTE.forEach((k, j) => { f[k] = String(v[j + 1] || '').trim(); });
+    return f;
+  }).filter(f => f.campo);
+  if (!filas.length) return aviso('Escribe primero el Campo (columna A).');
+  // Cambiar el nombre de un campo que ya tenía correos no lo renombra: se guarda como campo nuevo.
+  const r = llamarWorker({ tipo: 'clientes', filas: filas });
+  if (r.ok) { dibujarClientes(r.datos.clientes || []); aviso('Guardado en la app ✓'); }
+  else { aviso('No se guardó: ' + r.error); traerClientes(); }
 }
 
 // Listas desplegables (10-nov-2026): los campos de Wialon y sus equivalencias, los operadores
