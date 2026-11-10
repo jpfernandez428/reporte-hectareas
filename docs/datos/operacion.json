@@ -1,5 +1,5 @@
 {
- "actualizado": "05-11-2026 09:06",
+ "actualizado": "10-11-2026 11:42",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -215,7 +215,7 @@
   "Shacker SBS 6": {
    "implemento": "Shaker",
    "operador": "Sebastian I",
-   "campo": "juan valenzuela",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
@@ -660,6 +660,12 @@
    "id": "mw3i1dlustgusb",
    "recibido": "1793880341169",
    "aplicado": 1793880364730,
+   "cambios": 1
+  },
+  {
+   "id": "mwastpjxlpqsrb",
+   "recibido": "1794321722428",
+   "aplicado": 1794321750698,
    "cambios": 1
   }
  ]
