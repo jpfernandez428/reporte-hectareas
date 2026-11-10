@@ -52,19 +52,25 @@
     .menu-global a { flex: none; color: #fff; text-decoration: none; font-weight: 600; font-size: 13px; line-height: 1;
       padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,.1); white-space: nowrap; }
     .menu-global a.actual { background: #fff; color: #1f4d2b; }
+    .menu-global a.logo { flex: none; display: flex; align-items: center; padding: 2px 5px; background: #fff; border-radius: 6px; margin-right: 4px; }
+    .menu-global a.logo img { display: block; height: 27px; width: auto; }
     /* Celular: las 5 opciones caben en una linea, repartidas en el ancho. */
     @media (max-width: 520px) {
       .menu-global { gap: 4px; padding-left: max(6px, env(safe-area-inset-left)); padding-right: max(6px, env(safe-area-inset-right)); }
       .menu-global a { flex: 1 1 auto; text-align: center; font-size: 12px; padding: 8px 4px; letter-spacing: -.01em; }
+      .menu-global a.logo { flex: none; padding: 2px 3px; margin-right: 2px; }
+      .menu-global a.logo img { height: 23px; }
     }
-    @media (max-width: 350px) { .menu-global { gap: 3px; } .menu-global a { font-size: 10.5px; padding: 7px 2px; letter-spacing: -.02em; } }`;
+    @media (max-width: 350px) { .menu-global a.logo img { height: 19px; } .menu-global { gap: 3px; } .menu-global a { font-size: 10.5px; padding: 7px 2px; letter-spacing: -.02em; } }`;
   document.head.appendChild(estilo);
 
   function poner() {
     const nav = document.createElement('nav');
     nav.className = 'menu-global';
     nav.setAttribute('aria-label', 'Páginas');
-    nav.innerHTML = ITEMS.map(i => `<a href="${i.href}" data-id="${i.id}">${i.texto}</a>`).join('');
+    // Logo de C&H arriba a la izquierda (pedido del usuario 10-nov-2026); lleva a Operacion.
+    nav.innerHTML = `<a class="logo" href="app.html#operacion" data-id="logo" aria-label="C&H Cosecha Mecanizada · Operación"><img src="logo_cyh_menu.png" alt="C&H Cosecha Mecanizada"></a>` +
+      ITEMS.map(i => `<a href="${i.href}" data-id="${i.id}">${i.texto}</a>`).join('');
     document.body.insertBefore(nav, document.body.firstChild);
     // En la misma pagina se cambia de vista sin recargar.
     nav.addEventListener('click', ev => {
