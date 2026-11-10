@@ -1,5 +1,5 @@
 {
- "actualizado": "10-11-2026 15:46",
+ "actualizado": "10-11-2026 15:47",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -208,7 +208,7 @@
   "Shacker SBS 5": {
    "implemento": "Shaker",
    "operador": "jorge mella",
-   "campo": "mercofrut",
+   "campo": "MERCOFRUT",
    "desde": "",
    "destino": ""
   },
@@ -732,6 +732,12 @@
    "id": "pmwb1jnopnnfqg4",
    "recibido": "1794336370315",
    "aplicado": 1794336392913,
+   "cambios": 1
+  },
+  {
+   "id": "pmwb1k4eakr0a35",
+   "recibido": "1794336391640",
+   "aplicado": 1794336421971,
    "cambios": 1
   }
  ]
