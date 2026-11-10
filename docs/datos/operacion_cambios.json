@@ -361,5 +361,401 @@
   "despues": "MERCOFRUT",
   "id": "pmwb1k7ptjwqefo",
   "origen": "Planilla"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 2",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 3",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 4",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 5",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 7",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 8",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 9 Weiss c/cab",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 10",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 11",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 12",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 13",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 14",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 15",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 16",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 17",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 18",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 19",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 20 Weiss s/cab",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 21 Weiss s/cab",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 22",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 24 Weiss c/cab",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Barredora 5497",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Shacker SBS 15 OMC",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Shacker SBS Campo",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Shacker de Suelo 1",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Shacker de Suelo 2",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Shacker de Suelo 3",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Shacker de Suelo 4",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Shacker de Suelo 5",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Shacker de Suelo 6",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Shacker de Suelo 7",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Shacker de Suelo 8",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Shacker de Suelo 9",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Shacker de Suelo 10 Orchard Rite",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Shacker de Suelo 11 Orchard Rite",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Shacker de Suelo Frontal OMC (proyecto 2027)",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Shaker Orchard Rite",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Recogedora 1",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Recogedora 2",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Recogedora 3",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Recogedora 4",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Recogedora 5",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Recogedora 6",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:10",
+  "maquina": "Recogedora 7",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Taller",
+  "id": "mwb4ja8k8t1j1h",
+  "origen": "App"
  }
 ]

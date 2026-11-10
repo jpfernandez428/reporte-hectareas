@@ -1,5 +1,5 @@
 {
- "actualizado": "10-11-2026 15:47",
+ "actualizado": "10-11-2026 17:10",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -12,28 +12,28 @@
   "Barredora 2": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 3": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 4": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 5": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
@@ -47,112 +47,112 @@
   "Barredora 7": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 8": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 9 Weiss c/cab": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 10": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 11": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 12": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 13": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 14": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 15": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 16": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 17": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 18": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 19": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 20 Weiss s/cab": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 21 Weiss s/cab": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 22": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
@@ -166,14 +166,14 @@
   "Barredora 24 Weiss c/cab": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Barredora 5497": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
@@ -278,14 +278,14 @@
   "Shacker SBS 15 OMC": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Shacker SBS Campo": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
@@ -390,140 +390,140 @@
   "Shacker de Suelo 1": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Shacker de Suelo 2": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Shacker de Suelo 3": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Shacker de Suelo 4": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Shacker de Suelo 5": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Shacker de Suelo 6": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Shacker de Suelo 7": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Shacker de Suelo 8": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Shacker de Suelo 9": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Shacker de Suelo 10 Orchard Rite": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Shacker de Suelo 11 Orchard Rite": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Shacker de Suelo Frontal OMC (proyecto 2027)": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Shaker Orchard Rite": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Recogedora 1": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Recogedora 2": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Recogedora 3": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Recogedora 4": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Recogedora 5": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Recogedora 6": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
   "Recogedora 7": {
    "implemento": "",
    "operador": "",
-   "campo": "",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
@@ -745,6 +745,12 @@
    "recibido": "1794336395720",
    "aplicado": 1794336436002,
    "cambios": 1
+  },
+  {
+   "id": "mwb4ja8k8t1j1h",
+   "recibido": "1794341391336",
+   "aplicado": 1794341423122,
+   "cambios": 44
   }
  ]
 }
