@@ -802,5 +802,14 @@
   "despues": "",
   "id": "pmwb6d07j0ssnyo",
   "origen": "Planilla"
+ },
+ {
+  "fecha": "10-11-2026 18:02",
+  "maquina": "Shacker SBS 6",
+  "cambio": "Campo",
+  "antes": "Taller",
+  "despues": "Agricola Lazos",
+  "id": "pmwb6dtzz0ffmv1",
+  "origen": "Planilla"
  }
 ]

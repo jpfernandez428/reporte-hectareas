@@ -1,5 +1,5 @@
 {
- "actualizado": "10-11-2026 18:01",
+ "actualizado": "10-11-2026 18:02",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -215,7 +215,7 @@
   "Shacker SBS 6": {
    "implemento": "Shaker",
    "operador": "",
-   "campo": "Taller",
+   "campo": "Agricola Lazos",
    "desde": "",
    "destino": ""
   },
@@ -780,6 +780,12 @@
    "id": "pmwb6d07j0ssnyo",
    "recibido": "1794344457607",
    "aplicado": 1794344482098,
+   "cambios": 1
+  },
+  {
+   "id": "pmwb6dtzz0ffmv1",
+   "recibido": "1794344496486",
+   "aplicado": 1794344521785,
    "cambios": 1
   }
  ]
