@@ -376,7 +376,7 @@
   "Tractor 16 Kubota 108": {
    "implemento": "PICKER R",
    "operador": "Jonathan",
-   "campo": "lican",
+   "campo": "alto calibre",
    "desde": "",
    "destino": ""
   },
@@ -702,6 +702,12 @@
    "id": "pmwau5c1g5fj5cz",
    "recibido": "1794323944347",
    "aplicado": 1794323978304,
+   "cambios": 1
+  },
+  {
+   "id": "pmwau5nifb5qobo",
+   "recibido": "1794323959196",
+   "aplicado": 1794323986441,
    "cambios": 1
   }
  ]
