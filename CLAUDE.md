@@ -960,6 +960,33 @@ defecto, envío real solo cuando el usuario diga "lánzalo".
     en la pestaña. Se leen con el PIN (nada queda en el aparato).
   - Planilla: pestaña "Correos clientes" (`dibujarClientes`, `enviarClientes`),
     filas sin correo en rojo con nota de las máquinas; columna G protegida.
+- **Etapa 3 – Reporte por campo (`reporte_clientes.py`, en prueba desde el
+  10-nov-2026)**: `correo.yml` modo `clientes_prueba` (entradas `fecha` y `campo`;
+  secreto `CLAVE_CLIENTES` → `GET /clientes` del Worker). Un correo por campo con
+  trabajo el día (historial + sin geocerca no resuelto con campo); el campo de un
+  cuartel es `rh.campo_de_cuartel` y se junta con el del cliente por nombre sin
+  mayúsculas/tildes o por `equivalencias_campos`. Encabezado Cliente · Campo ·
+  Fecha trabajada · Labor; totales Máquinas · Horas encendido · Ha aprox.; tabla
+  por máquina (operador de D1 `/estado` al enviar; inicio = primer encendido,
+  término = último apagado, horas con motor encendido —intervalos de hasta 15 min—
+  del sensor de encendido de Wialon, solo lectura; eficiencia = horas ÷ (término −
+  inicio − 1 h si la jornada es ≥ 5 h), máx. 100 %); detalle por cuartel y labor
+  (superficie, ayer por máquina, ayer, acumulado de la temporada = suma del
+  historial desde `temporada_inicio`, con el 95 % = área total y "✔ Terminado";
+  barrido: avance de la pasada en curso); sin geocerca solo el total "aprox., sin
+  cuartel definido". Logo dentro del correo (cid) y en el PDF adjunto (Chrome).
+  Contador dudoso (ha con 0 h de motor, horas GPS en cuarteles > motor, > 14 h
+  seguidas): esa máquina va con horas GPS "aprox. (GPS)" y sin eficiencia.
+  `config.json`: `correo_clientes_envio_real: false` (prueba: todo a
+  `correo_clientes_prueba` con "[PRUEBA]" y a quién le habría llegado),
+  `correo_clientes_cc`. Los registros de GitHub nunca muestran correos.
+  - Primera prueba real (MERCOFRUT 09-11-2026, enviada el 10-nov-2026): 2
+    máquinas, 4,41 ha; MERCOFRUT 14 0,84 / 3,77 (47 %), 16 terminado, 17 1,87
+    (24 %) = ejemplo aprobado. Motor: SBS 5 07:52–18:19, 9:24 h, eficiencia 99 %;
+    SBS 4 07:51–20:49, 4:21 h, 36 %.
+  - Incidente: el primer intento falló (403) porque la clave de GitHub y la de
+    Cloudflare no eran iguales (se generó varias veces; `pbcopy` llevaba salto de
+    línea). Se creó una sola sin salto (`openssl rand -hex 32 | tr -d '\n' | pbcopy`).
 
 ## Pendientes
 
