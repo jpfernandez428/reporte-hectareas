@@ -280,5 +280,14 @@
   "despues": "Alberto",
   "id": "mwat1rgyhzk1gs",
   "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 11:49",
+  "maquina": "Shacker SBS 10",
+  "cambio": "Operador",
+  "antes": "Pirincho",
+  "despues": "Carlos S",
+  "id": "mwat2v6wk5krht",
+  "origen": "App"
  }
 ]
