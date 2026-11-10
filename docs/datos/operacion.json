@@ -1,5 +1,5 @@
 {
- "actualizado": "10-11-2026 11:49",
+ "actualizado": "10-11-2026 12:18",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -333,7 +333,7 @@
   },
   "Tractor 9 Deutz Fahr 115": {
    "implemento": "ESTRELLA",
-   "operador": "Carlos ayala",
+   "operador": "",
    "campo": "Taller",
    "desde": "",
    "destino": ""
@@ -690,6 +690,12 @@
    "id": "mwat2v6wk5krht",
    "recibido": "1794322149644",
    "aplicado": 1794322183081,
+   "cambios": 1
+  },
+  {
+   "id": "pmwau4h1bl8es28",
+   "recibido": "1794323904189",
+   "aplicado": 1794323930771,
    "cambios": 1
   }
  ]

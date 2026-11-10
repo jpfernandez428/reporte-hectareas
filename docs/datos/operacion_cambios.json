@@ -289,5 +289,14 @@
   "despues": "Carlos S",
   "id": "mwat2v6wk5krht",
   "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 12:18",
+  "maquina": "Tractor 9 Deutz Fahr 115",
+  "cambio": "Operador",
+  "antes": "Carlos ayala",
+  "despues": "",
+  "id": "pmwau4h1bl8es28",
+  "origen": "Planilla"
  }
 ]
