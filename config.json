@@ -490,5 +490,8 @@
     "meses": {"Cosecha con recibidor": [1, 5], "Raleo": [9, 11], "Picado": [4, 10], "Poda": [4, 10], "Remecido de suelo": [1, 5], "Recolección": [1, 5], "Recolección (tractor con recogedora)": [1, 5]},
     "inicio_mes": {"Picado": 4, "Poda": 4}
   },
-  "correo_marcha_blanca": false
+  "correo_marcha_blanca": false,
+  "correo_clientes_envio_real": false,
+  "correo_clientes_prueba": "jpfernandez@cosechamecanizada.cl",
+  "correo_clientes_cc": "jpfernandez@cosechamecanizada.cl"
 }

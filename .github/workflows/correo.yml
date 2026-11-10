@@ -20,11 +20,15 @@ on:
   workflow_dispatch:
     inputs:
       modo:
-        description: 'diario (el envio normal), vista_previa (no envia; archivo por 1 dia), prueba (solo a CORREO_PRUEBA), prueba_v2 (version nueva, solo a CORREO_PRUEBA), todos (manda ya el de ayer a todos), atraso (GPS tardio) o sensores (encendido y horometro); los dos ultimos solo leen Wialon'
+        description: 'diario (el envio normal), vista_previa (no envia; archivo por 1 dia), prueba (solo a CORREO_PRUEBA), prueba_v2 (version nueva, solo a CORREO_PRUEBA), todos (manda ya el de ayer a todos), atraso (GPS tardio) o sensores (encendido y horometro); los dos ultimos solo leen Wialon; clientes_prueba (reporte a clientes, todo solo a correo_clientes_prueba)'
         required: true
         default: 'vista_previa'
       fecha:
         description: 'Dia a reportar en vista_previa o prueba (AAAA-MM-DD). Vacio = ayer en hora de Chile.'
+        required: false
+        default: ''
+      campo:
+        description: 'Solo en clientes_prueba: un campo (ej. MERCOFRUT). Vacio = todos los campos con trabajo.'
         required: false
         default: ''
 
@@ -64,6 +68,8 @@ jobs:
           CORREO_CLAVE: ${{ secrets.CORREO_CLAVE }}
           CORREO_PRUEBA: ${{ secrets.CORREO_PRUEBA }}
           CORREO_DESTINATARIOS: ${{ secrets.CORREO_DESTINATARIOS }}
+          CLAVE_CLIENTES: ${{ secrets.CLAVE_CLIENTES }}
+          CAMPO_CLIENTE: ${{ inputs.campo }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "Reporte automatico"

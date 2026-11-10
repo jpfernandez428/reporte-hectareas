@@ -14,6 +14,8 @@ Wialon es SOLO LECTURA: se descargan mensajes GPS y direcciones.
 Modos (variable MODO_CORREO):
   vista_previa  arma el reporte en salida_correo/ sin enviar nada.
   prueba        arma el reporte y lo envia solo a CORREO_PRUEBA.
+  clientes_prueba  reporte a clientes (reporte_clientes.py), todo solo a
+                correo_clientes_prueba.
 """
 
 import json
@@ -1883,6 +1885,14 @@ def main():
         return envio_diario()
     if modo == "todos":
         return enviar_ahora_a_todos()
+    if modo == "clientes_prueba":
+        # Reporte a clientes (10-nov-2026): un correo por campo con trabajo, TODOS solo a
+        # correo_clientes_prueba con "[PRUEBA]". No toca el envio diario interno.
+        import reporte_clientes
+        dia = (date.fromisoformat(os.environ["FECHA_REPORTE"].strip()) if os.environ.get("FECHA_REPORTE", "").strip()
+               else datetime.now(ZONA).date() - timedelta(days=1))
+        reporte_clientes.enviar_reportes(dia, os.environ.get("CAMPO_CLIENTE", "").strip() or None, real=False)
+        return
     if modo == "prueba_v2":
         # Version nueva (planilla del Drive), solo a CORREO_PRUEBA; publica los
         # datos de la pagina reporte2.html. No cambia el envio diario.
