@@ -766,5 +766,14 @@
   "despues": "Mayol",
   "id": "pmwb63kcil3fcr7",
   "origen": "Planilla"
+ },
+ {
+  "fecha": "10-11-2026 17:54",
+  "maquina": "Shacker SBS 6",
+  "cambio": "Operador",
+  "antes": "Sebastian I",
+  "despues": "Pirincho",
+  "id": "pmwb63n6cj24aos",
+  "origen": "Planilla"
  }
 ]

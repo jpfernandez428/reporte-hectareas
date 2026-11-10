@@ -214,7 +214,7 @@
   },
   "Shacker SBS 6": {
    "implemento": "Shaker",
-   "operador": "Sebastian I",
+   "operador": "Pirincho",
    "campo": "Taller",
    "desde": "",
    "destino": ""
@@ -756,6 +756,12 @@
    "id": "pmwb63kcil3fcr7",
    "recibido": "1794344017134",
    "aplicado": 1794344041200,
+   "cambios": 1
+  },
+  {
+   "id": "pmwb63n6cj24aos",
+   "recibido": "1794344020706",
+   "aplicado": 1794344046944,
    "cambios": 1
   }
  ]
