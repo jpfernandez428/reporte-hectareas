@@ -757,5 +757,14 @@
   "despues": "Taller",
   "id": "mwb4ja8k8t1j1h",
   "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 17:54",
+  "maquina": "Shacker SBS 9",
+  "cambio": "Campo",
+  "antes": "Taller",
+  "despues": "Mayol",
+  "id": "pmwb63kcil3fcr7",
+  "origen": "Planilla"
  }
 ]

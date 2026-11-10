@@ -1,5 +1,5 @@
 {
- "actualizado": "10-11-2026 17:10",
+ "actualizado": "10-11-2026 17:54",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -236,7 +236,7 @@
   "Shacker SBS 9": {
    "implemento": "Shaker",
    "operador": "Gaston H",
-   "campo": "Taller",
+   "campo": "Mayol",
    "desde": "",
    "destino": ""
   },
@@ -751,6 +751,12 @@
    "recibido": "1794341391336",
    "aplicado": 1794341423122,
    "cambios": 44
+  },
+  {
+   "id": "pmwb63kcil3fcr7",
+   "recibido": "1794344017134",
+   "aplicado": 1794344041200,
+   "cambios": 1
   }
  ]
 }
