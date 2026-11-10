@@ -1,5 +1,5 @@
 {
- "actualizado": "10-11-2026 12:18",
+ "actualizado": "10-11-2026 12:19",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -376,7 +376,7 @@
   "Tractor 16 Kubota 108": {
    "implemento": "PICKER R",
    "operador": "Jonathan",
-   "campo": "Alto Calibre",
+   "campo": "lican",
    "desde": "",
    "destino": ""
   },
@@ -696,6 +696,12 @@
    "id": "pmwau4h1bl8es28",
    "recibido": "1794323904189",
    "aplicado": 1794323930771,
+   "cambios": 1
+  },
+  {
+   "id": "pmwau5c1g5fj5cz",
+   "recibido": "1794323944347",
+   "aplicado": 1794323978304,
    "cambios": 1
   }
  ]
