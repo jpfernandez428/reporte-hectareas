@@ -30,6 +30,7 @@ import sin_geocerca as sg
 
 RUTA_CONFIG = rh.RUTA_CONFIG
 RUTA_REGISTRO = os.path.join(rh.CARPETA_DATOS, "confirmaciones.json")
+RUTA_QUITADOS = os.path.join(rh.CARPETA_DATOS, "nombres_quitados.json")  # nombres quitados de la lista (10-nov-2026)
 
 
 def guardar_reglas(reglas):
@@ -136,6 +137,31 @@ def main():
             cambiar_equivalencia(nombre_planilla, campo, True)
             registro.append({"fecha": ahora, "accion": "equivalencia (al confirmar)", "nombre": nombre_planilla,
                              "campo": campo})
+    elif accion in ("equivalencia", "borrar_equivalencia") and \
+            os.environ.get("PLANILLA", "").strip().lower().startswith("lista-quitar:"):
+        # Quitar de la lista de la app un nombre de campo u operador mal escrito
+        # (pedido del usuario 10-nov-2026). Mismo camino que las equivalencias
+        # (sin cambiar el Worker): PLANILLA = "lista-quitar: campo|operador",
+        # CAMPO = el nombre; borrar_equivalencia lo vuelve a la lista. No cambia
+        # lo anotado en las maquinas. Queda en docs/datos/nombres_quitados.json.
+        tipo = os.environ["PLANILLA"].split(":", 1)[1].strip().lower()
+        nombre = os.environ.get("CAMPO", "").strip()
+        if tipo not in ("campo", "operador") or not (0 < len(nombre) <= 80):
+            sys.exit("Nombre o tipo invalido.")
+        quitados = {"campo": [], "operador": []}
+        if os.path.exists(RUTA_QUITADOS):
+            with open(RUTA_QUITADOS, "r", encoding="utf-8") as f:
+                quitados.update(json.load(f))
+        lista = [x for x in quitados[tipo] if not pl.mismo_nombre(x["nombre"], nombre)]
+        if accion == "equivalencia":
+            lista.append({"nombre": nombre, "fecha": ahora})
+        quitados[tipo] = sorted(lista, key=lambda x: x["nombre"].lower())
+        with open(RUTA_QUITADOS, "w", encoding="utf-8") as f:
+            json.dump(quitados, f, ensure_ascii=False, indent=1)
+        registro.append({"fecha": ahora, "accion": f"quitar {tipo} de la lista" if accion == "equivalencia" else f"volver {tipo} a la lista",
+                         "nombre": nombre})
+        cerrar(registro)
+        return
     elif accion in ("equivalencia", "borrar_equivalencia") and \
             os.environ.get("PLANILLA", "").strip().lower().startswith(("operador:", "operador-distinto:")):
         # Equivalencias de OPERADORES (22-oct-2026). Usan el mismo camino que las

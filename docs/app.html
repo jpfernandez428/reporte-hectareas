@@ -95,6 +95,16 @@
   .selector .pregunta { padding: 12px 14px; background: var(--amarillo-f); font-size: 14px; }
   .selector .pregunta button { margin: 8px 8px 0 0; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--verde); background: #fff; color: var(--verde); font-weight: 700; }
   .selector .pregunta button.si { background: var(--verde); color: #fff; }
+  .selector .lista .opcion { display: flex; align-items: stretch; border-top: 1px solid #f2f2f2; }
+  .selector .lista .opcion > button[data-v] { flex: 1; border-top: 0; }
+  .selector .lista .opcion > span { flex: 1; padding: 12px 14px; font-size: 15px; color: var(--gris); }
+  .selector .lista button.quitar, .selector .lista button.volver { width: auto; flex: none; border-top: 0; padding: 0 14px; color: var(--gris); font-size: 15px; }
+  .selector .lista button.volver { font-size: 13px; color: var(--verde); font-weight: 700; }
+  .selector .lista .quitados { padding: 6px 0; border-top: 1px solid var(--borde); }
+  .selector .lista .quitados summary { padding: 8px 14px; font-size: 13px; color: var(--gris); cursor: pointer; }
+  .elegir-btn { width: 100%; min-height: 36px; text-align: left; padding: 6px 8px; font-size: 14px; border: 1px solid #bbb; border-radius: 6px; background: #fff; cursor: pointer; white-space: normal; }
+  .elegir-btn .flecha { float: right; color: var(--gris); }
+  .elegir-btn .gris { color: var(--gris); }
   .selector footer { padding: 8px 14px; border-top: 1px solid var(--borde); text-align: right; }
   /* Sugerencias */
   .sug { display: flex; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid #f0f2f0; }
@@ -482,33 +492,68 @@ function usos(tipo) {
   for (const m of Object.keys(OP.maquinas)) sumar(valorDe(m)[tipo]);
   return n;
 }
+// Nombres quitados de la lista (pedido del usuario 10-nov-2026, con PIN): publicados en
+// datos/nombres_quitados.json (confirmar.py) + lo guardado al instante en Cloudflare (D1).
+// Van por /confirmar (accion equivalencia / borrar_equivalencia con planilla
+// "lista-quitar: campo|operador"), igual que las equivalencias de operadores: sin cambiar el Worker.
+let QUITADOS_PUB = { campo: [], operador: [] }, ACCIONES_D1 = [];
+function quitados(tipo) {
+  const s = new Map();
+  for (const x of (QUITADOS_PUB[tipo] || [])) s.set(clave(x.nombre), x);
+  const acc = ACCIONES_D1.filter(a => a.tipo === 'equivalencia' || a.tipo === 'borrar_equivalencia').slice().sort((a, b) => a.ts - b.ts);
+  for (const a of acc) {
+    let d; try { d = typeof a.datos === 'string' ? JSON.parse(a.datos) : a.datos; } catch (e) { continue; }
+    if (clave(d && d.planilla) !== clave('lista-quitar: ' + tipo)) continue;
+    if (a.tipo === 'equivalencia') s.set(clave(d.campo), { nombre: d.campo, fecha: fechaChile(a.ts) });
+    else s.delete(clave(d.campo));
+  }
+  return s;
+}
+// Todo lo anotado alguna vez en Operacion (foto diaria, historial y hoy): un nombre
+// nuevo queda en la lista para las proximas veces. Se escribe como se uso mas.
+function nombresUsados(tipo) {
+  const n = new Map();
+  const sumar = (v, peso) => {
+    v = String(v || '').trim();
+    const k = clave(v);
+    if (!k || esTaller(v) || v.length > 80) return;
+    const x = n.get(k) || {};
+    x[v] = (x[v] || 0) + peso; n.set(k, x);
+  };
+  for (const dia of Object.values(FOTO)) for (const x of Object.values(dia)) sumar(x[tipo], 1);
+  const nom = tipo === 'campo' ? 'Campo' : 'Operador';
+  for (const c of CAMBIOS.concat(CAMBIOS_D1)) if (c.cambio === nom) { sumar(c.antes, 1); sumar(c.despues, 1); }
+  for (const m of Object.keys(OP.maquinas)) sumar(valorDe(m)[tipo], 3);
+  if (tipo === 'campo') for (const k of Object.keys(CAMPOS.equivalencias || {})) sumar(k, 2);
+  return [...n.values()].map(x => Object.entries(x).sort((a, b) => b[1] - a[1])[0][0]);
+}
 function opciones(tipo) {
   const lista = [];
+  const q = tipo === 'maquina' ? new Map() : quitados(tipo);
+  const ya = k => lista.some(o => clave(o.valor) === k || clave(o.texto) === k);
   if (tipo === 'campo') {
     for (const c of CAMPOS.campos || []) {
       if (CAMPOS.nombres_lista && !CAMPOS.nombres_lista[c]) continue;
       const eq = equivalentes(c);
-      // Se busca tambien por los nombres unidos del campo ("nueces" -> El Volcan).
-      lista.push({ valor: c, texto: nombreCampo(c), extra: eq.length ? '= ' + eq.join(', ') : '', buscar: (CAMPOS.campos_unidos || {})[c] || [] });
+      // Se busca tambien por los nombres unidos del campo ("nueces" -> El Volcan) y sus equivalentes.
+      lista.push({ valor: c, texto: nombreCampo(c), extra: eq.length ? '= ' + eq.join(', ') : '', buscar: [...((CAMPOS.campos_unidos || {})[c] || []), ...eq] });
     }
-    // Campos anotados que no son de Wialon (sin geocerca o nombre antiguo de la planilla).
-    for (const m of Object.keys(OP.maquinas)) {
-      const c = valorDe(m).campo;
-      if (c && !esTaller(c) && !lista.some(o => clave(o.valor) === clave(c))) {
-        const eq = equivalenciaDe(c);
-        lista.push({ valor: c, texto: c, extra: eq.length ? '= ' + eq.map(x => (CAMPOS.nombres_lista || {})[x] || x).join(', ') : 'sin geocerca' });
-      }
+    // Campos anotados alguna vez que no son de Wialon (sin geocerca o nombre de la planilla): se pueden quitar.
+    for (const c of nombresUsados('campo')) {
+      if (ya(clave(c)) || q.has(clave(c))) continue;
+      const eq = equivalenciaDe(c);
+      lista.push({ valor: c, texto: c, manual: true, extra: eq.length ? '= ' + eq.map(x => (CAMPOS.nombres_lista || {})[x] || x).join(', ') : 'sin geocerca' });
     }
   } else if (tipo === 'maquina') {
     // Maquinas activas (Agenda); "+ Máquina nueva…" para una arrendada o sin GPS.
     for (const u of unidades()) lista.push({ valor: u.maquina, texto: u.maquina, extra: u.labor || '' });
     return lista;
   } else {
-    for (const o of ((V && V.operadores && V.operadores.lista) || [])) lista.push({ valor: o.operador, texto: o.operador, extra: o.otros_nombres.length ? '= ' + o.otros_nombres.join(', ') : '' });
-    for (const m of Object.keys(OP.maquinas)) {
-      const o = valorDe(m).operador;
-      if (o && !lista.some(x => x.valor === o)) lista.push({ valor: o, texto: o, extra: '' });
+    for (const o of ((V && V.operadores && V.operadores.lista) || [])) {
+      if (q.has(clave(o.operador)) || ya(clave(o.operador))) continue;
+      lista.push({ valor: o.operador, texto: o.operador, manual: true, extra: o.otros_nombres.length ? '= ' + o.otros_nombres.join(', ') : '', buscar: o.otros_nombres });
     }
+    for (const o of nombresUsados('operador')) if (!ya(clave(o)) && !q.has(clave(o))) lista.push({ valor: o, texto: o, manual: true, extra: '' });
   }
   const u = usos(tipo);
   lista.forEach(o => { o.usos = u[o.valor] || 0; });
@@ -531,56 +576,117 @@ function mismoPrimerNombre(a, b) {
   return ta[0] && ta[0] === tb[0] && (ta.length === 1 || tb.length === 1 || (ta[1] || '')[0] === (tb[1] || '')[0]);
 }
 
+// Nombres parecidos (para "¿Quisiste decir…?" y antes de agregar uno nuevo).
+function parecidos(tipo, nombre, todos) {
+  return todos.map(o => ({ o, p: Math.max(parecido(nombre, o.texto), parecido(nombre, o.valor), tipo === 'operador' && mismoPrimerNombre(nombre, o.texto) ? 0.8 : 0) }))
+    .filter(x => x.p >= 0.75 && clave(x.o.valor) !== clave(nombre)).sort((a, b) => b.p - a.p).slice(0, 3).map(x => x.o);
+}
 // Abre la lista con buscador; resuelve con el valor elegido (o null).
-function elegir(tipo, titulo, actual) {
+// opc.vacio: ofrece "(sin anotar)" / "(sin operador)"; opc.taller: ofrece "Taller (CYH)".
+// Pedido del usuario 10-nov-2026: escribir y filtrar (sin mayusculas ni tildes),
+// "¿Quisiste decir…?" mientras se escribe, "➕ Agregar «X» como campo nuevo" si no
+// esta, el nombre nuevo queda en la lista, y 🗑 para quitar nombres mal escritos (PIN).
+function elegir(tipo, titulo, actual, opc = {}) {
+  if (tipo === 'operador' && opc.vacio === undefined) opc = { ...opc, vacio: true };
   return new Promise(listo => {
     const capa = document.getElementById('capa');
-    const todos = opciones(tipo);
+    let todos = opciones(tipo);
     const top = todos.filter(o => o.usos > 0).sort((a, b) => b.usos - a.usos).slice(0, 6);
-    const nuevoTxt = tipo === 'campo' ? '+ Campo nuevo…' : tipo === 'maquina' ? '+ Máquina nueva…' : '+ Operador nuevo…';
+    const que = tipo === 'campo' ? 'campo nuevo' : tipo === 'maquina' ? 'máquina nueva' : 'operador nuevo';
     capa.innerHTML = `<div class="selector-fondo"><div class="selector" role="dialog" aria-label="${esc(titulo)}">
-      <header><b>${esc(titulo)}</b><input type="search" placeholder="Buscar…" autocomplete="off"></header>
+      <header><b>${esc(titulo)}</b><input type="search" placeholder="Escribe para buscar o agregar…" autocomplete="off" autocapitalize="off" spellcheck="false"></header>
       <div class="lista"></div><footer><button type="button" class="boton-sec" data-cerrar>Cancelar</button></footer></div></div>`;
     const caja = capa.querySelector('.lista'), entrada = capa.querySelector('input');
     const fin = v => { capa.innerHTML = ''; listo(v); };
-    const boton = o => `<button type="button" data-v="${esc(o.valor)}">${esc(o.texto)}${o.extra ? ` <small>(${esc(o.extra)})</small>` : ''}${o.valor === actual ? ' <small>· actual</small>' : ''}</button>`;
+    let aviso = '';
+    const boton = o => {
+      const b = `<button type="button" data-v="${esc(o.valor)}">${esc(o.texto)}${o.extra ? ` <small>(${esc(o.extra)})</small>` : ''}${o.valor === actual ? ' <small>· actual</small>' : ''}</button>`;
+      return o.manual ? `<div class="opcion">${b}<button type="button" class="quitar" data-quitar="${esc(o.valor)}" title="Quitar de la lista" aria-label="Quitar ${esc(o.texto)} de la lista">🗑</button></div>` : b;
+    };
+    const especiales = () => {
+      const l = [];
+      if (opc.vacio) l.push({ valor: '', texto: tipo === 'campo' ? '(sin anotar)' : '(sin operador)' });
+      if (opc.taller && tipo === 'campo') l.push({ valor: 'Taller', texto: 'Taller (CYH)' });
+      return l;
+    };
     function pintar() {
-      const q = sinT(entrada.value.trim());
+      const texto = entrada.value.trim(), q = sinT(texto), k = clave(texto);
       const pasa = o => !q || sinT([o.texto, o.extra, o.valor, ...(o.buscar || [])].join(' ')).includes(q);
-      let html = '';
+      let html = aviso ? `<div class="pregunta">${aviso}</div>` : '';
+      const esp = especiales().filter(o => !q || sinT(o.texto).includes(q) || (o.valor === 'Taller' && esTaller(texto)));
+      html += esp.map(o => `<button type="button" data-v="${esc(o.valor)}"><b>${esc(o.texto)}</b></button>`).join('');
       if (!q && top.length) html += `<div class="tit">Más usados</div>` + top.map(boton).join('');
       const resto = todos.filter(pasa);
-      html += `<div class="tit">${q ? 'Resultados' : 'Todos'}</div>` + (resto.map(boton).join('') || '<div class="vacio" style="padding:8px 14px">Sin resultados.</div>');
-      if (tipo === 'operador' && !q) html = `<button type="button" data-v="">(sin operador)</button>` + html;
-      html += `<button type="button" class="nuevo" data-nuevo>${nuevoTxt}${q ? ` «${esc(entrada.value.trim())}»` : ''}</button>`;
+      const exacto = k && (todos.concat(esp).find(o => clave(o.valor) === k || clave(o.texto) === k) || (tipo === 'campo' && esTaller(texto)));
+      if (q && !exacto) {
+        const sug = parecidos(tipo, texto, todos).filter(o => !resto.includes(o));
+        if (sug.length) html += `<div class="tit">¿Quisiste decir…?</div>` + sug.map(boton).join('');
+      }
+      html += `<div class="tit">${q ? 'Resultados' : 'Todos'}</div>` + (resto.map(boton).join('') || '<div class="vacio" style="padding:8px 14px">Ninguno coincide.</div>');
+      if (q && !exacto) html += `<button type="button" class="nuevo" data-nuevo>➕ Agregar «${esc(texto)}» como ${que}</button>`;
+      if (tipo !== 'maquina') {
+        const lq = [...quitados(tipo).values()];
+        if (lq.length) html += `<details class="quitados"><summary>Nombres quitados de la lista (${lq.length})</summary>` +
+          lq.map(x => `<div class="opcion"><span>${esc(x.nombre)}</span><button type="button" class="volver" data-volver="${esc(x.nombre)}">Volver a la lista</button></div>`).join('') + '</details>';
+      }
       caja.innerHTML = html;
     }
-    async function nuevo() {
-      let nombre = entrada.value.trim();
-      if (!nombre) {
-        caja.innerHTML = `<div class="pregunta">Escribe el nombre ${tipo === 'campo' ? 'del campo' : tipo === 'maquina' ? 'de la máquina' : 'del operador'} arriba y vuelve a tocar "${nuevoTxt}".</div>` + caja.innerHTML;
-        entrada.focus(); return;
-      }
-      // Si se parece a uno existente, preguntar si es el mismo.
-      const candidatos = todos.map(o => ({ o, p: Math.max(parecido(nombre, o.texto), parecido(nombre, o.valor), mismoPrimerNombre(nombre, o.texto) ? 0.8 : 0) }))
-        .filter(x => x.p >= 0.75 && clave(x.o.valor) !== clave(nombre)).sort((a, b) => b.p - a.p).slice(0, 3);
+    function nuevo() {
+      const nombre = entrada.value.trim();
+      if (!nombre) { entrada.focus(); return; }
       const exacto = todos.find(o => clave(o.valor) === clave(nombre) || clave(o.texto) === clave(nombre));
       if (exacto) return fin(exacto.valor);
-      if (!candidatos.length) return fin(nombre);
-      caja.innerHTML = `<div class="pregunta">«${esc(nombre)}» se parece a ${candidatos.length > 1 ? 'otros nombres' : 'un nombre'} que ya existe. ¿Es el mismo?<br>` +
-        candidatos.map(x => `<button type="button" class="si" data-v="${esc(x.o.valor)}">Sí, es ${esc(x.o.texto)}</button>`).join('') +
-        `<button type="button" data-nuevo-ok>No, es ${tipo === 'campo' ? 'un campo' : tipo === 'maquina' ? 'una máquina' : 'un operador'} nuevo</button></div>`;
+      // Si se parece a uno existente, preguntar si es el mismo antes de crear otro.
+      const cand = parecidos(tipo, nombre, todos);
+      if (!cand.length) return fin(nombre);
+      caja.innerHTML = `<div class="pregunta">«${esc(nombre)}» se parece a ${cand.length > 1 ? 'otros nombres' : 'un nombre'} que ya existe. ¿Es el mismo?<br>` +
+        cand.map(o => `<button type="button" class="si" data-v="${esc(o.valor)}">Sí, es ${esc(o.texto)}</button>`).join('') +
+        `<button type="button" data-nuevo-ok>No, ${tipo === 'campo' ? 'es un campo nuevo' : tipo === 'maquina' ? 'es una máquina nueva' : 'es un operador nuevo'}</button></div>`;
+    }
+    // Quitar un nombre mal escrito (o volverlo a la lista), con el PIN.
+    async function quitar(nombre, volver, b) {
+      const n = Object.keys(OP.maquinas).filter(m => clave(valorDe(m)[tipo]) === clave(nombre)).length;
+      if (!volver && !b.dataset.ok) {
+        aviso = `¿Quitar «${esc(nombre)}» de la lista?${n ? ` ${n} máquina${n > 1 ? 's lo tienen' : ' lo tiene'} anotado hoy: a ${n > 1 ? 'ellas' : 'ella'} no se les cambia.` : ''}<br>` +
+          `<button type="button" class="si" data-quitar="${esc(nombre)}" data-ok="1">Sí, quitar</button><button type="button" data-no>Cancelar</button>`;
+        pintar(); caja.scrollTop = 0; return;
+      }
+      const planilla = 'lista-quitar: ' + tipo;
+      b.disabled = true;
+      let res;
+      try { res = await enviarConPin(WORKER + '/confirmar', { accion: volver ? 'borrar_equivalencia' : 'equivalencia', planilla, campo: nombre }, b); }
+      catch (e) { res = { ok: false, j: { error: 'sin conexión con Cloudflare' } }; }
+      if (res.ok) {
+        const reg = { tipo: volver ? 'borrar_equivalencia' : 'equivalencia', ts: Date.now(), datos: JSON.stringify({ planilla, campo: nombre }) };
+        ACCIONES_D1 = [reg, ...ACCIONES_D1];
+        todos = opciones(tipo);
+        aviso = volver ? `✓ «${esc(nombre)}» volvió a la lista.` : `✓ «${esc(nombre)}» quitado de la lista.`;
+      } else aviso = `<span style="color:var(--rojo)">${esc(textoError(res))}</span>`;
+      pintar();
     }
     capa.addEventListener('click', ev => {
       if (ev.target.classList.contains('selector-fondo') || ev.target.closest('[data-cerrar]')) return fin(null);
       const b = ev.target.closest('button');
       if (!b) return;
+      if (b.hasAttribute('data-quitar')) return quitar(b.dataset.quitar, false, b);
+      if (b.hasAttribute('data-volver')) return quitar(b.dataset.volver, true, b);
+      if (b.hasAttribute('data-no')) { aviso = ''; return pintar(); }
       if (b.hasAttribute('data-nuevo')) return nuevo();
       if (b.hasAttribute('data-nuevo-ok')) return fin(entrada.value.trim());
       if (b.hasAttribute('data-v')) return fin(b.dataset.v);
     });
-    entrada.addEventListener('input', pintar);
-    entrada.addEventListener('keydown', ev => { if (ev.key === 'Enter') { const p = caja.querySelector('button[data-v]'); if (entrada.value.trim() && p) p.click(); } });
+    entrada.addEventListener('input', () => { aviso = ''; pintar(); });
+    // Enter: el primer resultado; si no hay, "Agregar" (que pregunta si se parece a uno existente).
+    entrada.addEventListener('keydown', ev => {
+      if (ev.key !== 'Enter' || !entrada.value.trim()) return;
+      const titulos = [...caja.querySelectorAll('.tit')];
+      const res = titulos.find(t => /Resultados/.test(t.textContent));
+      let p = null;
+      for (let el = res && res.nextElementSibling; el && !el.classList.contains('tit'); el = el.nextElementSibling) {
+        p = el.matches('button[data-v]') ? el : el.querySelector('button[data-v]'); if (p) break;
+      }
+      (p || caja.querySelector('button[data-nuevo]') || caja.querySelector('button[data-v]'))?.click();
+    });
     pintar(); entrada.focus();
   });
 }
@@ -855,12 +961,10 @@ function vistaSugerencias() {
 function aplicarSugerencia(i, boton, otro) { const s = sugerencias()[i]; if (s) (otro ? s.otro : s.fn)(boton); }
 
 // Vista Tabla (la anterior de la pagina Operacion): edicion en la tabla y "Guardar cambios".
-function opcionesSelect(tipo, actual) {
-  const lista = opciones(tipo);
-  const igual = actual && lista.find(o => clave(o.valor) === clave(actual));
-  const base = tipo === 'campo' ? `<option value="">(sin anotar)</option><option value="Taller"${esTaller(actual) ? ' selected' : ''}>Taller (CYH)</option>` : `<option value="">(sin operador)</option>`;
-  return base + lista.map(o => `<option value="${esc(o === igual ? actual : o.valor)}"${o === igual ? ' selected' : ''}>${esc(o.texto)}${o.extra ? ' (' + esc(o.extra) + ')' : ''}</option>`).join('') +
-    `<option value="__nuevo">${tipo === 'campo' ? 'Otro campo…' : 'Nuevo operador…'}</option>`;
+// Operador y Campo en la tabla: boton con el nombre completo que abre el buscador (10-nov-2026).
+function botonElegir(k, valor) {
+  const t = k === 'campo' ? (valor ? nombreCampo(valor) : '') : valor;
+  return `<button type="button" class="elegir-btn" data-elegir="${k}">${t ? esc(t) : `<span class="gris">${k === 'campo' ? '(sin anotar)' : '(sin operador)'}</span>`} <span class="flecha">▾</span></button>`;
 }
 function vistaTabla() {
   let html = '';
@@ -871,8 +975,8 @@ function vistaTabla() {
     const clase = pendienteDe(m) ? 'guardando' : cambiada(m) ? 'cambiada' : (r && !r.ok) ? 'fallo' : '';
     html += `<tr class="fila ${clase}" data-m="${esc(m)}"><td><b>${esc(m)}</b><br><small>${esc(u.labor)}</small><br>${estadoSinc(m)}</td>
       <td data-label="Implemento"><input data-k="implemento" value="${esc(v.implemento)}" maxlength="80"></td>
-      <td data-label="Operador"><select data-k="operador">${opcionesSelect('operador', v.operador)}</select></td>
-      <td data-label="Campo"><select data-k="campo">${opcionesSelect('campo', v.campo)}</select></td>
+      <td data-label="Operador">${botonElegir('operador', v.operador)}</td>
+      <td data-label="Campo">${botonElegir('campo', v.campo)}</td>
       <td data-label="Desde"><input data-k="desde" type="date" value="${esc(v.desde || auto)}"><br><span class="desde-txt">${v.campo && !esTaller(v.campo) ? (v.desde ? 'puesta a mano' : (auto ? 'automática (GPS)' : 'sin dato')) : ''}</span></td>
       <td data-label="Próximo destino"><input data-k="destino" value="${esc(v.destino)}" maxlength="80"></td>
       <td data-label="GPS">${gpsChip(m)}<div class="nota" style="margin:2px 0 0">${esc(gpsDe(m).gps || '')}</div></td></tr>`;
@@ -995,15 +1099,12 @@ document.addEventListener('click', ev => {
   const b = ev.target.closest('.maq-item');
   if (b) abrirHoja(b.dataset.m);
 });
-document.addEventListener('change', async ev => {
-  const el = ev.target, tr = el.closest('tr.fila');
-  if (!tr || !el.dataset.k) return;
-  const m = tr.dataset.m, k = el.dataset.k;
-  let valor = el.value;
-  if (valor === '__nuevo') {
-    valor = await elegir(k === 'campo' ? 'campo' : 'operador', k === 'campo' ? `Campo de ${m}` : `Operador de ${m}`, valorDe(m)[k]);
-    if (valor == null) { dibujar(); return; }
-  }
+document.addEventListener('click', async ev => {
+  const b = ev.target.closest('[data-elegir]'), tr = b && b.closest('tr.fila');
+  if (!tr) return;
+  const m = tr.dataset.m, k = b.dataset.elegir;
+  const valor = await elegir(k, k === 'campo' ? `Campo de ${m}` : `Operador de ${m}`, valorDe(m)[k], { vacio: true, taller: true });
+  if (valor == null) return;
   editado[m] = { ...(editado[m] || {}), [k]: (valor || '').trim() };
   if (k === 'campo') editado[m].desde = '';  // cambia el campo: "Desde" vuelve a automatico
   dibujar();
@@ -1048,7 +1149,7 @@ function aplicarEstado(e) {
   D1 = true; VERSION = e.version;
   OP = { ...(OP || {}), maquinas: e.maquinas, actualizado: e.actualizado || (OP && OP.actualizado) };
   CAMBIOS_D1 = (e.cambios || []).map(c => ({ fecha: fechaChile(c.ts), maquina: c.maquina, cambio: c.cambio, antes: c.antes, despues: c.despues, id: c.guardado, ts: c.ts, origen: c.origen || 'App' }));
-  CONFLICTOS = e.conflictos || []; PLANILLA = e.planilla || null;
+  CONFLICTOS = e.conflictos || []; PLANILLA = e.planilla || null; ACCIONES_D1 = e.acciones || ACCIONES_D1;
   if (window.Agenda) Agenda.desdeD1(e);
 }
 const fechaChile = ts => new Intl.DateTimeFormat('es-CL', { timeZone: 'America/Santiago', day: '2-digit', month: '2-digit', year: 'numeric',
@@ -1067,13 +1168,13 @@ setInterval(async () => {
 
 async function cargar(soloOperacion) {
   const leer = (u, def) => fetch(u + '?x=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : def).catch(() => def);
-  const [op, cambios, tiempos, v2, campos, foto, agenda, agendaCambios] = await Promise.all([leer('datos/operacion.json', null), leer('datos/operacion_cambios.json', []),
+  const [op, cambios, tiempos, v2, campos, foto, agenda, agendaCambios, quit] = await Promise.all([leer('datos/operacion.json', null), leer('datos/operacion_cambios.json', []),
     leer('datos/operacion_tiempos.json', []), soloOperacion && V ? { v2: V } : leer('datos/reporte_v2.json', {}),
     soloOperacion && CAMPOS.campos.length ? CAMPOS : leer('datos/campos.json', {}), soloOperacion ? { dias: FOTO } : leer('datos/operadores.json', {}),
-    leer('datos/agenda.json', null), leer('datos/agenda_cambios.json', [])]);
+    leer('datos/agenda.json', null), leer('datos/agenda_cambios.json', []), leer('datos/nombres_quitados.json', null)]);
   if (window.Agenda) Agenda.desdePublicado(agenda, agendaCambios);
   if (!op) { if (!OP) document.getElementById('app').innerHTML = '<div class="vacio">Todavía no se carga la operación.</div>'; return; }
-  OP = op; CAMBIOS = cambios || []; TIEMPOS = tiempos || []; V = (v2 && v2.v2) || V; CAMPOS = campos || CAMPOS; FOTO = (foto && foto.dias) || {};
+  OP = op; CAMBIOS = cambios || []; TIEMPOS = tiempos || []; V = (v2 && v2.v2) || V; CAMPOS = campos || CAMPOS; FOTO = (foto && foto.dias) || {}; if (quit) QUITADOS_PUB = quit;
   if (!soloOperacion && v2 && v2.resumen) FULL = v2;
   // La operacion al instante viene de Cloudflare (D1); si no responde, queda lo publicado en GitHub.
   const e = await leerD1('/estado');

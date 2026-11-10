@@ -22,6 +22,9 @@
  *    registra en el Worker (con el PIN) al ejecutar "instalar".
  *  - Cada 5 minutos se trae todo desde la app (por si algo no llegó), el GPS y las
  *    listas desplegables.
+ *  - Operador y Campo (10-nov-2026): un nombre igual a uno de la lista salvo mayúsculas,
+ *    tildes o espacios se cambia solo al de la lista; uno parecido queda en amarillo con
+ *    la nota "¿Es X?"; uno nuevo queda en la lista para las próximas veces.
  *  - Gana el último cambio; si el mismo dato se cambió en los dos lados en menos de
  *    2 min, la app muestra un aviso. El historial guarda el origen (App/Planilla).
  *
@@ -153,20 +156,78 @@ function alEditar(e) {
       return aviso('Máquina, Ubicación, Fecha término, Calza GPS y los títulos los escribe la app: no se cambió nada.');
     }
     const valores = e.range.getValues();
-    const cambios = [];
+    const cambios = [], avisos = [];
+    const sug = sugerencias(), listas = listasDeLaHoja();
     for (let i = 0; i < nr; i++) {
       const m = maquinas[i];
       for (let j = 0; j < nc; j++) {
         const k = COLUMNAS[c0 + j];
         if (!k) continue;
-        const v = String(valores[i][j] == null ? '' : valores[i][j]).trim();
+        let v = String(valores[i][j] == null ? '' : valores[i][j]).trim();
+        if (k === 'operador' || k === 'campo') v = revisarNombre(m, k, v, listas[k], sug, avisos);
         cambios.push({ maquina: m, k: k, valor: v });
         // Cambiar de campo deja el "Desde" en automático (llegada al campo según el GPS), como en la app.
         if (k === 'campo' && v !== String(est.maquinas[m].campo || '').trim()) cambios.push({ maquina: m, k: 'desde', valor: '' });
       }
     }
-    if (cambios.length) enviarOperacion(cambios, true, est);
+    guardarSugerencias(sug);
+    const ok = cambios.length ? enviarOperacion(cambios, !avisos.length, est) : true;
+    if (avisos.length && ok) aviso(avisos.join(' · ') + ' · Guardado en la app ✓', 15);
   } finally { lock.releaseLock(); }
+}
+
+// ---------------------------------------------------------------------------
+// Nombres de campo y operador escritos en la planilla (pedido del usuario 10-nov-2026)
+//  (a) igual a uno de la lista salvo mayúsculas, tildes o espacios -> se usa el de la lista;
+//  (b) parecido a uno de la lista -> se guarda tal cual, la celda queda amarilla con una nota
+//      "¿Es X?" (si se vuelve a escribir lo mismo, es un nombre nuevo y se quita el amarillo);
+//  (c) nuevo -> se guarda y queda en la lista desplegable (la lista suma todo lo anotado).
+// ---------------------------------------------------------------------------
+function revisarNombre(m, k, v, lista, sug, avisos) {
+  const id = m + '|' + k;
+  if (!v || esTaller(v)) { delete sug[id]; return v; }
+  const igual = lista.find(x => clave(x) === clave(v));
+  if (igual) {
+    delete sug[id];
+    if (igual !== v) avisos.push(`Se usó «${igual}» (ya existía)`);
+    return igual;
+  }
+  if (sug[id] && clave(sug[id].valor) === clave(v)) { delete sug[id]; avisos.push(`«${v}» quedó como ${k === 'campo' ? 'campo' : 'operador'} nuevo`); return v; }
+  const mejor = lista.map(x => ({ x: x, p: Math.max(parecido(v, x), k === 'operador' && mismoPrimerNombre(v, x) ? 0.8 : 0) }))
+    .filter(o => o.p >= 0.75).sort((a, b) => b.p - a.p)[0];
+  if (mejor) {
+    sug[id] = { valor: v, sugerido: mejor.x, ts: Date.now() };
+    avisos.push(`¿«${v}» es «${mejor.x}»? Quedó en amarillo: si es el mismo, elígelo de la lista; si es nuevo, vuelve a escribir «${v}»`);
+  } else delete sug[id];
+  return v;
+}
+function listasDeLaHoja() {
+  const h = hoja(HOJA_LISTAS, ['Operadores', 'Campos']);
+  const n = Math.max(h.getLastRow() - 1, 0);
+  const vals = n ? h.getRange(2, 1, n, 2).getValues() : [];
+  return { operador: vals.map(r => String(r[0]).trim()).filter(Boolean), campo: vals.map(r => String(r[1]).trim()).filter(Boolean) };
+}
+function sugerencias() { return JSON.parse(PropertiesService.getScriptProperties().getProperty('SUGERENCIAS') || '{}'); }
+function guardarSugerencias(sug) {
+  // Se olvidan solas a los 7 días.
+  Object.keys(sug).forEach(id => { if (Date.now() - (sug[id].ts || 0) > 7 * 86400000) delete sug[id]; });
+  PropertiesService.getScriptProperties().setProperty('SUGERENCIAS', JSON.stringify(sug));
+}
+function parecido(a, b) {
+  a = clave(a); b = clave(b);
+  if (!a || !b) return 0;
+  if (a === b) return 1;
+  if (a.indexOf(b) >= 0 || b.indexOf(a) >= 0) return 0.9;
+  const d = [];
+  for (let i = 0; i <= a.length; i++) { d[i] = [i]; }
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)
+    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return 1 - d[a.length][b.length] / Math.max(a.length, b.length);
+}
+function mismoPrimerNombre(a, b) {
+  const ta = sinT(a).split(/\s+/), tb = sinT(b).split(/\s+/);
+  return !!ta[0] && ta[0] === tb[0] && (ta.length === 1 || tb.length === 1 || (ta[1] || '')[0] === (tb[1] || '')[0]);
 }
 
 function enviarOperacion(cambios, avisar, est) {
@@ -270,10 +331,12 @@ function sincronizar() {
 }
 
 // Lee la app (D1 o lo publicado), arma el GPS de cada máquina y dibuja todo.
+let ESTADO_LEIDO = null;  // lo último leído de la app en esta ejecución (cambios y nombres quitados)
 function traerDesdeApp(conGps) {
   const estado = leerJson(WORKER + '/estado');
   let est, ha = null, cambios = [];
   if (estado && estado.d1) {
+    ESTADO_LEIDO = estado;
     est = { maquinas: estado.maquinas, agenda: estado.agenda || [] };
     ha = estado.ha_aprox; cambios = estado.cambios || [];
   } else {
@@ -307,9 +370,10 @@ function construirInfo() {
 function dibujar(est) {
   const info = infoGuardada() || construirInfo();
   const v = armarVista(est.maquinas, est.agenda || [], info, hoyChile());
+  const notas = marcarSugerencias(v);
   const h = hoja(HOJA_OP, ENCABEZADO_OP);
   const p = PropertiesService.getScriptProperties();
-  const firma = Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, JSON.stringify([v.valores, v.tipos]), Utilities.Charset.UTF_8));
+  const firma = Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, JSON.stringify([v.valores, v.tipos, notas]), Utilities.Charset.UTF_8));
   const n = v.valores.length, total = Math.max(h.getMaxRows() - 1, n);
   if (p.getProperty('VISTA') === firma && h.getLastRow() === n + 1 && sinCambiosAMano(h, v)) return;
   if (h.getMaxRows() < n + 1) h.insertRowsAfter(h.getMaxRows(), n + 1 - h.getMaxRows());
@@ -319,6 +383,7 @@ function dibujar(est) {
   const r = h.getRange(2, 1, n, NCOL);
   r.setNumberFormat('@');  // texto tal cual (que Sheets no convierta fechas ni números)
   r.setValues(v.valores).setBackgrounds(v.fondos).setFontColors(v.colores).setFontWeights(v.negritas);
+  h.getRange(2, 3, n, 2).setNotes(notas);
   const listas = hoja(HOJA_LISTAS, ['Operadores', 'Campos']);
   const rOp = regla(listas, 1), rCampo = regla(listas, 2);
   h.getRange(2, 3, n, 2).setDataValidations(v.tipos.map(t => t === 'maquina' ? [rOp, rCampo] : [null, null]));
@@ -328,6 +393,23 @@ function dibujar(est) {
     h.setRowHeight(i + 2, 28);
   });
   p.setProperty('VISTA', firma);
+}
+
+// Celdas de Operador/Campo con un nombre parecido a uno de la lista: amarillo y nota "¿Es X?".
+function marcarSugerencias(v) {
+  const sug = sugerencias();
+  const vistas = {};
+  const notas = v.valores.map((f, i) => [3, 4].map(c => {
+    if (v.tipos[i] !== 'maquina') return '';
+    const k = c === 3 ? 'operador' : 'campo', id = f[0] + '|' + k, s = sug[id];
+    if (!s || clave(s.valor) !== clave(f[c - 1])) return '';
+    vistas[id] = true;
+    v.fondos[i][c - 1] = '#fff2cc';
+    return `¿Es «${s.sugerido}»? Si es el mismo, elígelo de la lista. Si es ${k === 'campo' ? 'un campo nuevo' : 'un operador nuevo'}, vuelve a escribir «${s.valor}» y se quita el amarillo.`;
+  }));
+  // Las que ya no calzan (se cambió el valor desde la app o la planilla) se olvidan.
+  if (Object.keys(sug).some(id => !vistas[id])) { Object.keys(sug).forEach(id => { if (!vistas[id]) delete sug[id]; }); guardarSugerencias(sug); }
+  return notas;
 }
 
 // Si alguien escribió a mano en la hoja (columna Máquina distinta), se vuelve a dibujar aunque la firma calce.
@@ -383,20 +465,62 @@ function escribirRegistro(ultima, todas) {
   }
 }
 
+// Listas desplegables (10-nov-2026): los campos de Wialon y sus equivalencias, los operadores
+// conocidos, y todo lo anotado alguna vez en Operación (un nombre nuevo queda en la lista),
+// menos los nombres quitados desde la app (🗑, con PIN).
 function actualizarListas() {
   const v2 = (leerJson(DATOS + 'reporte_v2.json') || {}).v2 || {};
   const campos = leerJson(DATOS + 'campos.json') || {};
+  const usados = nombresUsados();
+  const q = quitadosDeLaApp();
   const ops = [];
   ((v2.operadores || {}).lista || []).forEach(o => { ops.push(o.operador); (o.otros_nombres || []).forEach(x => ops.push(x)); });
   const nl = campos.nombres_lista || {};
-  const cs = ['Taller'].concat((campos.campos || []).filter(c => nl[c]), Object.keys(campos.equivalencias || {}));
-  const unico = l => Array.from(new Set(l.filter(Boolean))).sort((a, b) => a.localeCompare(b, 'es'));
-  const a = unico(ops), b = ['Taller'].concat(unico(cs.slice(1)));
+  const wialon = (campos.campos || []).filter(c => nl[c]);
+  const manuales = Object.keys(campos.equivalencias || {}).concat(usados.campo);
+  // Un nombre igual a otro salvo mayúsculas o tildes aparece una sola vez (gana el primero: Wialon, luego lo más usado).
+  const unico = l => {
+    const vistos = {}, salida = [];
+    l.forEach(x => { x = String(x || '').trim(); const k = clave(x); if (k && !vistos[k] && !esTaller(x)) { vistos[k] = true; salida.push(x); } });
+    return salida.sort((a, b) => a.localeCompare(b, 'es'));
+  };
+  const a = unico(ops.concat(usados.operador).filter(x => !q.operador[clave(x)]));
+  const b = ['Taller'].concat(unico(wialon.concat(manuales.filter(x => !q.campo[clave(x)]))));
   if (!a.length && b.length < 2) return;  // sin datos publicados: se deja lo anterior
   const h = hoja(HOJA_LISTAS, ['Operadores', 'Campos']);
   const filas = Math.max(a.length, b.length);
   h.getRange(2, 1, Math.max(h.getMaxRows() - 1, 1), 2).clearContent();
   h.getRange(2, 1, filas, 2).setValues(Array.from({ length: filas }, (_, i) => [a[i] || '', b[i] || '']));
+}
+
+// Nombres anotados alguna vez en Operación (foto diaria, historial y hoy), el más usado primero.
+function nombresUsados() {
+  const cuenta = { operador: {}, campo: {} };
+  const sumar = (k, v, peso) => { v = String(v || '').trim(); if (v && v.length <= 80) cuenta[k][v] = (cuenta[k][v] || 0) + peso; };
+  const foto = (leerJson(DATOS + 'operadores.json') || {}).dias || {};
+  Object.keys(foto).forEach(d => Object.keys(foto[d]).forEach(m => { sumar('operador', foto[d][m].operador, 1); sumar('campo', foto[d][m].campo, 1); }));
+  const cambios = (leerJson(DATOS + 'operacion_cambios.json') || []).concat((ESTADO_LEIDO && ESTADO_LEIDO.cambios) || []);
+  cambios.forEach(c => { const k = c.cambio === 'Operador' ? 'operador' : c.cambio === 'Campo' ? 'campo' : ''; if (k) { sumar(k, c.antes, 1); sumar(k, c.despues, 1); } });
+  const est = ESTADO_LEIDO || {};
+  Object.keys(est.maquinas || {}).forEach(m => { sumar('operador', est.maquinas[m].operador, 3); sumar('campo', est.maquinas[m].campo, 3); });
+  const orden = k => Object.keys(cuenta[k]).sort((a, b) => cuenta[k][b] - cuenta[k][a]);
+  return { operador: orden('operador'), campo: orden('campo') };
+}
+// Nombres quitados de la lista desde la app: lo publicado + lo guardado al instante en Cloudflare.
+function quitadosDeLaApp() {
+  const q = { operador: {}, campo: {} };
+  const pub = leerJson(DATOS + 'nombres_quitados.json') || {};
+  ['operador', 'campo'].forEach(t => (pub[t] || []).forEach(x => { q[t][clave(x.nombre)] = true; }));
+  const acc = ((ESTADO_LEIDO && ESTADO_LEIDO.acciones) || []).filter(a => a.tipo === 'equivalencia' || a.tipo === 'borrar_equivalencia')
+    .sort((a, b) => a.ts - b.ts);
+  acc.forEach(a => {
+    let d = {}; try { d = typeof a.datos === 'string' ? JSON.parse(a.datos) : (a.datos || {}); } catch (x) { return; }
+    ['operador', 'campo'].forEach(t => {
+      if (clave(d.planilla) !== clave('lista-quitar: ' + t)) return;
+      if (a.tipo === 'equivalencia') q[t][clave(d.campo)] = true; else delete q[t][clave(d.campo)];
+    });
+  });
+  return q;
 }
 
 // ---------------------------------------------------------------------------
@@ -609,5 +733,7 @@ function igual(a, b) {
 }
 const nuevoId = () => ('p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8)).toLowerCase();
 const json = o => ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
-function aviso(t) { try { SpreadsheetApp.getActive().toast(t, 'Operación CYH', 6); } catch (x) { console.log(t); } }
-function mensaje(t) { try { SpreadsheetApp.getUi().alert(t); } catch (x) { console.log(t); } }
+function aviso(t, seg) { try { SpreadsheetApp.getActive().toast(t, 'Operación CYH', seg || 6); } catch (x) { console.log(t); } }
+// Mensaje que NO espera respuesta (10-nov-2026): con alert() "instalar" quedaba esperando
+// que alguien apretara Aceptar en la planilla y Google lo cortaba a los 6 minutos.
+function mensaje(t) { console.log(t); try { SpreadsheetApp.getActive().toast(t, 'Operación CYH', 30); } catch (x) { /* sin planilla abierta */ } }

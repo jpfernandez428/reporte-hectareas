@@ -865,6 +865,54 @@ Registro:
   responde error, la corrida falla en vez de publicar un tablero vacío. El
   correo tampoco se arma si `flota.json` viene sin conexiones.
 
+## Reporte diario a clientes (nov-2026)
+
+Encargo del usuario del 10-nov-2026, por etapas (mostrar cada una antes de
+seguir): 1) reparar la planilla "Operación CYH"; 2) correos de los clientes
+(pestaña en la planilla + sección en la app, guardados solo en D1 y la
+planilla, nunca en el repositorio); 3) un correo por campo con trabajo ayer;
+4) alertas solo a jpfernandez@cosechamecanizada.cl; 5) modo prueba por
+defecto, envío real solo cuando el usuario diga "lánzalo".
+
+- **Fuente de operadores y campos: la app (página Operación, D1) y la
+  planilla "Operación CYH"** (decisión del usuario, 10-nov-2026). El Excel
+  antiguo "Maquinas en Operacion" del Drive ya no se usa.
+- **Etapa 1 – diagnóstico (10-nov-2026)**: el Worker publicado ya tiene
+  `/hoja` y D1, pero `/estado` → `planilla.conectada: false`: el "Instalar /
+  reinstalar" del Apps Script nunca terminó bien (la planilla nunca quedó
+  registrada), por eso la hoja sigue con las columnas antiguas y sin
+  cambios desde el 04-11. Se reinstala `cloudflare/planilla_apps_script.gs`
+  siguiendo la guía dada al usuario.
+- **Reinstalación (10-nov-2026)**: el usuario pegó el script, publicó la
+  Aplicación web y cargó `PIN` y `URL_WEB`. "instalar" se cortó a los 6 min,
+  pero había terminado todo: quedó esperando el `alert()` final ("Listo…") en
+  la planilla. Ahora `mensaje()` usa un aviso que no espera respuesta. Worker:
+  `planilla.conectada: true`; Planilla → App probado (cambios del usuario a las
+  12:18–12:19, origen "Planilla").
+- **Elegir Campo y Operador (pedido del usuario 10-nov-2026)**:
+  - App (`elegir` en `docs/app.html`, en "Por campo", "Tabla" y la Agenda):
+    escribir filtra sin mayúsculas ni tildes (también por nombres unidos y
+    equivalencias); "¿Quisiste decir…?" mientras se escribe (parecido ≥ 0,75);
+    "➕ Agregar «X» como campo nuevo / operador nuevo" solo si no hay uno igual
+    (salvo mayúsculas, tildes o espacios, que elige el existente). En la Tabla,
+    Operador y Campo son botones con el nombre completo que abren el buscador.
+  - **La lista suma todo lo anotado alguna vez** en Operación (foto diaria,
+    historial publicado y de D1, y hoy), escrito como más se usó.
+  - **🗑 Quitar de la lista** (con PIN; solo nombres que no son de Wialon y
+    todos los operadores; no cambia lo anotado en las máquinas) y "Volver a la
+    lista": `/confirmar` con `accion` `equivalencia` / `borrar_equivalencia` y
+    `planilla` = "lista-quitar: campo|operador", `campo` = el nombre (sin
+    cambiar el Worker) → `confirmar.py` → `docs/datos/nombres_quitados.json`.
+    La app y la planilla aplican además las acciones de D1 al instante.
+  - Planilla (`revisarNombre` en el Apps Script): (a) igual salvo mayúsculas,
+    tildes o espacios → se cambia solo al de la lista; (b) parecido → se guarda
+    tal cual, celda amarilla y nota "¿Es X?" (propiedad `SUGERENCIAS`; si se
+    vuelve a escribir lo mismo queda como nuevo; se olvida a los 7 días o al
+    cambiar el valor); (c) nuevo → queda en la lista desplegable. La lista
+    desplegable es la misma de la app, menos lo quitado. Las listas de Google no
+    permiten agregar "➕ Agregar" ni preguntar mientras se escribe; el panel
+    lateral con buscador quedó para después.
+
 ## Pendientes
 
 - **Shacker SBS 6, Rodrigo Bunster C2 y C4, 19 y 20-oct (revisado 21-oct-2026,
