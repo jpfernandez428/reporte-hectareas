@@ -1016,7 +1016,7 @@
    "Podadora 1": {
     "campo": "el quillay",
     "implemento": "ESTRELLA",
-    "operador": "Victor Ibarra"
+    "operador": "Alberto"
    },
    "Shacker SBS 10": {
     "campo": "La Estrella",
@@ -1024,14 +1024,14 @@
     "operador": "Pirincho"
    },
    "Shacker SBS 4": {
-    "campo": "kunako",
+    "campo": "MERCOFRUT",
     "implemento": "Shaker",
-    "operador": "Gaston H"
+    "operador": "Pirincho"
    },
    "Shacker SBS 5": {
     "campo": "mercofrut",
     "implemento": "Shaker",
-    "operador": "Carlos S"
+    "operador": "jorge mella"
    },
    "Shacker SBS 6": {
     "campo": "Taller",
@@ -1042,11 +1042,6 @@
     "campo": "MGH",
     "implemento": "Shaker",
     "operador": "Cristian Muñoz"
-   },
-   "Shacker SBS 8": {
-    "campo": "mercofrut",
-    "implemento": "Shaker",
-    "operador": "jorge mella"
    },
    "Shacker SBS 9": {
     "campo": "Taller",

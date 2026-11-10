@@ -226,5 +226,59 @@
   "despues": "Taller",
   "id": "mwasu2yiilpdm0",
   "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 11:48",
+  "maquina": "Shacker SBS 4",
+  "cambio": "Operador",
+  "antes": "Gaston H",
+  "despues": "Pirincho",
+  "id": "mwat1rgyhzk1gs",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 11:48",
+  "maquina": "Shacker SBS 4",
+  "cambio": "Campo",
+  "antes": "kunako",
+  "despues": "MERCOFRUT",
+  "id": "mwat1rgyhzk1gs",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 11:48",
+  "maquina": "Shacker SBS 5",
+  "cambio": "Operador",
+  "antes": "Carlos S",
+  "despues": "jorge mella",
+  "id": "mwat1rgyhzk1gs",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 11:48",
+  "maquina": "Shacker SBS 8",
+  "cambio": "Operador",
+  "antes": "jorge mella",
+  "despues": "",
+  "id": "mwat1rgyhzk1gs",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 11:48",
+  "maquina": "Shacker SBS 10",
+  "cambio": "Próximo destino",
+  "antes": "",
+  "despues": "taller",
+  "id": "mwat1rgyhzk1gs",
+  "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 11:48",
+  "maquina": "Podadora 1",
+  "cambio": "Operador",
+  "antes": "Victor Ibarra",
+  "despues": "Alberto",
+  "id": "mwat1rgyhzk1gs",
+  "origen": "App"
  }
 ]
