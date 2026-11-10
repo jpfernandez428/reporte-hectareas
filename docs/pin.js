@@ -20,7 +20,7 @@ function pedirPin(boton) {
     caja.insertAdjacentHTML('afterend', `<div class="pin-caja" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0">
       <span style="font-size:13px;font-weight:600">PIN para guardar:</span>
       <input type="password" inputmode="numeric" autocomplete="off" style="padding:6px;font-size:15px;width:9em;border:1px solid #bbb;border-radius:6px">
-      <button type="button" style="padding:6px 12px;border-radius:6px;border:1px solid #2f6f3e;background:#2f6f3e;color:#fff;font-weight:700">Usar PIN</button>
+      <button type="button" style="padding:6px 12px;border-radius:6px;border:1px solid #161616;background:#161616;color:#fff;font-weight:700">Usar PIN</button>
       <button type="button" style="padding:6px 10px;border-radius:6px;border:1px solid #ccc;background:#fff">Cancelar</button></div>`);
     cuadro = caja.nextElementSibling;
     const [entrada, usar, cancelar] = [cuadro.querySelector('input'), ...cuadro.querySelectorAll('button')];

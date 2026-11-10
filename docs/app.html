@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Flota C&amp;H</title>
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#2f6f3e">
+<meta name="theme-color" content="#111111">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Flota C&amp;H">
@@ -17,7 +17,8 @@
 <script src="app_ayer_flota.js"></script>
 <script src="app_agenda.js"></script>
 <style>
-  :root { --verde: #2f6f3e; --verde-f: #eaf3ec; --rojo: #b3261e; --rojo-f: #fdecea; --gris: #5f6b64; --borde: #e3e8e5;
+  :root { /* Color de la marca: negro (pedido del usuario 10-nov-2026; antes verde #2f6f3e). --ok = verde de "todo bien". */
+          --verde: #161616; --verde-f: #efefef; --ok: #2f6f3e; --rojo: #b3261e; --rojo-f: #fdecea; --gris: #5f6b64; --borde: #e3e8e5;
           --amarillo-f: #fff4cc; --azul-f: #dfeafd; }
   * { box-sizing: border-box; }
   body { font-family: -apple-system, Arial, sans-serif; margin: 0; background: #f5f6f7; color: #1a1a1a; font-size: 15px; }
@@ -31,15 +32,15 @@
   .nota { font-size: 12px; color: var(--gris); margin: 8px 0 0; }
   /* Barra de herramientas */
   .barra-op { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
-  .seg { display: inline-flex; border: 1px solid #cfe0d1; border-radius: 999px; overflow: hidden; }
+  .seg { display: inline-flex; border: 1px solid #d4d4d4; border-radius: 999px; overflow: hidden; }
   .seg button { border: 0; background: #fff; color: var(--verde); font-weight: 600; padding: 7px 13px; font-size: 13px; cursor: pointer; }
   .seg button.activo { background: var(--verde); color: #fff; }
   .seg .cuenta { display: inline-block; min-width: 18px; padding: 0 5px; border-radius: 9px; background: var(--rojo); color: #fff; font-size: 11px; margin-left: 4px; }
   .seg button.activo .cuenta { background: #fff; color: var(--rojo); }
-  .boton-sec { border: 1px solid #cfe0d1; background: #fff; color: var(--verde); border-radius: 8px; padding: 7px 12px; font-weight: 600; font-size: 13px; cursor: pointer; }
+  .boton-sec { border: 1px solid #d4d4d4; background: #fff; color: var(--verde); border-radius: 8px; padding: 7px 12px; font-weight: 600; font-size: 13px; cursor: pointer; }
   .buscador { flex: 1 1 220px; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; }
   .filtros { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-  .filtros button { border: 1px solid #cfe0d1; background: var(--verde-f); color: var(--verde); font-weight: 600; border-radius: 999px; padding: 5px 11px; font-size: 13px; cursor: pointer; }
+  .filtros button { border: 1px solid #d4d4d4; background: var(--verde-f); color: var(--verde); font-weight: 600; border-radius: 999px; padding: 5px 11px; font-size: 13px; cursor: pointer; }
   .filtros button.activo { background: var(--verde); color: #fff; }
   /* Por campo: tarjetas; computador con panel a la derecha */
   .op-layout { display: grid; grid-template-columns: 1fr; gap: 12px; align-items: start; }
@@ -51,7 +52,7 @@
   .campo-card header small { color: var(--gris); font-size: 12px; white-space: nowrap; }
   .campo-card.taller header { background: #eceeed; } .campo-card.taller header b { color: #444; }
   .maq-item { display: flex; width: 100%; text-align: left; gap: 8px; align-items: center; padding: 9px 12px; border: 0; border-top: 1px solid #f0f2f0; background: #fff; cursor: pointer; font-size: 14px; }
-  .maq-item:hover, .maq-item.sel { background: #f3f8f4; }
+  .maq-item:hover, .maq-item.sel { background: #f2f2f2; }
   .ver-mas { padding: 10px 12px; border-top: 1px solid #f0f2f0; color: var(--verde); font-weight: 600; font-size: 14px; cursor: pointer; }
   .maq-item .nom { flex: 1; min-width: 0; }
   .maq-item .nom small { display: block; color: var(--gris); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -89,7 +90,7 @@
   .selector .lista { overflow: auto; padding: 4px 0 calc(8px + env(safe-area-inset-bottom)); }
   .selector .lista .tit { font-size: 11px; font-weight: 700; color: var(--gris); text-transform: uppercase; padding: 10px 14px 4px; }
   .selector .lista button { display: block; width: 100%; text-align: left; padding: 12px 14px; border: 0; border-top: 1px solid #f2f2f2; background: #fff; font-size: 15px; cursor: pointer; }
-  .selector .lista button:hover { background: #f3f8f4; }
+  .selector .lista button:hover { background: #f2f2f2; }
   .selector .lista button small { color: var(--gris); }
   .selector .lista button.nuevo { color: var(--verde); font-weight: 700; }
   .selector .pregunta { padding: 12px 14px; background: var(--amarillo-f); font-size: 14px; }
@@ -130,7 +131,7 @@
   .grupo td { font-size: 12px; font-weight: 700; color: var(--verde); text-transform: uppercase; padding-top: 12px; }
   .grupo-btn { border: 0; background: none; padding: 4px 0; font: inherit; color: var(--verde); font-weight: 700; cursor: pointer; text-align: left; }
   .tipos { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; align-items: center; font-size: 13px; }
-  .tipos .grupo-btn { border: 1px solid #cfe0d1; border-radius: 999px; padding: 4px 10px; background: #fff; font-size: 13px; }
+  .tipos .grupo-btn { border: 1px solid #d4d4d4; border-radius: 999px; padding: 4px 10px; background: #fff; font-size: 13px; }
   .tipos .grupo-btn.abierto { background: var(--verde-f); }
   .conflicto { background: #fff4cc; border-left: 4px solid #d4a017; padding: 8px 10px; margin: 0 0 8px; font-size: 14px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
   .conflicto span { flex: 1; min-width: 200px; }
@@ -477,7 +478,7 @@ async function vigilar() {
 }
 function aviso(texto, error) {
   const m = document.getElementById('msg');
-  if (m) { m.textContent = texto; m.style.color = error ? 'var(--rojo)' : 'var(--verde)'; }
+  if (m) { m.textContent = texto; m.style.color = error ? 'var(--rojo)' : 'var(--ok)'; }
 }
 
 // ---------------------------------------------------------------------------

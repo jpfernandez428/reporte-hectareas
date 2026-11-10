@@ -40,7 +40,7 @@
   estilo.textContent = `
     .ag-barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
     .ag-nav { display: inline-flex; align-items: center; gap: 4px; }
-    .ag-nav button { border: 1px solid #cfe0d1; background: #fff; color: var(--verde); border-radius: 8px; padding: 6px 11px; font-weight: 700; cursor: pointer; }
+    .ag-nav button { border: 1px solid #d4d4d4; background: #fff; color: var(--verde); border-radius: 8px; padding: 6px 11px; font-weight: 700; cursor: pointer; }
     .ag-nav b { min-width: 9em; text-align: center; font-size: 14px; }
     .ag-nuevo { border: 0; background: var(--verde); color: #fff; border-radius: 8px; padding: 8px 14px; font-weight: 700; cursor: pointer; }
     .ag-avisos { margin-bottom: 10px; }
@@ -96,7 +96,7 @@
     .ag-hoja .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .ag-hoja .elegido { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 9px; border: 1px solid #ccc; border-radius: 8px; background: #fff; cursor: pointer; font-size: 15px; text-align: left; font-family: inherit; width: 100%; }
     .ag-hoja .lista-x { display: flex; flex-wrap: wrap; gap: 6px; }
-    .ag-hoja .lista-x span { background: var(--verde-f); border: 1px solid #cfe0d1; border-radius: 999px; padding: 4px 6px 4px 10px; font-size: 13px; }
+    .ag-hoja .lista-x span { background: var(--verde-f); border: 1px solid #d4d4d4; border-radius: 999px; padding: 4px 6px 4px 10px; font-size: 13px; }
     .ag-hoja .lista-x span.am { background: #fff4cc; border-color: #e8c547; color: #8a6a00; }
     .ag-hoja .lista-x button { border: 0; background: none; color: var(--rojo); font-weight: 700; cursor: pointer; padding: 0 4px; }
     .ag-hoja .mas { border: 1px dashed var(--verde); background: #fff; color: var(--verde); border-radius: 999px; padding: 4px 10px; font-weight: 600; cursor: pointer; }
@@ -386,7 +386,7 @@
     capa().innerHTML = `<div class="hoja-fondo" onclick="Agenda.cerrar()"></div><div class="hoja ag-hoja ${color ? 'ag-c-' + color : ''}" role="dialog"><button type="button" class="cerrar" onclick="Agenda.cerrar()" aria-label="Cerrar">×</button>${contenido}</div>`;
   }
   const cerrar = () => { AG.sel = null; capa().innerHTML = ''; };
-  const msg = (texto, error) => { const m = document.querySelector('#capaAgenda .msg'); if (m) { m.textContent = texto; m.style.color = error ? 'var(--rojo)' : 'var(--verde)'; } };
+  const msg = (texto, error) => { const m = document.querySelector('#capaAgenda .msg'); if (m) { m.textContent = texto; m.style.color = error ? 'var(--rojo)' : 'var(--ok)'; } };
 
   function detalle(id) {
     const t = trabajos().find(x => x.id === id);

@@ -46,12 +46,12 @@
   const estilo = document.createElement('style');
   estilo.textContent = `
     .menu-global { position: sticky; top: 0; z-index: 30; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
-      background: #1f4d2b; padding: calc(7px + env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) 7px max(10px, env(safe-area-inset-left));
+      background: #111111; padding: calc(7px + env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) 7px max(10px, env(safe-area-inset-left));
       font-family: -apple-system, Arial, sans-serif; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
     .menu-global::-webkit-scrollbar { display: none; }
     .menu-global a { flex: none; color: #fff; text-decoration: none; font-weight: 600; font-size: 13px; line-height: 1;
-      padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,.1); white-space: nowrap; }
-    .menu-global a.actual { background: #fff; color: #1f4d2b; }
+      padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,.14); white-space: nowrap; }
+    .menu-global a.actual { background: #fff; color: #111111; }
     .menu-global a.logo { flex: none; display: flex; align-items: center; padding: 2px 5px; background: #fff; border-radius: 6px; margin-right: 4px; }
     .menu-global a.logo img { display: block; height: 27px; width: auto; }
     /* Celular: las 5 opciones caben en una linea, repartidas en el ancho. */
