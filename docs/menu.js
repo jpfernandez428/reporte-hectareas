@@ -4,6 +4,18 @@
 // usa el correo diario actual). Todas las direcciones quedan dentro de la app
 // (mismo sitio), asi que en el celular no se sale de la app.
 (function () {
+  // App instalada en el celular (pantalla de inicio): al abrirla parte siempre en
+  // Operacion (pedido del usuario 10-nov-2026), aunque se haya instalado desde otra
+  // pagina (el iPhone abre la pagina desde la que se agrego). Solo la primera
+  // pagina de cada apertura; despues se navega libre por el menu.
+  try {
+    const instalada = window.navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+    if (instalada && !sessionStorage.getItem('app_abierta')) {
+      sessionStorage.setItem('app_abierta', '1');
+      const p = location.pathname.split('/').pop() || 'index.html';
+      if (p !== 'app.html' || (location.hash && location.hash !== '#operacion')) { location.replace('app.html#operacion'); return; }
+    }
+  } catch (e) { /* sin almacenamiento: queda donde se abrio */ }
   // Reorganizacion (26-oct-2026): una sola app con 5 secciones. Mientras se
   // construyen por etapas, Historial y Ajustes llevan a las paginas actuales
   // (index.html y reporte2.html); Operacion, Ayer y Flota ya estan en app.html.
