@@ -912,6 +912,21 @@ defecto, envío real solo cuando el usuario diga "lánzalo".
     desplegable es la misma de la app, menos lo quitado. Las listas de Google no
     permiten agregar "➕ Agregar" ni preguntar mientras se escribe; el panel
     lateral con buscador quedó para después.
+- **App (10-nov-2026, aprobado por el usuario)**: logo de C&H arriba a la
+  izquierda en el menú común (`docs/logo_cyh_menu.png`, lleva a Operación; el
+  original `docs/Logo_CYH.png` es para el correo y el PDF de clientes). Color de
+  la marca **negro** (`--verde` = #161616 en app.html, barra #111111); el verde
+  (`--ok`) queda solo para estados (✓ guardado, GPS calza). Íconos C&H sobre
+  negro (#241d1d; `icono-192/512.png`, `icono-maskable-512.png` con margen,
+  `apple-touch-icon.png`, con `?v=2` para que el celular no use el viejo; hay
+  que volver a agregar la app a la pantalla de inicio). La app instalada parte
+  siempre en Operación (`menu.js`, primera página de cada apertura; ademas
+  `start_url` = `app.html?inicio=app#operacion`). **Celular** (≤ 700 px): la
+  vista "Tabla" se llama "Lista" y muestra una ficha por máquina (`vistaFichas`):
+  nombre grande, Operador y Campo en botones grandes que abren el buscador y
+  guardan al elegir (PIN), línea Desde / Próximo destino, estado del GPS y "Más
+  datos" (Implemento, Desde, Próximo destino con su botón Guardar). En el
+  computador sigue la tabla.
 
 ## Pendientes
 

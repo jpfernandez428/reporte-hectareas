@@ -153,6 +153,27 @@
     .tabla-op td[data-label]::before, #historial td[data-label]::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 600; color: var(--gris); text-transform: uppercase; }
     #historial thead { display: none; } #historial, #historial tbody, #historial tr, #historial td { display: block; width: 100%; }
   }
+  /* Fichas del celular (10-nov-2026) */
+  .fichas-grupo { margin: 14px 2px 6px; font-size: 15px; }
+  .ficha { background: #fff; border: 1px solid var(--borde); border-radius: 12px; padding: 12px; margin: 0 0 10px; }
+  .ficha.guardando { border-color: #9cb8e8; } .ficha.fallo { border-color: var(--rojo); }
+  .ficha-cab { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
+  .ficha-nom { font-size: 18px; font-weight: 700; line-height: 1.2; }
+  .ficha-sub { font-size: 14px; color: var(--gris); margin-top: 2px; }
+  .ficha-dato { display: flex; align-items: center; width: 100%; min-height: 54px; margin: 0 0 8px; padding: 8px 12px; border: 1px solid #c9c9c9; border-radius: 10px; background: #fafafa; text-align: left; cursor: pointer; gap: 10px; }
+  .ficha-dato:active { background: #ececec; }
+  .ficha-dato .et { flex: none; width: 74px; font-size: 13px; font-weight: 600; color: var(--gris); }
+  .ficha-dato .val { flex: 1; font-size: 18px; font-weight: 600; color: #111; line-height: 1.25; overflow-wrap: anywhere; }
+  .ficha-dato .val.vacio-val { color: #9a9a9a; font-weight: 500; font-style: italic; }
+  .ficha-dato .fl { flex: none; font-size: 24px; color: #9a9a9a; }
+  .ficha-linea { font-size: 15px; margin: 2px 2px 6px; }
+  .ficha-gps { font-size: 14px; color: var(--gris); margin: 2px; line-height: 1.4; }
+  .ficha-gps .marca { font-size: 13px; }
+  .ficha-mas { margin-top: 8px; border-top: 1px solid #eee; padding-top: 6px; }
+  .ficha-mas summary { font-size: 14px; font-weight: 600; color: var(--verde); padding: 6px 0; cursor: pointer; }
+  .ficha-mas label { display: block; font-size: 13px; font-weight: 600; color: var(--gris); margin: 8px 0 0; }
+  .ficha-mas input { display: block; width: 100%; margin-top: 4px; padding: 11px; font-size: 17px; border: 1px solid #c9c9c9; border-radius: 8px; background: #fff; }
+  .ficha-guardar { margin-top: 12px; width: 100%; padding: 13px; font-size: 16px; font-weight: 700; border: 0; border-radius: 10px; background: var(--verde); color: #fff; }
 </style>
 </head>
 <body>
@@ -967,7 +988,64 @@ function botonElegir(k, valor) {
   const t = k === 'campo' ? (valor ? nombreCampo(valor) : '') : valor;
   return `<button type="button" class="elegir-btn" data-elegir="${k}">${t ? esc(t) : `<span class="gris">${k === 'campo' ? '(sin anotar)' : '(sin operador)'}</span>`} <span class="flecha">▾</span></button>`;
 }
+// Celular (pedido del usuario 10-nov-2026): una ficha por maquina con letra grande, Operador y
+// Campo completos en botones grandes que guardan al tocar (con el PIN), y "Más datos" para
+// Implemento, Desde y Próximo destino. En pantallas anchas sigue la tabla.
+const esCelular = () => window.matchMedia && matchMedia('(max-width: 700px)').matches;
+const FICHAS_ABIERTAS = new Set();
+function vistaFichas() {
+  let html = '';
+  for (const g of porTipo()) {
+    html += `<div class="fichas-grupo">${botonTipo(g)}</div>`;
+    for (const u of g.mostrar) {
+      const m = u.maquina, v = valorDe(m), r = resultadoDe(m), auto = desdeAuto(m), gp = gpsDe(m);
+      const clase = pendienteDe(m) ? 'guardando' : (r && !r.ok) ? 'fallo' : '';
+      const enCampo = v.campo && !esTaller(v.campo);
+      const desde = enCampo ? (v.desde ? fc(v.desde) : auto ? fc(auto) + ' (automática)' : 'sin dato') : '';
+      const extra = [u.labor, v.implemento].filter(Boolean).join(' · ');
+      html += `<div class="ficha ${clase}" data-m="${esc(m)}">
+        <div class="ficha-cab"><div><div class="ficha-nom">${esc(m)}</div>${extra ? `<div class="ficha-sub">${esc(extra)}</div>` : ''}</div>${estadoSinc(m)}</div>
+        <button type="button" class="ficha-dato" data-ficha="operador"><span class="et">Operador</span><span class="val${v.operador ? '' : ' vacio-val'}">${v.operador ? esc(v.operador) : 'sin operador'}</span><span class="fl">›</span></button>
+        <button type="button" class="ficha-dato" data-ficha="campo"><span class="et">Campo</span><span class="val${v.campo ? '' : ' vacio-val'}">${v.campo ? esc(nombreCampo(v.campo)) : 'sin anotar'}</span><span class="fl">›</span></button>
+        ${desde || v.destino ? `<div class="ficha-linea">${desde ? `Desde <b>${esc(desde)}</b>` : ''}${desde && v.destino ? ' · ' : ''}${v.destino ? `Próximo destino <b>${esc(v.destino)}</b>` : ''}</div>` : ''}
+        <div class="ficha-gps">${gpsChip(m)} <span>${esc(gp.gps || '')}</span></div>
+        <details class="ficha-mas"${FICHAS_ABIERTAS.has(m) ? ' open' : ''}><summary>Más datos (implemento, desde, próximo destino)</summary>
+          <label>Implemento<input data-fk="implemento" value="${esc(v.implemento)}" maxlength="80"></label>
+          <label>Desde (llegada al campo)<input data-fk="desde" type="date" value="${esc(v.desde || auto)}"></label>
+          <label>Próximo destino<input data-fk="destino" value="${esc(v.destino)}" maxlength="80"></label>
+          <button type="button" class="ficha-guardar" data-ficha-guardar>Guardar</button>
+        </details></div>`;
+    }
+  }
+  return (html || '<div class="vacio">Ninguna máquina para este filtro.</div>') + '<div id="msg" style="margin-top:8px"></div>';
+}
+document.addEventListener('click', async ev => {
+  const f = ev.target.closest('.ficha');
+  if (!f) return;
+  const m = f.dataset.m, b = ev.target.closest('[data-ficha]');
+  if (b) {
+    const k = b.dataset.ficha;
+    const valor = await elegir(k, k === 'campo' ? `Campo de ${m}` : `Operador de ${m}`, valorDe(m)[k], { vacio: true, taller: true });
+    if (valor == null || valor === (valorDe(m)[k] || '')) return;
+    await guardarFilas([filaCompleta(m, k === 'campo' ? { campo: valor, desde: '' } : { [k]: valor })], b);
+    return;
+  }
+  if (ev.target.closest('[data-ficha-guardar]')) {
+    const datos = {};
+    f.querySelectorAll('[data-fk]').forEach(i => { datos[i.dataset.fk] = i.value.trim(); });
+    // "Desde" igual a la automatica = automatica (vacio).
+    if (datos.desde && datos.desde === desdeAuto(m) && !valorDe(m).desde) datos.desde = '';
+    FICHAS_ABIERTAS.delete(m);
+    await guardarFilas([filaCompleta(m, datos)], ev.target);
+  }
+});
+document.addEventListener('toggle', ev => {
+  const d = ev.target, f = d.closest && d.closest('.ficha');
+  if (f && d.classList.contains('ficha-mas')) { if (d.open) FICHAS_ABIERTAS.add(f.dataset.m); else FICHAS_ABIERTAS.delete(f.dataset.m); }
+}, true);
+
 function vistaTabla() {
+  if (esCelular()) return vistaFichas();
   let html = '';
   for (const g of porTipo()) {
   html += `<tr class="grupo"><td colspan="7">${botonTipo(g)}</td></tr>`;
@@ -1043,7 +1121,7 @@ function dibujarOperacion() {
     ${conflictosHtml()}
     <div class="barra-op">
       <span class="seg">${segP('maquinas', 'Máquinas')}${segP('agenda', `Agenda${nAg ? `<span class="cuenta">${nAg}</span>` : ''}`)}${segP('sugerencias', `Sugerencias${s ? `<span class="cuenta">${s}</span>` : ''}`)}</span>
-      ${UI.pestana === 'maquinas' ? `<span class="seg">${segV('campo', 'Por campo')}${segV('tabla', 'Tabla')}</span>` : ''}
+      ${UI.pestana === 'maquinas' ? `<span class="seg">${segV('campo', 'Por campo')}${segV('tabla', esCelular() ? 'Lista' : 'Tabla')}</span>` : ''}
       ${UI.pestana !== 'agenda' ? '<button type="button" class="boton-sec" onclick="descargarExcel()">Descargar Excel</button>' : ''}
       ${UI.vista !== 'tabla' || UI.pestana !== 'maquinas' ? '<span id="msg"></span>' : ''}
     </div>
