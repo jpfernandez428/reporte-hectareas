@@ -325,5 +325,14 @@
   "despues": "prueba",
   "id": "mwaud3cld8cuyj",
   "origen": "App"
+ },
+ {
+  "fecha": "10-11-2026 12:26",
+  "maquina": "Shacker SBS 1",
+  "cambio": "Campo",
+  "antes": "prueba",
+  "despues": "Taller",
+  "id": "mwaudy2haq5dsl",
+  "origen": "App"
  }
 ]
