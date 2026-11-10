@@ -250,7 +250,7 @@
   "Shacker SBS 11": {
    "implemento": "Shaker",
    "operador": "",
-   "campo": "kunako",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
@@ -672,6 +672,12 @@
    "id": "mwastxondn67vz",
    "recibido": "1794321732965",
    "aplicado": 1794321757071,
+   "cambios": 1
+  },
+  {
+   "id": "mwasu2yiilpdm0",
+   "recibido": "1794321739802",
+   "aplicado": 1794321769971,
    "cambios": 1
   }
  ]
