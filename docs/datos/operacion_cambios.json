@@ -352,5 +352,14 @@
   "despues": "MERCOFRUT",
   "id": "pmwb1k4eakr0a35",
   "origen": "Planilla"
+ },
+ {
+  "fecha": "10-11-2026 15:47",
+  "maquina": "Shacker SBS 8",
+  "cambio": "Campo",
+  "antes": "mercofrut",
+  "despues": "MERCOFRUT",
+  "id": "pmwb1k7ptjwqefo",
+  "origen": "Planilla"
  }
 ]
