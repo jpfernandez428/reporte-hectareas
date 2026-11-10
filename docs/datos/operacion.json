@@ -1,5 +1,5 @@
 {
- "actualizado": "10-11-2026 17:54",
+ "actualizado": "10-11-2026 18:00",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -200,7 +200,7 @@
   },
   "Shacker SBS 4": {
    "implemento": "Shaker",
-   "operador": "Pirincho",
+   "operador": "",
    "campo": "MERCOFRUT",
    "desde": "",
    "destino": ""
@@ -768,6 +768,12 @@
    "id": "pmwb63zhc5o19xz",
    "recibido": "1794344036576",
    "aplicado": 1794344065298,
+   "cambios": 1
+  },
+  {
+   "id": "pmwb6ciakde8sde",
+   "recibido": "1794344434627",
+   "aplicado": 1794344457785,
    "cambios": 1
   }
  ]
