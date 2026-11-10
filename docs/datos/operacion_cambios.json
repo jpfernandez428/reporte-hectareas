@@ -316,5 +316,14 @@
   "despues": "alto calibre",
   "id": "pmwau5nifb5qobo",
   "origen": "Planilla"
+ },
+ {
+  "fecha": "10-11-2026 12:25",
+  "maquina": "Shacker SBS 1",
+  "cambio": "Campo",
+  "antes": "Taller",
+  "despues": "prueba",
+  "id": "mwaud3cld8cuyj",
+  "origen": "App"
  }
 ]
