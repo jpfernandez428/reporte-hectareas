@@ -153,6 +153,24 @@
     .tabla-op td[data-label]::before, #historial td[data-label]::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 600; color: var(--gris); text-transform: uppercase; }
     #historial thead { display: none; } #historial, #historial tbody, #historial tr, #historial td { display: block; width: 100%; }
   }
+  /* Secciones plegadas abajo: sin campo y en taller (10-nov-2026) */
+  .tit-op { margin: 6px 0 8px; }
+  .sec-abajo { background: #fff; border: 1px solid var(--borde); border-radius: 12px; margin: 14px 0 0; padding: 0 12px; }
+  .sec-abajo > summary { padding: 14px 2px; font-size: 17px; cursor: pointer; list-style: none; }
+  .sec-abajo > summary::-webkit-details-marker { display: none; }
+  .sec-abajo > summary::after { content: ' ▸'; color: var(--gris); }
+  .sec-abajo[open] > summary::after { content: ' ▾'; }
+  .sec-abajo .sec-buscar { width: 100%; margin: 0 0 8px; padding: 11px; font-size: 16px; border: 1px solid #bbb; border-radius: 8px; }
+  .sec-lista { padding-bottom: 8px; }
+  .sec-maq { border-top: 1px solid #f0f0f0; }
+  .sec-nom { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 2px; border: 0; background: none; text-align: left; font-size: 16px; cursor: pointer; }
+  .sec-nom > span:nth-child(2) { flex: 1; } .sec-nom small { display: block; color: var(--gris); font-size: 13px; margin-top: 2px; }
+  .sec-nom .fl { color: #9a9a9a; font-size: 20px; }
+  .sec-maq.abierta { background: #fafafa; border-radius: 10px; padding: 0 8px 10px; margin: 4px -4px; }
+  .sec-botones { display: flex; gap: 8px; }
+  .sec-todas { width: 100%; margin: 4px 0 12px; padding: 12px; font-size: 15px; font-weight: 700; border-radius: 10px; border: 1px solid var(--verde); background: #fff; color: var(--verde); }
+  .sec-botones button { flex: 1; padding: 12px; font-size: 16px; font-weight: 700; border-radius: 10px; border: 1px solid var(--verde); background: #fff; color: var(--verde); }
+  .sec-botones button.si { background: var(--verde); color: #fff; } .sec-botones button:disabled { opacity: .4; }
   /* Fichas del celular (10-nov-2026) */
   .fichas-grupo { margin: 14px 2px 6px; font-size: 15px; }
   .ficha { background: #fff; border: 1px solid var(--borde); border-radius: 12px; padding: 12px; margin: 0 0 10px; }
@@ -890,6 +908,98 @@ const nombreGrupo = g => NOMBRE_GRUPO[g] || g || 'Otras';
 let GRUPOS_ABIERTOS = leerLS('op_grupos_abiertos', {}), AVISOS_M = new Set();
 function alternarGrupo(g) { GRUPOS_ABIERTOS[g] = !GRUPOS_ABIERTOS[g]; escribirLS('op_grupos_abiertos', GRUPOS_ABIERTOS); redibujarLista(); }
 const ocultando = () => !UI.q.trim() && (UI.filtro === 'todas' || UI.filtro === 'campo');
+const enOperacion = m => { const c = valorDe(m).campo; return !!c && !esTaller(c); };
+
+// ---------------------------------------------------------------------------
+// Abajo, plegadas (pedido del usuario 10-nov-2026): "Sin campo anotado (N)" y "En taller (N)".
+// Cada una con su buscador ("sbs 3", "tractor 9") y, al tocar una maquina, Campo y
+// Operador con el buscador de nombres; al guardar la maquina sube sola a "en operacion".
+// Abiertas/cerradas se recuerda mientras se usa la app (sessionStorage): al abrirla
+// de nuevo parten cerradas.
+// ---------------------------------------------------------------------------
+const SEC = { q: { sin: '', taller: '' }, abierta: m => { try { return sessionStorage.getItem('op_sec_' + m) === '1'; } catch (e) { return false; } } };
+const ASIG = {};  // maquina -> {campo, operador} elegidos y aun sin guardar
+function coincideMaquina(q, m) {
+  const pal = sinT(m).split(/[^a-z0-9]+/).filter(Boolean);
+  return sinT(q).split(/[^a-z0-9]+/).filter(Boolean).every(t => /^\d+$/.test(t) ? pal.includes(t) : pal.some(w => w.startsWith(t)));
+}
+function maquinasSeccion(k) {
+  return unidades().map(u => u.maquina).filter(m => { const c = valorDe(m).campo; return k === 'taller' ? esTaller(c) : !c; });
+}
+function itemsSeccion(k) {
+  const ms = maquinasSeccion(k).filter(m => coincideMaquina(SEC.q[k], m));
+  if (!ms.length) return '<div class="vacio" style="padding:10px 4px">Ninguna máquina coincide.</div>';
+  return ms.map(m => {
+    const v = valorDe(m), g = gpsDe(m), a = ASIG[m];
+    let h = `<div class="sec-maq${a ? ' abierta' : ''}" data-sm="${esc(m)}"><button type="button" class="sec-nom" data-sm-abrir><span class="punto p-${esc(g.estado || 'sin_senal')}"></span><span><b>${esc(m)}</b>` +
+      `<small>${esc([v.operador || 'sin operador', g.lugar === 'CYH' ? 'GPS en CYH' : g.gps].filter(Boolean).join(' · '))}</small>${estadoSinc(m)}</span><span class="fl">${a ? '▾' : '›'}</span></button>`;
+    if (a) {
+      h += `<div class="sec-form">
+        <button type="button" class="ficha-dato" data-sm-elegir="campo"><span class="et">Campo</span><span class="val${a.campo ? '' : ' vacio-val'}">${a.campo ? esc(nombreCampo(a.campo)) : 'elegir adónde va'}</span><span class="fl">›</span></button>
+        <button type="button" class="ficha-dato" data-sm-elegir="operador"><span class="et">Operador</span><span class="val${a.operador ? '' : ' vacio-val'}">${a.operador ? esc(a.operador) : 'sin operador'}</span><span class="fl">›</span></button>
+        <div class="sec-botones"><button type="button" class="si" data-sm-guardar${a.campo ? '' : ' disabled'}>Guardar</button><button type="button" data-sm-cancelar>Cancelar</button></div></div>`;
+    }
+    return h + '</div>';
+  }).join('');
+}
+function seccionesAbajo() {
+  if (!ocultando()) return '';
+  return [['sin', 'Sin campo anotado'], ['taller', 'En taller']].map(([k, t]) => {
+    const n = maquinasSeccion(k).length;
+    if (!n) return '';
+    return `<details class="sec-abajo" data-sec="${k}"${SEC.abierta(k) ? ' open' : ''}><summary><b>${t}</b> (${n})</summary>
+      <input class="buscador sec-buscar" type="search" data-sec-q="${k}" value="${esc(SEC.q[k])}" placeholder="Buscar máquina (ej. sbs 3, tractor 9)" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <div class="sec-lista" data-sec-lista="${k}">${itemsSeccion(k)}</div>
+      ${k === 'sin' ? `<button type="button" class="sec-todas" data-sec-todas>Pasar las ${n} a Taller</button>` : ''}</details>`;
+  }).join('');
+}
+function repintarSeccion(k) { const l = document.querySelector(`[data-sec-lista="${k}"]`); if (l) l.innerHTML = itemsSeccion(k); }
+document.addEventListener('toggle', ev => {
+  const d = ev.target;
+  if (d.classList && d.classList.contains('sec-abajo')) { try { sessionStorage.setItem('op_sec_' + d.dataset.sec, d.open ? '1' : '0'); } catch (e) { /* sin almacenamiento */ } }
+}, true);
+document.addEventListener('input', ev => {
+  const i = ev.target.closest && ev.target.closest('[data-sec-q]');
+  if (i) { SEC.q[i.dataset.secQ] = i.value; repintarSeccion(i.dataset.secQ); }
+});
+// "Pasar las N a Taller" (pedido del usuario 10-nov-2026): todas las sin campo de una vez (con el PIN).
+document.addEventListener('click', async ev => {
+  const b = ev.target.closest('[data-sec-todas]');
+  if (!b) return;
+  const ms = maquinasSeccion('sin');
+  if (!ms.length) return;
+  if (!b.dataset.ok) { b.dataset.ok = '1'; b.textContent = `¿Seguro? Toca de nuevo para pasar ${ms.length} máquinas a Taller`; return; }
+  b.disabled = true;
+  await guardarFilas(ms.map(m => filaCompleta(m, { campo: 'Taller', desde: '' })), b);
+});
+document.addEventListener('click', async ev => {
+  const it = ev.target.closest('.sec-maq');
+  if (!it) return;
+  const m = it.dataset.sm, k = it.closest('[data-sec]').dataset.sec;
+  if (ev.target.closest('[data-sm-abrir]')) {
+    if (ASIG[m]) delete ASIG[m];
+    else {
+      ASIG[m] = { campo: '', operador: valorDe(m).operador || '' };
+      // Primero el campo (lo principal); el operador se puede cambiar despues.
+      repintarSeccion(k);
+      const c = await elegir('campo', `¿Adónde va ${m}?`, '');
+      if (c != null && !esTaller(c) && ASIG[m]) ASIG[m].campo = c;
+    }
+    return repintarSeccion(k);
+  }
+  const b = ev.target.closest('[data-sm-elegir]');
+  if (b && ASIG[m]) {
+    const t = b.dataset.smElegir;
+    const v = await elegir(t, t === 'campo' ? `¿Adónde va ${m}?` : `Operador de ${m}`, ASIG[m][t]);
+    if (v != null && ASIG[m] && !(t === 'campo' && esTaller(v))) ASIG[m][t] = v;
+    return repintarSeccion(k);
+  }
+  if (ev.target.closest('[data-sm-cancelar]')) { delete ASIG[m]; return repintarSeccion(k); }
+  if (ev.target.closest('[data-sm-guardar]') && ASIG[m] && ASIG[m].campo) {
+    const a = ASIG[m]; delete ASIG[m];
+    await guardarFilas([filaCompleta(m, { campo: a.campo, operador: a.operador, desde: '' })], ev.target);
+  }
+});
 function aLaVista(m) {
   const v = valorDe(m), g = gpsDe(m), r = resultadoDe(m);
   // GPS fuera de CYH solo si dio senal en los ultimos 7 dias (una posicion de hace meses no cuenta).
@@ -907,17 +1017,19 @@ function porTipo() {
     g.todas.push(u);
     if (aLaVista(u.maquina)) g.visibles.push(u);
   }
-  for (const g of grupos) g.mostrar = !ocultando() || GRUPOS_ABIERTOS[g.grupo] ? g.todas : g.visibles;
-  return grupos;
+  // Desde el 10-nov-2026 arriba van solo las maquinas EN OPERACION (anotadas en un campo);
+  // las sin campo y las de taller quedan abajo, en dos secciones plegadas (seccionesAbajo).
+  for (const g of grupos) g.mostrar = !ocultando() ? g.todas : g.todas.filter(u => enOperacion(u.maquina));
+  return ocultando() ? grupos.filter(g => g.mostrar.length) : grupos;
 }
 function botonTipo(g) {
-  if (!ocultando()) return `<span class="grupo-btn">${esc(nombreGrupo(g.grupo))} (${g.todas.length})</span>`;
-  const abierto = !!GRUPOS_ABIERTOS[g.grupo];
-  return `<button type="button" class="grupo-btn${abierto ? ' abierto' : ''}" onclick='alternarGrupo(${esc(JSON.stringify(g.grupo))})'>${esc(nombreGrupo(g.grupo))} (${g.visibles.length} de ${g.todas.length}) ${abierto ? '▾' : '▸'}</button>`;
+  // Titulo del tipo (Barredoras, Shakers SBS…) con cuantas maquinas se muestran.
+  return `<span class="grupo-btn">${esc(nombreGrupo(g.grupo))} (${ocultando() ? g.mostrar.length : g.todas.length})</span>`;
 }
 
 function vistaPorCampo() {
   const tipos = porTipo(), mostrar = new Set(tipos.flatMap(g => g.mostrar.map(u => u.maquina)));
+  const abajo = seccionesAbajo();
   const grupos = new Map();
   for (const u of unidades()) {
     if (!mostrar.has(u.maquina)) continue;
@@ -927,9 +1039,9 @@ function vistaPorCampo() {
     grupos.get(k).push(u);
   }
   const orden = [...grupos.keys()].sort((a, b) => (a.startsWith('~') - b.startsWith('~')) || (a === '~taller') - (b === '~taller') || nombreCampo(a).localeCompare(nombreCampo(b), 'es'));
-  const barra = tipos.length ? `<div class="tipos">${ocultando() ? '<span class="nota" style="margin:0">Por tipo (las de CYH sin avisos quedan ocultas):</span>' : ''}${tipos.map(botonTipo).join('')}</div>` : '';
-  if (!orden.length) return barra + '<div class="vacio">Ninguna máquina para este filtro.</div>';
-  return barra + `<div class="campos">${orden.map(k => {
+  const barra = tipos.length && !ocultando() ? `<div class="tipos">${tipos.map(botonTipo).join('')}</div>` : '';
+  if (!orden.length) return barra + (ocultando() ? '<div class="vacio">Ninguna máquina en operación.</div>' + abajo : '<div class="vacio">Ninguna máquina para este filtro.</div>');
+  return barra + (ocultando() ? '<h2 class="tit-op">En operación</h2>' : '') + `<div class="campos">${orden.map(k => {
     const us = grupos.get(k), taller = k === '~taller';
     const titulo = taller ? 'Taller (CYH)' : k === '~~sin' ? 'Sin campo anotado' : nombreCampo(k);
     const calzan = us.filter(u => gpsDe(u.maquina).estado === 'ok').length;
@@ -943,7 +1055,7 @@ function vistaPorCampo() {
     const plegar = k.startsWith('~') && !UI.q.trim() && !ocultando() && !us.some(u => pendienteDe(u.maquina) || resultadoDe(u.maquina));
     return `<div class="campo-card${taller ? ' taller' : ''}"><header><b>${esc(titulo)}</b><small>${us.length} máq.${taller ? '' : ` · ${calzan} ✓ GPS`}</small></header>` +
       (plegar ? `<details><summary class="ver-mas">Ver ${us.length} máquinas</summary>${items}</details>` : items) + '</div>';
-  }).join('')}</div>`;
+  }).join('')}</div>` + abajo;
 }
 
 function panelMaquina(m) {
@@ -1017,7 +1129,7 @@ function vistaFichas() {
         </details></div>`;
     }
   }
-  return (html || '<div class="vacio">Ninguna máquina para este filtro.</div>') + '<div id="msg" style="margin-top:8px"></div>';
+  return (ocultando() ? '<h2 class="tit-op">En operación</h2>' : '') + (html || `<div class="vacio">${ocultando() ? 'Ninguna máquina en operación.' : 'Ninguna máquina para este filtro.'}</div>`) + seccionesAbajo() + '<div id="msg" style="margin-top:8px"></div>';
 }
 document.addEventListener('click', async ev => {
   const f = ev.target.closest('.ficha');
@@ -1062,7 +1174,7 @@ function vistaTabla() {
   }
   }
   const n = Object.keys(editado).filter(cambiada).length;
-  return `<div style="overflow-x:auto"><table class="tabla-op"><thead><tr><th>Máquina</th><th>Implemento</th><th>Operador</th><th>Campo</th><th>Desde</th><th>Próximo destino</th><th>GPS</th></tr></thead><tbody>${html || '<tr><td colspan="7" class="vacio">Ninguna máquina para este filtro.</td></tr>'}</tbody></table></div>
+  return `${ocultando() ? '<h2 class="tit-op">En operación</h2>' : ''}<div style="overflow-x:auto"><table class="tabla-op"><thead><tr><th>Máquina</th><th>Implemento</th><th>Operador</th><th>Campo</th><th>Desde</th><th>Próximo destino</th><th>GPS</th></tr></thead><tbody>${html || `<tr><td colspan="7" class="vacio">${ocultando() ? 'Ninguna máquina en operación.' : 'Ninguna máquina para este filtro.'}</td></tr>`}</tbody></table></div>${seccionesAbajo()}
     <div style="height:70px"></div>
     <div class="barra-guardar"><button type="button" class="guardar" id="guardarTabla"${n ? '' : ' disabled'} onclick="guardarTabla(this)">${n ? `Guardar cambios (${n})` : 'Guardar cambios'}</button><span id="msg"></span></div>`;
 }

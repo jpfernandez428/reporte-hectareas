@@ -927,6 +927,17 @@ defecto, envío real solo cuando el usuario diga "lánzalo".
   guardan al elegir (PIN), línea Desde / Próximo destino, estado del GPS y "Más
   datos" (Implemento, Desde, Próximo destino con su botón Guardar). En el
   computador sigue la tabla.
+- **Operación agrupada (10-nov-2026, aprobado por el usuario)**: arriba solo
+  las máquinas **en operación** (campo anotado distinto de Taller), abiertas, en
+  Por campo, Lista y Tabla; abajo, plegadas, **"Sin campo anotado (N)"** y **"En
+  taller (N)"** (`seccionesAbajo`), cada una con buscador por nombre de máquina
+  (palabras por inicio y números enteros: "sbs 3" no muestra SBS 13) y, al tocar
+  una máquina, Campo (se abre el buscador al tiro) y Operador con Guardar (PIN):
+  sube sola a "en operación" con Desde automático. Abiertas/cerradas se recuerda
+  en `sessionStorage` (al abrir la app de nuevo parten cerradas). Con búsqueda
+  arriba o filtros En taller / Sin operador se ve todo como antes. Reemplaza los
+  botones por tipo "Barredoras (1 de 25) ▸". "Pasar las N a Taller" en Sin campo
+  anotado (el usuario pidió pasar todas a Taller el 10-nov-2026).
 
 ## Pendientes
 
