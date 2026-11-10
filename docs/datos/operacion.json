@@ -235,7 +235,7 @@
   },
   "Shacker SBS 9": {
    "implemento": "Shaker",
-   "operador": "Gaston H",
+   "operador": "Pirincho",
    "campo": "Mayol",
    "desde": "",
    "destino": ""
@@ -762,6 +762,12 @@
    "id": "pmwb63n6cj24aos",
    "recibido": "1794344020706",
    "aplicado": 1794344046944,
+   "cambios": 1
+  },
+  {
+   "id": "pmwb63zhc5o19xz",
+   "recibido": "1794344036576",
+   "aplicado": 1794344065298,
    "cambios": 1
   }
  ]
