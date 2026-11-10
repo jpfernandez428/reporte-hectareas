@@ -12864,8 +12864,8 @@
           "maquinas": [
             "Shacker SBS 10"
           ],
-          "trabajado_ha": 0.2346,
-          "porcentaje": 5.0,
+          "trabajado_ha": 3.6846,
+          "porcentaje": 78.9,
           "completo": false,
           "temporada": "2026"
         }
@@ -13452,6 +13452,7 @@
         },
         "Raleo": {
           "maquinas": [
+            "Shacker SBS 4",
             "Shacker SBS 5",
             "Shacker SBS 8"
           ],
@@ -13476,6 +13477,7 @@
         },
         "Raleo": {
           "maquinas": [
+            "Shacker SBS 4",
             "Shacker SBS 5",
             "Shacker SBS 8"
           ],
@@ -13500,6 +13502,7 @@
         },
         "Raleo": {
           "maquinas": [
+            "Shacker SBS 4",
             "Shacker SBS 5",
             "Shacker SBS 8"
           ],
@@ -13528,8 +13531,8 @@
             "Shacker SBS 5",
             "Shacker SBS 8"
           ],
-          "trabajado_ha": 2.929,
-          "porcentaje": 36.7,
+          "trabajado_ha": 3.7693,
+          "porcentaje": 47.2,
           "completo": false,
           "temporada": "2026"
         }
@@ -13549,6 +13552,7 @@
         },
         "Raleo": {
           "maquinas": [
+            "Shacker SBS 4",
             "Shacker SBS 8"
           ],
           "trabajado_ha": 0.5945,
@@ -13569,6 +13573,17 @@
           "porcentaje": 0.0,
           "completo": false,
           "temporada": "2026"
+        },
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 4",
+            "Shacker SBS 5"
+          ],
+          "trabajado_ha": 1.7031,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026",
+          "fecha_completo": "2026-11-09"
         }
       }
     },
@@ -13581,6 +13596,16 @@
           ],
           "trabajado_ha": 3.6335,
           "porcentaje": 47.5,
+          "completo": false,
+          "temporada": "2026"
+        },
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 4",
+            "Shacker SBS 5"
+          ],
+          "trabajado_ha": 1.8712,
+          "porcentaje": 24.5,
           "completo": false,
           "temporada": "2026"
         }
