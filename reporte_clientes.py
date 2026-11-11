@@ -24,6 +24,7 @@ registros de GitHub (el repositorio es publico).
 
 import base64
 import json
+import math
 import os
 import re
 import time
@@ -53,6 +54,12 @@ JORNADA_CON_ALMUERZO_H = rh.CONFIG.get("jornada_con_almuerzo_h", 5.0)
 # Contador de motor dudoso: mas de esto encendido sin parar.
 MAX_HORAS_SEGUIDAS = rh.CONFIG.get("max_horas_motor_seguidas", 14.0)
 HUECO_MAXIMO_S = 900   # entre dos mensajes; mas que esto no cuenta como encendido
+# Zona del campo del cliente (pedido del usuario 11-nov-2026): inicio, termino y horas de
+# motor se miden solo mientras la maquina esta en sus cuarteles o a menos de esta distancia
+# del borde (cabeceras, caminos internos, donde se estaciona); el trabajo sin geocerca
+# asignado a ese campo suma una zona de este radio alrededor de sus pasadas.
+MARGEN_CAMPO_M = rh.CONFIG.get("margen_zona_campo_m", 150)
+RADIO_SIN_GEOCERCA_M = 300
 
 NEGRO = "#161616"
 GRIS = "#5F6368"
@@ -148,21 +155,67 @@ def sensor_encendido(sid, unit_id):
     return s.get("p") if s else None
 
 
-def motor_del_dia(sid, unit_id, dia):
-    """{inicio, termino (unix), horas, seguidas_max} con el motor encendido ese dia
-    (hora de Chile); None si la maquina no tiene sensor o no hay datos."""
-    p = sensor_encendido(sid, unit_id)
-    if not p:
-        return None
-    msgs = rc.mensajes_dia(sid, unit_id, dia)
-    vals = [(m["t"], rc.valor_parametro(m, p)) for m in msgs]
-    vals = [(t, v) for t, v in vals if v is not None]
-    if not vals:
-        return None
+def _m_por_grado(lat):
+    return 111320.0, 111320.0 * math.cos(math.radians(lat))
+
+
+def _dentro(x, y, pol):
+    c = False
+    for i in range(len(pol)):
+        x1, y1 = pol[i]; x2, y2 = pol[i - 1]
+        if (y1 > y) != (y2 > y) and x < (x2 - x1) * (y - y1) / (y2 - y1) + x1:
+            c = not c
+    return c
+
+
+def _dist_borde_m(lon, lat, pol):
+    my, mx = _m_por_grado(lat)
+    mejor = float("inf")
+    for i in range(len(pol)):
+        ax, ay = (pol[i - 1][0] - lon) * mx, (pol[i - 1][1] - lat) * my
+        bx, by = (pol[i][0] - lon) * mx, (pol[i][1] - lat) * my
+        dx, dy = bx - ax, by - ay
+        L = dx * dx + dy * dy
+        t = max(0.0, min(1.0, -(ax * dx + ay * dy) / L)) if L else 0.0
+        mejor = min(mejor, math.hypot(ax + t * dx, ay + t * dy))
+    return mejor
+
+
+class ZonaCampo:
+    """Cuarteles del campo (geocercas.json) + MARGEN_CAMPO_M, y circulos alrededor de
+    las pasadas del trabajo sin geocerca asignado al campo ese dia."""
+
+    def __init__(self, contornos, puntos_sin):
+        self.pols = []
+        for pol in contornos:
+            if len(pol) < 3:
+                continue
+            lat = sum(p[1] for p in pol) / len(pol)
+            my, mx = _m_por_grado(lat)
+            dlon, dlat = MARGEN_CAMPO_M / mx, MARGEN_CAMPO_M / my
+            caja = (min(p[0] for p in pol) - dlon, max(p[0] for p in pol) + dlon,
+                    min(p[1] for p in pol) - dlat, max(p[1] for p in pol) + dlat)
+            self.pols.append((caja, pol))
+        self.puntos = puntos_sin
+
+    def vacia(self):
+        return not self.pols and not self.puntos
+
+    def contiene(self, lon, lat):
+        for (x0, x1, y0, y1), pol in self.pols:
+            if x0 <= lon <= x1 and y0 <= lat <= y1 and (_dentro(lon, lat, pol) or _dist_borde_m(lon, lat, pol) <= MARGEN_CAMPO_M):
+                return True
+        my, mx = _m_por_grado(lat)
+        return any(math.hypot((lon - x) * mx, (lat - y) * my) <= RADIO_SIN_GEOCERCA_M for x, y in self.puntos)
+
+
+def _contar_motor(vals):
+    """vals: [(t, encendido, cuenta)] -> {inicio, termino, horas, seguidas_max}; solo
+    suman los tramos que parten en un mensaje con cuenta=True."""
     segundos, seguidas, seguidas_max = 0.0, 0.0, 0.0
     inicio = termino = None
-    for i, (t, v) in enumerate(vals):
-        if v:
+    for i, (t, v, cuenta) in enumerate(vals):
+        if v and cuenta:
             inicio = inicio or t
             termino = t
             if i + 1 < len(vals):
@@ -174,7 +227,27 @@ def motor_del_dia(sid, unit_id, dia):
                     seguidas_max = max(seguidas_max, seguidas)
                     continue
         seguidas = 0.0
+    if inicio is None:
+        return None
     return {"inicio": inicio, "termino": termino, "horas": segundos / 3600, "seguidas_max": seguidas_max / 3600}
+
+
+_MSGS = {}
+
+
+def motor_del_dia(sid, unit_id, dia, zona=None):
+    """{inicio, termino (unix), horas, seguidas_max} con el motor encendido ese dia
+    (hora de Chile); con zona, solo mientras la maquina esta dentro de ella. None si
+    la maquina no tiene sensor o no hay datos."""
+    if unit_id not in _MSGS:
+        p = sensor_encendido(sid, unit_id)
+        msgs = rc.mensajes_dia(sid, unit_id, dia) if p else []
+        _MSGS[unit_id] = [(m["t"], rc.valor_parametro(m, p), m["pos"]["x"], m["pos"]["y"]) for m in msgs] if p else None
+    datos = _MSGS[unit_id]
+    if not datos:
+        return None
+    vals = [(t, v, True if zona is None else zona.contiene(x, y)) for t, v, x, y in datos if v is not None]
+    return _contar_motor(vals) if vals else None
 
 
 def eficiencia(m):
@@ -263,25 +336,44 @@ def reportes_del_dia(dia, sid=None, solo_campo=None):
     unidades = {u["nombre"]: u for u in rh.UNIDADES}
     alertas = []
     cache_motor = {}
+    contornos = leer_json("geocercas.json", {})
+    for r in reportes.values():
+        claves = campos_wialon_de(r["campo"]) | {clave(rh.campo_de_cuartel(c)) for c, _ in r["cuarteles"]}
+        pols = [g.get("contorno") or [] for n, g in contornos.items()
+                if clave(rh.campo_de_cuartel(n)) in claves or n in {c for c, _ in r["cuarteles"]}]
+        r["zona_por_maquina"] = {}
+        for nombre in r["maquinas"]:
+            pts = []
+            for t in sin_geo:
+                if t["maquina"] == nombre and clave(destino(t["campo"])[0]) == clave(r["campo"]):
+                    mu = t.get("muestras") or []
+                    pts += [(float(x), float(y)) for x, y in mu] or [(float(t["lon"]), float(t["lat"]))]
+            r["zona_por_maquina"][nombre] = ZonaCampo(pols, pts)
     for r in reportes.values():
         for nombre, m in r["maquinas"].items():
             u = unidades.get(nombre)
-            if nombre not in cache_motor:
-                try:
+            zona = r["zona_por_maquina"][nombre]
+            try:
+                if nombre not in cache_motor:
                     cache_motor[nombre] = motor_del_dia(sid, u["id"], dia) if (sid and u) else None
-                except Exception as e:
-                    print(f"Motor | {nombre} | no se pudo leer ({type(e).__name__})")
-                    cache_motor[nombre] = None
-            mot = cache_motor[nombre]
+                mot_dia = cache_motor[nombre]
+                # Inicio, termino y horas solo dentro del campo del cliente; sin zona (campo
+                # sin cuarteles ni pasadas), el dia completo.
+                mot = (motor_del_dia(sid, u["id"], dia, zona) if (sid and u and not zona.vacia()) else mot_dia)
+            except Exception as e:
+                print(f"Motor | {nombre} | no se pudo leer ({type(e).__name__})")
+                mot_dia = mot = cache_motor[nombre] = None
+            m["motor_dia"] = mot_dia
             dia_flota = next((d for d in (flota.get(nombre, {}).get("dias") or []) if d.get("fecha") == fecha), {})
             gps_h = sum((dia_flota.get("horas_geocercas") or {}).values()) + m.get("horas_sin_gps", 0)
             razones = []
-            if (m["ha"] + m["ha_sin"]) > 0 and (not mot or not mot["horas"]):
+            # Contador dudoso: se revisa con el dia completo de la maquina.
+            if (m["ha"] + m["ha_sin"]) > 0 and (not mot_dia or not mot_dia["horas"]):
                 razones.append("hizo hectáreas pero Wialon marca 0 horas de motor")
-            if mot and mot["horas"] and gps_h > mot["horas"] + 0.05:
-                razones.append(f"horas en movimiento por GPS ({horas_txt(gps_h)}) mayores que las de motor ({horas_txt(mot['horas'])})")
-            if mot and mot["seguidas_max"] > MAX_HORAS_SEGUIDAS:
-                razones.append(f"motor encendido {horas_txt(mot['seguidas_max'])} seguidas (más de {MAX_HORAS_SEGUIDAS:.0f} h)")
+            if mot_dia and mot_dia["horas"] and gps_h > mot_dia["horas"] + 0.05:
+                razones.append(f"horas en movimiento por GPS ({horas_txt(gps_h)}) mayores que las de motor ({horas_txt(mot_dia['horas'])})")
+            if mot_dia and mot_dia["seguidas_max"] > MAX_HORAS_SEGUIDAS:
+                razones.append(f"motor encendido {horas_txt(mot_dia['seguidas_max'])} seguidas (más de {MAX_HORAS_SEGUIDAS:.0f} h)")
             m.update({"motor": mot, "gps_h": gps_h, "dudoso": razones, "eficiencia": None if razones else eficiencia(mot),
                       "operador": ((oper.get(nombre) or {}).get("operador") or "").strip(),
                       "campo_operacion": ((oper.get(nombre) or {}).get("campo") or "").strip()})
@@ -378,8 +470,9 @@ def armar_html(r, dia, logo_src, prueba=None):
                  f'font-size:13px;color:#5F4B00;"><b>PRUEBA</b> · {prueba}</td></tr><tr><td height="12"></td></tr>')
     nota = (f'<p style="margin:0 0 6px 0;">Las hectáreas son aproximadas, calculadas por GPS dentro de cada cuartel.'
             f'{" El trabajo sin cuartel definido es un aproximado." if r["sin_geocerca"] > 0 else ""}</p>'
-            f'<p style="margin:0 0 6px 0;"><b>Inicio</b> y <b>término</b>: primer encendido y último apagado del motor del día. '
-            f'<b>Horas encendido</b>: tiempo con el motor encendido. <b>Eficiencia</b>: horas encendido ÷ (término − inicio − 1 h de almuerzo; '
+            f'<p style="margin:0 0 6px 0;"><b>Inicio</b> y <b>término</b>: primer encendido y último apagado del motor '
+            f'dentro del campo (sus cuarteles y alrededores). <b>Horas encendido</b>: tiempo con el motor encendido dentro del campo; '
+            f'no cuenta el traslado ni lo hecho en otros lugares. <b>Eficiencia</b>: horas encendido ÷ (término − inicio − 1 h de almuerzo; '
             f'el almuerzo se descuenta en jornadas de 5 h o más), con un máximo de 100 %.</p>'
             + (f'<p style="margin:0 0 6px 0;">"aprox. (GPS)": horas en movimiento según el GPS, porque el contador del motor de esa máquina no fue confiable ese día.</p>' if aprox else "")
             + f'<p style="margin:0;">Avance: acumulado de la temporada en esa labor, sumando todas las máquinas sin repetir hileras.</p>')
@@ -483,6 +576,7 @@ def enviar_reportes(dia, solo_campo=None, real=None):
             print(f"  Maquina | {nombre} | operador: {'sí' if m['operador'] else 'no'} | motor: "
                   + (f"{hora_txt(mot['inicio'])}-{hora_txt(mot['termino'])}, {horas_txt(mot['horas'])} h" if mot else "sin datos")
                   + f" | GPS {horas_txt(m['gps_h'])} h | eficiencia: {'–' if m['eficiencia'] is None else round(m['eficiencia'] * 100)}"
+                  + " | dia completo: " + (f"{hora_txt(m['motor_dia']['inicio'])}-{hora_txt(m['motor_dia']['termino'])}, {horas_txt(m['motor_dia']['horas'])} h" if m.get('motor_dia') else "sin datos")
                   + (f" | DUDOSO: {'; '.join(m['dudoso'])}" if m["dudoso"] else ""))
         for (cu, lab), c in r["cuarteles"].items():
             print(f"  Cuartel | {cu} | {lab} | {c['area']:.2f} ha | ayer {sum(c['ayer'].values()):.2f} | "
