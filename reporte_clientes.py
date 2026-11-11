@@ -364,6 +364,14 @@ def reportes_del_dia(dia, sid=None, solo_campo=None):
                 print(f"Motor | {nombre} | no se pudo leer ({type(e).__name__})")
                 mot_dia = mot = cache_motor[nombre] = None
             m["motor_dia"] = mot_dia
+            # Diagnostico en el registro: cuantos puntos del dia caen en la zona del campo.
+            datos = _MSGS.get(u["id"]) if u else None
+            if datos:
+                dentro = [t for t, v, x, y in datos if zona.contiene(x, y)]
+                fuera = [t for t, v, x, y in datos if not zona.contiene(x, y)]
+                print(f"  Zona | {nombre} | {r['campo']}: {len(zona.pols)} cuarteles, {len(zona.puntos)} puntos sin geocerca | "
+                      f"{len(dentro)} de {len(datos)} mensajes dentro | fuera: "
+                      + (f"{hora_txt(min(fuera))}-{hora_txt(max(fuera))}" if fuera else "ninguno"))
             dia_flota = next((d for d in (flota.get(nombre, {}).get("dias") or []) if d.get("fecha") == fecha), {})
             gps_h = sum((dia_flota.get("horas_geocercas") or {}).values()) + m.get("horas_sin_gps", 0)
             razones = []
