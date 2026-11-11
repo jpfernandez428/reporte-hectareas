@@ -229,7 +229,7 @@
   "Shacker SBS 8": {
    "implemento": "Shaker",
    "operador": "",
-   "campo": "MERCOFRUT",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
@@ -828,6 +828,12 @@
    "id": "mwcfgyxv83st0y",
    "recibido": "1794420225160",
    "aplicado": 1794420253252,
+   "cambios": 1
+  },
+  {
+   "id": "mwcfh3hropcea9",
+   "recibido": "1794420231047",
+   "aplicado": 1794420262027,
    "cambios": 1
   }
  ]

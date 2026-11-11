@@ -865,5 +865,14 @@
   "despues": "Taller",
   "id": "mwcfgyxv83st0y",
   "origen": "App"
+ },
+ {
+  "fecha": "11-11-2026 15:04",
+  "maquina": "Shacker SBS 8",
+  "cambio": "Campo",
+  "antes": "MERCOFRUT",
+  "despues": "Taller",
+  "id": "mwcfh3hropcea9",
+  "origen": "App"
  }
 ]
