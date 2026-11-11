@@ -829,5 +829,14 @@
   "despues": "",
   "id": "pmwc6qk4p5panos",
   "origen": "Planilla"
+ },
+ {
+  "fecha": "11-11-2026 15:03",
+  "maquina": "Shacker SBS 7",
+  "cambio": "Campo",
+  "antes": "MGH",
+  "despues": "Taller",
+  "id": "mwcfge2ds2nhfw",
+  "origen": "App"
  }
 ]
