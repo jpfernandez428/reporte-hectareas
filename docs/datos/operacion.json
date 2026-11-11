@@ -221,7 +221,7 @@
   },
   "Shacker SBS 7": {
    "implemento": "Shaker",
-   "operador": "Cristian Muñoz",
+   "operador": "",
    "campo": "Taller",
    "desde": "",
    "destino": ""
@@ -811,6 +811,12 @@
    "recibido": "1794420203569",
    "aplicado": 1794420232053,
    "cambios": 0
+  },
+  {
+   "id": "mwcfgnlufz48j7",
+   "recibido": "1794420210475",
+   "aplicado": 1794420239327,
+   "cambios": 1
   }
  ]
 }

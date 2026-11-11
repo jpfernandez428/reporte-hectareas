@@ -838,5 +838,14 @@
   "despues": "Taller",
   "id": "mwcfge2ds2nhfw",
   "origen": "App"
+ },
+ {
+  "fecha": "11-11-2026 15:03",
+  "maquina": "Shacker SBS 7",
+  "cambio": "Operador",
+  "antes": "Cristian Muñoz",
+  "despues": "",
+  "id": "mwcfgnlufz48j7",
+  "origen": "App"
  }
 ]
