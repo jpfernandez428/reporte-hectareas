@@ -1,10 +1,10 @@
 {
- "actualizado": "11-11-2026 15:04",
+ "actualizado": "11-11-2026 16:07",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
    "implemento": "",
-   "operador": "Alberto",
+   "operador": "",
    "campo": "Taller",
    "desde": "",
    "destino": ""
@@ -537,12 +537,6 @@
  },
  "guardados": [
   {
-   "id": "pruebamedicion1",
-   "recibido": "1793033514051",
-   "aplicado": 1793033543698,
-   "cambios": 0
-  },
-  {
    "id": "mvqlcmvq7h94wu",
    "recibido": "1793099844861",
    "aplicado": 1793099872430,
@@ -834,6 +828,12 @@
    "id": "mwcfh3hropcea9",
    "recibido": "1794420231047",
    "aplicado": 1794420262027,
+   "cambios": 1
+  },
+  {
+   "id": "pmwchptc8dioqvw",
+   "recibido": "1794423997469",
+   "aplicado": 1794424026935,
    "cambios": 1
   }
  ]

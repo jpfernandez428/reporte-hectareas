@@ -874,5 +874,14 @@
   "despues": "Taller",
   "id": "mwcfh3hropcea9",
   "origen": "App"
+ },
+ {
+  "fecha": "11-11-2026 16:07",
+  "maquina": "Barredora 1",
+  "cambio": "Operador",
+  "antes": "Alberto",
+  "despues": "",
+  "id": "pmwchptc8dioqvw",
+  "origen": "Planilla"
  }
 ]
