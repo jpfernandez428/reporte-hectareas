@@ -207,7 +207,7 @@
   },
   "Shacker SBS 5": {
    "implemento": "Shaker",
-   "operador": "jorge mella",
+   "operador": "",
    "campo": "MERCOFRUT",
    "desde": "",
    "destino": ""
@@ -792,6 +792,12 @@
    "id": "pmwc6qfptzol4uu",
    "recibido": "1794405550442",
    "aplicado": 1794405578228,
+   "cambios": 1
+  },
+  {
+   "id": "pmwc6qk4p5panos",
+   "recibido": "1794405556194",
+   "aplicado": 1794405585507,
    "cambios": 1
   }
  ]

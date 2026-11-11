@@ -820,5 +820,14 @@
   "despues": "jorge mella",
   "id": "pmwc6qfptzol4uu",
   "origen": "Planilla"
+ },
+ {
+  "fecha": "11-11-2026 10:59",
+  "maquina": "Shacker SBS 5",
+  "cambio": "Operador",
+  "antes": "jorge mella",
+  "despues": "",
+  "id": "pmwc6qk4p5panos",
+  "origen": "Planilla"
  }
 ]
