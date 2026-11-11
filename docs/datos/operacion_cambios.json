@@ -811,5 +811,14 @@
   "despues": "Agricola Lazos",
   "id": "pmwb6dtzz0ffmv1",
   "origen": "Planilla"
+ },
+ {
+  "fecha": "11-11-2026 10:59",
+  "maquina": "Shacker SBS 6",
+  "cambio": "Operador",
+  "antes": "",
+  "despues": "jorge mella",
+  "id": "pmwc6qfptzol4uu",
+  "origen": "Planilla"
  }
 ]
