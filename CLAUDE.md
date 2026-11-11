@@ -987,6 +987,21 @@ defecto, envío real solo cuando el usuario diga "lánzalo".
   - Incidente: el primer intento falló (403) porque la clave de GitHub y la de
     Cloudflare no eran iguales (se generó varias veces; `pbcopy` llevaba salto de
     línea). Se creó una sola sin salto (`openssl rand -hex 32 | tr -d '\n' | pbcopy`).
+- **Arreglo sincronización (11-nov-2026)**:
+  - Causa 1 (planilla): `alEditar` leía la celda después de esperar a `sincronizar`
+    (que la redibujaba con el valor antiguo) y se rendía a los 20 s. Ahora lee lo
+    escrito al instante (`e.value`), espera hasta 60 s y, si sigue ocupada, deja la
+    edición en la cola `COLA_EDICIONES` (la envía la próxima ejecución). `sincronizar`
+    baja todo de internet antes de tomar el lock, vuelve a leer `/estado` si hubo una
+    edición o un guardado de la app mientras bajaba, no redibuja Operación hasta 60 s
+    después de una edición (`EDITADO` en la caché) y anota los tiempos en Ejecuciones.
+  - Causa 2 (app en el computador): el cuadro del PIN se ponía junto al botón y la
+    pantalla se redibujaba, así que nunca se veía y el cambio quedaba en el aparato
+    (por eso la app mostraba "Gaston" que no estaba guardado). Ahora el PIN se pide en
+    una ventana al centro (`pin.js`). Los cambios sin enviar de más de 2 min quedan
+    "atascados": no se envían solos ni se muestran como reales; salen en un recuadro
+    rojo arriba de Operación con lo que cambiarían respecto de lo guardado, y botones
+    Enviar (solo esos datos, sobre lo guardado hoy) o Descartar.
 
 ## Pendientes
 

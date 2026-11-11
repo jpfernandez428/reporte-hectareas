@@ -149,49 +149,100 @@ function regla(listas, col) {
 // ---------------------------------------------------------------------------
 // Planilla -> App (al editar)
 // ---------------------------------------------------------------------------
+// Arreglo 11-nov-2026: antes la edición se leía DESPUÉS de esperar a la sincronización de
+// cada 5 min (que la redibujaba con el valor antiguo) y se descartaba si esperaba más de 20 s.
+// Ahora: (1) lo escrito se lee al instante, antes de esperar (e.value en una celda); (2) se
+// espera hasta 60 s; (3) si aun así está ocupada, queda en la cola COLA_EDICIONES y la envía
+// la siguiente ejecución (nunca se pierde); (4) se anota la hora de la edición para que la
+// sincronización no redibuje encima de una edición recién hecha.
 function alEditar(e) {
   if (!e || !e.range) return;
   const h = e.range.getSheet(), nombre = h.getName();
+  const r0 = e.range.getRow(), c0 = e.range.getColumn(), nr = e.range.getNumRows(), nc = e.range.getNumColumns();
+  // 1) Lo escrito, leído al tiro.
+  let valores = null, maquinas = null, valsCli = null;
+  if (nombre === HOJA_OP && r0 >= 2) {
+    valores = nr === 1 && nc === 1 ? [[e.value === undefined ? (e.oldValue === undefined ? e.range.getValue() : '') : e.value]] : e.range.getValues();
+    maquinas = h.getRange(r0, 1, nr, 1).getValues().map(x => String(x[0] || '').trim());
+    marcarEdicion();
+  } else if (nombre === HOJA_CLIENTES && r0 >= 2 && c0 + nc - 1 < NCLI) {
+    valsCli = h.getRange(r0, 1, nr, NCLI - 1).getValues();
+    marcarEdicion();
+  }
   const lock = LockService.getScriptLock();
-  if (!lock.tryLock(20000)) return aviso('La planilla está ocupada: vuelve a editar la celda en unos segundos.');
+  if (!lock.tryLock(60000)) {
+    if (valores) {
+      encolarEdicion({ r0: r0, c0: c0, nr: nr, nc: nc, maquinas: maquinas, valores: valores.map(f => f.map(x => String(x == null ? '' : x))) });
+      return aviso('La planilla estaba ocupada: tu cambio quedó en cola y se guarda solo en menos de 5 minutos (no lo vuelvas a escribir).', 10);
+    }
+    if (valsCli) { enviarClientes(e, valsCli, true); return; }
+    return aviso('La planilla está ocupada: vuelve a editar la celda en unos segundos.');
+  }
   try {
-    if (nombre === HOJA_CAMPOS) { if (e.range.getRow() >= 2) enviarCampos(e); return; }
-    if (nombre === HOJA_CLIENTES) { enviarClientes(e); return; }
+    if (nombre === HOJA_CAMPOS) { if (r0 >= 2) enviarCampos(e); return; }
+    if (nombre === HOJA_CLIENTES) { enviarClientes(e, valsCli); return; }
     if (nombre === HOJA_REGISTRO) {
-      if (e.range.getNumRows() === 1 && e.range.getNumColumns() === 1) e.range.setValue(e.oldValue === undefined ? '' : e.oldValue);
+      if (nr === 1 && nc === 1) e.range.setValue(e.oldValue === undefined ? '' : e.oldValue);
       return aviso('La pestaña Registro la escribe la app.');
     }
     if (nombre !== HOJA_OP) return;
-    const est = estadoGuardado();
-    if (!est) { traerDesdeApp(); return aviso('No se pudo leer la app: se volvió a traer todo. Si el cambio no quedó, edítalo de nuevo.'); }
-    const r0 = e.range.getRow(), c0 = e.range.getColumn(), nr = e.range.getNumRows(), nc = e.range.getNumColumns();
-    const maquinas = h.getRange(r0, 1, nr, 1).getValues().map(x => String(x[0] || '').trim());
-    const filaDeMaquina = maquinas.map(m => !!est.maquinas[m]);
-    // Encabezado, títulos de grupo y columnas de solo lectura: se vuelve a dibujar (se deshace lo editado).
-    if (r0 < 2 || filaDeMaquina.some(x => !x) || SOLO_LECTURA_OP.some(c => c >= c0 && c < c0 + nc)) {
-      dibujar(est);
-      return aviso('Máquina, Ubicación, Fecha término, Calza GPS y los títulos los escribe la app: no se cambió nada.');
-    }
-    const valores = e.range.getValues();
-    const cambios = [], avisos = [];
-    const sug = sugerencias(), listas = listasDeLaHoja();
-    for (let i = 0; i < nr; i++) {
-      const m = maquinas[i];
-      for (let j = 0; j < nc; j++) {
-        const k = COLUMNAS[c0 + j];
-        if (!k) continue;
-        let v = String(valores[i][j] == null ? '' : valores[i][j]).trim();
-        if (k === 'operador' || k === 'campo') v = revisarNombre(m, k, v, listas[k], sug, avisos);
-        cambios.push({ maquina: m, k: k, valor: v });
-        // Cambiar de campo deja el "Desde" en automático (llegada al campo según el GPS), como en la app.
-        if (k === 'campo' && v !== String(est.maquinas[m].campo || '').trim()) cambios.push({ maquina: m, k: 'desde', valor: '' });
-      }
-    }
-    guardarSugerencias(sug);
-    const ok = cambios.length ? enviarOperacion(cambios, !avisos.length, est) : true;
-    if (avisos.length && ok) aviso(avisos.join(' · ') + ' · Guardado en la app ✓', 15);
+    procesarCola();  // si quedó algo en cola, va antes (orden de las ediciones)
+    if (r0 < 2) { const est = estadoGuardado(); if (est) dibujar(est); return aviso('Los títulos los escribe la app: no se cambió nada.'); }
+    procesarEdicion({ r0: r0, c0: c0, nr: nr, nc: nc, maquinas: maquinas, valores: valores }, true);
   } finally { lock.releaseLock(); }
 }
+
+// Una edición de la pestaña Operación (leída al instante): se revisa y se manda a la app.
+function procesarEdicion(ed, avisar) {
+  const est = estadoGuardado();
+  if (!est) { encolarEdicion(ed); return aviso('No se pudo leer la app: tu cambio quedó en cola y se enviará solo.'); }
+  const filaDeMaquina = ed.maquinas.map(m => !!est.maquinas[m]);
+  // Títulos de grupo y columnas de solo lectura: se vuelve a dibujar (se deshace lo editado).
+  if (filaDeMaquina.some(x => !x) || SOLO_LECTURA_OP.some(c => c >= ed.c0 && c < ed.c0 + ed.nc)) {
+    dibujar(est);
+    if (avisar) aviso('Máquina, Ubicación, Fecha término, Calza GPS y los títulos los escribe la app: no se cambió nada.');
+    return;
+  }
+  const cambios = [], avisos = [];
+  const sug = sugerencias(), listas = listasDeLaHoja();
+  for (let i = 0; i < ed.nr; i++) {
+    const m = ed.maquinas[i];
+    for (let j = 0; j < ed.nc; j++) {
+      const k = COLUMNAS[ed.c0 + j];
+      if (!k) continue;
+      let v = String(ed.valores[i][j] == null ? '' : ed.valores[i][j]).trim();
+      if (k === 'operador' || k === 'campo') v = revisarNombre(m, k, v, listas[k], sug, avisos);
+      cambios.push({ maquina: m, k: k, valor: v });
+      // Cambiar de campo deja el "Desde" en automático (llegada al campo según el GPS), como en la app.
+      if (k === 'campo' && v !== String(est.maquinas[m].campo || '').trim()) cambios.push({ maquina: m, k: 'desde', valor: '' });
+    }
+  }
+  guardarSugerencias(sug);
+  console.log('Edición de la planilla: ' + cambios.map(c => `${c.maquina} ${c.k}=«${c.valor}»`).join(', '));
+  const ok = cambios.length ? enviarOperacion(cambios, avisar && !avisos.length, est) : true;
+  if (avisar && avisos.length && ok) aviso(avisos.join(' · ') + ' · Guardado en la app ✓', 15);
+  marcarEdicion();
+}
+
+// Cola de ediciones hechas mientras la planilla estaba ocupada (propiedad del script).
+function encolarEdicion(ed) {
+  const p = PropertiesService.getScriptProperties();
+  const cola = JSON.parse(p.getProperty('COLA_EDICIONES') || '[]').concat([ed]).slice(-100);
+  p.setProperty('COLA_EDICIONES', JSON.stringify(cola));
+  console.log('Edición en cola: ' + ed.maquinas.join(', '));
+}
+// Se llama con el lock tomado.
+function procesarCola() {
+  const p = PropertiesService.getScriptProperties();
+  const cola = JSON.parse(p.getProperty('COLA_EDICIONES') || '[]');
+  if (!cola.length) return;
+  p.deleteProperty('COLA_EDICIONES');
+  console.log('Enviando ' + cola.length + ' edición(es) en cola');
+  cola.forEach(ed => procesarEdicion(ed, false));
+}
+// Hora de la última edición en la planilla: la sincronización no redibuja encima por 60 s.
+function marcarEdicion() { CacheService.getScriptCache().put('EDITADO', String(Date.now()), 600); }
+function ultimaEdicion() { return Number(CacheService.getScriptCache().get('EDITADO') || 0); }
 
 // ---------------------------------------------------------------------------
 // Nombres de campo y operador escritos en la planilla (pedido del usuario 10-nov-2026)
@@ -324,6 +375,7 @@ function doPost(e) {
       return json({ ok: true });
     }
     const filas = (Array.isArray(d.filas) ? d.filas : []).filter(f => f && f.maquina);
+    CacheService.getScriptCache().put('CAMBIO_APP', String(Date.now()), 600);
     const est = estadoGuardado();
     if (est) {
       const nuevo = unirFilas(est, filas);
@@ -342,21 +394,41 @@ function doGet() { return json({ ok: true, planilla: 'Operación CYH' }); }
 // ---------------------------------------------------------------------------
 // Cada 5 minutos: pendientes, todo desde la app, GPS y listas
 // ---------------------------------------------------------------------------
+// Arreglo 11-nov-2026: lo que viene de internet se baja ANTES de ocupar la planilla (así
+// la ocupa solo unos segundos y las ediciones no esperan). Si alguien editó mientras se
+// bajaba, se vuelve a leer la app antes de dibujar (nunca se dibuja un dato antiguo).
+// Cada ejecución anota en Ejecuciones (Apps Script) cuánto tardó cada parte.
 function sincronizar() {
+  const t0 = Date.now(), tiempos = [];
+  const marca = n => tiempos.push(n + ' ' + ((Date.now() - t0) / 1000).toFixed(1) + ' s');
+  // 1) Lecturas, sin ocupar la planilla.
+  const estado = leerJson(WORKER + '/estado');
+  construirInfo();
+  ['reporte_v2.json', 'campos.json', 'operadores.json', 'operacion_cambios.json', 'nombres_quitados.json'].forEach(f => leerJson(DATOS + f));
+  const cli = llamarWorker({ tipo: 'clientes_leer' });
+  marca('lecturas');
+  // 2) Escritura, con la planilla ocupada.
   const lock = LockService.getScriptLock();
-  if (!lock.tryLock(30000)) return;
+  if (!lock.tryLock(60000)) { console.log('Sincronizar: planilla ocupada, se salta esta vez (' + tiempos.join(', ') + ')'); return; }
   try {
+    marca('espera');
+    procesarCola();
     reintentarPendientes();
-    traerDesdeApp(true);
+    // Alguien editó la planilla o guardó en la app mientras se bajaba: se vuelve a leer.
+    const reciente = Math.max(ultimaEdicion(), Number(CacheService.getScriptCache().get('CAMBIO_APP') || 0)) >= t0 - 5000;
+    traerDesdeApp(true, reciente ? null : estado);
+    marca('operación');
     actualizarListas();
-    traerClientes();
+    if (cli.ok) dibujarClientes(cli.datos.clientes || []); else console.log('Correos clientes: ' + cli.error);
+    marca('listas y clientes');
   } finally { lock.releaseLock(); }
+  console.log('Sincronizar: ' + tiempos.join(', '));
 }
 
 // Lee la app (D1 o lo publicado), arma el GPS de cada máquina y dibuja todo.
 let ESTADO_LEIDO = null;  // lo último leído de la app en esta ejecución (cambios y nombres quitados)
-function traerDesdeApp(conGps) {
-  const estado = leerJson(WORKER + '/estado');
+function traerDesdeApp(conGps, leido) {
+  const estado = leido || leerJson(WORKER + '/estado');
   let est, ha = null, cambios = [];
   if (estado && estado.d1) {
     ESTADO_LEIDO = estado;
@@ -369,8 +441,10 @@ function traerDesdeApp(conGps) {
     ha = Object.values(op.ha_aprox || {});
   }
   guardarEstado(est);
-  if (conGps || !infoGuardada()) construirInfo();
-  dibujar(conPendientes(est));
+  if (!infoGuardada()) construirInfo();
+  // Recién editada (menos de 60 s): no se redibuja encima; la próxima vez sí.
+  if (Date.now() - ultimaEdicion() > 60000) dibujar(conPendientes(est));
+  else console.log('Operación: edición reciente, no se redibuja esta vez');
   // Registro: lo más reciente del historial de la app por máquina.
   const ultima = {};
   for (const c of cambios) if (!ultima[c.maquina]) ultima[c.maquina] = `${horaChile(c.ts)} · ${c.origen || 'App'}`;
@@ -548,7 +622,9 @@ function dibujarClientes(clientes) {
   p.setProperty('VISTA_CLIENTES', firma);
 }
 // Planilla -> App: la fila editada (Campo, Cliente y contactos) se guarda en la app.
-function enviarClientes(e) {
+// vals: lo leído al instante en alEditar; sinLock: la planilla estaba ocupada (se guarda en la
+// app igual, y la hoja se redibuja en la próxima sincronización).
+function enviarClientes(e, vals, sinLock) {
   const h = e.range.getSheet(), r0 = e.range.getRow(), nr = e.range.getNumRows(), c0 = e.range.getColumn();
   if (r0 < 2 || c0 + e.range.getNumColumns() - 1 >= NCLI) {
     // Encabezado o "Última modificación": lo escribe la app.
@@ -556,7 +632,7 @@ function enviarClientes(e) {
     if (c0 < NCLI && r0 >= 2) return aviso('No se cambió nada: edita las celdas de Campo a Contacto 2 – Correo.');
     return aviso('La columna "Última modificación" la escribe la app.');
   }
-  const vals = h.getRange(r0, 1, nr, NCLI - 1).getValues();
+  vals = vals || h.getRange(r0, 1, nr, NCLI - 1).getValues();
   const filas = vals.map(v => {
     const f = { campo: String(v[0] || '').trim() };
     DATOS_CLIENTE.forEach((k, j) => { f[k] = String(v[j + 1] || '').trim(); });
@@ -565,8 +641,8 @@ function enviarClientes(e) {
   if (!filas.length) return aviso('Escribe primero el Campo (columna A).');
   // Cambiar el nombre de un campo que ya tenía correos no lo renombra: se guarda como campo nuevo.
   const r = llamarWorker({ tipo: 'clientes', filas: filas });
-  if (r.ok) { dibujarClientes(r.datos.clientes || []); aviso('Guardado en la app ✓'); }
-  else { aviso('No se guardó: ' + r.error); traerClientes(); }
+  if (r.ok) { if (!sinLock) dibujarClientes(r.datos.clientes || []); aviso('Guardado en la app ✓'); }
+  else { aviso('No se guardó: ' + r.error); if (!sinLock) traerClientes(); }
 }
 
 // Listas desplegables (10-nov-2026): los campos de Wialon y sus equivalencias, los operadores

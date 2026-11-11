@@ -11,32 +11,43 @@ function recordarPin(pin) {
   try { if (pin) localStorage.setItem(PIN_CLAVE, pin); else localStorage.removeItem(PIN_CLAVE); } catch (e) { /* sin almacenamiento */ }
 }
 
-// Cuadro para escribir el PIN, dentro de la pagina, junto al boton.
-function pedirPin(boton) {
-  return new Promise(listo => {
-    const caja = boton.closest('.acciones, .cab-acciones, .sg-botones, td, div') || boton.parentElement;
-    let cuadro = caja.nextElementSibling;
-    if (cuadro && cuadro.classList.contains('pin-caja')) cuadro.remove();
-    caja.insertAdjacentHTML('afterend', `<div class="pin-caja" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0">
-      <span style="font-size:13px;font-weight:600">PIN para guardar:</span>
-      <input type="password" inputmode="numeric" autocomplete="off" style="padding:6px;font-size:15px;width:9em;border:1px solid #bbb;border-radius:6px">
-      <button type="button" style="padding:6px 12px;border-radius:6px;border:1px solid #161616;background:#161616;color:#fff;font-weight:700">Usar PIN</button>
-      <button type="button" style="padding:6px 10px;border-radius:6px;border:1px solid #ccc;background:#fff">Cancelar</button></div>`);
-    cuadro = caja.nextElementSibling;
-    const [entrada, usar, cancelar] = [cuadro.querySelector('input'), ...cuadro.querySelectorAll('button')];
-    const fin = valor => { cuadro.remove(); listo(valor); };
-    usar.onclick = () => { const v = entrada.value.trim(); if (v) { recordarPin(v); fin(v); } };
-    entrada.onkeydown = ev => { if (ev.key === 'Enter') usar.onclick(); };
-    cancelar.onclick = () => fin('');
-    entrada.focus();
+// Cuadro para escribir el PIN: ventana al centro de la pantalla, encima de todo
+// (11-nov-2026). Antes se ponia junto al boton, pero si la pagina se redibujaba
+// en ese momento el cuadro quedaba fuera de la vista y el cambio nunca se
+// enviaba (computador sin PIN guardado). El parametro boton ya no se usa.
+let PIN_ESPERA = null;
+function pedirPin() {
+  if (PIN_ESPERA) return PIN_ESPERA; // un solo cuadro aunque se pida dos veces
+  PIN_ESPERA = new Promise(listo => {
+    const capa = document.createElement('div');
+    capa.className = 'pin-capa';
+    capa.setAttribute('role', 'dialog'); capa.setAttribute('aria-modal', 'true');
+    capa.style.cssText = 'position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px';
+    capa.innerHTML = `<div style="background:#fff;color:#161616;border-radius:12px;padding:18px 18px 14px;width:100%;max-width:340px;box-shadow:0 10px 30px rgba(0,0,0,.3);font-family:inherit">
+      <div style="font-size:17px;font-weight:700;margin-bottom:4px">PIN para guardar</div>
+      <div style="font-size:13px;color:#555;margin-bottom:10px">Se pide una sola vez en este aparato.</div>
+      <input type="password" inputmode="numeric" autocomplete="off" aria-label="PIN" style="box-sizing:border-box;width:100%;padding:10px;font-size:18px;border:1px solid #bbb;border-radius:8px">
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+        <button type="button" data-pin="no" style="padding:9px 14px;border-radius:8px;border:1px solid #ccc;background:#fff;font-size:15px">Cancelar</button>
+        <button type="button" data-pin="si" style="padding:9px 16px;border-radius:8px;border:1px solid #161616;background:#161616;color:#fff;font-weight:700;font-size:15px">Usar PIN</button>
+      </div></div>`;
+    document.body.appendChild(capa);
+    const entrada = capa.querySelector('input');
+    const fin = valor => { capa.remove(); PIN_ESPERA = null; listo(valor); };
+    const usar = () => { const v = entrada.value.trim(); if (v) { recordarPin(v); fin(v); } else entrada.focus(); };
+    capa.querySelector('[data-pin="si"]').onclick = usar;
+    capa.querySelector('[data-pin="no"]').onclick = () => fin('');
+    entrada.onkeydown = ev => { if (ev.key === 'Enter') usar(); else if (ev.key === 'Escape') fin(''); };
+    setTimeout(() => entrada.focus(), 30);
   });
+  return PIN_ESPERA;
 }
 
 // POST al Worker con el PIN. Devuelve {ok, j, pinMalo}. Si el PIN es
 // incorrecto se olvida para que lo pidan de nuevo.
 async function enviarConPin(url, cuerpo, boton) {
   let pin = pinGuardado();
-  if (!pin) pin = await pedirPin(boton);
+  if (!pin) pin = await pedirPin();
   if (!pin) return { ok: false, j: { error: 'sin PIN' }, cancelado: true };
   const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...cuerpo, pin }) });
   const j = await r.json().catch(() => ({}));

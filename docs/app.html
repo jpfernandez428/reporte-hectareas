@@ -144,6 +144,10 @@
   .barra-guardar .guardar:disabled { opacity: .5; }
   #msg { font-size: 13px; font-weight: 600; }
   .aviso-cf { background: #fdecea; border-left: 4px solid var(--rojo); padding: 8px 10px; margin: 0 0 10px; font-size: 14px; }
+  .atascados .atasc-item { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; border-top: 1px solid #f3c6c0; padding: 8px 0 2px; margin-top: 6px; }
+  .atascados .atasc-botones { display: flex; gap: 6px; }
+  .atascados .atasc-botones button { padding: 7px 14px; border-radius: 8px; border: 1px solid var(--verde); background: var(--verde); color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; }
+  .atascados .atasc-botones button.sec { background: #fff; color: var(--verde); }
   .aviso-lento { background: #fff4cc; border-left: 4px solid #d4a017; padding: 8px 10px; margin: 0 0 10px; font-size: 14px; }
   @media (max-width: 700px) {
     main { padding: 8px; }
@@ -392,7 +396,22 @@ function unidades() {
 // ---------------------------------------------------------------------------
 const CLAVE_PEND = 'operacion_pendientes', CLAVE_RES = 'operacion_resultados';
 let PEND = leerLS(CLAVE_PEND, []), RES = leerLS(CLAVE_RES, []);
-const pendienteDe = m => PEND.filter(p => p.filas.some(f => f.maquina === m)).pop();
+// Cambio atascado (11-nov-2026): quedo sin enviar hace mas de 2 min (ej. en el
+// computador el cuadro del PIN no se veia). No se envia solo ni se muestra como
+// si fuera real: sale en un recuadro arriba para revisarlo y Enviar o Descartar.
+const ENVIANDO = new Set();
+const atascado = p => !p.enviado && !ENVIANDO.has(p.id) && (p.atascado || Date.now() - p.t0 > 2 * 60 * 1000);
+const pendienteDe = m => PEND.filter(p => !atascado(p) && p.filas.some(f => f.maquina === m)).pop();
+// Lo que un cambio atascado cambiaria respecto de lo guardado hoy en Cloudflare.
+function difAtascado(p) {
+  const out = [];
+  for (const f of p.filas) {
+    const ahora = OP.maquinas[f.maquina] || {}, base = (p.base || {})[f.maquina];
+    const ks = CAMPOS_FILA.filter(k => (f[k] || '') !== (ahora[k] || '') && (!base || (f[k] || '') !== (base[k] || '')) && !(k === 'desde' && !f[k]));
+    if (ks.length) out.push({ maquina: f.maquina, ks, f, ahora });
+  }
+  return out;
+}
 const resultadoDe = m => RES.filter(r => r.maquinas.includes(m) && Date.now() - r.t < 30 * 60 * 1000).pop();
 function valorDe(m) {
   const p = pendienteDe(m), fp = p && p.filas.find(f => f.maquina === m);
@@ -422,7 +441,8 @@ function marcarResultado(id, maquinas, ok, error, segundos) {
 // aparato ("sin enviar") y se reintenta solo cada 15 s; nunca se pierde.
 async function guardarFilas(filas, boton, alFallar) {
   const id = (Date.now().toString(36) + Math.random().toString(36).slice(2, 8)).toLowerCase();
-  const p = { id, t0: Date.now(), filas, enviado: false };
+  const base = Object.fromEntries(filas.map(f => [f.maquina, { ...(OP.maquinas[f.maquina] || {}) }]));
+  const p = { id, t0: Date.now(), filas, base, enviado: false };
   PEND.push(p); escribirLS(CLAVE_PEND, PEND);
   dibujar();
   aviso('Guardando…', false);
@@ -430,8 +450,10 @@ async function guardarFilas(filas, boton, alFallar) {
 }
 async function enviarPendiente(p, boton, alFallar) {
   let res;
+  ENVIANDO.add(p.id);
   try { res = await enviarConPin(WORKER + '/operacion', { cambios: p.filas, id: p.id }, boton || document.body); }
   catch (e) { res = { ok: false, red: true, j: { error: 'sin conexión con Cloudflare' } }; }
+  finally { ENVIANDO.delete(p.id); }
   if (res.ok && res.j && res.j.d1) {
     // Guardado al instante en Cloudflare.
     PEND = PEND.filter(x => x.id !== p.id); escribirLS(CLAVE_PEND, PEND);
@@ -457,15 +479,48 @@ async function enviarPendiente(p, boton, alFallar) {
   aviso('No se guardó: ' + textoError(res), true);
   dibujar(); return false;
 }
+const NOMBRE_DATO = { implemento: 'Implemento', operador: 'Operador', campo: 'Campo', desde: 'Desde', destino: 'Próximo destino' };
 function avisoCF(mostrar) {
-  const sinEnviar = PEND.filter(p => !p.enviado).length;
+  const sinEnviar = PEND.filter(p => !p.enviado && !atascado(p)).length;
   const caja = document.getElementById('avisoCF');
-  if (caja) caja.innerHTML = (mostrar || sinEnviar) && sinEnviar
+  if (!caja) return;
+  let html = (mostrar || sinEnviar) && sinEnviar
     ? `<div class="aviso-cf">⚠ Cloudflare no responde: ${sinEnviar} cambio${sinEnviar === 1 ? '' : 's'} guardado${sinEnviar === 1 ? '' : 's'} en este aparato, se enviará${sinEnviar === 1 ? '' : 'n'} solo${sinEnviar === 1 ? '' : 's'} al volver la conexión.</div>` : '';
+  // Cambios atascados: se muestran para decidir uno por uno.
+  const atas = PEND.filter(atascado).map(p => ({ p, dif: difAtascado(p) }));
+  // Los que ya no cambian nada (lo guardado ya es igual) se borran solos.
+  const vacios = atas.filter(a => !a.dif.length).map(a => a.p.id);
+  if (vacios.length) { PEND = PEND.filter(p => !vacios.includes(p.id)); escribirLS(CLAVE_PEND, PEND); }
+  const lista = atas.filter(a => a.dif.length);
+  if (lista.length) {
+    const v = x => x ? esc(x) : '<i>(vacío)</i>';
+    html += `<div class="aviso-cf atascados"><b>⚠ ${lista.length} cambio${lista.length === 1 ? '' : 's'} sin enviar en este aparato</b>
+      <div class="nota">No llegaron a Cloudflare (no se veía el cuadro del PIN). Revisa cada uno: «Enviar» lo guarda ahora; «Descartar» lo borra de este aparato. Lo que muestra la app arriba es lo guardado de verdad.</div>
+      ${lista.map(({ p, dif }) => `<div class="atasc-item">
+        <div><span class="nota">${esc(fechaChile(p.t0))}</span> ${dif.map(d => `<div><b>${esc(d.maquina)}</b>: ${d.ks.map(k => `${NOMBRE_DATO[k]} ${v(d.ahora[k])} → <b>${v(d.f[k])}</b>`).join(' · ')}</div>`).join('')}</div>
+        <div class="atasc-botones"><button type="button" data-atasc-enviar="${p.id}">Enviar</button><button type="button" class="sec" data-atasc-borrar="${p.id}">Descartar</button></div>
+      </div>`).join('')}</div>`;
+  }
+  caja.innerHTML = html;
 }
+// Enviar un cambio atascado: sobre lo guardado HOY, solo los datos que cambia.
+async function enviarAtascado(id, boton) {
+  const p = PEND.find(x => x.id === id); if (!p) return;
+  const dif = difAtascado(p);
+  PEND = PEND.filter(x => x.id !== id); escribirLS(CLAVE_PEND, PEND);
+  if (!dif.length) { dibujar(); return; }
+  const filas = dif.map(d => ({ maquina: d.maquina, ...Object.fromEntries(CAMPOS_FILA.map(k => [k, d.ahora[k] || ''])),
+    ...Object.fromEntries(d.ks.map(k => [k, d.f[k] || ''])), ...(d.ks.includes('campo') && !d.ks.includes('desde') ? { desde: '' } : {}) }));
+  await guardarFilas(filas, boton);
+}
+document.addEventListener('click', ev => {
+  const e = ev.target.closest('[data-atasc-enviar]'), b = ev.target.closest('[data-atasc-borrar]');
+  if (e) enviarAtascado(e.dataset.atascEnviar, e);
+  if (b) { PEND = PEND.filter(x => x.id !== b.dataset.atascBorrar); escribirLS(CLAVE_PEND, PEND); aviso('Cambio descartado (solo en este aparato).', false); dibujar(); }
+});
 // Reintento de lo que quedo sin enviar (cada 15 s; solo con el PIN ya recordado).
 setInterval(async () => {
-  const sinEnviar = PEND.filter(p => !p.enviado);
+  const sinEnviar = PEND.filter(p => !p.enviado && !atascado(p));
   if (!sinEnviar.length || !pinGuardado()) return;
   for (const p of sinEnviar) { if (!(await enviarPendiente(p, null))) break; }
 }, 15000);
@@ -479,12 +534,13 @@ async function vigilar() {
   vigilando = true;
   try {
     const vigilados = new Set(PEND.map(p => p.id));
-    while (PEND.length) {
+    // Solo lo que GitHub tiene que confirmar (enviado); lo atascado espera en su recuadro.
+    while (PEND.some(p => p.enviado)) {
       await new Promise(r => setTimeout(r, 20000));
       PEND.forEach(p => vigilados.add(p.id));
       await cargar(true);
       const vistos = new Set(((OP && OP.guardados) || []).map(g => g.id));
-      for (const p of PEND.slice()) {
+      for (const p of PEND.filter(x => x.enviado)) {
         const iguales = p.filas.every(f => CAMPOS_FILA.every(k => ((OP.maquinas[f.maquina] || {})[k] || '') === (f[k] || '')));
         if (vistos.has(p.id) || iguales) {
           PEND = PEND.filter(x => x.id !== p.id);
@@ -494,12 +550,12 @@ async function vigilar() {
           marcarResultado(p.id, p.filas.map(f => f.maquina), false, 'GitHub no lo confirmó en 45 min');
         }
       }
-      if (PEND.length && Date.now() - ultimaApi > 90000) {
+      if (PEND.some(x => x.enviado) && Date.now() - ultimaApi > 90000) {
         ultimaApi = Date.now();
         try {
           const r = await fetch('https://api.github.com/repos/jpfernandez428/reporte-hectareas/actions/workflows/operacion.yml/runs?per_page=20', { cache: 'no-store' });
           const runs = r.ok ? (await r.json()).workflow_runs : [];
-          for (const p of PEND.slice()) {
+          for (const p of PEND.filter(x => x.enviado)) {
             const run = runs.find(x => (x.display_title || '').includes(p.id));
             if (run && run.status === 'completed' && run.conclusion !== 'success') {
               PEND = PEND.filter(x => x.id !== p.id);
@@ -512,7 +568,7 @@ async function vigilar() {
       if (!escribiendo() && seccion() === 'operacion') dibujar();
       const malos = RES.filter(x => !x.ok && vigilados.has(x.id));
       if (malos.length) aviso('No se guardó: ' + malos.map(x => x.error).join(', '), true);
-      else if (!PEND.length) aviso('✓ Guardado.', false);
+      else if (!PEND.some(x => x.enviado)) aviso('✓ Guardado.', false);
     }
   } finally { vigilando = false; }
 }
@@ -1404,7 +1460,7 @@ let eraAncho = innerWidth >= 1000;
 window.addEventListener('resize', () => { const a = innerWidth >= 1000; if (OP && a !== eraAncho) { eraAncho = a; dibujar(); } });
 const escribiendo = () => { const f = document.activeElement; return f && /INPUT|SELECT|TEXTAREA/.test(f.tagName); };
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
-if (ruta()) cargar().then(() => { dibujar(); if (PEND.length) vigilar(); actualizarGps(); });
+if (ruta()) cargar().then(() => { dibujar(); if (PEND.some(p => p.enviado)) vigilar(); actualizarGps(); });
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && OP) actualizarGps(); });
 setInterval(() => { if (OP && seccion() === 'operacion' && document.visibilityState === 'visible' && !vigilando && !escribiendo() && !document.querySelector('#capa .selector')) dibujar(); }, 60000);
 </script>
