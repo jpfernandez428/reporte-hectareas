@@ -12849,8 +12849,8 @@
           "maquinas": [
             "Shacker SBS 10"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 5.1655,
+          "porcentaje": 28.6,
           "completo": false,
           "temporada": "2026"
         }
@@ -12972,8 +12972,36 @@
         }
       }
     },
+    "La Estrella 9": {
+      "area_total_ha": 3.3393,
+      "labores": {
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 10"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026"
+        }
+      }
+    },
     "La estrella": {
       "area_total_ha": 5.7275,
+      "labores": {
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 10"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026"
+        }
+      }
+    },
+    "La estrella 5": {
+      "area_total_ha": 10.931,
       "labores": {
         "Raleo": {
           "maquinas": [
@@ -13613,8 +13641,8 @@
             "Shacker SBS 5",
             "Shacker SBS 8"
           ],
-          "trabajado_ha": 2.933,
-          "porcentaje": 65.0,
+          "trabajado_ha": 2.9528,
+          "porcentaje": 65.4,
           "completo": false,
           "temporada": "2026"
         }
@@ -14391,6 +14419,15 @@
           "porcentaje": 77.6,
           "completo": false,
           "temporada": "2026"
+        },
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 9"
+          ],
+          "trabajado_ha": 2.5688,
+          "porcentaje": 53.9,
+          "completo": false,
+          "temporada": "2026"
         }
       }
     },
@@ -14422,6 +14459,15 @@
           "completo": true,
           "temporada": "2026",
           "fecha_completo": "2026-02-26"
+        },
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 9"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026"
         }
       }
     },
@@ -14431,6 +14477,15 @@
         "Cosecha con recibidor": {
           "maquinas": [
             "Shacker SBS 6"
+          ],
+          "trabajado_ha": 0.0,
+          "porcentaje": 0.0,
+          "completo": false,
+          "temporada": "2026"
+        },
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 9"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
