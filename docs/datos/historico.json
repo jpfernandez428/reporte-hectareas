@@ -58090,5 +58090,35 @@
     "area_total_ha": 4.51,
     "area_trabajada_ha": 0.02,
     "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-12",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "Mayol C 5",
+    "labor": "Raleo",
+    "n_hileras": 52,
+    "area_total_ha": 4.77,
+    "area_trabajada_ha": 2.2,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-12",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "La Estrella 10",
+    "labor": "Raleo",
+    "n_hileras": 13,
+    "area_total_ha": 2.05,
+    "area_trabajada_ha": 0.65,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-12",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "La Estrella 12",
+    "labor": "Raleo",
+    "n_hileras": 85,
+    "area_total_ha": 18.08,
+    "area_trabajada_ha": 0.36,
+    "temporada": "2026"
   }
 ]
