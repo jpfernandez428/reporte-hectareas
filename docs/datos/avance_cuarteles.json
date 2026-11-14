@@ -12833,10 +12833,11 @@
       "labores": {
         "Raleo": {
           "maquinas": [
-            "Shacker SBS 10"
+            "Shacker SBS 10",
+            "Shacker SBS 9"
           ],
-          "trabajado_ha": 0.6545,
-          "porcentaje": 31.9,
+          "trabajado_ha": 1.6785,
+          "porcentaje": 81.8,
           "completo": false,
           "temporada": "2026"
         }
@@ -12986,8 +12987,39 @@
         }
       }
     },
-    "La Estrella 9": {
-      "area_total_ha": 3.3393,
+    "La Estrella 6": {
+      "area_total_ha": 1.3033,
+      "labores": {
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 10",
+            "Shacker SBS 9"
+          ],
+          "trabajado_ha": 1.3033,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026",
+          "fecha_completo": "2026-11-13"
+        }
+      }
+    },
+    "La Estrella 7": {
+      "area_total_ha": 5.5026,
+      "labores": {
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 10",
+            "Shacker SBS 9"
+          ],
+          "trabajado_ha": 1.1334,
+          "porcentaje": 20.6,
+          "completo": false,
+          "temporada": "2026"
+        }
+      }
+    },
+    "La Estrella 8": {
+      "area_total_ha": 6.6828,
       "labores": {
         "Raleo": {
           "maquinas": [
@@ -12997,6 +13029,22 @@
           "porcentaje": 0.0,
           "completo": false,
           "temporada": "2026"
+        }
+      }
+    },
+    "La Estrella 9": {
+      "area_total_ha": 3.3393,
+      "labores": {
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 10",
+            "Shacker SBS 9"
+          ],
+          "trabajado_ha": 3.3393,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026",
+          "fecha_completo": "2026-11-13"
         }
       }
     },
@@ -13019,7 +13067,8 @@
       "labores": {
         "Raleo": {
           "maquinas": [
-            "Shacker SBS 10"
+            "Shacker SBS 10",
+            "Shacker SBS 9"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,

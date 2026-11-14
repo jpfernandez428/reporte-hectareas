@@ -58120,5 +58120,75 @@
     "area_total_ha": 18.08,
     "area_trabajada_ha": 0.36,
     "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-13",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "La Estrella 9",
+    "labor": "Raleo",
+    "n_hileras": 20,
+    "area_total_ha": 3.34,
+    "area_trabajada_ha": 1.69,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-13",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "La Estrella 9",
+    "labor": "Raleo",
+    "n_hileras": 16,
+    "area_total_ha": 3.34,
+    "area_trabajada_ha": 1.65,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-13",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "La Estrella 6",
+    "labor": "Raleo",
+    "n_hileras": 13,
+    "area_total_ha": 1.3,
+    "area_trabajada_ha": 0.87,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-13",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "La Estrella 6",
+    "labor": "Raleo",
+    "n_hileras": 9,
+    "area_total_ha": 1.3,
+    "area_trabajada_ha": 0.43,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-13",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "La Estrella 7",
+    "labor": "Raleo",
+    "n_hileras": 5,
+    "area_total_ha": 5.5,
+    "area_trabajada_ha": 0.5,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-13",
+    "maquina": "Shacker SBS 9",
+    "cuartel": "La Estrella 7",
+    "labor": "Raleo",
+    "n_hileras": 12,
+    "area_total_ha": 5.5,
+    "area_trabajada_ha": 0.63,
+    "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-13",
+    "maquina": "Shacker SBS 10",
+    "cuartel": "La Estrella 10",
+    "labor": "Raleo",
+    "n_hileras": 22,
+    "area_total_ha": 2.05,
+    "area_trabajada_ha": 1.02,
+    "temporada": "2026"
   }
 ]
