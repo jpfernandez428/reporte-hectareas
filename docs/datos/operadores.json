@@ -1159,6 +1159,43 @@
     "implemento": "PICKER R",
     "operador": "Beño"
    }
+  },
+  "2026-11-14": {
+   "Barredora 23": {
+    "campo": "Taller",
+    "implemento": "",
+    "operador": "Moises"
+   },
+   "Podadora 1": {
+    "campo": "el quillay",
+    "implemento": "ESTRELLA",
+    "operador": "Alberto"
+   },
+   "Shacker SBS 10": {
+    "campo": "La Estrella",
+    "implemento": "Shaker",
+    "operador": "Carlos S"
+   },
+   "Shacker SBS 6": {
+    "campo": "Agricola Lazos",
+    "implemento": "Shaker",
+    "operador": "jorge mella"
+   },
+   "Shacker SBS 9": {
+    "campo": "Mayol",
+    "implemento": "Shaker",
+    "operador": "Pirincho"
+   },
+   "Tractor 16 Kubota 108": {
+    "campo": "Alto Calibre",
+    "implemento": "PICKER R",
+    "operador": "Jonathan"
+   },
+   "Tractor 17 Kubota 108": {
+    "campo": "Alto Calibre",
+    "implemento": "PICKER R",
+    "operador": "Beño"
+   }
   }
  }
 }
