@@ -946,5 +946,14 @@
   "despues": "",
   "id": "mwjmv91fmof3e6",
   "origen": "App"
+ },
+ {
+  "fecha": "16-11-2026 16:57",
+  "maquina": "Shacker SBS 6",
+  "cambio": "Campo",
+  "antes": "Agricola Lazos",
+  "despues": "Taller",
+  "id": "mwjmu6g02fr5zy",
+  "origen": "App"
  }
 ]
