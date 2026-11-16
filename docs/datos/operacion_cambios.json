@@ -919,5 +919,23 @@
   "despues": "Pirincho",
   "id": "mwjmtsc20wrfsn",
   "origen": "App"
+ },
+ {
+  "fecha": "16-11-2026 16:05",
+  "maquina": "Tractor 10 Deutz Fahr 115",
+  "cambio": "Operador",
+  "antes": "",
+  "despues": "jorge mella",
+  "id": "mwjmvmyz6js9fi",
+  "origen": "App"
+ },
+ {
+  "fecha": "16-11-2026 16:05",
+  "maquina": "Tractor 10 Deutz Fahr 115",
+  "cambio": "Campo",
+  "antes": "Taller",
+  "despues": "ferbas",
+  "id": "mwjmvmyz6js9fi",
+  "origen": "App"
  }
 ]

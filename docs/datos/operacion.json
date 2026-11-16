@@ -1,5 +1,5 @@
 {
- "actualizado": "16-11-2026 16:04",
+ "actualizado": "16-11-2026 16:05",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -340,8 +340,8 @@
   },
   "Tractor 10 Deutz Fahr 115": {
    "implemento": "ESTRELLA",
-   "operador": "",
-   "campo": "Taller",
+   "operador": "jorge mella",
+   "campo": "ferbas",
    "desde": "",
    "destino": ""
   },
@@ -536,12 +536,6 @@
   }
  },
  "guardados": [
-  {
-   "id": "mvtpodagwp1ceu",
-   "recibido": "1793288509756",
-   "aplicado": 1793288538082,
-   "cambios": 1
-  },
   {
    "id": "mw27d6i7rkkoaa",
    "recibido": "1793801950076",
@@ -835,6 +829,12 @@
    "recibido": "1794855843624",
    "aplicado": 1794855874002,
    "cambios": 1
+  },
+  {
+   "id": "mwjmvmyz6js9fi",
+   "recibido": "1794855929989",
+   "aplicado": 1794855956491,
+   "cambios": 2
   }
  ]
 }
