@@ -340,7 +340,7 @@
   },
   "Tractor 10 Deutz Fahr 115": {
    "implemento": "ESTRELLA",
-   "operador": "jorge mella",
+   "operador": "",
    "campo": "ferbas",
    "desde": "",
    "destino": ""
@@ -536,12 +536,6 @@
   }
  },
  "guardados": [
-  {
-   "id": "mw27d6i7rkkoaa",
-   "recibido": "1793801950076",
-   "aplicado": 1793801978330,
-   "cambios": 1
-  },
   {
    "id": "mw27dpga12cixm",
    "recibido": "1793801974570",
@@ -835,6 +829,12 @@
    "recibido": "1794855929989",
    "aplicado": 1794855956491,
    "cambios": 2
+  },
+  {
+   "id": "mwjmv91fmof3e6",
+   "recibido": "1794855911926",
+   "aplicado": 1794855959982,
+   "cambios": 1
   }
  ]
 }

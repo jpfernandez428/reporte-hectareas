@@ -937,5 +937,14 @@
   "despues": "ferbas",
   "id": "mwjmvmyz6js9fi",
   "origen": "App"
+ },
+ {
+  "fecha": "16-11-2026 16:05",
+  "maquina": "Tractor 10 Deutz Fahr 115",
+  "cambio": "Operador",
+  "antes": "jorge mella",
+  "despues": "",
+  "id": "mwjmv91fmof3e6",
+  "origen": "App"
  }
 ]
