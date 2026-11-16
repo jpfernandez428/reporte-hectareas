@@ -910,5 +910,14 @@
   "despues": "el quillay",
   "id": "mwjmszsna5f52k",
   "origen": "App"
+ },
+ {
+  "fecha": "16-11-2026 16:04",
+  "maquina": "Tractor 8 Kubota 108",
+  "cambio": "Operador",
+  "antes": "",
+  "despues": "Pirincho",
+  "id": "mwjmtsc20wrfsn",
+  "origen": "App"
  }
 ]

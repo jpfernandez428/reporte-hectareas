@@ -1,5 +1,5 @@
 {
- "actualizado": "16-11-2026 16:03",
+ "actualizado": "16-11-2026 16:04",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -326,7 +326,7 @@
   },
   "Tractor 8 Kubota 108": {
    "implemento": "PICKER R",
-   "operador": "",
+   "operador": "Pirincho",
    "campo": "el quillay",
    "desde": "",
    "destino": ""
@@ -536,12 +536,6 @@
   }
  },
  "guardados": [
-  {
-   "id": "mvs0h6mg7qgcpo",
-   "recibido": "1793185717343",
-   "aplicado": 1793185747349,
-   "cambios": 1
-  },
   {
    "id": "mvtpodagwp1ceu",
    "recibido": "1793288509756",
@@ -834,6 +828,12 @@
    "id": "mwjmszsna5f52k",
    "recibido": "1794855806604",
    "aplicado": 1794855834185,
+   "cambios": 1
+  },
+  {
+   "id": "mwjmtsc20wrfsn",
+   "recibido": "1794855843624",
+   "aplicado": 1794855874002,
    "cambios": 1
   }
  ]
