@@ -892,5 +892,14 @@
   "despues": "La Estrella",
   "id": "mwjmry0ij1yie0",
   "origen": "App"
+ },
+ {
+  "fecha": "16-11-2026 16:03",
+  "maquina": "Shacker SBS 9",
+  "cambio": "Operador",
+  "antes": "Pirincho",
+  "despues": "Gaston H",
+  "id": "mwjms3wgab4wzc",
+  "origen": "App"
  }
 ]

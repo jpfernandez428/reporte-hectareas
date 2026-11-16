@@ -235,7 +235,7 @@
   },
   "Shacker SBS 9": {
    "implemento": "Shaker",
-   "operador": "Pirincho",
+   "operador": "Gaston H",
    "campo": "La Estrella",
    "desde": "",
    "destino": ""
@@ -537,12 +537,6 @@
  },
  "guardados": [
   {
-   "id": "mvqlddlrfd9dhr",
-   "recibido": "1793099879308",
-   "aplicado": 1793099905178,
-   "cambios": 1
-  },
-  {
    "id": "mvqle2geml2ihz",
    "recibido": "1793099911948",
    "aplicado": 1793099944538,
@@ -834,6 +828,12 @@
    "id": "mwjmry0ij1yie0",
    "recibido": "1794855757683",
    "aplicado": 1794855790396,
+   "cambios": 1
+  },
+  {
+   "id": "mwjms3wgab4wzc",
+   "recibido": "1794855765316",
+   "aplicado": 1794855795934,
    "cambios": 1
   }
  ]
