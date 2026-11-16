@@ -1,5 +1,5 @@
 {
- "actualizado": "11-11-2026 16:07",
+ "actualizado": "16-11-2026 16:03",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -236,7 +236,7 @@
   "Shacker SBS 9": {
    "implemento": "Shaker",
    "operador": "Pirincho",
-   "campo": "Mayol",
+   "campo": "La Estrella",
    "desde": "",
    "destino": ""
   },
@@ -537,12 +537,6 @@
  },
  "guardados": [
   {
-   "id": "mvqlcmvq7h94wu",
-   "recibido": "1793099844861",
-   "aplicado": 1793099872430,
-   "cambios": 1
-  },
-  {
    "id": "mvqlddlrfd9dhr",
    "recibido": "1793099879308",
    "aplicado": 1793099905178,
@@ -834,6 +828,12 @@
    "id": "pmwchptc8dioqvw",
    "recibido": "1794423997469",
    "aplicado": 1794424026935,
+   "cambios": 1
+  },
+  {
+   "id": "mwjmry0ij1yie0",
+   "recibido": "1794855757683",
+   "aplicado": 1794855790396,
    "cambios": 1
   }
  ]

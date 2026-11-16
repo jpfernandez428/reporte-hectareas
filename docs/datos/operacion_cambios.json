@@ -883,5 +883,14 @@
   "despues": "",
   "id": "pmwchptc8dioqvw",
   "origen": "Planilla"
+ },
+ {
+  "fecha": "16-11-2026 16:03",
+  "maquina": "Shacker SBS 9",
+  "cambio": "Campo",
+  "antes": "Mayol",
+  "despues": "La Estrella",
+  "id": "mwjmry0ij1yie0",
+  "origen": "App"
  }
 ]
