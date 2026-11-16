@@ -327,7 +327,7 @@
   "Tractor 8 Kubota 108": {
    "implemento": "PICKER R",
    "operador": "",
-   "campo": "Taller",
+   "campo": "el quillay",
    "desde": "",
    "destino": ""
   },
@@ -536,12 +536,6 @@
   }
  },
  "guardados": [
-  {
-   "id": "mvqle2geml2ihz",
-   "recibido": "1793099911948",
-   "aplicado": 1793099944538,
-   "cambios": 0
-  },
   {
    "id": "mvs0h6mg7qgcpo",
    "recibido": "1793185717343",
@@ -834,6 +828,12 @@
    "id": "mwjms3wgab4wzc",
    "recibido": "1794855765316",
    "aplicado": 1794855795934,
+   "cambios": 1
+  },
+  {
+   "id": "mwjmszsna5f52k",
+   "recibido": "1794855806604",
+   "aplicado": 1794855834185,
    "cambios": 1
   }
  ]
