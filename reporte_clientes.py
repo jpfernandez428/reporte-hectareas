@@ -456,21 +456,20 @@ def armar_html(r, dia, logo_src, prueba=None):
             filas_m.append({"celdas": [escape(nombre), escape(m["operador"]) or "–", hora_txt(mot and mot["inicio"]),
                                        hora_txt(mot and mot["termino"]), horas_txt(h), num(m["ha"] + m["ha_sin"])]})
         horas_total += h or 0
+    # Detalle por cuartel: solo el total que lleva cada cuartel (pedido del usuario 17-nov-2026).
     filas_c = []
-    sum_area = sum_ayer = sum_acum = 0.0
+    sum_area = sum_acum = 0.0
     for (cuartel, labor), c in sorted(r["cuarteles"].items(), key=lambda x: orden_natural(x[0][0]) + [x[0][1]]):
-        ayer = sum(c["ayer"].values())
-        por_maq = "<br>".join(f"{escape(k)}: {num(v)}" for k, v in sorted(c["ayer"].items(), key=lambda x: -x[1]))
         estado = (f'<br><span style="color:{VERDE_OK};font-weight:bold;font-size:11px;">✔ Terminado</span>' if c["terminado"] else "")
         nombre_c = escape(cuartel) + (f'<br><span style="color:{GRIS};font-size:11px;">{escape(labor)}</span>' if len(r["labores"]) > 1 else "")
-        filas_c.append({"celdas": [nombre_c, num(c["area"]), por_maq, num(ayer), num(c["acumulado"]),
-                                   f'{rc.num(c["pct"] * 100, 0)} %{estado}'],
+        filas_c.append({"celdas": [nombre_c, num(c["area"]), num(c["acumulado"]), f'{rc.num(c["pct"] * 100, 0)} %{estado}'],
                         "fondo": VERDE_OK_F if c["terminado"] else ""})
-        sum_area += c["area"]; sum_ayer += ayer; sum_acum += c["acumulado"]
+        sum_area += c["area"]; sum_acum += c["acumulado"]
     if r["sin_geocerca"] > 0:
-        filas_c.append({"celdas": ['Sin cuartel definido<br><span style="font-size:11px;color:#5F6368;">aprox., sin cuartel definido</span>',
-                                   "–", "–", f"~{num(r['sin_geocerca'])}", "–", "–"], "fondo": AMARILLO_F})
-    total_c = ["Total", num(sum_area), "", num(sum_ayer + r["sin_geocerca"]), num(sum_acum), ""]
+        # Sin cuartel no hay acumulado: se muestra lo de ese dia, aparte (no suma al total de los cuarteles).
+        filas_c.append({"celdas": ['Sin cuartel definido<br><span style="font-size:11px;color:#5F6368;">aprox., solo el día trabajado</span>',
+                                   "–", f"~{num(r['sin_geocerca'])}", "–"], "fondo": AMARILLO_F})
+    total_c = ["Total", num(sum_area), num(sum_acum), ""]
     caja = lambda titulo, valor: (f'<td width="33%" style="padding:8px 4px;background:{GRIS_FILA};border:1px solid {BORDE};'
                                   f'font-family:{FUENTE};text-align:center;"><div style="font-size:12px;color:{GRIS};">{titulo}</div>'
                                   f'<div style="font-size:20px;font-weight:bold;color:{NEGRO};margin-top:2px;">{valor}</div></td>')
@@ -478,13 +477,15 @@ def armar_html(r, dia, logo_src, prueba=None):
     if prueba:
         banda = (f'<tr><td style="padding:10px 12px;background:#FFF4CC;border:1px solid #E8C547;font-family:{FUENTE};'
                  f'font-size:13px;color:#5F4B00;"><b>PRUEBA</b> · {prueba}</td></tr><tr><td height="12"></td></tr>')
-    nota = (f'<p style="margin:0 0 6px 0;">Las hectáreas son aproximadas, calculadas por GPS dentro de cada cuartel.'
-            f'{" El trabajo sin cuartel definido es un aproximado." if r["sin_geocerca"] > 0 else ""}</p>'
+    nota = (f'<p style="margin:0 0 6px 0;"><b>Valores aproximados por GPS; el total final se revisa manualmente.</b></p>'
+            f'<p style="margin:0 0 6px 0;"><b>Máquinas</b>: lo trabajado el día {fecha_trabajada(dia)} por cada máquina; las hectáreas se calculan '
+            f'con el GPS dentro de cada cuartel.{" El trabajo sin cuartel definido es un aproximado." if r["sin_geocerca"] > 0 else ""}</p>'
             f'<p style="margin:0 0 6px 0;"><b>Inicio</b> y <b>término</b>: primer encendido y último apagado del motor '
             f'dentro del campo (sus cuarteles y alrededores). <b>Horas encendido</b>: tiempo con el motor encendido dentro del campo; '
             f'no cuenta el traslado ni lo hecho en otros lugares.</p>'
             + (f'<p style="margin:0 0 6px 0;">"aprox. (GPS)": horas en movimiento según el GPS, porque el contador del motor de esa máquina no fue confiable ese día.</p>' if aprox else "")
-            + f'<p style="margin:0;">Avance: acumulado de la temporada en esa labor, sumando todas las máquinas sin repetir hileras.</p>')
+            + f'<p style="margin:0;"><b>Detalle por cuartel</b>: total trabajado en la temporada en esa labor hasta ese día, sumando todas las '
+              f'máquinas sin repetir hileras, y su avance sobre la superficie del cuartel.</p>')
     cliente_txt = escape(cli.get("cliente") or r["campo"])
     return f"""<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reporte diario C&amp;H</title></head>
@@ -495,7 +496,10 @@ def armar_html(r, dia, logo_src, prueba=None):
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
 {banda}
 <tr><td style="padding:0 0 12px 0;"><img src="{logo_src}" alt="C&amp;H Cosecha Mecanizada" width="150" style="display:block;width:150px;height:auto;border:0;"></td></tr>
-<tr><td style="font-family:{FUENTE};font-size:20px;font-weight:bold;color:{NEGRO};padding:4px 0 2px 0;">Reporte diario de trabajo</td></tr>
+<tr><td style="font-family:{FUENTE};font-size:20px;font-weight:bold;color:{NEGRO};padding:4px 0 8px 0;">Reporte diario de trabajo</td></tr>
+<tr><td style="padding:0 0 12px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+<td style="padding:10px 12px;background:#EFEFEF;border:1px solid #D6D6D6;border-radius:6px;font-family:{FUENTE};font-size:13px;color:{NEGRO};line-height:1.5;">
+<b>Reporte diario aproximado.</b> Las horas y hectáreas de este reporte se calculan automáticamente con el GPS de las máquinas y sirven solo como referencia del avance. El total final de cada cuartel se revisa y calcula manualmente al terminar el trabajo, y ese es el valor que se usa para la facturación.</td></tr></table></td></tr>
 <tr><td style="font-family:{FUENTE};font-size:14px;color:{NEGRO};line-height:1.6;padding:0 0 12px 0;">
 <b>Cliente:</b> {cliente_txt} · <b>Campo:</b> {escape(r["campo"])}<br>
 <b>Fecha trabajada:</b> {fecha_trabajada(dia)} · <b>Labor:</b> {escape(labores)}</td></tr>
@@ -506,8 +510,8 @@ def armar_html(r, dia, logo_src, prueba=None):
 <tr><td>{tabla(["Máquina", "Operador", "Inicio", "Término", "Horas<br>encend.", "Ha<br>aprox."], filas_m,
               ["left", "left", "center", "center", "right", "right"])}</td></tr>
 <tr><td style="font-family:{FUENTE};font-size:16px;font-weight:bold;color:{NEGRO};padding:18px 0 8px 0;">Detalle por cuartel</td></tr>
-<tr><td>{tabla(["Cuartel", "Sup.<br>(ha)", "Trabajado ayer<br>por máquina", "Ayer<br>(ha)", "Total<br>acum. (ha)", "Avance"], filas_c,
-              ["left", "right", "left", "right", "right", "right"], total_c)}</td></tr>
+<tr><td>{tabla(["Cuartel", "Superficie<br>(ha)", "Total trabajado<br>(ha)", "Avance"], filas_c,
+              ["left", "right", "right", "right"], total_c)}</td></tr>
 <tr><td style="font-family:{FUENTE};font-size:12px;color:{GRIS};line-height:1.5;padding:16px 0 4px 0;">{nota}</td></tr>
 <tr><td style="font-family:{FUENTE};font-size:12px;color:{GRIS};padding:10px 0 4px 0;border-top:1px solid {BORDE};">
 C&amp;H Cosecha Mecanizada · <a href="https://www.cosechamecanizada.cl" style="color:{GRIS};">www.cosechamecanizada.cl</a></td></tr>
@@ -519,6 +523,8 @@ def texto_plano(r, dia):
     ha = sum(m["ha"] + m["ha_sin"] for m in r["maquinas"].values())
     return (f"Reporte diario de trabajo C&H\nCliente: {cli.get('cliente') or r['campo']} · Campo: {r['campo']}\n"
             f"Fecha trabajada: {fecha_trabajada(dia)}\nMáquinas: {len(r['maquinas'])} · Ha aprox.: {num(ha)}\n"
+            "Reporte diario aproximado: valores calculados por GPS, solo como referencia del avance. El total final de cada "
+            "cuartel se revisa y calcula manualmente al terminar el trabajo, y ese es el valor que se usa para la facturación.\n"
             "El detalle está en la versión HTML de este correo y en el PDF adjunto.")
 
 

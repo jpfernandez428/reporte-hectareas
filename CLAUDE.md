@@ -1008,6 +1008,13 @@ defecto, envío real solo cuando el usuario diga "lánzalo".
   - Ha por máquina del 09-11 (revisado 17-nov-2026): el historial nunca cambió (SBS 4 0,92 =
     0,66 + 0,26; SBS 5 3,49 = 0,84 + 1,04 + 1,61). El "0,84 / 3,57" del mensaje del 17-nov salió
     de una copia de prueba armada a mano para la captura, no del correo.
+  - **Cambios del 17-nov-2026 (pedido del usuario)**: recuadro gris bajo el título "Reporte diario
+    de trabajo": "Reporte diario aproximado. Las horas y hectáreas … ese es el valor que se usa para
+    la facturación." (también en el texto plano). "Máquinas" igual (lo del día). "Detalle por
+    cuartel" solo con Cuartel · Superficie (ha) · Total trabajado (ha) · Avance (sin "Trabajado ayer
+    por máquina" ni "Ayer"), con "✔ Terminado" y fila Total; el trabajo sin cuartel definido sale
+    aparte con lo del día (~ha) y no suma al total. Nota al pie con "Valores aproximados por GPS; el
+    total final se revisa manualmente." 
 - **Arreglo sincronización (11-nov-2026)**:
   - Causa 1 (planilla): `alEditar` leía la celda después de esperar a `sincronizar`
     (que la redibujaba con el valor antiguo) y se rendía a los 20 s. Ahora lee lo
