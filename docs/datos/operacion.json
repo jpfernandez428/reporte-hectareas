@@ -1,5 +1,5 @@
 {
- "actualizado": "17-11-2026 09:58",
+ "actualizado": "17-11-2026 10:02",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -158,7 +158,7 @@
   },
   "Barredora 23": {
    "implemento": "",
-   "operador": "Moises",
+   "operador": "",
    "campo": "Taller",
    "desde": "",
    "destino": ""
@@ -537,12 +537,6 @@
  },
  "guardados": [
   {
-   "id": "mw27f2sfbi5xk3",
-   "recibido": "1793802038524",
-   "aplicado": 1793802079353,
-   "cambios": 2
-  },
-  {
    "id": "mw27ff62lcmm8k",
    "recibido": "1793802054587",
    "aplicado": 1793802082667,
@@ -834,6 +828,12 @@
    "id": "pmwkp7kpwdj5zq5",
    "recibido": "1794920312590",
    "aplicado": 1794920335808,
+   "cambios": 1
+  },
+  {
+   "id": "pmwkpbihkfrxwt9",
+   "recibido": "1794920496338",
+   "aplicado": 1794920523006,
    "cambios": 1
   }
  ]
