@@ -13011,8 +13011,8 @@
             "Shacker SBS 10",
             "Shacker SBS 9"
           ],
-          "trabajado_ha": 1.1334,
-          "porcentaje": 20.6,
+          "trabajado_ha": 5.1258,
+          "porcentaje": 93.2,
           "completo": false,
           "temporada": "2026"
         }
@@ -13023,7 +13023,8 @@
       "labores": {
         "Raleo": {
           "maquinas": [
-            "Shacker SBS 10"
+            "Shacker SBS 10",
+            "Shacker SBS 9"
           ],
           "trabajado_ha": 0.0,
           "porcentaje": 0.0,
@@ -13070,8 +13071,8 @@
             "Shacker SBS 10",
             "Shacker SBS 9"
           ],
-          "trabajado_ha": 0.0,
-          "porcentaje": 0.0,
+          "trabajado_ha": 2.3013,
+          "porcentaje": 21.1,
           "completo": false,
           "temporada": "2026"
         }
