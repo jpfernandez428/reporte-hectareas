@@ -969,14 +969,15 @@ defecto, envío real solo cuando el usuario diga "lánzalo".
   Fecha trabajada · Labor; totales Máquinas · Horas encendido · Ha aprox.; tabla
   por máquina (operador de D1 `/estado` al enviar; inicio = primer encendido,
   término = último apagado, horas con motor encendido —intervalos de hasta 15 min—
-  del sensor de encendido de Wialon, solo lectura; eficiencia = horas ÷ (término −
-  inicio − 1 h si la jornada es ≥ 5 h), máx. 100 %); detalle por cuartel y labor
+  del sensor de encendido de Wialon, solo lectura; **medido solo dentro del campo
+  del cliente**, ver abajo; **sin eficiencia**, ver abajo); detalle por cuartel y labor
   (superficie, ayer por máquina, ayer, acumulado de la temporada = suma del
   historial desde `temporada_inicio`, con el 95 % = área total y "✔ Terminado";
   barrido: avance de la pasada en curso); sin geocerca solo el total "aprox., sin
   cuartel definido". Logo dentro del correo (cid) y en el PDF adjunto (Chrome).
   Contador dudoso (ha con 0 h de motor, horas GPS en cuarteles > motor, > 14 h
-  seguidas): esa máquina va con horas GPS "aprox. (GPS)" y sin eficiencia.
+  seguidas): esa máquina va con horas GPS "aprox. (GPS)" (el contador dudoso
+  se revisa con el día completo de la máquina, no solo dentro del campo).
   `config.json`: `correo_clientes_envio_real: false` (prueba: todo a
   `correo_clientes_prueba` con "[PRUEBA]" y a quién le habría llegado),
   `correo_clientes_cc`. Los registros de GitHub nunca muestran correos.
@@ -987,6 +988,18 @@ defecto, envío real solo cuando el usuario diga "lánzalo".
   - Incidente: el primer intento falló (403) porque la clave de GitHub y la de
     Cloudflare no eran iguales (se generó varias veces; `pbcopy` llevaba salto de
     línea). Se creó una sola sin salto (`openssl rand -hex 32 | tr -d '\n' | pbcopy`).
+  - **Motor dentro del campo (pedido del usuario 11-nov-2026)**: inicio, término y
+    horas encendido cuentan solo mientras la máquina está en los cuarteles del campo
+    del cliente (`geocercas.json`, mismo campo por `campo_de_cuartel` o equivalencias)
+    o a menos de 150 m de su borde (`margen_zona_campo_m`), más 300 m alrededor de las
+    pasadas del trabajo sin geocerca asignado a ese campo ese día (`ZonaCampo`). Sin
+    zona (campo sin cuarteles ni pasadas) se usa el día completo. MERCOFRUT 09-11: SBS 4
+    y SBS 5 estuvieron todo el día dentro (5.619/5.619 y 3.890/3.890 mensajes), así que
+    no cambió. El registro de GitHub muestra "Zona | máquina | campo: N de M mensajes
+    dentro" y el día completo.
+  - **Sin eficiencia (pedido del usuario 17-nov-2026)**: se quitó la columna "Efic.",
+    su explicación y la regla del almuerzo (correo y PDF). Quedan Inicio, Término y
+    Horas encendido (dentro del campo). Prueba de MERCOFRUT 09-11 enviada el 17-nov.
 - **Arreglo sincronización (11-nov-2026)**:
   - Causa 1 (planilla): `alEditar` leía la celda después de esperar a `sincronizar`
     (que la redibujaba con el valor antiguo) y se rendía a los 20 s. Ahora lee lo
