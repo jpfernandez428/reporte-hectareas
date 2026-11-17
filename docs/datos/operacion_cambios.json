@@ -955,5 +955,14 @@
   "despues": "Taller",
   "id": "mwjmu6g02fr5zy",
   "origen": "App"
+ },
+ {
+  "fecha": "17-11-2026 09:58",
+  "maquina": "Shacker SBS 6",
+  "cambio": "Operador",
+  "antes": "jorge mella",
+  "despues": "",
+  "id": "pmwkp7kpwdj5zq5",
+  "origen": "Planilla"
  }
 ]
