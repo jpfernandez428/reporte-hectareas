@@ -10,7 +10,7 @@ clientes (nov-2026)").
     clave secreta CLAVE_CLIENTES). CC visible: jpfernandez@cosechamecanizada.cl.
   - Contenido: cliente, fecha, labor; totales (maquinas, horas encendido, ha
     aprox.); por maquina: operador, inicio y termino del motor (sensor de
-    encendido de Wialon, SOLO LECTURA), horas encendido, eficiencia y ha; por
+    encendido de Wialon, SOLO LECTURA), horas encendido y ha (sin eficiencia, pedido del usuario 17-nov-2026); por
     cuartel: superficie, ayer por maquina, ayer, acumulado de la temporada y
     avance; trabajo sin geocerca solo como total aproximado.
   - Mismo contenido en PDF adjunto. Logo de CYH arriba a la izquierda.
@@ -47,10 +47,6 @@ WORKER = re.sub(r"/confirmar/?$", "", rh.CONFIG.get("url_confirmaciones", "https
 RUTA_LOGO = os.path.join(rh.CARPETA_BASE, "docs", "Logo_CYH.png")
 CARPETA_SALIDA = os.path.join(rh.CARPETA_BASE, "salida_correo", "clientes")
 
-# Eficiencia: horas encendido / (termino - inicio - almuerzo). El almuerzo (1 h) se
-# resta solo si la jornada es de 5 h o mas. Maximo 100 %.
-HORAS_ALMUERZO = rh.CONFIG.get("horas_almuerzo_cliente", 1.0)
-JORNADA_CON_ALMUERZO_H = rh.CONFIG.get("jornada_con_almuerzo_h", 5.0)
 # Contador de motor dudoso: mas de esto encendido sin parar.
 MAX_HORAS_SEGUIDAS = rh.CONFIG.get("max_horas_motor_seguidas", 14.0)
 HUECO_MAXIMO_S = 900   # entre dos mensajes; mas que esto no cuenta como encendido
@@ -250,15 +246,6 @@ def motor_del_dia(sid, unit_id, dia, zona=None):
     return _contar_motor(vals) if vals else None
 
 
-def eficiencia(m):
-    if not m or not m["inicio"] or not m["termino"] or not m["horas"]:
-        return None
-    jornada = (m["termino"] - m["inicio"]) / 3600
-    if jornada >= JORNADA_CON_ALMUERZO_H:
-        jornada -= HORAS_ALMUERZO
-    return min(1.0, m["horas"] / jornada) if jornada > 0 else None
-
-
 # ---------------------------------------------------------------------------
 # Armado de los reportes del dia
 # ---------------------------------------------------------------------------
@@ -382,7 +369,7 @@ def reportes_del_dia(dia, sid=None, solo_campo=None):
                 razones.append(f"horas en movimiento por GPS ({horas_txt(gps_h)}) mayores que las de motor ({horas_txt(mot_dia['horas'])})")
             if mot_dia and mot_dia["seguidas_max"] > MAX_HORAS_SEGUIDAS:
                 razones.append(f"motor encendido {horas_txt(mot_dia['seguidas_max'])} seguidas (más de {MAX_HORAS_SEGUIDAS:.0f} h)")
-            m.update({"motor": mot, "gps_h": gps_h, "dudoso": razones, "eficiencia": None if razones else eficiencia(mot),
+            m.update({"motor": mot, "gps_h": gps_h, "dudoso": razones,
                       "operador": ((oper.get(nombre) or {}).get("operador") or "").strip(),
                       "campo_operacion": ((oper.get(nombre) or {}).get("campo") or "").strip()})
             for z in razones:
@@ -445,14 +432,12 @@ def armar_html(r, dia, logo_src, prueba=None):
         if m["dudoso"]:
             h, aprox = m["gps_h"], True
             filas_m.append({"celdas": [escape(nombre), escape(m["operador"]) or "–", "–", "–",
-                                       f'{horas_txt(h)} <span style="color:{GRIS};font-size:11px;">aprox. (GPS)</span>', "–",
+                                       f'{horas_txt(h)} <span style="color:{GRIS};font-size:11px;">aprox. (GPS)</span>',
                                        num(m["ha"] + m["ha_sin"])]})
         else:
             h = mot["horas"] if mot else 0
-            ef = m["eficiencia"]
             filas_m.append({"celdas": [escape(nombre), escape(m["operador"]) or "–", hora_txt(mot and mot["inicio"]),
-                                       hora_txt(mot and mot["termino"]), horas_txt(h),
-                                       f"{rc.num(ef * 100, 0)} %" if ef is not None else "–", num(m["ha"] + m["ha_sin"])]})
+                                       hora_txt(mot and mot["termino"]), horas_txt(h), num(m["ha"] + m["ha_sin"])]})
         horas_total += h or 0
     filas_c = []
     sum_area = sum_ayer = sum_acum = 0.0
@@ -480,8 +465,7 @@ def armar_html(r, dia, logo_src, prueba=None):
             f'{" El trabajo sin cuartel definido es un aproximado." if r["sin_geocerca"] > 0 else ""}</p>'
             f'<p style="margin:0 0 6px 0;"><b>Inicio</b> y <b>término</b>: primer encendido y último apagado del motor '
             f'dentro del campo (sus cuarteles y alrededores). <b>Horas encendido</b>: tiempo con el motor encendido dentro del campo; '
-            f'no cuenta el traslado ni lo hecho en otros lugares. <b>Eficiencia</b>: horas encendido ÷ (término − inicio − 1 h de almuerzo; '
-            f'el almuerzo se descuenta en jornadas de 5 h o más), con un máximo de 100 %.</p>'
+            f'no cuenta el traslado ni lo hecho en otros lugares.</p>'
             + (f'<p style="margin:0 0 6px 0;">"aprox. (GPS)": horas en movimiento según el GPS, porque el contador del motor de esa máquina no fue confiable ese día.</p>' if aprox else "")
             + f'<p style="margin:0;">Avance: acumulado de la temporada en esa labor, sumando todas las máquinas sin repetir hileras.</p>')
     cliente_txt = escape(cli.get("cliente") or r["campo"])
@@ -502,8 +486,8 @@ def armar_html(r, dia, logo_src, prueba=None):
 {caja("Máquinas", len(maquinas))}{caja("Horas encendido", horas_txt(horas_total) + (' <span style="font-size:12px;font-weight:normal;">aprox.</span>' if aprox else ""))}{caja("Ha aprox.", num(ha_total))}
 </tr></table></td></tr>
 <tr><td style="font-family:{FUENTE};font-size:16px;font-weight:bold;color:{NEGRO};padding:18px 0 8px 0;">Máquinas</td></tr>
-<tr><td>{tabla(["Máquina", "Operador", "Inicio", "Término", "Horas<br>encend.", "Efic.", "Ha<br>aprox."], filas_m,
-              ["left", "left", "center", "center", "right", "right", "right"])}</td></tr>
+<tr><td>{tabla(["Máquina", "Operador", "Inicio", "Término", "Horas<br>encend.", "Ha<br>aprox."], filas_m,
+              ["left", "left", "center", "center", "right", "right"])}</td></tr>
 <tr><td style="font-family:{FUENTE};font-size:16px;font-weight:bold;color:{NEGRO};padding:18px 0 8px 0;">Detalle por cuartel</td></tr>
 <tr><td>{tabla(["Cuartel", "Sup.<br>(ha)", "Trabajado ayer<br>por máquina", "Ayer<br>(ha)", "Total<br>acum. (ha)", "Avance"], filas_c,
               ["left", "right", "left", "right", "right", "right"], total_c)}</td></tr>
@@ -583,7 +567,7 @@ def enviar_reportes(dia, solo_campo=None, real=None):
             mot = m["motor"]
             print(f"  Maquina | {nombre} | operador: {'sí' if m['operador'] else 'no'} | motor: "
                   + (f"{hora_txt(mot['inicio'])}-{hora_txt(mot['termino'])}, {horas_txt(mot['horas'])} h" if mot else "sin datos")
-                  + f" | GPS {horas_txt(m['gps_h'])} h | eficiencia: {'–' if m['eficiencia'] is None else round(m['eficiencia'] * 100)}"
+                  + f" | GPS {horas_txt(m['gps_h'])} h"
                   + " | dia completo: " + (f"{hora_txt(m['motor_dia']['inicio'])}-{hora_txt(m['motor_dia']['termino'])}, {horas_txt(m['motor_dia']['horas'])} h" if m.get('motor_dia') else "sin datos")
                   + (f" | DUDOSO: {'; '.join(m['dudoso'])}" if m["dudoso"] else ""))
         for (cu, lab), c in r["cuarteles"].items():
