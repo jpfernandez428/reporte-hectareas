@@ -967,7 +967,8 @@ defecto, envío real solo cuando el usuario diga "lánzalo".
   cuartel es `rh.campo_de_cuartel` y se junta con el del cliente por nombre sin
   mayúsculas/tildes o por `equivalencias_campos`. Encabezado Cliente · Campo ·
   Fecha trabajada · Labor; totales Máquinas · Horas encendido · Ha aprox.; tabla
-  por máquina (operador de D1 `/estado` al enviar; inicio = primer encendido,
+  por máquina (operador **del día trabajado**: foto diaria `operadores.json`; solo si ese día no
+  tiene foto, el de D1 `/estado` al enviar; inicio = primer encendido,
   término = último apagado, horas con motor encendido —intervalos de hasta 15 min—
   del sensor de encendido de Wialon, solo lectura; **medido solo dentro del campo
   del cliente**, ver abajo; **sin eficiencia**, ver abajo); detalle por cuartel y labor
@@ -1000,6 +1001,13 @@ defecto, envío real solo cuando el usuario diga "lánzalo".
   - **Sin eficiencia (pedido del usuario 17-nov-2026)**: se quitó la columna "Efic.",
     su explicación y la regla del almuerzo (correo y PDF). Quedan Inicio, Término y
     Horas encendido (dentro del campo). Prueba de MERCOFRUT 09-11 enviada el 17-nov.
+  - **Operador del día (pedido del usuario 17-nov-2026)**: el de la foto diaria de ese día
+    (`operacion_del_dia`; máquina que no sale en la foto = sin operador anotado ese día); el de
+    hoy solo si el día no tiene foto. MERCOFRUT 09-11: SBS 5 Carlos S, SBS 4 Gaston H (anotado
+    ese día en Kunako → alerta interna "campo").
+  - Ha por máquina del 09-11 (revisado 17-nov-2026): el historial nunca cambió (SBS 4 0,92 =
+    0,66 + 0,26; SBS 5 3,49 = 0,84 + 1,04 + 1,61). El "0,84 / 3,57" del mensaje del 17-nov salió
+    de una copia de prueba armada a mano para la captura, no del correo.
 - **Arreglo sincronización (11-nov-2026)**:
   - Causa 1 (planilla): `alEditar` leía la celda después de esperar a `sincronizar`
     (que la redibujaba con el valor antiguo) y se rendía a los 20 s. Ahora lee lo

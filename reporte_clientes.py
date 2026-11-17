@@ -9,7 +9,7 @@ clientes (nov-2026)").
     la app / planilla; viven SOLO en Cloudflare D1 y se piden al Worker con la
     clave secreta CLAVE_CLIENTES). CC visible: jpfernandez@cosechamecanizada.cl.
   - Contenido: cliente, fecha, labor; totales (maquinas, horas encendido, ha
-    aprox.); por maquina: operador, inicio y termino del motor (sensor de
+    aprox.); por maquina: operador (el de ese dia, foto diaria), inicio y termino del motor (sensor de
     encendido de Wialon, SOLO LECTURA), horas encendido y ha (sin eficiencia, pedido del usuario 17-nov-2026); por
     cuartel: superficie, ayer por maquina, ayer, acumulado de la temporada y
     avance; trabajo sin geocerca solo como total aproximado.
@@ -120,6 +120,23 @@ def operacion_actual():
         print(f"Operacion: sin Cloudflare ({type(e).__name__}); se usa operacion.json.")
     with open(os.path.join(rh.CARPETA_DATOS, "operacion.json"), "r", encoding="utf-8") as f:
         return json.load(f).get("maquinas", {})
+
+
+def operacion_del_dia(fecha):
+    """Operador y campo de cada maquina EL DIA TRABAJADO (pedido del usuario 17-nov-2026):
+    la foto diaria de Operacion (docs/datos/operadores.json, la ultima del dia). Si ese dia
+    tiene foto, una maquina que no sale en ella no tenia campo ni operador anotado. Solo si
+    el dia no tiene foto se usa lo anotado hoy."""
+    try:
+        with open(os.path.join(rh.CARPETA_DATOS, "operadores.json"), "r", encoding="utf-8") as f:
+            dia = json.load(f).get("dias", {}).get(fecha)
+        if dia:
+            print(f"Operadores: foto diaria del {fecha} ({len(dia)} maquinas).")
+            return dia
+    except Exception as e:
+        print(f"Operadores: no se pudo leer la foto diaria ({type(e).__name__}).")
+    print(f"Operadores: sin foto del {fecha}; se usa lo anotado hoy en Operacion.")
+    return operacion_actual()
 
 
 def leer_json(nombre, defecto):
@@ -259,7 +276,7 @@ def reportes_del_dia(dia, sid=None, solo_campo=None):
     flota = {m["nombre"]: m for m in leer_json("flota.json", {}).get("maquinas", [])}
     avance = leer_json("avance_cuarteles.json", {}).get("cuarteles", {})
     clientes = leer_clientes()
-    oper = operacion_actual()
+    oper = operacion_del_dia(fecha)
     por_clave = {}
     for c in clientes:
         for k in campos_wialon_de(c["campo"]):
