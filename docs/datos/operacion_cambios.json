@@ -973,5 +973,14 @@
   "despues": "",
   "id": "pmwkpbihkfrxwt9",
   "origen": "Planilla"
+ },
+ {
+  "fecha": "18-11-2026 00:29",
+  "maquina": "Shacker SBS 7",
+  "cambio": "Campo",
+  "antes": "Taller",
+  "despues": "La Estrella",
+  "id": "mwlkbcpatef47o",
+  "origen": "App"
  }
 ]

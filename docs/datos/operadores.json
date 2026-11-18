@@ -1307,6 +1307,38 @@
     "implemento": "PICKER R",
     "operador": "Pirincho"
    }
+  },
+  "2026-11-18": {
+   "Podadora 1": {
+    "campo": "el quillay",
+    "implemento": "ESTRELLA",
+    "operador": "Alberto"
+   },
+   "Shacker SBS 10": {
+    "campo": "La Estrella",
+    "implemento": "Shaker",
+    "operador": "Carlos S"
+   },
+   "Shacker SBS 9": {
+    "campo": "La Estrella",
+    "implemento": "Shaker",
+    "operador": "Gaston H"
+   },
+   "Tractor 16 Kubota 108": {
+    "campo": "Alto Calibre",
+    "implemento": "PICKER R",
+    "operador": "Jonathan"
+   },
+   "Tractor 17 Kubota 108": {
+    "campo": "Alto Calibre",
+    "implemento": "PICKER R",
+    "operador": "Beño"
+   },
+   "Tractor 8 Kubota 108": {
+    "campo": "el quillay",
+    "implemento": "PICKER R",
+    "operador": "Pirincho"
+   }
   }
  }
 }
