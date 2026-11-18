@@ -991,5 +991,14 @@
   "despues": "Taller",
   "id": "mwlkbgsq3kmfry",
   "origen": "App"
+ },
+ {
+  "fecha": "18-11-2026 00:30",
+  "maquina": "Shacker SBS 7",
+  "cambio": "Operador",
+  "antes": "",
+  "despues": "Gaston H",
+  "id": "mwlkbnwasnhnjs",
+  "origen": "App"
  }
 ]
