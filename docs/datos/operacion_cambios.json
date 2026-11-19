@@ -1000,5 +1000,14 @@
   "despues": "Gaston H",
   "id": "mwlkbnwasnhnjs",
   "origen": "App"
+ },
+ {
+  "fecha": "19-11-2026 09:10",
+  "maquina": "Shacker SBS 10",
+  "cambio": "Próximo destino",
+  "antes": "taller",
+  "despues": "",
+  "id": "pmwnicho1xh0gri",
+  "origen": "Planilla"
  }
 ]
