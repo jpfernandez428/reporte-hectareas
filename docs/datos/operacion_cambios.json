@@ -1045,5 +1045,14 @@
   "despues": "el quillay",
   "id": "mwpqbyujtx4vbx",
   "origen": "App"
+ },
+ {
+  "fecha": "20-11-2026 22:29",
+  "maquina": "Tractor 16 Kubota 108",
+  "cambio": "Operador",
+  "antes": "Jonathan",
+  "despues": "Beño",
+  "id": "mwpqc8knqmvvw3",
+  "origen": "App"
  }
 ]

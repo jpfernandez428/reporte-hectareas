@@ -375,7 +375,7 @@
   },
   "Tractor 16 Kubota 108": {
    "implemento": "PICKER R",
-   "operador": "Jonathan",
+   "operador": "Beño",
    "campo": "el quillay",
    "desde": "",
    "destino": ""
@@ -536,12 +536,6 @@
   }
  },
  "guardados": [
-  {
-   "id": "mw3i0m6p423vjg",
-   "recibido": "1793880305578",
-   "aplicado": 1793880333648,
-   "cambios": 0
-  },
   {
    "id": "mw3i119go9tu7g",
    "recibido": "1793880325150",
@@ -834,6 +828,12 @@
    "id": "mwpqbyujtx4vbx",
    "recibido": "1795224527780",
    "aplicado": 1795224555383,
+   "cambios": 1
+  },
+  {
+   "id": "mwpqc8knqmvvw3",
+   "recibido": "1795224540386",
+   "aplicado": 1795224569788,
    "cambios": 1
   }
  ]
