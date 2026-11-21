@@ -1009,5 +1009,23 @@
   "despues": "",
   "id": "pmwnicho1xh0gri",
   "origen": "Planilla"
+ },
+ {
+  "fecha": "20-11-2026 22:28",
+  "maquina": "Tractor 10 Deutz Fahr 115",
+  "cambio": "Operador",
+  "antes": "",
+  "despues": "jorge mella",
+  "id": "mwpqb1im5lay5j",
+  "origen": "App"
+ },
+ {
+  "fecha": "20-11-2026 22:28",
+  "maquina": "Tractor 10 Deutz Fahr 115",
+  "cambio": "Campo",
+  "antes": "ferbas",
+  "despues": "Taller",
+  "id": "mwpqb1im5lay5j",
+  "origen": "App"
  }
 ]
