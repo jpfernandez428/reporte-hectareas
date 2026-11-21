@@ -383,7 +383,7 @@
   "Tractor 17 Kubota 108": {
    "implemento": "PICKER R",
    "operador": "Beño",
-   "campo": "Alto Calibre",
+   "campo": "Taller",
    "desde": "",
    "destino": ""
   },
@@ -536,12 +536,6 @@
   }
  },
  "guardados": [
-  {
-   "id": "mw3i05t6k3u9iq",
-   "recibido": "1793880284509",
-   "aplicado": 1793880312053,
-   "cambios": 0
-  },
   {
    "id": "mw3i0dg4zemdaa",
    "recibido": "1793880294245",
@@ -835,6 +829,12 @@
    "recibido": "1795224484622",
    "aplicado": 1795224512652,
    "cambios": 2
+  },
+  {
+   "id": "mwpqb6t0h4i9ue",
+   "recibido": "1795224491444",
+   "aplicado": 1795224526685,
+   "cambios": 1
   }
  ]
 }

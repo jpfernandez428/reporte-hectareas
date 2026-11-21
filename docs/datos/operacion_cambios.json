@@ -1027,5 +1027,14 @@
   "despues": "Taller",
   "id": "mwpqb1im5lay5j",
   "origen": "App"
+ },
+ {
+  "fecha": "20-11-2026 22:28",
+  "maquina": "Tractor 17 Kubota 108",
+  "cambio": "Campo",
+  "antes": "Alto Calibre",
+  "despues": "Taller",
+  "id": "mwpqb6t0h4i9ue",
+  "origen": "App"
  }
 ]
