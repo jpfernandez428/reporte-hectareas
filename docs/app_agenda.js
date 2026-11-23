@@ -415,7 +415,8 @@
       </div><div class="msg"></div>`, col);
   }
 
-  const labores = () => [...new Set([...((V && V.unidades) || []).map(u => u.labor), ...filasTC().map(f => f.labor), 'Barrido'].filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es'));
+  // Incluye las labores de las maquinas sin GPS (una por implemento: Plantacion, Encamellonado).
+  const labores = () => [...new Set([...((V && V.unidades) || []).flatMap(u => [u.labor, ...Object.values(u.implementos || {})]), ...filasTC().map(f => f.labor), 'Barrido'].filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es'));
   const tipos = () => [...new Set(((V && V.unidades) || []).map(u => u.grupo).filter(Boolean))];
   let BORRADOR = null;
   const nuevoId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);

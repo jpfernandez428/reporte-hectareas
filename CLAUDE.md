@@ -1031,6 +1031,26 @@ defecto, envío real solo cuando el usuario diga "lánzalo".
     rojo arriba de Operación con lo que cambiarían respecto de lo guardado, y botones
     Enviar (solo esos datos, sobre lo guardado hoy) o Descartar.
 
+## Máquinas sin GPS (pedido del usuario 23-nov-2026)
+
+- `config.json` → `maquinas_sin_gps` (hoy solo **"Tractor 12 Agrotron 185"**; el
+  "Agrotron 185" de Wialon no tiene señal y sigue en "No incluir"). Implemento de
+  una lista: **Plantadora → labor "Plantación", Encamellonadora → "Encamellonado"**
+  (`rh.labor_sin_gps`).
+- NO van en `unidades` (`rh.UNIDADES`): nunca entran al cálculo de hectáreas, al
+  tablero de la flota, a las alertas (sin señal, no calza, sin geocerca) ni a las
+  sugerencias del GPS. Solo en Operación (app y planilla), la Agenda, Operadores y
+  "Campos en curso": `v2.unidades` las lleva con `sin_gps` e `implementos` (orden
+  `rh.orden_flota`: Tractor 12 entre el 11 y el 13); `v2.gps_maquinas` con estado
+  `sin_gps`; `Contexto.planilla` las carga desde `operacion.json`.
+- "Ubicación" y "Calza GPS" = **"sin GPS (manual)"** (gris). **Desde** = el día en
+  que se anota el campo (app, planilla y `operacion.py`); si queda vacío, el último
+  cambio de Campo del historial (`operadores.desde_anotado`). Así cuentan los días
+  en cada campo como las demás.
+- Agenda: término a mano (sin rendimiento); sus labores salen en la lista de labores.
+- El Worker no cambió: la planilla rechaza editar una máquina sin fila en D1, así que
+  la primera vez se guarda desde la app (la planilla avisa).
+
 ## Pendientes
 
 - **Shacker SBS 6, Rodrigo Bunster C2 y C4, 19 y 20-oct (revisado 21-oct-2026,

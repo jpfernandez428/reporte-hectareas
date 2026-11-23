@@ -114,6 +114,17 @@ LABOR_NO_INCLUIR = "No incluir"
 LABOR_CON_PASADAS = CONFIG.get("labor_con_pasadas", "Barrido")
 UNIDADES = [u for u in CONFIG["unidades"] if u.get("labor") != LABOR_NO_INCLUIR]
 LABOR_POR_MAQUINA = {u["nombre"]: u.get("labor") or "Sin labor" for u in UNIDADES}
+# Maquinas SIN GPS (pedido del usuario 23-nov-2026, ej. "Tractor 12 Agrotron 185"):
+# solo van en Operacion (app, planilla y Agenda) con operador, campo y destino a
+# mano. No tienen unidad en Wialon: nunca entran al calculo de hectareas, al
+# tablero de la flota ni a las alertas de GPS. Su labor sale del implemento.
+MAQUINAS_SIN_GPS = {m["nombre"]: m for m in CONFIG.get("maquinas_sin_gps", [])}
+
+
+def labor_sin_gps(nombre, implemento=""):
+    """Labor de una maquina sin GPS segun su implemento (Plantadora -> Plantacion)."""
+    imps = (MAQUINAS_SIN_GPS.get(nombre) or {}).get("implementos") or {}
+    return imps.get((implemento or "").strip(), "")
 # Recalculo de solo algunas labores (ej. "Poda,Picado,Barrido"): solo se bajan y
 # procesan esas maquinas; el avance, los mapas y la web se arman con la memoria
 # de todas. No se toca el panel de maquinas ni se calculan geocercas nuevas.

@@ -111,11 +111,30 @@ def estadia(ctx, maquina, campo_planilla, hasta):
     return salida
 
 
+def desde_anotado(maquina, campo):
+    """Maquina sin GPS: dia en que se anoto su campo actual en Operacion
+    (ultimo cambio de Campo en operacion_cambios.json)."""
+    try:
+        with open(os.path.join(rh.CARPETA_DATOS, "operacion_cambios.json"), "r", encoding="utf-8") as f:
+            cambios = json.load(f)
+    except Exception:
+        return ""
+    for c in reversed(cambios):
+        if c.get("maquina") == maquina and c.get("cambio") == "Campo":
+            if not pl.mismo_nombre(c.get("despues") or "", campo):
+                return ""
+            d, m, a = (c.get("fecha") or "")[:10].split("-") if len(c.get("fecha") or "") >= 10 else ("", "", "")
+            return f"{a}-{m}-{d}" if a else ""
+    return ""
+
+
 def desde_auto(ctx, maquina, campo, hasta=None):
     """"Desde" automatico: dia en que la maquina llego a su campo actual segun
     el GPS (estadia actual; solo los dias del tablero de la flota)."""
     if not campo or pl.normalizar(campo) in ("taller", "cyh"):
         return ""
+    if maquina in rh.MAQUINAS_SIN_GPS:
+        return desde_anotado(maquina, campo)
     dias = estadia(ctx, maquina, campo, hasta or ctx.fa)
     return min(dias) if dias else ""
 
@@ -244,7 +263,9 @@ def construir(ctx, oper):
             continue
         g = ctx.gps(m)
         fo = estado_maq.get(m, {})
-        if f.get("en_cyh") or g["lugar"] == "CYH":
+        if m in rh.MAQUINAS_SIN_GPS:
+            estado = "en CYH" if f.get("en_cyh") else "sin GPS (manual)"
+        elif f.get("en_cyh") or g["lugar"] == "CYH":
             estado = "en CYH"
         elif g["dias_sin_senal"] is not None and g["dias_sin_senal"] >= 1:
             estado = "sin señal"

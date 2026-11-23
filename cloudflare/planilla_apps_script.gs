@@ -197,6 +197,13 @@ function procesarEdicion(ed, avisar) {
   const est = estadoGuardado();
   if (!est) { encolarEdicion(ed); return aviso('No se pudo leer la app: tu cambio quedó en cola y se enviará solo.'); }
   const filaDeMaquina = ed.maquinas.map(m => !!est.maquinas[m]);
+  const info = infoGuardada() || construirInfo(), sinGps = info.sinGps || {};
+  const nueva = ed.maquinas.find(m => sinGps[m] && !est.maquinas[m]);
+  if (nueva) {
+    dibujar(est);
+    if (avisar) aviso(`${nueva} es nueva: guárdala una vez desde la app (por ejemplo, elige su implemento) y después se puede editar aquí.`, 15);
+    return;
+  }
   // Títulos de grupo y columnas de solo lectura: se vuelve a dibujar (se deshace lo editado).
   if (filaDeMaquina.some(x => !x) || SOLO_LECTURA_OP.some(c => c >= ed.c0 && c < ed.c0 + ed.nc)) {
     dibujar(est);
@@ -214,7 +221,9 @@ function procesarEdicion(ed, avisar) {
       if (k === 'operador' || k === 'campo') v = revisarNombre(m, k, v, listas[k], sug, avisos);
       cambios.push({ maquina: m, k: k, valor: v });
       // Cambiar de campo deja el "Desde" en automático (llegada al campo según el GPS), como en la app.
-      if (k === 'campo' && v !== String(est.maquinas[m].campo || '').trim()) cambios.push({ maquina: m, k: 'desde', valor: '' });
+      // Sin GPS no hay automático: el "Desde" es hoy (el día en que se anota el campo).
+      if (k === 'campo' && v !== String(est.maquinas[m].campo || '').trim())
+        cambios.push({ maquina: m, k: 'desde', valor: sinGps[m] && v && !esTaller(v) ? hoyChile() : '' });
     }
   }
   guardarSugerencias(sug);
@@ -470,7 +479,7 @@ function dibujar(est) {
   const notas = marcarSugerencias(v);
   const h = hoja(HOJA_OP, ENCABEZADO_OP);
   const p = PropertiesService.getScriptProperties();
-  const firma = Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, JSON.stringify([v.valores, v.tipos, notas]), Utilities.Charset.UTF_8));
+  const firma = Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, JSON.stringify([v.valores, v.tipos, notas, info.sinGps || {}]), Utilities.Charset.UTF_8));
   const n = v.valores.length, total = Math.max(h.getMaxRows() - 1, n);
   if (p.getProperty('VISTA') === firma && h.getLastRow() === n + 1 && sinCambiosAMano(h, v)) return;
   if (h.getMaxRows() < n + 1) h.insertRowsAfter(h.getMaxRows(), n + 1 - h.getMaxRows());
@@ -484,6 +493,12 @@ function dibujar(est) {
   const listas = hoja(HOJA_LISTAS, ['Operadores', 'Campos']);
   const rOp = regla(listas, 1), rCampo = regla(listas, 2);
   h.getRange(2, 3, n, 2).setDataValidations(v.tipos.map(t => t === 'maquina' ? [rOp, rCampo] : [null, null]));
+  // Implemento de las máquinas sin GPS: lista fija (Plantadora / Encamellonadora).
+  const imps = info.sinGps || {};
+  v.valores.forEach((f, i) => {
+    if (v.tipos[i] !== 'maquina' || !(imps[f[0]] || []).length) return;
+    h.getRange(i + 2, 2).setDataValidation(SpreadsheetApp.newDataValidation().requireValueInList(imps[f[0]], true).setAllowInvalid(false).build());
+  });
   v.tipos.forEach((t, i) => {
     if (t !== 'tituloOp' && t !== 'tituloResto') return;
     h.getRange(i + 2, 1, 1, NCOL).merge().setFontSize(11).setVerticalAlignment('middle');
@@ -760,12 +775,17 @@ function infoDesde(v2, campos, vivo, patio, ahora) {
     delete g.lat; delete g.lon;
   });
   Object.values(gps).forEach(g => { delete g.lat; delete g.lon; });
-  return { orden: (v2.unidades || []).map(u => [u.maquina, u.grupo]), gps: gps,
+  // Máquinas sin GPS (ej. Tractor 12 Agrotron 185): {máquina: [implementos]}.
+  const sinGps = {};
+  (v2.unidades || []).forEach(u => { if (u.sin_gps) sinGps[u.maquina] = Object.keys(u.implementos || {}); });
+  return { orden: (v2.unidades || []).map(u => [u.maquina, u.grupo]), gps: gps, sinGps: sinGps,
            nombres: campos.nombres_lista || {}, eq: campos.equivalencias || {} };
 }
 
 // Devuelve las filas de la hoja (desde la fila 2) con sus colores y el tipo de cada fila.
 function armarVista(maquinas, agenda, info, hoy) {
+  maquinas = Object.assign({}, maquinas);
+  Object.keys(info.sinGps || {}).forEach(m => { if (!maquinas[m]) maquinas[m] = {}; });  // sin fila guardada aún
   const tipoDe = {};
   info.orden.forEach(([m, t], i) => { tipoDe[m] = [t, i]; });
   const lista = Object.keys(maquinas).sort((a, b) => {
@@ -783,8 +803,9 @@ function armarVista(maquinas, agenda, info, hoy) {
     Array(NCOL).fill('#1f1f1f'), Array(NCOL).fill('bold'), tipo);
   const maquina = m => {
     const d = maquinas[m], g = info.gps[m];
-    const calza = calzaGps(d.campo, g, info);
-    const valores = [m, d.implemento || '', d.operador || '', d.campo || '', ubicacion(g, info),
+    const manual = !!(info.sinGps || {})[m];
+    const calza = manual ? SIN_GPS : calzaGps(d.campo, g, info);
+    const valores = [m, d.implemento || '', d.operador || '', d.campo || '', manual ? SIN_GPS : ubicacion(g, info),
                      fechaChile(terminoAgenda(d.campo, agenda, info, hoy)), d.destino || '', calza];
     const fondos = valores.map((_, j) => SOLO_LECTURA_OP.indexOf(j + 1) >= 0 ? COLOR.soloLectura : '#ffffff');
     const colores = valores.map((_, j) => j === 7 ? colorCalza(calza) : SOLO_LECTURA_OP.indexOf(j + 1) >= 0 && j ? COLOR.textoGris : '#1f1f1f');
@@ -810,7 +831,8 @@ function calzaGps(campo, g, info) {
   if (g.cercano && g.cercano[1] < 2 && calzaCampo(campo, g.cercano[0], info)) return '✅ calza';
   return '⚠ sin geocerca';
 }
-const colorCalza = t => /^✅/.test(t) ? COLOR.bien : /^❌/.test(t) ? COLOR.mal : COLOR.ojo;
+const SIN_GPS = 'sin GPS (manual)';
+const colorCalza = t => t === SIN_GPS ? COLOR.textoGris : /^✅/.test(t) ? COLOR.bien : /^❌/.test(t) ? COLOR.mal : COLOR.ojo;
 
 // Comuna o lugar según el GPS: "CYH", el campo (si está dentro de una geocerca) o la comuna.
 function ubicacion(g, info) {

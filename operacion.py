@@ -61,7 +61,7 @@ def escribir(ruta, datos):
 
 def activas():
     """Maquinas activas en el orden fijo de la flota (sin las "No incluir")."""
-    return sorted((u["nombre"] for u in rh.UNIDADES), key=rh.orden_flota)
+    return sorted([u["nombre"] for u in rh.UNIDADES] + list(rh.MAQUINAS_SIN_GPS), key=rh.orden_flota)
 
 
 def cargar_desde_drive():
@@ -137,6 +137,10 @@ def guardar(cambios_json, id_guardado="", recibido=""):
         # sin fecha nueva: vuelve a automatico.
         if nuevo["campo"] != fila.get("campo") and nuevo["desde"] == fila.get("desde"):
             nuevo["desde"] = ""
+        # Sin GPS no hay "Desde" automatico: es el dia en que se anota el campo (se corrige a mano).
+        if m in rh.MAQUINAS_SIN_GPS and nuevo["campo"] != fila.get("campo") and not nuevo["desde"] \
+                and nuevo["campo"] and not pl.es_taller(nuevo["campo"]):
+            nuevo["desde"] = datetime.now(rh.ZONA_HORARIA).date().isoformat()
         for k in CAMPOS_FILA:
             if nuevo[k] != (fila.get(k) or ""):
                 antes, despues = fila.get(k) or "", nuevo[k]

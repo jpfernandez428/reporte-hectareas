@@ -1085,7 +1085,7 @@ def datos_campos_en_curso(ayer):
             labor = max(recientes, key=lambda t: t["detalle"][0]["fecha"])["labor"]
         else:
             u = ctx.unidades.get(m)
-            labor = rv.labor_visible(rh.labor_efectiva(u, fa, None), fa) if u else ""
+            labor = rv.labor_visible(rh.labor_efectiva(u, fa, None), fa) if u else rh.labor_sin_gps(m, p.get("implemento"))
         f = fila(g, labor)
         f["maquinas"].add(m)
         d = p.get("desde") or desde_auto.get(m)

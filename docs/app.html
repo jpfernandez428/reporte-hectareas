@@ -58,10 +58,10 @@
   .maq-item .nom { flex: 1; min-width: 0; }
   .maq-item .nom small { display: block; color: var(--gris); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .punto { flex: none; width: 10px; height: 10px; border-radius: 50%; }
-  .p-ok { background: #2e9e4f; } .p-sin_geocerca { background: #e0a800; } .p-confirmar { background: var(--rojo); } .p-sin_senal { background: #9aa39d; }
+  .p-ok { background: #2e9e4f; } .p-sin_geocerca { background: #e0a800; } .p-confirmar { background: var(--rojo); } .p-sin_senal { background: #9aa39d; } .p-sin_gps { background: #fff; border: 2px solid #9aa39d; box-sizing: border-box; }
   .marca { display: inline-block; padding: 1px 7px; border-radius: 9px; font-size: 12px; font-weight: 700; }
   .m-ok { background: #e3f2e6; color: #1f6b34; } .m-sin_geocerca { background: #fff4cc; color: #8a6a00; }
-  .m-confirmar { background: #fdecea; color: #b3261e; } .m-sin_senal { background: #eceeed; color: #5d6660; }
+  .m-confirmar { background: #fdecea; color: #b3261e; } .m-sin_senal { background: #eceeed; color: #5d6660; } .m-sin_gps { background: #eceeed; color: #5d6660; font-weight: 600; }
   .sinc { display: inline-block; margin-top: 3px; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 9px; white-space: nowrap; }
   .sinc-pend { background: var(--azul-f); color: #1d4f91; } .sinc-ok { background: #e3f2e6; color: #1f6b34; }
   .sinc-mal { background: var(--rojo); color: #fff; } .sinc-lento { background: #fff4cc; color: #8a6a00; }
@@ -245,7 +245,31 @@ function nombreCampo(c) {
 }
 const equivalenciaDe = c => (Object.entries(CAMPOS.equivalencias || {}).find(([k]) => clave(k) === clave(c)) || [null, []])[1];
 const equivalentes = c => Object.keys(CAMPOS.equivalencias || {}).filter(k => (CAMPOS.equivalencias[k] || []).includes(c));
-const desdeAuto = m => (V && V.desde_auto && V.desde_auto[m]) || '';
+// Maquinas SIN GPS (pedido del usuario 23-nov-2026, ej. Tractor 12 Agrotron 185): operador,
+// campo y destino a mano; implemento de una lista (Plantadora / Encamellonadora) que define la
+// labor. Nunca sugerencias ni alertas del GPS. "Desde" = dia en que se anoto el campo.
+const unidadSinGps = m => V && V.unidades && V.unidades.find(u => u.maquina === m && u.sin_gps);
+const sinGps = m => !!unidadSinGps(m);
+const implementosDe = m => Object.keys((unidadSinGps(m) || {}).implementos || {});
+const SIN_GPS = { estado: 'sin_gps', texto: 'sin GPS (manual)', gps: '', lugar: null, sin_gps: true };
+const hoyIso = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Santiago' }).format(new Date());
+// Sin GPS y sin "Desde" guardado: el ultimo cambio de Campo del historial (si es el campo actual).
+function desdeAnotado(m) {
+  const v = valorDe(m), c = CAMBIOS_D1.find(x => x.maquina === m && x.cambio === 'Campo');  // el mas reciente primero
+  if (!c || !v.campo || clave(c.despues) !== clave(v.campo)) return '';
+  const [d, mm, a] = String(c.fecha).slice(0, 10).split('-');
+  return a ? `${a}-${mm}-${d}` : '';
+}
+const desdeAuto = m => sinGps(m) ? ((V && V.desde_auto && V.desde_auto[m]) || desdeAnotado(m)) : ((V && V.desde_auto && V.desde_auto[m]) || '');
+const diasAqui = iso => { const n = Math.round((Date.parse(hoyIso()) - Date.parse(iso)) / 864e5) + 1; return n > 0 ? `${n} día${n === 1 ? '' : 's'} aquí` : ''; };
+const textoAuto = m => sinGps(m) ? 'al anotar el campo' : 'automática (GPS)';
+// Implemento: lista fija en las maquinas sin GPS, texto libre en las demas.
+function campoImplemento(m, valor, attrs) {
+  const ops = implementosDe(m);
+  if (!ops.length) return `<input ${attrs} value="${esc(valor)}" maxlength="80">`;
+  const lista = valor && !ops.includes(valor) ? [valor, ...ops] : ops;
+  return `<select ${attrs}><option value=""${valor ? '' : ' selected'}>(elegir)</option>${lista.map(o => `<option${o === valor ? ' selected' : ''}>${esc(o)}</option>`).join('')}</select>`;
+}
 const gpsBase = m => (V && V.gps_maquinas && V.gps_maquinas[m]) || {};
 
 // ---------------------------------------------------------------------------
@@ -328,6 +352,7 @@ function horaTablero(m) {
   return f && f.ultima_conexion ? f.ultima_conexion : '';
 }
 function gpsDe(m) {
+  if (sinGps(m)) return SIN_GPS;
   const b = gpsBase(m), x = VIVO && VIVO.maquinas && VIVO.maquinas[m];
   if (!x) {
     const h = horaTablero(m);
@@ -385,7 +410,13 @@ function textoGps() {
 function pintarGps() { const el = document.getElementById('gpsBarra'); if (el) el.innerHTML = textoGps(); }
 const duracion = s => s < 60 ? `${Math.round(s)} s` : `${Math.floor(s / 60)} min ${String(Math.round(s % 60)).padStart(2, '0')} s`;
 function unidades() {
-  if (V && V.unidades) return V.unidades.filter(u => OP.maquinas[u.maquina]);
+  if (V && V.unidades) {
+    return V.unidades.filter(u => {
+      // Una maquina sin GPS recien agregada aun no tiene fila guardada: parte vacia (sin campo anotado).
+      if (u.sin_gps && !OP.maquinas[u.maquina]) OP.maquinas[u.maquina] = { implemento: '', operador: '', campo: '', desde: '', destino: '' };
+      return OP.maquinas[u.maquina];
+    }).map(u => u.sin_gps ? { ...u, labor: u.implementos[valorDe(u.maquina).implemento] || '' } : u);
+  }
   return Object.keys(OP.maquinas).map(m => ({ maquina: m, labor: '', grupo: '' }));
 }
 
@@ -440,6 +471,11 @@ function marcarResultado(id, maquinas, ok, error, segundos) {
 // GitHub lo copia despues. Si Cloudflare no responde, el cambio queda en este
 // aparato ("sin enviar") y se reintenta solo cada 15 s; nunca se pierde.
 async function guardarFilas(filas, boton, alFallar) {
+  for (const f of filas) {
+    const a = OP.maquinas[f.maquina] || {};
+    if (sinGps(f.maquina) && f.campo !== (a.campo || '') && (!f.desde || f.desde === (a.desde || '')))
+      f.desde = f.campo && !esTaller(f.campo) ? hoyIso() : '';
+  }
   const id = (Date.now().toString(36) + Math.random().toString(36).slice(2, 8)).toLowerCase();
   const base = Object.fromEntries(filas.map(f => [f.maquina, { ...(OP.maquinas[f.maquina] || {}) }]));
   const p = { id, t0: Date.now(), filas, base, enviado: false };
@@ -1106,7 +1142,7 @@ function vistaPorCampo() {
       const m = u.maquina, v = valorDe(m), g = gpsDe(m);
       return `<button type="button" class="maq-item${UI.sel === m ? ' sel' : ''}" data-m="${esc(m)}"><span class="punto p-${esc(g.estado || 'sin_senal')}"></span>` +
         `<span class="nom">${esc(m)}<small>${esc(v.operador || 'sin operador')}${v.implemento ? ' · ' + esc(v.implemento) : ''}</small>` +
-        `${g.traslado ? `<small>🚚 ${esc(g.gps)}</small>` : g.lugar === 'fuera de geocercas' && g.lat != null ? `<small>📍 ${esc([g.comuna, ...(g.cercanos || []).slice(0, 1).map(c => kmTxt(c.km) + ' ' + nombreCampo(campoDeLugar(c.campo))), g.hora].filter(Boolean).join(' · '))}</small>` : ''}${estadoSinc(m)}</span></button>`;
+        `${g.sin_gps ? `<small>📍 sin GPS (manual)${(v.desde || desdeAuto(m)) && !taller ? ' · ' + diasAqui(v.desde || desdeAuto(m)) : ''}</small>` : g.traslado ? `<small>🚚 ${esc(g.gps)}</small>` : g.lugar === 'fuera de geocercas' && g.lat != null ? `<small>📍 ${esc([g.comuna, ...(g.cercanos || []).slice(0, 1).map(c => kmTxt(c.km) + ' ' + nombreCampo(campoDeLugar(c.campo))), g.hora].filter(Boolean).join(' · '))}</small>` : ''}${estadoSinc(m)}</span></button>`;
     }).join('');
     // Taller y "sin campo" van plegados (son largos); se abren solos al buscar o si hay algo sincronizando.
     const plegar = k.startsWith('~') && !UI.q.trim() && !ocultando() && !us.some(u => pendienteDe(u.maquina) || resultadoDe(u.maquina));
@@ -1129,9 +1165,9 @@ function panelMaquina(m) {
     </div>
     <div class="dato"><span>Campo</span><b>${esc(v.campo ? nombreCampo(v.campo) : '(sin anotar)')}</b></div>
     <div class="dato"><span>Operador</span><b>${esc(v.operador || '(sin operador)')}</b></div>
-    ${taller ? '' : `<div class="dato"><span>Desde</span><span><input type="date" id="dato-desde" value="${esc(v.desde || auto)}" onchange="guardarDato('${esc(m)}', 'desde', this)"><br><span class="desde-txt">${v.desde ? 'puesta a mano' : (auto ? 'automática (GPS)' : 'sin dato del GPS')}</span></span></div>`}
+    ${taller ? '' : `<div class="dato"><span>Desde</span><span><input type="date" id="dato-desde" value="${esc(v.desde || auto)}" onchange="guardarDato('${esc(m)}', 'desde', this)"><br><span class="desde-txt">${v.desde ? 'puesta a mano' : (auto ? textoAuto(m) : (sinGps(m) ? 'sin dato' : 'sin dato del GPS'))}</span></span></div>`}
     <div class="dato"><span>Próximo destino</span><input id="dato-destino" value="${esc(v.destino)}" maxlength="80" onchange="guardarDato('${esc(m)}', 'destino', this)"></div>
-    <div class="dato"><span>Implemento</span><input id="dato-implemento" value="${esc(v.implemento)}" maxlength="80" onchange="guardarDato('${esc(m)}', 'implemento', this)"></div>
+    <div class="dato"><span>Implemento</span>${campoImplemento(m, v.implemento, `id="dato-implemento" onchange="guardarDato('${esc(m)}', 'implemento', this)"`)}</div>
     <div class="dato" style="display:block"><span>GPS</span><div style="margin-top:4px">${gpsChip(m)}</div><div class="nota" style="margin-top:3px">${esc(g.gps || '')}${g.lat == null && g.mapa ? ` · <a href="${esc(g.mapa)}" target="_blank" rel="noopener">Ver en el mapa</a>` : ''}</div>${ubicacionHtml(m, true)}</div>
   </div>`;
 }
@@ -1170,7 +1206,7 @@ function vistaFichas() {
       const m = u.maquina, v = valorDe(m), r = resultadoDe(m), auto = desdeAuto(m), gp = gpsDe(m);
       const clase = pendienteDe(m) ? 'guardando' : (r && !r.ok) ? 'fallo' : '';
       const enCampo = v.campo && !esTaller(v.campo);
-      const desde = enCampo ? (v.desde ? fc(v.desde) : auto ? fc(auto) + ' (automática)' : 'sin dato') : '';
+      const desde = enCampo ? (v.desde ? fc(v.desde) : auto ? fc(auto) + (sinGps(m) ? '' : ' (automática)') : 'sin dato') : '';
       const extra = [u.labor, v.implemento].filter(Boolean).join(' · ');
       html += `<div class="ficha ${clase}" data-m="${esc(m)}">
         <div class="ficha-cab"><div><div class="ficha-nom">${esc(m)}</div>${extra ? `<div class="ficha-sub">${esc(extra)}</div>` : ''}</div>${estadoSinc(m)}</div>
@@ -1179,7 +1215,7 @@ function vistaFichas() {
         ${desde || v.destino ? `<div class="ficha-linea">${desde ? `Desde <b>${esc(desde)}</b>` : ''}${desde && v.destino ? ' · ' : ''}${v.destino ? `Próximo destino <b>${esc(v.destino)}</b>` : ''}</div>` : ''}
         <div class="ficha-gps">${gpsChip(m)} <span>${esc(gp.gps || '')}</span></div>
         <details class="ficha-mas"${FICHAS_ABIERTAS.has(m) ? ' open' : ''}><summary>Más datos (implemento, desde, próximo destino)</summary>
-          <label>Implemento<input data-fk="implemento" value="${esc(v.implemento)}" maxlength="80"></label>
+          <label>Implemento${campoImplemento(m, v.implemento, 'data-fk="implemento"')}</label>
           <label>Desde (llegada al campo)<input data-fk="desde" type="date" value="${esc(v.desde || auto)}"></label>
           <label>Próximo destino<input data-fk="destino" value="${esc(v.destino)}" maxlength="80"></label>
           <button type="button" class="ficha-guardar" data-ficha-guardar>Guardar</button>
@@ -1222,10 +1258,10 @@ function vistaTabla() {
     const m = u.maquina, v = valorDe(m), r = resultadoDe(m), auto = desdeAuto(m);
     const clase = pendienteDe(m) ? 'guardando' : cambiada(m) ? 'cambiada' : (r && !r.ok) ? 'fallo' : '';
     html += `<tr class="fila ${clase}" data-m="${esc(m)}"><td><b>${esc(m)}</b><br><small>${esc(u.labor)}</small><br>${estadoSinc(m)}</td>
-      <td data-label="Implemento"><input data-k="implemento" value="${esc(v.implemento)}" maxlength="80"></td>
+      <td data-label="Implemento">${campoImplemento(m, v.implemento, 'data-k="implemento"')}</td>
       <td data-label="Operador">${botonElegir('operador', v.operador)}</td>
       <td data-label="Campo">${botonElegir('campo', v.campo)}</td>
-      <td data-label="Desde"><input data-k="desde" type="date" value="${esc(v.desde || auto)}"><br><span class="desde-txt">${v.campo && !esTaller(v.campo) ? (v.desde ? 'puesta a mano' : (auto ? 'automática (GPS)' : 'sin dato')) : ''}</span></td>
+      <td data-label="Desde"><input data-k="desde" type="date" value="${esc(v.desde || auto)}"><br><span class="desde-txt">${v.campo && !esTaller(v.campo) ? (v.desde ? 'puesta a mano' : (auto ? textoAuto(m) : 'sin dato')) : ''}</span></td>
       <td data-label="Próximo destino"><input data-k="destino" value="${esc(v.destino)}" maxlength="80"></td>
       <td data-label="GPS">${gpsChip(m)}<div class="nota" style="margin:2px 0 0">${esc(gpsDe(m).gps || '')}</div></td></tr>`;
   }
@@ -1362,7 +1398,7 @@ document.addEventListener('click', async ev => {
 });
 document.addEventListener('input', ev => {
   const el = ev.target, tr = el.closest('tr.fila');
-  if (!tr || !el.dataset.k || el.tagName !== 'INPUT') return;
+  if (!tr || !el.dataset.k || !['INPUT', 'SELECT'].includes(el.tagName)) return;
   const m = tr.dataset.m;
   editado[m] = { ...(editado[m] || {}), [el.dataset.k]: el.value.trim() };
   tr.classList.toggle('cambiada', !!cambiada(m));

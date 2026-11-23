@@ -87,8 +87,10 @@ class Contexto:
         with open(rh.RUTA_GEOCERCAS_WEB, "r", encoding="utf-8") as f:
             self.campos = sorted({CAMPO(n) for n in json.load(f)})
         self.unidades = {u["nombre"]: u for u in rh.UNIDADES}
+        # Las maquinas sin GPS (rh.MAQUINAS_SIN_GPS) van en la operacion, pero no en self.unidades:
+        # asi nunca entran al GPS, las alertas ni las hectareas.
         self.planilla = planilla if planilla is not None else pl.cargar(
-            list(self.unidades), rh.CONFIG.get("equivalencias_campos", {}))
+            list(self.unidades) + list(rh.MAQUINAS_SIN_GPS), rh.CONFIG.get("equivalencias_campos", {}))
         self.confirmadas = rh.CONFIG.get("maquinas_confirmadas", {})
         self.comunas = {}  # maquina -> comuna ya conocida (al rearmar sin Wialon)
         self.comunas_pos = {}  # "lat,lon" (2 decimales, ~1 km) -> comuna (direcciones de Wialon, solo lectura)
@@ -630,14 +632,22 @@ def datos_pagina_v2(datos, ctx, trabajo, oper):
         gps_maquinas[m]["dias_sin_senal"] = g["dias_sin_senal"]
         gps_maquinas[m]["trabajo_ayer"] = any(r["maquina"] == m and r["fecha"] == ctx.fa and r["area_trabajada_ha"] > 0 for r in ctx.historico) \
             or any(d["fecha"] == ctx.fa and (d.get("horas_geocercas") or d.get("sin_geocerca")) for d in ctx.por_maquina.get(m, {}).get("dias", []))
+    # Maquinas sin GPS: "sin GPS (manual)", sin lugar (no hay sugerencias ni alertas del GPS).
+    for m in rh.MAQUINAS_SIN_GPS:
+        gps_maquinas[m] = {"estado": "sin_gps", "texto": "sin GPS (manual)", "gps": "sin GPS (manual)", "mapa": None,
+                           "lugar": None, "dias_sin_senal": None, "trabajo_ayer": False, "sin_gps": True}
+    plan_hoy = ctx.planilla.get("maquinas", {})
+    sin_gps = [{"maquina": m, "labor": rh.labor_sin_gps(m, (plan_hoy.get(m) or {}).get("implemento")),
+                "grupo": rh.NOMBRES_GRUPOS_FLOTA[rh.orden_flota(m)[0]], "sin_gps": True,
+                "implementos": x.get("implementos") or {}} for m, x in rh.MAQUINAS_SIN_GPS.items()]
+    con_gps = [{"maquina": m, "labor": rh.labor_efectiva(ctx.unidades[m], datetime.now(ZONA).date(), (plan_hoy.get(m) or {}).get("campo")),
+                "grupo": rh.NOMBRES_GRUPOS_FLOTA[rh.orden_flota(m)[0]]} for m in ctx.unidades]
     return {
         "pagina": PAGINA,
         "gps_maquinas": gps_maquinas,
         "comunas_pos": ctx.comunas_pos,
         # Maquinas activas en el orden fijo de la flota (filas de la pagina Operacion).
-        "unidades": [{"maquina": m, "labor": rh.labor_efectiva(ctx.unidades[m], datetime.now(ZONA).date(),
-                                                               (ctx.planilla.get("maquinas", {}).get(m) or {}).get("campo")),
-                      "grupo": rh.NOMBRES_GRUPOS_FLOTA[rh.orden_flota(m)[0]]} for m in sorted(ctx.unidades, key=rh.orden_flota)],
+        "unidades": sorted(con_gps + sin_gps, key=lambda u: rh.orden_flota(u["maquina"])),
         "operacion_actualizada": ctx.planilla.get("actualizado"),
         # "Desde" automatico (llegada al campo actual segun el GPS) de cada maquina en un campo.
         "desde_auto": {m: d for m, f in ctx.planilla.get("maquinas", {}).items() if not f.get("en_cyh")
