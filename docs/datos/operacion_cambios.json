@@ -1054,5 +1054,14 @@
   "despues": "Beño",
   "id": "mwpqc8knqmvvw3",
   "origen": "App"
+ },
+ {
+  "fecha": "25-11-2026 15:59",
+  "maquina": "Shacker SBS 7",
+  "cambio": "Campo",
+  "antes": "La Estrella",
+  "despues": "Taller",
+  "id": "mwwhmcbzicjk5j",
+  "origen": "App"
  }
 ]
