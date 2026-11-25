@@ -12881,10 +12881,11 @@
             "Shacker SBS 10",
             "Shacker SBS 7"
           ],
-          "trabajado_ha": 6.6105,
-          "porcentaje": 81.8,
-          "completo": false,
-          "temporada": "2026"
+          "trabajado_ha": 8.0788,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026",
+          "fecha_completo": "2026-11-24"
         }
       }
     },
@@ -12896,8 +12897,22 @@
             "Shacker SBS 10",
             "Shacker SBS 7"
           ],
-          "trabajado_ha": 0.1456,
-          "porcentaje": 5.8,
+          "trabajado_ha": 0.1565,
+          "porcentaje": 6.2,
+          "completo": false,
+          "temporada": "2026"
+        }
+      }
+    },
+    "La Estrella 15": {
+      "area_total_ha": 1.2783,
+      "labores": {
+        "Raleo": {
+          "maquinas": [
+            "Shacker SBS 10"
+          ],
+          "trabajado_ha": 1.0473,
+          "porcentaje": 81.9,
           "completo": false,
           "temporada": "2026"
         }
@@ -12926,8 +12941,8 @@
             "Shacker SBS 10",
             "Shacker SBS 7"
           ],
-          "trabajado_ha": 2.0653,
-          "porcentaje": 40.4,
+          "trabajado_ha": 3.6417,
+          "porcentaje": 71.3,
           "completo": false,
           "temporada": "2026"
         }
