@@ -1063,5 +1063,14 @@
   "despues": "Taller",
   "id": "mwwhmcbzicjk5j",
   "origen": "App"
+ },
+ {
+  "fecha": "25-11-2026 16:00",
+  "maquina": "Shacker SBS 10",
+  "cambio": "Campo",
+  "antes": "La Estrella",
+  "despues": "Taller",
+  "id": "mwwhmeq70fjzn2",
+  "origen": "App"
  }
 ]
