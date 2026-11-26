@@ -33,6 +33,20 @@
   .nota { font-size: 12px; color: var(--gris); margin: 8px 0 0; }
   /* Barra de herramientas */
   .barra-op { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+  /* Pestanas de Operacion fijas justo bajo el menu negro en el computador, para que nunca
+     queden a medio tapar al bajar la pagina (26-nov-2026). En el celular bajan con la pagina. */
+  @media (min-width: 701px) {
+    .barra-op.pestanas { position: sticky; top: var(--alto-menu, 0px); z-index: 15; background: #f5f6f7; padding: 8px 0; margin-top: -8px; }
+  }
+  /* Tabla de Operacion e historial: la fila de titulos queda fija bajo el menu y las pestanas
+     solo si la tabla no va dentro de un recuadro con desplazamiento lateral (si va, la fila
+     quedaba corrida hacia abajo, encima del titulo del grupo y de la primera maquina). */
+  .envoltura-op { overflow-x: auto; }
+  .envoltura-op th { position: static; }
+  @media (min-width: 1000px) {
+    .envoltura-op { overflow: visible; }
+    .envoltura-op th { position: sticky; top: calc(var(--alto-menu, 0px) + var(--alto-pestanas, 0px)); z-index: 2; }
+  }
   .seg { display: inline-flex; border: 1px solid #d4d4d4; border-radius: 999px; overflow: hidden; }
   .seg button { border: 0; background: #fff; color: var(--verde); font-weight: 600; padding: 7px 13px; font-size: 13px; cursor: pointer; }
   .seg button.activo { background: var(--verde); color: #fff; }
@@ -45,7 +59,7 @@
   .filtros button.activo { background: var(--verde); color: #fff; }
   /* Por campo: tarjetas; computador con panel a la derecha */
   .op-layout { display: grid; grid-template-columns: 1fr; gap: 12px; align-items: start; }
-  @media (min-width: 1000px) { .op-layout { grid-template-columns: 1fr 360px; } .panel-lateral { position: sticky; top: calc(var(--alto-menu, 0px) + 10px); } }
+  @media (min-width: 1000px) { .op-layout { grid-template-columns: 1fr 360px; } .panel-lateral { position: sticky; top: calc(var(--alto-menu, 0px) + var(--alto-pestanas, 0px) + 10px); } }
   .campos { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
   .campo-card { background: #fff; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.08); overflow: hidden; }
   .campo-card header { padding: 9px 12px; background: var(--verde-f); display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
@@ -1267,7 +1281,7 @@ function vistaTabla() {
   }
   }
   const n = Object.keys(editado).filter(cambiada).length;
-  return `${ocultando() ? '<h2 class="tit-op">En operación</h2>' : ''}<div style="overflow-x:auto"><table class="tabla-op"><thead><tr><th>Máquina</th><th>Implemento</th><th>Operador</th><th>Campo</th><th>Desde</th><th>Próximo destino</th><th>GPS</th></tr></thead><tbody>${html || `<tr><td colspan="7" class="vacio">${ocultando() ? 'Ninguna máquina en operación.' : 'Ninguna máquina para este filtro.'}</td></tr>`}</tbody></table></div>${seccionesAbajo()}
+  return `${ocultando() ? '<h2 class="tit-op">En operación</h2>' : ''}<div class="envoltura-op"><table class="tabla-op"><thead><tr><th>Máquina</th><th>Implemento</th><th>Operador</th><th>Campo</th><th>Desde</th><th>Próximo destino</th><th>GPS</th></tr></thead><tbody>${html || `<tr><td colspan="7" class="vacio">${ocultando() ? 'Ninguna máquina en operación.' : 'Ninguna máquina para este filtro.'}</td></tr>`}</tbody></table></div>${seccionesAbajo()}
     <div style="height:70px"></div>
     <div class="barra-guardar"><button type="button" class="guardar" id="guardarTabla"${n ? '' : ' disabled'} onclick="guardarTabla(this)">${n ? `Guardar cambios (${n})` : 'Guardar cambios'}</button><span id="msg"></span></div>`;
 }
@@ -1299,7 +1313,7 @@ function historial() {
       (seg.length ? ` · mediana ${duracion(seg[Math.floor(seg.length / 2)])} · máximo ${duracion(seg[seg.length - 1])}` : '') +
       (lentos.length ? ` · <b style="color:var(--rojo)">${lentos.length} demoraron más de 10 min</b>` : '') : '<span class="nota">Todavía no hay guardados medidos.</span>'}</p>
     <input class="buscador" style="width:100%;margin-bottom:8px" type="search" placeholder="Buscar en el historial (máquina, operador, campo…)" value="${esc(UI.qHist)}" oninput="UI.qHist = this.value; document.getElementById('cuerpoHist').innerHTML = filasHistorial()">
-    <div style="overflow-x:auto"><table id="historial"><thead><tr><th>Fecha y hora</th><th>Máquina</th><th>Qué cambió</th><th>Antes → después</th><th>Origen</th><th>Quedó publicado en</th></tr></thead>
+    <div class="envoltura-op"><table id="historial"><thead><tr><th>Fecha y hora</th><th>Máquina</th><th>Qué cambió</th><th>Antes → después</th><th>Origen</th><th>Quedó publicado en</th></tr></thead>
     <tbody id="cuerpoHist">${filas || '<tr><td colspan="6" class="vacio">Sin cambios.</td></tr>'}</tbody></table></div>
     ${lentos.length ? `<div class="aviso-lento" style="margin-top:8px">⚠ En los últimos 7 días ${lentos.length} guardado${lentos.length === 1 ? '' : 's'} demoró más de 10 minutos en quedar publicado.</div>` : ''}</section>`;
 }
@@ -1327,7 +1341,7 @@ function dibujarOperacion() {
     <div class="sub" id="gpsBarra">${textoGps()}</div>
     <div id="avisoCF"></div>
     ${conflictosHtml()}
-    <div class="barra-op">
+    <div class="barra-op pestanas">
       <span class="seg">${segP('maquinas', 'Máquinas')}${segP('agenda', `Agenda${nAg ? `<span class="cuenta">${nAg}</span>` : ''}`)}${segP('sugerencias', `Sugerencias${s ? `<span class="cuenta">${s}</span>` : ''}`)}${segP('clientes', `Correos clientes${nCli ? `<span class="cuenta">${nCli}</span>` : ''}`)}</span>
       ${UI.pestana === 'maquinas' ? `<span class="seg">${segV('campo', 'Por campo')}${segV('tabla', esCelular() ? 'Lista' : 'Tabla')}</span>` : ''}
       ${UI.pestana !== 'agenda' && UI.pestana !== 'clientes' ? '<button type="button" class="boton-sec" onclick="descargarExcel()">Descargar Excel</button>' : ''}
@@ -1357,6 +1371,15 @@ function cerrarHoja() { UI.sel = null; document.getElementById('capa').innerHTML
 // Ayer y Flota se vuelven a dibujar solo si cambiaron sus datos o se entro a la
 // seccion (asi no se cierra lo desplegado); Operacion, siempre.
 let pintado = '';
+// Alto de la barra de pestanas fija (0 si no esta fija): la fila de titulos de la tabla
+// queda justo debajo de ella.
+function medirPestanas() {
+  const b = document.querySelector('.barra-op.pestanas');
+  const fija = b && getComputedStyle(b).position === 'sticky';
+  document.documentElement.style.setProperty('--alto-pestanas', (fija ? b.offsetHeight : 0) + 'px');
+}
+window.addEventListener('resize', () => medirPestanas());
+
 function dibujar() {
   const app = document.getElementById('app'), sec = seccion();
   if (sec === 'ayer' || sec === 'flota') {
@@ -1369,12 +1392,14 @@ function dibujar() {
     const modulo = sec === 'ayer' ? window.SeccionAyer : window.SeccionFlota;
     if (sec === 'ayer') modulo._full = FULL;
     app.innerHTML = modulo.html(datos);
+    medirPestanas();
     modulo.despues(app);
     return;
   }
   pintado = '';
   if (!OP) return;
   app.innerHTML = dibujarOperacion();
+  medirPestanas();
   avisoCF(false);
   // Hoja abierta en el celular: se actualiza con el estado nuevo.
   const hoja = document.querySelector('#capa .hoja');

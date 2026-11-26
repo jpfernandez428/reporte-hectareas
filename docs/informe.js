@@ -83,7 +83,7 @@ function camposDisponibles() {
 // excluidos = filas (cuartel + labor) desmarcadas en la vista previa: no cuentan
 // en ese informe (no cambia el calculo ni los datos guardados).
 const claveFila = d => [d.cuartel, d.labor, d.temporada || '', d.repaso || 0].join('||');
-function datosInforme(raices, desde, hasta, maquinas, excluidos) {
+function datosInforme(raices, desde, hasta, maquinas, excluidos, editados) {
   const pedidos = new Set(raices);
   const maq = new Set(maquinas || []);
   // Copias: el ajuste de redondeo de abajo no debe tocar los datos de la pagina.
@@ -125,7 +125,8 @@ function datosInforme(raices, desde, hasta, maquinas, excluidos) {
     const ha = filas.filter(d => mismo(d, cuartel, laborBase, temporada, repaso)).reduce((t, d) => t + d.area_trabajada_ha, 0);
     const hastaFecha = del.filter(d => d.fecha <= hasta).reduce((t, d) => t + d.area_trabajada_ha, 0);
     const labor = laborBase + (repaso !== '0' ? ` – REPASO ${repaso}` : '');
-    const c = { clave: k, campo: campoDe(cuartel).nombre, raiz: campoDe(cuartel).id, cuartel, labor, laborBase, area: area[cuartel], ha };
+    const c = { clave: k, campo: campoDe(cuartel).nombre, raiz: campoDe(cuartel).id, cuartel, labor, laborBase, area: area[cuartel], ha,
+                haOriginal: ha, hastaFecha };
     if (laborBase === 'Barrido') {
       const info = avanceCuarteles && avanceCuarteles.cuarteles[cuartel] && avanceCuarteles.cuarteles[cuartel].labores.Barrido;
       const cierres = ((info && info.cierres) || []).filter(f => f <= hasta);
@@ -147,10 +148,51 @@ function datosInforme(raices, desde, hasta, maquinas, excluidos) {
     }
     return c;
   }).sort((a, b) => ordenCuartel(a.cuartel, b.cuartel) || a.labor.localeCompare(b.labor));
+  if (editados && editados.size) aplicarEdiciones(filas, cuarteles, editados);
   if (excluidos && excluidos.size) {
     return { filas: filas.filter(d => !excluidos.has(claveFila(d))), cuarteles: cuarteles.filter(c => !excluidos.has(c.clave)) };
   }
   return { filas, cuarteles };
+}
+
+// Hectareas editadas a mano en la vista previa (pedido del usuario 26-nov-2026): solo
+// para ese informe, nunca cambian los datos guardados. editados = Map(clave -> ha).
+// - Las filas (maquina x dia) de ese cuartel + labor se escalan en proporcion a lo que
+//   hizo cada una; con 2 decimales todo cuadra exacto con el numero escrito: lo que
+//   sobre o falte va al dia con mas hectareas (a su fila mas grande).
+// - % de avance = (avance hasta la fecha "hasta" - ha calculadas del periodo + ha
+//   escritas) / area; si todo el trabajo fue en el periodo es ha escritas / area.
+//   Completo si llega al 95 %; el numero escrito manda (no se cambia por el area).
+// - Barrido: solo cambian las hectareas; el % y las pasadas siguen las del sistema.
+const r2 = v => Math.round(v * 100) / 100;
+function aplicarEdiciones(filas, cuarteles, editados) {
+  for (const c of cuarteles) {
+    if (!editados.has(c.clave)) continue;
+    const v = r2(editados.get(c.clave));
+    const propias = filas.filter(d => claveFila(d) === c.clave);
+    const suma = propias.reduce((t, d) => t + d.area_trabajada_ha, 0);
+    if (!propias.length || suma <= 0) continue;
+    for (const d of propias) d.area_trabajada_ha = r2(d.area_trabajada_ha * v / suma);
+    const dif = r2(v - propias.reduce((t, d) => t + d.area_trabajada_ha, 0));
+    if (dif !== 0) {
+      const porDia = {};
+      for (const d of propias) porDia[d.fecha] = (porDia[d.fecha] || 0) + d.area_trabajada_ha;
+      const dia = Object.keys(porDia).sort((a, b) => porDia[b] - porDia[a] || a.localeCompare(b))[0];
+      const fila = propias.filter(d => d.fecha === dia).sort((a, b) => b.area_trabajada_ha - a.area_trabajada_ha)[0];
+      fila.area_trabajada_ha = r2(fila.area_trabajada_ha + dif);
+    }
+    c.ha = v;
+    c.editado = true;
+    if (c.laborBase !== 'Barrido') {
+      c.pct = Math.min(1, Math.max(0, (c.hastaFecha - c.haOriginal + v) / c.area));
+      const eraCompleto = c.completo;
+      c.completo = c.pct >= INF_UMBRAL - 1e-9;
+      if (!c.completo) c.fechaCompleto = null;
+      else if (!eraCompleto || !c.fechaCompleto) c.fechaCompleto = propias.map(d => d.fecha).sort().pop();
+    }
+  }
+  // Filas que quedaron en 0 ha (cuartel editado a 0) no cuentan como dia ni maquina.
+  for (let i = filas.length - 1; i >= 0; i--) if (filas[i].area_trabajada_ha <= 0) filas.splice(i, 1);
 }
 
 // Area total: cada cuartel + labor cuenta una sola vez (no por temporada ni repaso).
@@ -193,9 +235,9 @@ function resumenDe(filas, cuarteles) {
 }
 
 // ---------------- Excel ----------------
-async function informeExcel(campos, desde, hasta, maquinas, excluidos) {
+async function informeExcel(campos, desde, hasta, maquinas, excluidos, editados) {
   await cargarScript(LIBS_INFORME.exceljs);
-  const { filas, cuarteles } = datosInforme(campos.map(c => c.raiz), desde, hasta, maquinas, excluidos);
+  const { filas, cuarteles } = datosInforme(campos.map(c => c.raiz), desde, hasta, maquinas, excluidos, editados);
   const wb = new ExcelJS.Workbook();
   wb.creator = 'C&H Maquinaria';
   const encabezado = { font: { bold: true, color: { argb: 'FFFFFFFF' }, size: 10 }, fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF' + INF_VERDE } },
@@ -609,7 +651,7 @@ async function logoInforme() {
 }
 
 // ---------------- PDF ----------------
-async function informePdf(campos, desde, hasta, maquinas, excluidos) {
+async function informePdf(campos, desde, hasta, maquinas, excluidos, editados) {
   await cargarScript(LIBS_INFORME.jspdf);
   await cargarScript(LIBS_INFORME.autotable);
   if (!geocercasInforme) {
@@ -617,7 +659,7 @@ async function informePdf(campos, desde, hasta, maquinas, excluidos) {
     geocercasInforme = r.ok ? await r.json() : {};
   }
   maquinas = maquinas || [];
-  const { filas, cuarteles } = datosInforme(campos.map(c => c.raiz), desde, hasta, maquinas, excluidos);
+  const { filas, cuarteles } = datosInforme(campos.map(c => c.raiz), desde, hasta, maquinas, excluidos, editados);
   // Cuarteles desmarcados en todas sus labores: en el mapa no se dibujan (quedan oscurecidos).
   const ocultos = new Set(datosInforme(campos.map(c => c.raiz), desde, hasta, maquinas).cuarteles.map(c => c.cuartel));
   for (const c of cuarteles) ocultos.delete(c.cuartel);
@@ -789,6 +831,8 @@ async function informePdf(campos, desde, hasta, maquinas, excluidos) {
 // + labor). Desmarcar una fila la saca solo de este informe (tablas, totales y
 // mapa); no se guarda en ninguna parte y al abrir el panel todas parten marcadas.
 let informeExcluidos = new Set();
+let informeEditados = new Map();   // clave (cuartel + labor) -> ha escritas a mano (solo este informe)
+let informeMsg = '';
 let informeDiasAbierto = false;
 
 function abrirInforme() {
@@ -796,6 +840,8 @@ function abrirInforme() {
   panel.hidden = !panel.hidden;
   if (panel.hidden) return;
   informeExcluidos = new Set();
+  informeEditados = new Map();
+  informeMsg = '';
   const lista = document.getElementById('informeCampos');
   if (!lista.childElementCount) {
     lista.innerHTML = camposDisponibles().map((c, i) =>
@@ -848,24 +894,33 @@ function actualizarVistaPrevia() {
     caja.innerHTML = `<div class="vp-maq">${textoMaq}</div><div class="vp-vacio">No hay trabajo registrado en esos campos, fechas y máquinas.</div>`;
     return;
   }
-  const { filas, cuarteles } = datosInforme(raices, desde, hasta, maquinas, informeExcluidos);
+  const { filas, cuarteles } = datosInforme(raices, desde, hasta, maquinas, informeExcluidos, informeEditados);
   const r = resumenDe(filas, cuarteles);
+  // Filas de la lista con los valores editados (tambien las desmarcadas) y los originales al lado.
+  const original = Object.fromEntries(todas.map(c => [c.clave, c]));
+  const vista = informeEditados.size ? datosInforme(raices, desde, hasta, maquinas, null, informeEditados).cuarteles : todas;
   const conCampo = campos.length > 1;
   const kpis = [['Hectáreas trabajadas', n2(r.total)], ['Cuarteles completos', r.completos], ['Cuarteles en proceso', cuarteles.length - r.completos],
                 ['Días trabajados', r.dias], ['Máquinas utilizadas', r.maquinas]];
   const marcadas = todas.length - todas.filter(c => informeExcluidos.has(c.clave)).length;
-  const filasHtml = todas.map(c => {
-    const fuera = informeExcluidos.has(c.clave);
-    return `<tr class="${fuera ? 'vp-fuera' : ''}">
+  const filasHtml = vista.map(c => {
+    const fuera = informeExcluidos.has(c.clave), o = original[c.clave] || c;
+    const maximo = c.laborBase === 'Barrido' ? Math.max(c.area, o.ha) : c.area;
+    const celdaHa = `<input class="vp-ha" type="text" inputmode="decimal" value="${n2(c.ha)}" data-clave="${escaparXml(c.clave)}" data-max="${maximo}"
+        data-orig="${o.ha}" onchange="editarHaInforme(this)" ${fuera ? 'disabled' : ''} aria-label="Hectáreas de ${escaparXml(c.cuartel)} en el período">` +
+      (c.editado ? `<div class="vp-orig">editado · original ${n2(o.ha)} <button type="button" data-clave="${escaparXml(c.clave)}" onclick="volverHaInforme(this.dataset.clave)">↺ Volver</button></div>` : '');
+    return `<tr class="${fuera ? 'vp-fuera' : ''}${c.editado ? ' vp-editada' : ''}">
       <td><input type="checkbox" data-clave="${escaparXml(c.clave)}" ${fuera ? '' : 'checked'} onchange="marcarFilaInforme(this)" aria-label="Incluir ${escaparXml(c.cuartel)} – ${escaparXml(c.labor)}"></td>
       ${conCampo ? `<td>${escaparXml(c.campo)}</td>` : ''}<td>${escaparXml(c.cuartel)}</td><td>${escaparXml(c.labor)}</td>
-      <td class="num">${n2(c.area)}</td><td class="num">${n2(c.ha)}</td><td class="num">${p1(c.pct)}</td>
+      <td class="num">${n2(c.area)}</td><td class="num">${celdaHa}</td><td class="num">${p1(c.pct)}</td>
       <td><span class="vp-estado ${c.completo ? 'ok' : 'proc'}">${c.completo ? 'Completo' : 'En proceso'}</span></td></tr>`;
   }).join('');
   const dias = Object.keys(r.porDia).sort();
   caja.innerHTML = `
     <div class="vp-maq">${textoMaq}</div>
     <div class="vp-kpis">${kpis.map(([k, v]) => `<div class="vp-kpi"><span>${k}</span><b>${v}</b></div>`).join('')}</div>
+    <div class="vp-ayuda">Puedes corregir las hectáreas de un cuartel escribiendo en "Ha en el período" (solo para este informe; no cambia los datos guardados).${informeEditados.size ? ` <b>${informeEditados.size} cuartel${informeEditados.size === 1 ? '' : 'es'} editado${informeEditados.size === 1 ? '' : 's'}.</b>` : ''}</div>
+    ${informeMsg ? `<div class="vp-msg" role="alert">${escaparXml(informeMsg)}</div>` : ''}
     <div class="vp-tabla"><table>
       <thead><tr><th><input type="checkbox" ${marcadas === todas.length ? 'checked' : ''} onchange="marcarTodasInforme(this.checked)" aria-label="Marcar o desmarcar todos"></th>
         ${conCampo ? '<th>Campo</th>' : ''}<th>Cuartel</th><th>Labor</th><th class="num">Área (ha)</th><th class="num">Ha en el período</th><th class="num">% avance</th><th>Estado</th></tr></thead>
@@ -880,6 +935,28 @@ function actualizarVistaPrevia() {
       <tbody>${dias.map(d => `<tr><td>${fechaCl(d)}</td>${r.labores.map(l => `<td class="num">${r.porDia[d][l] ? n2(r.porDia[d][l]) : ''}</td>`).join('')}<td class="num">${n2(Object.values(r.porDia[d]).reduce((t, v) => t + v, 0))}</td></tr>`).join('')}</tbody>
       <tfoot><tr><td>Total</td>${r.labores.map(l => `<td class="num">${n2(dias.reduce((t, d) => t + (r.porDia[d][l] || 0), 0))}</td>`).join('')}<td class="num">${n2(r.total)}</td></tr></tfoot></table>
     </details>`;
+}
+// Numero escrito: acepta "5,50", "5.50" o "1.234,5". Nunca negativo ni mas que el area.
+function leerNumeroInforme(texto) {
+  let t = String(texto || '').trim().replace(/\s/g, '');
+  if (t.includes(',')) t = t.replace(/\./g, '').replace(',', '.');
+  return t === '' || !/^-?\d*\.?\d+$/.test(t) ? NaN : Number(t);
+}
+function editarHaInforme(campo) {
+  const clave = campo.dataset.clave, maximo = Number(campo.dataset.max), orig = Number(campo.dataset.orig);
+  const v = leerNumeroInforme(campo.value);
+  informeMsg = '';
+  if (isNaN(v)) informeMsg = `"${campo.value}" no es un número. Escribe las hectáreas, por ejemplo 5,50.`;
+  else if (v < 0) informeMsg = 'No se pueden poner hectáreas negativas.';
+  else if (r2(v) > r2(maximo) + 1e-9) informeMsg = `No se puede poner más que el área del cuartel (${n2(maximo)} ha).`;
+  else if (Math.abs(r2(v) - r2(orig)) < 0.005) informeEditados.delete(clave);
+  else informeEditados.set(clave, r2(v));
+  actualizarVistaPrevia();
+}
+function volverHaInforme(clave) {
+  informeEditados.delete(clave);
+  informeMsg = '';
+  actualizarVistaPrevia();
 }
 function marcarFilaInforme(casilla) {
   if (casilla.checked) informeExcluidos.delete(casilla.dataset.clave); else informeExcluidos.add(casilla.dataset.clave);
@@ -896,7 +973,7 @@ async function generarInforme(tipo) {
   const aviso = document.getElementById('informeAviso');
   if (!campos.length) { aviso.textContent = 'Elige al menos un campo.'; return; }
   if (!desde || !hasta || desde > hasta) { aviso.textContent = 'Revisa las fechas: "desde" debe ser anterior o igual a "hasta".'; return; }
-  const { filas } = datosInforme(campos.map(c => c.raiz), desde, hasta, maquinas, informeExcluidos);
+  const { filas } = datosInforme(campos.map(c => c.raiz), desde, hasta, maquinas, informeExcluidos, informeEditados);
   if (!filas.length) {
     aviso.textContent = datosInforme(campos.map(c => c.raiz), desde, hasta, maquinas).filas.length ? 'Marca al menos un cuartel en la vista previa.'
       : maquinas.length ? 'No hay trabajo de esas máquinas en esos campos y fechas.' : 'No hay trabajo registrado en esos campos y fechas.';
@@ -904,8 +981,8 @@ async function generarInforme(tipo) {
   }
   aviso.textContent = `Generando ${tipo === 'pdf' ? 'PDF (con imagen satelital, puede tardar unos segundos)' : 'Excel'}…`;
   try {
-    if (tipo === 'pdf') await informePdf(campos, desde, hasta, maquinas, informeExcluidos);
-    else await informeExcel(campos, desde, hasta, maquinas, informeExcluidos);
+    if (tipo === 'pdf') await informePdf(campos, desde, hasta, maquinas, informeExcluidos, informeEditados);
+    else await informeExcel(campos, desde, hasta, maquinas, informeExcluidos, informeEditados);
     aviso.textContent = 'Listo: el archivo se descargó.';
   } catch (e) {
     aviso.textContent = 'No se pudo generar el informe: ' + e.message;

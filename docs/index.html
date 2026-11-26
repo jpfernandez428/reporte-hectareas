@@ -95,6 +95,15 @@
   .vista-informe .vp-dias summary { cursor: pointer; color: #2F6F3E; font-weight: bold; }
   .vista-informe .vp-dias table { width: auto; min-width: 280px; margin-top: 6px; }
   .botones-informe { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+  /* Hectareas editables en la vista previa (solo para ese informe) */
+  .vista-informe .vp-ayuda { font-size: 12px; color: #555; margin: 0 0 6px; }
+  .vista-informe .vp-msg { background: #FDECEA; color: #B3261E; border-left: 4px solid #B3261E; padding: 6px 10px; margin: 0 0 8px; font-size: 13px; font-weight: bold; }
+  .vista-informe input.vp-ha { width: 84px; text-align: right; padding: 3px 6px; font-size: 13px; border: 1px solid #C9D2CB; border-radius: 4px; background: #fff; }
+  .vista-informe input.vp-ha:disabled { background: transparent; border-color: transparent; color: inherit; }
+  .vista-informe tr.vp-editada td { background: #E8F0FE; }
+  .vista-informe tr.vp-editada input.vp-ha { border-color: #1A5FA8; font-weight: bold; color: #1A5FA8; }
+  .vista-informe .vp-orig { font-size: 11px; color: #1A5FA8; margin-top: 2px; white-space: nowrap; }
+  .vista-informe .vp-orig button { font-size: 11px; padding: 1px 6px; margin-left: 4px; border: 1px solid #1A5FA8; border-radius: 4px; background: #fff; color: #1A5FA8; cursor: pointer; }
   .pestanas { position: sticky; bottom: 0; z-index: 5; display: flex; gap: 8px; justify-content: center;
               padding: 10px 0 calc(10px + env(safe-area-inset-bottom, 0px)); margin-top: 32px;
               background: linear-gradient(to top, #f5f6f7 70%, rgba(245,246,247,0)); }
