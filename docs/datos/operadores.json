@@ -1633,6 +1633,48 @@
     "implemento": "PICKER R",
     "operador": "Pirincho"
    }
+  },
+  "2026-11-26": {
+   "Podadora 1": {
+    "campo": "el quillay",
+    "implemento": "ESTRELLA",
+    "operador": "Alberto"
+   },
+   "Shacker SBS 10": {
+    "campo": "Taller",
+    "implemento": "Shaker",
+    "operador": "Carlos S"
+   },
+   "Shacker SBS 7": {
+    "campo": "Taller",
+    "implemento": "Shaker",
+    "operador": "Gaston H"
+   },
+   "Shacker SBS 9": {
+    "campo": "Taller",
+    "implemento": "Shaker",
+    "operador": "Gaston H"
+   },
+   "Tractor 10 Deutz Fahr 115": {
+    "campo": "Taller",
+    "implemento": "ESTRELLA",
+    "operador": "jorge mella"
+   },
+   "Tractor 16 Kubota 108": {
+    "campo": "el quillay",
+    "implemento": "PICKER R",
+    "operador": "Beño"
+   },
+   "Tractor 17 Kubota 108": {
+    "campo": "Taller",
+    "implemento": "PICKER R",
+    "operador": "Beño"
+   },
+   "Tractor 8 Kubota 108": {
+    "campo": "el quillay",
+    "implemento": "PICKER R",
+    "operador": "Pirincho"
+   }
   }
  }
 }
