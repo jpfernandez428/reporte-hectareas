@@ -1,5 +1,5 @@
 {
- "actualizado": "25-11-2026 16:00",
+ "actualizado": "26-11-2026 12:43",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -173,7 +173,7 @@
   "Barredora 5497": {
    "implemento": "",
    "operador": "",
-   "campo": "Taller",
+   "campo": "Prodalmen",
    "desde": "",
    "destino": ""
   },
@@ -537,12 +537,6 @@
  },
  "guardados": [
   {
-   "id": "mw3i1dlustgusb",
-   "recibido": "1793880341169",
-   "aplicado": 1793880364730,
-   "cambios": 1
-  },
-  {
    "id": "mwastpjxlpqsrb",
    "recibido": "1794321722428",
    "aplicado": 1794321750698,
@@ -834,6 +828,12 @@
    "id": "mwwhmeq70fjzn2",
    "recibido": "1795633165796",
    "aplicado": 1795633202588,
+   "cambios": 1
+  },
+  {
+   "id": "mwxq210bc6ihep",
+   "recibido": "1795707802485",
+   "aplicado": 1795707830830,
    "cambios": 1
   }
  ]

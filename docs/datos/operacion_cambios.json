@@ -1072,5 +1072,14 @@
   "despues": "Taller",
   "id": "mwwhmeq70fjzn2",
   "origen": "App"
+ },
+ {
+  "fecha": "26-11-2026 12:43",
+  "maquina": "Barredora 5497",
+  "cambio": "Campo",
+  "antes": "Taller",
+  "despues": "Prodalmen",
+  "id": "mwxq210bc6ihep",
+  "origen": "App"
  }
 ]
