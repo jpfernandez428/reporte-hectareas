@@ -71,6 +71,30 @@
   .lista-campos { max-height: 180px; overflow-y: auto; border: 1px solid #ccc; border-radius: 6px; padding: 8px; min-width: 240px; margin-top: 4px; }
   .campo-informe { display: block; font-weight: normal; font-size: 13px; padding: 2px 0; }
   .campo-informe[hidden] { display: none; }
+  /* Vista previa del informe (desmarcar una fila la saca solo de ese informe) */
+  .vista-informe { margin-top: 14px; }
+  .vista-informe .vp-vacio { font-size: 13px; color: #666; padding: 8px 0; }
+  .vista-informe .vp-maq { font-size: 13px; color: #555; margin-bottom: 8px; }
+  .vista-informe .vp-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 10px; }
+  .vista-informe .vp-kpi { background: #EEF4EF; border-radius: 6px; padding: 8px; text-align: center; }
+  .vista-informe .vp-kpi span { display: block; font-size: 12px; color: #555; font-weight: bold; }
+  .vista-informe .vp-kpi b { display: block; font-size: 22px; color: #2F6F3E; margin-top: 2px; }
+  .vista-informe .vp-tabla { max-height: 420px; overflow: auto; border: 1px solid #D0D7D1; border-radius: 6px; }
+  .vista-informe table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .vista-informe th { background: #2F6F3E; color: #fff; padding: 5px 8px; text-align: left; position: sticky; top: 0; white-space: nowrap; }
+  .vista-informe td { padding: 4px 8px; border-bottom: 1px solid #E3E8E4; }
+  .vista-informe tfoot td { background: #DDE6DE; font-weight: bold; }
+  .vista-informe .vp-total { font-size: 13px; margin-top: 8px; color: #333; }
+  .vista-informe .num { text-align: right; white-space: nowrap; }
+  .vista-informe tr.vp-fuera td { color: #9AA19C; background: #F4F4F4; }
+  .vista-informe .vp-estado { font-weight: bold; padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+  .vista-informe .vp-estado.ok { background: #D6EFD9; color: #1F6B34; }
+  .vista-informe .vp-estado.proc { background: #FFF3C4; color: #8A6A00; }
+  .vista-informe tr.vp-fuera .vp-estado { background: none; color: #9AA19C; }
+  .vista-informe .vp-dias { margin-top: 10px; font-size: 13px; }
+  .vista-informe .vp-dias summary { cursor: pointer; color: #2F6F3E; font-weight: bold; }
+  .vista-informe .vp-dias table { width: auto; min-width: 280px; margin-top: 6px; }
+  .botones-informe { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
   .pestanas { position: sticky; bottom: 0; z-index: 5; display: flex; gap: 8px; justify-content: center;
               padding: 10px 0 calc(10px + env(safe-area-inset-bottom, 0px)); margin-top: 32px;
               background: linear-gradient(to top, #f5f6f7 70%, rgba(245,246,247,0)); }
@@ -211,24 +235,24 @@
 
 <div class="panel-informe" id="panelInforme" hidden>
   <h3>Informe para el cliente</h3>
-  <div class="nota">Elige uno o varios campos y el período. El informe incluye solo esos campos: resumen general (y uno por campo), trabajo por día, avance por cuartel, hectáreas por máquina, detalle y, en el PDF, un mapa de avance de cada campo.</div>
+  <div class="nota">Elige uno o varios campos y el período. El informe incluye solo esos campos: resumen general (y uno por campo), trabajo por día, avance por cuartel, hectáreas por máquina, detalle y, en el PDF, un mapa de avance de cada campo. Abajo se ve la vista previa: desmarca un cuartel para sacarlo solo de este informe (no cambia los datos).</div>
   <div class="fila-informe">
     <div class="campo">
       <label for="buscarCampoInforme">Campos</label>
       <input type="text" id="buscarCampoInforme" placeholder="Buscar campo" oninput="filtrarCamposInforme()">
-      <div id="informeCampos" class="lista-campos"></div>
+      <div id="informeCampos" class="lista-campos" onchange="actualizarVistaPrevia()"></div>
     </div>
     <div class="campo">
       <label for="informeDesde">Desde</label>
-      <input type="date" id="informeDesde">
+      <input type="date" id="informeDesde" onchange="actualizarVistaPrevia()">
       <label for="informeHasta" style="margin-top:8px;">Hasta</label>
-      <input type="date" id="informeHasta">
+      <input type="date" id="informeHasta" onchange="actualizarVistaPrevia()">
     </div>
-    <div class="campo">
-      <label>&nbsp;</label>
-      <button onclick="generarInforme('excel')">Descargar Excel</button>
-      <button onclick="generarInforme('pdf')" style="margin-top:8px;">Descargar PDF</button>
-    </div>
+  </div>
+  <div id="informeVistaPrevia" class="vista-informe"></div>
+  <div class="botones-informe">
+    <button onclick="generarInforme('pdf')">Generar informe PDF</button>
+    <button onclick="generarInforme('excel')">Generar informe Excel</button>
   </div>
   <div class="nota" id="informeAviso" role="status"></div>
 </div>
@@ -591,6 +615,8 @@ function maquinasSeleccionadas() {
 
 function aplicarFiltros() {
   dibujarAcotar();
+  // La vista previa del informe usa las maquinas del filtro: se actualiza si esta abierta.
+  if (typeof actualizarVistaPrevia === 'function') actualizarVistaPrevia();
   if (gruposFiltro.length > 0) {
     // Con filtros combinados, las fechas Desde/Hasta (si hay) acotan ademas el periodo.
     const desdeG = document.getElementById('filtroDesde').value;

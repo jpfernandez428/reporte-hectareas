@@ -78,9 +78,17 @@ function camposDisponibles() {
 }
 
 // Datos del informe: filas del periodo y avance por cuartel (estado al "hasta").
-function datosInforme(raices, desde, hasta) {
+// maquinas = las marcadas en el filtro de la pagina ([] = todas). El estado
+// (completo / % de avance) siempre es el del cuartel con todas las maquinas.
+// excluidos = filas (cuartel + labor) desmarcadas en la vista previa: no cuentan
+// en ese informe (no cambia el calculo ni los datos guardados).
+const claveFila = d => [d.cuartel, d.labor, d.temporada || '', d.repaso || 0].join('||');
+function datosInforme(raices, desde, hasta, maquinas, excluidos) {
   const pedidos = new Set(raices);
-  const filas = datos.filter(d => pedidos.has(campoDe(d.cuartel).id) && d.fecha >= desde && d.fecha <= hasta && d.area_trabajada_ha > 0);
+  const maq = new Set(maquinas || []);
+  // Copias: el ajuste de redondeo de abajo no debe tocar los datos de la pagina.
+  const filas = datos.filter(d => pedidos.has(campoDe(d.cuartel).id) && d.fecha >= desde && d.fecha <= hasta && d.area_trabajada_ha > 0 &&
+    (!maq.size || maq.has(d.maquina))).map(d => ({ ...d }));
   const area = {};
   for (const d of datos) area[d.cuartel] = Math.max(area[d.cuartel] || 0, d.area_total_ha);
   // Fecha en que cada cuartel + labor llego al 95 % (todas las maquinas).
@@ -92,17 +100,32 @@ function datosInforme(raices, desde, hasta) {
     acumulado[k] = (acumulado[k] || 0) + d.area_trabajada_ha;
     if (!completos[k] && acumulado[k] >= INF_UMBRAL * area[d.cuartel] - 1e-6) completos[k] = d.fecha;
   }
+  // Cuartel completo = area exacta (pedido del usuario 26-nov-2026): el historial
+  // guarda cada dia con 2 decimales y la suma puede quedar 0,01-0,03 bajo el area
+  // (4,54 en vez de 4,55). Esa diferencia de redondeo se suma el dia en que se
+  // completo, como la regla del area total. No cambia el calculo de hectareas.
+  for (const [k, fc] of Object.entries(completos)) {
+    if (fc < desde || fc > hasta) continue;
+    const [cuartel, labor, temporada] = k.split('||');
+    const suma = datos.filter(d => d.cuartel === cuartel && d.labor === labor && (d.temporada || '') === temporada && !d.repaso && d.fecha <= hasta)
+      .reduce((t, d) => t + d.area_trabajada_ha, 0);
+    const dif = Math.round((area[cuartel] - suma) * 100) / 100;
+    if (dif <= 0 || dif > 0.05) continue;
+    const delDia = filas.filter(d => d.cuartel === cuartel && d.labor === labor && (d.temporada || '') === temporada && !d.repaso && d.fecha === fc)
+      .sort((a, b) => b.area_trabajada_ha - a.area_trabajada_ha);
+    if (delDia.length) delDia[0].area_trabajada_ha = Math.round((delDia[0].area_trabajada_ha + dif) * 100) / 100;
+  }
   // Una fila por cuartel + labor + temporada (y repaso aparte).
   const mismo = (d, cuartel, labor, temporada, repaso) => d.cuartel === cuartel && d.labor === labor &&
     (d.temporada || '') === temporada && String(d.repaso || 0) === repaso;
-  const claves = [...new Set(filas.map(d => [d.cuartel, d.labor, d.temporada || '', d.repaso || 0].join('||')))];
+  const claves = [...new Set(filas.map(claveFila))];
   const cuarteles = claves.map(k => {
     const [cuartel, laborBase, temporada, repaso] = k.split('||');
     const del = datos.filter(d => mismo(d, cuartel, laborBase, temporada, repaso));
     const ha = filas.filter(d => mismo(d, cuartel, laborBase, temporada, repaso)).reduce((t, d) => t + d.area_trabajada_ha, 0);
     const hastaFecha = del.filter(d => d.fecha <= hasta).reduce((t, d) => t + d.area_trabajada_ha, 0);
     const labor = laborBase + (repaso !== '0' ? ` – REPASO ${repaso}` : '');
-    const c = { campo: campoDe(cuartel).nombre, raiz: campoDe(cuartel).id, cuartel, labor, laborBase, area: area[cuartel], ha };
+    const c = { clave: k, campo: campoDe(cuartel).nombre, raiz: campoDe(cuartel).id, cuartel, labor, laborBase, area: area[cuartel], ha };
     if (laborBase === 'Barrido') {
       const info = avanceCuarteles && avanceCuarteles.cuarteles[cuartel] && avanceCuarteles.cuarteles[cuartel].labores.Barrido;
       const cierres = ((info && info.cierres) || []).filter(f => f <= hasta);
@@ -124,6 +147,9 @@ function datosInforme(raices, desde, hasta) {
     }
     return c;
   }).sort((a, b) => ordenCuartel(a.cuartel, b.cuartel) || a.labor.localeCompare(b.labor));
+  if (excluidos && excluidos.size) {
+    return { filas: filas.filter(d => !excluidos.has(claveFila(d))), cuarteles: cuarteles.filter(c => !excluidos.has(c.clave)) };
+  }
   return { filas, cuarteles };
 }
 
@@ -137,10 +163,11 @@ function areaSinRepetir(cs) {
 // Trabajo sin geocerca de esos campos y fechas (docs/datos/sin_geocerca.json,
 // lo carga la pagina): estimado, nunca sumado al total exacto. "Probable" =
 // asignado por cercania, sin confirmar.
-function sinGeocercaInforme(campos, desde, hasta) {
+function sinGeocercaInforme(campos, desde, hasta, maquinas) {
   if (typeof sinGeocerca === 'undefined' || !sinGeocerca) return [];
   const nombres = new Set(campos.map(c => c.nombre));
-  return sinGeocerca.trabajos.filter(t => t.estado !== 'resuelto' && t.fecha >= desde && t.fecha <= hasta &&
+  const maq = new Set(maquinas || []);
+  return sinGeocerca.trabajos.filter(t => t.estado !== 'resuelto' && t.fecha >= desde && t.fecha <= hasta && (!maq.size || maq.has(t.maquina)) &&
     (nombres.has(t.campo) || (t.estado === 'probable' && !t.campo && (t.opciones || []).some(o => nombres.has(o)))))
     .sort((a, b) => a.fecha.localeCompare(b.fecha) || a.maquina.localeCompare(b.maquina))
     .map(t => ({ ...t, campoTxt: t.estado === 'probable'
@@ -166,9 +193,9 @@ function resumenDe(filas, cuarteles) {
 }
 
 // ---------------- Excel ----------------
-async function informeExcel(campos, desde, hasta) {
+async function informeExcel(campos, desde, hasta, maquinas, excluidos) {
   await cargarScript(LIBS_INFORME.exceljs);
-  const { filas, cuarteles } = datosInforme(campos.map(c => c.raiz), desde, hasta);
+  const { filas, cuarteles } = datosInforme(campos.map(c => c.raiz), desde, hasta, maquinas, excluidos);
   const wb = new ExcelJS.Workbook();
   wb.creator = 'C&H Maquinaria';
   const encabezado = { font: { bold: true, color: { argb: 'FFFFFFFF' }, size: 10 }, fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF' + INF_VERDE } },
@@ -212,10 +239,11 @@ async function informeExcel(campos, desde, hasta) {
     const r = resumenDe(fs, cs);
     ws.getCell('A1').value = 'C&H Maquinaria — Informe de hectáreas trabajadas';
     ws.getCell('A1').font = { size: 16, bold: true, color: { argb: 'FF' + INF_VERDE } };
-    [['Campo(s)', camposTxt], ['Período', `${fechaCl(desde)} al ${fechaCl(hasta)}`], ['Labores', r.labores.join(', ')], ['Fecha de emisión', fechaCl(hoyIso())]]
+    [['Campo(s)', camposTxt], ['Período', `${fechaCl(desde)} al ${fechaCl(hasta)}`], ['Labores', r.labores.join(', ')], ['Fecha de emisión', fechaCl(hoyIso())],
+     ...(maquinas && maquinas.length ? [['Máquinas', textoMaquinas(maquinas)]] : [])]
       .forEach(([k, v], i) => { ws.getCell(2 + i, 1).value = k; ws.getCell(2 + i, 1).font = { bold: true, size: 10, color: { argb: 'FF555555' } }; ws.getCell(2 + i, 2).value = v; });
     ws.getCell(7, 1).value = 'Indicadores principales'; ws.getCell(7, 1).font = { size: 12, bold: true, color: { argb: 'FF' + INF_VERDE } };
-    const haSG = sinGeocercaInforme(campos.filter(c => conCampo || camposTxt.includes(c.nombre)), desde, hasta).reduce((t, x) => t + x.ha, 0);
+    const haSG = sinGeocercaInforme(campos.filter(c => conCampo || camposTxt.includes(c.nombre)), desde, hasta, maquinas).reduce((t, x) => t + x.ha, 0);
     [['Hectáreas trabajadas', r.total, NUM], ['Cuarteles completos', r.completos, '0'], ['Cuarteles en proceso', cs.length - r.completos, '0'],
      ['Días trabajados', r.dias, '0'], ['Máquinas utilizadas', r.maquinas, '0'],
      ...(haSG > 0 ? [['Ha estimadas sin geocerca (no sumadas)', haSG, NUM]] : [])].forEach(([k, v, f], j) => {
@@ -264,8 +292,8 @@ async function informeExcel(campos, desde, hasta) {
     porMaq[k].ha += d.area_trabajada_ha; porMaq[k].labores.add(d.labor); porMaq[k].cuarteles.add(d.cuartel);
   }
   let r = 5;
-  const maquinas = [...new Set(filas.map(d => d.maquina))].sort((a, b) => a.localeCompare(b, 'es', { numeric: true }));
-  for (const m of maquinas) {
+  const maquinasHoja = [...new Set(filas.map(d => d.maquina))].sort((a, b) => a.localeCompare(b, 'es', { numeric: true }));
+  for (const m of maquinasHoja) {
     const filasM = Object.values(porMaq).filter(x => x.maquina === m).sort((a, b) => a.fecha.localeCompare(b.fecha));
     filasM.forEach((x, i) => {
       const fila = ws.getRow(r++);
@@ -301,7 +329,7 @@ async function informeExcel(campos, desde, hasta) {
   ws.autoFilter = { from: 'A4', to: `G${4 + det.length}` };
   [14, 16, 12, 12, 32, 12, 22].forEach((w, j) => { ws.getColumn(j + 1).width = w; });
   // Trabajo sin geocerca (estimado, aparte)
-  const sg = sinGeocercaInforme(campos, desde, hasta);
+  const sg = sinGeocercaInforme(campos, desde, hasta, maquinas);
   if (sg.length) {
     ws = wb.addWorksheet('Sin geocerca (estimado)', { views: [{ state: 'frozen', ySplit: 4, showGridLines: false }],
       pageSetup: { orientation: 'landscape', fitToPage: true, fitToWidth: 1, fitToHeight: 0 } });
@@ -334,6 +362,11 @@ const NOTAS_INFORME = [
   'El % de avance y el estado son los del cuartel al último día del período del informe.',
   'Fuente: GPS de las máquinas (Wialon), procesado automáticamente cada día.',
 ];
+
+// Maquinas del filtro, en orden natural (Shacker SBS 9 antes que SBS 10).
+function textoMaquinas(maquinas) {
+  return [...maquinas].sort((a, b) => a.localeCompare(b, 'es', { numeric: true })).join(', ');
+}
 
 function nombreArchivo(campos, desde, hasta) {
   return `Informe_hectareas_${campos.map(c => c.nombre.replace(/\s+/g, '_')).join('_')}_${desde}_a_${hasta}`;
@@ -370,101 +403,297 @@ function gruposDeCuarteles(contornos) {
   return Object.values(grupos).map(g => g.sort(ordenCuartel)).sort((a, b) => ordenCuartel(a[0], b[0]));
 }
 
-function dibujarMapa(nombres, contornos, estado, ancho, alto) {
+// Mapa sobre imagen satelital (pedido del usuario 26-nov-2026): imagen de Esri
+// World Imagery (con su atribucion), pasadas GPS que cuentan para las hectareas
+// (todas en azul = trabajado, solo las del periodo y maquinas del informe),
+// contorno de cada cuartel (verde completo, amarillo en proceso, blanco sin
+// trabajo en el periodo), numero y % de avance de cada cuartel (100 % / su % /
+// 0 %) y lo de afuera oscurecido.
+const ESRI_TESELA = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+const ESRI_ATRIBUCION = 'Imagen satelital: Esri, Maxar, Earthstar Geographics y la comunidad de usuarios SIG';
+const COLOR_HILERAS = '#3D4BFF';
+const COLOR_CONTORNO = { completo: '#22D45F', proceso: '#FFC61A', sin: '#FFFFFF' };
+
+// Web Mercator a nivel 0 (el mundo mide 256 x 256).
+function mercator(lon, lat) {
+  const s = Math.sin(Math.max(-85, Math.min(85, lat)) * Math.PI / 180);
+  return [(lon + 180) / 360 * 256, (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * 256];
+}
+
+async function cargarTesela(z, x, y) {
+  for (let intento = 0; intento < 3; intento++) {
+    const img = await cargarTeselaUnaVez(z, x, y);
+    if (img) return img;
+    await new Promise(r => setTimeout(r, 800 * (intento + 1)));
+  }
+  return null;
+}
+function cargarTeselaUnaVez(z, x, y) {
+  return new Promise(ok => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    const t = setTimeout(() => { img.src = ''; ok(null); }, 20000);
+    img.onload = () => { clearTimeout(t); ok(img); };
+    img.onerror = () => { clearTimeout(t); ok(null); };
+    img.src = ESRI_TESELA.replace('{z}', z).replace('{y}', y).replace('{x}', x);
+  });
+}
+
+// Geometria de cada maquina (docs/datos/geometria/<maquina>.json), una vez por sesion.
+const geometriaInforme = {};
+function slugMaquina(texto) {
+  return texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'unidad';
+}
+async function geometriaDe(maquina) {
+  if (!(maquina in geometriaInforme)) {
+    geometriaInforme[maquina] = fetch('datos/geometria/' + slugMaquina(maquina) + '.json')
+      .then(r => r.ok ? r.json() : null).catch(() => null);
+  }
+  return geometriaInforme[maquina];
+}
+
+// Pasadas que cuentan para las hectareas, del periodo: {maquina: [[p1, p2], ...]}.
+async function pasadasDelMapa(nombres, maquinas, desde, hasta) {
+  const enMapa = new Set(nombres);
+  const salida = {};
+  for (const m of maquinas) {
+    const geo = await geometriaDe(m);
+    if (!geo) continue;
+    const lineas = [];
+    for (const [cuartel, g] of Object.entries(geo)) {
+      if (!enMapa.has(cuartel) || !g.hileras) continue;
+      for (const fila of g.hileras) {
+        if (!fila.cuenta) continue;
+        const tramos = fila.tramos || (fila.fechas || []).map(f => [f, fila.p1, fila.p2]);
+        for (const [fecha, p1, p2] of tramos) if (fecha >= desde && fecha <= hasta) lineas.push([p1, p2]);
+      }
+    }
+    if (lineas.length) salida[m] = lineas;
+  }
+  return salida;
+}
+
+// Punto para la etiqueta: centroide del poligono (si cae afuera, el promedio de los vertices).
+function centroEtiqueta(puntos) {
+  let a = 0, cx = 0, cy = 0;
+  for (let i = 0; i < puntos.length; i++) {
+    const [x0, y0] = puntos[i], [x1, y1] = puntos[(i + 1) % puntos.length];
+    const f = x0 * y1 - x1 * y0;
+    a += f; cx += (x0 + x1) * f; cy += (y0 + y1) * f;
+  }
+  if (Math.abs(a) < 1e-9) return puntos.reduce((s, p) => [s[0] + p[0] / puntos.length, s[1] + p[1] / puntos.length], [0, 0]);
+  return [cx / (3 * a), cy / (3 * a)];
+}
+function dentro([x, y], puntos) {
+  let si = false;
+  for (let i = 0, j = puntos.length - 1; i < puntos.length; j = i++) {
+    const [xi, yi] = puntos[i], [xj, yj] = puntos[j];
+    if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) si = !si;
+  }
+  return si;
+}
+
+// Devuelve {imagen (JPEG), conSatelite}. estado: cuartel -> fila del avance.
+async function dibujarMapaSatelital(nombres, contornos, estado, pasadas, ancho, alto) {
+  // Caja de los cuarteles en Mercator, con margen y ajustada a la forma de la imagen.
+  const todos = nombres.flatMap(n => contornos[n].map(p => mercator(p[0], p[1])));
+  let [x0, y0, x1, y1] = [Math.min(...todos.map(p => p[0])), Math.min(...todos.map(p => p[1])),
+                          Math.max(...todos.map(p => p[0])), Math.max(...todos.map(p => p[1]))];
+  const mx = (x1 - x0) * 0.04 + 1e-6, my = (y1 - y0) * 0.04 + 1e-6;
+  x0 -= mx; x1 += mx; y0 -= my; y1 += my;
+  if ((x1 - x0) / (y1 - y0) > ancho / alto) {
+    const h = (x1 - x0) * alto / ancho, c = (y0 + y1) / 2; y0 = c - h / 2; y1 = c + h / 2;
+  } else {
+    const w = (y1 - y0) * ancho / alto, c = (x0 + x1) / 2; x0 = c - w / 2; x1 = c + w / 2;
+  }
+  // Nivel de zoom: el menor que da al menos 1 pixel de imagen por pixel del mapa (maximo 18).
+  let z = Math.max(1, Math.min(18, Math.ceil(Math.log2(ancho / (x1 - x0)))));
+  const teselas = zz => (Math.floor(x1 * 2 ** zz / 256) - Math.floor(x0 * 2 ** zz / 256) + 1) * (Math.floor(y1 * 2 ** zz / 256) - Math.floor(y0 * 2 ** zz / 256) + 1);
+  while (z > 1 && teselas(z) > 300) z--;
+  const esc = ancho / ((x1 - x0) * 2 ** z);   // pixeles del mapa por pixel de la tesela
+  const T = ([lon, lat]) => { const [x, y] = mercator(lon, lat); return [(x - x0) / (x1 - x0) * ancho, (y - y0) / (y1 - y0) * alto]; };
+
   const lienzo = document.createElement('canvas');
   lienzo.width = ancho; lienzo.height = alto;
   const ctx = lienzo.getContext('2d');
-  ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, ancho, alto);
-  const lat0 = contornos[nombres[0]][0][1], k = Math.cos(lat0 * Math.PI / 180);
-  const pts = nombres.flatMap(n => contornos[n]);
-  const xs = pts.map(p => p[0] * k), ys = pts.map(p => p[1]);
-  const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
-  const margen = 30, abajo = 50;
-  const esc = Math.min((ancho - 2 * margen) / (x1 - x0 || 1e-9), (alto - 2 * margen - abajo) / (y1 - y0 || 1e-9));
-  const ox = (ancho - (x1 - x0) * esc) / 2, oy = margen + (alto - 2 * margen - abajo - (y1 - y0) * esc) / 2;
-  const T = p => [ox + (p[0] * k - x0) * esc, oy + (y1 - p[1]) * esc];
-  for (const n of nombres) {
-    const c = estado[n];
-    const [relleno, borde] = c && c.completo ? ['#7BC68E', '#2F6F3E'] : c ? ['#F6D365', '#A07800'] : ['#E4E7E5', '#9AA19C'];
+  ctx.fillStyle = '#3B4238'; ctx.fillRect(0, 0, ancho, alto);
+
+  // 1) Imagen satelital
+  const tx0 = Math.floor(x0 * 2 ** z / 256), tx1 = Math.floor(x1 * 2 ** z / 256);
+  const ty0 = Math.floor(y0 * 2 ** z / 256), ty1 = Math.floor(y1 * 2 ** z / 256);
+  const pedidos = [];
+  for (let tx = tx0; tx <= tx1; tx++) for (let ty = ty0; ty <= ty1; ty++) pedidos.push(cargarTesela(z, tx, ty).then(img => ({ img, tx, ty })));
+  let buenas = 0;
+  for (const { img, tx, ty } of await Promise.all(pedidos)) {
+    if (!img) continue;
+    buenas++;
+    const px = (tx * 256 - x0 * 2 ** z) * esc, py = (ty * 256 - y0 * 2 ** z) * esc;
+    ctx.drawImage(img, Math.floor(px), Math.floor(py), Math.ceil(256 * esc) + 1, Math.ceil(256 * esc) + 1);
+  }
+  const conSatelite = buenas > 0;
+
+  const camino = puntos => { ctx.beginPath(); puntos.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.closePath(); };
+  const poligonos = Object.fromEntries(nombres.map(n => [n, contornos[n].map(T)]));
+
+  // 2) Afuera de los cuarteles del informe, oscurecido
+  const sombra = document.createElement('canvas');
+  sombra.width = ancho; sombra.height = alto;
+  const cs = sombra.getContext('2d');
+  cs.fillStyle = 'rgba(0, 0, 0, 0.62)'; cs.fillRect(0, 0, ancho, alto);
+  cs.globalCompositeOperation = 'destination-out'; cs.fillStyle = '#000';
+  for (const n of nombres) { cs.beginPath(); poligonos[n].forEach(([x, y], i) => i ? cs.lineTo(x, y) : cs.moveTo(x, y)); cs.closePath(); cs.fill(); }
+  ctx.drawImage(sombra, 0, 0);
+
+  // 3) Hileras trabajadas, todas en azul (sin importar la maquina)
+  ctx.lineCap = 'round'; ctx.lineWidth = Math.max(4, ancho / 450); ctx.globalAlpha = 0.9;
+  for (const lineas of Object.values(pasadas)) {
+    ctx.strokeStyle = COLOR_HILERAS;
     ctx.beginPath();
-    contornos[n].forEach((p, i) => { const [x, y] = T(p); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
-    ctx.closePath(); ctx.fillStyle = relleno; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = borde; ctx.stroke();
+    for (const [p1, p2] of lineas) { const a = T(p1), b = T(p2); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); }
+    ctx.stroke();
   }
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#1B201C';
+  ctx.globalAlpha = 1;
+
+  // 4) Contorno de cada cuartel (con un borde oscuro para que se vea sobre la imagen)
+  ctx.lineJoin = 'round';
   for (const n of nombres) {
     const c = estado[n];
-    const centro = contornos[n].reduce((s, p) => [s[0] + p[0] / contornos[n].length, s[1] + p[1] / contornos[n].length], [0, 0]);
-    const [x, y] = T(centro);
+    const color = c && c.completo ? COLOR_CONTORNO.completo : c ? COLOR_CONTORNO.proceso : COLOR_CONTORNO.sin;
+    camino(poligonos[n]);
+    ctx.lineWidth = ancho / 300; ctx.strokeStyle = 'rgba(0, 0, 0, 0.45)'; ctx.stroke();
+    ctx.lineWidth = ancho / 600; ctx.strokeStyle = color; ctx.stroke();
+  }
+
+  // 5) Numero del cuartel (y % si esta en proceso), en blanco con borde negro
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+  const grande = Math.round(ancho / 85), chica = Math.round(ancho / 110);
+  for (const n of nombres) {
+    const c = estado[n];
+    let p = centroEtiqueta(poligonos[n]);
+    if (!dentro(p, poligonos[n])) p = poligonos[n].reduce((s, q) => [s[0] + q[0] / poligonos[n].length, s[1] + q[1] / poligonos[n].length], [0, 0]);
     const etiqueta = (n.match(/(\d+)\s*$/) || [null, n])[1];
-    ctx.font = 'bold 22px Helvetica, Arial, sans-serif';
-    ctx.fillText(etiqueta, x, c && !c.completo ? y - 12 : y);
-    if (c && !c.completo) { ctx.font = '20px Helvetica, Arial, sans-serif'; ctx.fillText(Math.round(c.pct * 100) + '%', x, y + 12); }
+    const pct = !c ? 0 : c.completo ? 100 : Math.round(c.pct * 100);
+    const texto = (t, y, px) => {
+      ctx.font = `bold ${px}px Helvetica, Arial, sans-serif`;
+      ctx.lineWidth = px / 4; ctx.strokeStyle = 'rgba(0, 0, 0, 0.85)'; ctx.strokeText(t, p[0], y);
+      ctx.fillStyle = '#FFFFFF'; ctx.fillText(t, p[0], y);
+    };
+    texto(etiqueta, p[1] - chica * 0.6, grande);
+    texto(pct + '%', p[1] + grande * 0.6, chica);
   }
-  // Leyenda
-  ctx.textAlign = 'left'; ctx.font = '20px Helvetica, Arial, sans-serif';
-  let lx = margen;
-  for (const [relleno, borde, texto] of [['#7BC68E', '#2F6F3E', 'Completo'], ['#F6D365', '#A07800', 'En proceso (% de avance)'], ['#E4E7E5', '#9AA19C', 'Sin trabajo en el período']]) {
-    ctx.fillStyle = relleno; ctx.strokeStyle = borde; ctx.lineWidth = 2;
-    ctx.fillRect(lx, alto - 36, 30, 20); ctx.strokeRect(lx, alto - 36, 30, 20);
-    ctx.fillStyle = '#1B201C'; ctx.fillText(texto, lx + 40, alto - 25);
-    lx += 40 + ctx.measureText(texto).width + 40;
+
+  // 6) Atribucion sobre la imagen
+  if (conSatelite) {
+    ctx.font = `${Math.round(ancho / 150)}px Helvetica, Arial, sans-serif`;
+    ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+    const t = 'Esri, Maxar, Earthstar Geographics', w = ctx.measureText(t).width;
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'; ctx.fillRect(ancho - w - 16, alto - ancho / 150 - 10, w + 16, ancho / 150 + 10);
+    ctx.fillStyle = '#333'; ctx.fillText(t, ancho - 8, alto - 5);
   }
-  return lienzo.toDataURL('image/jpeg', 0.88);
+  return { imagen: lienzo.toDataURL('image/jpeg', 0.85), conSatelite };
+}
+
+// Logo de C&H (docs/Logo_CYH.png), reducido a JPEG para que el PDF no pese de mas.
+async function logoInforme() {
+  try {
+    const img = await new Promise((ok, falla) => { const i = new Image(); i.onload = () => ok(i); i.onerror = falla; i.src = 'Logo_CYH.png'; });
+    const lienzo = document.createElement('canvas');
+    lienzo.width = 640; lienzo.height = Math.round(640 * img.naturalHeight / img.naturalWidth);
+    const ctx = lienzo.getContext('2d');
+    ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, lienzo.width, lienzo.height);
+    ctx.drawImage(img, 0, 0, lienzo.width, lienzo.height);
+    return { datos: lienzo.toDataURL('image/jpeg', 0.92), proporcion: lienzo.height / lienzo.width };
+  } catch (e) {
+    return null;
+  }
 }
 
 // ---------------- PDF ----------------
-async function informePdf(campos, desde, hasta) {
+async function informePdf(campos, desde, hasta, maquinas, excluidos) {
   await cargarScript(LIBS_INFORME.jspdf);
   await cargarScript(LIBS_INFORME.autotable);
   if (!geocercasInforme) {
     const r = await fetch('datos/geocercas.json?_=' + Date.now());
     geocercasInforme = r.ok ? await r.json() : {};
   }
-  const { filas, cuarteles } = datosInforme(campos.map(c => c.raiz), desde, hasta);
+  maquinas = maquinas || [];
+  const { filas, cuarteles } = datosInforme(campos.map(c => c.raiz), desde, hasta, maquinas, excluidos);
+  // Cuarteles desmarcados en todas sus labores: en el mapa no se dibujan (quedan oscurecidos).
+  const ocultos = new Set(datosInforme(campos.map(c => c.raiz), desde, hasta, maquinas).cuarteles.map(c => c.cuartel));
+  for (const c of cuarteles) ocultos.delete(c.cuartel);
+  const logo = await logoInforme();
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
   const VERDE = [47, 111, 62], GRIS = [85, 85, 85];
 
-  function bloque(titulo, camposTxt, fs, cs, conCampo) {
+  // Texto con partes en negrita: [[texto, negrita], ...]
+  function textoMixto(partes, x, y) {
+    for (const [t, negrita] of partes) {
+      doc.setFont('helvetica', negrita ? 'bold' : 'normal');
+      doc.text(t, x, y);
+      x += doc.getTextWidth(t);
+    }
+  }
+
+  function bloque(titulo, camposLista, fs, cs, conCampo, conLogo) {
     const r = resumenDe(fs, cs);
+    let x = 12;
+    if (conLogo && logo) {
+      doc.addImage(logo.datos, 'JPEG', 12, 7, 36, 36 * logo.proporcion);
+      x = 54;
+    }
     doc.setFont('helvetica', 'bold'); doc.setFontSize(16); doc.setTextColor(...VERDE);
-    doc.text(titulo, 12, 15);
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...GRIS);
-    doc.text(`Campo(s): ${camposTxt}    Período: ${fechaCl(desde)} al ${fechaCl(hasta)}    Labores: ${r.labores.join(', ')}    Emisión: ${fechaCl(hoyIso())}`, 12, 21);
+    doc.text(titulo, x, 15);
+    doc.setFontSize(9); doc.setTextColor(...GRIS);
+    const sep = '  ·  ';
+    textoMixto([[camposLista.length > 1 ? 'Campos: ' : 'Campo: ', false], [camposLista.join(', '), true],
+                [`${sep}Período: ${fechaCl(desde)} al ${fechaCl(hasta)}${sep}${r.labores.length > 1 ? 'Labores' : 'Labor'}: ${r.labores.join(', ')}${sep}Emisión: ${fechaCl(hoyIso())}`, false]], x, 21);
+    let yK = 27;
+    if (maquinas.length) {
+      const lineas = doc.splitTextToSize('Máquinas: ' + textoMaquinas(maquinas), 297 - 12 - x);
+      doc.setFont('helvetica', 'normal'); doc.text(lineas[0] + (lineas.length > 1 ? '…' : ''), x, 26);
+      yK = 30;
+    }
     const kpis = [['Hectáreas trabajadas', n2(r.total)], ['Cuarteles completos', String(r.completos)], ['Cuarteles en proceso', String(cs.length - r.completos)],
                   ['Días trabajados', String(r.dias)], ['Máquinas utilizadas', String(r.maquinas)]];
     const anchoK = (297 - 24 - 4 * 3) / 5;
     kpis.forEach(([k, v], i) => {
-      const x = 12 + i * (anchoK + 3);
-      doc.setFillColor(238, 244, 239); doc.rect(x, 25, anchoK, 18, 'F');
-      doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(...GRIS); doc.text(k, x + anchoK / 2, 30, { align: 'center' });
-      doc.setFontSize(16); doc.setTextColor(...VERDE); doc.text(v, x + anchoK / 2, 39, { align: 'center' });
+      const xk = 12 + i * (anchoK + 3);
+      doc.setFillColor(238, 244, 239); doc.rect(xk, yK, anchoK, 18, 'F');
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(...GRIS); doc.text(k, xk + anchoK / 2, yK + 5, { align: 'center' });
+      doc.setFontSize(16); doc.setTextColor(...VERDE); doc.text(v, xk + anchoK / 2, yK + 14, { align: 'center' });
     });
     const dias = Object.keys(r.porDia).sort();
-    const estiloTabla = { theme: 'grid', styles: { fontSize: 7.5, cellPadding: 1.2, lineColor: [208, 215, 209], lineWidth: 0.1 },
+    const estiloTabla = { theme: 'grid', styles: { fontSize: 7.5, cellPadding: 1.2, lineColor: [208, 215, 209], lineWidth: 0.1, textColor: 20 },
                           headStyles: { fillColor: VERDE, textColor: 255, halign: 'center', fontStyle: 'bold' },
                           alternateRowStyles: { fillColor: [242, 245, 242] }, footStyles: { fillColor: [221, 230, 222], textColor: 20, fontStyle: 'bold' },
                           margin: { left: 12, right: 12, bottom: 14 }, showFoot: 'lastPage' };
+    const yT = yK + 26;
     doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(...VERDE);
-    doc.text('Trabajo por día (ha)', 12, 51);
-    doc.autoTable({ ...estiloTabla, startY: 53, tableWidth: 30 + 28 * (r.labores.length + 1),
+    doc.text('Trabajo por día (ha)', 12, yT);
+    const derecha = Object.fromEntries([...Array(r.labores.length + 1).keys()].map(i => [i + 1, { halign: 'right' }]));
+    doc.autoTable({ ...estiloTabla, startY: yT + 2, tableWidth: 30 + 28 * (r.labores.length + 1),
       head: [['Fecha', ...r.labores, 'Total del día']],
       body: dias.map(d => [fechaCl(d), ...r.labores.map(l => r.porDia[d][l] ? n2(r.porDia[d][l]) : ''), n2(Object.values(r.porDia[d]).reduce((t, v) => t + v, 0))]),
       foot: [['Total', ...r.labores.map(l => n2(dias.reduce((t, d) => t + (r.porDia[d][l] || 0), 0))), n2(r.total)]],
-      columnStyles: Object.fromEntries([...Array(r.labores.length + 1).keys()].map(i => [i + 1, { halign: 'right' }])) });
-    let y = doc.lastAutoTable.finalY + 8;
-    if (y > 180) { doc.addPage(); y = 15; }
+      columnStyles: derecha,
+      didParseCell: h => { if (h.section === 'foot' && h.column.index > 0) h.cell.styles.halign = 'right'; } });
+    // Avance por cuartel, en su propia pagina (como el informe de ejemplo).
+    doc.addPage();
+    const y = 15;
     doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(...VERDE);
     doc.text(`Avance por cuartel (estado al ${fechaCl(hasta)})`, 12, y);
     const enc = [...(conCampo ? ['Campo'] : []), 'Cuartel', 'Labor', 'Área (ha)', 'Ha en el período', '% avance', 'Estado', 'Completado', ...(r.hayBarrido ? ['Pasadas'] : [])];
     const colEstado = enc.indexOf('Estado');
-    doc.autoTable({ ...estiloTabla, startY: y + 2,
+    const alinear = c => ['Área (ha)', 'Ha en el período', '% avance', 'Pasadas'].includes(c) ? 'right' : (c === 'Estado' || c === 'Completado' ? 'center' : 'left');
+    doc.autoTable({ ...estiloTabla, startY: y + 2, styles: { ...estiloTabla.styles, fontSize: 8, cellPadding: 1.6 },
       head: [enc],
       body: cs.map(c => [...(conCampo ? [c.campo] : []), c.cuartel, c.labor, n2(c.area), n2(c.ha), p1(c.pct), c.completo ? 'Completo' : 'En proceso',
                           fechaCl(c.fechaCompleto), ...(r.hayBarrido ? [c.labor === 'Barrido' ? String(c.pasadas) : ''] : [])]),
       foot: [[...(conCampo ? [''] : []), 'Total', '', n2(areaSinRepetir(cs)), n2(cs.reduce((t, c) => t + c.ha, 0)), '', `${r.completos} completos`, '', ...(r.hayBarrido ? [''] : [])]],
-      columnStyles: Object.fromEntries(enc.map((c, i) => [i, { halign: ['Área (ha)', 'Ha en el período', '% avance', 'Pasadas'].includes(c) ? 'right' : (c === 'Estado' || c === 'Completado' ? 'center' : 'left') }])),
+      columnStyles: Object.fromEntries(enc.map((c, i) => [i, { halign: alinear(c) }])),
       didParseCell: h => {
+        if (h.section === 'foot') h.cell.styles.halign = alinear(enc[h.column.index]);
         if (h.section === 'body' && h.column.index === colEstado) {
           const ok = h.cell.raw === 'Completo';
           h.cell.styles.fillColor = ok ? [214, 239, 217] : [255, 243, 196];
@@ -473,61 +702,100 @@ async function informePdf(campos, desde, hasta) {
       } });
   }
 
-  function mapas(campo, cs) {
-    const contornos = Object.fromEntries(Object.entries(geocercasInforme).filter(([n]) => campoDe(n).id === campo.raiz).map(([n, g]) => [n, g.contorno]));
-    if (!Object.keys(contornos).length) return;
-    const estado = Object.fromEntries(cs.map(c => [c.cuartel, c]));
-    const grupos = gruposDeCuarteles(contornos);
-    grupos.forEach((g, i) => {
-      doc.addPage();
-      doc.setFont('helvetica', 'bold'); doc.setFontSize(14); doc.setTextColor(...VERDE);
-      const rango = g.length > 1 ? ` (cuarteles ${(g[0].match(/(\d+)\s*$/) || ['', g[0]])[1]} a ${(g[g.length - 1].match(/(\d+)\s*$/) || ['', g[g.length - 1]])[1]})` : '';
-      doc.text(`Mapa de avance - campo ${campo.nombre}${grupos.length > 1 ? `, grupo ${i + 1} de ${grupos.length}` : ''}${grupos.length > 1 ? rango : ''} (al ${fechaCl(hasta)})`, 12, 15);
-      const imagen = dibujarMapa(g, contornos, estado, 1800, 1128);
-      doc.addImage(imagen, 'JPEG', 12, 20, 273, 171, undefined, 'FAST');
-    });
+  // Leyenda del mapa (en el PDF, con letra nitida): cuarteles e hileras trabajadas.
+  function leyenda(conHileras, y) {
+    let x = 12;
+    doc.setFontSize(8); doc.setTextColor(40, 40, 40);
+    const cuadro = (borde, relleno) => {
+      doc.setLineWidth(0.7); doc.setDrawColor(borde); doc.setFillColor(relleno || '#FFFFFF');
+      doc.rect(x, y - 3, 4, 4, relleno ? 'F' : 'D');
+    };
+    for (const [color, texto] of [[COLOR_CONTORNO.completo, 'Cuartel completo'], [COLOR_CONTORNO.proceso, 'Cuartel en proceso (% de avance)'], ['#C8CCC9', 'Sin trabajo en el período']]) {
+      cuadro(color); doc.setFont('helvetica', 'normal'); doc.text(texto, x + 6, y);
+      x += 6 + doc.getTextWidth(texto) + 7;
+    }
+    if (conHileras) { cuadro(COLOR_HILERAS, COLOR_HILERAS); doc.text('Hileras trabajadas', x + 6, y); }
+    return y;
   }
 
-  const camposTxt = campos.map(c => c.nombre).join(', ');
-  bloque('C&H Maquinaria - Informe de hectáreas trabajadas', camposTxt, filas, cuarteles, campos.length > 1);
+  async function mapas(campo, cs, fs) {
+    const contornos = Object.fromEntries(Object.entries(geocercasInforme).filter(([n]) => campoDe(n).id === campo.raiz && !ocultos.has(n)).map(([n, g]) => [n, g.contorno]));
+    if (!Object.keys(contornos).length) return;
+    // Estado de cada cuartel: la fila de su labor (sin repaso) si hay una.
+    const estado = {};
+    for (const c of cs) if (!estado[c.cuartel] || /REPASO/.test(estado[c.cuartel].labor)) estado[c.cuartel] = c;
+    const maquinasCampo = [...new Set(fs.map(d => d.maquina))].sort((a, b) => a.localeCompare(b, 'es', { numeric: true }));
+    const grupos = gruposDeCuarteles(contornos);
+    for (let i = 0; i < grupos.length; i++) {
+      const g = grupos[i];
+      doc.addPage();
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(...VERDE);
+      const num = n => (n.match(/(\d+)\s*$/) || ['', n])[1];
+      const rango = g.length > 1 ? ` (cuarteles ${num(g[0])} a ${num(g[g.length - 1])})` : '';
+      doc.text(`Mapa de avance – campo ${campo.nombre}${grupos.length > 1 ? `, grupo ${i + 1} de ${grupos.length}${rango}` : ''} (al ${fechaCl(hasta)})`, 12, 14);
+      // Pasadas solo en los cuarteles trabajados en el periodo.
+      const trabajados = g.filter(n => estado[n]);
+      const pasadas = await pasadasDelMapa(trabajados, maquinasCampo, desde, hasta);
+      const { imagen, conSatelite } = await dibujarMapaSatelital(g, contornos, estado, pasadas, 2730, 1600);
+      doc.addImage(imagen, 'JPEG', 12, 18, 273, 160, undefined, 'FAST');
+      const yFin = leyenda(Object.keys(pasadas).length > 0, 184) || 184;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(...GRIS);
+      const nota = (conSatelite ? ESRI_ATRIBUCION + '. ' : 'Sin imagen satelital (no se pudo descargar). ') +
+        `Pasadas GPS (Wialon) del ${fechaCl(desde)} al ${fechaCl(hasta)} que cuentan para las hectáreas. ` +
+        'Fuera de los cuarteles del informe, oscurecido.';
+      doc.text(doc.splitTextToSize(nota, 273), 12, yFin + 5.5);
+    }
+  }
+
+  const nombresCampos = campos.map(c => c.nombre);
+  bloque('Informe de hectáreas trabajadas', nombresCampos, filas, cuarteles, campos.length > 1, true);
   if (campos.length === 1) {
-    mapas(campos[0], cuarteles);
+    await mapas(campos[0], cuarteles, filas);
   } else {
     for (const c of campos) {
       doc.addPage();
       const cs = cuarteles.filter(x => x.raiz === c.raiz);
-      bloque(`Campo ${c.nombre}`, c.nombre, filas.filter(d => campoDe(d.cuartel).id === c.raiz), cs, false);
-      mapas(c, cs);
+      const fs = filas.filter(d => campoDe(d.cuartel).id === c.raiz);
+      bloque(`Campo ${c.nombre}`, [c.nombre], fs, cs, false, false);
+      await mapas(c, cs, fs);
     }
   }
-  const sg = sinGeocercaInforme(campos, desde, hasta);
+  const sg = sinGeocercaInforme(campos, desde, hasta, maquinas);
   if (sg.length) {
     doc.addPage();
     doc.setFont('helvetica', 'bold'); doc.setFontSize(16); doc.setTextColor(...VERDE);
     doc.text('Trabajo sin geocerca (estimado, no sumado al total)', 12, 15);
     doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...GRIS);
-    doc.text(`Campo(s): ${campos.map(c => c.nombre).join(', ')}    Período: ${fechaCl(desde)} al ${fechaCl(hasta)}    ` +
+    doc.text(`Campo(s): ${nombresCampos.join(', ')}    Período: ${fechaCl(desde)} al ${fechaCl(hasta)}    ` +
              `Total: ~${n2(sg.reduce((t, x) => t + x.ha, 0))} ha estimadas en ${n2(sg.reduce((t, x) => t + x.horas, 0))} h. "Probable" = por cercanía, sin confirmar.`, 12, 21);
     doc.autoTable({ theme: 'grid', startY: 25, styles: { fontSize: 7.5, cellPadding: 1.2, lineColor: [208, 215, 209], lineWidth: 0.1 },
       headStyles: { fillColor: VERDE, textColor: 255, fontStyle: 'bold' }, alternateRowStyles: { fillColor: [242, 245, 242] },
       head: [['Fecha', 'Máquina', 'Campo', 'Lugar', 'Horas', 'Ha estimadas']],
       body: sg.map(t => [fechaCl(t.fecha), t.maquina, t.campoTxt, t.comuna || '', n2(t.horas), '~' + n2(t.ha)]) });
   }
+  // Pie de pagina: solo el numero de pagina.
   const paginas = doc.getNumberOfPages();
   for (let i = 1; i <= paginas; i++) {
     doc.setPage(i);
     doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...GRIS);
-    doc.text('C&H Maquinaria · Hectáreas medidas con GPS dentro de cada cuartel · Cuartel completo al llegar al 95 % (se cuenta su área total)', 12, 203);
-    doc.text(`Página ${i} de ${paginas}`, 285, 203, { align: 'right' });
+    doc.text(`Página ${i}`, 285, 203, { align: 'right' });
   }
   descargarArchivo(doc.output('blob'), nombreArchivo(campos, desde, hasta) + '.pdf');
 }
 
 // ---------------- Panel en la pagina ----------------
+// Vista previa (pedido del usuario 26-nov-2026): resumen del informe con los
+// filtros (campos, fechas y maquinas de arriba) y una casilla por fila (cuartel
+// + labor). Desmarcar una fila la saca solo de este informe (tablas, totales y
+// mapa); no se guarda en ninguna parte y al abrir el panel todas parten marcadas.
+let informeExcluidos = new Set();
+let informeDiasAbierto = false;
+
 function abrirInforme() {
   const panel = document.getElementById('panelInforme');
   panel.hidden = !panel.hidden;
   if (panel.hidden) return;
+  informeExcluidos = new Set();
   const lista = document.getElementById('informeCampos');
   if (!lista.childElementCount) {
     lista.innerHTML = camposDisponibles().map((c, i) =>
@@ -544,22 +812,100 @@ function abrirInforme() {
   if (fHasta && fHasta.value) document.getElementById('informeHasta').value = fHasta.value;
   if (!document.getElementById('informeHasta').value) document.getElementById('informeHasta').value = ultimo;
   if (!document.getElementById('informeDesde').value) document.getElementById('informeDesde').value = ultimo.slice(0, 8) + '01';
+  document.getElementById('informeAviso').textContent = '';
+  actualizarVistaPrevia();
+}
+function maquinasInforme() {
+  return typeof maquinasSeleccionadas === 'function' ? maquinasSeleccionadas() : [];
 }
 function filtrarCamposInforme() {
   const texto = document.getElementById('buscarCampoInforme').value.trim().toLowerCase();
   document.querySelectorAll('#informeCampos .campo-informe').forEach(l => { l.hidden = !!texto && !l.dataset.nombre.includes(texto); });
 }
+function pedidoInforme() {
+  return {
+    campos: [...document.querySelectorAll('#informeCampos input:checked')].map(i => ({ raiz: i.value, nombre: i.dataset.nombre })),
+    desde: document.getElementById('informeDesde').value,
+    hasta: document.getElementById('informeHasta').value,
+    maquinas: maquinasInforme(),
+  };
+}
+
+function actualizarVistaPrevia() {
+  const caja = document.getElementById('informeVistaPrevia');
+  const panel = document.getElementById('panelInforme');
+  if (!caja || !panel || panel.hidden) return;
+  const { campos, desde, hasta, maquinas } = pedidoInforme();
+  const textoMaq = maquinas.length ? `Máquinas (del filtro de arriba): ${escaparXml(textoMaquinas(maquinas))}`
+    : 'Máquinas: todas (para elegir algunas, márcalas en el filtro de arriba)';
+  if (!campos.length || !desde || !hasta || desde > hasta) {
+    caja.innerHTML = `<div class="vp-vacio">${!campos.length ? 'Elige al menos un campo' : 'Revisa las fechas'} para ver la vista previa del informe.</div>`;
+    return;
+  }
+  const raices = campos.map(c => c.raiz);
+  const todas = datosInforme(raices, desde, hasta, maquinas).cuarteles;
+  if (!todas.length) {
+    caja.innerHTML = `<div class="vp-maq">${textoMaq}</div><div class="vp-vacio">No hay trabajo registrado en esos campos, fechas y máquinas.</div>`;
+    return;
+  }
+  const { filas, cuarteles } = datosInforme(raices, desde, hasta, maquinas, informeExcluidos);
+  const r = resumenDe(filas, cuarteles);
+  const conCampo = campos.length > 1;
+  const kpis = [['Hectáreas trabajadas', n2(r.total)], ['Cuarteles completos', r.completos], ['Cuarteles en proceso', cuarteles.length - r.completos],
+                ['Días trabajados', r.dias], ['Máquinas utilizadas', r.maquinas]];
+  const marcadas = todas.length - todas.filter(c => informeExcluidos.has(c.clave)).length;
+  const filasHtml = todas.map(c => {
+    const fuera = informeExcluidos.has(c.clave);
+    return `<tr class="${fuera ? 'vp-fuera' : ''}">
+      <td><input type="checkbox" data-clave="${escaparXml(c.clave)}" ${fuera ? '' : 'checked'} onchange="marcarFilaInforme(this)" aria-label="Incluir ${escaparXml(c.cuartel)} – ${escaparXml(c.labor)}"></td>
+      ${conCampo ? `<td>${escaparXml(c.campo)}</td>` : ''}<td>${escaparXml(c.cuartel)}</td><td>${escaparXml(c.labor)}</td>
+      <td class="num">${n2(c.area)}</td><td class="num">${n2(c.ha)}</td><td class="num">${p1(c.pct)}</td>
+      <td><span class="vp-estado ${c.completo ? 'ok' : 'proc'}">${c.completo ? 'Completo' : 'En proceso'}</span></td></tr>`;
+  }).join('');
+  const dias = Object.keys(r.porDia).sort();
+  caja.innerHTML = `
+    <div class="vp-maq">${textoMaq}</div>
+    <div class="vp-kpis">${kpis.map(([k, v]) => `<div class="vp-kpi"><span>${k}</span><b>${v}</b></div>`).join('')}</div>
+    <div class="vp-tabla"><table>
+      <thead><tr><th><input type="checkbox" ${marcadas === todas.length ? 'checked' : ''} onchange="marcarTodasInforme(this.checked)" aria-label="Marcar o desmarcar todos"></th>
+        ${conCampo ? '<th>Campo</th>' : ''}<th>Cuartel</th><th>Labor</th><th class="num">Área (ha)</th><th class="num">Ha en el período</th><th class="num">% avance</th><th>Estado</th></tr></thead>
+      <tbody>${filasHtml}</tbody>
+      <tfoot><tr><td></td>${conCampo ? '<td></td>' : ''}<td>Total (${marcadas} de ${todas.length} marcados)</td><td></td>
+        <td class="num">${n2(areaSinRepetir(cuarteles))}</td><td class="num">${n2(r.total)}</td><td></td><td>${r.completos} completos</td></tr></tfoot>
+    </table></div>
+    <div class="vp-total">Total del informe: <b>${n2(r.total)} ha</b> trabajadas · área ${n2(areaSinRepetir(cuarteles))} ha · ${r.completos} completos · ${marcadas} de ${todas.length} cuarteles marcados</div>
+    <details class="vp-dias" ${informeDiasAbierto ? 'open' : ''} ontoggle="informeDiasAbierto = this.open">
+      <summary>Trabajo por día (${dias.length} días)</summary>
+      <table><thead><tr><th>Fecha</th>${r.labores.map(l => `<th class="num">${escaparXml(l)}</th>`).join('')}<th class="num">Total del día</th></tr></thead>
+      <tbody>${dias.map(d => `<tr><td>${fechaCl(d)}</td>${r.labores.map(l => `<td class="num">${r.porDia[d][l] ? n2(r.porDia[d][l]) : ''}</td>`).join('')}<td class="num">${n2(Object.values(r.porDia[d]).reduce((t, v) => t + v, 0))}</td></tr>`).join('')}</tbody>
+      <tfoot><tr><td>Total</td>${r.labores.map(l => `<td class="num">${n2(dias.reduce((t, d) => t + (r.porDia[d][l] || 0), 0))}</td>`).join('')}<td class="num">${n2(r.total)}</td></tr></tfoot></table>
+    </details>`;
+}
+function marcarFilaInforme(casilla) {
+  if (casilla.checked) informeExcluidos.delete(casilla.dataset.clave); else informeExcluidos.add(casilla.dataset.clave);
+  actualizarVistaPrevia();
+}
+function marcarTodasInforme(marcar) {
+  if (marcar) informeExcluidos.clear();
+  else document.querySelectorAll('#informeVistaPrevia tbody input[data-clave]').forEach(i => informeExcluidos.add(i.dataset.clave));
+  actualizarVistaPrevia();
+}
+
 async function generarInforme(tipo) {
-  const campos = [...document.querySelectorAll('#informeCampos input:checked')].map(i => ({ raiz: i.value, nombre: i.dataset.nombre }));
-  const desde = document.getElementById('informeDesde').value, hasta = document.getElementById('informeHasta').value;
+  const { campos, desde, hasta, maquinas } = pedidoInforme();
   const aviso = document.getElementById('informeAviso');
   if (!campos.length) { aviso.textContent = 'Elige al menos un campo.'; return; }
   if (!desde || !hasta || desde > hasta) { aviso.textContent = 'Revisa las fechas: "desde" debe ser anterior o igual a "hasta".'; return; }
-  const { filas } = datosInforme(campos.map(c => c.raiz), desde, hasta);
-  if (!filas.length) { aviso.textContent = 'No hay trabajo registrado en esos campos y fechas.'; return; }
-  aviso.textContent = `Generando ${tipo === 'pdf' ? 'PDF' : 'Excel'}…`;
+  const { filas } = datosInforme(campos.map(c => c.raiz), desde, hasta, maquinas, informeExcluidos);
+  if (!filas.length) {
+    aviso.textContent = datosInforme(campos.map(c => c.raiz), desde, hasta, maquinas).filas.length ? 'Marca al menos un cuartel en la vista previa.'
+      : maquinas.length ? 'No hay trabajo de esas máquinas en esos campos y fechas.' : 'No hay trabajo registrado en esos campos y fechas.';
+    return;
+  }
+  aviso.textContent = `Generando ${tipo === 'pdf' ? 'PDF (con imagen satelital, puede tardar unos segundos)' : 'Excel'}…`;
   try {
-    if (tipo === 'pdf') await informePdf(campos, desde, hasta); else await informeExcel(campos, desde, hasta);
+    if (tipo === 'pdf') await informePdf(campos, desde, hasta, maquinas, informeExcluidos);
+    else await informeExcel(campos, desde, hasta, maquinas, informeExcluidos);
     aviso.textContent = 'Listo: el archivo se descargó.';
   } catch (e) {
     aviso.textContent = 'No se pudo generar el informe: ' + e.message;
