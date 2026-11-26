@@ -128,15 +128,62 @@ def desde_anotado(maquina, campo):
     return ""
 
 
+_SG = None
+
+
+def datos_sin_geocerca():
+    """sin_geocerca.json (traslados y estadias segun el GPS, los arma la corrida de la
+    noche). Nunca falla: sin archivo, {}."""
+    global _SG
+    if _SG is None:
+        try:
+            with open(os.path.join(rh.CARPETA_DATOS, "sin_geocerca.json"), "r", encoding="utf-8") as f:
+                _SG = json.load(f)
+        except Exception:
+            _SG = {}
+    return _SG
+
+
+def llegada_segun_gps(ctx, maquina, campo, hasta):
+    """(fecha, antes) de la llegada al campo segun el GPS (regla del usuario 26-nov-2026: la
+    fecha real del traslado es la del GPS; Operacion solo dice a que campo va):
+      - el ultimo traslado de la maquina fue a ese campo: su fecha;
+      - el ultimo traslado fue a otro lugar: aun no llega ("", False);
+      - esta ahi desde el primer dia que guarda el GPS (30 dias): (ese dia, True) =
+        "desde antes del ...";
+      - sin datos: None (se usa la estadia de antes)."""
+    claves = {pl.normalizar(c) for c in set(ctx.campos_wialon(campo)) | {campo}}
+    lista = [e for e in (datos_sin_geocerca().get("estadias") or {}).get(maquina, []) if e["desde"] <= hasta]
+    if not lista:
+        return None
+    ultima = lista[-1]
+    # En un lugar sin campo conocido, el campo es el que dice Operacion.
+    if ultima.get("tipo") != "punto" and pl.normalizar(ultima["lugar"]) not in claves:
+        return ("", False)
+    return (ultima["desde"], bool(ultima.get("desde_inicio")))
+
+
 def desde_auto(ctx, maquina, campo, hasta=None):
-    """"Desde" automatico: dia en que la maquina llego a su campo actual segun
-    el GPS (estadia actual; solo los dias del tablero de la flota)."""
+    """"Desde" automatico: dia en que la maquina llego a su campo actual segun el GPS
+    (estadias de sin_geocerca.json; si no hay, la estadia de antes)."""
     if not campo or pl.normalizar(campo) in ("taller", "cyh"):
         return ""
     if maquina in rh.MAQUINAS_SIN_GPS:
         return desde_anotado(maquina, campo)
+    llegada = llegada_segun_gps(ctx, maquina, campo, hasta or ctx.fa)
+    if llegada is not None:
+        return llegada[0]
     dias = estadia(ctx, maquina, campo, hasta or ctx.fa)
     return min(dias) if dias else ""
+
+
+def desde_auto_antes(ctx, maquina, campo, hasta=None):
+    """True si la maquina ya estaba en el campo el primer dia que guarda el GPS: la fecha
+    real es anterior ("Desde antes del 28/10")."""
+    if not campo or pl.normalizar(campo) in ("taller", "cyh") or maquina in rh.MAQUINAS_SIN_GPS:
+        return False
+    llegada = llegada_segun_gps(ctx, maquina, campo, hasta or ctx.fa)
+    return bool(llegada and llegada[1])
 
 
 def parecidos(nombres, distintos):

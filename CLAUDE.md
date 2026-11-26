@@ -5,7 +5,9 @@ cambiarlas sin preguntar.
 
 ## Reglas generales
 
-- **Responder siempre en español** (pedido del usuario, 1-oct-2026).
+- **Responder siempre en español** (pedido del usuario, 1-oct-2026; recordado el
+  26-nov-2026): todo el texto para el usuario, también los resúmenes y las
+  preguntas, en español. Nunca en inglés.
 - **Wialon es solo de lectura.** Nunca escribir, modificar ni borrar nada en
   Wialon. Solo se usa para descargar geocercas y tracks GPS. El token de
   Wialon vive en el secret `WIALON_TOKEN` de GitHub (en `config.json` solo hay
@@ -494,6 +496,49 @@ editable por el usuario.
 - Ejemplo con datos reales (Aurora y Avoamerica, 1 al 30-sep-2026):
   123,04 ha (122,90 sin la regla del área total), 25 días, 5 máquinas, 45
   cuarteles trabajados (30 completos al 30-09).
+
+### Informe con mapa satelital, vista previa y trabajo sin geocerca (26-nov-2026)
+
+- PDF como el ejemplo de La Estrella: logo de CYH, pie solo "Página N", avance por
+  cuartel en su propia página, mapa sobre imagen satelital de Esri World Imagery (con
+  atribución): hileras que cuentan en azul (grosor doble), contorno verde completo /
+  amarillo en proceso / blanco sin trabajo, número y % de todos los cuarteles (100 %,
+  su %, 0 %), lo de afuera oscurecido. Respeta campo, fechas y máquinas del filtro de
+  la página (el estado del cuartel siempre con todas las máquinas). Cuartel completo =
+  área exacta (la diferencia de redondeo va al día en que se completó).
+- Vista previa en el panel (aparece sola): casilla por fila (cuartel + labor) para
+  sacarla solo de ese informe; "Ha en el período" editable (máx. el área, sin
+  negativos): la diferencia se reparte por día y máquina en proporción, cuadrando
+  exacto a 2 decimales (lo que sobre o falte al día con más ha); % y estado se
+  recalculan (completo con 95 %, el número escrito manda). Marca de editado y "GPS no
+  calza" solo en la vista previa, nunca en el PDF ni el Excel. En el celular, fichas.
+- Trabajo sin geocerca: en el Historial va en la tabla ("sin geocerca", ≈ ha) y los
+  totales se muestran aparte (con geocerca / estimadas / total). Campo sin ninguna
+  geocerca: el informe usa lo estimado (fila "<Campo> · sin cuartel definido",
+  "Aproximado", indicadores Hectáreas (aprox.) / Horas / Días / Máquinas, tabla por
+  máquina y mapa con el recorrido); campo con geocerca: lo estimado va en una línea
+  aparte, nunca sumado. La corrida de la noche guarda las pasadas (`trazos`) en
+  `docs/datos/sin_geocerca_pasadas.json`; el trabajo anterior se recupera con el
+  workflow manual "Recuperar pasadas sin geocerca" (solo lectura de Wialon; lanzarlo
+  solo cuando el usuario lo pida).
+- Campo de un trabajo sin geocerca (`sin_geocerca.py`, desde el 22-oct-2026): lugar
+  confirmado a mano manda; si no, el campo donde está físicamente según el GPS; si el
+  lugar no es un campo conocido, el de Operación; sin Operación, la regla anterior.
+  Ubicación de campos sin geocerca: lugares confirmados o "ubicación aprendida" de los
+  días anotados en Operación (se muestra para confirmar; sin alertas hasta confirmar).
+  Kunako y Rocío Molina son campos distintos (no juntarlos).
+- Traslados (regla del usuario 26-nov-2026): la fecha real es la del GPS; Operación
+  solo dice a qué campo va (se puede cambiar antes o después). Campo conocido → otro
+  campo = traslado aunque estén cerca; entre lugares sin campo conocido, > 5 km. CYH
+  en el medio = dos traslados solo con un día completo o más en CYH. Días sin señal:
+  "fecha incierta (sin señal)", sin alerta. Alerta solo si el GPS la lleva a un campo
+  distinto del de Operación, si se movió y Operación nunca cambió (7 días de espera),
+  o si a los 7 días de cambiar Operación el GPS aún no la lleva ("Operación dice X pero
+  la máquina no ha llegado"). Se ven en el Historial y en Flota (GPS). Pendientes de
+  respuesta del usuario: Tractor 10 (16 al 20-11) y Shacker SBS 4 (Kunako → MERCOFRUT).
+- "Desde" automático = llegada según el GPS (estadías de `sin_geocerca.json`); si ya
+  estaba ahí el primer día que guarda el GPS: "Desde antes del dd/mm". Tractor 16 en
+  El Quillay: 29-10 → 20-11.
 
 ## Mapas
 

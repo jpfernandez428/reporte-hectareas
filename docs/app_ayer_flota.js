@@ -83,6 +83,7 @@
     .fl .detalle h4 { margin: 0 0 8px; font-size: 13px; }
     .fl .detalle th, .fl .detalle td { font-size: 13px; }
     .fl .sin { color: var(--ro); font-weight: 600; }
+    .fl .no-calza { display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: 12px; font-weight: 700; background: #FFE0B2; color: #9A4A00; }
     .fl .gps { background: #fff3e0; border: 2px solid #e8892b; border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; }
     .fl .gps h3 { margin: 0 0 6px; font-size: 15px; color: #8a4500; }
     .fl .gps .item { padding: 6px 0; border-top: 1px solid #f3cf9f; font-size: 13px; }
@@ -244,6 +245,25 @@
   const horaDe = t => t ? new Date(t * 1000).toLocaleString('es-CL', { timeZone: 'America/Santiago', hour: '2-digit', minute: '2-digit' }) : '';
   const mapaDe = (lat, lon) => `https://www.google.com/maps?q=${lat},${lon}`;
 
+  // Alerta "GPS no calza con Operacion" del trabajo sin geocerca (sin_geocerca.json, la
+  // calcula la corrida de la noche; reglas del usuario 26-nov-2026). Se baja una vez.
+  let NO_CALZA = null;
+  function cargarNoCalza() {
+    if (NO_CALZA) return;
+    NO_CALZA = {};
+    fetch('datos/sin_geocerca.json?_=' + Date.now()).then(r => r.ok ? r.json() : null).then(d => {
+      for (const t of (d && d.trabajos) || []) {
+        if (t.gps_no_calza && t.estado !== 'resuelto') (NO_CALZA[t.maquina + '|' + t.fecha] = NO_CALZA[t.maquina + '|' + t.fecha] || []).push(t);
+      }
+      // Traslados con alerta (GPS vs Operacion), el dia del traslado.
+      for (const t of (d && d.traslados) || []) {
+        if (!t.alerta) continue;
+        const k = t.maquina + '|' + (t.fecha_gps || t.fecha_operacion);
+        (NO_CALZA[k] = NO_CALZA[k] || []).push({ traslado: true, alerta: t.alerta, desde: t.desde_lugar, hacia: t.hacia });
+      }
+      if (Object.keys(NO_CALZA).length) dibujarLista();
+    }).catch(() => {});
+  }
   function detalle(m) {
     const horometro = m.horometro ? ` · horómetro según Wialon: ${m.horometro.toLocaleString('es-CL', { maximumFractionDigits: 1 })} h` : '';
     const dias = (m.dias || []).filter(d => !d.sin_datos).slice().reverse();
@@ -256,6 +276,11 @@
         return `${esc(g)} <span class="chica">${h ? n(h) + ' h' : ''}${h && v ? ' · ' : ''}${v ? ha2(v) + ' ha' : ''}</span>`;
       });
       sin.forEach(x => lugares.push(`<span class="sin">Sin geocerca</span> <span class="chica">${n(x.horas)} h · ${n(x.ha)} ha</span> · ${mapa(x.mapa)}`));
+      for (const t of (NO_CALZA && NO_CALZA[m.nombre + '|' + d.fecha]) || []) {
+        lugares.push(t.traslado
+          ? `<span class="no-calza">⚠ Traslado ${esc(t.desde)} → ${esc(t.hacia)}</span> <span class="chica">${esc(t.alerta)}; revisar en Historial</span>`
+          : `<span class="no-calza">⚠ GPS no calza con Operación</span> <span class="chica">anotada en ${esc(t.campo)}; revisar en Historial</span>`);
+      }
       const horas = Object.values(horasGeo).reduce((t, h) => t + h, 0) + sin.reduce((t, x) => t + x.horas, 0);
       const hect = Object.values(haGeo).reduce((t, v) => t + v, 0) + sin.reduce((t, x) => t + x.ha, 0);
       const quedo = d.fin ? `${mapa(mapaDe(d.fin.lat, d.fin.lon), esc(d.fin.lugar || 'Fuera de geocercas'))} <span class="chica">${horaDe(d.fin.t)}</span>` : '—';
@@ -321,6 +346,7 @@
           <tbody>${filasSin}</tbody></table></div></details></div>`;
     },
     despues(raiz) {
+      cargarNoCalza();
       tablasMovil(raiz);
       const cuerpo = document.getElementById('flotaLista');
       if (cuerpo) cuerpo.onclick = ev => {

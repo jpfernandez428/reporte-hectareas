@@ -652,6 +652,9 @@ def datos_pagina_v2(datos, ctx, trabajo, oper):
         # "Desde" automatico (llegada al campo actual segun el GPS) de cada maquina en un campo.
         "desde_auto": {m: d for m, f in ctx.planilla.get("maquinas", {}).items() if not f.get("en_cyh")
                        for d in [operadores.desde_auto(ctx, m, f["campo"])] if d},
+        # Ya estaba ahi el primer dia que guarda el GPS: "Desde antes del ..." (26-nov-2026).
+        "desde_auto_antes": {m: True for m, f in ctx.planilla.get("maquinas", {}).items() if not f.get("en_cyh")
+                             and operadores.desde_auto_antes(ctx, m, f["campo"])},
         "fuente": ctx.planilla.get("fuente", "planilla"),
         "fecha": ctx.fa,
         "operadores": operadores.construir(ctx, oper),

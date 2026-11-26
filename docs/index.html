@@ -24,7 +24,12 @@
   button:hover { background: #24592f; }
   button.secundario { background: #555; }
   button.secundario:hover { background: #333; }
-  .resumen { background: white; border-radius: 10px; padding: 16px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); display: flex; gap: 32px; }
+  .resumen { background: white; border-radius: 10px; padding: 16px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); display: flex; flex-wrap: wrap; gap: 16px 32px; }
+  .resumen .sg-num { color: #3D5A80; }
+  /* Trabajo sin geocerca en la tabla del historial (estimado) */
+  tr.fila-sg td { background: #F3F6FA; color: #2f3b4c; }
+  .etq-sg { display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: 11px; font-weight: 700; background: #E3EAF3; color: #3D5A80; margin-right: 4px; }
+  .alerta-op { display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: 11px; font-weight: 700; background: #FFE0B2; color: #9A4A00; margin-left: 4px; }
   .resumen .num { font-size: 26px; font-weight: 700; }
   .resumen .etq { font-size: 12px; color: #666; }
   table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
@@ -90,6 +95,8 @@
   .vista-informe .vp-estado { font-weight: bold; padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
   .vista-informe .vp-estado.ok { background: #D6EFD9; color: #1F6B34; }
   .vista-informe .vp-estado.proc { background: #FFF3C4; color: #8A6A00; }
+  .vista-informe .vp-estado.aprox { background: #E3EAF3; color: #3D5A80; }
+  .vista-informe .vp-alerta { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 4px; background: #FFE0B2; color: #9A4A00; font-weight: bold; font-size: 11px; white-space: nowrap; }
   .vista-informe tr.vp-fuera .vp-estado { background: none; color: #9AA19C; }
   .vista-informe .vp-dias { margin-top: 10px; font-size: 13px; }
   .vista-informe .vp-dias summary { cursor: pointer; color: #2F6F3E; font-weight: bold; }
@@ -103,10 +110,30 @@
   .vista-informe tr.vp-editada td { background: #E8F0FE; }
   .vista-informe tr.vp-editada input.vp-ha { border-color: #1A5FA8; font-weight: bold; color: #1A5FA8; }
   .vista-informe .vp-orig { font-size: 11px; color: #1A5FA8; margin-top: 2px; white-space: nowrap; }
+  .vista-informe .vp-todos { display: none; }
+  /* Celular: cada cuartel de la vista previa es una ficha (en el computador sigue la tabla). */
+  @media (max-width: 700px) {
+    .vista-informe .vp-tabla { max-height: none; overflow: visible; border: 0; }
+    .vista-informe table.vp-cuarteles thead, .vista-informe table.vp-cuarteles tfoot { display: none; }
+    .vista-informe table.vp-cuarteles, .vista-informe table.vp-cuarteles tbody { display: block; width: 100%; }
+    .vista-informe table.vp-cuarteles tr { display: grid; grid-template-columns: 30px minmax(0, 1fr) minmax(0, 1fr); gap: 6px 12px; align-items: start;
+      border: 1px solid #D0D7D1; border-radius: 10px; padding: 10px 12px; margin: 0 0 8px; background: #fff; }
+    .vista-informe table.vp-cuarteles td { display: block; border: 0; padding: 0; text-align: left; white-space: normal; }
+    .vista-informe table.vp-cuarteles td.vp-chk { grid-row: 1 / span 5; padding-top: 2px; }
+    .vista-informe table.vp-cuarteles td.vp-chk input { width: 20px; height: 20px; }
+    .vista-informe table.vp-cuarteles td.vp-cuartel { grid-column: 2 / 4; font-weight: bold; font-size: 15px; }
+    .vista-informe table.vp-cuarteles td.vp-labor, .vista-informe table.vp-cuarteles td.vp-campo { grid-column: 2 / 4; color: #555; font-size: 13px; margin-top: -4px; }
+    .vista-informe table.vp-cuarteles td[data-label]::before { content: attr(data-label); display: block; font-size: 11px; font-weight: bold; color: #5f6b64; text-transform: uppercase; margin-bottom: 2px; }
+    .vista-informe table.vp-cuarteles input.vp-ha { box-sizing: border-box; width: 100%; max-width: 130px; font-size: 16px; padding: 6px 8px; text-align: left; }
+    .vista-informe table.vp-cuarteles tr.vp-fuera td { background: none; }
+    .vista-informe table.vp-cuarteles tr.vp-fuera { background: #F4F4F4; }
+    .vista-informe table.vp-cuarteles tr.vp-editada td { background: none; }
+    .vista-informe table.vp-cuarteles tr.vp-editada { background: #E8F0FE; border-color: #1A5FA8; }
+    .vista-informe .vp-orig { white-space: normal; }
+    .vista-informe .vp-todos { display: block; font-size: 14px; margin: 2px 0 6px; }
+  }
   .vista-informe .vp-orig button { font-size: 11px; padding: 1px 6px; margin-left: 4px; border: 1px solid #1A5FA8; border-radius: 4px; background: #fff; color: #1A5FA8; cursor: pointer; }
-  .pestanas { position: sticky; bottom: 0; z-index: 5; display: flex; gap: 8px; justify-content: center;
-              padding: 10px 0 calc(10px + env(safe-area-inset-bottom, 0px)); margin-top: 32px;
-              background: linear-gradient(to top, #f5f6f7 70%, rgba(245,246,247,0)); }
+  .pestanas { display: flex; gap: 8px; justify-content: flex-start; margin: 4px 0 16px; }
   .pestanas button { background: #e3e8e4; color: #1a1a1a; font-weight: 600; padding: 10px 22px; }
   .pestanas button:hover { background: #d4dbd6; }
   .pestanas button.activa { background: #2f6f3e; color: white; }
@@ -165,6 +192,11 @@
 <h1>Reporte de Hectáreas Trabajadas</h1>
 <div class="sub">C&amp;H Maquinaria — datos actualizados automáticamente desde Wialon · <a href="reporte.html" style="color:#2f6f3e;font-weight:600;">Reporte diario de flota →</a></div>
 
+<!-- Arriba y sin flotar: nunca tapa el contenido (pedido del usuario 26-nov-2026). -->
+<nav class="pestanas" aria-label="Vistas">
+  <button id="tabReporte" class="activa" onclick="mostrarVista('reporte')">Hectáreas</button>
+  <button id="tabFlota" onclick="mostrarVista('flota')">Flota</button>
+</nav>
 <div class="vista" id="vistaReporte">
 <main class="principal">
 
@@ -222,7 +254,15 @@
 <div class="resumen">
   <div>
     <div class="num" id="totalHa">-</div>
-    <div class="etq">Hectáreas totales (según filtro)<span id="totalSinGeo" style="color:#b3261e;"></span></div>
+    <div class="etq">Hectáreas con geocerca</div>
+  </div>
+  <div>
+    <div class="num sg-num" id="totalSG">-</div>
+    <div class="etq">Estimadas sin geocerca (aprox.)</div>
+  </div>
+  <div>
+    <div class="num" id="totalAmbas">-</div>
+    <div class="etq">Total (con geocerca + estimadas)</div>
   </div>
   <div>
     <div class="num" id="totalFilas">-</div>
@@ -304,10 +344,6 @@
   </div>
 </div>
 
-<nav class="pestanas" aria-label="Vistas">
-  <button id="tabReporte" class="activa" onclick="mostrarVista('reporte')">Hectáreas</button>
-  <button id="tabFlota" onclick="mostrarVista('flota')">Flota</button>
-</nav>
 
 <script>
 let datos = [];
@@ -508,7 +544,7 @@ const acotarMarcados = new Set();
 let firmaAcotar = null;
 
 function poblarFiltroMaquinas() {
-  listaMaquinas = [...new Set(datos.map(d => d.maquina))]
+  listaMaquinas = [...new Set([...datos.map(d => d.maquina), ...trabajosSG().map(t => t.maquina)])]
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
     .map(m => ({ valor: m, texto: m, busqueda: sinTildes(m) }));
   const campos = {};
@@ -516,6 +552,13 @@ function poblarFiltroMaquinas() {
     const c = campoDe(cuartel);
     if (!campos[c.id]) campos[c.id] = { nombre: c.nombre, busqueda: new Set([c.nombre]) };
     campos[c.id].busqueda.add(cuartel);
+  }
+  // Campos del trabajo sin geocerca (Operacion, confirmados, asignados): El Quillay, Kunako...
+  for (const t of trabajosSG()) {
+    const c = campoTrabajoSG(t);
+    if (!c) continue;
+    if (!campos[c.id]) campos[c.id] = { nombre: c.nombre, busqueda: new Set([c.nombre]) };
+    campos[c.id].busqueda.add(t.campo);
   }
   for (const [campo, raices] of Object.entries(RAICES_DE_CAMPO)) {
     const c = campos['u:' + campo];
@@ -578,6 +621,14 @@ function dibujarAcotar() {
     const valorPrincipal = modoFiltro === 'maquina' ? d.maquina : campoDe(d.cuartel).id;
     if (!principales.includes(valorPrincipal)) continue;
     presentes.add(otro === 'maquina' ? d.maquina : campoDe(d.cuartel).id);
+  }
+  for (const t of trabajosSG()) {
+    if ((desde && t.fecha < desde) || (hasta && t.fecha > hasta)) continue;
+    const c = campoTrabajoSG(t);
+    const valorPrincipal = modoFiltro === 'maquina' ? t.maquina : c && c.id;
+    if (!valorPrincipal || !principales.includes(valorPrincipal)) continue;
+    const valorOtro = otro === 'maquina' ? t.maquina : c && c.id;
+    if (valorOtro) presentes.add(valorOtro);
   }
   const lista = (otro === 'maquina' ? listaMaquinas : listaCampos).filter(o => presentes.has(o.valor));
   caja.hidden = false;
@@ -771,16 +822,31 @@ let expandido = new Set();
 // otra opcion o "no es de ningun campo"; cada confirmacion queda como regla
 // del lugar (config.json) y se puede deshacer. Abierto, sin clave.
 // ---------------------------------------------------------------------------
+// Con filtro de campo solo cuenta el trabajo cuyo campo es seguro (Operacion, confirmado,
+// asignado o probable con una sola opcion; reglas del usuario 26-nov-2026). "resuelto" = ya
+// cae dentro de una geocerca (sus ha estan en el historial): no se suma (regla 28-oct-2026).
+function pasaFiltroSG(t, maquinas, campos, desde, hasta) {
+  if ((desde && t.fecha < desde) || (hasta && t.fecha > hasta)) return false;
+  if (maquinas.length && !maquinas.includes(t.maquina)) return false;
+  if (!campos.length) return true;
+  const c = campoTrabajoSG(t);
+  return !!c && campos.includes(c.id);
+}
 function trabajosSinGeocercaFiltrados() {
   if (!sinGeocerca) return [];
   const desde = document.getElementById('filtroDesde').value, hasta = document.getElementById('filtroHasta').value;
+  if (gruposFiltro.length) {
+    return trabajosSG().filter(t => gruposFiltro.some(g => pasaFiltroSG(t, g.maquinas, g.campos || [], g.desde, g.hasta)) &&
+      (!desde || t.fecha >= desde) && (!hasta || t.fecha <= hasta));
+  }
   const maquinas = maquinasSeleccionadas(), campos = camposSeleccionados();
-  const nombres = new Set(campos.map(id => (listaCampos.find(o => o.valor === id) || {}).texto));
-  // "resuelto" = ya cae dentro de una geocerca (sus ha estan en el historial): no se suma (regla 28-oct-2026).
-  return sinGeocerca.trabajos.filter(t => t.estado !== 'resuelto' &&
-    (!desde || t.fecha >= desde) && (!hasta || t.fecha <= hasta) &&
-    (!maquinas.length || maquinas.includes(t.maquina)) &&
-    (!campos.length || nombres.has(t.campo) || (t.estado === 'probable' && !t.campo && (t.opciones || []).some(o => nombres.has(o)))));
+  return trabajosSG().filter(t => pasaFiltroSG(t, maquinas, campos, desde, hasta));
+}
+// Texto del campo de un trabajo sin geocerca (para la tabla del historial).
+function campoTextoSG(t) {
+  const c = campoTrabajoSG(t);
+  if (!c) return t.estado === 'ninguno' ? 'ningún campo (confirmado)' : 'sin campo';
+  return c.nombre + (t.estado === 'confirmado' ? ' (confirmado)' : t.segun_operacion ? ' (según Operación)' : t.estado === 'probable' ? ' (probable)' : '');
 }
 
 function enviarConfirmacion(cuerpo, boton) {
@@ -815,9 +881,24 @@ function estadoSinGeocerca(t) {
     return `<span class="sg-estado sg-probable">probable: ${escaparXml(nombres)}</span>${botonesProbable(t)}`;
   }
   if (t.estado === 'confirmado') return `<span class="sg-estado sg-confirmado">${escaparXml(t.campo)} (confirmado)</span>`;
-  if (t.estado === 'asignado') return `<span class="sg-estado sg-asignado">${escaparXml(t.campo)}</span>`;
+  if (t.estado === 'asignado') {
+    const nombre = escaparXml(campoTrabajoSG(t) ? campoTrabajoSG(t).nombre : t.campo);
+    const detalle = t.segun_operacion ? (t.traslado ? ' (según Operación, traslado)' : ' (según Operación)') : '';
+    return `<span class="sg-estado sg-asignado">${nombre}${detalle}</span>` +
+      (t.gps_no_calza ? `<span class="alerta-op">⚠ GPS no calza con Operación</span>${botonesNoCalza(t)}` : '');
+  }
   if (t.estado === 'ninguno') return '<span class="sg-estado sg-sin">ningún campo (confirmado)</span>';
   return `<span class="sg-estado sg-sin">sin campo</span>${(t.opciones || []).length ? botonesProbable(t) : ''}`;
+}
+
+// Trabajo con alerta "GPS no calza con Operacion": confirmar el lugar (manda sobre todo).
+function botonesNoCalza(t) {
+  const opciones = [...new Set([t.campo, ...(t.opciones || [])].filter(Boolean))];
+  const cuerpo = (accion, campo) => escaparXml(JSON.stringify({ accion, lat: t.lat, lon: t.lon, campo }));
+  const btn = (texto, accion, campo, clase = '') =>
+    `<button type="button" class="${clase}" onclick='enviarConfirmacion(JSON.parse(this.dataset.c), this)' data-c="${cuerpo(accion, campo)}">${escaparXml(texto)}</button>`;
+  return `<div class="sg-botones">${opciones.map(o => btn(`Es ${nombreVisibleCampo(o)}`, 'campo', o)).join('')}` +
+    btn('No es de ningún campo', 'ninguno', null, 'secundario') + '</div>';
 }
 
 function tablaSinGeocerca(lista) {
@@ -831,17 +912,47 @@ function tablaSinGeocerca(lista) {
 
 function renderSinGeocerca() {
   const cont = document.getElementById('contenedorSinGeocerca');
-  const totalSG = document.getElementById('totalSinGeo');
   if (!cont) return;
-  if (!sinGeocerca) { cont.innerHTML = '<div class="vacio">Todavía no hay datos de trabajo sin geocerca.</div>'; totalSG.textContent = ''; return; }
+  if (!sinGeocerca) { cont.innerHTML = '<div class="vacio">Todavía no hay datos de trabajo sin geocerca.</div>'; return; }
   const campos = camposSeleccionados();
   const lista = trabajosSinGeocercaFiltrados();
-  const enCampo = lista.filter(t => t.campo || t.estado === 'probable');
-  const haSG = (campos.length ? enCampo : lista).reduce((s, t) => s + t.ha, 0);
-  totalSG.textContent = haSG > 0 ? ` + ~${haSG.toFixed(1)} ha estimadas sin geocerca` : '';
   let html = '';
+  // Campos sin geocerca con la ubicacion aprendida de la Operacion: el usuario la confirma
+  // (queda como lugar confirmado) y desde ahi se avisa si el GPS no calza.
+  const aprendidas = (sinGeocerca.ubicaciones_aprendidas || []);
+  if (aprendidas.length) {
+    html += `<details class="sg" open><summary>Ubicación aprendida de campos sin geocerca · confírmala: ${aprendidas.length}</summary>` +
+      '<div style="overflow-x:auto"><table><thead><tr><th>Campo</th><th>De dónde sale</th><th>Lugar</th><th></th></tr></thead><tbody>' +
+      aprendidas.map(a => `<tr><td>${escaparXml(nombreVisibleCampo(a.campo))}</td>` +
+        `<td>${a.trabajos} de ${a.de} trabajos anotados en Operación en ese campo quedan en este lugar</td>` +
+        `<td><a href="https://www.google.com/maps?q=${a.lat},${a.lon}" target="_blank" rel="noopener">mapa</a></td>` +
+        `<td><div class="sg-botones"><button type="button" onclick='enviarConfirmacion(JSON.parse(this.dataset.c), this)' data-c="${escaparXml(JSON.stringify({ accion: 'campo', lat: a.lat, lon: a.lon, campo: a.campo }))}">Confirmar: es ${escaparXml(nombreVisibleCampo(a.campo))}</button></div></td></tr>`).join('') +
+      '</tbody></table></div><div class="chica" style="color:#555;margin:6px 0 0">Mientras no la confirmes, el trabajo de ese campo no muestra la alerta "GPS no calza con Operación".</div></details>';
+  }
+  // Traslados segun el GPS comparados con Operacion (reglas del usuario 26-nov-2026).
+  const desdeF = document.getElementById('filtroDesde').value, hastaF = document.getElementById('filtroHasta').value;
+  const maqF = maquinasSeleccionadas();
+  const traslados = (sinGeocerca.traslados || []).filter(t => {
+    const f = t.fecha_gps || t.fecha_operacion;
+    return (!desdeF || f >= desdeF) && (!hastaF || f <= hastaF) && (!maqF.length || maqF.includes(t.maquina));
+  }).sort((a, b) => (b.fecha_gps || b.fecha_operacion).localeCompare(a.fecha_gps || a.fecha_operacion) || a.maquina.localeCompare(b.maquina));
+  if (traslados.length) {
+    const nAl = traslados.filter(t => t.alerta).length;
+    const fc = f => f ? f.split('-').reverse().join('-') : '—';
+    html += `<details class="sg"${nAl ? ' open' : ''}><summary>Traslados según el GPS y la Operación: ${traslados.length}${nAl ? ` · <span style="color:#9A4A00">⚠ ${nAl} para revisar</span>` : ''}</summary>` +
+      '<div style="overflow-x:auto"><table><thead><tr><th>Máquina</th><th>De → a</th><th>Fecha según GPS</th><th>Fecha según Operación</th><th>Revisar</th></tr></thead><tbody>' +
+      traslados.map(t => `<tr${t.alerta ? ' style="background:#FFF4E5"' : ''}><td>${escaparXml(t.maquina)}</td>` +
+        `<td>${escaparXml(nombreVisibleCampo(t.desde_lugar))} → ${escaparXml(nombreVisibleCampo(t.hacia))}${t.punto ? ` <a href="https://www.google.com/maps?q=${t.punto[1]},${t.punto[0]}" target="_blank" rel="noopener">mapa</a>` : ''}</td>` +
+        `<td>${t.fecha_gps ? fc(t.fecha_gps) : '—'}${t.incierta ? '<br><small>fecha incierta (sin señal)</small>' : ''}</td><td>${fc(t.fecha_operacion)}</td>` +
+        `<td>${t.alerta ? `<span class="alerta-op">⚠ ${escaparXml(t.alerta)}</span>` : ''}</td></tr>`).join('') +
+      '</tbody></table></div><div class="chica" style="color:#555;margin:6px 0 0">El trabajo sin geocerca se asigna según el día real del traslado que muestra el GPS (antes, al campo anterior; después, al nuevo).</div></details>';
+  }
+  const alertas = lista.filter(t => t.gps_no_calza);
+  if (alertas.length) {
+    html += `<details class="sg" open><summary>⚠ GPS no calza con Operación: ${alertas.length}</summary>${tablaSinGeocerca(alertas)}</details>`;
+  }
   if (campos.length) {
-    html += tablaSinGeocerca(enCampo);
+    html += tablaSinGeocerca(lista);
   } else {
     const porConfirmar = lista.filter(t => t.estado === 'probable');
     const sinCampo = lista.filter(t => t.estado === 'sin campo' || t.estado === 'ninguno');
@@ -891,14 +1002,23 @@ function renderTabla() {
   renderAvancePorCuartel();
   renderSinGeocerca();
 
-  if (filtrados.length === 0) {
+  // Trabajo sin geocerca (estimado) en la misma tabla, por maquina y dia (pedido 26-nov-2026).
+  const sg = trabajosSinGeocercaFiltrados();
+  const haSG = sg.reduce((t, x) => t + x.ha, 0);
+  if (filtrados.length === 0 && sg.length === 0) {
     cont.innerHTML = '<div class="vacio">No hay datos para este filtro todavía.</div>';
     document.getElementById('totalHa').textContent = '0.00';
+    document.getElementById('totalSG').textContent = '≈ 0.00';
+    document.getElementById('totalAmbas').textContent = '0.00';
     document.getElementById('totalFilas').textContent = '0';
     return;
   }
 
   const filasGrupo = agruparFiltrados();
+  // Filas del historial y del trabajo sin geocerca juntas, de la fecha mas nueva a la mas vieja.
+  const filasTabla = [...filasGrupo.map(g => ({ g, fecha: g.fecha, maquina: g.maquina })),
+                      ...sg.map(t => ({ t, fecha: t.fecha, maquina: t.maquina }))]
+    .sort((a, b) => b.fecha.localeCompare(a.fecha) || a.maquina.localeCompare(b.maquina) || (a.t ? 1 : 0) - (b.t ? 1 : 0));
 
   let html = '<table><thead><tr>' +
     '<th>Fecha</th><th>Máquina</th><th>N° Cuarteles</th>' +
@@ -907,7 +1027,17 @@ function renderTabla() {
 
   let sumaTrabajada = 0;
 
-  for (const g of filasGrupo) {
+  for (const fila of filasTabla) {
+    if (fila.t) {
+      const t = fila.t;
+      html += `<tr class="fila-sg" title="Trabajo sin geocerca: hectáreas estimadas (horas × rendimiento real de la máquina)">` +
+        `<td>${t.fecha}</td><td>${escaparXml(t.maquina)}</td>` +
+        `<td colspan="2"><span class="etq-sg">sin geocerca</span>${escaparXml(t.labor || '')} · ${escaparXml(campoTextoSG(t))} · ${(t.horas || 0).toFixed(1)} h` +
+        `${t.gps_no_calza ? '<span class="alerta-op">⚠ GPS no calza con Operación</span>' : ''}</td>` +
+        `<td>≈ ${t.ha.toFixed(2)}</td></tr>`;
+      continue;
+    }
+    const g = fila.g;
     sumaTrabajada += g.area_trabajada;
 
     html += `<tr class="fila-grupo" ondblclick="toggleDetalle('${g.clave.replace(/'/g, "\\'")}')" title="Doble clic para ver el detalle por cuartel">` +
@@ -928,13 +1058,17 @@ function renderTabla() {
   }
   html += '</tbody>';
   const unica = areaUnica(filtrados);
-  html += `<tfoot><tr><td colspan="2">TOTAL (${filasGrupo.length} registros)</td><td>${unica.cuarteles}</td>` +
-    `<td>${unica.area.toFixed(2)}</td><td>${sumaTrabajada.toFixed(2)}</td></tr></tfoot>`;
+  html += `<tfoot><tr><td colspan="2">TOTAL con geocerca (${filasGrupo.length} registros)</td><td>${unica.cuarteles}</td>` +
+    `<td>${unica.area.toFixed(2)}</td><td>${sumaTrabajada.toFixed(2)}</td></tr>` +
+    (sg.length ? `<tr class="fila-sg"><td colspan="4">Estimadas sin geocerca (${sg.length} trabajos, aproximado)</td><td>≈ ${haSG.toFixed(2)}</td></tr>` +
+      `<tr><td colspan="4">TOTAL (con geocerca + estimadas)</td><td>${(sumaTrabajada + haSG).toFixed(2)}</td></tr>` : '') + '</tfoot>';
   html += '</table>';
   cont.innerHTML = html;
 
   document.getElementById('totalHa').textContent = sumaTrabajada.toFixed(2);
-  document.getElementById('totalFilas').textContent = filasGrupo.length;
+  document.getElementById('totalSG').textContent = '≈ ' + haSG.toFixed(2);
+  document.getElementById('totalAmbas').textContent = (sumaTrabajada + haSG).toFixed(2);
+  document.getElementById('totalFilas').textContent = filasGrupo.length + sg.length;
 
   const ultima = [...datos].map(d => d.fecha).sort().pop();
   document.getElementById('ultimaFecha').textContent = ultima || '-';

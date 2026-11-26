@@ -276,7 +276,9 @@ function desdeAnotado(m) {
 }
 const desdeAuto = m => sinGps(m) ? ((V && V.desde_auto && V.desde_auto[m]) || desdeAnotado(m)) : ((V && V.desde_auto && V.desde_auto[m]) || '');
 const diasAqui = iso => { const n = Math.round((Date.parse(hoyIso()) - Date.parse(iso)) / 864e5) + 1; return n > 0 ? `${n} día${n === 1 ? '' : 's'} aquí` : ''; };
-const textoAuto = m => sinGps(m) ? 'al anotar el campo' : 'automática (GPS)';
+// Ya estaba en el campo el primer dia que guarda el GPS (30 dias): la fecha real es anterior.
+const autoAntes = m => !!(V && V.desde_auto_antes && V.desde_auto_antes[m]);
+const textoAuto = m => sinGps(m) ? 'al anotar el campo' : autoAntes(m) ? `antes del ${fc(desdeAuto(m)).slice(0, 5).replace('-', '/')} · automática (GPS)` : 'automática (GPS)';
 // Implemento: lista fija en las maquinas sin GPS, texto libre en las demas.
 function campoImplemento(m, valor, attrs) {
   const ops = implementosDe(m);
@@ -1220,7 +1222,7 @@ function vistaFichas() {
       const m = u.maquina, v = valorDe(m), r = resultadoDe(m), auto = desdeAuto(m), gp = gpsDe(m);
       const clase = pendienteDe(m) ? 'guardando' : (r && !r.ok) ? 'fallo' : '';
       const enCampo = v.campo && !esTaller(v.campo);
-      const desde = enCampo ? (v.desde ? fc(v.desde) : auto ? fc(auto) + (sinGps(m) ? '' : ' (automática)') : 'sin dato') : '';
+      const desde = enCampo ? (v.desde ? fc(v.desde) : auto ? (autoAntes(m) ? 'antes del ' : '') + fc(auto) + (sinGps(m) ? '' : ' (automática)') : 'sin dato') : '';
       const extra = [u.labor, v.implemento].filter(Boolean).join(' · ');
       html += `<div class="ficha ${clase}" data-m="${esc(m)}">
         <div class="ficha-cab"><div><div class="ficha-nom">${esc(m)}</div>${extra ? `<div class="ficha-sub">${esc(extra)}</div>` : ''}</div>${estadoSinc(m)}</div>

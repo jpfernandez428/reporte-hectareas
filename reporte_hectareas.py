@@ -1180,6 +1180,11 @@ def detectar_trabajo_fuera(unidad, fecha_str, puntos, dentro_ids):
             "lon": round(lon, 6),
             "mapa": f"https://www.google.com/maps?q={lat:.6f},{lon:.6f}",
             "muestras": [[round(x, 6), round(y, 6)] for x, y in muestras[::paso]],
+            # Pasadas que cuentan (inicio y fin de cada una) para dibujar el trabajo
+            # sin geocerca en el mapa del informe (pedido del usuario 26-nov-2026).
+            # No cambia horas ni hectareas.
+            "trazos": [[round(seg[0]["punto"][0], 6), round(seg[0]["punto"][1], 6),
+                        round(seg[-1]["punto"][0], 6), round(seg[-1]["punto"][1], 6)] for seg in segs],
         })
     return alertas
 

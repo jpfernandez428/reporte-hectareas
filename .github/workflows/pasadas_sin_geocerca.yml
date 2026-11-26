@@ -1,0 +1,59 @@
+name: Recuperar pasadas sin geocerca
+
+# Solo a mano (Actions -> Run workflow). Baja de Wialon (solo lectura) el GPS de
+# los dias con trabajo sin geocerca guardado sin pasadas y agrega sus trazos a
+# docs/datos/sin_geocerca_pasadas.json para el mapa del informe. No cambia
+# horas, hectareas ni campos. Pedido del usuario 26-nov-2026.
+on:
+  workflow_dispatch:
+    inputs:
+      desde:
+        description: 'Desde (AAAA-MM-DD, vacio = todo)'
+        required: false
+        default: ''
+      hasta:
+        description: 'Hasta (AAAA-MM-DD, vacio = hoy)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+# Una sola corrida a la vez que escriba en el repositorio (con la diaria y el tablero).
+concurrency:
+  group: datos-del-repositorio
+  cancel-in-progress: false
+
+jobs:
+  pasadas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar librerias
+        run: pip install -r requirements.txt
+
+      - name: Recuperar pasadas
+        env:
+          WIALON_TOKEN: ${{ secrets.WIALON_TOKEN }}
+          DESDE: ${{ github.event.inputs.desde }}
+          HASTA: ${{ github.event.inputs.hasta }}
+        run: python3 recuperar_pasadas_sin_geocerca.py
+
+      - name: Guardar en el repositorio
+        run: |
+          git config user.name "Reporte automatico"
+          git config user.email "actions@users.noreply.github.com"
+          git add docs/datos/sin_geocerca_pasadas.json
+          if ! git diff --staged --quiet; then
+            git commit -m "Pasadas sin geocerca recuperadas $(date -u +%F)"
+            git pull --rebase origin main
+            git push
+          fi

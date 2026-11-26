@@ -32,9 +32,9 @@
   header h1 { margin: 0; font-size: 19px; }
   header .sub { font-size: 14px; opacity: .92; margin-top: 4px; }
   header a { color: white; font-size: 13px; }
-  nav { position: sticky; top: var(--alto-menu, 0px); z-index: 3; background: white; border-bottom: 1px solid var(--borde);
+  nav:not(.menu-global) { position: sticky; top: var(--alto-menu, 0px); z-index: 3; background: white; border-bottom: 1px solid var(--borde);
         display: flex; gap: 6px; overflow-x: auto; padding: 8px 12px; }
-  nav a { flex: none; text-decoration: none; color: var(--verde); font-weight: 600; font-size: 13px;
+  nav:not(.menu-global) a { flex: none; text-decoration: none; color: var(--verde); font-weight: 600; font-size: 13px;
           border: 1px solid #cfe0d1; border-radius: 999px; padding: 5px 11px; background: var(--verde-f); }
   main { max-width: 820px; margin: 0 auto; padding: 12px; }
   section { background: white; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.08); margin-bottom: 14px;
