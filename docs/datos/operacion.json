@@ -1,5 +1,5 @@
 {
- "actualizado": "26-11-2026 12:44",
+ "actualizado": "27-11-2026 08:44",
  "origen": "Cargada una vez desde la planilla del Drive el 26-10-2026 12:16",
  "maquinas": {
   "Barredora 1": {
@@ -533,15 +533,16 @@
    "campo": "el quillay",
    "desde": "",
    "destino": ""
+  },
+  "Tractor 12 Agrotron 185": {
+   "implemento": "",
+   "operador": "jorge mella",
+   "campo": "Hornillas",
+   "desde": "2026-11-27",
+   "destino": ""
   }
  },
  "guardados": [
-  {
-   "id": "mwastxondn67vz",
-   "recibido": "1794321732965",
-   "aplicado": 1794321757071,
-   "cambios": 1
-  },
   {
    "id": "mwasu2yiilpdm0",
    "recibido": "1794321739802",
@@ -835,6 +836,12 @@
    "recibido": "1795707816441",
    "aplicado": 1795707850303,
    "cambios": 1
+  },
+  {
+   "id": "mwywygh9rmop48",
+   "recibido": "1795779850581",
+   "aplicado": 1795779879012,
+   "cambios": 3
   }
  ]
 }

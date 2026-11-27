@@ -1090,5 +1090,32 @@
   "despues": "Prodalmen",
   "id": "mwxq2imo0jaoly",
   "origen": "App"
+ },
+ {
+  "fecha": "27-11-2026 08:44",
+  "maquina": "Tractor 12 Agrotron 185",
+  "cambio": "Operador",
+  "antes": "",
+  "despues": "jorge mella",
+  "id": "mwywygh9rmop48",
+  "origen": "App"
+ },
+ {
+  "fecha": "27-11-2026 08:44",
+  "maquina": "Tractor 12 Agrotron 185",
+  "cambio": "Campo",
+  "antes": "",
+  "despues": "Hornillas",
+  "id": "mwywygh9rmop48",
+  "origen": "App"
+ },
+ {
+  "fecha": "27-11-2026 08:44",
+  "maquina": "Tractor 12 Agrotron 185",
+  "cambio": "Desde",
+  "antes": "automática",
+  "despues": "2026-11-27",
+  "id": "mwywygh9rmop48",
+  "origen": "App"
  }
 ]
