@@ -478,17 +478,9 @@
     {"id": "20261022180426", "lat": -33.459375, "lon": -71.165423, "campo": "Santa Ana", "fecha": "2026-10-22 18:04"},
     {"id": "20261028160757", "lat": -34.306643, "lon": -71.422066, "campo": "torretagle", "fecha": "2026-10-28 16:07"},
     {"id": "20261105125208", "lat": -34.726204, "lon": -71.331234, "campo": "CK2", "fecha": "2026-11-05 12:52"},
-    {"id": "20261126185212", "lat": -34.424743, "lon": -71.343477, "campo": "Ferbas", "fecha": "2026-11-26 18:52"}
+    {"id": "20261126185212", "lat": -34.424743, "lon": -71.343477, "campo": "Ferbas", "fecha": "2026-11-26 18:52"},
+    {"id": "20261127094113", "lat": -33.560839, "lon": -70.981602, "campo": "el quillay", "fecha": "2026-11-27 09:41"}
   ],
-  "equivalencias_campos": {
-    "Siracusa": ["Aurora"],
-    "Agricola Principio (Cancura)": ["EL PRINCIPIO"],
-    "MGH": ["MGH Nancagua", "Nancagua SBS Campo"],
-    "Santa Ana 2": ["Santa Ana"],
-    "Bunster Nancagua (ricardo gonzales)": ["Bunster El Huique", "Bunster Placilla", "Rodrigo Bunster"],
-    "Alto Calibre": [],
-    "Agr Santa Berta": []
-  },
   "equivalencias_operadores": {},
   "calendario_labores": {
     "nota": "Meses [desde, hasta] de cada labor e inicio de la temporada (poda y picado de abril a marzo). Shacker SBS fuera de cosecha y raleo = Revisar labor. Reglas del usuario 21 y 26-oct-2026.",
@@ -502,5 +494,15 @@
   "traslados_confirmados": [
     {"maquina": "Tractor 10 Deutz Fahr 115", "campo": "Ferbas", "desde": "2026-11-16", "hasta": "2026-11-20", "fecha": "2026-11-26 18:52"},
     {"maquina": "Shacker SBS 4", "campo": "MERCOFRUT", "desde": "2026-11-07", "hasta": "2026-11-10", "fecha": "2026-11-26 18:52"}
-  ]
+  ],
+  "equivalencias_campos": {
+    "Siracusa": ["Aurora"],
+    "Agricola Principio (Cancura)": ["EL PRINCIPIO"],
+    "MGH": ["MGH Nancagua", "Nancagua SBS Campo"],
+    "Santa Ana 2": ["Santa Ana"],
+    "Bunster Nancagua (ricardo gonzales)": ["Bunster El Huique", "Bunster Placilla", "Rodrigo Bunster"],
+    "Alto Calibre": [],
+    "Agr Santa Berta": [],
+    "ojeda": ["el quillay"]
+  }
 }

@@ -170,5 +170,19 @@
   "campo": "MERCOFRUT",
   "desde": "2026-11-07",
   "hasta": "2026-11-10"
+ },
+ {
+  "fecha": "2026-11-27 09:41",
+  "accion": "equivalencia",
+  "nombre": "ojeda",
+  "campo": "el quillay"
+ },
+ {
+  "fecha": "2026-11-27 09:41",
+  "accion": "campo",
+  "id": "20261127094113",
+  "lat": -33.560839,
+  "lon": -70.981602,
+  "campo": "el quillay"
  }
 ]
