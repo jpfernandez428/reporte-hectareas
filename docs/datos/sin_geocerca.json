@@ -69,6 +69,20 @@
 "lon": -71.331234,
 "campo": "CK2",
 "fecha": "2026-11-05 12:52"
+},
+{
+"id": "20261126185212",
+"lat": -34.424743,
+"lon": -71.343477,
+"campo": "Ferbas",
+"fecha": "2026-11-26 18:52"
+},
+{
+"id": "20261127094113",
+"lat": -33.560839,
+"lon": -70.981602,
+"campo": "el quillay",
+"fecha": "2026-11-27 09:41"
 }
 ],
 "ubicaciones_aprendidas": [
@@ -78,13 +92,6 @@
 "lat": -34.716699,
 "trabajos": 2,
 "de": 2
-},
-{
-"campo": "el quillay",
-"lon": -70.981602,
-"lat": -33.560839,
-"trabajos": 28,
-"de": 28
 },
 {
 "campo": "kunako",
@@ -256,9 +263,9 @@
 "desde_lugar": "kunako",
 "hacia": "MERCOFRUT",
 "fecha_gps": "2026-11-07",
-"fecha_operacion": null,
+"fecha_operacion": "2026-11-07",
 "incierta": false,
-"alerta": "el GPS la lleva a MERCOFRUT, pero Operación dice kunako",
+"alerta": null,
 "punto": [
 -71.089662,
 -34.724818
@@ -269,7 +276,7 @@
 "desde_lugar": "MERCOFRUT",
 "hacia": "CYH",
 "fecha_gps": "2026-11-11",
-"fecha_operacion": "2026-11-10",
+"fecha_operacion": "2026-11-11",
 "incierta": false,
 "alerta": null,
 "punto": [
@@ -371,11 +378,11 @@
 {
 "maquina": "Tractor 10 Deutz Fahr 115",
 "desde_lugar": "CYH",
-"hacia": "lugar sin campo conocido",
+"hacia": "Ferbas",
 "fecha_gps": "2026-11-16",
-"fecha_operacion": null,
+"fecha_operacion": "2026-11-16",
 "incierta": false,
-"alerta": "se movió según el GPS y en Operación nunca cambió el campo",
+"alerta": null,
 "punto": [
 -71.341966,
 -34.425248
@@ -435,10 +442,10 @@
 },
 {
 "maquina": "Tractor 10 Deutz Fahr 115",
-"desde_lugar": "lugar sin campo conocido",
+"desde_lugar": "Ferbas",
 "hacia": "CYH",
 "fecha_gps": "2026-11-20",
-"fecha_operacion": "2026-11-20",
+"fecha_operacion": "2026-11-21",
 "incierta": false,
 "alerta": null,
 "punto": [
@@ -869,8 +876,8 @@
 "desde_inicio": true
 },
 {
-"lugar": "lugar sin campo conocido",
-"tipo": "punto",
+"lugar": "Ferbas",
+"tipo": "campo",
 "desde": "2026-11-16",
 "hasta": "2026-11-20",
 "desde_inicio": false
@@ -14952,9 +14959,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-04",
@@ -15725,9 +15730,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-05",
@@ -16353,9 +16356,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-09",
@@ -16858,9 +16859,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-10",
@@ -17251,9 +17250,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-11",
@@ -18081,9 +18078,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-12",
@@ -18888,9 +18883,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-16",
@@ -19079,9 +19072,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-16",
@@ -19265,8 +19256,8 @@
 "comuna": "Pichidegua",
 "opciones": [],
 "distancias_km": {},
-"campo": null,
-"estado": "sin campo"
+"campo": "Ferbas",
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-16",
@@ -19483,9 +19474,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-17",
@@ -19742,9 +19731,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-17",
@@ -19892,8 +19879,8 @@
 "comuna": "Pichidegua",
 "opciones": [],
 "distancias_km": {},
-"campo": null,
-"estado": "sin campo"
+"campo": "Ferbas",
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-17",
@@ -20606,9 +20593,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-18",
@@ -20769,9 +20754,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-18",
@@ -21028,9 +21011,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-19",
@@ -21227,9 +21208,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-19",
@@ -21485,8 +21464,8 @@
 "comuna": "Pichidegua",
 "opciones": [],
 "distancias_km": {},
-"campo": null,
-"estado": "sin campo"
+"campo": "Ferbas",
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-19",
@@ -21663,9 +21642,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-20",
@@ -21854,9 +21831,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-20",
@@ -22032,8 +22007,8 @@
 "comuna": "Pichidegua",
 "opciones": [],
 "distancias_km": {},
-"campo": null,
-"estado": "sin campo"
+"campo": "Ferbas",
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-20",
@@ -22266,9 +22241,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-21",
@@ -22389,9 +22362,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-23",
@@ -22648,9 +22619,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-23",
@@ -22907,9 +22876,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-23",
@@ -23138,9 +23105,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-24",
@@ -23397,9 +23362,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-24",
@@ -23584,9 +23547,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-25",
@@ -23767,9 +23728,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-25",
@@ -24002,9 +23961,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-25",
@@ -24261,9 +24218,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-26",
@@ -24520,9 +24475,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-26",
@@ -24707,9 +24660,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 },
 {
 "fecha": "2026-11-26",
@@ -24878,9 +24829,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"estado": "confirmado"
 }
 ]
 }
