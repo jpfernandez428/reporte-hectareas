@@ -146,5 +146,29 @@
   "lat": -34.726204,
   "lon": -71.331234,
   "campo": "CK2"
+ },
+ {
+  "fecha": "2026-11-26 18:52",
+  "accion": "campo",
+  "id": "20261126185212",
+  "lat": -34.424743,
+  "lon": -71.343477,
+  "campo": "Ferbas"
+ },
+ {
+  "fecha": "2026-11-26 18:52",
+  "accion": "traslado confirmado",
+  "maquina": "Tractor 10 Deutz Fahr 115",
+  "campo": "Ferbas",
+  "desde": "2026-11-16",
+  "hasta": "2026-11-20"
+ },
+ {
+  "fecha": "2026-11-26 18:52",
+  "accion": "traslado confirmado",
+  "maquina": "Shacker SBS 4",
+  "campo": "MERCOFRUT",
+  "desde": "2026-11-07",
+  "hasta": "2026-11-10"
  }
 ]

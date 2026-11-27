@@ -281,6 +281,21 @@ def operacion_completa(canon):
     return salida
 
 
+def aplicar_traslados_confirmados(operacion, canon):
+    """Estadias confirmadas a mano por el usuario (config.json -> traslados_confirmados:
+    maquina, campo, desde, hasta): esos dias el campo de la maquina es ese, por sobre lo
+    anotado en Operacion (ej. Tractor 10 en Ferbas del 16 al 20-11-2026)."""
+    for c in rh.CONFIG.get("traslados_confirmados", []):
+        try:
+            dia, fin = date.fromisoformat(c["desde"]), date.fromisoformat(c["hasta"])
+        except Exception:
+            continue
+        while dia <= fin:
+            operacion[(c["maquina"], dia.isoformat())] = canon(c["campo"])
+            dia += timedelta(days=1)
+    return operacion
+
+
 def detectar_traslados(flota, operacion, ubicar, geos, estadias=None, ubicado=None):
     """Lista de traslados por maquina (ultimos dias del tablero) comparados con Operacion.
     Regla del usuario (26-nov-2026): la fecha real del traslado es la del GPS; Operacion
@@ -656,8 +671,9 @@ def main(con_direcciones=True, solo_revisar=False):
     traslados, estadias = [], {}
     try:
         ubicado = lambda c: c in cuarteles_por_campo or pl_normalizar(c) in confirmadas or c in aprendidas
-        traslados = detectar_traslados(flota, operacion_completa(canon), ubicar, geos, estadias, ubicado)
-        operacion = {k: v for k, v in operacion_segun_traslados(operacion_completa(canon), estadias).items() if v != "CYH"}
+        op_confirmada = aplicar_traslados_confirmados(operacion_completa(canon), canon)
+        traslados = detectar_traslados(flota, op_confirmada, ubicar, geos, estadias, ubicado)
+        operacion = {k: v for k, v in operacion_segun_traslados(op_confirmada, estadias).items() if v != "CYH"}
     except Exception as e:
         print(f"No se pudieron detectar los traslados ({e}).")
 

@@ -535,7 +535,11 @@ editable por el usuario.
   distinto del de Operación, si se movió y Operación nunca cambió (7 días de espera),
   o si a los 7 días de cambiar Operación el GPS aún no la lleva ("Operación dice X pero
   la máquina no ha llegado"). Se ven en el Historial y en Flota (GPS). Pendientes de
-  respuesta del usuario: Tractor 10 (16 al 20-11) y Shacker SBS 4 (Kunako → MERCOFRUT).
+  respuesta del usuario: ninguno en noviembre.
+- Estadías confirmadas a mano (`config.json` → `traslados_confirmados`: máquina, campo,
+  desde, hasta): esos días el campo es ese, por sobre Operación. 26-nov-2026: Tractor 10
+  en Ferbas del 16 al 20-11 (además, lugar confirmado "Ferbas" en Pichidegua) y Shacker
+  SBS 4 en MERCOFRUT del 07 al 10-11 (fecha del GPS).
 - "Desde" automático = llegada según el GPS (estadías de `sin_geocerca.json`); si ya
   estaba ahí el primer día que guarda el GPS: "Desde antes del dd/mm". Tractor 16 en
   El Quillay: 29-10 → 20-11.
