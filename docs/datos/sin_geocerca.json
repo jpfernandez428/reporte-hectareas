@@ -510,6 +510,15 @@
 "desde_inicio": false
 }
 ],
+"Barredora 5": [
+{
+"lugar": "MGH Nancagua",
+"tipo": "campo",
+"desde": "2026-11-27",
+"hasta": "2026-11-27",
+"desde_inicio": true
+}
+],
 "Barredora 6": [
 {
 "lugar": "CYH",
@@ -671,7 +680,7 @@
 "lugar": "CYH",
 "tipo": "cyh",
 "desde": "2026-11-11",
-"hasta": "2026-11-26",
+"hasta": "2026-11-27",
 "desde_inicio": false
 }
 ],
