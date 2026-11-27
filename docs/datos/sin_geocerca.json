@@ -71,6 +71,921 @@
 "fecha": "2026-11-05 12:52"
 }
 ],
+"ubicaciones_aprendidas": [
+{
+"campo": "Agricola Lazos",
+"lon": -70.998638,
+"lat": -34.716699,
+"trabajos": 2,
+"de": 2
+},
+{
+"campo": "el quillay",
+"lon": -70.981602,
+"lat": -33.560839,
+"trabajos": 28,
+"de": 28
+},
+{
+"campo": "kunako",
+"lon": -71.285904,
+"lat": -34.677955,
+"trabajos": 2,
+"de": 2
+}
+],
+"traslados": [
+{
+"maquina": "Shacker SBS 10",
+"desde_lugar": "EL PRINCIPIO",
+"hacia": "CYH",
+"fecha_gps": "2026-10-30",
+"fecha_operacion": null,
+"incierta": false,
+"alerta": "el GPS la lleva a CYH, pero Operación dice EL PRINCIPIO",
+"punto": [
+-71.265957,
+-34.654463
+]
+},
+{
+"maquina": "Shacker SBS 9",
+"desde_lugar": "kunako",
+"hacia": "Rocío Molina",
+"fecha_gps": "2026-10-30",
+"fecha_operacion": "2026-11-04",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.283853,
+-34.684247
+]
+},
+{
+"maquina": "Shacker SBS 9",
+"desde_lugar": "Rocío Molina",
+"hacia": "kunako",
+"fecha_gps": "2026-10-31",
+"fecha_operacion": null,
+"incierta": false,
+"alerta": "el GPS la lleva a kunako, pero Operación dice CYH",
+"punto": [
+-71.280509,
+-34.678291
+]
+},
+{
+"maquina": "Shacker SBS 10",
+"desde_lugar": "CYH",
+"hacia": "La Estrella",
+"fecha_gps": "2026-11-02",
+"fecha_operacion": "2026-11-04",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.629852,
+-34.209711
+]
+},
+{
+"maquina": "Shacker SBS 11",
+"desde_lugar": "CYH",
+"hacia": "Santa Graciela",
+"fecha_gps": "2026-11-02",
+"fecha_operacion": null,
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.407795,
+-34.416599
+]
+},
+{
+"maquina": "Barredora 1",
+"desde_lugar": "Candelaria",
+"hacia": "CYH",
+"fecha_gps": "2026-11-03",
+"fecha_operacion": "2026-11-04",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.26594,
+-34.654247
+]
+},
+{
+"maquina": "Barredora 23",
+"desde_lugar": "Candelaria",
+"hacia": "CYH",
+"fecha_gps": "2026-11-03",
+"fecha_operacion": "2026-11-04",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.265883,
+-34.654275
+]
+},
+{
+"maquina": "Podadora 1",
+"desde_lugar": "CYH",
+"hacia": "el quillay",
+"fecha_gps": "2026-11-03",
+"fecha_operacion": "2026-11-05",
+"incierta": false,
+"alerta": null,
+"punto": [
+-70.981605,
+-33.565195
+]
+},
+{
+"maquina": "Shacker SBS 4",
+"desde_lugar": "CK2",
+"hacia": "kunako",
+"fecha_gps": "2026-11-03",
+"fecha_operacion": "2026-11-04",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.280048,
+-34.674955
+]
+},
+{
+"maquina": "Shacker SBS 11",
+"desde_lugar": "Santa Graciela",
+"hacia": "CYH",
+"fecha_gps": "2026-11-05",
+"fecha_operacion": null,
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.266068,
+-34.654868
+]
+},
+{
+"maquina": "Shacker SBS 6",
+"desde_lugar": "Juan Valenzuela",
+"hacia": "CYH",
+"fecha_gps": "2026-11-05",
+"fecha_operacion": "2026-11-10",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.265808,
+-34.654613
+]
+},
+{
+"maquina": "Shacker SBS 9",
+"desde_lugar": "kunako",
+"hacia": "CYH",
+"fecha_gps": "2026-11-05",
+"fecha_operacion": "2026-10-31",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.266053,
+-34.654818
+]
+},
+{
+"maquina": "Shacker SBS 4",
+"desde_lugar": "kunako",
+"hacia": "MERCOFRUT",
+"fecha_gps": "2026-11-07",
+"fecha_operacion": null,
+"incierta": false,
+"alerta": "el GPS la lleva a MERCOFRUT, pero Operación dice kunako",
+"punto": [
+-71.089662,
+-34.724818
+]
+},
+{
+"maquina": "Shacker SBS 4",
+"desde_lugar": "MERCOFRUT",
+"hacia": "CYH",
+"fecha_gps": "2026-11-11",
+"fecha_operacion": "2026-11-10",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.266172,
+-34.654858
+]
+},
+{
+"maquina": "Shacker SBS 5",
+"desde_lugar": "MERCOFRUT",
+"hacia": "CYH",
+"fecha_gps": "2026-11-11",
+"fecha_operacion": "2026-11-11",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.265702,
+-34.655137
+]
+},
+{
+"maquina": "Shacker SBS 6",
+"desde_lugar": "CYH",
+"hacia": "Agricola Lazos",
+"fecha_gps": "2026-11-11",
+"fecha_operacion": "2026-11-11",
+"incierta": false,
+"alerta": null,
+"punto": [
+-70.999115,
+-34.716543
+]
+},
+{
+"maquina": "Shacker SBS 7",
+"desde_lugar": "MGH Nancagua",
+"hacia": "CYH",
+"fecha_gps": "2026-11-11",
+"fecha_operacion": "2026-11-11",
+"incierta": true,
+"alerta": null,
+"punto": [
+-71.265955,
+-34.654905
+]
+},
+{
+"maquina": "Shacker SBS 8",
+"desde_lugar": "MERCOFRUT",
+"hacia": "CYH",
+"fecha_gps": "2026-11-11",
+"fecha_operacion": "2026-11-10",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.26576,
+-34.655593
+]
+},
+{
+"maquina": "Shacker SBS 9",
+"desde_lugar": "CYH",
+"hacia": "Mayol",
+"fecha_gps": "2026-11-11",
+"fecha_operacion": "2026-11-10",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.052002,
+-34.765518
+]
+},
+{
+"maquina": "Shacker SBS 6",
+"desde_lugar": "Agricola Lazos",
+"hacia": "CYH",
+"fecha_gps": "2026-11-12",
+"fecha_operacion": "2026-11-16",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.26579,
+-34.654923
+]
+},
+{
+"maquina": "Shacker SBS 9",
+"desde_lugar": "Mayol",
+"hacia": "La Estrella",
+"fecha_gps": "2026-11-13",
+"fecha_operacion": "2026-11-16",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.625636,
+-34.213888
+]
+},
+{
+"maquina": "Tractor 10 Deutz Fahr 115",
+"desde_lugar": "CYH",
+"hacia": "lugar sin campo conocido",
+"fecha_gps": "2026-11-16",
+"fecha_operacion": null,
+"incierta": false,
+"alerta": "se movió según el GPS y en Operación nunca cambió el campo",
+"punto": [
+-71.341966,
+-34.425248
+]
+},
+{
+"maquina": "Tractor 8 Kubota 108",
+"desde_lugar": "CYH",
+"hacia": "el quillay",
+"fecha_gps": "2026-11-16",
+"fecha_operacion": "2026-11-16",
+"incierta": false,
+"alerta": null,
+"punto": [
+-70.978717,
+-33.558705
+]
+},
+{
+"maquina": "Shacker SBS 7",
+"desde_lugar": "CYH",
+"hacia": "La Estrella",
+"fecha_gps": "2026-11-17",
+"fecha_operacion": "2026-11-18",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.621887,
+-34.206575
+]
+},
+{
+"maquina": "Shacker SBS 9",
+"desde_lugar": "La Estrella",
+"hacia": "CYH",
+"fecha_gps": "2026-11-17",
+"fecha_operacion": "2026-11-18",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.265942,
+-34.655043
+]
+},
+{
+"maquina": "Tractor 17 Kubota 108",
+"desde_lugar": "Alto Calibre",
+"hacia": "CYH",
+"fecha_gps": "2026-11-19",
+"fecha_operacion": "2026-11-20",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.266012,
+-34.65414
+]
+},
+{
+"maquina": "Tractor 10 Deutz Fahr 115",
+"desde_lugar": "lugar sin campo conocido",
+"hacia": "CYH",
+"fecha_gps": "2026-11-20",
+"fecha_operacion": "2026-11-20",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.265817,
+-34.654373
+]
+},
+{
+"maquina": "Tractor 16 Kubota 108",
+"desde_lugar": "Alto Calibre",
+"hacia": "el quillay",
+"fecha_gps": "2026-11-20",
+"fecha_operacion": "2026-11-20",
+"incierta": false,
+"alerta": null,
+"punto": [
+-70.981673,
+-33.565223
+]
+},
+{
+"maquina": "Shacker SBS 10",
+"desde_lugar": "La Estrella",
+"hacia": "CYH",
+"fecha_gps": "2026-11-25",
+"fecha_operacion": "2026-11-25",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.265897,
+-34.654512
+]
+},
+{
+"maquina": "Shacker SBS 7",
+"desde_lugar": "La Estrella",
+"hacia": "CYH",
+"fecha_gps": "2026-11-25",
+"fecha_operacion": "2026-11-25",
+"incierta": false,
+"alerta": null,
+"punto": [
+-71.265865,
+-34.65455
+]
+}
+],
+"estadias": {
+"Barredora 1": [
+{
+"lugar": "Candelaria",
+"tipo": "campo",
+"desde": "2026-10-29",
+"hasta": "2026-11-02",
+"desde_inicio": true
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-03",
+"hasta": "2026-11-27",
+"desde_inicio": false
+}
+],
+"Barredora 6": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-29",
+"hasta": "2026-11-27",
+"desde_inicio": true
+}
+],
+"Barredora 23": [
+{
+"lugar": "Candelaria",
+"tipo": "campo",
+"desde": "2026-10-29",
+"hasta": "2026-11-02",
+"desde_inicio": true
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-03",
+"hasta": "2026-11-27",
+"desde_inicio": false
+}
+],
+"Barredora 5497": [
+{
+"lugar": "lugar sin campo conocido",
+"tipo": "punto",
+"desde": "2026-10-29",
+"hasta": "2026-11-27",
+"desde_inicio": true
+}
+],
+"Shacker SBS 3": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-19",
+"hasta": "2026-11-19",
+"desde_inicio": true
+}
+],
+"Shacker SBS 4": [
+{
+"lugar": "CK2",
+"tipo": "campo",
+"desde": "2026-10-29",
+"hasta": "2026-11-02",
+"desde_inicio": true
+},
+{
+"lugar": "kunako",
+"tipo": "campo",
+"desde": "2026-11-03",
+"hasta": "2026-11-05",
+"desde_inicio": false
+},
+{
+"lugar": "MERCOFRUT",
+"tipo": "campo",
+"desde": "2026-11-07",
+"hasta": "2026-11-11",
+"desde_inicio": false
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-11",
+"hasta": "2026-11-26",
+"desde_inicio": false
+}
+],
+"Shacker SBS 5": [
+{
+"lugar": "MERCOFRUT",
+"tipo": "campo",
+"desde": "2026-10-29",
+"hasta": "2026-11-11",
+"desde_inicio": true
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-11",
+"hasta": "2026-11-25",
+"desde_inicio": false
+}
+],
+"Shacker SBS 6": [
+{
+"lugar": "Juan Valenzuela",
+"tipo": "campo",
+"desde": "2026-10-29",
+"hasta": "2026-11-05",
+"desde_inicio": true
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-05",
+"hasta": "2026-11-10",
+"desde_inicio": false
+},
+{
+"lugar": "Agricola Lazos",
+"tipo": "campo",
+"desde": "2026-11-11",
+"hasta": "2026-11-12",
+"desde_inicio": false
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-12",
+"hasta": "2026-11-27",
+"desde_inicio": false
+}
+],
+"Shacker SBS 7": [
+{
+"lugar": "MGH Nancagua",
+"tipo": "campo",
+"desde": "2026-11-09",
+"hasta": "2026-11-09",
+"desde_inicio": true
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-11",
+"hasta": "2026-11-16",
+"desde_inicio": false
+},
+{
+"lugar": "La Estrella",
+"tipo": "campo",
+"desde": "2026-11-17",
+"hasta": "2026-11-24",
+"desde_inicio": false
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-25",
+"hasta": "2026-11-27",
+"desde_inicio": false
+}
+],
+"Shacker SBS 8": [
+{
+"lugar": "MERCOFRUT",
+"tipo": "campo",
+"desde": "2026-10-29",
+"hasta": "2026-11-10",
+"desde_inicio": true
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-11",
+"hasta": "2026-11-26",
+"desde_inicio": false
+}
+],
+"Shacker SBS 9": [
+{
+"lugar": "kunako",
+"tipo": "campo",
+"desde": "2026-10-29",
+"hasta": "2026-10-29",
+"desde_inicio": true
+},
+{
+"lugar": "Rocío Molina",
+"tipo": "campo",
+"desde": "2026-10-30",
+"hasta": "2026-10-30",
+"desde_inicio": false
+},
+{
+"lugar": "kunako",
+"tipo": "campo",
+"desde": "2026-10-31",
+"hasta": "2026-11-05",
+"desde_inicio": false
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-05",
+"hasta": "2026-11-10",
+"desde_inicio": false
+},
+{
+"lugar": "Mayol",
+"tipo": "campo",
+"desde": "2026-11-11",
+"hasta": "2026-11-12",
+"desde_inicio": false
+},
+{
+"lugar": "La Estrella",
+"tipo": "campo",
+"desde": "2026-11-13",
+"hasta": "2026-11-17",
+"desde_inicio": false
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-17",
+"hasta": "2026-11-25",
+"desde_inicio": false
+}
+],
+"Shacker SBS 10": [
+{
+"lugar": "EL PRINCIPIO",
+"tipo": "campo",
+"desde": "2026-10-29",
+"hasta": "2026-10-30",
+"desde_inicio": true
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-30",
+"hasta": "2026-11-01",
+"desde_inicio": false
+},
+{
+"lugar": "La Estrella",
+"tipo": "campo",
+"desde": "2026-11-02",
+"hasta": "2026-11-24",
+"desde_inicio": false
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-25",
+"hasta": "2026-11-27",
+"desde_inicio": false
+}
+],
+"Shacker SBS 11": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-29",
+"hasta": "2026-11-01",
+"desde_inicio": true
+},
+{
+"lugar": "Santa Graciela",
+"tipo": "campo",
+"desde": "2026-11-02",
+"hasta": "2026-11-04",
+"desde_inicio": false
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-05",
+"hasta": "2026-11-27",
+"desde_inicio": false
+}
+],
+"Shacker SBS 12": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-29",
+"hasta": "2026-11-26",
+"desde_inicio": true
+}
+],
+"Shacker SBS 14": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-02",
+"hasta": "2026-11-11",
+"desde_inicio": true
+}
+],
+"Tractor 1 Deutz-Fahr Agroplus": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-29",
+"hasta": "2026-11-27",
+"desde_inicio": true
+}
+],
+"Tractor 2 Same Explorer 95": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-29",
+"hasta": "2026-11-24",
+"desde_inicio": true
+}
+],
+"Tractor 3 Same Frutetto 100": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-29",
+"hasta": "2026-11-23",
+"desde_inicio": true
+}
+],
+"Tractor 4 Same Frutetto 100": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-29",
+"hasta": "2026-11-27",
+"desde_inicio": true
+}
+],
+"Tractor 7 Kubota 95": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-29",
+"hasta": "2026-11-27",
+"desde_inicio": true
+}
+],
+"Tractor 8 Kubota 108": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-29",
+"hasta": "2026-11-15",
+"desde_inicio": true
+},
+{
+"lugar": "el quillay",
+"tipo": "campo",
+"desde": "2026-11-16",
+"hasta": "2026-11-27",
+"desde_inicio": false
+}
+],
+"Tractor 9 Deutz Fahr 115": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-29",
+"hasta": "2026-11-27",
+"desde_inicio": true
+}
+],
+"Tractor 10 Deutz Fahr 115": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-29",
+"hasta": "2026-11-15",
+"desde_inicio": true
+},
+{
+"lugar": "lugar sin campo conocido",
+"tipo": "punto",
+"desde": "2026-11-16",
+"hasta": "2026-11-20",
+"desde_inicio": false
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-20",
+"hasta": "2026-11-27",
+"desde_inicio": false
+}
+],
+"Tractor 13 Deutz Fahr 115": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-29",
+"hasta": "2026-11-27",
+"desde_inicio": true
+}
+],
+"Tractor 14 Deutz Fahr 115": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-29",
+"hasta": "2026-11-27",
+"desde_inicio": true
+}
+],
+"Tractor 15 Deutz Fahr 115": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-29",
+"hasta": "2026-11-05",
+"desde_inicio": true
+}
+],
+"Tractor 16 Kubota 108": [
+{
+"lugar": "Alto Calibre",
+"tipo": "campo",
+"desde": "2026-10-29",
+"hasta": "2026-11-19",
+"desde_inicio": true
+},
+{
+"lugar": "el quillay",
+"tipo": "campo",
+"desde": "2026-11-20",
+"hasta": "2026-11-27",
+"desde_inicio": false
+}
+],
+"Tractor 17 Kubota 108": [
+{
+"lugar": "Alto Calibre",
+"tipo": "campo",
+"desde": "2026-10-29",
+"hasta": "2026-11-18",
+"desde_inicio": true
+},
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-19",
+"hasta": "2026-11-27",
+"desde_inicio": false
+}
+],
+"Shacker de Suelo 7": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-02",
+"hasta": "2026-11-27",
+"desde_inicio": true
+}
+],
+"Shaker Orchard Rite": [
+{
+"lugar": "lugar sin campo conocido",
+"tipo": "punto",
+"desde": "2026-11-16",
+"hasta": "2026-11-27",
+"desde_inicio": true
+}
+],
+"Recogedora 6": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-11-02",
+"hasta": "2026-11-27",
+"desde_inicio": true
+}
+],
+"Podadora 1": [
+{
+"lugar": "CYH",
+"tipo": "cyh",
+"desde": "2026-10-29",
+"hasta": "2026-11-02",
+"desde_inicio": true
+},
+{
+"lugar": "el quillay",
+"tipo": "campo",
+"desde": "2026-11-03",
+"hasta": "2026-11-27",
+"desde_inicio": false
+}
+]
+},
 "trabajos": [
 {
 "fecha": "2026-09-21",
@@ -11962,7 +12877,8 @@
 -71.172327,
 -33.476807
 ]
-]
+],
+"segun_operacion": true
 },
 {
 "fecha": "2026-10-28",
@@ -12063,7 +12979,8 @@
 "Candelaria": 0.3
 },
 "campo": "Candelaria",
-"estado": "asignado"
+"estado": "asignado",
+"segun_operacion": true
 },
 {
 "fecha": "2026-10-28",
@@ -12292,7 +13209,8 @@
 "Candelaria": 0.2
 },
 "campo": "Candelaria",
-"estado": "asignado"
+"estado": "asignado",
+"segun_operacion": true
 },
 {
 "fecha": "2026-10-28",
@@ -12429,7 +13347,8 @@
 "Candelaria": 0.3
 },
 "campo": "Candelaria",
-"estado": "asignado"
+"estado": "asignado",
+"segun_operacion": true
 },
 {
 "fecha": "2026-10-28",
@@ -12634,7 +13553,8 @@
 "Candelaria": 0.2
 },
 "campo": "Candelaria",
-"estado": "asignado"
+"estado": "asignado",
+"segun_operacion": true
 },
 {
 "fecha": "2026-10-29",
@@ -12644,7 +13564,7 @@
 "lon": -71.280419,
 "horas": 4.08,
 "mapa": "https://www.google.com/maps?q=-34.677442,-71.280419",
-"ha": 5.13,
+"ha": 4.88,
 "muestras": [
 [
 -71.2808,
@@ -12778,8 +13698,10 @@
 "PALENA SAN GREGORIO": 1.6,
 "MGH Nancagua": 1.6
 },
-"campo": null,
-"estado": "probable"
+"campo": "kunako",
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-10-29",
@@ -12952,7 +13874,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "Alto Calibre",
-"estado": "probable",
+"estado": "asignado",
 "segun_operacion": true
 },
 {
@@ -12963,7 +13885,7 @@
 "lon": -71.280377,
 "horas": 1.4,
 "mapa": "https://www.google.com/maps?q=-34.678041,-71.280377",
-"ha": 1.76,
+"ha": 1.68,
 "muestras": [
 [
 -71.280258,
@@ -13001,8 +13923,9 @@
 "PALENA SAN GREGORIO": 1.6,
 "MGH Nancagua": 1.7
 },
-"campo": null,
-"estado": "probable"
+"campo": "Rocío Molina",
+"estado": "asignado",
+"segun_operacion": true
 },
 {
 "fecha": "2026-10-30",
@@ -13012,7 +13935,7 @@
 "lon": -71.283853,
 "horas": 4.74,
 "mapa": "https://www.google.com/maps?q=-34.684247,-71.283853",
-"ha": 5.96,
+"ha": 5.67,
 "muestras": [
 [
 -71.283102,
@@ -13170,8 +14093,9 @@
 "Camilo del Real": 1.4,
 "Camilo Del Real": 1.7
 },
-"campo": null,
-"estado": "probable"
+"campo": "Rocío Molina",
+"estado": "asignado",
+"segun_operacion": true
 },
 {
 "fecha": "2026-10-31",
@@ -13181,7 +14105,7 @@
 "lon": -71.280509,
 "horas": 1.72,
 "mapa": "https://www.google.com/maps?q=-34.678291,-71.280509",
-"ha": 2.16,
+"ha": 2.06,
 "muestras": [
 [
 -71.280407,
@@ -13227,8 +14151,10 @@
 "PALENA SAN GREGORIO": 1.6,
 "MGH Nancagua": 1.7
 },
-"campo": null,
-"estado": "probable"
+"campo": "kunako",
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-10-31",
@@ -13238,7 +14164,7 @@
 "lon": -71.284244,
 "horas": 1.5,
 "mapa": "https://www.google.com/maps?q=-34.675476,-71.284244",
-"ha": 1.88,
+"ha": 1.8,
 "muestras": [
 [
 -71.284325,
@@ -13284,8 +14210,10 @@
 "MGH Nancagua": 1.7,
 "PALENA SAN GREGORIO": 1.9
 },
-"campo": null,
-"estado": "probable"
+"campo": "kunako",
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-01",
@@ -13295,7 +14223,7 @@
 "lon": -71.284744,
 "horas": 2.68,
 "mapa": "https://www.google.com/maps?q=-34.675728,-71.284744",
-"ha": 3.37,
+"ha": 3.21,
 "muestras": [
 [
 -71.284677,
@@ -13357,8 +14285,10 @@
 "MGH Nancagua": 1.8,
 "PALENA SAN GREGORIO": 2.0
 },
-"campo": null,
-"estado": "probable"
+"campo": "kunako",
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-02",
@@ -13368,7 +14298,7 @@
 "lon": -71.284963,
 "horas": 4.83,
 "mapa": "https://www.google.com/maps?q=-34.676538,-71.284963",
-"ha": 6.07,
+"ha": 5.78,
 "muestras": [
 [
 -71.285198,
@@ -13494,8 +14424,10 @@
 "MGH Nancagua": 1.8,
 "PALENA SAN GREGORIO": 2.0
 },
-"campo": null,
-"estado": "probable"
+"campo": "kunako",
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-02",
@@ -13648,7 +14580,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "Alto Calibre",
-"estado": "probable",
+"estado": "asignado",
 "segun_operacion": true
 },
 {
@@ -13830,7 +14762,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "Alto Calibre",
-"estado": "probable",
+"estado": "asignado",
 "segun_operacion": true
 },
 {
@@ -14019,8 +14951,10 @@
 "comuna": "Melipilla",
 "opciones": [],
 "distancias_km": {},
-"campo": null,
-"estado": "sin campo"
+"campo": "el quillay",
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-04",
@@ -14030,7 +14964,7 @@
 "lon": -71.285698,
 "horas": 4.57,
 "mapa": "https://www.google.com/maps?q=-34.677537,-71.285698",
-"ha": 5.74,
+"ha": 5.47,
 "muestras": [
 [
 -71.285442,
@@ -14211,8 +15145,9 @@
 "MGH Nancagua": 2.0
 },
 "campo": "kunako",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-04",
@@ -14222,7 +15157,7 @@
 "lon": -71.285528,
 "horas": 4.41,
 "mapa": "https://www.google.com/maps?q=-34.677587,-71.285528",
-"ha": 5.54,
+"ha": 5.28,
 "muestras": [
 [
 -71.285023,
@@ -14320,9 +15255,10 @@
 "MGH Nancagua": 2.0,
 "Camilo del Real": 2.0
 },
-"campo": "Rocío Molina",
-"estado": "probable",
-"segun_operacion": true
+"campo": "kunako",
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-04",
@@ -14579,7 +15515,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "Alto Calibre",
-"estado": "probable",
+"estado": "asignado",
 "segun_operacion": true
 },
 {
@@ -14789,8 +15725,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-05",
@@ -14800,7 +15737,7 @@
 "lon": -71.28611,
 "horas": 2.68,
 "mapa": "https://www.google.com/maps?q=-34.678374,-71.286110",
-"ha": 3.37,
+"ha": 3.21,
 "muestras": [
 [
 -71.286413,
@@ -14909,8 +15846,9 @@
 "Camilo del Real": 1.9
 },
 "campo": "kunako",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-05",
@@ -14920,7 +15858,7 @@
 "lon": -71.286109,
 "horas": 1.98,
 "mapa": "https://www.google.com/maps?q=-34.678355,-71.286109",
-"ha": 2.49,
+"ha": 2.37,
 "muestras": [
 [
 -71.28569,
@@ -14964,9 +15902,11 @@
 "Rocío Molina": 0.7,
 "Camilo del Real": 1.9
 },
-"campo": "Rocío Molina",
-"estado": "probable",
-"segun_operacion": true
+"campo": "kunako",
+"estado": "asignado",
+"traslado": true,
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-05",
@@ -15223,7 +16163,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "Alto Calibre",
-"estado": "probable",
+"estado": "asignado",
 "segun_operacion": true
 },
 {
@@ -15413,8 +16353,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-09",
@@ -15667,7 +16608,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "Alto Calibre",
-"estado": "probable",
+"estado": "asignado",
 "segun_operacion": true
 },
 {
@@ -15917,8 +16858,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-10",
@@ -16119,7 +17061,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "Alto Calibre",
-"estado": "probable",
+"estado": "asignado",
 "segun_operacion": true
 },
 {
@@ -16309,8 +17251,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-11",
@@ -16320,7 +17263,7 @@
 "lon": -70.999115,
 "horas": 1.46,
 "mapa": "https://www.google.com/maps?q=-34.716543,-70.999115",
-"ha": 2.03,
+"ha": 1.82,
 "muestras": [
 [
 -70.999878,
@@ -16367,8 +17310,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "Agricola Lazos",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-11",
@@ -16621,7 +17565,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "Alto Calibre",
-"estado": "probable",
+"estado": "asignado",
 "segun_operacion": true
 },
 {
@@ -16879,7 +17823,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "Alto Calibre",
-"estado": "probable",
+"estado": "asignado",
 "segun_operacion": true
 },
 {
@@ -17137,8 +18081,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-12",
@@ -17148,7 +18093,7 @@
 "lon": -70.99816,
 "horas": 4.85,
 "mapa": "https://www.google.com/maps?q=-34.716855,-70.998160",
-"ha": 6.76,
+"ha": 6.05,
 "muestras": [
 [
 -70.99882,
@@ -17275,8 +18220,10 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "Agricola Lazos",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"traslado": true,
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-12",
@@ -17505,7 +18452,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "Alto Calibre",
-"estado": "probable",
+"estado": "asignado",
 "segun_operacion": true
 },
 {
@@ -17763,7 +18710,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "Alto Calibre",
-"estado": "probable",
+"estado": "asignado",
 "segun_operacion": true
 },
 {
@@ -17941,8 +18888,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-16",
@@ -18131,8 +19079,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-16",
@@ -18534,8 +19483,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-17",
@@ -18792,8 +19742,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-17",
@@ -19139,7 +20090,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "Alto Calibre",
-"estado": "probable",
+"estado": "asignado",
 "segun_operacion": true
 },
 {
@@ -19397,7 +20348,7 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "Alto Calibre",
-"estado": "probable",
+"estado": "asignado",
 "segun_operacion": true
 },
 {
@@ -19655,8 +20606,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-18",
@@ -19817,8 +20769,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-18",
@@ -20075,8 +21028,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-19",
@@ -20273,8 +21227,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-19",
@@ -20708,8 +21663,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-20",
@@ -20898,8 +21854,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-20",
@@ -21309,8 +22266,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-21",
@@ -21431,8 +22389,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-23",
@@ -21689,8 +22648,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-23",
@@ -21947,8 +22907,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-23",
@@ -22177,8 +23138,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-24",
@@ -22435,8 +23397,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-24",
@@ -22621,8 +23584,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-25",
@@ -22803,8 +23767,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-25",
@@ -23037,8 +24002,9 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 },
 {
 "fecha": "2026-11-25",
@@ -23295,8 +24261,626 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "probable",
-"segun_operacion": true
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
+},
+{
+"fecha": "2026-11-26",
+"maquina": "Podadora 1",
+"labor": "Poda",
+"lat": -33.557663,
+"lon": -70.982099,
+"horas": 4.45,
+"mapa": "https://www.google.com/maps?q=-33.557663,-70.982099",
+"ha": 3.08,
+"muestras": [
+[
+-70.982428,
+-33.557893
+],
+[
+-70.982367,
+-33.557803
+],
+[
+-70.982343,
+-33.557752
+],
+[
+-70.98219,
+-33.556852
+],
+[
+-70.982452,
+-33.55825
+],
+[
+-70.982455,
+-33.558198
+],
+[
+-70.982135,
+-33.556692
+],
+[
+-70.981997,
+-33.55625
+],
+[
+-70.982197,
+-33.557682
+],
+[
+-70.982167,
+-33.557612
+],
+[
+-70.982012,
+-33.557018
+],
+[
+-70.982162,
+-33.557943
+],
+[
+-70.98229,
+-33.558068
+],
+[
+-70.982457,
+-33.558543
+],
+[
+-70.982687,
+-33.559045
+],
+[
+-70.98216,
+-33.557712
+],
+[
+-70.982068,
+-33.557575
+],
+[
+-70.982082,
+-33.557652
+],
+[
+-70.981935,
+-33.557153
+],
+[
+-70.98244,
+-33.558715
+],
+[
+-70.981987,
+-33.55719
+],
+[
+-70.98197,
+-33.557428
+],
+[
+-70.981935,
+-33.55725
+],
+[
+-70.981665,
+-33.555497
+],
+[
+-70.981652,
+-33.555375
+],
+[
+-70.981647,
+-33.555295
+],
+[
+-70.98189,
+-33.557212
+],
+[
+-70.982515,
+-33.559125
+],
+[
+-70.98186,
+-33.557128
+],
+[
+-70.981642,
+-33.555987
+],
+[
+-70.9816,
+-33.555732
+],
+[
+-70.981575,
+-33.55598
+],
+[
+-70.981552,
+-33.55575
+],
+[
+-70.981523,
+-33.55591
+],
+[
+-70.981897,
+-33.557775
+],
+[
+-70.982095,
+-33.558392
+],
+[
+-70.981897,
+-33.558142
+],
+[
+-70.981847,
+-33.557832
+],
+[
+-70.981833,
+-33.558163
+],
+[
+-70.981813,
+-33.557983
+],
+[
+-70.981778,
+-33.558212
+],
+[
+-70.981832,
+-33.558287
+],
+[
+-70.98223,
+-33.55869
+],
+[
+-70.982328,
+-33.558922
+],
+[
+-70.982063,
+-33.558432
+],
+[
+-70.982082,
+-33.558585
+],
+[
+-70.982123,
+-33.558687
+],
+[
+-70.982112,
+-33.558767
+],
+[
+-70.982067,
+-33.558688
+],
+[
+-70.981998,
+-33.558695
+],
+[
+-70.981868,
+-33.558423
+],
+[
+-70.981972,
+-33.558722
+],
+[
+-70.981867,
+-33.558545
+],
+[
+-70.981823,
+-33.558553
+],
+[
+-70.981907,
+-33.558675
+],
+[
+-70.981798,
+-33.558637
+],
+[
+-70.981743,
+-33.558585
+],
+[
+-70.981698,
+-33.558658
+],
+[
+-70.981703,
+-33.558602
+],
+[
+-70.981718,
+-33.558605
+]
+],
+"comuna": "Melipilla",
+"opciones": [],
+"distancias_km": {},
+"campo": "el quillay",
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
+},
+{
+"fecha": "2026-11-26",
+"maquina": "Tractor 16 Kubota 108",
+"labor": "Picado",
+"lat": -33.560838,
+"lon": -70.982086,
+"horas": 2.13,
+"mapa": "https://www.google.com/maps?q=-33.560838,-70.982086",
+"ha": 2.58,
+"muestras": [
+[
+-70.98113,
+-33.563495
+],
+[
+-70.981032,
+-33.560522
+],
+[
+-70.980847,
+-33.5601
+],
+[
+-70.981062,
+-33.55971
+],
+[
+-70.98101,
+-33.560455
+],
+[
+-70.981017,
+-33.560487
+],
+[
+-70.980888,
+-33.559978
+],
+[
+-70.980812,
+-33.559905
+],
+[
+-70.980698,
+-33.559708
+],
+[
+-70.980898,
+-33.56006
+],
+[
+-70.981655,
+-33.559497
+],
+[
+-70.98176,
+-33.55916
+],
+[
+-70.982973,
+-33.561582
+],
+[
+-70.983747,
+-33.562962
+],
+[
+-70.983808,
+-33.563025
+],
+[
+-70.983017,
+-33.56144
+],
+[
+-70.982022,
+-33.559492
+],
+[
+-70.981907,
+-33.559068
+],
+[
+-70.982585,
+-33.560382
+],
+[
+-70.98355,
+-33.562268
+],
+[
+-70.983343,
+-33.561697
+],
+[
+-70.982948,
+-33.562055
+],
+[
+-70.981355,
+-33.564585
+],
+[
+-70.981597,
+-33.564823
+],
+[
+-70.981192,
+-33.564383
+],
+[
+-70.982907,
+-33.561958
+],
+[
+-70.98239,
+-33.559852
+],
+[
+-70.981635,
+-33.559558
+],
+[
+-70.981608,
+-33.559475
+],
+[
+-70.981503,
+-33.55955
+],
+[
+-70.981395,
+-33.559578
+],
+[
+-70.981303,
+-33.559523
+],
+[
+-70.981117,
+-33.5595
+],
+[
+-70.981033,
+-33.559573
+],
+[
+-70.981375,
+-33.560233
+],
+[
+-70.981405,
+-33.56032
+],
+[
+-70.980855,
+-33.559425
+],
+[
+-70.98103,
+-33.559953
+],
+[
+-70.98218,
+-33.562218
+],
+[
+-70.982723,
+-33.56304
+],
+[
+-70.981348,
+-33.564593
+],
+[
+-70.981655,
+-33.564825
+]
+],
+"comuna": "Melipilla",
+"opciones": [],
+"distancias_km": {},
+"campo": "el quillay",
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
+},
+{
+"fecha": "2026-11-26",
+"maquina": "Tractor 8 Kubota 108",
+"labor": "Picado",
+"lat": -33.560673,
+"lon": -70.982123,
+"horas": 1.83,
+"mapa": "https://www.google.com/maps?q=-33.560673,-70.982123",
+"ha": 2.48,
+"muestras": [
+[
+-70.981137,
+-33.564105
+],
+[
+-70.980777,
+-33.559683
+],
+[
+-70.982542,
+-33.56088
+],
+[
+-70.98305,
+-33.561637
+],
+[
+-70.98244,
+-33.560475
+],
+[
+-70.98211,
+-33.559805
+],
+[
+-70.981728,
+-33.55906
+],
+[
+-70.981695,
+-33.558965
+],
+[
+-70.982045,
+-33.559555
+],
+[
+-70.982512,
+-33.560412
+],
+[
+-70.982558,
+-33.560415
+],
+[
+-70.98309,
+-33.561517
+],
+[
+-70.98381,
+-33.56289
+],
+[
+-70.983852,
+-33.562878
+],
+[
+-70.983852,
+-33.562917
+],
+[
+-70.9834,
+-33.561758
+],
+[
+-70.981323,
+-33.564463
+],
+[
+-70.981707,
+-33.564852
+],
+[
+-70.981717,
+-33.564955
+],
+[
+-70.981612,
+-33.564835
+],
+[
+-70.982672,
+-33.560387
+],
+[
+-70.981532,
+-33.559447
+],
+[
+-70.981873,
+-33.560167
+],
+[
+-70.981562,
+-33.559585
+],
+[
+-70.981623,
+-33.559652
+],
+[
+-70.981427,
+-33.559525
+],
+[
+-70.980913,
+-33.558872
+],
+[
+-70.981335,
+-33.559713
+],
+[
+-70.981425,
+-33.559958
+],
+[
+-70.981305,
+-33.559597
+],
+[
+-70.98118,
+-33.559425
+],
+[
+-70.980925,
+-33.55891
+],
+[
+-70.981198,
+-33.559702
+],
+[
+-70.981083,
+-33.559743
+],
+[
+-70.980808,
+-33.559567
+],
+[
+-70.981248,
+-33.560403
+],
+[
+-70.981707,
+-33.561302
+],
+[
+-70.981147,
+-33.564275
+]
+],
+"comuna": "Melipilla",
+"opciones": [],
+"distancias_km": {},
+"campo": "el quillay",
+"estado": "asignado",
+"segun_operacion": true,
+"ubicacion_aprendida": true
 }
 ]
 }
