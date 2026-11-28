@@ -129,6 +129,19 @@
 ]
 },
 {
+"maquina": "Shacker SBS 10",
+"desde_lugar": "EL PRINCIPIO",
+"hacia": "CYH",
+"fecha_gps": "2026-10-31",
+"fecha_operacion": null,
+"incierta": false,
+"alerta": "el GPS la lleva a CYH, pero Operación dice EL PRINCIPIO",
+"punto": [
+-71.265957,
+-34.654463
+]
+},
+{
 "maquina": "Shacker SBS 9",
 "desde_lugar": "Rocío Molina",
 "hacia": "kunako",
@@ -196,7 +209,7 @@
 {
 "maquina": "Podadora 1",
 "desde_lugar": "CYH",
-"hacia": "el quillay",
+"hacia": "El Quillay",
 "fecha_gps": "2026-11-03",
 "fecha_operacion": "2026-11-05",
 "incierta": false,
@@ -391,7 +404,7 @@
 {
 "maquina": "Tractor 8 Kubota 108",
 "desde_lugar": "CYH",
-"hacia": "el quillay",
+"hacia": "El Quillay",
 "fecha_gps": "2026-11-16",
 "fecha_operacion": "2026-11-16",
 "incierta": false,
@@ -456,7 +469,7 @@
 {
 "maquina": "Tractor 16 Kubota 108",
 "desde_lugar": "Alto Calibre",
-"hacia": "el quillay",
+"hacia": "El Quillay",
 "fecha_gps": "2026-11-20",
 "fecha_operacion": "2026-11-20",
 "incierta": false,
@@ -498,7 +511,7 @@
 {
 "lugar": "Candelaria",
 "tipo": "campo",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-02",
 "desde_inicio": true
 },
@@ -506,16 +519,16 @@
 "lugar": "CYH",
 "tipo": "cyh",
 "desde": "2026-11-03",
-"hasta": "2026-11-27",
+"hasta": "2026-11-28",
 "desde_inicio": false
 }
 ],
 "Barredora 5": [
 {
-"lugar": "MGH Nancagua",
-"tipo": "campo",
+"lugar": "CYH",
+"tipo": "cyh",
 "desde": "2026-11-27",
-"hasta": "2026-11-27",
+"hasta": "2026-11-28",
 "desde_inicio": true
 }
 ],
@@ -523,8 +536,8 @@
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-29",
-"hasta": "2026-11-27",
+"desde": "2026-10-30",
+"hasta": "2026-11-28",
 "desde_inicio": true
 }
 ],
@@ -532,7 +545,7 @@
 {
 "lugar": "Candelaria",
 "tipo": "campo",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-02",
 "desde_inicio": true
 },
@@ -540,7 +553,7 @@
 "lugar": "CYH",
 "tipo": "cyh",
 "desde": "2026-11-03",
-"hasta": "2026-11-27",
+"hasta": "2026-11-28",
 "desde_inicio": false
 }
 ],
@@ -548,8 +561,8 @@
 {
 "lugar": "lugar sin campo conocido",
 "tipo": "punto",
-"desde": "2026-10-29",
-"hasta": "2026-11-27",
+"desde": "2026-10-30",
+"hasta": "2026-11-28",
 "desde_inicio": true
 }
 ],
@@ -566,7 +579,7 @@
 {
 "lugar": "CK2",
 "tipo": "campo",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-02",
 "desde_inicio": true
 },
@@ -596,7 +609,7 @@
 {
 "lugar": "MERCOFRUT",
 "tipo": "campo",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-11",
 "desde_inicio": true
 },
@@ -612,7 +625,7 @@
 {
 "lugar": "Juan Valenzuela",
 "tipo": "campo",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-05",
 "desde_inicio": true
 },
@@ -634,7 +647,7 @@
 "lugar": "CYH",
 "tipo": "cyh",
 "desde": "2026-11-12",
-"hasta": "2026-11-27",
+"hasta": "2026-11-28",
 "desde_inicio": false
 }
 ],
@@ -664,7 +677,7 @@
 "lugar": "CYH",
 "tipo": "cyh",
 "desde": "2026-11-25",
-"hasta": "2026-11-27",
+"hasta": "2026-11-28",
 "desde_inicio": false
 }
 ],
@@ -672,7 +685,7 @@
 {
 "lugar": "MERCOFRUT",
 "tipo": "campo",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-10",
 "desde_inicio": true
 },
@@ -680,24 +693,17 @@
 "lugar": "CYH",
 "tipo": "cyh",
 "desde": "2026-11-11",
-"hasta": "2026-11-27",
+"hasta": "2026-11-28",
 "desde_inicio": false
 }
 ],
 "Shacker SBS 9": [
 {
-"lugar": "kunako",
-"tipo": "campo",
-"desde": "2026-10-29",
-"hasta": "2026-10-29",
-"desde_inicio": true
-},
-{
 "lugar": "Rocío Molina",
 "tipo": "campo",
 "desde": "2026-10-30",
 "hasta": "2026-10-30",
-"desde_inicio": false
+"desde_inicio": true
 },
 {
 "lugar": "kunako",
@@ -739,14 +745,14 @@
 {
 "lugar": "EL PRINCIPIO",
 "tipo": "campo",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-10-30",
 "desde_inicio": true
 },
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-30",
+"desde": "2026-10-31",
 "hasta": "2026-11-01",
 "desde_inicio": false
 },
@@ -761,7 +767,7 @@
 "lugar": "CYH",
 "tipo": "cyh",
 "desde": "2026-11-25",
-"hasta": "2026-11-27",
+"hasta": "2026-11-28",
 "desde_inicio": false
 }
 ],
@@ -769,7 +775,7 @@
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-01",
 "desde_inicio": true
 },
@@ -784,7 +790,7 @@
 "lugar": "CYH",
 "tipo": "cyh",
 "desde": "2026-11-05",
-"hasta": "2026-11-27",
+"hasta": "2026-11-28",
 "desde_inicio": false
 }
 ],
@@ -792,7 +798,7 @@
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-26",
 "desde_inicio": true
 }
@@ -810,8 +816,8 @@
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-29",
-"hasta": "2026-11-27",
+"desde": "2026-10-30",
+"hasta": "2026-11-28",
 "desde_inicio": true
 }
 ],
@@ -819,7 +825,7 @@
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-24",
 "desde_inicio": true
 }
@@ -828,7 +834,7 @@
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-23",
 "desde_inicio": true
 }
@@ -837,8 +843,8 @@
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-29",
-"hasta": "2026-11-27",
+"desde": "2026-10-30",
+"hasta": "2026-11-28",
 "desde_inicio": true
 }
 ],
@@ -846,8 +852,8 @@
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-29",
-"hasta": "2026-11-27",
+"desde": "2026-10-30",
+"hasta": "2026-11-28",
 "desde_inicio": true
 }
 ],
@@ -855,12 +861,12 @@
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-15",
 "desde_inicio": true
 },
 {
-"lugar": "el quillay",
+"lugar": "El Quillay",
 "tipo": "campo",
 "desde": "2026-11-16",
 "hasta": "2026-11-27",
@@ -871,8 +877,8 @@
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-29",
-"hasta": "2026-11-27",
+"desde": "2026-10-30",
+"hasta": "2026-11-28",
 "desde_inicio": true
 }
 ],
@@ -880,7 +886,7 @@
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-15",
 "desde_inicio": true
 },
@@ -895,7 +901,7 @@
 "lugar": "CYH",
 "tipo": "cyh",
 "desde": "2026-11-20",
-"hasta": "2026-11-27",
+"hasta": "2026-11-28",
 "desde_inicio": false
 }
 ],
@@ -903,8 +909,8 @@
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-29",
-"hasta": "2026-11-27",
+"desde": "2026-10-30",
+"hasta": "2026-11-28",
 "desde_inicio": true
 }
 ],
@@ -912,8 +918,8 @@
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-29",
-"hasta": "2026-11-27",
+"desde": "2026-10-30",
+"hasta": "2026-11-28",
 "desde_inicio": true
 }
 ],
@@ -921,7 +927,7 @@
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-05",
 "desde_inicio": true
 }
@@ -930,15 +936,15 @@
 {
 "lugar": "Alto Calibre",
 "tipo": "campo",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-19",
 "desde_inicio": true
 },
 {
-"lugar": "el quillay",
+"lugar": "El Quillay",
 "tipo": "campo",
 "desde": "2026-11-20",
-"hasta": "2026-11-27",
+"hasta": "2026-11-28",
 "desde_inicio": false
 }
 ],
@@ -946,7 +952,7 @@
 {
 "lugar": "Alto Calibre",
 "tipo": "campo",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-18",
 "desde_inicio": true
 },
@@ -954,7 +960,7 @@
 "lugar": "CYH",
 "tipo": "cyh",
 "desde": "2026-11-19",
-"hasta": "2026-11-27",
+"hasta": "2026-11-28",
 "desde_inicio": false
 }
 ],
@@ -963,7 +969,7 @@
 "lugar": "CYH",
 "tipo": "cyh",
 "desde": "2026-11-02",
-"hasta": "2026-11-27",
+"hasta": "2026-11-28",
 "desde_inicio": true
 }
 ],
@@ -972,7 +978,7 @@
 "lugar": "lugar sin campo conocido",
 "tipo": "punto",
 "desde": "2026-11-16",
-"hasta": "2026-11-27",
+"hasta": "2026-11-28",
 "desde_inicio": true
 }
 ],
@@ -981,7 +987,7 @@
 "lugar": "CYH",
 "tipo": "cyh",
 "desde": "2026-11-02",
-"hasta": "2026-11-27",
+"hasta": "2026-11-28",
 "desde_inicio": true
 }
 ],
@@ -989,15 +995,15 @@
 {
 "lugar": "CYH",
 "tipo": "cyh",
-"desde": "2026-10-29",
+"desde": "2026-10-30",
 "hasta": "2026-11-02",
 "desde_inicio": true
 },
 {
-"lugar": "el quillay",
+"lugar": "El Quillay",
 "tipo": "campo",
 "desde": "2026-11-03",
-"hasta": "2026-11-27",
+"hasta": "2026-11-28",
 "desde_inicio": false
 }
 ]
@@ -13714,10 +13720,10 @@
 "PALENA SAN GREGORIO": 1.6,
 "MGH Nancagua": 1.6
 },
-"campo": "kunako",
+"campo": "Rocío Molina",
 "estado": "asignado",
-"segun_operacion": true,
-"ubicacion_aprendida": true
+"traslado": true,
+"segun_operacion": true
 },
 {
 "fecha": "2026-10-29",
@@ -14965,8 +14971,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -15736,8 +15746,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.4
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -16362,8 +16376,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.4
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -16865,8 +16883,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.4
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -17256,8 +17278,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.4
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -18084,8 +18110,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -18889,8 +18919,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -19078,8 +19112,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -19480,8 +19518,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -19737,8 +19779,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -20599,8 +20645,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.4
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -20760,8 +20810,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.1
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -21017,8 +21071,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.4
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -21214,8 +21272,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -21648,8 +21710,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.3
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -21837,8 +21903,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -22247,8 +22317,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.3
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -22368,8 +22442,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -22625,8 +22703,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -22882,8 +22964,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.3
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -23111,8 +23197,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -23368,8 +23458,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -23553,8 +23647,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -23564,9 +23662,9 @@
 "labor": "Poda",
 "lat": -33.559325,
 "lon": -70.984142,
-"horas": 5.15,
+"horas": 2.89,
 "mapa": "https://www.google.com/maps?q=-33.559325,-70.984142",
-"ha": 2.95,
+"ha": 1.65,
 "muestras": [
 [
 -70.985602,
@@ -23734,10 +23832,23 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.1
+},
 "campo": "el quillay",
-"estado": "confirmado"
+"estado": "confirmado",
+"ha_original": 2.95,
+"horas_original": 5.15,
+"parte_resuelta": 0.44,
+"resuelto_en": [
+"El Quillay 4",
+"El Quillay 2",
+"El Quillay 3"
+],
+"fecha_resuelto": "2026-11-28"
 },
 {
 "fecha": "2026-11-25",
@@ -23967,8 +24078,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -24224,8 +24339,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -24484,7 +24603,16 @@
 "opciones": [],
 "distancias_km": {},
 "campo": "el quillay",
-"estado": "confirmado"
+"estado": "resuelto",
+"estado_anterior": "confirmado",
+"campo_anterior": "el quillay",
+"resuelto_en": [
+"El Quillay 4",
+"El Quillay 3",
+"El Quillay 1",
+"El Quillay 2"
+],
+"fecha_resuelto": "2026-11-28"
 },
 {
 "fecha": "2026-11-26",
@@ -24666,8 +24794,12 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
 "campo": "el quillay",
 "estado": "confirmado"
 },
@@ -24835,8 +24967,449 @@
 ]
 ],
 "comuna": "Melipilla",
-"opciones": [],
-"distancias_km": {},
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.2
+},
+"campo": "el quillay",
+"estado": "confirmado"
+},
+{
+"fecha": "2026-11-27",
+"maquina": "Podadora 1",
+"labor": "Poda",
+"lat": -33.564073,
+"lon": -70.990279,
+"horas": 2.71,
+"mapa": "https://www.google.com/maps?q=-33.564073,-70.990279",
+"ha": 1.83,
+"muestras": [
+[
+-70.989807,
+-33.563297
+],
+[
+-70.989895,
+-33.563225
+],
+[
+-70.989758,
+-33.563385
+],
+[
+-70.989947,
+-33.563228
+],
+[
+-70.989617,
+-33.563592
+],
+[
+-70.98975,
+-33.56355
+],
+[
+-70.989548,
+-33.56376
+],
+[
+-70.989837,
+-33.56352
+],
+[
+-70.989673,
+-33.563648
+],
+[
+-70.989792,
+-33.563632
+],
+[
+-70.989747,
+-33.563668
+],
+[
+-70.989908,
+-33.563602
+],
+[
+-70.989768,
+-33.563742
+],
+[
+-70.989958,
+-33.563623
+],
+[
+-70.989813,
+-33.563762
+],
+[
+-70.989997,
+-33.563665
+],
+[
+-70.989708,
+-33.563942
+],
+[
+-70.990085,
+-33.563602
+],
+[
+-70.98983,
+-33.563898
+],
+[
+-70.990073,
+-33.563697
+],
+[
+-70.98974,
+-33.564065
+],
+[
+-70.990063,
+-33.563805
+],
+[
+-70.989788,
+-33.563993
+],
+[
+-70.990042,
+-33.563895
+],
+[
+-70.989825,
+-33.56408
+],
+[
+-70.990157,
+-33.563858
+],
+[
+-70.989937,
+-33.564062
+],
+[
+-70.990197,
+-33.56388
+],
+[
+-70.98992,
+-33.564162
+],
+[
+-70.99024,
+-33.56391
+],
+[
+-70.989992,
+-33.564177
+],
+[
+-70.99022,
+-33.563997
+],
+[
+-70.99004,
+-33.564193
+],
+[
+-70.989998,
+-33.564297
+],
+[
+-70.99023,
+-33.5641
+],
+[
+-70.990017,
+-33.564303
+],
+[
+-70.990375,
+-33.563968
+],
+[
+-70.99011,
+-33.564253
+],
+[
+-70.990213,
+-33.564262
+],
+[
+-70.990148,
+-33.564337
+],
+[
+-70.990463,
+-33.564057
+],
+[
+-70.990257,
+-33.56414
+],
+[
+-70.990487,
+-33.56397
+],
+[
+-70.990273,
+-33.564222
+],
+[
+-70.990368,
+-33.564197
+],
+[
+-70.990655,
+-33.563862
+],
+[
+-70.99049,
+-33.564122
+],
+[
+-70.990392,
+-33.56432
+],
+[
+-70.990607,
+-33.564022
+],
+[
+-70.990653,
+-33.563985
+],
+[
+-70.990282,
+-33.564418
+],
+[
+-70.990625,
+-33.564057
+],
+[
+-70.9903,
+-33.564392
+],
+[
+-70.990575,
+-33.56424
+],
+[
+-70.99046,
+-33.56428
+],
+[
+-70.99052,
+-33.564293
+],
+[
+-70.990448,
+-33.564357
+],
+[
+-70.99067,
+-33.564215
+],
+[
+-70.990345,
+-33.564565
+],
+[
+-70.990683,
+-33.564262
+]
+],
+"comuna": "Melipilla",
+"opciones": [
+"El Quillay",
+"luciano mallerauco"
+],
+"distancias_km": {
+"El Quillay": 0.8,
+"luciano mallerauco": 1.8
+},
+"campo": "El Quillay",
+"estado": "asignado",
+"segun_operacion": true
+},
+{
+"fecha": "2026-11-27",
+"maquina": "Tractor 8 Kubota 108",
+"labor": "Picado",
+"lat": -33.56018,
+"lon": -70.981449,
+"horas": 1.66,
+"mapa": "https://www.google.com/maps?q=-33.560180,-70.981449",
+"ha": 1.93,
+"muestras": [
+[
+-70.979475,
+-33.560183
+],
+[
+-70.980072,
+-33.559442
+],
+[
+-70.980027,
+-33.559393
+],
+[
+-70.980043,
+-33.559393
+],
+[
+-70.980483,
+-33.559145
+],
+[
+-70.980483,
+-33.559125
+],
+[
+-70.980772,
+-33.559708
+],
+[
+-70.980417,
+-33.559342
+],
+[
+-70.980208,
+-33.559168
+],
+[
+-70.980275,
+-33.559285
+],
+[
+-70.980437,
+-33.559602
+],
+[
+-70.98013,
+-33.559147
+],
+[
+-70.980053,
+-33.559012
+],
+[
+-70.980012,
+-33.558897
+],
+[
+-70.979977,
+-33.559192
+],
+[
+-70.982395,
+-33.559565
+],
+[
+-70.982373,
+-33.559518
+],
+[
+-70.982695,
+-33.560218
+],
+[
+-70.982958,
+-33.560665
+],
+[
+-70.983185,
+-33.561152
+],
+[
+-70.983305,
+-33.561328
+],
+[
+-70.983343,
+-33.561418
+],
+[
+-70.983362,
+-33.561433
+],
+[
+-70.983787,
+-33.562283
+],
+[
+-70.983948,
+-33.562248
+],
+[
+-70.983852,
+-33.56205
+],
+[
+-70.983043,
+-33.560508
+],
+[
+-70.979953,
+-33.559452
+],
+[
+-70.979823,
+-33.559298
+],
+[
+-70.979827,
+-33.559573
+],
+[
+-70.979817,
+-33.55974
+],
+[
+-70.979867,
+-33.559838
+],
+[
+-70.979723,
+-33.559575
+],
+[
+-70.979542,
+-33.559565
+],
+[
+-70.979478,
+-33.559633
+],
+[
+-70.979295,
+-33.55927
+],
+[
+-70.979238,
+-33.559177
+],
+[
+-70.979763,
+-33.560527
+]
+],
+"comuna": "Melipilla",
+"opciones": [
+"El Quillay"
+],
+"distancias_km": {
+"El Quillay": 0.1
+},
 "campo": "el quillay",
 "estado": "confirmado"
 }

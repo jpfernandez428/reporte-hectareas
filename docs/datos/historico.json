@@ -58500,5 +58500,82 @@
     "area_total_ha": 5.11,
     "area_trabajada_ha": 1.58,
     "temporada": "2026"
+  },
+  {
+    "fecha": "2026-11-25",
+    "maquina": "Podadora 1",
+    "cuartel": "El Quillay 2",
+    "labor": "Poda",
+    "n_hileras": 20,
+    "area_total_ha": 0.76,
+    "area_trabajada_ha": 0.41,
+    "temporada": "2026-27",
+    "alarma": "Fuera de temporada"
+  },
+  {
+    "fecha": "2026-11-25",
+    "maquina": "Podadora 1",
+    "cuartel": "El Quillay 3",
+    "labor": "Poda",
+    "n_hileras": 13,
+    "area_total_ha": 0.86,
+    "area_trabajada_ha": 0.39,
+    "temporada": "2026-27",
+    "alarma": "Fuera de temporada"
+  },
+  {
+    "fecha": "2026-11-25",
+    "maquina": "Podadora 1",
+    "cuartel": "El Quillay 4",
+    "labor": "Poda",
+    "n_hileras": 12,
+    "area_total_ha": 1.37,
+    "area_trabajada_ha": 0.58,
+    "temporada": "2026-27",
+    "alarma": "Fuera de temporada"
+  },
+  {
+    "fecha": "2026-11-26",
+    "maquina": "Podadora 1",
+    "cuartel": "El Quillay 1",
+    "labor": "Poda",
+    "n_hileras": 6,
+    "area_total_ha": 0.18,
+    "area_trabajada_ha": 0.18,
+    "temporada": "2026-27",
+    "alarma": "Fuera de temporada"
+  },
+  {
+    "fecha": "2026-11-26",
+    "maquina": "Podadora 1",
+    "cuartel": "El Quillay 2",
+    "labor": "Poda",
+    "n_hileras": 35,
+    "area_total_ha": 0.76,
+    "area_trabajada_ha": 0.35,
+    "temporada": "2026-27",
+    "alarma": "Fuera de temporada"
+  },
+  {
+    "fecha": "2026-11-26",
+    "maquina": "Podadora 1",
+    "cuartel": "El Quillay 3",
+    "labor": "Poda",
+    "n_hileras": 35,
+    "area_total_ha": 0.86,
+    "area_trabajada_ha": 0.47,
+    "temporada": "2026-27",
+    "alarma": "Fuera de temporada"
+  },
+  {
+    "fecha": "2026-11-26",
+    "maquina": "Podadora 1",
+    "cuartel": "El Quillay 4",
+    "labor": "Poda",
+    "n_hileras": 39,
+    "area_total_ha": 1.37,
+    "area_trabajada_ha": 0.79,
+    "temporada": "2026-27",
+    "alarma": "Fuera de temporada"
   }
 ]

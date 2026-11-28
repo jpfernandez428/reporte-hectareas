@@ -358,5 +358,68 @@
   "tipo": "Repaso",
   "ha": 1.31,
   "temporada": "2026"
+ },
+ {
+  "fecha": "2026-11-25",
+  "maquina": "Podadora 1",
+  "cuartel": "El Quillay 2",
+  "labor": "Poda",
+  "tipo": "Fuera de temporada",
+  "ha": 0.41,
+  "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-11-25",
+  "maquina": "Podadora 1",
+  "cuartel": "El Quillay 3",
+  "labor": "Poda",
+  "tipo": "Fuera de temporada",
+  "ha": 0.39,
+  "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-11-25",
+  "maquina": "Podadora 1",
+  "cuartel": "El Quillay 4",
+  "labor": "Poda",
+  "tipo": "Fuera de temporada",
+  "ha": 0.58,
+  "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-11-26",
+  "maquina": "Podadora 1",
+  "cuartel": "El Quillay 1",
+  "labor": "Poda",
+  "tipo": "Fuera de temporada",
+  "ha": 0.18,
+  "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-11-26",
+  "maquina": "Podadora 1",
+  "cuartel": "El Quillay 2",
+  "labor": "Poda",
+  "tipo": "Fuera de temporada",
+  "ha": 0.35,
+  "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-11-26",
+  "maquina": "Podadora 1",
+  "cuartel": "El Quillay 3",
+  "labor": "Poda",
+  "tipo": "Fuera de temporada",
+  "ha": 0.47,
+  "temporada": "2026-27"
+ },
+ {
+  "fecha": "2026-11-26",
+  "maquina": "Podadora 1",
+  "cuartel": "El Quillay 4",
+  "labor": "Poda",
+  "tipo": "Fuera de temporada",
+  "ha": 0.79,
+  "temporada": "2026-27"
  }
 ]

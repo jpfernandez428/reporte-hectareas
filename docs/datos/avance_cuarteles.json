@@ -10380,6 +10380,66 @@
         }
       }
     },
+    "El Quillay 1": {
+      "area_total_ha": 0.1805,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Podadora 1"
+          ],
+          "trabajado_ha": 0.1805,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026-27",
+          "fecha_completo": "2026-11-26"
+        }
+      }
+    },
+    "El Quillay 2": {
+      "area_total_ha": 0.7619,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Podadora 1"
+          ],
+          "trabajado_ha": 0.7619,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026-27",
+          "fecha_completo": "2026-11-26"
+        }
+      }
+    },
+    "El Quillay 3": {
+      "area_total_ha": 0.8607,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Podadora 1"
+          ],
+          "trabajado_ha": 0.8607,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026-27",
+          "fecha_completo": "2026-11-26"
+        }
+      }
+    },
+    "El Quillay 4": {
+      "area_total_ha": 1.3712,
+      "labores": {
+        "Poda": {
+          "maquinas": [
+            "Podadora 1"
+          ],
+          "trabajado_ha": 1.3712,
+          "porcentaje": 100.0,
+          "completo": true,
+          "temporada": "2026-27",
+          "fecha_completo": "2026-11-26"
+        }
+      }
+    },
     "El Roble (Palena)": {
       "area_total_ha": 2.0775,
       "labores": {
